@@ -1,7 +1,7 @@
 # Changelog
 
 
-## 0.1.0 (Oct 10, 2015)
+## 0.1.0 (Set 25, 2015)
 
 - Supports touch (mobile)
 - Supports zoom
