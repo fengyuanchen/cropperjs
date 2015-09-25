@@ -1,0 +1,1 @@
+  extend(Cropper.prototype, prototype);

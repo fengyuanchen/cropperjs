@@ -1,0 +1,19 @@
+{
+  "order": [
+    "http-equiv",
+    "rel",
+    "type",
+    "class",
+    "id",
+    "name",
+    "data",
+    "src",
+    "for",
+    "href",
+    "value",
+    "title",
+    "alt",
+    "role",
+    "aria"
+  ]
+}

@@ -1,0 +1,9 @@
+.container {
+  max-width: 640px;
+  max-height: 360px;
+  margin: 20px auto;
+}
+
+.container > img {
+  max-width: 100%;
+}

@@ -1,3 +1,9 @@
+# Project
+node_modules
+bower_components
+dist/*.map
+/_*
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db

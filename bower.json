@@ -1,0 +1,47 @@
+{
+  "name": "cropperjs",
+  "description": "JavaScript image cropper.",
+  "main": [
+    "dist/cropper.js",
+    "dist/cropper.css"
+  ],
+  "keywords": [
+    "image",
+    "crop",
+    "cropping",
+    "move",
+    "zoom",
+    "rotate",
+    "scale",
+    "html",
+    "css",
+    "javascript",
+    "front-end",
+    "web",
+    "development"
+  ],
+  "homepage": "https://github.com/fengyuanchen/cropperjs",
+  "authors": [
+    "Fengyuan Chen"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "examples",
+    "assets",
+    "demo",
+    "docs",
+    "gulpfile.js",
+    "CONTRIBUTING.md",
+    "FAQ.md"
+  ],
+  "devDependencies": {
+    "jquery": "~1.11.3",
+    "bootstrap": "~3.3.5",
+    "fontawesome": "~4.4.0",
+    "qunit": "~1.19.0"
+  }
+}
