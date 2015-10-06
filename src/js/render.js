@@ -83,26 +83,18 @@
         minCanvasWidth = num(options.minCanvasWidth) || 0;
         minCanvasHeight = num(options.minCanvasHeight) || 0;
 
-        if (minCanvasWidth) {
-          if (strict) {
+        if (strict) {
+          if (minCanvasWidth) {
             minCanvasWidth = max(
-              cropped ? cropBoxData.width : initialCanvasWidth,
-              minCanvasWidth
+              minCanvasWidth,
+              cropped ? cropBoxData.width : initialCanvasData.width
             );
-          }
-
-          minCanvasHeight = minCanvasWidth / aspectRatio;
-        } else if (minCanvasHeight) {
-          if (strict) {
+          } else if (minCanvasHeight) {
             minCanvasHeight = max(
-              cropped ? cropBoxData.height : initialCanvasHeight,
-              minCanvasHeight
+              minCanvasHeight,
+              cropped ? cropBoxData.height : initialCanvasData.height
             );
-          }
-
-          minCanvasWidth = minCanvasHeight * aspectRatio;
-        } else if (strict) {
-          if (cropped) {
+          } else if (cropped) {
             minCanvasWidth = cropBoxData.width;
             minCanvasHeight = cropBoxData.height;
 
@@ -111,39 +103,37 @@
             } else {
               minCanvasHeight = minCanvasWidth / aspectRatio;
             }
-          } else {
-            minCanvasWidth = initialCanvasWidth;
-            minCanvasHeight = initialCanvasHeight;
           }
         }
 
-        extend(canvasData, {
-          minWidth: minCanvasWidth,
-          minHeight: minCanvasHeight,
-          maxWidth: Infinity,
-          maxHeight: Infinity
-        });
+        if (minCanvasWidth && minCanvasHeight) {
+          if (minCanvasHeight * aspectRatio > minCanvasWidth) {
+            minCanvasHeight = minCanvasWidth / aspectRatio;
+          } else {
+            minCanvasWidth = minCanvasHeight * aspectRatio;
+          }
+        } else if (minCanvasWidth) {
+          minCanvasHeight = minCanvasWidth / aspectRatio;
+        } else if (minCanvasHeight) {
+          minCanvasWidth = minCanvasHeight * aspectRatio;
+        }
+
+        canvasData.minWidth = minCanvasWidth,
+        canvasData.minHeight = minCanvasHeight,
+        canvasData.maxWidth = Infinity,
+        canvasData.maxHeight = Infinity
       }
 
       if (position) {
         if (strict) {
-          if (cropped) {
-            canvasData.minLeft = min(
-              cropBoxData.left,
-              cropBoxData.left + cropBoxData.width - canvasData.width
-            );
-            canvasData.minTop = min(
-              cropBoxData.top,
-              cropBoxData.top + cropBoxData.height - canvasData.height
-            );
-            canvasData.maxLeft = cropBoxData.left;
-            canvasData.maxTop = cropBoxData.top;
-          } else {
-            canvasData.minLeft = min(0, containerWidth - canvasData.width);
-            canvasData.minTop = min(0, containerHeight - canvasData.height);
-            canvasData.maxLeft = max(0, containerWidth - canvasData.width);
-            canvasData.maxTop = max(0, containerHeight - canvasData.height);
-          }
+          canvasData.minLeft = cropped ?
+            min(cropBoxData.left, (cropBoxData.left + cropBoxData.width) - canvasData.width) :
+            min(0, containerWidth - canvasData.width);
+          canvasData.minTop = cropped ?
+            min(cropBoxData.top, (cropBoxData.top + cropBoxData.height) - canvasData.height) :
+            min(0, containerHeight - canvasData.height);
+          canvasData.maxLeft = cropped ? cropBoxData.left : max(0, containerWidth - canvasData.width);
+          canvasData.maxTop = cropped ? cropBoxData.top : max(0, containerHeight - canvasData.height);
         } else {
           canvasData.minLeft = -canvasData.width;
           canvasData.minTop = -canvasData.height;
@@ -334,8 +324,8 @@
         // The min/maxCropBoxWidth/Height must be less than containerWidth/Height
         minCropBoxWidth = min(minCropBoxWidth, containerWidth);
         minCropBoxHeight = min(minCropBoxHeight, containerHeight);
-        maxCropBoxWidth = min(containerWidth, strict ? canvas.width : containerWidth);
-        maxCropBoxHeight = min(containerHeight, strict ? canvas.height : containerHeight);
+        maxCropBoxWidth = min(containerWidth, strict ? canvasData.width : containerWidth);
+        maxCropBoxHeight = min(containerHeight, strict ? canvasData.height : containerHeight);
 
         if (aspectRatio) {
           if (minCropBoxWidth && minCropBoxHeight) {
