@@ -324,38 +324,44 @@
       var aspectRatio = options.aspectRatio;
       var minCropBoxWidth;
       var minCropBoxHeight;
+      var maxCropBoxWidth;
+      var maxCropBoxHeight;
 
       if (size) {
         minCropBoxWidth = num(options.minCropBoxWidth) || 0;
         minCropBoxHeight = num(options.minCropBoxHeight) || 0;
 
-        // The "min/maxCropBoxWidth/Height" must less than container width/height
-        cropBoxData.minWidth = min(containerWidth, minCropBoxWidth);
-        cropBoxData.minHeight = min(containerHeight, minCropBoxHeight);
-        cropBoxData.maxWidth = min(
-          containerWidth,
-          strict ? canvasData.width : containerWidth
-        );
-        cropBoxData.maxHeight = min(
-          containerHeight,
-          strict ? canvasData.height : containerHeight
-        );
+        // The min/maxCropBoxWidth/Height must be less than containerWidth/Height
+        minCropBoxWidth = min(minCropBoxWidth, containerWidth);
+        minCropBoxHeight = min(minCropBoxHeight, containerHeight);
+        maxCropBoxWidth = min(containerWidth, strict ? canvas.width : containerWidth);
+        maxCropBoxHeight = min(containerHeight, strict ? canvas.height : containerHeight);
 
         if (aspectRatio) {
+          if (minCropBoxWidth && minCropBoxHeight) {
+            if (minCropBoxHeight * aspectRatio > minCropBoxWidth) {
+              minCropBoxHeight = minCropBoxWidth / aspectRatio;
+            } else {
+              minCropBoxWidth = minCropBoxHeight * aspectRatio;
+            }
+          } else if (minCropBoxWidth) {
+            minCropBoxHeight = minCropBoxWidth / aspectRatio;
+          } else if (minCropBoxHeight) {
+            minCropBoxWidth = minCropBoxHeight * aspectRatio;
+          }
 
-          // Compare crop box size with container first
-          if (cropBoxData.maxHeight * aspectRatio > cropBoxData.maxWidth) {
-            cropBoxData.minHeight = cropBoxData.minWidth / aspectRatio;
-            cropBoxData.maxHeight = cropBoxData.maxWidth / aspectRatio;
+          if (maxCropBoxHeight * aspectRatio > maxCropBoxWidth) {
+            maxCropBoxHeight = maxCropBoxWidth / aspectRatio;
           } else {
-            cropBoxData.minWidth = cropBoxData.minHeight * aspectRatio;
-            cropBoxData.maxWidth = cropBoxData.maxHeight * aspectRatio;
+            maxCropBoxWidth = maxCropBoxHeight * aspectRatio;
           }
         }
 
-        // The "minWidth/Height" must be less than "maxWidth/Height"
-        cropBoxData.minWidth = min(cropBoxData.maxWidth, cropBoxData.minWidth);
-        cropBoxData.minHeight = min(cropBoxData.maxHeight, cropBoxData.minHeight);
+        // The minWidth/Height must be less than maxWidth/Height
+        cropBoxData.minWidth = min(minCropBoxWidth, maxCropBoxWidth);
+        cropBoxData.minHeight = min(minCropBoxHeight, maxCropBoxHeight);
+        cropBoxData.maxWidth = maxCropBoxWidth;
+        cropBoxData.maxHeight = maxCropBoxHeight;
       }
 
       if (position) {
