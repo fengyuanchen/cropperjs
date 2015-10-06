@@ -1,10 +1,12 @@
   extend(prototype, {
     initPreview: function () {
       var preview = this.options.preview;
-      var url = this.url;
       var image = document.createElement('img');
+      var crossOrigin = this.crossOrigin;
+      var url = this.url;
       var previews;
 
+      setCrossOrigin(image, crossOrigin);
       image.src = url;
       appendChild(this.viewBox, image);
 
@@ -23,6 +25,7 @@
           html: element.innerHTML
         });
 
+        setCrossOrigin(image, crossOrigin);
         image.src = url;
 
         /**

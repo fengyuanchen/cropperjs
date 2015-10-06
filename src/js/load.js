@@ -50,19 +50,18 @@
       }
 
       if (options.checkImageOrigin && isCrossOriginURL(url)) {
-        crossOrigin = 'anonymous';
+        crossOrigin = element.crossOrigin;
 
-        if (!element.crossOrigin) {
+        if (!crossOrigin) {
+          crossOrigin = 'anonymous';
           bustCacheUrl = addTimestamp(url);
         }
+
+        this.crossOrigin = crossOrigin;
       }
 
       image = document.createElement('img');
-
-      if (crossOrigin) {
-        image.crossOrigin = crossOrigin;
-      }
-
+      setCrossOrigin(image, crossOrigin);
       image.src = bustCacheUrl || url;
       this.image = image;
       this._start = start = proxy(this.start, this);
