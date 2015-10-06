@@ -69,7 +69,6 @@ body {
 .img-container,
 .img-preview {
   background-color: #f7f7f7;
-  overflow: hidden;
   width: 100%;
   text-align: center;
 }
@@ -98,6 +97,7 @@ body {
   float: left;
   margin-right: 10px;
   margin-bottom: 10px;
+  overflow: hidden;
 }
 
 .img-preview > img {
