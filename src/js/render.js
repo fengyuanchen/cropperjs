@@ -74,8 +74,6 @@
       var cropBoxData = this.cropBoxData;
       var cropped = this.cropped && cropBoxData;
       var initialCanvasData = this.initialCanvasData || canvasData;
-      var initialCanvasWidth = initialCanvasData.width;
-      var initialCanvasHeight = initialCanvasData.height;
       var minCanvasWidth;
       var minCanvasHeight;
 
@@ -118,10 +116,10 @@
           minCanvasWidth = minCanvasHeight * aspectRatio;
         }
 
-        canvasData.minWidth = minCanvasWidth,
-        canvasData.minHeight = minCanvasHeight,
-        canvasData.maxWidth = Infinity,
-        canvasData.maxHeight = Infinity
+        canvasData.minWidth = minCanvasWidth;
+        canvasData.minHeight = minCanvasHeight;
+        canvasData.maxWidth = Infinity;
+        canvasData.maxHeight = Infinity;
       }
 
       if (position) {
