@@ -3,7 +3,7 @@
 > JavaScript image cropper.
 
 - [Demo](http://fengyuanchen.github.io/cropperjs)
-- [Cropper as jQuery plugin](http://github.com/fengyuanchen/cropper)
+- [Cropper with jQuery](http://github.com/fengyuanchen/cropper)
 
 
 

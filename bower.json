@@ -29,6 +29,7 @@
     "**/.*",
     "node_modules",
     "bower_components",
+    "tests",
     "test",
     "examples",
     "assets",
