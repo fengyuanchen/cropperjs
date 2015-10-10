@@ -1,11 +1,11 @@
 /*!
- * Cropper v0.1.0
+ * Cropper v0.1.1
  * https://github.com/fengyuanchen/cropperjs
  *
  * Copyright (c) 2015 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2015-09-25T09:19:59.321Z
+ * Date: 2015-10-10T02:10:07.534Z
  */
 
 (function (global, factory) {
@@ -90,7 +90,7 @@
 
   // Prototype
   var prototype = {
-    version: '0.1.0'
+    version: '0.1.1'
   };
 
   // Utilities
@@ -431,6 +431,12 @@
     );
   }
 
+  function setCrossOrigin(image, crossOrigin) {
+    if (crossOrigin) {
+      image.crossOrigin = crossOrigin;
+    }
+  }
+
   function addTimestamp(url) {
     var timestamp = 'timestamp=' + (new Date()).getTime();
 
@@ -575,6 +581,7 @@
     this.replaced = false;
     this.isImg = false;
     this.originalUrl = '';
+    this.crossOrigin = '';
     this.canvasData = null;
     this.cropBoxData = null;
     this.previews = null;
@@ -633,19 +640,18 @@
       }
 
       if (options.checkImageOrigin && isCrossOriginURL(url)) {
-        crossOrigin = 'anonymous';
+        crossOrigin = element.crossOrigin;
 
-        if (!element.crossOrigin) {
+        if (!crossOrigin) {
+          crossOrigin = 'anonymous';
           bustCacheUrl = addTimestamp(url);
         }
+
+        this.crossOrigin = crossOrigin;
       }
 
       image = document.createElement('img');
-
-      if (crossOrigin) {
-        image.crossOrigin = crossOrigin;
-      }
-
+      setCrossOrigin(image, crossOrigin);
       image.src = bustCacheUrl || url;
       this.image = image;
       this._start = start = proxy(this.start, this);
@@ -914,8 +920,6 @@
       var cropBoxData = this.cropBoxData;
       var cropped = this.cropped && cropBoxData;
       var initialCanvasData = this.initialCanvasData || canvasData;
-      var initialCanvasWidth = initialCanvasData.width;
-      var initialCanvasHeight = initialCanvasData.height;
       var minCanvasWidth;
       var minCanvasHeight;
 
@@ -923,26 +927,18 @@
         minCanvasWidth = num(options.minCanvasWidth) || 0;
         minCanvasHeight = num(options.minCanvasHeight) || 0;
 
-        if (minCanvasWidth) {
-          if (strict) {
+        if (strict) {
+          if (minCanvasWidth) {
             minCanvasWidth = max(
-              cropped ? cropBoxData.width : initialCanvasWidth,
-              minCanvasWidth
+              minCanvasWidth,
+              cropped ? cropBoxData.width : initialCanvasData.width
             );
-          }
-
-          minCanvasHeight = minCanvasWidth / aspectRatio;
-        } else if (minCanvasHeight) {
-          if (strict) {
+          } else if (minCanvasHeight) {
             minCanvasHeight = max(
-              cropped ? cropBoxData.height : initialCanvasHeight,
-              minCanvasHeight
+              minCanvasHeight,
+              cropped ? cropBoxData.height : initialCanvasData.height
             );
-          }
-
-          minCanvasWidth = minCanvasHeight * aspectRatio;
-        } else if (strict) {
-          if (cropped) {
+          } else if (cropped) {
             minCanvasWidth = cropBoxData.width;
             minCanvasHeight = cropBoxData.height;
 
@@ -951,39 +947,37 @@
             } else {
               minCanvasHeight = minCanvasWidth / aspectRatio;
             }
-          } else {
-            minCanvasWidth = initialCanvasWidth;
-            minCanvasHeight = initialCanvasHeight;
           }
         }
 
-        extend(canvasData, {
-          minWidth: minCanvasWidth,
-          minHeight: minCanvasHeight,
-          maxWidth: Infinity,
-          maxHeight: Infinity
-        });
+        if (minCanvasWidth && minCanvasHeight) {
+          if (minCanvasHeight * aspectRatio > minCanvasWidth) {
+            minCanvasHeight = minCanvasWidth / aspectRatio;
+          } else {
+            minCanvasWidth = minCanvasHeight * aspectRatio;
+          }
+        } else if (minCanvasWidth) {
+          minCanvasHeight = minCanvasWidth / aspectRatio;
+        } else if (minCanvasHeight) {
+          minCanvasWidth = minCanvasHeight * aspectRatio;
+        }
+
+        canvasData.minWidth = minCanvasWidth;
+        canvasData.minHeight = minCanvasHeight;
+        canvasData.maxWidth = Infinity;
+        canvasData.maxHeight = Infinity;
       }
 
       if (position) {
         if (strict) {
-          if (cropped) {
-            canvasData.minLeft = min(
-              cropBoxData.left,
-              cropBoxData.left + cropBoxData.width - canvasData.width
-            );
-            canvasData.minTop = min(
-              cropBoxData.top,
-              cropBoxData.top + cropBoxData.height - canvasData.height
-            );
-            canvasData.maxLeft = cropBoxData.left;
-            canvasData.maxTop = cropBoxData.top;
-          } else {
-            canvasData.minLeft = min(0, containerWidth - canvasData.width);
-            canvasData.minTop = min(0, containerHeight - canvasData.height);
-            canvasData.maxLeft = max(0, containerWidth - canvasData.width);
-            canvasData.maxTop = max(0, containerHeight - canvasData.height);
-          }
+          canvasData.minLeft = cropped ?
+            min(cropBoxData.left, (cropBoxData.left + cropBoxData.width) - canvasData.width) :
+            min(0, containerWidth - canvasData.width);
+          canvasData.minTop = cropped ?
+            min(cropBoxData.top, (cropBoxData.top + cropBoxData.height) - canvasData.height) :
+            min(0, containerHeight - canvasData.height);
+          canvasData.maxLeft = cropped ? cropBoxData.left : max(0, containerWidth - canvasData.width);
+          canvasData.maxTop = cropped ? cropBoxData.top : max(0, containerHeight - canvasData.height);
         } else {
           canvasData.minLeft = -canvasData.width;
           canvasData.minTop = -canvasData.height;
@@ -1164,38 +1158,44 @@
       var aspectRatio = options.aspectRatio;
       var minCropBoxWidth;
       var minCropBoxHeight;
+      var maxCropBoxWidth;
+      var maxCropBoxHeight;
 
       if (size) {
         minCropBoxWidth = num(options.minCropBoxWidth) || 0;
         minCropBoxHeight = num(options.minCropBoxHeight) || 0;
 
-        // The "min/maxCropBoxWidth/Height" must less than container width/height
-        cropBoxData.minWidth = min(containerWidth, minCropBoxWidth);
-        cropBoxData.minHeight = min(containerHeight, minCropBoxHeight);
-        cropBoxData.maxWidth = min(
-          containerWidth,
-          strict ? canvasData.width : containerWidth
-        );
-        cropBoxData.maxHeight = min(
-          containerHeight,
-          strict ? canvasData.height : containerHeight
-        );
+        // The min/maxCropBoxWidth/Height must be less than containerWidth/Height
+        minCropBoxWidth = min(minCropBoxWidth, containerWidth);
+        minCropBoxHeight = min(minCropBoxHeight, containerHeight);
+        maxCropBoxWidth = min(containerWidth, strict ? canvasData.width : containerWidth);
+        maxCropBoxHeight = min(containerHeight, strict ? canvasData.height : containerHeight);
 
         if (aspectRatio) {
+          if (minCropBoxWidth && minCropBoxHeight) {
+            if (minCropBoxHeight * aspectRatio > minCropBoxWidth) {
+              minCropBoxHeight = minCropBoxWidth / aspectRatio;
+            } else {
+              minCropBoxWidth = minCropBoxHeight * aspectRatio;
+            }
+          } else if (minCropBoxWidth) {
+            minCropBoxHeight = minCropBoxWidth / aspectRatio;
+          } else if (minCropBoxHeight) {
+            minCropBoxWidth = minCropBoxHeight * aspectRatio;
+          }
 
-          // Compare crop box size with container first
-          if (cropBoxData.maxHeight * aspectRatio > cropBoxData.maxWidth) {
-            cropBoxData.minHeight = cropBoxData.minWidth / aspectRatio;
-            cropBoxData.maxHeight = cropBoxData.maxWidth / aspectRatio;
+          if (maxCropBoxHeight * aspectRatio > maxCropBoxWidth) {
+            maxCropBoxHeight = maxCropBoxWidth / aspectRatio;
           } else {
-            cropBoxData.minWidth = cropBoxData.minHeight * aspectRatio;
-            cropBoxData.maxWidth = cropBoxData.maxHeight * aspectRatio;
+            maxCropBoxWidth = maxCropBoxHeight * aspectRatio;
           }
         }
 
-        // The "minWidth/Height" must be less than "maxWidth/Height"
-        cropBoxData.minWidth = min(cropBoxData.maxWidth, cropBoxData.minWidth);
-        cropBoxData.minHeight = min(cropBoxData.maxHeight, cropBoxData.minHeight);
+        // The minWidth/Height must be less than maxWidth/Height
+        cropBoxData.minWidth = min(minCropBoxWidth, maxCropBoxWidth);
+        cropBoxData.minHeight = min(minCropBoxHeight, maxCropBoxHeight);
+        cropBoxData.maxWidth = maxCropBoxWidth;
+        cropBoxData.maxHeight = maxCropBoxHeight;
       }
 
       if (position) {
@@ -1284,10 +1284,12 @@
   extend(prototype, {
     initPreview: function () {
       var preview = this.options.preview;
-      var url = this.url;
       var image = document.createElement('img');
+      var crossOrigin = this.crossOrigin;
+      var url = this.url;
       var previews;
 
+      setCrossOrigin(image, crossOrigin);
       image.src = url;
       appendChild(this.viewBox, image);
 
@@ -1306,6 +1308,7 @@
           html: element.innerHTML
         });
 
+        setCrossOrigin(image, crossOrigin);
         image.src = url;
 
         /**

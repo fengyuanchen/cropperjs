@@ -41,13 +41,13 @@ body {
 }
 
 .docs-header .navbar-toggle {
-  border-color: #36469c;
+  border-color: transparent;
   background-color: #3f51b5;
 }
 
 .docs-header .navbar-toggle:hover,
 .docs-header .navbar-toggle:focus {
-  border-color: #2e3a82;
+  border-color: transparent;
   background-color: #36469c;
 }
 
@@ -69,9 +69,9 @@ body {
 .img-container,
 .img-preview {
   background-color: #f7f7f7;
-  overflow: hidden;
   width: 100%;
   text-align: center;
+  overflow: hidden;
 }
 
 .img-container {
