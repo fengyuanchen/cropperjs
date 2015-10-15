@@ -43,6 +43,8 @@
       var imageData = this.imageData;
       var aspectRatio = imageData.aspectRatio;
       var canvasData = {
+            naturalWidth: imageData.naturalWidth,
+            naturalHeight: imageData.naturalHeight,
             aspectRatio: aspectRatio,
             width: containerWidth,
             height: containerHeight
@@ -145,6 +147,9 @@
       var options = this.options;
       var canvasData = this.canvasData;
       var imageData = this.imageData;
+      var rotate = imageData.rotate;
+      var naturalWidth = imageData.naturalWidth;
+      var naturalHeight = imageData.naturalHeight;
       var aspectRatio;
       var rotated;
 
@@ -155,7 +160,7 @@
         rotated = getRotatedSizes({
           width: imageData.width,
           height: imageData.height,
-          degree: imageData.rotate
+          degree: rotate
         });
 
         aspectRatio = rotated.width / rotated.height;
@@ -166,6 +171,21 @@
           canvasData.width = rotated.width;
           canvasData.height = rotated.height;
           canvasData.aspectRatio = aspectRatio;
+          canvasData.naturalWidth = naturalWidth;
+          canvasData.naturalHeight = naturalHeight;
+
+          // Computes rotated sizes with natural image sizes
+          if (rotate % 180) {
+            rotated = getRotatedSizes({
+              width: naturalWidth,
+              height: naturalHeight,
+              degree: rotate
+            });
+
+            canvasData.naturalWidth = rotated.width;
+            canvasData.naturalHeight = rotated.height;
+          }
+
           this.limitCanvas(true, false);
         }
       }
