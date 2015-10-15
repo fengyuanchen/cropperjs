@@ -109,7 +109,8 @@ window.onload = function () {
       method: target.getAttribute('data-method'),
       target: target.getAttribute('data-target'),
       option: target.getAttribute('data-option'),
-      secondOption: target.getAttribute('data-second-option')
+      secondOption: target.getAttribute('data-second-option'),
+      flip: target.getAttribute('data-flip')
     };
 
     if (data.method) {
@@ -132,7 +133,7 @@ window.onload = function () {
       }
 
       if (data.flip === 'vertical') {
-        target.setAttribute('data-second-option', -data.secondOption);
+        target.setAttribute('data-option', -data.option);
       }
 
       switch (data.method) {
