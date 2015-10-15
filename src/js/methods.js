@@ -727,7 +727,7 @@
       if (!this.disabled && !isUndefined(aspectRatio)) {
 
         // 0 -> NaN
-        options.aspectRatio = num(aspectRatio) || NaN;
+        options.aspectRatio = max(0, aspectRatio) || NaN;
 
         if (this.built) {
           this.initCropBox();
