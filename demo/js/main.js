@@ -109,8 +109,7 @@ window.onload = function () {
       method: target.getAttribute('data-method'),
       target: target.getAttribute('data-target'),
       option: target.getAttribute('data-option'),
-      secondOption: target.getAttribute('data-second-option'),
-      flip: target.getAttribute('data-flip')
+      secondOption: target.getAttribute('data-second-option')
     };
 
     if (data.method) {
@@ -128,15 +127,12 @@ window.onload = function () {
 
       result = cropper[data.method](data.option, data.secondOption);
 
-      if (data.flip === 'horizontal') {
-        target.setAttribute('data-option', -data.option);
-      }
-
-      if (data.flip === 'vertical') {
-        target.setAttribute('data-option', -data.option);
-      }
-
       switch (data.method) {
+        case 'scaleX':
+        case 'scaleY':
+          target.setAttribute('data-option', -data.option);
+          break;
+
         case 'getCroppedCanvas':
           if (result) {
 

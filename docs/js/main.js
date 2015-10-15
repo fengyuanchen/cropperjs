@@ -127,15 +127,12 @@ window.onload = function () {
 
       result = cropper[data.method](data.option, data.secondOption);
 
-      if (data.flip === 'horizontal') {
-        target.setAttribute('data-option', -data.option);
-      }
-
-      if (data.flip === 'vertical') {
-        target.setAttribute('data-second-option', -data.secondOption);
-      }
-
       switch (data.method) {
+        case 'scaleX':
+        case 'scaleY':
+          target.setAttribute('data-option', -data.option);
+          break;
+
         case 'getCroppedCanvas':
           if (result) {
 
