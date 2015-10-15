@@ -60,7 +60,7 @@
   var abs = Math.abs;
   var sin = Math.sin;
   var cos = Math.cos;
-  var num = parseFloat;
+  var num = Number;
 
   // Prototype
   var prototype = {
