@@ -3,6 +3,7 @@ $(function () {
   'use strict';
 
   var image = window.createCropperImage();
+  var count = 0;
 
   image.newCropper = new Cropper(image, {
     built: function () {
@@ -10,15 +11,15 @@ $(function () {
     },
 
     zoom: function (data) {
-
       QUnit.test('options.zoom', function (assert) {
-        if (data.ratio > 0) {
-          assert.equal(data.ratio, 0.1);
+        if (count === 0) {
+          assert.ok(data.ratio > data.oldRatio);
         } else {
-          assert.equal(data.ratio, -0.1);
+          assert.ok(data.ratio < data.oldRatio);
         }
-      });
 
+        count++;
+      });
     }
   });
 

@@ -15,10 +15,8 @@ window.addEventListener('DOMContentLoaded', function () {
         cropper.zoom(-0.5); // Zoom out
         canvasData = cropper.getCanvasData();
         cropBoxData = cropper.getCropBoxData();
-        assert.equal(Math.round(canvasData.width), Math.round(cropBoxData.width));
-        assert.equal(Math.round(canvasData.height), Math.round(cropBoxData.height));
-        assert.equal(Math.round(canvasData.left), Math.round(cropBoxData.left));
-        assert.equal(Math.round(canvasData.top), Math.round(cropBoxData.top));
+        assert.ok(canvasData.width >= cropBoxData.width);
+        assert.ok(canvasData.height >= cropBoxData.height);
       });
 
     }
@@ -29,7 +27,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
     built: function () {
       var cropper = this.cropper;
-      var canvasData = {
+      var _canvasData = {
             left: 100,
             top: 100,
             width: 160,
@@ -37,8 +35,12 @@ window.addEventListener('DOMContentLoaded', function () {
           };
 
       QUnit.test('options.strict: false', function (assert) {
-        cropper.setCanvasData(canvasData);
-        assert.deepEqual(cropper.getCanvasData(), canvasData);
+        var canvasData = cropper.setCanvasData(_canvasData).getCanvasData();
+
+        assert.equal(canvasData.left, canvasData.left);
+        assert.equal(canvasData.top, canvasData.top);
+        assert.equal(canvasData.width, canvasData.width);
+        assert.equal(canvasData.height, canvasData.height);
       });
 
     }
