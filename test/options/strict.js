@@ -37,10 +37,10 @@ window.addEventListener('DOMContentLoaded', function () {
       QUnit.test('options.strict: false', function (assert) {
         var canvasData = cropper.setCanvasData(_canvasData).getCanvasData();
 
-        assert.equal(canvasData.left, canvasData.left);
-        assert.equal(canvasData.top, canvasData.top);
-        assert.equal(canvasData.width, canvasData.width);
-        assert.equal(canvasData.height, canvasData.height);
+        assert.equal(canvasData.left, _canvasData.left);
+        assert.equal(canvasData.top, _canvasData.top);
+        assert.equal(canvasData.width, _canvasData.width);
+        assert.equal(canvasData.height, _canvasData.height);
       });
 
     }
