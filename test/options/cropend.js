@@ -6,16 +6,16 @@ $(function () {
 
   image.newCropper = new Cropper(image, {
     built: function () {
-      var dragBox = this.cropper.dragBox;
+      var cropper = this.cropper;
 
       // Triggers events manually when built
-      $(dragBox).trigger('mousedown').trigger('mouseup');
+      $(cropper.dragBox).trigger('mousedown').trigger('mouseup');
     },
 
     cropend: function (data) {
 
       QUnit.test('options.cropend', function (assert) {
-        assert.equal(data.action, 'crop');
+        assert.ok(data.action, 'crop');
       });
 
     }

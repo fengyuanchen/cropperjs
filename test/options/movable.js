@@ -3,40 +3,39 @@ window.addEventListener('DOMContentLoaded', function () {
   'use strict';
 
   var image = window.createCropperImage();
-  var image2 = window.createCropperImage();
 
   image.newCropper = new Cropper(image, {
     built: function () {
       var cropper = this.cropper;
-      var canvasData = cropper.getCanvasData();
-      var _left = canvasData.left;
-      var _top = canvasData.top;
 
       QUnit.test('options.movable: true', function (assert) {
-        cropper.move(10, 10);
-        canvasData = cropper.getCanvasData();
-        assert.equal(canvasData.left, _left + 10);
-        assert.equal(canvasData.top, _top + 10);
+        var canvasData = cropper.getCanvasData();
+        var changedCanvadData = cropper.move(10, 10).getCanvasData();
+
+        assert.equal(changedCanvadData.left, canvasData.left + 10);
+        assert.equal(changedCanvadData.top, canvasData.top + 10);
       });
     }
   });
 
-  image2.newCropper = new Cropper(image2, {
-    movable: false,
+  (function () {
+    var image = window.createCropperImage();
 
-    built: function () {
-      var cropper = this.cropper;
-      var canvasData = cropper.getCanvasData();
-      var _left = canvasData.left;
-      var _top = canvasData.top;
+    image.newCropper = new Cropper(image, {
+      movable: false,
 
-      QUnit.test('options.movable: true', function (assert) {
-        cropper.move(10, 10);
-        canvasData = cropper.getCanvasData();
-        assert.equal(canvasData.left, _left);
-        assert.equal(canvasData.top, _top);
-      });
-    }
-  });
+      built: function () {
+        var cropper = this.cropper;
+
+        QUnit.test('options.movable: false', function (assert) {
+          var canvasData = cropper.getCanvasData();
+          var changedCanvadData = cropper.move(10, 10).getCanvasData();
+
+          assert.equal(changedCanvadData.left, canvasData.left);
+          assert.equal(changedCanvadData.top, canvasData.top);
+        });
+      }
+    });
+  })();
 
 });

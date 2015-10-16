@@ -9,9 +9,11 @@ window.addEventListener('DOMContentLoaded', function () {
     minContainerHeight: minContainerHeight,
 
     built: function () {
-      var containerData = this.cropper.getContainerData();
+      var cropper = this.cropper;
 
       QUnit.test('options.minContainerHeight', function (assert) {
+        var containerData = cropper.getContainerData();
+
         assert.equal(Math.round(containerData.height), minContainerHeight);
       });
 

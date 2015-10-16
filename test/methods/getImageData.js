@@ -13,28 +13,28 @@ window.addEventListener('DOMContentLoaded', function () {
       var cropper = this.cropper;
 
       QUnit.test('methods.getImageData', function (assert) {
-        var data = cropper.getImageData();
+        var imageData = cropper.getImageData();
 
-        assert.ok(isNumber(data.naturalWidth));
-        assert.ok(isNumber(data.naturalHeight));
-        assert.ok(isNumber(data.aspectRatio));
-        assert.ok(isNumber(data.left));
-        assert.ok(isNumber(data.top));
-        assert.ok(isNumber(data.width));
-        assert.ok(isNumber(data.height));
+        assert.ok(isNumber(imageData.naturalWidth));
+        assert.ok(isNumber(imageData.naturalHeight));
+        assert.ok(isNumber(imageData.aspectRatio));
+        assert.ok(isNumber(imageData.left));
+        assert.ok(isNumber(imageData.top));
+        assert.ok(isNumber(imageData.width));
+        assert.ok(isNumber(imageData.height));
       });
 
       QUnit.test('methods.getImageData: rotated', function (assert) {
-        var data = cropper.rotate(45).getImageData();
+        var imageData = cropper.rotateTo(45).getImageData();
 
-        assert.equal(data.rotate, 45);
+        assert.equal(imageData.rotate, 45);
       });
 
       QUnit.test('methods.getImageData: scaled', function (assert) {
-        var data = cropper.scale(-1, -1).getImageData();
+        var imageData = cropper.scale(-1, -1).getImageData();
 
-        assert.equal(data.scaleX, -1);
-        assert.equal(data.scaleY, -1);
+        assert.equal(imageData.scaleX, -1);
+        assert.equal(imageData.scaleY, -1);
       });
 
     }

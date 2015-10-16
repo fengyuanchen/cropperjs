@@ -3,38 +3,39 @@ window.addEventListener('DOMContentLoaded', function () {
   'use strict';
 
   var image = window.createCropperImage();
-  var image2 = window.createCropperImage();
 
   image.newCropper = new Cropper(image, {
     built: function () {
       var cropper = this.cropper;
-      var imageData = cropper.imageData;
 
       QUnit.test('options.scalable: true', function (assert) {
-        cropper.scale(2, -2);
+        var imageData = cropper.scale(-1, -1).getImageData();
 
-        assert.equal(imageData.scaleX, 2);
-        assert.equal(imageData.scaleY, -2);
+        assert.equal(imageData.scaleX, -1);
+        assert.equal(imageData.scaleY, -1);
       });
 
     }
   });
 
-  image2.newCropper = new Cropper(image2, {
-    scalable: false,
+  (function () {
+    var image = window.createCropperImage();
 
-    built: function () {
-      var cropper = this.cropper;
-      var imageData = cropper.imageData;
+    image.newCropper = new Cropper(image, {
+      scalable: false,
 
-      QUnit.test('options.scalable: false', function (assert) {
-        cropper.scale(2, -2);
+      built: function () {
+        var cropper = this.cropper;
 
-        assert.ok(typeof imageData.scaleX === 'undefined');
-        assert.ok(typeof imageData.scaleY === 'undefined');
-      });
+        QUnit.test('options.scalable: false', function (assert) {
+          var imageData = cropper.scale(-1, -1).getImageData();
 
-    }
-  });
+          assert.equal(imageData.scaleX, undefined);
+          assert.equal(imageData.scaleY, undefined);
+        });
+
+      }
+    });
+  })();
 
 });

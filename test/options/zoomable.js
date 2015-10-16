@@ -5,19 +5,31 @@ window.addEventListener('DOMContentLoaded', function () {
   var image = window.createCropperImage();
 
   image.newCropper = new Cropper(image, {
-    zoomable: false,
-
     built: function () {
-      var cropper = this.cropper;
-      var _ratio = cropper.image.ratio;
-
-      QUnit.test('options.zoomable', function (assert) {
-        cropper.zoom(1);
-
-        assert.equal(cropper.image.ratio, _ratio);
+      this.cropper.zoom(0.1);
+    },
+    zoom: function () {
+      QUnit.test('options.zoomable: true', function (assert) {
+        assert.ok(true);
       });
-
     }
   });
+
+  (function () {
+    var image = window.createCropperImage();
+
+    image.newCropper = new Cropper(image, {
+      zoomable: false,
+
+      built: function () {
+        this.cropper.zoom(0.1);
+      },
+      zoom: function () {
+        QUnit.test('options.zoomable: false', function (assert) {
+          assert.ok(false);
+        });
+      }
+    });
+  })();
 
 });

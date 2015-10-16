@@ -12,13 +12,10 @@ window.addEventListener('DOMContentLoaded', function () {
         cropper.rotate(360);
         assert.equal(cropper.getImageData().rotate, 0);
 
-        cropper.rotate(30);
-        assert.equal(cropper.getImageData().rotate, 30);
+        cropper.rotate(90);
+        assert.equal(cropper.getImageData().rotate, 90);
 
-        cropper.rotate(-15);
-        assert.equal(cropper.getImageData().rotate, 15);
-
-        cropper.rotate(-15);
+        cropper.rotate(-90);
         assert.equal(cropper.getImageData().rotate, 0);
       });
 

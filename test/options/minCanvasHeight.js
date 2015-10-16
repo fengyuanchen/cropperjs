@@ -10,11 +10,13 @@ window.addEventListener('DOMContentLoaded', function () {
     minCanvasHeight: minCanvasHeight,
 
     built: function () {
-      var canvasData = this.cropper.setCanvasData({
-            height: 180
-          }).getCanvasData();
+      var cropper = this.cropper;
 
       QUnit.test('options.minCanvasHeight', function (assert) {
+        var canvasData = cropper.setCanvasData({
+              height: 180
+            }).getCanvasData();
+
         assert.equal(Math.round(canvasData.height), minCanvasHeight);
       });
 

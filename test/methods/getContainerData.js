@@ -10,11 +10,13 @@ window.addEventListener('DOMContentLoaded', function () {
 
   image.newCropper = new Cropper(image, {
     built: function () {
-      var data = this.cropper.getContainerData();
+      var cropper = this.cropper;
 
       QUnit.test('methods.getContainerData', function (assert) {
-        assert.ok(isNumber(data.width));
-        assert.ok(isNumber(data.height));
+        var containerData = cropper.getContainerData();
+
+        assert.ok(isNumber(containerData.width));
+        assert.ok(isNumber(containerData.height));
       });
 
     }

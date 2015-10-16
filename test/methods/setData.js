@@ -4,55 +4,36 @@ window.addEventListener('DOMContentLoaded', function () {
 
   var image = window.createCropperImage();
 
-  function isNumber(n) {
-    return typeof n === 'number' && !isNaN(n);
-  }
-
   image.newCropper = new Cropper(image, {
     built: function () {
       var cropper = this.cropper;
-      var _data = cropper.getData();
-
-      QUnit.test('methods.setData', function (assert) {
-        var data = cropper.setData({
-              x: 16,
-              height: 120
-            }).getData();
-
-        assert.ok(isNumber(data.x));
-        assert.ok(isNumber(data.y));
-        assert.ok(isNumber(data.width));
-        assert.ok(isNumber(data.height));
-
-        assert.notEqual(data.x, _data.x);
-        assert.equal(data.y, _data.y);
-        assert.equal(data.width, _data.width);
-        assert.notEqual(data.height, _data.height);
-      });
 
       QUnit.test('methods.setData: move', function (assert) {
-        var data = cropper.reset().setData({
+        var data = cropper.getData();
+        var changedData = cropper.setData({
               x: 16,
               y: 9
             }).getData();
 
-        assert.notEqual(data.x, _data.x);
-        assert.notEqual(data.y, _data.y);
-        assert.equal(data.width, _data.width);
-        assert.equal(data.height, _data.height);
+        assert.notEqual(changedData.x, data.x);
+        assert.notEqual(changedData.y, data.y);
+
+        assert.equal(changedData.width, data.width);
+        assert.equal(changedData.height, data.height);
       });
 
 
       QUnit.test('methods.setData: resize', function (assert) {
-        var data = cropper.reset().setData({
+        var data = cropper.getData();
+        var changedData = cropper.setData({
               width: 320,
               height: 180
             }).getData();
 
-        assert.equal(data.x, _data.x);
-        assert.equal(data.y, _data.y);
-        assert.notEqual(data.width, _data.width);
-        assert.notEqual(data.height, _data.height);
+        assert.equal(changedData.x, data.x);
+        assert.equal(changedData.y, data.y);
+        assert.notEqual(changedData.width, data.width);
+        assert.notEqual(changedData.height, data.height);
       });
 
     }

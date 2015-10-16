@@ -10,11 +10,13 @@ window.addEventListener('DOMContentLoaded', function () {
     minCropBoxWidth: minCropBoxWidth,
 
     built: function () {
-      var cropBoxData = this.cropper.setCropBoxData({
-            width: 200
-          }).getCropBoxData();
+      var cropper = this.cropper;
 
       QUnit.test('options.minCropBoxWidth', function (assert) {
+        var cropBoxData = cropper.setCropBoxData({
+              width: 200
+            }).getCropBoxData();
+
         assert.equal(Math.round(cropBoxData.width), minCropBoxWidth);
       });
 

@@ -9,9 +9,11 @@ window.addEventListener('DOMContentLoaded', function () {
     minContainerWidth: minContainerWidth,
 
     built: function () {
-      var containerData = this.cropper.getContainerData();
+      var cropper = this.cropper;
 
       QUnit.test('options.minContainerWidth', function (assert) {
+        var containerData = cropper.getContainerData();
+
         assert.equal(Math.round(containerData.width), minContainerWidth);
       });
 

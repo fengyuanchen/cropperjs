@@ -6,10 +6,10 @@ $(function () {
 
   image.newCropper = new Cropper(image, {
     built: function () {
-      var dragBox = this.cropper.dragBox;
+      var cropper = this.cropper;
 
       // Triggers events manually when built
-      $(dragBox).trigger('mousedown').trigger('mouseup');
+      $(cropper.dragBox).trigger('mousedown').trigger('mouseup');
     },
 
     cropstart: function (data) {

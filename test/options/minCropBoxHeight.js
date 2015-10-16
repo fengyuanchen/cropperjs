@@ -10,11 +10,13 @@ window.addEventListener('DOMContentLoaded', function () {
     minCropBoxHeight: minCropBoxHeight,
 
     built: function () {
-      var cropBoxData = this.cropper.setCropBoxData({
-            height: 100
-          }).getCropBoxData();
+      var cropper = this.cropper;
 
       QUnit.test('options.minCropBoxHeight', function (assert) {
+        var cropBoxData = cropper.setCropBoxData({
+              height: 100
+            }).getCropBoxData();
+
         assert.equal(Math.round(cropBoxData.height), minCropBoxHeight);
       });
 

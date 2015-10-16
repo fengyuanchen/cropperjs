@@ -7,13 +7,14 @@ window.addEventListener('DOMContentLoaded', function () {
   image.newCropper = new Cropper(image, {
     built: function () {
       var cropper = this.cropper;
-      var options = cropper.options;
-      var aspectRatio = 16 / 9;
 
       QUnit.test('methods.setAspectRatio', function (assert) {
+        var options = cropper.options;
+
         assert.ok(isNaN(options.aspectRatio));
-        cropper.setAspectRatio(aspectRatio);
-        assert.equal(options.aspectRatio, aspectRatio);
+
+        cropper.setAspectRatio(1);
+        assert.equal(options.aspectRatio, 1);
       });
 
     }

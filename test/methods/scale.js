@@ -10,12 +10,10 @@ window.addEventListener('DOMContentLoaded', function () {
       var cropper = this.cropper;
 
       QUnit.test('methods.scale', function (assert) {
-        var imageData;
+        var imageData = cropper.scale(-1, -1).getImageData();
 
-        cropper.scale(-2, 2);
-        imageData = cropper.getImageData();
-        assert.equal(imageData.scaleX, -2);
-        assert.equal(imageData.scaleY, 2);
+        assert.equal(imageData.scaleX, -1);
+        assert.equal(imageData.scaleY, -1);
       });
 
     }

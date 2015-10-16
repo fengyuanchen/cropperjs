@@ -10,15 +10,17 @@ window.addEventListener('DOMContentLoaded', function () {
 
   image.newCropper = new Cropper(image, {
     built: function () {
-      var data = this.cropper.getCanvasData();
+      var cropper = this.cropper;
 
       QUnit.test('methods.getCanvasData', function (assert) {
-        assert.ok(isNumber(data.left));
-        assert.ok(isNumber(data.top));
-        assert.ok(isNumber(data.width));
-        assert.ok(isNumber(data.height));
-        assert.ok(isNumber(data.naturalWidth));
-        assert.ok(isNumber(data.naturalHeight));
+        var canvasData = cropper.getCanvasData();
+
+        assert.ok(isNumber(canvasData.left));
+        assert.ok(isNumber(canvasData.top));
+        assert.ok(isNumber(canvasData.width));
+        assert.ok(isNumber(canvasData.height));
+        assert.ok(isNumber(canvasData.naturalWidth));
+        assert.ok(isNumber(canvasData.naturalHeight));
       });
 
     }

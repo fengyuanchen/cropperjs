@@ -5,16 +5,31 @@ window.addEventListener('DOMContentLoaded', function () {
   var image = window.createCropperImage();
 
   image.newCropper = new Cropper(image, {
-    dragCrop: false,
-
     built: function () {
       var cropper = this.cropper;
 
-      QUnit.test('options.dragCrop', function (assert) {
-        assert.notEqual(cropper.canvas.dataset.action, 'crop');
+      QUnit.test('options.dragCrop: true', function (assert) {
+        assert.equal(cropper.dragBox.dataset.action, 'crop');
       });
 
     }
   });
+
+  (function () {
+    var image = window.createCropperImage();
+
+    image.newCropper = new Cropper(image, {
+      dragCrop: false,
+
+      built: function () {
+        var cropper = this.cropper;
+
+        QUnit.test('options.dragCrop: false', function (assert) {
+          assert.equal(cropper.dragBox.dataset.action, 'move');
+        });
+
+      }
+    });
+  })();
 
 });

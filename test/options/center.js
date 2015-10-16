@@ -4,17 +4,37 @@ window.addEventListener('DOMContentLoaded', function () {
 
   var image = window.createCropperImage();
 
-  image.newCropper = new Cropper(image, {
-    center: false,
+  function hasClass(element, className) {
+    return element.className.indexOf(className) !== -1;
+  }
 
+  image.newCropper = new Cropper(image, {
     built: function () {
       var cropper = this.cropper;
 
-      QUnit.test('options.center', function (assert) {
-        assert.ok(cropper.cropBox.querySelector('.cropper-center').className.indexOf('cropper-hidden') !== -1);
+      QUnit.test('options.center: true', function (assert) {
+        assert.ok(!hasClass(cropper.cropBox.querySelector('.cropper-center'), 'cropper-hidden'));
       });
 
     }
   });
+
+  (function () {
+    var image = window.createCropperImage();
+
+    image.newCropper = new Cropper(image, {
+      center: false,
+
+      built: function () {
+        var cropper = this.cropper;
+
+        QUnit.test('options.center: false', function (assert) {
+          assert.ok(hasClass(cropper.cropBox.querySelector('.cropper-center'), 'cropper-hidden'));
+        });
+
+      }
+    });
+
+  })();
 
 });

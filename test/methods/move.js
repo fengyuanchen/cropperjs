@@ -9,15 +9,13 @@ window.addEventListener('DOMContentLoaded', function () {
 
     built: function () {
       var cropper = this.cropper;
-      var _canvasData = cropper.getCanvasData();
 
       QUnit.test('methods.move', function (assert) {
-        var canvasData;
+        var canvasData = cropper.getCanvasData();
+        var changedCanvasData = cropper.move(1, 1).getCanvasData();
 
-        cropper.move(1, 1);
-        canvasData = cropper.getCanvasData();
-        assert.ok(canvasData.left === _canvasData.left + 1);
-        assert.ok(canvasData.top === _canvasData.top + 1);
+        assert.equal(changedCanvasData.left, canvasData.left + 1);
+        assert.equal(changedCanvasData.top, canvasData.top + 1);
       });
 
     }

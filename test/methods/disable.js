@@ -17,10 +17,10 @@ window.addEventListener('DOMContentLoaded', function () {
       });
 
       QUnit.test('methods.disable: clear', function (assert) {
-        var data = cropper.getData();
+        var cropBoxData = cropper.getCropBoxData();
 
         cropper.clear();
-        assert.deepEqual(cropper.getData(), data);
+        assert.deepEqual(cropper.getCropBoxData(), cropBoxData);
       });
 
       QUnit.test('methods.disable: move', function (assert) {

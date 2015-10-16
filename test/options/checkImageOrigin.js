@@ -6,10 +6,6 @@ window.addEventListener('DOMContentLoaded', function () {
   var image = window.createCropperImage({
         src: crossOriginImage
       });
-  var image2 = window.createCropperImage({
-        src: crossOriginImage,
-        crossOrigin: 'anonymous'
-      });
 
   image.newCropper = new Cropper(image, {
     built: function () {
@@ -23,16 +19,23 @@ window.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  image2.newCropper = new Cropper(image2, {
-    built: function () {
-      var cropper = this.cropper;
+  (function () {
+    var image = window.createCropperImage({
+          src: crossOriginImage,
+          crossOrigin: 'anonymous'
+        });
 
-      QUnit.test('options.checkImageOrigin: exists crossOrigin attribute', function (assert) {
-        assert.ok(cropper.image.crossOrigin === 'anonymous');
-        assert.ok(cropper.image.src.indexOf('timestamp') === -1);
-      });
+    image.newCropper = new Cropper(image, {
+      built: function () {
+        var cropper = this.cropper;
 
-    }
-  });
+        QUnit.test('options.checkImageOrigin: exists crossOrigin attribute', function (assert) {
+          assert.ok(cropper.image.crossOrigin === 'anonymous');
+          assert.ok(cropper.image.src.indexOf('timestamp') === -1);
+        });
+
+      }
+    });
+  })();
 
 });

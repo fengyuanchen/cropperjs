@@ -3,22 +3,17 @@ $(function () {
   'use strict';
 
   var image = window.createCropperImage();
-  var count = 0;
 
   image.newCropper = new Cropper(image, {
     built: function () {
-      this.cropper.zoom(0.1).zoom(-0.1);
+      this.cropper.zoom(0.1);
     },
 
     zoom: function (data) {
       QUnit.test('options.zoom', function (assert) {
-        if (count === 0) {
-          assert.ok(data.ratio > data.oldRatio);
-        } else {
-          assert.ok(data.ratio < data.oldRatio);
-        }
-
-        count++;
+        assert.ok(data.ratio > 0);
+        assert.ok(data.oldRatio > 0);
+        assert.ok(data.ratio > data.oldRatio);
       });
     }
   });

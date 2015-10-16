@@ -9,10 +9,11 @@ window.addEventListener('DOMContentLoaded', function () {
 
     built: function () {
       var cropper = this.cropper;
-      var canvasData = cropper.getCanvasData();
-      var cropBoxData = cropper.getCropBoxData();
 
       QUnit.test('methods.reset', function (assert) {
+        var canvasData = cropper.getCanvasData();
+        var cropBoxData = cropper.getCropBoxData();
+
         cropper.setCanvasData({
           top: canvasData.top + 10,
           width: canvasData.width - 10

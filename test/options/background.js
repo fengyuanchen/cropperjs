@@ -4,17 +4,36 @@ window.addEventListener('DOMContentLoaded', function () {
 
   var image = window.createCropperImage();
 
-  image.newCropper = new Cropper(image, {
-    background: false,
+  function hasClass(element, className) {
+    return element.className.indexOf(className) !== -1;
+  }
 
+  image.newCropper = new Cropper(image, {
     built: function () {
       var cropper = this.cropper;
 
-      QUnit.test('options.background', function (assert) {
-        assert.ok(cropper.cropper.className.indexOf('cropper-bg') === -1);
+      QUnit.test('options.background: true', function (assert) {
+        assert.ok(hasClass(cropper.cropper, 'cropper-bg'));
       });
 
     }
   });
+
+  (function () {
+    var image = window.createCropperImage();
+
+    image.newCropper = new Cropper(image, {
+      background: false,
+
+      built: function () {
+        var cropper = this.cropper;
+
+        QUnit.test('options.background: false', function (assert) {
+          assert.ok(!hasClass(cropper.cropper, 'cropper-bg'));
+        });
+
+      }
+    });
+  })();
 
 });
