@@ -350,7 +350,7 @@
 
         // Create crop box
         case ACTION_CROP:
-          if (range.x && range.y) {
+          if (range.x || range.y) {
             offset = getOffset(this.cropper);
             left = this.startX - offset.left;
             top = this.startY - offset.top;
@@ -358,21 +358,18 @@
             height = cropBoxData.minHeight;
 
             if (range.x > 0) {
-              if (range.y > 0) {
-                action = ACTION_SOUTH_EAST;
-              } else {
-                action = ACTION_NORTH_EAST;
-                top -= height;
-              }
+              action = range.y > 0 ? ACTION_SOUTH_EAST :
+                (range.y < 0 ? ACTION_NORTH_EAST : ACTION_EAST);
+            } else if (range.x < 0) {
+              left -= width;
+              action = range.y > 0 ? ACTION_SOUTH_WEST :
+                (range.y < 0 ? ACTION_NORTH_WEST : ACTION_WEST);
             } else {
-              if (range.y > 0) {
-                action = ACTION_SOUTH_WEST;
-                left -= width;
-              } else {
-                action = ACTION_NORTH_WEST;
-                left -= width;
-                top -= height;
-              }
+              action = range.y > 0 ? ACTION_SOUTH : ACTION_NORTH;
+            }
+
+            if (range.y < 0) {
+              top -= height;
             }
 
             // Show the crop box if is hidden
