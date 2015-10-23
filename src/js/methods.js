@@ -355,7 +355,7 @@
 
         each(data, function (n, i) {
           n = n / ratio;
-          data[i] = rounded ? Math.round(n) : n;
+          data[i] = rounded ? round(n) : n;
         });
 
       } else {
@@ -641,8 +641,9 @@
         }
       }
 
-      canvasWidth = scaledWidth || originalWidth;
-      canvasHeight = scaledHeight || originalHeight;
+      // The canvas element will use `Math.floor` on a float number, so round first
+      canvasWidth = round(scaledWidth || originalWidth);
+      canvasHeight = round(scaledHeight || originalHeight);
 
       canvas = document.createElement('canvas');
       canvas.width = canvasWidth;
