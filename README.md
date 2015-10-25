@@ -27,8 +27,8 @@
 dist/
 ├── cropper.css     ( 5 KB)
 ├── cropper.min.css ( 4 KB)
-├── cropper.js      (74 KB)
-└── cropper.min.js  (26 KB)
+├── cropper.js      (78 KB)
+└── cropper.min.js  (27 KB)
 ```
 
 
@@ -58,8 +58,8 @@ Include files:
 #### [RawGit](https://rawgit.com/)
 
 ```html
-<link  href="https://cdn.rawgit.com/fengyuanchen/cropperjs/v0.1.0/dist/cropper.min.css" rel="stylesheet">
-<script src="https://cdn.rawgit.com/fengyuanchen/cropperjs/v0.1.0/dist/cropper.min.js"></script>
+<link  href="https://cdn.rawgit.com/fengyuanchen/cropperjs/v0.2.0/dist/cropper.min.css" rel="stylesheet">
+<script src="https://cdn.rawgit.com/fengyuanchen/cropperjs/v0.2.0/dist/cropper.min.js"></script>
 ```
 
 
@@ -380,6 +380,8 @@ The minimum height of the crop box.
 
 This function will be called when a cropper instance starts to load an image.
 
+> Return `false` to prevent to build.
+
 
 ### built
 
@@ -424,6 +426,8 @@ var cropper = new Cropper(image, {
 
 This function will be called when the canvas (image wrapper) or the crop box starts to change.
 
+> Return `false` to prevent to start.
+
 ```js
 new Cropper(image, {
   cropstart: function (data) {
@@ -447,6 +451,8 @@ new Cropper(image, {
     - `action`: the same as "cropstart".
 
 This function will be called when the canvas (image wrapper) or the crop box is changing.
+
+> Return `false` to prevent to move.
 
 
 ### cropend
@@ -474,6 +480,8 @@ This function will be called when the canvas (image wrapper) or the crop box sto
 
 This function will be called when the canvas (image wrapper) or the crop box changed.
 
+> Return `false` to prevent to crop.
+
 
 ### zoom
 
@@ -485,12 +493,32 @@ This function will be called when the canvas (image wrapper) or the crop box cha
     - `originalEvent`:
       - Type: `Event`
       - Options: `wheel`, `touchmove`.
+    - `oldRatio`:
+      - Type: `Number`
+      - The old ratio of the canvas
     - `ratio`:
       - Type: `Number`
-      - The current zoom ratio (`ratio > 0` means zoom in, `ratio < 0` means zoom out)
+      - The new ratio of the canvas (`canvasData.width / canvasData.naturalWidth`)
 
 This function will be called when a cropper instance starts to zoom in or zoom out its canvas (image wrapper).
 
+> Return `false` to prevent to zoom.
+
+
+```js
+new Cropper(image, {
+  zoom: function (data) {
+
+    // Zoom in
+    if (data.ratio > data.oldRatio) {
+      return false; // Prevent zoom in
+    }
+
+    // Zoom out
+    // ...
+  }
+});
+```
 
 
 ## Methods
@@ -568,7 +596,6 @@ Destroy the cropper and remove the instance from the image.
 
 - **offsetX**:
   - Type: `Number`
-  - Default: `0`
   - Moving size (px) in the horizontal direction.
 
 - **offsetY** (optional):
@@ -576,13 +603,27 @@ Destroy the cropper and remove the instance from the image.
   - Moving size (px) in the vertical direction.
   - If not present, its default value is `offsetX`.
 
-Move the canvas (image wrapper).
+Move the canvas (image wrapper) with relative offsets.
 
 ```js
 cropper.move(1);
 cropper.move(1, 0);
 cropper.move(0, -1);
 ```
+
+
+### moveTo(x[, y])
+
+- **x**:
+  - Type: `Number`
+  - The `left` value of the canvas
+
+- **y** (optional):
+  - Type: `Number`
+  - The `top` value of the canvas
+  - If not present, its default value is `x`.
+
+Move the canvas (image wrapper) to an absolute point.
 
 
 ### zoom(ratio)
@@ -592,11 +633,23 @@ cropper.move(0, -1);
   - Zoom in: requires a positive number (ratio > 0)
   - Zoom out: requires a negative number (ratio < 0)
 
-Zoom the canvas (image wrapper).
+Zoom the canvas (image wrapper) with a relative ratio.
 
 ```js
 cropper.zoom(0.1);
 cropper.zoom(-0.1);
+```
+
+
+### zoomTo(ratio)
+
+- **ratio**:
+  - Type: `Number`
+
+Zoom the canvas (image wrapper) to an absolute ratio.
+
+```js
+cropper.zoomTo(1); // 1:1 (canvasData.width === canvasData.naturalWidth)
 ```
 
 
@@ -607,7 +660,7 @@ cropper.zoom(-0.1);
   - Rotate right: requires a positive number (degree > 0)
   - Rotate left: requires a negative number (degree < 0)
 
-Rotate the canvas (image wrapper).
+Rotate the canvas (image wrapper) with a relative degree.
 
 > Requires [CSS3 2D Transforms](http://caniuse.com/transforms2d) support (IE 9+).
 
@@ -615,6 +668,14 @@ Rotate the canvas (image wrapper).
 cropper.rotate(90);
 cropper.rotate(-90);
 ```
+
+
+### rotateTo(degree)
+
+- **degree**:
+  - Type: `Number`
+
+Rotate the canvas (image wrapper) to an absolute degree.
 
 
 ### scale(scaleX[, scaleY])
@@ -639,6 +700,28 @@ cropper.scale(-1); // Flip both horizontal and vertical
 cropper.scale(-1, 1); // Flip horizontal
 cropper.scale(1, -1); // Flip vertical
 ```
+
+
+### scaleX(scaleX)
+
+- **scaleX**:
+  - Type: `Number`
+  - Default: `1`
+  - The scaling factor to apply on the abscissa of the image.
+  - When equal to `1` it does nothing.
+
+Scale the abscissa of the image.
+
+
+### scaleY(scaleY)
+
+- **scaleY**:
+  - Type: `Number`
+  - Default: `1`
+  - The scaling factor to apply on the ordinate of the image.
+  - When equal to `1` it does nothing.
+
+Scale the ordinate of the image.
 
 
 ### getData([rounded])
@@ -716,8 +799,19 @@ Output the image position, size and other related data.
     - `top`: the offset top of the canvas
     - `width`: the width of the canvas
     - `height`: the height of the canvas
+    - `naturalWidth`: the natural width of the canvas (read only)
+    - `naturalHeight`: the natural height of the canvas (read only)
 
 Output the canvas (image wrapper) position and size data.
+
+```js
+var imageData = cropper.getImageData();
+var canvasData = cropper.getCanvasData();
+
+if (imageData.rotate % 180 === 0) {
+  console.log(canvasData.naturalWidth === imageData.naturalWidth); // true
+}
+```
 
 
 ### setCanvasData(data)

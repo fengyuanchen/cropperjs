@@ -1,6 +1,13 @@
 # Changelog
 
 
+## 0.2.0 (Oct 25, 2015)
+
+- Added 5 new methods: `moveTo`, `zoomTo`, `rotateTo`, `scaleX` and `scaleY`
+- Improved 4 methods:  `move`, `zoom`, `rotate` and `getCanvasData`
+- Improved cropping
+
+
 ## 0.1.1 (Oct 10, 2015)
 
 - Improved canvas limitation
@@ -8,7 +15,7 @@
 - Improved preview for cross origin image
 
 
-## 0.1.0 (Set 25, 2015)
+## 0.1.0 (Sep 25, 2015)
 
 - Supports touch (mobile)
 - Supports zoom
