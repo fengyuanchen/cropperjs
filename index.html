@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="JavaScript image cropper.">
   <meta name="keywords" content="HTML, CSS, JS, JavaScript, image cropping, image crop, image move, image zoom, image rotate, image scale, front-end, frontend, web development">
@@ -38,7 +38,7 @@
       <nav class="collapse navbar-collapse" id="navbar-collapse-1" role="navigation">
         <p class="navbar-text">JavaScript image cropper.</p>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="https://github.com/fengyuanchen/cropperjs/blob/master/README.md">Docs</a></li>
+          <li><a href="https://github.com/fengyuanchen/cropperjs/tree/v0.2.0/README.md">Docs</a></li>
           <li><a href="https://github.com/fengyuanchen/cropperjs">Github</a></li>
           <li><a href="https://chenfengyuan.com">About</a></li>
           <li><a href="https://fengyuanchen.github.io">More</a></li>
@@ -169,13 +169,13 @@
         </div>
 
         <div class="btn-group">
-          <button type="button" class="btn btn-primary" data-flip="horizontal" data-method="scale" data-option="-1" data-second-option="1" title="Flip Horizontal">
-            <span class="docs-tooltip" data-toggle="tooltip" title="cropper.scale(-1, 1)">
+          <button type="button" class="btn btn-primary" data-method="scaleX" data-option="-1" title="Flip Horizontal">
+            <span class="docs-tooltip" data-toggle="tooltip" title="cropper.scaleX(-1)">
               <span class="fa fa-arrows-h"></span>
             </span>
           </button>
-          <button type="button" class="btn btn-primary" data-flip="vertical" data-method="scale" data-option="1" data-second-option="-1" title="Flip Vertical">
-            <span class="docs-tooltip" data-toggle="tooltip" title="cropper.scale(1, -1)">
+          <button type="button" class="btn btn-primary" data-method="scaleY" data-option="-1" title="Flip Vertical">
+            <span class="docs-tooltip" data-toggle="tooltip" title="cropper.scaleY(-1)">
               <span class="fa fa-arrows-v"></span>
             </span>
           </button>
@@ -299,6 +299,21 @@
         <button type="button" class="btn btn-primary" data-method="setCropBoxData" data-target="#putData">
           <span class="docs-tooltip" data-toggle="tooltip" title="cropper.setCropBoxData(data)">
             Set Crop Box Data
+          </span>
+        </button>
+        <button type="button" class="btn btn-primary" data-method="moveTo" data-option="0">
+          <span class="docs-tooltip" data-toggle="tooltip" title="cropper.moveTo(0)">
+            0,0
+          </span>
+        </button>
+        <button type="button" class="btn btn-primary" data-method="zoomTo" data-option="1">
+          <span class="docs-tooltip" data-toggle="tooltip" title="cropper.zoomTo(1)">
+            100%
+          </span>
+        </button>
+        <button type="button" class="btn btn-primary" data-method="rotateTo" data-option="180">
+          <span class="docs-tooltip" data-toggle="tooltip" title="cropper.rotateTo(180)">
+            180°
           </span>
         </button>
         <input type="text" class="form-control" id="putData" placeholder="Get data to here or set data with this value">

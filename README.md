@@ -2,4 +2,4 @@
 
 > JavaScript image cropper.
 
-- [Demo](http://fengyuanchen.github.io/cropperjs)
+- [Demo](https://fengyuanchen.github.io/cropperjs)

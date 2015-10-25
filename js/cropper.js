@@ -1,11 +1,11 @@
 /*!
- * Cropper v0.1.1
+ * Cropper v0.2.0
  * https://github.com/fengyuanchen/cropperjs
  *
  * Copyright (c) 2015 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2015-10-10T02:10:07.534Z
+ * Date: 2015-10-25T02:25:08.062Z
  */
 
 (function (global, factory) {
@@ -80,17 +80,18 @@
   var SUPPORT_CANVAS = !!document.createElement('canvas').getContext;
 
   // Maths
-  var sqrt = Math.sqrt;
+  var num = Number;
   var min = Math.min;
   var max = Math.max;
   var abs = Math.abs;
   var sin = Math.sin;
   var cos = Math.cos;
-  var num = parseFloat;
+  var sqrt = Math.sqrt;
+  var round = Math.round;
 
   // Prototype
   var prototype = {
-    version: '0.1.1'
+    version: '0.2.0'
   };
 
   // Utilities
@@ -750,7 +751,7 @@
       this.bind();
 
       // Format aspect ratio (0 -> NaN)
-      options.aspectRatio = num(options.aspectRatio) || NaN;
+      options.aspectRatio = max(0, options.aspectRatio) || NaN;
 
       if (options.autoCrop) {
         this.cropped = true;
@@ -889,6 +890,8 @@
       var imageData = this.imageData;
       var aspectRatio = imageData.aspectRatio;
       var canvasData = {
+            naturalWidth: imageData.naturalWidth,
+            naturalHeight: imageData.naturalHeight,
             aspectRatio: aspectRatio,
             width: containerWidth,
             height: containerHeight
@@ -991,6 +994,9 @@
       var options = this.options;
       var canvasData = this.canvasData;
       var imageData = this.imageData;
+      var rotate = imageData.rotate;
+      var naturalWidth = imageData.naturalWidth;
+      var naturalHeight = imageData.naturalHeight;
       var aspectRatio;
       var rotated;
 
@@ -1001,7 +1007,7 @@
         rotated = getRotatedSizes({
           width: imageData.width,
           height: imageData.height,
-          degree: imageData.rotate
+          degree: rotate
         });
 
         aspectRatio = rotated.width / rotated.height;
@@ -1012,6 +1018,21 @@
           canvasData.width = rotated.width;
           canvasData.height = rotated.height;
           canvasData.aspectRatio = aspectRatio;
+          canvasData.naturalWidth = naturalWidth;
+          canvasData.naturalHeight = naturalHeight;
+
+          // Computes rotated sizes with natural image sizes
+          if (rotate % 180) {
+            rotated = getRotatedSizes({
+              width: naturalWidth,
+              height: naturalHeight,
+              degree: rotate
+            });
+
+            canvasData.naturalWidth = rotated.width;
+            canvasData.naturalHeight = rotated.height;
+          }
+
           this.limitCanvas(true, false);
         }
       }
@@ -1977,7 +1998,7 @@
 
         // Create crop box
         case ACTION_CROP:
-          if (range.x && range.y) {
+          if (range.x || range.y) {
             offset = getOffset(this.cropper);
             left = this.startX - offset.left;
             top = this.startY - offset.top;
@@ -1985,21 +2006,18 @@
             height = cropBoxData.minHeight;
 
             if (range.x > 0) {
-              if (range.y > 0) {
-                action = ACTION_SOUTH_EAST;
-              } else {
-                action = ACTION_NORTH_EAST;
-                top -= height;
-              }
+              action = range.y > 0 ? ACTION_SOUTH_EAST :
+                (range.y < 0 ? ACTION_NORTH_EAST : ACTION_EAST);
+            } else if (range.x < 0) {
+              left -= width;
+              action = range.y > 0 ? ACTION_SOUTH_WEST :
+                (range.y < 0 ? ACTION_NORTH_WEST : ACTION_WEST);
             } else {
-              if (range.y > 0) {
-                action = ACTION_SOUTH_WEST;
-                left -= width;
-              } else {
-                action = ACTION_NORTH_WEST;
-                left -= width;
-                top -= height;
-              }
+              action = range.y > 0 ? ACTION_SOUTH : ACTION_NORTH;
+            }
+
+            if (range.y < 0) {
+              top -= height;
             }
 
             // Show the crop box if is hidden
@@ -2162,7 +2180,7 @@
     },
 
     /**
-     * Move the canvas
+     * Move the canvas with relative offsets
      *
      * @param {Number} offsetX
      * @param {Number} offsetY (optional)
@@ -2170,57 +2188,103 @@
     move: function (offsetX, offsetY) {
       var canvasData = this.canvasData;
 
-      // If "offsetY" is not present, its default value is "offsetX"
-      if (isUndefined(offsetY)) {
-        offsetY = offsetX;
+      return this.moveTo(
+        isUndefined(offsetX) ? offsetX : canvasData.left + num(offsetX),
+        isUndefined(offsetY) ? offsetY : canvasData.top + num(offsetY)
+      );
+    },
+
+    /**
+     * Move the canvas to an absolute point
+     *
+     * @param {Number} x
+     * @param {Number} y (optional)
+     */
+    moveTo: function (x, y) {
+      var canvasData = this.canvasData;
+      var changed = false;
+
+      // If "y" is not present, its default value is "x"
+      if (isUndefined(y)) {
+        y = x;
       }
 
-      offsetX = num(offsetX);
-      offsetY = num(offsetY);
+      x = num(x);
+      y = num(y);
 
       if (this.built && !this.disabled && this.options.movable) {
-        canvasData.left += isNumber(offsetX) ? offsetX : 0;
-        canvasData.top += isNumber(offsetY) ? offsetY : 0;
-        this.renderCanvas(true);
+        if (isNumber(x)) {
+          canvasData.left = x;
+          changed = true;
+        }
+
+        if (isNumber(y)) {
+          canvasData.top = y;
+          changed = true;
+        }
+
+        if (changed) {
+          this.renderCanvas(true);
+        }
       }
 
       return this;
     },
 
     /**
-     * Zoom the canvas
+     * Zoom the canvas with a relative ratio
      *
      * @param {Number} ratio
      * @param {Event} _originalEvent (private)
      */
     zoom: function (ratio, _originalEvent) {
-      var options = this.options;
       var canvasData = this.canvasData;
-      var width;
-      var height;
 
       ratio = num(ratio);
 
-      if (ratio && this.built && !this.disabled && options.zoomable) {
+      if (ratio < 0) {
+        ratio =  1 / (1 - ratio);
+      } else {
+        ratio = 1 + ratio;
+      }
+
+      return this.zoomTo(canvasData.width * ratio / canvasData.naturalWidth, _originalEvent);
+    },
+
+    /**
+     * Zoom the canvas to an absolute ratio
+     *
+     * @param {Number} ratio
+     * @param {Event} _originalEvent (private)
+     */
+    zoomTo: function (ratio, _originalEvent) {
+      var options = this.options;
+      var canvasData = this.canvasData;
+      var width = canvasData.width;
+      var height = canvasData.height;
+      var naturalWidth = canvasData.naturalWidth;
+      var naturalHeight = canvasData.naturalHeight;
+      var newWidth;
+      var newHeight;
+
+      ratio = num(ratio);
+
+      if (ratio >= 0 && this.built && !this.disabled && options.zoomable) {
+        newWidth = naturalWidth * ratio;
+        newHeight = naturalHeight * ratio;
+
         if (isFunction(options.zoom) && options.zoom.call(this.element, {
           originalEvent: _originalEvent,
-          ratio: ratio
+          oldRatio: width / naturalWidth,
+          ratio: newWidth / naturalWidth
         }) === false) {
           return this;
         }
 
-        if (ratio < 0) {
-          ratio =  1 / (1 - ratio);
-        } else {
-          ratio = 1 + ratio;
-        }
-
-        width = canvasData.width * ratio;
-        height = canvasData.height * ratio;
-        canvasData.left -= (width - canvasData.width) / 2;
-        canvasData.top -= (height - canvasData.height) / 2;
-        canvasData.width = width;
-        canvasData.height = height;
+        canvasData.left -= (newWidth - width) / 2;
+        canvasData.top -= (newHeight - height) / 2;
+        canvasData.width = newWidth;
+        canvasData.height = newHeight;
         this.renderCanvas(true);
         this.setDragMode(ACTION_MOVE);
       }
@@ -2229,19 +2293,25 @@
     },
 
     /**
-     * Rotate the canvas
-     * https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#rotate()
+     * Rotate the canvas with a relative degree
      *
      * @param {Number} degree
      */
     rotate: function (degree) {
-      var imageData = this.imageData;
-      var rotate = imageData.rotate || 0;
+      return this.rotateTo((this.imageData.rotate || 0) + num(degree));
+    },
 
-      degree = num(degree) || 0;
+    /**
+     * Rotate the canvas to an absolute degree
+     * https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#rotate()
+     *
+     * @param {Number} degree
+     */
+    rotateTo: function (degree) {
+      degree = num(degree);
 
-      if (this.built && !this.disabled && this.options.rotatable) {
-        imageData.rotate = (rotate + degree) % 360;
+      if (isNumber(degree) && this.built && !this.disabled && this.options.rotatable) {
+        this.imageData.rotate = degree % 360;
         this.rotated = true;
         this.renderCanvas(true);
       }
@@ -2258,6 +2328,7 @@
      */
     scale: function (scaleX, scaleY) {
       var imageData = this.imageData;
+      var changed = false;
 
       // If "scaleY" is not present, its default value is "scaleX"
       if (isUndefined(scaleY)) {
@@ -2268,12 +2339,44 @@
       scaleY = num(scaleY);
 
       if (this.built && !this.disabled && this.options.scalable) {
-        imageData.scaleX = isNumber(scaleX) ? scaleX : 1;
-        imageData.scaleY = isNumber(scaleY) ? scaleY : 1;
-        this.renderImage(true);
+        if (isNumber(scaleX)) {
+          imageData.scaleX = scaleX;
+          changed = true;
+        }
+
+        if (isNumber(scaleY)) {
+          imageData.scaleY = scaleY;
+          changed = true;
+        }
+
+        if (changed) {
+          this.renderImage(true);
+        }
       }
 
       return this;
+    },
+
+    /**
+     * Scale the abscissa of the image
+     *
+     * @param {Number} scaleX
+     */
+    scaleX: function (scaleX) {
+      var scaleY = this.imageData.scaleY;
+
+      return this.scale(scaleX, isNumber(scaleY) ? scaleY : 1);
+    },
+
+    /**
+     * Scale the ordinate of the image
+     *
+     * @param {Number} scaleY
+     */
+    scaleY: function (scaleY) {
+      var scaleX = this.imageData.scaleX;
+
+      return this.scale(isNumber(scaleX) ? scaleX : 1, scaleY);
     },
 
     /**
@@ -2302,7 +2405,7 @@
 
         each(data, function (n, i) {
           n = n / ratio;
-          data[i] = rounded ? Math.round(n) : n;
+          data[i] = rounded ? round(n) : n;
         });
 
       } else {
@@ -2419,18 +2522,22 @@
      */
     getCanvasData: function () {
       var canvasData = this.canvasData;
-      var data;
+      var data = {};
 
       if (this.built) {
-        data = {
-          left: canvasData.left,
-          top: canvasData.top,
-          width: canvasData.width,
-          height: canvasData.height
-        };
+        $.each([
+          'left',
+          'top',
+          'width',
+          'height',
+          'naturalWidth',
+          'naturalHeight'
+        ], function (i, n) {
+          data[n] = canvasData[n];
+        });
       }
 
-      return data || {};
+      return data;
     },
 
     /**
@@ -2584,8 +2691,9 @@
         }
       }
 
-      canvasWidth = scaledWidth || originalWidth;
-      canvasHeight = scaledHeight || originalHeight;
+      // The canvas element will use `Math.floor` on a float number, so round first
+      canvasWidth = round(scaledWidth || originalWidth);
+      canvasHeight = round(scaledHeight || originalHeight);
 
       canvas = document.createElement('canvas');
       canvas.width = canvasWidth;
@@ -2670,7 +2778,7 @@
       if (!this.disabled && !isUndefined(aspectRatio)) {
 
         // 0 -> NaN
-        options.aspectRatio = num(aspectRatio) || NaN;
+        options.aspectRatio = max(0, aspectRatio) || NaN;
 
         if (this.built) {
           this.initCropBox();
