@@ -81,8 +81,56 @@ window.onload = function () {
   }
 
 
+  // Options
+  actions.querySelector('.docs-toggles').onclick = function (event) {
+    var e = event || window.event;
+    var target = e.target || e.srcElement;
+    var cropBoxData;
+    var canvasData;
+    var isCheckbox;
+    var isRadio;
+
+    if (!cropper) {
+      return;
+    }
+
+    if (target.tagName.toLowerCase() === 'span') {
+      target = target.parentNode;
+    }
+
+    if (target.tagName.toLowerCase() === 'label') {
+      target = target.getElementsByTagName('input').item(0);
+    }
+
+    isCheckbox = target.type === 'checkbox';
+    isRadio = target.type === 'radio';
+
+    if (isCheckbox || isRadio) {
+      if (isCheckbox) {
+        options[target.name] = target.checked;
+        cropBoxData = cropper.getCropBoxData();
+        canvasData = cropper.getCanvasData();
+
+        options.built = function () {
+          console.log('built');
+          cropper.setCropBoxData(cropBoxData).setCanvasData(canvasData);
+        };
+      } else {
+        options[target.name] = target.value;
+        options.built = function () {
+          console.log('built');
+        };
+      }
+
+      // Restart
+      cropper.destroy();
+      cropper = new Cropper(image, options);
+    }
+  };
+
+
   // Methods
-  actions.onclick = function (event) {
+  actions.querySelector('.docs-buttons').onclick = function (event) {
     var e = event || window.event;
     var target = e.target || e.srcElement;
     var result;
@@ -219,53 +267,5 @@ window.onload = function () {
     inputImage.disabled = true;
     inputImage.parentNode.className += ' disabled';
   }
-
-
-  // Options
-  actions.querySelector('.docs-toggles').onclick = function (event) {
-    var e = event || window.event;
-    var target = e.target || e.srcElement;
-    var cropBoxData;
-    var canvasData;
-    var isCheckbox;
-    var isRadio;
-
-    if (!cropper) {
-      return;
-    }
-
-    if (target.tagName.toLowerCase() === 'span') {
-      target = target.parentNode;
-    }
-
-    if (target.tagName.toLowerCase() === 'label') {
-      target = target.getElementsByTagName('input').item(0);
-    }
-
-    isCheckbox = target.type === 'checkbox';
-    isRadio = target.type === 'radio';
-
-    if (isCheckbox || isRadio) {
-      if (isCheckbox) {
-        options[target.name] = target.checked;
-        cropBoxData = cropper.getCropBoxData();
-        canvasData = cropper.getCanvasData();
-
-        options.built = function () {
-          console.log('built');
-          cropper.setCropBoxData(cropBoxData).setCanvasData(canvasData);
-        };
-      } else {
-        options[target.name] = parseInt(target.value, 10);
-        options.built = function () {
-          console.log('built');
-        };
-      }
-
-      // Restart
-      cropper.destroy();
-      cropper = new Cropper(image, options);
-    }
-  };
 
 };
