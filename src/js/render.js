@@ -28,7 +28,7 @@
 
       cropper.style.cssText = (
         'width:' + containerData.width + 'px;' +
-        'height:' + containerData.height + 'px'
+        'height:' + containerData.height + 'px;'
       );
 
       addClass(element, CLASS_HIDDEN);
@@ -308,7 +308,7 @@
         'height:' + imageData.height + 'px;' +
         'margin-left:' + imageData.left + 'px;' +
         'margin-top:' + imageData.top + 'px;' +
-        'transform:' + getTransform(imageData)
+        'transform:' + getTransform(imageData) + ';'
       );
 
       if (changed) {

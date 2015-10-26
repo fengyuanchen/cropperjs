@@ -38,7 +38,7 @@
           'display:block;width:100%;height:auto;' +
           'min-width:0!important;min-height:0!important;' +
           'max-width:none!important;max-height:none!important;' +
-          'image-orientation:0deg!important"'
+          'image-orientation:0deg!important;"'
         );
 
         empty(element);
@@ -73,7 +73,7 @@
         'height:' + height + 'px;' +
         'margin-left:' + -left + 'px;' +
         'margin-top:' + -top + 'px;' +
-        'transform:' + getTransform(imageData)
+        'transform:' + getTransform(imageData) + ';'
       );
 
       each(this.previews, function (element) {
