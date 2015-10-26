@@ -18,6 +18,8 @@
       each(previews, function (element) {
         var image = document.createElement('img');
 
+        element.style.overflow = 'hidden';
+
         // Save the original size for recover
         setData(element, DATA_PREVIEW, {
           width: element.offsetWidth,
@@ -48,7 +50,13 @@
 
     resetPreview: function () {
       each(this.previews, function (element) {
-        element.innerHTML = getData(element, DATA_PREVIEW).html;
+        var data = getData(element, DATA_PREVIEW);
+        var style = element.style;
+
+        style.width = data.width + 'px';
+        style.height = data.height + 'px';
+        style.overflow = 'visible';
+        element.innerHTML = data.html;
         removeData(element, DATA_PREVIEW);
       });
     },
