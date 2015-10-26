@@ -109,7 +109,7 @@
 
       if (this.isLoaded) {
         if (this.isImg && this.isReplaced) {
-          element.asrc = this.originalUrl;
+          element.src = this.originalUrl;
         }
 
         this.unbuild();
