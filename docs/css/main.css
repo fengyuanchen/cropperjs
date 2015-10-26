@@ -44,7 +44,7 @@ body {
 }
 
 
-/* Content */
+/* Jumbotron */
 
 .docs-jumbotron {
   background-color: #3f51b5;
@@ -57,6 +57,9 @@ body {
   filter: alpha(opacity=50);
   opacity: 0.5;
 }
+
+
+/* Content */
 
 .img-container,
 .img-preview {
