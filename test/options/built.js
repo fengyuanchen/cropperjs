@@ -9,7 +9,7 @@ $(function () {
       var cropper = this.cropper;
 
       QUnit.test('options.built', function (assert) {
-        assert.ok(cropper.built);
+        assert.ok(cropper.isBuilt);
       });
 
     }

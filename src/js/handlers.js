@@ -7,7 +7,7 @@
       var ratio;
 
       // Check `container` is necessary for IE8
-      if (this.disabled || !containerData) {
+      if (this.isDisabled || !containerData) {
         return;
       }
 
@@ -29,7 +29,7 @@
     },
 
     dblclick: function () {
-      if (this.disabled) {
+      if (this.isDisabled) {
         return;
       }
 
@@ -41,7 +41,7 @@
       var ratio = num(this.options.wheelZoomRatio) || 0.1;
       var delta = 1;
 
-      if (this.disabled) {
+      if (this.isDisabled) {
         return;
       }
 
@@ -66,7 +66,7 @@
       var touch;
       var action;
 
-      if (this.disabled) {
+      if (this.isDisabled) {
         return;
       }
 
@@ -120,7 +120,7 @@
       var touchesLength;
       var touch;
 
-      if (this.disabled) {
+      if (this.isDisabled) {
         return;
       }
 
@@ -162,7 +162,7 @@
       var e = getEvent(event);
       var action = this.action;
 
-      if (this.disabled) {
+      if (this.isDisabled) {
         return;
       }
 
@@ -171,7 +171,7 @@
 
         if (this.cropping) {
           this.cropping = false;
-          toggleClass(this.dragBox, CLASS_MODAL, this.cropped && options.modal);
+          toggleClass(this.dragBox, CLASS_MODAL, this.isCropped && options.modal);
         }
 
         this.action = '';

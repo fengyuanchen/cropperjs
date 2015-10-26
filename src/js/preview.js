@@ -64,7 +64,7 @@
       var left = cropBoxData.left - canvasData.left - imageData.left;
       var top = cropBoxData.top - canvasData.top - imageData.top;
 
-      if (!this.cropped || this.disabled) {
+      if (!this.isCropped || this.isDisabled) {
         return;
       }
 

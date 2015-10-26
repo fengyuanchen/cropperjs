@@ -10,11 +10,11 @@ window.addEventListener('DOMContentLoaded', function () {
 
       QUnit.test('methods.enable', function (assert) {
         cropper.disable();
-        assert.ok(cropper.disabled);
+        assert.ok(cropper.isDisabled);
         assert.ok(cropper.cropper.className.indexOf('cropper-disabled') !== -1);
 
         cropper.enable();
-        assert.ok(!cropper.disabled);
+        assert.ok(!cropper.isDisabled);
         assert.ok(cropper.cropper.className.indexOf('cropper-disabled') === -1);
       });
 

@@ -96,7 +96,7 @@
           aspectRatio: naturalWidth / naturalHeight
         };
 
-        this.ready = true;
+        this.isLoaded = true;
         this.build();
       }, this));
     },
