@@ -247,7 +247,7 @@ window.onload = function () {
 
     if (isCheckbox || isRadio) {
       if (isCheckbox) {
-        options[target.value] = target.checked;
+        options[target.name] = target.checked;
         cropBoxData = cropper.getCropBoxData();
         canvasData = cropper.getCanvasData();
 
