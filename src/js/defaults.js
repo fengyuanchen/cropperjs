@@ -9,6 +9,9 @@
     // An object with the previous cropping result data
     data: null,
 
+    // A selector for adding extra containers to preview
+    preview: '',
+
     // Rebuild when resize the window
     responsive: true,
 
