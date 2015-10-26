@@ -71,7 +71,6 @@ body {
   background-color: #f7f7f7;
   width: 100%;
   text-align: center;
-  overflow: hidden;
 }
 
 .img-container {
@@ -98,6 +97,7 @@ body {
   float: left;
   margin-right: 10px;
   margin-bottom: 10px;
+  overflow: hidden;
 }
 
 .img-preview > img {
