@@ -8,6 +8,7 @@
     this.cropped = false;
     this.disabled = false;
     this.replaced = false;
+    this.limited = false;
     this.isImg = false;
     this.originalUrl = '';
     this.crossOrigin = '';

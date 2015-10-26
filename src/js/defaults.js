@@ -1,16 +1,13 @@
   Cropper.DEFAULTS = {
 
+    // Define the working mode of the cropper
+    mode: 0, // 0, 1, 2, 3
+
     // Define the aspect ratio of the crop box
     aspectRatio: NaN,
 
     // An object with the previous cropping result data
     data: null,
-
-    // A selector for adding extra containers to preview
-    preview: '',
-
-    // Strict mode, the image cannot zoom out less than the container
-    strict: true,
 
     // Rebuild when resize the window
     responsive: true,

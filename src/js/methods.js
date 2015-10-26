@@ -25,8 +25,6 @@
       if (this.built && !this.disabled) {
         this.imageData = extend({}, this.initialImageData);
         this.canvasData = extend({}, this.initialCanvasData);
-
-        // Required for strict mode
         this.cropBoxData = extend({}, this.initialCropBoxData);
 
         this.renderCanvas();
