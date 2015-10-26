@@ -475,16 +475,19 @@
       var data = {};
 
       if (this.built) {
-        $.each([
+        var attributes = [
           'left',
           'top',
           'width',
           'height',
           'naturalWidth',
           'naturalHeight'
-        ], function (i, n) {
-          data[n] = canvasData[n];
-        });
+        ];
+
+        for (var i in attributes) {
+          var attr = attributes[i];
+          data[attr] = canvasData[attr];
+        }
       }
 
       return data;
