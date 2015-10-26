@@ -224,27 +224,48 @@ window.onload = function () {
   // Options
   actions.querySelector('.docs-toggles').onclick = function (event) {
     var e = event || window.event;
-    var checkbox = e.target || e.srcElement;
+    var target = e.target || e.srcElement;
     var cropBoxData;
     var canvasData;
+    var isCheckbox;
+    var isRadio;
 
-    if (!cropper || checkbox.type !== 'checkbox') {
+    if (!cropper) {
       return;
     }
 
-    options[checkbox.value] = checkbox.checked;
+    if (target.tagName.toLowerCase() === 'span') {
+      target = target.parentNode;
+    }
 
-    cropBoxData = cropper.getCropBoxData();
-    canvasData = cropper.getCanvasData();
+    if (target.tagName.toLowerCase() === 'label') {
+      target = target.getElementsByTagName('input').item(0);
+    }
 
-    options.built = function () {
-      console.log('built');
-      cropper.setCropBoxData(cropBoxData).setCanvasData(canvasData);
-    };
+    isCheckbox = target.type === 'checkbox';
+    isRadio = target.type === 'radio';
 
-    // Restart
-    cropper.destroy();
-    cropper = new Cropper(image, options);
+    if (isCheckbox || isRadio) {
+      if (isCheckbox) {
+        options[target.value] = target.checked;
+        cropBoxData = cropper.getCropBoxData();
+        canvasData = cropper.getCanvasData();
+
+        options.built = function () {
+          console.log('built');
+          cropper.setCropBoxData(cropBoxData).setCanvasData(canvasData);
+        };
+      } else {
+        options[target.name] = parseInt(target.value, 10);
+        options.built = function () {
+          console.log('built');
+        };
+      }
+
+      // Restart
+      cropper.destroy();
+      cropper = new Cropper(image, options);
+    }
   };
 
 };

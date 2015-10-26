@@ -38,7 +38,7 @@
       <nav class="collapse navbar-collapse" id="navbar-collapse-1" role="navigation">
         <p class="navbar-text">JavaScript image cropper.</p>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="https://github.com/fengyuanchen/cropperjs/tree/v0.2.0/README.md">Docs</a></li>
+          <li><a href="https://github.com/fengyuanchen/cropperjs/tree/v0.3.0/README.md">Docs</a></li>
           <li><a href="https://github.com/fengyuanchen/cropperjs">Github</a></li>
           <li><a href="https://chenfengyuan.com">About</a></li>
           <li><a href="https://fengyuanchen.github.io">More</a></li>
@@ -355,18 +355,39 @@
           </label>
         </div>
 
+        <div class="btn-group btn-group-justified" data-toggle="buttons">
+          <label class="btn btn-primary active">
+            <input type="radio" class="sr-only" id="mode0" name="mode" value="0" checked>
+            <span class="docs-tooltip" data-toggle="tooltip" title="Mode 0">
+              M0
+            </span>
+          </label>
+          <label class="btn btn-primary">
+            <input type="radio" class="sr-only" id="mode1" name="mode" value="1">
+            <span class="docs-tooltip" data-toggle="tooltip" title="Mode 1">
+              M1
+            </span>
+          </label>
+          <label class="btn btn-primary">
+            <input type="radio" class="sr-only" id="mode2" name="mode" value="2">
+            <span class="docs-tooltip" data-toggle="tooltip" title="Mode 2">
+              M2
+            </span>
+          </label>
+          <label class="btn btn-primary">
+            <input type="radio" class="sr-only" id="mode3" name="mode" value="3">
+            <span class="docs-tooltip" data-toggle="tooltip" title="Mode 3">
+              M3
+            </span>
+          </label>
+        </div>
+
         <div class="dropdown dropup docs-options">
           <button type="button" class="btn btn-primary btn-block dropdown-toggle" id="toggleOptions" data-toggle="dropdown" aria-expanded="true">
             Toggle Options
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" role="menu" aria-labelledby="toggleOptions">
-            <li role="presentation">
-              <label class="checkbox-inline">
-                <input type="checkbox" name="option" value="strict" checked>
-                strict
-              </label>
-            </li>
             <li role="presentation">
               <label class="checkbox-inline">
                 <input type="checkbox" name="option" value="responsive" checked>
