@@ -12,7 +12,7 @@ window.addEventListener('DOMContentLoaded', function () {
       cropper.disable();
 
       QUnit.test('methods.disable', function (assert) {
-        assert.ok(cropper.isDisabled);
+        assert.equal(cropper.isDisabled, true);
         assert.ok(cropper.cropper.className.indexOf('cropper-disabled') !== -1);
       });
 

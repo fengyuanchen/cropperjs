@@ -11,7 +11,7 @@ window.addEventListener('DOMContentLoaded', function () {
       QUnit.test('methods.clear', function (assert) {
         var cropBoxData = cropper.clear().getCropBoxData();
 
-        assert.ok(!cropper.cropped);
+        assert.equal(cropper.isCropped, false);
         assert.ok(cropper.cropBox.className.indexOf('cropper-hidden') !== -1);
         assert.deepEqual(cropBoxData, {});
       });

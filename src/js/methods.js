@@ -330,10 +330,10 @@
     /**
      * Get the cropped area position and size data (base on the original image)
      *
-     * @param {Boolean} rounded (optional)
+     * @param {Boolean} isRounded (optional)
      * @return {Object} data
      */
-    getData: function (rounded) {
+    getData: function (isRounded) {
       var options = this.options;
       var imageData = this.imageData;
       var canvasData = this.canvasData;
@@ -353,7 +353,7 @@
 
         each(data, function (n, i) {
           n = n / ratio;
-          data[i] = rounded ? round(n) : n;
+          data[i] = isRounded ? round(n) : n;
         });
 
       } else {

@@ -364,12 +364,13 @@
 
     limitCropBox: function (isSizeLimited, isPositionLimited) {
       var options = this.options;
+      var aspectRatio = options.aspectRatio;
       var containerData = this.containerData;
       var containerWidth = containerData.width;
       var containerHeight = containerData.height;
       var canvasData = this.canvasData;
       var cropBoxData = this.cropBoxData;
-      var aspectRatio = options.aspectRatio;
+      var isLimited = this.isLimited;
       var minCropBoxWidth;
       var minCropBoxHeight;
       var maxCropBoxWidth;
@@ -382,8 +383,8 @@
         // The min/maxCropBoxWidth/Height must be less than containerWidth/Height
         minCropBoxWidth = min(minCropBoxWidth, containerWidth);
         minCropBoxHeight = min(minCropBoxHeight, containerHeight);
-        maxCropBoxWidth = min(containerWidth, this.isLimited ? canvasData.width : containerWidth);
-        maxCropBoxHeight = min(containerHeight, this.isLimited ? canvasData.height : containerHeight);
+        maxCropBoxWidth = min(containerWidth, isLimited ? canvasData.width : containerWidth);
+        maxCropBoxHeight = min(containerHeight, isLimited ? canvasData.height : containerHeight);
 
         if (aspectRatio) {
           if (minCropBoxWidth && minCropBoxHeight) {
@@ -413,7 +414,7 @@
       }
 
       if (isPositionLimited) {
-        if (this.isLimited) {
+        if (isLimited) {
           cropBoxData.minLeft = max(0, canvasData.left);
           cropBoxData.minTop = max(0, canvasData.top);
           cropBoxData.maxLeft = min(containerWidth, canvasData.left + canvasData.width) - cropBoxData.width;
