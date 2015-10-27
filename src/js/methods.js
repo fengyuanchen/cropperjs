@@ -473,14 +473,14 @@
       var data = {};
 
       if (this.isBuilt) {
-        $.each([
+        each([
           'left',
           'top',
           'width',
           'height',
           'naturalWidth',
           'naturalHeight'
-        ], function (i, n) {
+        ], function (n) {
           data[n] = canvasData[n];
         });
       }
