@@ -84,12 +84,7 @@
         addClass(querySelectorAll(cropBox, '.cropper-point'), CLASS_HIDDEN);
       }
 
-      this.setDragMode(
-        options.dragCrop ? ACTION_CROP :
-        options.movable ? ACTION_MOVE :
-        ACTION_NONE
-      );
-
+      this.setDragMode(options.dragMode);
       this.render();
       this.isBuilt = true;
       this.setData(options.data);

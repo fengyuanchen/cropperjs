@@ -3,6 +3,9 @@
     // Define the working mode of the cropper
     mode: 0, // 0, 1, 2, 3
 
+    // Define the dragging mode of the cropper
+    dragMode: 'crop', // 'crop', 'move' or 'none'
+
     // Define the aspect ratio of the crop box
     aspectRatio: NaN,
 
@@ -38,9 +41,6 @@
 
     // Define the percentage of automatic cropping area when initializes
     autoCropArea: 0.8,
-
-    // Enable to create new crop box by dragging over the image
-    dragCrop: true,
 
     // Enable to move the image
     movable: true,

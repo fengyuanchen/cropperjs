@@ -234,7 +234,6 @@
         canvasData.width = newWidth;
         canvasData.height = newHeight;
         this.renderCanvas(true);
-        this.setDragMode(ACTION_MOVE);
       }
 
       return this;
@@ -753,7 +752,7 @@
       var movable;
 
       if (this.isLoaded && !this.isDisabled) {
-        croppable = options.dragCrop && mode === ACTION_CROP;
+        croppable = mode === ACTION_CROP;
         movable = options.movable && mode === ACTION_MOVE;
         mode = (croppable || movable) ? mode : ACTION_NONE;
 
