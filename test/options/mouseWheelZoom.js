@@ -8,16 +8,16 @@ window.addEventListener('DOMContentLoaded', function () {
     built: function () {
       var cropper = this.cropper;
 
-      $(cropper.cropper).trigger($.Event('wheel', {
-        originalEvent: {
-          wheelDelta: -120
-        }
+      cropper.cropper.dispatchEvent(new WheelEvent('wheel', {
+        view: window,
+        bubbles: true,
+        cancelable: true
       }));
     },
 
-    zoom: function (data) {
+    zoom: function () {
       QUnit.test('options.mouseWheelZoom: true', function (assert) {
-        assert.notEqual(data.ratio, data.oldRatio);
+        assert.ok(true);
       });
     }
   });
@@ -31,16 +31,16 @@ window.addEventListener('DOMContentLoaded', function () {
       built: function () {
         var cropper = this.cropper;
 
-        $(cropper.cropper).trigger($.Event('wheel', {
-          originalEvent: {
-            wheelDelta: -120
-          }
+        cropper.cropper.dispatchEvent(new WheelEvent('wheel', {
+          view: window,
+          bubbles: true,
+          cancelable: true
         }));
       },
 
-      zoom: function (data) {
+      zoom: function () {
         QUnit.test('options.mouseWheelZoom: false', function (assert) {
-          assert.equal(data.ratio, data.oldRatio);
+          assert.ok(false);
         });
       }
     });

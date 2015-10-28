@@ -9,7 +9,21 @@ window.addEventListener('DOMContentLoaded', function () {
       var cropper = this.cropper;
 
       // Triggers events manually when built
-      $(cropper.dragBox).trigger('mousedown').trigger('mousemove').trigger('mouseup');
+      cropper.dragBox.dispatchEvent(new MouseEvent('mousedown', {
+        view: window,
+        bubbles: true,
+        cancelable: true
+      }));
+      cropper.dragBox.dispatchEvent(new MouseEvent('mousemove', {
+        view: window,
+        bubbles: true,
+        cancelable: true
+      }));
+      cropper.dragBox.dispatchEvent(new MouseEvent('mouseup', {
+        view: window,
+        bubbles: true,
+        cancelable: true
+      }));
     },
 
     cropmove: function (data) {
