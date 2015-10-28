@@ -16,7 +16,7 @@ window.addEventListener('DOMContentLoaded', function () {
     },
 
     zoom: function () {
-      QUnit.test('options.mouseWheelZoom: true', function (assert) {
+      QUnit.test('options.zoomOnWheel: true', function (assert) {
         assert.ok(true);
       });
     }
@@ -26,7 +26,7 @@ window.addEventListener('DOMContentLoaded', function () {
     var image = window.createCropperImage();
 
     image.newCropper = new Cropper(image, {
-      mouseWheelZoom: false,
+      zoomOnWheel: false,
 
       built: function () {
         var cropper = this.cropper;
@@ -39,7 +39,7 @@ window.addEventListener('DOMContentLoaded', function () {
       },
 
       zoom: function () {
-        QUnit.test('options.mouseWheelZoom: false', function (assert) {
+        QUnit.test('options.zoomOnWheel: false', function (assert) {
           assert.ok(false);
         });
       }

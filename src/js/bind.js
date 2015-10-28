@@ -5,7 +5,7 @@
 
       addListener(cropper, EVENT_MOUSE_DOWN, proxy(this.cropStart, this));
 
-      if (options.zoomable && options.mouseWheelZoom) {
+      if (options.zoomable && options.zoomOnWheel) {
         addListener(cropper, EVENT_WHEEL, proxy(this.wheel, this));
       }
 
@@ -27,7 +27,7 @@
 
       removeListener(cropper, EVENT_MOUSE_DOWN, this.cropStart);
 
-      if (options.zoomable && options.mouseWheelZoom) {
+      if (options.zoomable && options.zoomOnWheel) {
         removeListener(cropper, EVENT_WHEEL, this.wheel);
       }
 
