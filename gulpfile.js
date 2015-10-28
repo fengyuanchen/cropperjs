@@ -222,12 +222,7 @@ gulp.task('docs:html', function () {
 
 gulp.task('docs', ['docs:html', 'docs:js', 'docs:css', 'docs:img']);
 
-gulp.task('test', ['js', 'css'], function () {
-  return gulp.src('test/*.html').
-    pipe(plugins.qunit());
-});
-
-gulp.task('release', ['test'], function () {
+gulp.task('release', ['js', 'css'], function () {
   return gulp.src('dist/*.{js,css}').
     pipe(gulp.dest('_releases/' + pkg.version));
 });
