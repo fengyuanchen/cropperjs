@@ -1,4 +1,4 @@
-$(function () {
+window.addEventListener('DOMContentLoaded', function () {
 
   'use strict';
 
@@ -9,7 +9,7 @@ $(function () {
       var cropper = this.cropper;
 
       QUnit.test('options.built', function (assert) {
-        assert.ok(cropper.built);
+        assert.equal(cropper.isBuilt, true);
       });
 
     }

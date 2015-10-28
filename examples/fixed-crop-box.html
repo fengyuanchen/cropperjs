@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cropper</title>
+  <link rel="stylesheet" href="../dist/cropper.css">
+  <style>
+    .container {
+      max-width: 960px;
+      margin: 20px auto;
+    }
+
+    .img-container {
+      width: 100%;
+      max-height: 450px;
+    }
+
+    .img-container img {
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1 class="page-header">Cropper with fixed crop box</h1>
+    <div class="img-container">
+      <img src="../assets/img/picture.jpg" alt="Picture">
+    </div>
+  </div>
+
+  <script src="../dist/cropper.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      var image = document.querySelector('.img-container > img');
+      var cropper = new Cropper(image, {
+        dragMode: 'move',
+        aspectRatio: 16 / 9,
+        autoCropArea: 0.65,
+        strict: false,
+        guides: false,
+        center: false,
+        highlight: false,
+        cropBoxMovable: false,
+        cropBoxResizable: false
+      });
+    });
+  </script>
+</body>
+</html>

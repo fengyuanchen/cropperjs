@@ -13,7 +13,7 @@
       if (tagName === 'img') {
         this.isImg = true;
 
-        // Should use `fn.attr` here. e.g.: "img/picture.jpg"
+        // e.g.: "img/picture.jpg"
         this.originalUrl = url = element.getAttribute('src');
 
         // Stop when it's a blank image
@@ -21,7 +21,7 @@
           return;
         }
 
-        // Should use `fn.prop` here. e.g.: "http://example.com/img/picture.jpg"
+        // e.g.: "http://example.com/img/picture.jpg"
         url = element.src;
       } else if (tagName === 'canvas' && SUPPORT_CANVAS) {
         url = element.toDataURL();
@@ -49,7 +49,7 @@
         return;
       }
 
-      if (options.checkImageOrigin && isCrossOriginURL(url)) {
+      if (options.checkCrossOrigin && isCrossOriginURL(url)) {
         crossOrigin = element.crossOrigin;
 
         if (!crossOrigin) {
@@ -96,7 +96,7 @@
           aspectRatio: naturalWidth / naturalHeight
         };
 
-        this.ready = true;
+        this.isLoaded = true;
         this.build();
       }, this));
     },

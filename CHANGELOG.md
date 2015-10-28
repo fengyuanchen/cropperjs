@@ -1,6 +1,27 @@
 # Changelog
 
 
+## 0.3.0 (Oct 28, 2015)
+
+- Supports four view modes
+- Supports three drag modes
+- Makes the crop box's borders and handlers visible when overflow
+- Added some examples
+- Fixed some issues
+
+
+### Options
+
+- Add `viewMode`
+- Add `dragMode`
+- Rename `touchDragZoom` to `zoomOnTouch`
+- Rename `mouseWheelZoom` to `zoomOnWheel`
+- Rename `doubleClickToggle` to `toggleDragModeOnDblclick`
+- Rename `checkImageOrigin` to `checkCrossOrigin`
+- Remove `strict`
+- Remove `dragCrop`
+
+
 ## 0.2.1 (Oct 28, 2015)
 
 - Fix the error jQuery reference on the `setCanvasData` method

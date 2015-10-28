@@ -7,7 +7,7 @@
       var ratio;
 
       // Check `container` is necessary for IE8
-      if (this.disabled || !containerData) {
+      if (this.isDisabled || !containerData) {
         return;
       }
 
@@ -29,7 +29,7 @@
     },
 
     dblclick: function () {
-      if (this.disabled) {
+      if (this.isDisabled) {
         return;
       }
 
@@ -41,7 +41,7 @@
       var ratio = num(this.options.wheelZoomRatio) || 0.1;
       var delta = 1;
 
-      if (this.disabled) {
+      if (this.isDisabled) {
         return;
       }
 
@@ -66,7 +66,7 @@
       var touch;
       var action;
 
-      if (this.disabled) {
+      if (this.isDisabled) {
         return;
       }
 
@@ -74,7 +74,7 @@
         touchesLength = touches.length;
 
         if (touchesLength > 1) {
-          if (options.zoomable && options.touchDragZoom && touchesLength === 2) {
+          if (options.zoomable && options.zoomOnTouch && touchesLength === 2) {
             touch = touches[1];
             this.startX2 = touch.pageX;
             this.startY2 = touch.pageY;
@@ -120,7 +120,7 @@
       var touchesLength;
       var touch;
 
-      if (this.disabled) {
+      if (this.isDisabled) {
         return;
       }
 
@@ -128,7 +128,7 @@
         touchesLength = touches.length;
 
         if (touchesLength > 1) {
-          if (options.zoomable && options.touchDragZoom && touchesLength === 2) {
+          if (options.zoomable && options.zoomOnTouch && touchesLength === 2) {
             touch = touches[1];
             this.endX2 = touch.pageX;
             this.endY2 = touch.pageY;
@@ -162,7 +162,7 @@
       var e = getEvent(event);
       var action = this.action;
 
-      if (this.disabled) {
+      if (this.isDisabled) {
         return;
       }
 
@@ -171,7 +171,7 @@
 
         if (this.cropping) {
           this.cropping = false;
-          toggleClass(this.dragBox, CLASS_MODAL, this.cropped && options.modal);
+          toggleClass(this.dragBox, CLASS_MODAL, this.isCropped && options.modal);
         }
 
         this.action = '';

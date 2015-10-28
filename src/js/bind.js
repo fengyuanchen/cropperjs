@@ -5,11 +5,11 @@
 
       addListener(cropper, EVENT_MOUSE_DOWN, proxy(this.cropStart, this));
 
-      if (options.zoomable && options.mouseWheelZoom) {
+      if (options.zoomable && options.zoomOnWheel) {
         addListener(cropper, EVENT_WHEEL, proxy(this.wheel, this));
       }
 
-      if (options.doubleClickToggle) {
+      if (options.toggleDragModeOnDblclick) {
         addListener(cropper, EVENT_DBLCLICK, proxy(this.dblclick, this));
       }
 
@@ -27,11 +27,11 @@
 
       removeListener(cropper, EVENT_MOUSE_DOWN, this.cropStart);
 
-      if (options.zoomable && options.mouseWheelZoom) {
+      if (options.zoomable && options.zoomOnWheel) {
         removeListener(cropper, EVENT_WHEEL, this.wheel);
       }
 
-      if (options.doubleClickToggle) {
+      if (options.toggleDragModeOnDblclick) {
         removeListener(cropper, EVENT_DBLCLICK, this.dblclick);
       }
 

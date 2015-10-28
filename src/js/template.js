@@ -1,6 +1,8 @@
   Cropper.TEMPLATE = (
     '<div class="cropper-container">' +
-      '<div class="cropper-canvas"></div>' +
+      '<div class="cropper-wrap-box">' +
+        '<div class="cropper-canvas"></div>' +
+      '</div>' +
       '<div class="cropper-drag-box"></div>' +
       '<div class="cropper-crop-box">' +
         '<span class="cropper-view-box"></span>' +

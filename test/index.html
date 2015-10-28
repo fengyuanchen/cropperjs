@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Test Cropper's options</title>
+  <title>Cropper Test</title>
   <link rel="stylesheet" href="../assets/css/qunit.css">
   <link rel="stylesheet" href="../dist/cropper.css">
   <link rel="stylesheet" href="css/main.css">
@@ -11,15 +11,17 @@
   <div id="qunit"></div>
   <div id="qunit-fixture"></div>
   <script src="../assets/js/qunit.js"></script>
-  <script src="../assets/js/jquery.min.js"></script>
   <script src="../dist/cropper.js"></script>
   <script src="js/main.js"></script>
+
+  <!-- Options -->
+  <script src="options/viewMode.js"></script>
+  <script src="options/dragMode.js"></script>
   <script src="options/aspectRatio.js"></script>
   <script src="options/data.js"></script>
   <!-- <script src="options/preview.js"></script> -->
-  <script src="options/strict.js"></script>
   <!-- <script src="options/responsive.js"></script> -->
-  <!-- <script src="options/checkImageOrigin.js"></script> -->
+  <script src="options/checkCrossOrigin.js"></script>
   <script src="options/modal.js"></script>
   <script src="options/guides.js"></script>
   <script src="options/center.js"></script>
@@ -27,17 +29,16 @@
   <script src="options/background.js"></script>
   <script src="options/autoCrop.js"></script>
   <!-- <script src="options/autoCropArea.js"></script> -->
-  <script src="options/dragCrop.js"></script>
   <script src="options/movable.js"></script>
   <script src="options/rotatable.js"></script>
   <script src="options/scalable.js"></script>
   <script src="options/zoomable.js"></script>
-  <script src="options/mouseWheelZoom.js"></script>
+  <!-- <script src="options/zoomOnTouch.js"></script> -->
+  <script src="options/zoomOnWheel.js"></script>
   <!-- <script src="options/wheelZoomRatio.js"></script> -->
-  <script src="options/touchDragZoom.js"></script>
   <script src="options/cropBoxMovable.js"></script>
   <script src="options/cropBoxResizable.js"></script>
-  <!-- <script src="options/doubleClickToggle.js"></script> -->
+  <script src="options/toggleDragModeOnDblclick.js"></script>
   <script src="options/minCanvasWidth.js"></script>
   <script src="options/minCanvasHeight.js"></script>
   <script src="options/minCropBoxWidth.js"></script>
@@ -51,5 +52,34 @@
   <script src="options/cropend.js"></script>
   <script src="options/crop.js"></script>
   <script src="options/zoom.js"></script>
+
+  <!-- Methods -->
+  <script src="methods/crop.js"></script>
+  <script src="methods/reset.js"></script>
+  <script src="methods/clear.js"></script>
+  <script src="methods/replace.js"></script>
+  <script src="methods/enable.js"></script>
+  <script src="methods/disable.js"></script>
+  <script src="methods/destroy.js"></script>
+  <script src="methods/move.js"></script>
+  <script src="methods/moveTo.js"></script>
+  <script src="methods/zoom.js"></script>
+  <script src="methods/zoomTo.js"></script>
+  <script src="methods/rotate.js"></script>
+  <script src="methods/rotateTo.js"></script>
+  <script src="methods/scale.js"></script>
+  <script src="methods/scaleX.js"></script>
+  <script src="methods/scaleY.js"></script>
+  <script src="methods/getData.js"></script>
+  <script src="methods/setData.js"></script>
+  <script src="methods/getContainerData.js"></script>
+  <script src="methods/getImageData.js"></script>
+  <script src="methods/getCanvasData.js"></script>
+  <script src="methods/setCanvasData.js"></script>
+  <script src="methods/getCropBoxData.js"></script>
+  <script src="methods/setCropBoxData.js"></script>
+  <script src="methods/getCroppedCanvas.js"></script>
+  <script src="methods/setAspectRatio.js"></script>
+  <script src="methods/setDragMode.js"></script>
 </body>
 </html>

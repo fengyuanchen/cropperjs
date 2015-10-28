@@ -6,7 +6,6 @@ window.addEventListener('DOMContentLoaded', function () {
   var minCanvasWidth = 480;
 
   image.newCropper = new Cropper(image, {
-    strict: false,
     minCanvasWidth: minCanvasWidth,
 
     built: function () {

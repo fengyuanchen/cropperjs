@@ -8,7 +8,7 @@ window.addEventListener('DOMContentLoaded', function () {
     built: function () {
       var cropper = this.cropper;
 
-      QUnit.test('options.dragCrop: true', function (assert) {
+      QUnit.test('options.dragMode: crop', function (assert) {
         assert.equal(cropper.dragBox.dataset.action, 'crop');
       });
 
@@ -19,13 +19,30 @@ window.addEventListener('DOMContentLoaded', function () {
     var image = window.createCropperImage();
 
     image.newCropper = new Cropper(image, {
-      dragCrop: false,
+      dragMode: 'move',
 
       built: function () {
         var cropper = this.cropper;
 
-        QUnit.test('options.dragCrop: false', function (assert) {
+        QUnit.test('options.dragMode: move', function (assert) {
           assert.equal(cropper.dragBox.dataset.action, 'move');
+        });
+
+      }
+    });
+  })();
+
+  (function () {
+    var image = window.createCropperImage();
+
+    image.newCropper = new Cropper(image, {
+      dragMode: 'none',
+
+      built: function () {
+        var cropper = this.cropper;
+
+        QUnit.test('options.dragMode: none', function (assert) {
+          assert.equal(cropper.dragBox.dataset.action, 'none');
         });
 
       }

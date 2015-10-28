@@ -5,8 +5,6 @@ window.addEventListener('DOMContentLoaded', function () {
   var image = window.createCropperImage();
 
   image.newCropper = new Cropper(image, {
-    strict: false,
-
     built: function () {
       var cropper = this.cropper;
 

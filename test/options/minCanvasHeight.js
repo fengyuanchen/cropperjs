@@ -6,7 +6,6 @@ window.addEventListener('DOMContentLoaded', function () {
   var minCanvasHeight = 270;
 
   image.newCropper = new Cropper(image, {
-    strict: false,
     minCanvasHeight: minCanvasHeight,
 
     built: function () {

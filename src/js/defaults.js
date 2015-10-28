@@ -1,5 +1,11 @@
   Cropper.DEFAULTS = {
 
+    // Define the view mode of the cropper
+    viewMode: 0, // 0, 1, 2, 3
+
+    // Define the dragging mode of the cropper
+    dragMode: 'crop', // 'crop', 'move' or 'none'
+
     // Define the aspect ratio of the crop box
     aspectRatio: NaN,
 
@@ -9,14 +15,11 @@
     // A selector for adding extra containers to preview
     preview: '',
 
-    // Strict mode, the image cannot zoom out less than the container
-    strict: true,
-
     // Rebuild when resize the window
     responsive: true,
 
     // Check if the target image is cross origin
-    checkImageOrigin: true,
+    checkCrossOrigin: true,
 
     // Show the black modal
     modal: true,
@@ -39,9 +42,6 @@
     // Define the percentage of automatic cropping area when initializes
     autoCropArea: 0.8,
 
-    // Enable to create new crop box by dragging over the image
-    dragCrop: true,
-
     // Enable to move the image
     movable: true,
 
@@ -54,14 +54,14 @@
     // Enable to zoom the image
     zoomable: true,
 
+    // Enable to zoom the image by dragging touch
+    zoomOnTouch: true,
+
     // Enable to zoom the image by wheeling mouse
-    mouseWheelZoom: true,
+    zoomOnWheel: true,
 
     // Define zoom ratio when zoom the image by wheeling mouse
     wheelZoomRatio: 0.1,
-
-    // Enable to zoom the image by dragging touch
-    touchDragZoom: true,
 
     // Enable to move the crop box
     cropBoxMovable: true,
@@ -69,8 +69,8 @@
     // Enable to resize the crop box
     cropBoxResizable: true,
 
-    // Toggle drag mode between "crop" and "move" when double click on the cropper
-    doubleClickToggle: true,
+    // Toggle drag mode between "crop" and "move" when click twice on the cropper
+    toggleDragModeOnDblclick: true,
 
     // Size limitation
     minCanvasWidth: 0,

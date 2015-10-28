@@ -12,7 +12,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
       QUnit.test('methods.crop', function (assert) {
         cropper.crop();
-        assert.ok(cropper.cropped);
+        assert.equal(cropper.isCropped, true);
         assert.ok(cropper.dragBox.className.indexOf('cropper-hidden') === -1);
         assert.ok(cropper.cropBox.className.indexOf('cropper-hidden') === -1);
       });
