@@ -11,7 +11,7 @@ window.addEventListener('DOMContentLoaded', function () {
     built: function () {
       var cropper = this.cropper;
 
-      QUnit.test('options.checkImageOrigin', function (assert) {
+      QUnit.test('options.checkCrossOrigin', function (assert) {
         assert.ok(cropper.image.crossOrigin === 'anonymous');
         assert.ok(cropper.image.src.indexOf('timestamp') !== -1);
       });
@@ -29,7 +29,7 @@ window.addEventListener('DOMContentLoaded', function () {
       built: function () {
         var cropper = this.cropper;
 
-        QUnit.test('options.checkImageOrigin: exists crossOrigin attribute', function (assert) {
+        QUnit.test('options.checkCrossOrigin: exists crossOrigin attribute', function (assert) {
           assert.ok(cropper.image.crossOrigin === 'anonymous');
           assert.ok(cropper.image.src.indexOf('timestamp') === -1);
         });

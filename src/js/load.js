@@ -49,7 +49,7 @@
         return;
       }
 
-      if (options.checkImageOrigin && isCrossOriginURL(url)) {
+      if (options.checkCrossOrigin && isCrossOriginURL(url)) {
         crossOrigin = element.crossOrigin;
 
         if (!crossOrigin) {

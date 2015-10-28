@@ -19,7 +19,7 @@
     responsive: true,
 
     // Check if the target image is cross origin
-    checkImageOrigin: true,
+    checkCrossOrigin: true,
 
     // Show the black modal
     modal: true,
