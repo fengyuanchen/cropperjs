@@ -1,6 +1,12 @@
 # Changelog
 
 
+## 0.2.1 (Oct 28, 2015)
+
+- Fix the error jQuery reference on the `setCanvasData` method
+- Fix typo on the `destroy` method
+
+
 ## 0.2.0 (Oct 25, 2015)
 
 - Added 5 new methods: `moveTo`, `zoomTo`, `rotateTo`, `scaleX` and `scaleY`
