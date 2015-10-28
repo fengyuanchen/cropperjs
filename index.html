@@ -24,7 +24,7 @@
 </head>
 <body>
   <!-- header -->
-  <header class="navbar navbar-inverse navbar-static-top docs-header" id="top">
+  <header class="navbar navbar-static-top docs-header" id="top">
     <div class="container">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-target="#navbar-collapse-1" data-toggle="collapse">
@@ -36,9 +36,8 @@
         <a class="navbar-brand" href="./">Cropper</a>
       </div>
       <nav class="collapse navbar-collapse" id="navbar-collapse-1" role="navigation">
-        <p class="navbar-text">JavaScript image cropper.</p>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="https://github.com/fengyuanchen/cropperjs/tree/v0.2.1/README.md">Docs</a></li>
+          <li><a href="https://github.com/fengyuanchen/cropperjs/tree/v0.3.0/README.md">Docs</a></li>
           <li><a href="https://github.com/fengyuanchen/cropperjs">Github</a></li>
           <li><a href="https://chenfengyuan.com">About</a></li>
           <li><a href="https://fengyuanchen.github.io">More</a></li>
@@ -46,6 +45,14 @@
       </nav>
     </div>
   </header>
+
+  <!-- Jumbotron -->
+  <div class="jumbotron docs-jumbotron">
+    <div class="container">
+      <h1>Cropper <small class="version">v0.3.0</small></h1>
+      <p class="lead">JavaScript image cropper.</p>
+    </div>
+  </div>
 
   <!-- Content -->
   <div class="container">
@@ -323,34 +330,61 @@
       <div class="col-md-3 docs-toggles">
         <!-- <h3 class="page-header">Toggles:</h3> -->
         <div class="btn-group btn-group-justified" data-toggle="buttons">
-          <label class="btn btn-primary active" data-method="setAspectRatio" data-option="1.7777777777777777" title="Set Aspect Ratio">
-            <input type="radio" class="sr-only" id="aspestRatio1" name="aspestRatio" value="1.7777777777777777">
-            <span class="docs-tooltip" data-toggle="tooltip" title="cropper.setAspectRatio(16 / 9)">
+          <label class="btn btn-primary active">
+            <input type="radio" class="sr-only" id="aspectRatio1" name="aspectRatio" value="1.7777777777777777">
+            <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: 16 / 9">
               16:9
             </span>
           </label>
-          <label class="btn btn-primary" data-method="setAspectRatio" data-option="1.3333333333333333" title="Set Aspect Ratio">
-            <input type="radio" class="sr-only" id="aspestRatio2" name="aspestRatio" value="1.3333333333333333">
-            <span class="docs-tooltip" data-toggle="tooltip" title="cropper.setAspectRatio(4 / 3)">
+          <label class="btn btn-primary">
+            <input type="radio" class="sr-only" id="aspectRatio2" name="aspectRatio" value="1.3333333333333333">
+            <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: 4 / 3">
               4:3
             </span>
           </label>
-          <label class="btn btn-primary" data-method="setAspectRatio" data-option="1" title="Set Aspect Ratio">
-            <input type="radio" class="sr-only" id="aspestRatio3" name="aspestRatio" value="1">
-            <span class="docs-tooltip" data-toggle="tooltip" title="cropper.setAspectRatio(1 / 1)">
+          <label class="btn btn-primary">
+            <input type="radio" class="sr-only" id="aspectRatio3" name="aspectRatio" value="1">
+            <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: 1 / 1">
               1:1
             </span>
           </label>
-          <label class="btn btn-primary" data-method="setAspectRatio" data-option="0.6666666666666666" title="Set Aspect Ratio">
-            <input type="radio" class="sr-only" id="aspestRatio4" name="aspestRatio" value="0.6666666666666666">
-            <span class="docs-tooltip" data-toggle="tooltip" title="cropper.setAspectRatio(2 / 3)">
+          <label class="btn btn-primary">
+            <input type="radio" class="sr-only" id="aspectRatio4" name="aspectRatio" value="0.6666666666666666">
+            <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: 2 / 3">
               2:3
             </span>
           </label>
-          <label class="btn btn-primary" data-method="setAspectRatio" data-option="NaN" title="Set Aspect Ratio">
-            <input type="radio" class="sr-only" id="aspestRatio5" name="aspestRatio" value="NaN">
-            <span class="docs-tooltip" data-toggle="tooltip" title="cropper.setAspectRatio(NaN)">
+          <label class="btn btn-primary">
+            <input type="radio" class="sr-only" id="aspectRatio5" name="aspectRatio" value="NaN">
+            <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: NaN">
               Free
+            </span>
+          </label>
+        </div>
+
+        <div class="btn-group btn-group-justified" data-toggle="buttons">
+          <label class="btn btn-primary active">
+            <input type="radio" class="sr-only" id="viewMode0" name="viewMode" value="0" checked>
+            <span class="docs-tooltip" data-toggle="tooltip" title="View Mode 0">
+              VM0
+            </span>
+          </label>
+          <label class="btn btn-primary">
+            <input type="radio" class="sr-only" id="viewMode1" name="viewMode" value="1">
+            <span class="docs-tooltip" data-toggle="tooltip" title="View Mode 1">
+              VM1
+            </span>
+          </label>
+          <label class="btn btn-primary">
+            <input type="radio" class="sr-only" id="viewMode2" name="viewMode" value="2">
+            <span class="docs-tooltip" data-toggle="tooltip" title="View Mode 2">
+              VM2
+            </span>
+          </label>
+          <label class="btn btn-primary">
+            <input type="radio" class="sr-only" id="viewMode3" name="viewMode" value="3">
+            <span class="docs-tooltip" data-toggle="tooltip" title="View Mode 3">
+              VM3
             </span>
           </label>
         </div>
@@ -363,118 +397,112 @@
           <ul class="dropdown-menu" role="menu" aria-labelledby="toggleOptions">
             <li role="presentation">
               <label class="checkbox-inline">
-                <input type="checkbox" name="option" value="strict" checked>
-                strict
-              </label>
-            </li>
-            <li role="presentation">
-              <label class="checkbox-inline">
-                <input type="checkbox" name="option" value="responsive" checked>
+                <input type="checkbox" name="responsive" checked>
                 responsive
               </label>
             </li>
             <li role="presentation">
               <label class="checkbox-inline">
-                <input type="checkbox" name="option" value="checkImageOrigin" checked>
-                checkImageOrigin
+                <input type="checkbox" name="checkCrossOrigin" checked>
+                checkCrossOrigin
               </label>
             </li>
 
             <li role="presentation">
               <label class="checkbox-inline">
-                <input type="checkbox" name="option" value="modal" checked>
+                <input type="checkbox" name="modal" checked>
                 modal
               </label>
             </li>
             <li role="presentation">
               <label class="checkbox-inline">
-                <input type="checkbox" name="option" value="guides" checked>
+                <input type="checkbox" name="guides" checked>
                 guides
               </label>
             </li>
             <li role="presentation">
               <label class="checkbox-inline">
-                <input type="checkbox" name="option" value="center" checked>
+                <input type="checkbox" name="center" checked>
                 center
               </label>
             </li>
             <li role="presentation">
               <label class="checkbox-inline">
-                <input type="checkbox" name="option" value="highlight" checked>
+                <input type="checkbox" name="highlight" checked>
                 highlight
               </label>
             </li>
             <li role="presentation">
               <label class="checkbox-inline">
-                <input type="checkbox" name="option" value="background" checked>
+                <input type="checkbox" name="background" checked>
                 background
               </label>
             </li>
 
             <li role="presentation">
               <label class="checkbox-inline">
-                <input type="checkbox" name="option" value="autoCrop" checked>
+                <input type="checkbox" name="autoCrop" checked>
                 autoCrop
               </label>
             </li>
             <li role="presentation">
               <label class="checkbox-inline">
-                <input type="checkbox" name="option" value="dragCrop" checked>
+                <input type="checkbox" name="dragCrop" checked>
                 dragCrop
               </label>
             </li>
             <li role="presentation">
               <label class="checkbox-inline">
-                <input type="checkbox" name="option" value="movable" checked>
+                <input type="checkbox" name="movable" checked>
                 movable
               </label>
             </li>
             <li role="presentation">
               <label class="checkbox-inline">
-                <input type="checkbox" name="option" value="rotatable" checked>
+                <input type="checkbox" name="rotatable" checked>
                 rotatable
               </label>
             </li>
             <li role="presentation">
               <label class="checkbox-inline">
-                <input type="checkbox" name="option" value="scalable" checked>
+                <input type="checkbox" name="scalable" checked>
                 scalable
               </label>
             </li>
             <li role="presentation">
               <label class="checkbox-inline">
-                <input type="checkbox" name="option" value="zoomable" checked>
+                <input type="checkbox" name="zoomable" checked>
                 zoomable
               </label>
             </li>
             <li role="presentation">
               <label class="checkbox-inline">
-                <input type="checkbox" name="option" value="mouseWheelZoom" checked>
-                mouseWheelZoom
+                <input type="checkbox" name="zoomOnTouch" checked>
+                zoomOnTouch
               </label>
             </li>
             <li role="presentation">
               <label class="checkbox-inline">
-                <input type="checkbox" name="option" value="touchDragZoom" checked>
-                touchDragZoom
+                <input type="checkbox" name="zoomOnWheel" checked>
+                zoomOnWheel
               </label>
             </li>
             <li role="presentation">
               <label class="checkbox-inline">
-                <input type="checkbox" name="option" value="cropBoxMovable" checked>
+                <input type="checkbox" name="cropBoxMovable" checked>
                 cropBoxMovable
               </label>
             </li>
             <li role="presentation">
               <label class="checkbox-inline">
-                <input type="checkbox" name="option" value="cropBoxResizable" checked>
+                <input type="checkbox" name="cropBoxResizable" checked>
                 cropBoxResizable
               </label>
             </li>
             <li role="presentation">
               <label class="checkbox-inline">
-                <input type="checkbox" name="option" value="doubleClickToggle" checked>
-                doubleClickToggle
+                <input type="checkbox" name="toggleDragModeOnDblclick" checked>
+                toggleDragModeOnDblclick
               </label>
             </li>
           </ul>
@@ -482,6 +510,13 @@
       </div><!-- /.docs-toggles -->
     </div>
   </div>
+
+  <!-- Footer -->
+  <footer class="docs-footer">
+    <div class="container">
+      <span class="hearts"></span>
+    </div>
+  </footer>
 
   <!-- Scripts -->
   <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
