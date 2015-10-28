@@ -17,6 +17,7 @@
 - Supports scale (flip)
 - Supports canvas
 - Supports multiple croppers
+- Supports to crop image in the browser-side with canvas
 - Cross-browser support
 
 
@@ -111,7 +112,7 @@ See the [FAQ](FAQ.md) documentation.
 
 #### Known issues
 
-- About `getCroppedCanvas` method: The `canvas.drawImage` API in some Mac OS / iOS browsers will rotate an image with EXIF Orientation automatically, so the output cropped canvas may be incorrect. To fix this, you may upload the cropped data and crop the image in the server-side, see the example: [Crop Avatar](https://github.com/fengyuanchen/cropper/tree/master/examples/crop-avatar). Or you may handle the EXIF Orientation with canvas as [JavaScript-Load-Image](https://github.com/blueimp/JavaScript-Load-Image) or in server as PHP first before to use cropper.
+- About `getCroppedCanvas` method: The `canvas.drawImage` API in some Mac OS / iOS browsers will rotate an image with EXIF Orientation automatically, so the output cropped canvas may be incorrect. To fix this, you may upload the cropped data and crop the image in the server-side, see the example: [Crop Avatar](https://github.com/fengyuanchen/cropper/tree/master/examples/crop-avatar). Or you may handle the EXIF Orientation with canvas as [JavaScript Load Image](https://github.com/blueimp/JavaScript-Load-Image) or in server as PHP first before to use cropper.
 
 - [Known iOS resource limits](https://developer.apple.com/library/mac/documentation/AppleApplications/Reference/SafariWebContent/CreatingContentforSafarioniPhone/CreatingContentforSafarioniPhone.html): As iOS devices limit memory, the browser may crash when you are cropping a large image (iPhone camera resolution). To avoid this, you may resize the image first (below 1024px) before start a cropper.
 
@@ -123,7 +124,7 @@ You may set cropper options with `new Cropper(image, options)`.
 If you want to change the global default options, You may use `Cropper.setDefaults(options)`.
 
 
-### mode
+### viewMode
 
 - Type: `Number`
 - Default: `0`
@@ -133,7 +134,19 @@ If you want to change the global default options, You may use `Cropper.setDefaul
   - `2`: the canvas should not be within the container
   - `3`: the container should be within the canvas
 
-Define the working mode of the cropper.
+Define the view mode of the cropper.
+
+
+### dragMode
+
+- Type: `String`
+- Default: `'crop'`
+- Options:
+  - `'crop'`: create a new crop box
+  - `'move'`: move the canvas
+  - `'none'`: do nothing
+
+Define the dragging mode of the cropper.
 
 
 ### aspectRatio
@@ -149,7 +162,7 @@ Set the aspect ratio of the crop box. By default, the crop box is free ratio.
 - Type: `Object`
 - Default: `null`
 
-The previous cropped data if you had stored, will be passed to `setData` method automatically.
+The previous cropped data if you had stored, will be passed to `setData` method automatically when built.
 
 
 ### preview
@@ -176,7 +189,7 @@ Add extra elements (containers) for previewing.
 Rebuild the cropper when resize the window.
 
 
-### checkImageOrigin
+### checkCrossOrigin
 
 - Type: `Boolean`
 - Default: `true`
@@ -242,14 +255,6 @@ Enable to crop the image automatically when initialize.
 A number between 0 and 1. Define the automatic cropping area size (percentage).
 
 
-### dragCrop
-
-- Type: `Boolean`
-- Default: `true`
-
-Enable to remove the current crop box and create a new one by dragging over the image.
-
-
 ### movable
 
 - Type: `Boolean`
@@ -282,7 +287,15 @@ Enable to scale the image.
 Enable to zoom the image.
 
 
-### mouseWheelZoom
+### zoomOnTouch
+
+- Type: `Boolean`
+- Default: `true`
+
+Enable to zoom the image by dragging touch.
+
+
+### zoomOnWheel
 
 - Type: `Boolean`
 - Default: `true`
@@ -296,14 +309,6 @@ Enable to zoom the image by wheeling mouse.
 - Default: `0.1`
 
 Define zoom ratio when zoom the image by wheeling mouse.
-
-
-### touchDragZoom
-
-- Type: `Boolean`
-- Default: `true`
-
-Enable to zoom the image by dragging touch.
 
 
 ### cropBoxMovable
@@ -322,12 +327,12 @@ Enable to move the crop box.
 Enable to resize the crop box.
 
 
-### doubleClickToggle
+### toggleDragModeOnDblclick
 
 - Type: `Boolean`
 - Default: `true`
 
-Enable to toggle drag mode between "crop" and "move" when double click on the cropper.
+Enable to toggle drag mode between "crop" and "move" when click twice on the cropper.
 
 
 ### minContainerWidth
