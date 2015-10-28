@@ -111,7 +111,7 @@
 
       if (this.ready) {
         if (this.isImg && this.replaced) {
-          element.asrc = this.originalUrl;
+          element.src = this.originalUrl;
         }
 
         this.unbuild();
