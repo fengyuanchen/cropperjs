@@ -5,12 +5,12 @@ window.addEventListener('DOMContentLoaded', function () {
   var image = window.createCropperImage();
 
   image.newCropper = new Cropper(image, {
-    // mode: 0,
+    // viewMode: 0,
 
     built: function () {
       var cropper = this.cropper;
 
-      QUnit.test('options.mode: 0', function (assert) {
+      QUnit.test('options.viewMode: 0', function (assert) {
         var canvasData = {
               left: 100,
               top: 100,
@@ -33,12 +33,12 @@ window.addEventListener('DOMContentLoaded', function () {
     var image = window.createCropperImage();
 
     image.newCropper = new Cropper(image, {
-      mode: 1,
+      viewMode: 1,
 
       built: function () {
         var cropper = this.cropper;
 
-        QUnit.test('options.mode: 1', function (assert) {
+        QUnit.test('options.viewMode: 1', function (assert) {
           var canvasData = cropper.zoom(-0.5).getCanvasData(); // Zoom out
           var cropBoxData = cropper.getCropBoxData();
 
@@ -54,12 +54,12 @@ window.addEventListener('DOMContentLoaded', function () {
     var image = window.createCropperImage();
 
     image.newCropper = new Cropper(image, {
-      mode: 2,
+      viewMode: 2,
 
       built: function () {
         var cropper = this.cropper;
 
-        QUnit.test('options.mode: 2', function (assert) {
+        QUnit.test('options.viewMode: 2', function (assert) {
           var canvasData = cropper.zoom(-0.5).getCanvasData(); // Zoom out
           var containerData = cropper.getContainerData();
 
@@ -74,12 +74,12 @@ window.addEventListener('DOMContentLoaded', function () {
     var image = window.createCropperImage();
 
     image.newCropper = new Cropper(image, {
-      mode: 3,
+      viewMode: 3,
 
       built: function () {
         var cropper = this.cropper;
 
-        QUnit.test('options.mode: 3', function (assert) {
+        QUnit.test('options.viewMode: 3', function (assert) {
           var canvasData = cropper.zoom(-0.5).getCanvasData(); // Zoom out
           var containerData = cropper.getContainerData();
 
