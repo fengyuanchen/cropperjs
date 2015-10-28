@@ -54,14 +54,14 @@
     // Enable to zoom the image
     zoomable: true,
 
+    // Enable to zoom the image by dragging touch
+    zoomOnTouch: true,
+
     // Enable to zoom the image by wheeling mouse
     zoomOnWheel: true,
 
     // Define zoom ratio when zoom the image by wheeling mouse
     wheelZoomRatio: 0.1,
-
-    // Enable to zoom the image by dragging touch
-    touchDragZoom: true,
 
     // Enable to move the crop box
     cropBoxMovable: true,

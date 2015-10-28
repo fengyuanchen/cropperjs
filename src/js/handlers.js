@@ -74,7 +74,7 @@
         touchesLength = touches.length;
 
         if (touchesLength > 1) {
-          if (options.zoomable && options.touchDragZoom && touchesLength === 2) {
+          if (options.zoomable && options.zoomOnTouch && touchesLength === 2) {
             touch = touches[1];
             this.startX2 = touch.pageX;
             this.startY2 = touch.pageY;
@@ -128,7 +128,7 @@
         touchesLength = touches.length;
 
         if (touchesLength > 1) {
-          if (options.zoomable && options.touchDragZoom && touchesLength === 2) {
+          if (options.zoomable && options.zoomOnTouch && touchesLength === 2) {
             touch = touches[1];
             this.endX2 = touch.pageX;
             this.endY2 = touch.pageY;
