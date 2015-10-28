@@ -12,7 +12,7 @@ window.addEventListener('DOMContentLoaded', function () {
     built: function () {
       var cropper = this.cropper;
 
-      QUnit.test('options.toggleDragModeOnDoubleClick: true', function (assert) {
+      QUnit.test('options.toggleDragModeOnDblclick: true', function (assert) {
         var dragBox = cropper.dragBox;
 
         dragBox.dispatchEvent(new MouseEvent('dblclick', {
@@ -32,12 +32,12 @@ window.addEventListener('DOMContentLoaded', function () {
     var image = window.createCropperImage();
 
     image.newCropper = new Cropper(image, {
-      toggleDragModeOnDoubleClick: false,
+      toggleDragModeOnDblclick: false,
 
       built: function () {
         var cropper = this.cropper;
 
-        QUnit.test('options.toggleDragModeOnDoubleClick: false', function (assert) {
+        QUnit.test('options.toggleDragModeOnDblclick: false', function (assert) {
           var dragBox = cropper.dragBox;
 
           dragBox.dispatchEvent(new MouseEvent('dblclick', {
