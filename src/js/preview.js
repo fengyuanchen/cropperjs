@@ -18,8 +18,6 @@
       each(previews, function (element) {
         var image = document.createElement('img');
 
-        element.style.overflow = 'hidden';
-
         // Save the original size for recover
         setData(element, DATA_PREVIEW, {
           width: element.offsetWidth,
@@ -51,11 +49,9 @@
     resetPreview: function () {
       each(this.previews, function (element) {
         var data = getData(element, DATA_PREVIEW);
-        var style = element.style;
 
-        style.width = data.width + 'px';
-        style.height = data.height + 'px';
-        style.overflow = 'visible';
+        element.style.width = data.width + 'px';
+        element.style.height = data.height + 'px';
         element.innerHTML = data.html;
         removeData(element, DATA_PREVIEW);
       });
@@ -85,14 +81,13 @@
       );
 
       each(this.previews, function (element) {
+        var imageStyle = querySelector(element, 'img').style;
         var data = getData(element, DATA_PREVIEW);
         var originalWidth = data.width;
         var originalHeight = data.height;
         var newWidth = originalWidth;
         var newHeight = originalHeight;
         var ratio = 1;
-        var elementStyle = element.style;
-        var imageStyle = querySelector(element, 'img').style;
 
         if (cropBoxWidth) {
           ratio = originalWidth / cropBoxWidth;
@@ -105,8 +100,8 @@
           newHeight = originalHeight;
         }
 
-        elementStyle.width = newWidth + 'px';
-        elementStyle.height = newHeight + 'px';
+        element.style.width = newWidth + 'px';
+        element.style.height = newHeight + 'px';
         imageStyle.width = width * ratio + 'px';
         imageStyle.height = height * ratio + 'px';
         imageStyle.marginLeft = -left * ratio + 'px';
