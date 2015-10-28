@@ -28,8 +28,8 @@
 dist/
 ├── cropper.css     ( 5 KB)
 ├── cropper.min.css ( 4 KB)
-├── cropper.js      (79 KB)
-└── cropper.min.js  (27 KB)
+├── cropper.js      (80 KB)
+└── cropper.min.js  (28 KB)
 ```
 
 
@@ -46,7 +46,6 @@ Four quick start options are available:
 - Install with [Bower](http://bower.io): `bower install cropperjs`.
 
 
-
 ### Installation
 
 Include files:
@@ -54,13 +53,6 @@ Include files:
 ```html
 <link  href="/path/to/cropper.css" rel="stylesheet">
 <script src="/path/to/cropper.js"></script>
-```
-
-#### [RawGit](https://rawgit.com/)
-
-```html
-<link  href="https://cdn.rawgit.com/fengyuanchen/cropperjs/v0.2.0/dist/cropper.min.css" rel="stylesheet">
-<script src="https://cdn.rawgit.com/fengyuanchen/cropperjs/v0.2.0/dist/cropper.min.js"></script>
 ```
 
 

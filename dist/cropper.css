@@ -1,15 +1,14 @@
 /*!
- * Cropper v0.2.0
+ * Cropper v0.3.0
  * https://github.com/fengyuanchen/cropperjs
  *
  * Copyright (c) 2015 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2015-10-25T02:25:06.406Z
+ * Date: 2015-10-28T05:58:07.143Z
  */
 .cropper-container {
   position: relative;
-  overflow: hidden;
   font-size: 0;
   line-height: 0;
   -ms-touch-action: none;
@@ -35,6 +34,7 @@
   image-orientation: 0deg !important;
 }
 
+.cropper-wrap-box,
 .cropper-canvas,
 .cropper-drag-box,
 .cropper-crop-box,
@@ -44,6 +44,10 @@
   right: 0;
   bottom: 0;
   left: 0;
+}
+
+.cropper-wrap-box {
+  overflow: hidden;
 }
 
 .cropper-drag-box {
