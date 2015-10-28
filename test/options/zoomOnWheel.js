@@ -8,7 +8,7 @@ window.addEventListener('DOMContentLoaded', function () {
     built: function () {
       var cropper = this.cropper;
 
-      cropper.cropper.dispatchEvent(new WheelEvent('wheel', {
+      cropper.cropper.dispatchEvent(new MouseEvent('wheel', {
         view: window,
         bubbles: true,
         cancelable: true
@@ -31,7 +31,7 @@ window.addEventListener('DOMContentLoaded', function () {
       built: function () {
         var cropper = this.cropper;
 
-        cropper.cropper.dispatchEvent(new WheelEvent('wheel', {
+        cropper.cropper.dispatchEvent(new MouseEvent('wheel', {
           view: window,
           bubbles: true,
           cancelable: true

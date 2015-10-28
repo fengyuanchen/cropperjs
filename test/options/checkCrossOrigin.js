@@ -2,7 +2,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
   'use strict';
 
-  var crossOriginImage = 'http://fengyuanchen.github.io/cropper/img/picture.jpg';
+  var crossOriginImage = 'https://fengyuanchen.github.io/cropper/img/picture.jpg';
   var image = window.createCropperImage({
         src: crossOriginImage
       });
