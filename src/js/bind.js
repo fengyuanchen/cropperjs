@@ -9,7 +9,7 @@
         addListener(cropper, EVENT_WHEEL, proxy(this.wheel, this));
       }
 
-      if (options.doubleClickToggle) {
+      if (options.toggleDragModeOnDoubleClick) {
         addListener(cropper, EVENT_DBLCLICK, proxy(this.dblclick, this));
       }
 
@@ -31,7 +31,7 @@
         removeListener(cropper, EVENT_WHEEL, this.wheel);
       }
 
-      if (options.doubleClickToggle) {
+      if (options.toggleDragModeOnDoubleClick) {
         removeListener(cropper, EVENT_DBLCLICK, this.dblclick);
       }
 

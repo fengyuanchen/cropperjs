@@ -70,7 +70,7 @@
     cropBoxResizable: true,
 
     // Toggle drag mode between "crop" and "move" when double click on the cropper
-    doubleClickToggle: true,
+    toggleDragModeOnDoubleClick: true,
 
     // Size limitation
     minCanvasWidth: 0,

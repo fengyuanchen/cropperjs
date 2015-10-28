@@ -12,11 +12,15 @@ window.addEventListener('DOMContentLoaded', function () {
     built: function () {
       var cropper = this.cropper;
 
-      QUnit.test('options.doubleClickToggle: true', function (assert) {
+      QUnit.test('options.toggleDragModeOnDoubleClick: true', function (assert) {
         var dragBox = cropper.dragBox;
 
-        // FIXME: Fail to trigger the dblclick event
-        $(dragBox).trigger('dblclick');
+        dragBox.dispatchEvent(new MouseEvent('dblclick', {
+          view: window,
+          bubbles: true,
+          cancelable: true
+        }));
+
         assert.ok(hasClass(dragBox, 'cropper-move'));
         assert.equal(dragBox.dataset.action, 'move');
       });
@@ -28,15 +32,19 @@ window.addEventListener('DOMContentLoaded', function () {
     var image = window.createCropperImage();
 
     image.newCropper = new Cropper(image, {
-      doubleClickToggle: false,
+      toggleDragModeOnDoubleClick: false,
 
       built: function () {
         var cropper = this.cropper;
 
-        QUnit.test('options.doubleClickToggle: false', function (assert) {
+        QUnit.test('options.toggleDragModeOnDoubleClick: false', function (assert) {
           var dragBox = cropper.dragBox;
 
-          $(dragBox).trigger('dblclick');
+          dragBox.dispatchEvent(new MouseEvent('dblclick', {
+            view: window,
+            bubbles: true,
+            cancelable: true
+          }));
           assert.ok(hasClass(dragBox, 'cropper-crop'));
           assert.equal(dragBox.dataset.action, 'crop');
         });
