@@ -14,6 +14,7 @@
 
     .img-container {
       width: 100%;
+      margin-top: 10px;
     }
 
     .img-container img {
@@ -25,6 +26,7 @@
 
   <div class="container">
     <h1>Cropper with responsive container</h1>
+    <button type="button" id="replace">Replace Image</button>
     <div class="img-container">
       <img src="../assets/img/picture.jpg" alt="Picture">
     </div>
@@ -40,6 +42,10 @@
         rotatable: false,
         scalable: false
       });
+
+      document.getElementById('replace').onclick = function () {
+        cropper.replace('../assets/img/picture-2.jpg');
+      };
     });
   </script>
 </body>
