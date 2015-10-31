@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cropper</title>
+  <link rel="stylesheet" href="../dist/cropper.css">
+  <style>
+    .container {
+      max-width: 960px;
+      margin: 20px auto;
+    }
+
+    .img-container {
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .img-container img {
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Cropper with a range of aspect ratio</h1>
+    <div class="img-container">
+      <img src="../assets/img/picture.jpg" alt="Picture">
+    </div>
+  </div>
+
+  <script src="../dist/cropper.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      var image = document.querySelector('.img-container > img');
+      var minAspectRatio = 1;
+      var maxAspectRatio = 2;
+      var cropper = new Cropper(image, {
+        cropmove: function () {
+          var cropper = this.cropper;
+          var cropBoxData = cropper.getCropBoxData();
+          var aspectRatio = cropBoxData.width / cropBoxData.height;
+
+          if (aspectRatio < minAspectRatio) {
+            cropper.setCropBoxData({
+              height: cropBoxData.width / minAspectRatio
+            });
+
+            return false;
+          } else if (aspectRatio > maxAspectRatio) {
+            cropper.setCropBoxData({
+              height: cropBoxData.width / maxAspectRatio
+            });
+
+            return false;
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
