@@ -12,14 +12,14 @@
 
 ### Options
 
-- Add `viewMode`
-- Add `dragMode`
-- Rename `touchDragZoom` to `zoomOnTouch`
-- Rename `mouseWheelZoom` to `zoomOnWheel`
-- Rename `doubleClickToggle` to `toggleDragModeOnDblclick`
-- Rename `checkImageOrigin` to `checkCrossOrigin`
-- Remove `strict`
-- Remove `dragCrop`
+- Added `viewMode`
+- Added `dragMode`
+- Renamed `touchDragZoom` to `zoomOnTouch`
+- Renamed `mouseWheelZoom` to `zoomOnWheel`
+- Renamed `doubleClickToggle` to `toggleDragModeOnDblclick`
+- Renamed `checkImageOrigin` to `checkCrossOrigin`
+- Removed `strict` (supported by `viewMode: 1`)
+- Removed `dragCrop` (supported by `dragMode: 'crop'`)
 
 
 ## 0.2.1 (Oct 28, 2015)
