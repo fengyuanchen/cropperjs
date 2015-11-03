@@ -56,10 +56,9 @@
           crossOrigin = 'anonymous';
           bustCacheUrl = addTimestamp(url);
         }
-
-        this.crossOrigin = crossOrigin;
       }
 
+      this.crossOrigin = crossOrigin;
       image = document.createElement('img');
       setCrossOrigin(image, crossOrigin);
       image.src = bustCacheUrl || url;
