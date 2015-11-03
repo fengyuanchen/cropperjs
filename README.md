@@ -66,13 +66,13 @@ Initialize with `Cropper` constructor:
 
 ```html
 <!-- Wrap the image or canvas element with a block element -->
-<div class="container">
-  <img src="picture.jpg">
+<div>
+  <img id="image" src="picture.jpg">
 </div>
 ```
 
 ```js
-var image = document.querySelector('.container > img');
+var image = document.getElementById('image');
 var cropper = new Cropper(image, {
   aspectRatio: 16 / 9,
   crop: function(data) {
