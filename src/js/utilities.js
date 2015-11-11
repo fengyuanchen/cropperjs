@@ -1,5 +1,5 @@
   function typeOf(obj) {
-    return toString.call(obj).match(REGEXP_TYPES)[1].toLowerCase();
+    return toString.call(obj).slice(8, -1).toLowerCase();
   }
 
   function isString(str) {

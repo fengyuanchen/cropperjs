@@ -28,7 +28,6 @@
   // RegExps
   var REGEXP_ACTIONS = /^(e|w|s|n|se|sw|ne|nw|all|crop|move|zoom)$/;
   var REGEXP_SPACES = /\s+/;
-  var REGEXP_TYPES = /\s([a-zA-Z]+)/;
   var REGEXP_TRIM = /^\s+(.*)\s+^/;
 
   // Data
