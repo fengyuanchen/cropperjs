@@ -1,11 +1,11 @@
 /*!
- * Cropper v0.3.0
+ * Cropper v0.3.1
  * https://github.com/fengyuanchen/cropperjs
  *
  * Copyright (c) 2015 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2015-10-28T06:32:14.128Z
+ * Date: 2015-11-11T11:11:11.111Z
  */
 
 (function (global, factory) {
@@ -54,7 +54,6 @@
   // RegExps
   var REGEXP_ACTIONS = /^(e|w|s|n|se|sw|ne|nw|all|crop|move|zoom)$/;
   var REGEXP_SPACES = /\s+/;
-  var REGEXP_TYPES = /\s([a-zA-Z]+)/;
   var REGEXP_TRIM = /^\s+(.*)\s+^/;
 
   // Data
@@ -91,7 +90,7 @@
 
   // Prototype
   var prototype = {
-    version: '0.3.0'
+    version: '0.3.1'
   };
 
   // Utilities
@@ -100,7 +99,7 @@
   var hasOwnProperty = EMPTY_OBJECT.hasOwnProperty;
 
   function typeOf(obj) {
-    return toString.call(obj).match(REGEXP_TYPES)[1].toLowerCase();
+    return toString.call(obj).slice(8, -1).toLowerCase();
   }
 
   function isString(str) {
@@ -648,10 +647,9 @@
           crossOrigin = 'anonymous';
           bustCacheUrl = addTimestamp(url);
         }
-
-        this.crossOrigin = crossOrigin;
       }
 
+      this.crossOrigin = crossOrigin;
       image = document.createElement('img');
       setCrossOrigin(image, crossOrigin);
       image.src = bustCacheUrl || url;

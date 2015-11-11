@@ -214,6 +214,11 @@ body {
   overflow: hidden;
 }
 
+.docs-footer ul {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
 .hearts {
   position: relative;
   display: block;
