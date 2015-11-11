@@ -1,6 +1,11 @@
 # Changelog
 
 
+## 0.3.1 (Nov 11, 2015)
+
+- Fixed #7: reset the `crossOrigin` when call the `replace` method
+
+
 ## 0.3.0 (Oct 28, 2015)
 
 - Supports four view modes
