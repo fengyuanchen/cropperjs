@@ -1,6 +1,11 @@
 # Changelog
 
 
+## 0.3.2 (Nov 20, 2015)
+
+- Fixed #10: improve new crop box creating
+
+
 ## 0.3.1 (Nov 11, 2015)
 
 - Fixed #7: reset the `crossOrigin` when call the `replace` method
