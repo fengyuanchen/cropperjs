@@ -1,11 +1,11 @@
 /*!
- * Cropper v0.3.1
+ * Cropper v0.3.2
  * https://github.com/fengyuanchen/cropperjs
  *
  * Copyright (c) 2015 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2015-11-11T11:11:11.111Z
+ * Date: 2015-11-18T02:52:53.353Z
  */
 .cropper-container {
   position: relative;
@@ -27,7 +27,7 @@
   width: 100%;
   min-width: 0 !important;
   max-width: none !important;
-  height: 100%;
+  height: 100%; 
   min-height: 0 !important;
   max-height: none !important;
 
@@ -52,20 +52,20 @@
 
 .cropper-drag-box {
   background-color: #fff;
-  filter: alpha(opacity=0);
+  filter: alpha(opacity=0); 
   opacity: 0;
 }
 
 .cropper-modal {
   background-color: #000;
-  filter: alpha(opacity=50);
+  filter: alpha(opacity=50); 
   opacity: .5;
 }
 
 .cropper-view-box {
   display: block;
   width: 100%;
-  height: 100%;
+  height: 100%; 
   overflow: hidden;
   outline: 1px solid #39f;
   outline-color: rgba(51, 153, 255, .75);
@@ -74,7 +74,7 @@
 .cropper-dashed {
   position: absolute;
   display: block;
-  filter: alpha(opacity=50);
+  filter: alpha(opacity=50); 
   border: 0 dashed #eee;
   opacity: .5;
 }
@@ -82,7 +82,7 @@
   top: 33.33333%;
   left: 0;
   width: 100%;
-  height: 33.33333%;
+  height: 33.33333%; 
   border-top-width: 1px;
   border-bottom-width: 1px;
 }
@@ -90,7 +90,7 @@
   top: 0;
   left: 33.33333%;
   width: 33.33333%;
-  height: 100%;
+  height: 100%; 
   border-right-width: 1px;
   border-left-width: 1px;
 }
@@ -102,13 +102,13 @@
   display: block;
   width: 0;
   height: 0;
-  filter: alpha(opacity=75);
+  filter: alpha(opacity=75); 
   opacity: .75;
 }
 .cropper-center:before, .cropper-center:after {
   position: absolute;
   display: block;
-  content: " ";
+  content: " "; 
   background-color: #eee;
 }
 .cropper-center:before {
@@ -131,7 +131,7 @@
   display: block;
   width: 100%;
   height: 100%;
-  filter: alpha(opacity=10);
+  filter: alpha(opacity=10); 
   opacity: .1;
 }
 
@@ -173,7 +173,7 @@
   width: 5px;
   height: 5px;
   background-color: #39f;
-  filter: alpha(opacity=75);
+  filter: alpha(opacity=75); 
   opacity: .75;
 }
 .cropper-point.point-e {
@@ -221,7 +221,7 @@
   width: 20px;
   height: 20px;
   cursor: se-resize;
-  filter: alpha(opacity=100);
+  filter: alpha(opacity=100); 
   opacity: 1;
 }
 .cropper-point.point-se:before {
@@ -233,7 +233,7 @@
   height: 200%;
   content: " ";
   background-color: #39f;
-  filter: alpha(opacity=0);
+  filter: alpha(opacity=0); 
   opacity: 0;
 }
 @media (min-width: 768px) {
@@ -252,7 +252,7 @@
   .cropper-point.point-se {
     width: 5px;
     height: 5px;
-    filter: alpha(opacity=75);
+    filter: alpha(opacity=75); 
     opacity: .75;
   }
 }
@@ -262,7 +262,7 @@
 }
 
 .cropper-invisible {
-  filter: alpha(opacity=0);
+  filter: alpha(opacity=0); 
   opacity: 0;
 }
 
