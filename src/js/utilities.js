@@ -460,7 +460,7 @@
       context.scale(scaleX, scaleY);
     }
 
-    context.drawImage(image, x, y, width, height);
+    context.drawImage(image, floor(x), floor(y), floor(width), floor(height));
 
     if (advanced) {
       context.restore();

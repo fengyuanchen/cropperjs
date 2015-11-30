@@ -61,6 +61,7 @@
   var cos = Math.cos;
   var sqrt = Math.sqrt;
   var round = Math.round;
+  var floor = Math.floor;
 
   // Prototype
   var prototype = {
