@@ -1,11 +1,11 @@
 /*!
- * Cropper v0.3.2
+ * Cropper v0.3.3
  * https://github.com/fengyuanchen/cropperjs
  *
  * Copyright (c) 2015 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2015-11-18T02:52:57.879Z
+ * Date: 2015-11-30T02:54:53.110Z
  */
 
 (function (global, factory) {
@@ -87,10 +87,11 @@
   var cos = Math.cos;
   var sqrt = Math.sqrt;
   var round = Math.round;
+  var floor = Math.floor;
 
   // Prototype
   var prototype = {
-    version: '0.3.2'
+    version: '0.3.3'
   };
 
   // Utilities
@@ -560,7 +561,7 @@
       context.scale(scaleX, scaleY);
     }
 
-    context.drawImage(image, x, y, width, height);
+    context.drawImage(image, floor(x), floor(y), floor(width), floor(height));
 
     if (advanced) {
       context.restore();
@@ -2784,7 +2785,7 @@
           srcHeight = dstHeight = min(originalHeight, sourceHeight - srcY);
         }
 
-        args.push(srcX, srcY, srcWidth, srcHeight);
+        args.push(floor(srcX), floor(srcY), floor(srcWidth), floor(srcHeight));
 
         // Scale destination sizes
         if (scaledRatio) {
@@ -2796,7 +2797,7 @@
 
         // Avoid "IndexSizeError" in IE and Firefox
         if (dstWidth > 0 && dstHeight > 0) {
-          args.push(dstX, dstY, dstWidth, dstHeight);
+          args.push(floor(dstX), floor(dstY), floor(dstWidth), floor(dstHeight));
         }
 
         return args;
