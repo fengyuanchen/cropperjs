@@ -1,4 +1,4 @@
-# [Cropper](https://github.com/fengyuanchen/cropperjs)
+# [Cropper.js](https://github.com/fengyuanchen/cropperjs)
 
 > JavaScript image cropper.
 
@@ -28,7 +28,7 @@
 dist/
 ├── cropper.css     ( 5 KB)
 ├── cropper.min.css ( 4 KB)
-├── cropper.js      (78 KB)
+├── cropper.js      (80 KB)
 └── cropper.min.js  (28 KB)
 ```
 

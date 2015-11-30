@@ -1,7 +1,12 @@
 # Changelog
 
 
-## 0.3.2 (Nov 20, 2015)
+## 0.3.3 (Nov 30, 2015)
+
+- Floor the numerical parameters for `CanvasRenderingContext2D.drawImage`
+
+
+## 0.3.2 (Nov 18, 2015)
 
 - Fixed #10: improve new crop box creating
 
