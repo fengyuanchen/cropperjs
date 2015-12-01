@@ -1,12 +1,12 @@
 /*!
- * QUnit 1.19.0
+ * QUnit 1.20.0
  * http://qunitjs.com/
  *
  * Copyright jQuery Foundation and other contributors
  * Released under the MIT license
  * http://jquery.org/license
  *
- * Date: 2015-09-01T15:00Z
+ * Date: 2015-10-27T17:53Z
  */
 
 (function( global ) {
@@ -128,7 +128,7 @@ function objectType( obj ) {
 	}
 
 	var match = toString.call( obj ).match( /^\[object\s(.*)\]$/ ),
-		type = match && match[ 1 ] || "";
+		type = match && match[ 1 ];
 
 	switch ( type ) {
 		case "Number":
@@ -144,12 +144,12 @@ function objectType( obj ) {
 		case "Date":
 		case "RegExp":
 		case "Function":
+		case "Symbol":
 			return type.toLowerCase();
 	}
 	if ( typeof obj === "object" ) {
 		return "object";
 	}
-	return undefined;
 }
 
 // Safe object type checking
@@ -256,6 +256,10 @@ var config = {
 	// by default, modify document.title when suite is done
 	altertitle: true,
 
+	// HTML Reporter: collapse every test except the first failing test
+	// If false, all failing tests will be expanded
+	collapse: true,
+
 	// by default, scroll to top of the page when suite is done
 	scrolltop: true,
 
@@ -289,6 +293,9 @@ var config = {
 
 	// Set of all modules.
 	modules: [],
+
+	// Stack of nested modules
+	moduleStack: [],
 
 	// The first unnamed module
 	currentModule: {
@@ -440,17 +447,21 @@ QUnit.urlParams = urlParams;
 QUnit.isLocal = !( defined.document && window.location.protocol !== "file:" );
 
 // Expose the current QUnit version
-QUnit.version = "1.19.0";
+QUnit.version = "1.20.0";
 
 extend( QUnit, {
 
 	// call on start of module test to prepend name to all tests
-	module: function( name, testEnvironment ) {
-		var currentModule = {
-			name: name,
-			testEnvironment: testEnvironment,
-			tests: []
-		};
+	module: function( name, testEnvironment, executeNow ) {
+		var module, moduleFns;
+		var currentModule = config.currentModule;
+
+		if ( arguments.length === 2 ) {
+			if ( testEnvironment instanceof Function ) {
+				executeNow = testEnvironment;
+				testEnvironment = undefined;
+			}
+		}
 
 		// DEPRECATED: handles setup/teardown functions,
 		// beforeEach and afterEach should be used instead
@@ -463,8 +474,51 @@ extend( QUnit, {
 			delete testEnvironment.teardown;
 		}
 
-		config.modules.push( currentModule );
-		config.currentModule = currentModule;
+		module = createModule();
+
+		moduleFns = {
+			beforeEach: setHook( module, "beforeEach" ),
+			afterEach: setHook( module, "afterEach" )
+		};
+
+		if ( executeNow instanceof Function ) {
+			config.moduleStack.push( module );
+			setCurrentModule( module );
+			executeNow.call( module.testEnvironment, moduleFns );
+			config.moduleStack.pop();
+			module = module.parentModule || currentModule;
+		}
+
+		setCurrentModule( module );
+
+		function createModule() {
+			var parentModule = config.moduleStack.length ?
+				config.moduleStack.slice( -1 )[ 0 ] : null;
+			var moduleName = parentModule !== null ?
+				[ parentModule.name, name ].join( " > " ) : name;
+			var module = {
+				name: moduleName,
+				parentModule: parentModule,
+				tests: []
+			};
+
+			var env = {};
+			if ( parentModule ) {
+				extend( env, parentModule.testEnvironment );
+				delete env.beforeEach;
+				delete env.afterEach;
+			}
+			extend( env, testEnvironment );
+			module.testEnvironment = env;
+
+			config.modules.push( module );
+			return module;
+		}
+
+		function setCurrentModule( module ) {
+			config.currentModule = module;
+		}
+
 	},
 
 	// DEPRECATED: QUnit.asyncTest() will be removed in QUnit 2.0.
@@ -473,6 +527,8 @@ extend( QUnit, {
 	test: test,
 
 	skip: skip,
+
+	only: only,
 
 	// DEPRECATED: The functionality of QUnit.start() will be altered in QUnit 2.0.
 	// In QUnit 2.0, invoking it will ONLY affect the `QUnit.config.autostart` blocking behavior.
@@ -499,6 +555,17 @@ extend( QUnit, {
 
 			// If a test is running, adjust its semaphore
 			config.current.semaphore -= count || 1;
+
+			// If semaphore is non-numeric, throw error
+			if ( isNaN( config.current.semaphore ) ) {
+				config.current.semaphore = 0;
+
+				QUnit.pushFailure(
+					"Called start() with a non-numeric decrement.",
+					sourceFromStacktrace( 2 )
+				);
+				return;
+			}
 
 			// Don't start until equal number of stop-calls
 			if ( config.current.semaphore > 0 ) {
@@ -699,6 +766,18 @@ function done() {
 	});
 }
 
+function setHook( module, hookName ) {
+	if ( module.testEnvironment === undefined ) {
+		module.testEnvironment = {};
+	}
+
+	return function( callback ) {
+		module.testEnvironment[ hookName ] = callback;
+	};
+}
+
+var focused = false;
+
 function Test( settings ) {
 	var i, l;
 
@@ -801,14 +880,12 @@ Test.prototype = {
 		this.callbackStarted = now();
 
 		if ( config.notrycatch ) {
-			promise = this.callback.call( this.testEnvironment, this.assert );
-			this.resolvePromise( promise );
+			runTest( this );
 			return;
 		}
 
 		try {
-			promise = this.callback.call( this.testEnvironment, this.assert );
-			this.resolvePromise( promise );
+			runTest( this );
 		} catch ( e ) {
 			this.pushFailure( "Died on test #" + ( this.assertions.length + 1 ) + " " +
 				this.stack + ": " + ( e.message || e ), extractStacktrace( e, 0 ) );
@@ -820,6 +897,11 @@ Test.prototype = {
 			if ( config.blocking ) {
 				QUnit.start();
 			}
+		}
+
+		function runTest( test ) {
+			promise = test.callback.call( test.testEnvironment, test.assert );
+			test.resolvePromise( promise );
 		}
 	},
 
@@ -833,16 +915,19 @@ Test.prototype = {
 		return function runHook() {
 			config.current = test;
 			if ( config.notrycatch ) {
-				promise = hook.call( test.testEnvironment, test.assert );
-				test.resolvePromise( promise, hookName );
+				callHook();
 				return;
 			}
 			try {
-				promise = hook.call( test.testEnvironment, test.assert );
-				test.resolvePromise( promise, hookName );
+				callHook();
 			} catch ( error ) {
 				test.pushFailure( hookName + " failed on " + test.testName + ": " +
-					( error.message || error ), extractStacktrace( error, 0 ) );
+				( error.message || error ), extractStacktrace( error, 0 ) );
+			}
+
+			function callHook() {
+				promise = hook.call( test.testEnvironment, test.assert );
+				test.resolvePromise( promise, hookName );
 			}
 		};
 	},
@@ -851,16 +936,20 @@ Test.prototype = {
 	hooks: function( handler ) {
 		var hooks = [];
 
+		function processHooks( test, module ) {
+			if ( module.parentModule ) {
+				processHooks( test, module.parentModule );
+			}
+			if ( module.testEnvironment &&
+				QUnit.objectType( module.testEnvironment[ handler ] ) === "function" ) {
+				hooks.push( test.queueHook( module.testEnvironment[ handler ], handler ) );
+			}
+		}
+
 		// Hooks are ignored on skipped tests
-		if ( this.skip ) {
-			return hooks;
+		if ( !this.skip ) {
+			processHooks( this, this.module );
 		}
-
-		if ( this.module.testEnvironment &&
-				QUnit.objectType( this.module.testEnvironment[ handler ] ) === "function" ) {
-			hooks.push( this.queueHook( this.module.testEnvironment[ handler ], handler ) );
-		}
-
 		return hooks;
 	},
 
@@ -921,7 +1010,7 @@ Test.prototype = {
 	},
 
 	queue: function() {
-		var bad,
+		var priority,
 			test = this;
 
 		if ( !this.valid() ) {
@@ -937,7 +1026,6 @@ Test.prototype = {
 				},
 
 				test.hooks( "beforeEach" ),
-
 				function() {
 					test.run();
 				},
@@ -953,16 +1041,11 @@ Test.prototype = {
 			]);
 		}
 
-		// `bad` initialized at top of scope
-		// defer when previous test run passed, if storage is available
-		bad = QUnit.config.reorder && defined.sessionStorage &&
+		// Prioritize previously failed tests, detected from sessionStorage
+		priority = QUnit.config.reorder && defined.sessionStorage &&
 				+sessionStorage.getItem( "qunit-test-" + this.module.name + "-" + this.testName );
 
-		if ( bad ) {
-			run();
-		} else {
-			synchronize( run, true );
-		}
+		return synchronize( run, priority );
 	},
 
 	push: function( result, actual, expected, message, negative ) {
@@ -1056,6 +1139,17 @@ Test.prototype = {
 			module = QUnit.urlParams.module && QUnit.urlParams.module.toLowerCase(),
 			fullName = ( this.module.name + ": " + this.testName ).toLowerCase();
 
+		function testInModuleChain( testModule ) {
+			var testModuleName = testModule.name ? testModule.name.toLowerCase() : null;
+			if ( testModuleName === module ) {
+				return true;
+			} else if ( testModule.parentModule ) {
+				return testInModuleChain( testModule.parentModule );
+			} else {
+				return false;
+			}
+		}
+
 		// Internally-generated tests are always valid
 		if ( this.callback && this.callback.validTest ) {
 			return true;
@@ -1065,7 +1159,7 @@ Test.prototype = {
 			return false;
 		}
 
-		if ( module && ( !this.module.name || this.module.name.toLowerCase() !== module ) ) {
+		if ( module && !testInModuleChain( this.module ) ) {
 			return false;
 		}
 
@@ -1086,7 +1180,6 @@ Test.prototype = {
 		// Otherwise, do the opposite
 		return !include;
 	}
-
 };
 
 // Resets the test setup. Useful for tests that modify the DOM.
@@ -1147,19 +1240,42 @@ function generateHash( module, testName ) {
 	return hex.slice( -8 );
 }
 
-function synchronize( callback, last ) {
+function synchronize( callback, priority ) {
+	var last = !priority;
+
 	if ( QUnit.objectType( callback ) === "array" ) {
 		while ( callback.length ) {
 			synchronize( callback.shift() );
 		}
 		return;
 	}
-	config.queue.push( callback );
+
+	if ( priority ) {
+		priorityFill( callback );
+	} else {
+		config.queue.push( callback );
+	}
 
 	if ( config.autorun && !config.blocking ) {
 		process( last );
 	}
 }
+
+// Place previously failed tests on a queue priority line, respecting the order they get assigned.
+function priorityFill( callback ) {
+	var queue, prioritizedQueue;
+
+	queue = config.queue.slice( priorityFill.pos );
+	prioritizedQueue = config.queue.slice( 0, -config.queue.length + priorityFill.pos );
+
+	queue.unshift( callback );
+	queue.unshift.apply( queue, prioritizedQueue );
+
+	config.queue = queue;
+
+	priorityFill.pos += 1;
+}
+priorityFill.pos = 0;
 
 function saveGlobal() {
 	config.pollution = [];
@@ -1208,6 +1324,8 @@ function asyncTest( testName, expected, callback ) {
 
 // Will be exposed as QUnit.test
 function test( testName, expected, callback, async ) {
+	if ( focused )  { return; }
+
 	var newTest;
 
 	if ( arguments.length === 2 ) {
@@ -1227,12 +1345,38 @@ function test( testName, expected, callback, async ) {
 
 // Will be exposed as QUnit.skip
 function skip( testName ) {
+	if ( focused )  { return; }
+
 	var test = new Test({
 		testName: testName,
 		skip: true
 	});
 
 	test.queue();
+}
+
+// Will be exposed as QUnit.only
+function only( testName, expected, callback, async ) {
+	var newTest;
+
+	if ( focused )  { return; }
+
+	QUnit.config.queue.length = 0;
+	focused = true;
+
+	if ( arguments.length === 2 ) {
+		callback = expected;
+		expected = null;
+	}
+
+	newTest = new Test({
+		testName: testName,
+		expected: expected,
+		async: async,
+		callback: callback
+	});
+
+	newTest.queue();
 }
 
 function Assert( testContext ) {
@@ -1252,25 +1396,36 @@ QUnit.assert = Assert.prototype = {
 		}
 	},
 
-	// Increment this Test's semaphore counter, then return a single-use function that
+	// Increment this Test's semaphore counter, then return a function that
 	// decrements that counter a maximum of once.
-	async: function() {
+	async: function( count ) {
 		var test = this.test,
-			popped = false;
+			popped = false,
+			acceptCallCount = count;
+
+		if ( typeof acceptCallCount === "undefined" ) {
+			acceptCallCount = 1;
+		}
 
 		test.semaphore += 1;
 		test.usedAsync = true;
 		pauseProcessing();
 
 		return function done() {
-			if ( !popped ) {
-				test.semaphore -= 1;
-				popped = true;
-				resumeProcessing();
-			} else {
-				test.pushFailure( "Called the callback returned from `assert.async` more than once",
+
+			if ( popped ) {
+				test.pushFailure( "Too many calls to the `assert.async` callback",
 					sourceFromStacktrace( 2 ) );
+				return;
 			}
+			acceptCallCount -= 1;
+			if ( acceptCallCount > 0 ) {
+				return;
+			}
+
+			test.semaphore -= 1;
+			popped = true;
+			resumeProcessing();
 		};
 	},
 
@@ -1408,7 +1563,7 @@ QUnit.assert = Assert.prototype = {
 	}
 };
 
-// Provide an alternative to assert.throws(), for enviroments that consider throws a reserved word
+// Provide an alternative to assert.throws(), for environments that consider throws a reserved word
 // Known to us are: Closure Compiler, Narwhal
 (function() {
 	/*jshint sub:true */
@@ -1439,258 +1594,274 @@ function errorString( error ) {
 // Author: Philippe Rathé <prathe@gmail.com>
 QUnit.equiv = (function() {
 
-	// Call the o related callback with the given arguments.
-	function bindCallbacks( o, callbacks, args ) {
-		var prop = QUnit.objectType( o );
-		if ( prop ) {
-			if ( QUnit.objectType( callbacks[ prop ] ) === "function" ) {
-				return callbacks[ prop ].apply( callbacks, args );
-			} else {
-				return callbacks[ prop ]; // or undefined
-			}
+	// Stack to decide between skip/abort functions
+	var callers = [];
+
+	// Stack to avoiding loops from circular referencing
+	var parents = [];
+	var parentsB = [];
+
+	function useStrictEquality( b, a ) {
+
+		/*jshint eqeqeq:false */
+		if ( b instanceof a.constructor || a instanceof b.constructor ) {
+
+			// To catch short annotation VS 'new' annotation of a declaration. e.g.:
+			// `var i = 1;`
+			// `var j = new Number(1);`
+			return a == b;
+		} else {
+			return a === b;
 		}
 	}
 
-	// the real equiv function
-	var innerEquiv,
+	function compareConstructors( a, b ) {
+		var getProto = Object.getPrototypeOf || function( obj ) {
 
-		// stack to decide between skip/abort functions
-		callers = [],
-
-		// stack to avoiding loops from circular referencing
-		parents = [],
-		parentsB = [],
-
-		getProto = Object.getPrototypeOf || function( obj ) {
-			/* jshint camelcase: false, proto: true */
+			/*jshint proto: true */
 			return obj.__proto__;
+		};
+		var protoA = getProto( a );
+		var protoB = getProto( b );
+
+		// Comparing constructors is more strict than using `instanceof`
+		if ( a.constructor === b.constructor ) {
+			return true;
+		}
+
+		// Ref #851
+		// If the obj prototype descends from a null constructor, treat it
+		// as a null prototype.
+		if ( protoA && protoA.constructor === null ) {
+			protoA = null;
+		}
+		if ( protoB && protoB.constructor === null ) {
+			protoB = null;
+		}
+
+		// Allow objects with no prototype to be equivalent to
+		// objects with Object as their constructor.
+		if ( ( protoA === null && protoB === Object.prototype ) ||
+				( protoB === null && protoA === Object.prototype ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	var callbacks = {
+		"string": useStrictEquality,
+		"boolean": useStrictEquality,
+		"number": useStrictEquality,
+		"null": useStrictEquality,
+		"undefined": useStrictEquality,
+		"symbol": useStrictEquality,
+
+		"nan": function( b ) {
+			return isNaN( b );
 		},
-		callbacks = (function() {
 
-			// for string, boolean, number and null
-			function useStrictEquality( b, a ) {
+		"date": function( b, a ) {
+			return QUnit.objectType( b ) === "date" && a.valueOf() === b.valueOf();
+		},
 
-				/*jshint eqeqeq:false */
-				if ( b instanceof a.constructor || a instanceof b.constructor ) {
+		"regexp": function( b, a ) {
+			return QUnit.objectType( b ) === "regexp" &&
 
-					// to catch short annotation VS 'new' annotation of a
-					// declaration
-					// e.g. var i = 1;
-					// var j = new Number(1);
-					return a == b;
-				} else {
-					return a === b;
-				}
+				// The regex itself
+				a.source === b.source &&
+
+				// And its modifiers
+				a.global === b.global &&
+
+				// (gmi) ...
+				a.ignoreCase === b.ignoreCase &&
+				a.multiline === b.multiline &&
+				a.sticky === b.sticky;
+		},
+
+		// - skip when the property is a method of an instance (OOP)
+		// - abort otherwise,
+		// initial === would have catch identical references anyway
+		"function": function() {
+			var caller = callers[ callers.length - 1 ];
+			return caller !== Object && typeof caller !== "undefined";
+		},
+
+		"array": function( b, a ) {
+			var i, j, len, loop, aCircular, bCircular;
+
+			// b could be an object literal here
+			if ( QUnit.objectType( b ) !== "array" ) {
+				return false;
 			}
 
-			return {
-				"string": useStrictEquality,
-				"boolean": useStrictEquality,
-				"number": useStrictEquality,
-				"null": useStrictEquality,
-				"undefined": useStrictEquality,
+			len = a.length;
+			if ( len !== b.length ) {
+				// safe and faster
+				return false;
+			}
 
-				"nan": function( b ) {
-					return isNaN( b );
-				},
-
-				"date": function( b, a ) {
-					return QUnit.objectType( b ) === "date" && a.valueOf() === b.valueOf();
-				},
-
-				"regexp": function( b, a ) {
-					return QUnit.objectType( b ) === "regexp" &&
-
-						// the regex itself
-						a.source === b.source &&
-
-						// and its modifiers
-						a.global === b.global &&
-
-						// (gmi) ...
-						a.ignoreCase === b.ignoreCase &&
-						a.multiline === b.multiline &&
-						a.sticky === b.sticky;
-				},
-
-				// - skip when the property is a method of an instance (OOP)
-				// - abort otherwise,
-				// initial === would have catch identical references anyway
-				"function": function() {
-					var caller = callers[ callers.length - 1 ];
-					return caller !== Object && typeof caller !== "undefined";
-				},
-
-				"array": function( b, a ) {
-					var i, j, len, loop, aCircular, bCircular;
-
-					// b could be an object literal here
-					if ( QUnit.objectType( b ) !== "array" ) {
-						return false;
-					}
-
-					len = a.length;
-					if ( len !== b.length ) {
-						// safe and faster
-						return false;
-					}
-
-					// track reference to avoid circular references
-					parents.push( a );
-					parentsB.push( b );
-					for ( i = 0; i < len; i++ ) {
-						loop = false;
-						for ( j = 0; j < parents.length; j++ ) {
-							aCircular = parents[ j ] === a[ i ];
-							bCircular = parentsB[ j ] === b[ i ];
-							if ( aCircular || bCircular ) {
-								if ( a[ i ] === b[ i ] || aCircular && bCircular ) {
-									loop = true;
-								} else {
-									parents.pop();
-									parentsB.pop();
-									return false;
-								}
-							}
-						}
-						if ( !loop && !innerEquiv( a[ i ], b[ i ] ) ) {
+			// Track reference to avoid circular references
+			parents.push( a );
+			parentsB.push( b );
+			for ( i = 0; i < len; i++ ) {
+				loop = false;
+				for ( j = 0; j < parents.length; j++ ) {
+					aCircular = parents[ j ] === a[ i ];
+					bCircular = parentsB[ j ] === b[ i ];
+					if ( aCircular || bCircular ) {
+						if ( a[ i ] === b[ i ] || aCircular && bCircular ) {
+							loop = true;
+						} else {
 							parents.pop();
 							parentsB.pop();
 							return false;
 						}
 					}
+				}
+				if ( !loop && !innerEquiv( a[ i ], b[ i ] ) ) {
 					parents.pop();
 					parentsB.pop();
-					return true;
-				},
+					return false;
+				}
+			}
+			parents.pop();
+			parentsB.pop();
+			return true;
+		},
 
-				"set": function( b, a ) {
-					var aArray, bArray;
+		"set": function( b, a ) {
+			var aArray, bArray;
 
-					// b could be any object here
-					if ( QUnit.objectType( b ) !== "set" ) {
-						return false;
-					}
+			// `b` could be any object here
+			if ( QUnit.objectType( b ) !== "set" ) {
+				return false;
+			}
 
-					aArray = [];
-					a.forEach( function( v ) {
-						aArray.push( v );
-					});
-					bArray = [];
-					b.forEach( function( v ) {
-						bArray.push( v );
-					});
+			aArray = [];
+			a.forEach( function( v ) {
+				aArray.push( v );
+			});
+			bArray = [];
+			b.forEach( function( v ) {
+				bArray.push( v );
+			});
 
-					return innerEquiv( bArray, aArray );
-				},
+			return innerEquiv( bArray, aArray );
+		},
 
-				"map": function( b, a ) {
-					var aArray, bArray;
+		"map": function( b, a ) {
+			var aArray, bArray;
 
-					// b could be any object here
-					if ( QUnit.objectType( b ) !== "map" ) {
-						return false;
-					}
+			// `b` could be any object here
+			if ( QUnit.objectType( b ) !== "map" ) {
+				return false;
+			}
 
-					aArray = [];
-					a.forEach( function( v, k ) {
-						aArray.push( [ k, v ] );
-					});
-					bArray = [];
-					b.forEach( function( v, k ) {
-						bArray.push( [ k, v ] );
-					});
+			aArray = [];
+			a.forEach( function( v, k ) {
+				aArray.push( [ k, v ] );
+			});
+			bArray = [];
+			b.forEach( function( v, k ) {
+				bArray.push( [ k, v ] );
+			});
 
-					return innerEquiv( bArray, aArray );
-				},
+			return innerEquiv( bArray, aArray );
+		},
 
-				"object": function( b, a ) {
+		"object": function( b, a ) {
+			var i, j, loop, aCircular, bCircular;
 
-					/*jshint forin:false */
-					var i, j, loop, aCircular, bCircular,
-						// Default to true
-						eq = true,
-						aProperties = [],
-						bProperties = [];
+			// Default to true
+			var eq = true;
+			var aProperties = [];
+			var bProperties = [];
 
-					// comparing constructors is more strict than using
-					// instanceof
-					if ( a.constructor !== b.constructor ) {
+			if ( compareConstructors( a, b ) === false ) {
+				return false;
+			}
 
-						// Allow objects with no prototype to be equivalent to
-						// objects with Object as their constructor.
-						if ( !( ( getProto( a ) === null && getProto( b ) === Object.prototype ) ||
-							( getProto( b ) === null && getProto( a ) === Object.prototype ) ) ) {
-							return false;
-						}
-					}
+			// Stack constructor before traversing properties
+			callers.push( a.constructor );
 
-					// stack constructor before traversing properties
-					callers.push( a.constructor );
+			// Track reference to avoid circular references
+			parents.push( a );
+			parentsB.push( b );
 
-					// track reference to avoid circular references
-					parents.push( a );
-					parentsB.push( b );
-
-					// be strict: don't ensure hasOwnProperty and go deep
-					for ( i in a ) {
-						loop = false;
-						for ( j = 0; j < parents.length; j++ ) {
-							aCircular = parents[ j ] === a[ i ];
-							bCircular = parentsB[ j ] === b[ i ];
-							if ( aCircular || bCircular ) {
-								if ( a[ i ] === b[ i ] || aCircular && bCircular ) {
-									loop = true;
-								} else {
-									eq = false;
-									break;
-								}
-							}
-						}
-						aProperties.push( i );
-						if ( !loop && !innerEquiv( a[ i ], b[ i ] ) ) {
+			// Be strict: don't ensure hasOwnProperty and go deep
+			for ( i in a ) {
+				loop = false;
+				for ( j = 0; j < parents.length; j++ ) {
+					aCircular = parents[ j ] === a[ i ];
+					bCircular = parentsB[ j ] === b[ i ];
+					if ( aCircular || bCircular ) {
+						if ( a[ i ] === b[ i ] || aCircular && bCircular ) {
+							loop = true;
+						} else {
 							eq = false;
 							break;
 						}
 					}
-
-					parents.pop();
-					parentsB.pop();
-					callers.pop(); // unstack, we are done
-
-					for ( i in b ) {
-						bProperties.push( i ); // collect b's properties
-					}
-
-					// Ensures identical properties name
-					return eq && innerEquiv( aProperties.sort(), bProperties.sort() );
 				}
-			};
-		}());
+				aProperties.push( i );
+				if ( !loop && !innerEquiv( a[ i ], b[ i ] ) ) {
+					eq = false;
+					break;
+				}
+			}
 
-	innerEquiv = function() { // can take multiple arguments
+			parents.pop();
+			parentsB.pop();
+
+			// Unstack, we are done
+			callers.pop();
+
+			for ( i in b ) {
+
+				// Collect b's properties
+				bProperties.push( i );
+			}
+
+			// Ensures identical properties name
+			return eq && innerEquiv( aProperties.sort(), bProperties.sort() );
+		}
+	};
+
+	function typeEquiv( a, b ) {
+		var prop = QUnit.objectType( a );
+		return callbacks[ prop ]( b, a );
+	}
+
+	// The real equiv function
+	function innerEquiv() {
 		var args = [].slice.apply( arguments );
 		if ( args.length < 2 ) {
-			return true; // end transition
+
+			// End transition
+			return true;
 		}
 
 		return ( (function( a, b ) {
 			if ( a === b ) {
-				return true; // catch the most you can
+
+				// Catch the most you can
+				return true;
 			} else if ( a === null || b === null || typeof a === "undefined" ||
 					typeof b === "undefined" ||
 					QUnit.objectType( a ) !== QUnit.objectType( b ) ) {
 
-				// don't lose time with error prone cases
+				// Don't lose time with error prone cases
 				return false;
 			} else {
-				return bindCallbacks( a, callbacks, [ b, a ] );
+				return typeEquiv( a, b );
 			}
 
-			// apply transition with (1..n) arguments
+		// Apply transition with (1..n) arguments
 		}( args[ 0 ], args[ 1 ] ) ) &&
 			innerEquiv.apply( this, args.splice( 1, args.length - 1 ) ) );
-	};
+	}
 
 	return innerEquiv;
 }());
@@ -1999,7 +2170,8 @@ if ( defined.document ) {
 				"notDeepEqual",
 				"strictEqual",
 				"notStrictEqual",
-				"throws"
+				"throws",
+				"raises"
 			];
 
 		for ( i = 0, l = keys.length; i < l; i++ ) {
@@ -3212,6 +3384,7 @@ QUnit.init = function() {
 };
 
 var config = QUnit.config,
+	collapseNext = false,
 	hasOwn = Object.prototype.hasOwnProperty,
 	defined = {
 		document: window.document !== undefined,
@@ -3608,6 +3781,17 @@ function storeFixture() {
 	}
 }
 
+function appendFilteredTest() {
+	var testId = QUnit.config.testId;
+	if ( !testId || testId.length <= 0 ) {
+		return "";
+	}
+	return "<div id='qunit-filteredTest'>Rerunning selected tests: " + testId.join(", ") +
+		" <a id='qunit-clearFilter' href='" +
+		setUrl({ filter: undefined, module: undefined, testId: undefined }) +
+		"'>" + "Run all tests" + "</a></div>";
+}
+
 function appendUserAgent() {
 	var userAgent = id( "qunit-userAgent" );
 
@@ -3615,7 +3799,7 @@ function appendUserAgent() {
 		userAgent.innerHTML = "";
 		userAgent.appendChild(
 			document.createTextNode(
-				"QUnit " + QUnit.version  + "; " + navigator.userAgent
+				"QUnit " + QUnit.version + "; " + navigator.userAgent
 			)
 		);
 	}
@@ -3679,6 +3863,7 @@ QUnit.begin(function( details ) {
 			"<h1 id='qunit-header'>" + escapeText( document.title ) + "</h1>" +
 			"<h2 id='qunit-banner'></h2>" +
 			"<div id='qunit-testrunner-toolbar'></div>" +
+			appendFilteredTest() +
 			"<h2 id='qunit-userAgent'></h2>" +
 			"<ol id='qunit-tests'></ol>";
 	}
@@ -3895,6 +4080,16 @@ QUnit.testDone(function( details ) {
 	}
 
 	if ( bad === 0 ) {
+
+		// Collapse the passing tests
+		addClass( assertList, "qunit-collapsed" );
+	} else if ( bad && config.collapse && !collapseNext ) {
+
+		// Skip collapsing the first failing test
+		collapseNext = true;
+	} else {
+
+		// Collapse remaining tests
 		addClass( assertList, "qunit-collapsed" );
 	}
 
