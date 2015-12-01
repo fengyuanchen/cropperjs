@@ -178,7 +178,15 @@ Add extra elements (containers) for previewing.
 - Type: `Boolean`
 - Default: `true`
 
-Rebuild the cropper when resize the window.
+Re-render the cropper when resize the window.
+
+
+### restore
+
+- Type: `Boolean`
+- Default: `true`
+
+Restore the cropped area after resize the window.
 
 
 ### checkCrossOrigin

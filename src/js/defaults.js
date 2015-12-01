@@ -15,8 +15,11 @@
     // A selector for adding extra containers to preview
     preview: '',
 
-    // Rebuild when resize the window
+    // Re-render the cropper when resize the window
     responsive: true,
+
+    // Restore the cropped area after resize the window
+    restore: true,
 
     // Check if the target image is cross origin
     checkCrossOrigin: true,

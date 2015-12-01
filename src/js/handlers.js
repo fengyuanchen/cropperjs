@@ -1,5 +1,6 @@
   extend(prototype, {
     resize: function () {
+      var restore = this.options.restore;
       var container = this.container;
       var containerData = this.containerData;
       var canvasData;
@@ -15,16 +16,21 @@
 
       // Resize when width changed or height changed
       if (ratio !== 1 || container.offsetHeight !== containerData.height) {
-        canvasData = this.getCanvasData();
-        cropBoxData = this.getCropBoxData();
+        if (restore) {
+          canvasData = this.getCanvasData();
+          cropBoxData = this.getCropBoxData();
+        }
 
         this.render();
-        this.setCanvasData(each(canvasData, function (n, i) {
-          canvasData[i] = n * ratio;
-        }));
-        this.setCropBoxData(each(cropBoxData, function (n, i) {
-          cropBoxData[i] = n * ratio;
-        }));
+
+        if (restore) {
+          this.setCanvasData(each(canvasData, function (n, i) {
+            canvasData[i] = n * ratio;
+          }));
+          this.setCropBoxData(each(cropBoxData, function (n, i) {
+            cropBoxData[i] = n * ratio;
+          }));
+        }
       }
     },
 
