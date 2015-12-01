@@ -67,6 +67,7 @@
       var height = imageData.height;
       var left = cropBoxData.left - canvasData.left - imageData.left;
       var top = cropBoxData.top - canvasData.top - imageData.top;
+      var transform = getTransform(imageData);
 
       if (!this.isCropped || this.isDisabled) {
         return;
@@ -77,7 +78,9 @@
         'height:' + height + 'px;' +
         'margin-left:' + -left + 'px;' +
         'margin-top:' + -top + 'px;' +
-        'transform:' + getTransform(imageData) + ';'
+        '-webkit-transform:' + transform + ';' +
+        '-ms-transform:' + transform + ';' +
+        'transform:' + transform + ';'
       );
 
       each(this.previews, function (element) {
@@ -106,7 +109,9 @@
         imageStyle.height = height * ratio + 'px';
         imageStyle.marginLeft = -left * ratio + 'px';
         imageStyle.marginTop = -top * ratio + 'px';
-        imageStyle.transform = getTransform(imageData);
+        imageStyle.WebkitTransform = transform;
+        imageStyle.msTransform = transform;
+        imageStyle.transform = transform;
       });
     }
   });

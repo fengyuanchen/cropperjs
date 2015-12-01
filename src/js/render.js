@@ -281,6 +281,7 @@
       var canvasData = this.canvasData;
       var imageData = this.imageData;
       var reversedData;
+      var transform;
 
       if (imageData.rotate) {
         reversedData = getRotatedSizes({
@@ -303,12 +304,16 @@
         top: 0
       });
 
+      transform = getTransform(imageData);
+
       this.image.style.cssText = (
         'width:' + imageData.width + 'px;' +
         'height:' + imageData.height + 'px;' +
         'margin-left:' + imageData.left + 'px;' +
         'margin-top:' + imageData.top + 'px;' +
-        'transform:' + getTransform(imageData) + ';'
+        '-webkit-transform:' + transform + ';' +
+        '-ms-transform:' + transform + ';' +
+        'transform:' + transform + ';'
       );
 
       if (isChanged) {
