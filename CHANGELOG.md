@@ -1,6 +1,12 @@
 # Changelog
 
 
+## 0.4.0 (Dec 2, 2015)
+
+- Added a new option: `restore`
+- Fixed #12: Added vendor prefixes to CSS `transform`
+
+
 ## 0.3.3 (Nov 30, 2015)
 
 - Floor the numerical parameters for `CanvasRenderingContext2D.drawImage`

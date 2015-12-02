@@ -1,11 +1,11 @@
 /*!
- * Cropper v0.3.3
+ * Cropper v0.4.0
  * https://github.com/fengyuanchen/cropperjs
  *
  * Copyright (c) 2015 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2015-11-30T02:54:53.110Z
+ * Date: 2015-12-02T06:35:32.008Z
  */
 
 (function (global, factory) {
@@ -91,7 +91,7 @@
 
   // Prototype
   var prototype = {
-    version: '0.3.3'
+    version: '0.4.0'
   };
 
   // Utilities
@@ -1123,6 +1123,7 @@
       var canvasData = this.canvasData;
       var imageData = this.imageData;
       var reversedData;
+      var transform;
 
       if (imageData.rotate) {
         reversedData = getRotatedSizes({
@@ -1145,12 +1146,16 @@
         top: 0
       });
 
+      transform = getTransform(imageData);
+
       this.image.style.cssText = (
         'width:' + imageData.width + 'px;' +
         'height:' + imageData.height + 'px;' +
         'margin-left:' + imageData.left + 'px;' +
         'margin-top:' + imageData.top + 'px;' +
-        'transform:' + getTransform(imageData) + ';'
+        '-webkit-transform:' + transform + ';' +
+        '-ms-transform:' + transform + ';' +
+        'transform:' + transform + ';'
       );
 
       if (isChanged) {
@@ -1407,6 +1412,7 @@
       var height = imageData.height;
       var left = cropBoxData.left - canvasData.left - imageData.left;
       var top = cropBoxData.top - canvasData.top - imageData.top;
+      var transform = getTransform(imageData);
 
       if (!this.isCropped || this.isDisabled) {
         return;
@@ -1417,7 +1423,9 @@
         'height:' + height + 'px;' +
         'margin-left:' + -left + 'px;' +
         'margin-top:' + -top + 'px;' +
-        'transform:' + getTransform(imageData) + ';'
+        '-webkit-transform:' + transform + ';' +
+        '-ms-transform:' + transform + ';' +
+        'transform:' + transform + ';'
       );
 
       each(this.previews, function (element) {
@@ -1446,7 +1454,9 @@
         imageStyle.height = height * ratio + 'px';
         imageStyle.marginLeft = -left * ratio + 'px';
         imageStyle.marginTop = -top * ratio + 'px';
-        imageStyle.transform = getTransform(imageData);
+        imageStyle.WebkitTransform = transform;
+        imageStyle.msTransform = transform;
+        imageStyle.transform = transform;
       });
     }
   });
@@ -1499,6 +1509,7 @@
 
   extend(prototype, {
     resize: function () {
+      var restore = this.options.restore;
       var container = this.container;
       var containerData = this.containerData;
       var canvasData;
@@ -1514,16 +1525,21 @@
 
       // Resize when width changed or height changed
       if (ratio !== 1 || container.offsetHeight !== containerData.height) {
-        canvasData = this.getCanvasData();
-        cropBoxData = this.getCropBoxData();
+        if (restore) {
+          canvasData = this.getCanvasData();
+          cropBoxData = this.getCropBoxData();
+        }
 
         this.render();
-        this.setCanvasData(each(canvasData, function (n, i) {
-          canvasData[i] = n * ratio;
-        }));
-        this.setCropBoxData(each(cropBoxData, function (n, i) {
-          cropBoxData[i] = n * ratio;
-        }));
+
+        if (restore) {
+          this.setCanvasData(each(canvasData, function (n, i) {
+            canvasData[i] = n * ratio;
+          }));
+          this.setCropBoxData(each(cropBoxData, function (n, i) {
+            cropBoxData[i] = n * ratio;
+          }));
+        }
       }
     },
 
@@ -2884,8 +2900,11 @@
     // A selector for adding extra containers to preview
     preview: '',
 
-    // Rebuild when resize the window
+    // Re-render the cropper when resize the window
     responsive: true,
+
+    // Restore the cropped area after resize the window
+    restore: true,
 
     // Check if the target image is cross origin
     checkCrossOrigin: true,
