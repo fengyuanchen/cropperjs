@@ -39,9 +39,6 @@
 - Cross-browser support
 
 
-[⬆ Back to top](#table-of-contents)
-
-
 
 ## Main
 
@@ -52,10 +49,6 @@ dist/
 ├── cropper.js      (87 KB)
 └── cropper.min.js  (29 KB)
 ```
-
-
-[⬆ Back to top](#table-of-contents)
-
 
 
 ## Getting started
@@ -131,7 +124,7 @@ See the [FAQ](FAQ.md) documentation.
 - [Known iOS resource limits](https://developer.apple.com/library/mac/documentation/AppleApplications/Reference/SafariWebContent/CreatingContentforSafarioniPhone/CreatingContentforSafarioniPhone.html): As iOS devices limit memory, the browser may crash when you are cropping a large image (iPhone camera resolution). To avoid this, you may resize the image first (preferably below 1024 pixels) before start a cropper.
 
 
-[⬆ Back to top](#table-of-contents)
+[⬆ back to top](#table-of-contents)
 
 
 
@@ -570,7 +563,7 @@ new Cropper(image, {
 ```
 
 
-[⬆ Back to top](#table-of-contents)
+[⬆ back to top](#table-of-contents)
 
 
 
@@ -979,7 +972,7 @@ Change the drag mode.
 **Tips:** You can toggle the "crop" and "move" mode by double click on the cropper.
 
 
-[⬆ Back to top](#table-of-contents)
+[⬆ back to top](#table-of-contents)
 
 
 
@@ -997,9 +990,6 @@ If you have to use other cropper with the same namespace, just call the `Cropper
 ```
 
 
-[⬆ Back to top](#table-of-contents)
-
-
 
 ## Browser support
 
@@ -1010,16 +1000,10 @@ If you have to use other cropper with the same namespace, just call the `Cropper
 - Safari (latest 2)
 
 
-[⬆ Back to top](#table-of-contents)
-
-
 
 ## Contributing
 
 Please read through our [contributing guidelines](CONTRIBUTING.md).
-
-
-[⬆ Back to top](#table-of-contents)
 
 
 
@@ -1028,13 +1012,7 @@ Please read through our [contributing guidelines](CONTRIBUTING.md).
 Maintained under the [Semantic Versioning guidelines](http://semver.org/).
 
 
-[⬆ Back to top](#table-of-contents)
-
-
 
 ## License
 
 [MIT](http://opensource.org/licenses/MIT) © [Fengyuan Chen](http://chenfengyuan.com)
-
-
-[⬆ Back to top](#table-of-contents)

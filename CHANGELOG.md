@@ -1,6 +1,12 @@
 # Changelog
 
 
+## 0.5.0 (Dec 5, 2015)
+
+- Added a new option: `checkOrientation`
+- Added a timestamp to the url of preview image
+
+
 ## 0.4.0 (Dec 2, 2015)
 
 - Added a new option: `restore`
