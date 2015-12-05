@@ -39,15 +39,19 @@ window.onload = function () {
           dataY.value = Math.round(data.y);
           dataHeight.value = Math.round(data.height);
           dataWidth.value = Math.round(data.width);
-          dataRotate.value = data.rotate || '';
-          dataScaleX.value = data.scaleX || '';
-          dataScaleY.value = data.scaleY || '';
+          dataRotate.value = !isUndefined(data.rotate) ? data.rotate : '';
+          dataScaleX.value = !isUndefined(data.scaleX) ? data.scaleX : '';
+          dataScaleY.value = !isUndefined(data.scaleY) ? data.scaleY : '';
         },
         zoom: function (data) {
           console.log('zoom', data.ratio);
         }
       };
   var cropper = new Cropper(image, options);
+
+  function isUndefined(obj) {
+    return typeof obj === 'undefined';
+  }
 
   function preventDefault(e) {
     if (e) {
