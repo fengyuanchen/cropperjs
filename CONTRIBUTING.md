@@ -33,11 +33,11 @@ Go to the [Cropper issue tracker](https://github.com/fengyuanchen/cropperjs/issu
 
 ### Browser support
 
-Remember that Cropper supports multiple browsers and their versions; any contributed code must work in all of them. You can refer to the [browser support page](https://github.com/fengyuanchen/cropperjs#browser-support) for the current list of supported browsers.
-
+Remember that Cropper supports multiple browsers and their versions; any contributed code must work in all of them. You can refer to the [browser support page](README.md#browser-support) for the current list of supported browsers.
 
 
 ## Notes for pull request
 
-- Keep the same code style.
-- Don't change the files of the `dist` directory.
+- Run the test suites in the `test` directory first.
+- Don't modify any files in the `dist` directory.
+- Follow the same code style as the library.
