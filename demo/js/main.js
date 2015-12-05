@@ -39,9 +39,9 @@ window.onload = function () {
           dataY.value = Math.round(data.y);
           dataHeight.value = Math.round(data.height);
           dataWidth.value = Math.round(data.width);
-          dataRotate.value = data.rotate;
-          dataScaleX.value = data.scaleX;
-          dataScaleY.value = data.scaleY;
+          dataRotate.value = data.rotate || '';
+          dataScaleX.value = data.scaleX || '';
+          dataScaleY.value = data.scaleY || '';
         },
         zoom: function (data) {
           console.log('zoom', data.ratio);
