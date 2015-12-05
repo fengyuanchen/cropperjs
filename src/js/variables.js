@@ -1,6 +1,10 @@
   // Globals
   var document = window.document;
   var location = window.location;
+  var ArrayBuffer = window.ArrayBuffer;
+  var Uint8Array = window.Uint8Array;
+  var DataView = window.DataView;
+  var btoa = window.btoa;
 
   // Constants
   var NAMESPACE = 'cropper';
@@ -72,3 +76,4 @@
   var EMPTY_OBJECT = {};
   var toString = EMPTY_OBJECT.toString;
   var hasOwnProperty = EMPTY_OBJECT.hasOwnProperty;
+  var fromCharCode = String.fromCharCode;

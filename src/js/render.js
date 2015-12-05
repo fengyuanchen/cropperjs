@@ -42,31 +42,50 @@
       var containerWidth = containerData.width;
       var containerHeight = containerData.height;
       var imageData = this.imageData;
+      var naturalWidth = imageData.naturalWidth;
+      var naturalHeight = imageData.naturalHeight;
       var aspectRatio = imageData.aspectRatio;
-      var canvasData = {
-            naturalWidth: imageData.naturalWidth,
-            naturalHeight: imageData.naturalHeight,
-            aspectRatio: aspectRatio,
-            width: containerWidth,
-            height: containerHeight
-          };
+      var canvasWidth = containerWidth;
+      var canvasHeight = containerHeight;
+      var canvasData;
+      var rotatedData;
+
+      if (imageData.rotate) {
+        rotatedData = getRotatedSizes({
+          width: naturalWidth,
+          height: naturalHeight,
+          degree: imageData.rotate
+        });
+
+        naturalWidth = rotatedData.width;
+        naturalHeight = rotatedData.height;
+        aspectRatio = rotatedData.width / rotatedData.height;
+      }
 
       if (containerHeight * aspectRatio > containerWidth) {
         if (viewMode === 3) {
-          canvasData.width = containerHeight * aspectRatio;
+          canvasWidth = containerHeight * aspectRatio;
         } else {
-          canvasData.height = containerWidth / aspectRatio;
+          canvasHeight = containerWidth / aspectRatio;
         }
       } else {
         if (viewMode === 3) {
-          canvasData.height = containerWidth / aspectRatio;
+          canvasHeight = containerWidth / aspectRatio;
         } else {
-          canvasData.width = containerHeight * aspectRatio;
+          canvasWidth = containerHeight * aspectRatio;
         }
       }
 
-      canvasData.oldLeft = canvasData.left = (containerWidth - canvasData.width) / 2;
-      canvasData.oldTop = canvasData.top = (containerHeight - canvasData.height) / 2;
+      canvasData = {
+        naturalWidth: naturalWidth,
+        naturalHeight: naturalHeight,
+        aspectRatio: aspectRatio,
+        width: canvasWidth,
+        height: canvasHeight
+      };
+
+      canvasData.oldLeft = canvasData.left = (containerWidth - canvasWidth) / 2;
+      canvasData.oldTop = canvasData.top = (containerHeight - canvasHeight) / 2;
 
       this.canvasData = canvasData;
       this.isLimited = (viewMode === 1 || viewMode === 2);

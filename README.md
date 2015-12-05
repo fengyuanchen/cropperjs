@@ -15,9 +15,10 @@
 - Supports zoom
 - Supports rotation
 - Supports scale (flip)
-- Supports canvas
 - Supports multiple croppers
+- Supports to crop on a canvas
 - Supports to crop image in the browser-side with canvas
+- Supports to read Exif Orientation and transform an image automatically
 - Cross-browser support
 
 
@@ -104,9 +105,7 @@ See the [FAQ](FAQ.md) documentation.
 
 #### Known issues
 
-- About `getCroppedCanvas` method: The `canvas.drawImage` API in some Mac OS / iOS browsers will rotate an image with EXIF Orientation automatically, so the output cropped canvas may be incorrect. To fix this, you may upload the cropped data and crop the image in the server-side, see the example: [Crop Avatar](https://github.com/fengyuanchen/cropper/tree/master/examples/crop-avatar). Or you may translate the EXIF Orientation by canvas as [Loader](https://github.com/fengyuanchen/loader) first before to use cropper.
-
-- [Known iOS resource limits](https://developer.apple.com/library/mac/documentation/AppleApplications/Reference/SafariWebContent/CreatingContentforSafarioniPhone/CreatingContentforSafarioniPhone.html): As iOS devices limit memory, the browser may crash when you are cropping a large image (iPhone camera resolution). To avoid this, you may resize the image first (below 1024px) before start a cropper.
+- [Known iOS resource limits](https://developer.apple.com/library/mac/documentation/AppleApplications/Reference/SafariWebContent/CreatingContentforSafarioniPhone/CreatingContentforSafarioniPhone.html): As iOS devices limit memory, the browser may crash when you are cropping a large image (iPhone camera resolution). To avoid this, you may resize the image first (preferably below 1024px) before start a cropper.
 
 
 
@@ -194,9 +193,23 @@ Restore the cropped area after resize the window.
 - Type: `Boolean`
 - Default: `true`
 
-By default, the plugin will check the image origin, and if it is a cross-origin image, a `crossOrigin` attribute will be added to the image element and a timestamp will be added to the image url to reload the image for "getCroppedCanvas".
+Check if the current image is a cross-origin image.
+
+If it is, when clone the image, a `crossOrigin` attribute will be added to the cloned image element and a timestamp will be added to the `src` attribute to reload the source image to avoid browser cache error.
 
 By adding `crossOrigin` attribute to image will stop adding timestamp to image url, and stop reload of image.
+
+
+### checkOrientation
+
+- Type: `Boolean`
+- Default: `true`
+
+Check the current image's Exif Orientation information.
+
+More exactly, read the Orientation value for rotating or flipping the image, and then override the Orientation value with `1` (the default value) to avoid some issues ([1](https://github.com/fengyuanchen/cropper/issues/120), [2](https://github.com/fengyuanchen/cropper/issues/509)) on iOS devices.
+
+> Requires [Typed Arrays](http://caniuse.com/typedarrays) support (IE 10+).
 
 
 ### modal

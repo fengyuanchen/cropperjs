@@ -31,19 +31,111 @@
     },
 
     load: function (url) {
-      var options = this.options;
-      var element = this.element;
-      var crossOrigin;
-      var bustCacheUrl;
-      var image;
-      var start;
-      var stop;
+      var read;
+      var xhr;
 
       if (!url) {
         return;
       }
 
       this.url = url;
+      this.imageData = {};
+
+      if (!this.options.checkOrientation || !ArrayBuffer) {
+        return this.clone();
+      }
+
+      read = proxy(this.read, this);
+      xhr = new XMLHttpRequest();
+
+      xhr.onload = function () {
+        read(this.response);
+      };
+
+      xhr.open('get', url);
+      xhr.responseType = 'arraybuffer';
+      xhr.send();
+    },
+
+    read: function (arrayBuffer) {
+      var options = this.options;
+      var orientation = getOrientation(arrayBuffer);
+      var imageData = {};
+      var base64 = '';
+      var rotate;
+      var scaleX;
+      var scaleY;
+
+      if (orientation) {
+        each(new Uint8Array(arrayBuffer), function (code) {
+          base64 += fromCharCode(code);
+        });
+
+        this.url = 'data:image/jpeg;base64,' + btoa(base64);
+
+        switch (orientation) {
+
+          // flip horizontal
+          case 2:
+            scaleX = -1;
+            break;
+
+          // rotate left 180°
+          case 3:
+            rotate = -180;
+            break;
+
+          // flip vertical
+          case 4:
+            scaleY = -1;
+            break;
+
+          // flip vertical + rotate right 90°
+          case 5:
+            rotate = 90;
+            scaleY = -1;
+            break;
+
+          // rotate right 90°
+          case 6:
+            rotate = 90;
+            break;
+
+          // flip horizontal + rotate right 90°
+          case 7:
+            rotate = 90;
+            scaleX = -1;
+            break;
+
+          // rotate left 90°
+          case 8:
+            rotate = -90;
+            break;
+        }
+      }
+
+      if (options.rotatable) {
+        imageData.rotate = rotate;
+      }
+
+      if (options.scalable) {
+        imageData.scaleX = scaleX;
+        imageData.scaleY = scaleY;
+      }
+
+      this.imageData = imageData;
+      this.clone();
+    },
+
+    clone: function () {
+      var options = this.options;
+      var element = this.element;
+      var url = this.url;
+      var crossOrigin;
+      var bustCacheUrl;
+      var image;
+      var start;
+      var stop;
 
       if (isFunction(options.build) && options.build.call(element) === false) {
         return;
@@ -89,11 +181,11 @@
       }
 
       getImageSize(image, proxy(function (naturalWidth, naturalHeight) {
-        this.imageData = {
+        extend(this.imageData, {
           naturalWidth: naturalWidth,
           naturalHeight: naturalHeight,
           aspectRatio: naturalWidth / naturalHeight
-        };
+        });
 
         this.isLoaded = true;
         this.build();

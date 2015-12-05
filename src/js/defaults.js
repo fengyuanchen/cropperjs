@@ -21,8 +21,11 @@
     // Restore the cropped area after resize the window
     restore: true,
 
-    // Check if the target image is cross origin
+    // Check if the current image is a cross-origin image
     checkCrossOrigin: true,
+
+    // Check the current image's Exif Orientation information
+    checkOrientation: true,
 
     // Show the black modal
     modal: true,
