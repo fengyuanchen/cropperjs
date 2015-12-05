@@ -3,10 +3,13 @@
       var preview = this.options.preview;
       var image = document.createElement('img');
       var crossOrigin = this.crossOrigin;
-      var url = this.url;
+      var url = crossOrigin ? this.crossOriginUrl : this.url;
       var previews;
 
-      setCrossOrigin(image, crossOrigin);
+      if (crossOrigin) {
+        image.crossOrigin = crossOrigin;
+      }
+
       image.src = url;
       appendChild(this.viewBox, image);
 
@@ -25,7 +28,10 @@
           html: element.innerHTML
         });
 
-        setCrossOrigin(image, crossOrigin);
+        if (crossOrigin) {
+          image.crossOrigin = crossOrigin;
+        }
+
         image.src = url;
 
         /**

@@ -132,7 +132,7 @@
       var element = this.element;
       var url = this.url;
       var crossOrigin;
-      var bustCacheUrl;
+      var crossOriginUrl;
       var image;
       var start;
       var stop;
@@ -146,14 +146,21 @@
 
         if (!crossOrigin) {
           crossOrigin = 'anonymous';
-          bustCacheUrl = addTimestamp(url);
+
+          // Add a timestamp to url for busting browser cache
+          crossOriginUrl = addTimestamp(url);
         }
       }
 
       this.crossOrigin = crossOrigin;
+      this.crossOriginUrl = crossOriginUrl;
       image = document.createElement('img');
-      setCrossOrigin(image, crossOrigin);
-      image.src = bustCacheUrl || url;
+
+      if (crossOrigin) {
+        image.crossOrigin = crossOrigin;
+      }
+
+      image.src = crossOriginUrl || url;
       this.image = image;
       this._start = start = proxy(this.start, this);
       this._stop = stop = proxy(this.stop, this);

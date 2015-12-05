@@ -331,12 +331,6 @@
     );
   }
 
-  function setCrossOrigin(image, crossOrigin) {
-    if (crossOrigin) {
-      image.crossOrigin = crossOrigin;
-    }
-  }
-
   function addTimestamp(url) {
     var timestamp = 'timestamp=' + (new Date()).getTime();
 

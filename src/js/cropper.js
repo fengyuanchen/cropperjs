@@ -11,7 +11,6 @@
     this.isLimited = false;
     this.isImg = false;
     this.originalUrl = '';
-    this.crossOrigin = '';
     this.canvasData = null;
     this.cropBoxData = null;
     this.previews = null;
