@@ -1,4 +1,4 @@
-# [Cropper.js](https://github.com/fengyuanchen/cropperjs)
+# Cropper.js
 
 > JavaScript image cropper.
 
@@ -6,20 +6,36 @@
 - [Cropper with jQuery](http://github.com/fengyuanchen/cropper)
 
 
+## Table of contents
+
+  - [Features](#features)
+  - [Main](#main)
+  - [Getting started](#getting-started)
+  - [Methods](#methods)
+  - [Options](#options)
+  - [No conflict](#no-conflict)
+  - [Browser support](#browser-support)
+  - [Contributing](#contributing)
+  - [Versioning](#versioning)
+  - [License](#license)
+
 
 ## Features
 
-- Supports [options](#options)
-- Supports [methods](#methods)
+- Supports 39 options (includes 7 callbacks)
+- Supports 27 methods
 - Supports touch (mobile)
-- Supports zoom
-- Supports rotation
-- Supports scale (flip)
+- Supports zooming
+- Supports rotating
+- Supports scaling (flipping)
 - Supports multiple croppers
 - Supports to crop on a canvas
-- Supports to crop image in the browser-side with canvas
-- Supports to read Exif Orientation and transform an image automatically
+- Supports to crop image in the browser-side by canvas
+- Supports to read [Exif](https://en.wikipedia.org/wiki/Exchangeable_image_file_format) Orientation from an image and transform it automatically
 - Cross-browser support
+
+
+[⬆ Back to top](#table-of-contents)
 
 
 
@@ -29,9 +45,12 @@
 dist/
 ├── cropper.css     ( 5 KB)
 ├── cropper.min.css ( 4 KB)
-├── cropper.js      (80 KB)
-└── cropper.min.js  (28 KB)
+├── cropper.js      (87 KB)
+└── cropper.min.js  (29 KB)
 ```
+
+
+[⬆ Back to top](#table-of-contents)
 
 
 
@@ -105,7 +124,10 @@ See the [FAQ](FAQ.md) documentation.
 
 #### Known issues
 
-- [Known iOS resource limits](https://developer.apple.com/library/mac/documentation/AppleApplications/Reference/SafariWebContent/CreatingContentforSafarioniPhone/CreatingContentforSafarioniPhone.html): As iOS devices limit memory, the browser may crash when you are cropping a large image (iPhone camera resolution). To avoid this, you may resize the image first (preferably below 1024px) before start a cropper.
+- [Known iOS resource limits](https://developer.apple.com/library/mac/documentation/AppleApplications/Reference/SafariWebContent/CreatingContentforSafarioniPhone/CreatingContentforSafarioniPhone.html): As iOS devices limit memory, the browser may crash when you are cropping a large image (iPhone camera resolution). To avoid this, you may resize the image first (preferably below 1024 pixels) before start a cropper.
+
+
+[⬆ Back to top](#table-of-contents)
 
 
 
@@ -168,8 +190,8 @@ Add extra elements (containers) for previewing.
 
 - The maximum width is the initial width of preview container.
 - The maximum height is the initial height of preview container.
-- If you set an `aspectRatio` option, be sure to set the preview container with the same aspect ratio.
-- If preview is not getting properly displayed, set `overflow:hidden` to the preview container.
+- If you set an `aspectRatio` option, be sure to set the same aspect ratio to the preview container.
+- If preview is not getting properly displayed, set `overflow: hidden` style to the preview container.
 
 
 ### responsive
@@ -209,7 +231,7 @@ Check the current image's Exif Orientation information.
 
 More exactly, read the Orientation value for rotating or flipping the image, and then override the Orientation value with `1` (the default value) to avoid some issues ([1](https://github.com/fengyuanchen/cropper/issues/120), [2](https://github.com/fengyuanchen/cropper/issues/509)) on iOS devices.
 
-> Requires [Typed Arrays](http://caniuse.com/typedarrays) support (IE 10+).
+> Requires [Typed Arrays](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray) support ([IE 10+](http://caniuse.com/typedarrays)).
 
 
 ### modal
@@ -544,6 +566,10 @@ new Cropper(image, {
 ```
 
 
+[⬆ Back to top](#table-of-contents)
+
+
+
 ## Methods
 
 As there is an **asynchronous** process when load the image, you **should call most of the methods after built**, except "setAspectRatio", "replace" and "destroy".
@@ -685,7 +711,7 @@ cropper.zoomTo(1); // 1:1 (canvasData.width === canvasData.naturalWidth)
 
 Rotate the canvas (image wrapper) with a relative degree.
 
-> Requires [CSS3 2D Transforms](http://caniuse.com/transforms2d) support (IE 9+).
+> Requires [CSS3 2D Transforms](https://developer.mozilla.org/en-US/docs/Web/CSS/transform) support ([IE 9+](http://caniuse.com/transforms2d)).
 
 ```js
 cropper.rotate(90);
@@ -716,7 +742,7 @@ Rotate the canvas (image wrapper) to an absolute degree.
 
 Scale the image.
 
-> Requires [CSS3 2D Transforms](http://caniuse.com/transforms2d) support (IE 9+).
+> Requires [CSS3 2D Transforms](https://developer.mozilla.org/en-US/docs/Web/CSS/transform) support ([IE 9+](http://caniuse.com/transforms2d)).
 
 ```js
 cropper.scale(-1); // Flip both horizontal and vertical
@@ -767,7 +793,7 @@ Scale the ordinate of the image.
 
 Output the cropped area position and size data (base on the original image).
 
-![a schematic diagram of data's properties](assets/img/data.jpg)
+![A schematic diagram for data's properties](assets/img/data.jpg)
 
 
 ### setData(data)
@@ -791,7 +817,7 @@ Change the cropped area position and size with new data (base on the original im
 
 Output the container size data.
 
-![a schematic diagram of cropper's layers](assets/img/layers.jpg)
+![A schematic diagram for cropper's layers](assets/img/layers.jpg)
 
 
 ### getImageData()
@@ -890,9 +916,9 @@ Change the crop box position and size with new data.
   - A canvas drawn the cropped image.
 
 - Browser support:
-  - Basic image: requires [Canvas](http://caniuse.com/canvas) support (IE 9+).
-  - Rotated image: requires [CSS3 2D Transforms](http://caniuse.com/transforms2d) support (IE 9+).
-  - Cross-origin image: requires HTML5 [CORS settings attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_settings_attributes) support (IE 11+).
+  - Basic image: requires [Canvas](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement) support ([IE 9+](http://caniuse.com/canvas)).
+  - Rotated image: requires [CSS3 2D Transforms](https://developer.mozilla.org/en-US/docs/Web/CSS/transform) support ([IE 9+](http://caniuse.com/transforms2d)).
+  - Cross-origin image: requires HTML5 [CORS settings attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_settings_attributes) support ([IE 11+](http://caniuse.com/cors)).
 
 Get a canvas drawn the cropped image.
 
@@ -906,13 +932,13 @@ cropper.getCroppedCanvas({
   height: 90
 });
 
-// Upload cropped image to server
+// Upload cropped image to server if the browser supports `canvas.toBlob`
 cropper.getCroppedCanvas().toBlob(function (blob) {
   var formData = new FormData();
 
   formData.append('croppedImage', blob);
 
-  // jQuery.ajax
+  // Use `jQuery.ajax` method
   $.ajax('/path/to/upload', {
     method: "POST",
     data: formData,
@@ -949,6 +975,9 @@ Change the drag mode.
 **Tips:** You can toggle the "crop" and "move" mode by double click on the cropper.
 
 
+[⬆ Back to top](#table-of-contents)
+
+
 
 ## No conflict
 
@@ -964,6 +993,9 @@ If you have to use other cropper with the same namespace, just call the `Cropper
 ```
 
 
+[⬆ Back to top](#table-of-contents)
+
+
 
 ## Browser support
 
@@ -974,10 +1006,16 @@ If you have to use other cropper with the same namespace, just call the `Cropper
 - Safari (latest 2)
 
 
+[⬆ Back to top](#table-of-contents)
+
+
 
 ## Contributing
 
 Please read through our [contributing guidelines](CONTRIBUTING.md).
+
+
+[⬆ Back to top](#table-of-contents)
 
 
 
@@ -986,7 +1024,13 @@ Please read through our [contributing guidelines](CONTRIBUTING.md).
 Maintained under the [Semantic Versioning guidelines](http://semver.org/).
 
 
+[⬆ Back to top](#table-of-contents)
+
+
 
 ## License
 
 [MIT](http://opensource.org/licenses/MIT) © [Fengyuan Chen](http://chenfengyuan.com)
+
+
+[⬆ Back to top](#table-of-contents)
