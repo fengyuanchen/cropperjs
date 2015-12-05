@@ -2,7 +2,7 @@
 
 > JavaScript image cropper.
 
-- [Demo](http://fengyuanchen.github.io/cropperjs)
+- [Homepage](http://cropperjs.com)
 - [Cropper with jQuery](http://github.com/fengyuanchen/cropper)
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/fengyuanchen/cropperjs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
