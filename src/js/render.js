@@ -42,25 +42,15 @@
       var containerWidth = containerData.width;
       var containerHeight = containerData.height;
       var imageData = this.imageData;
-      var naturalWidth = imageData.naturalWidth;
-      var naturalHeight = imageData.naturalHeight;
-      var aspectRatio = imageData.aspectRatio;
+      var imageNaturalWidth = imageData.naturalWidth;
+      var imageNaturalHeight = imageData.naturalHeight;
+      var is90Degree = abs(imageData.rotate) === 90;
+      var naturalWidth = is90Degree ? imageNaturalHeight : imageNaturalWidth;
+      var naturalHeight = is90Degree ? imageNaturalWidth : imageNaturalHeight;
+      var aspectRatio = naturalWidth / naturalHeight;
       var canvasWidth = containerWidth;
       var canvasHeight = containerHeight;
       var canvasData;
-      var rotatedData;
-
-      if (imageData.rotate) {
-        rotatedData = getRotatedSizes({
-          width: naturalWidth,
-          height: naturalHeight,
-          degree: imageData.rotate
-        });
-
-        naturalWidth = rotatedData.width;
-        naturalHeight = rotatedData.height;
-        aspectRatio = rotatedData.width / rotatedData.height;
-      }
 
       if (containerHeight * aspectRatio > containerWidth) {
         if (viewMode === 3) {
