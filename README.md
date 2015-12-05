@@ -5,6 +5,9 @@
 - [Demo](http://fengyuanchen.github.io/cropperjs)
 - [Cropper with jQuery](http://github.com/fengyuanchen/cropper)
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/fengyuanchen/cropperjs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
+
 
 ## Table of contents
 
@@ -18,6 +21,7 @@
   - [Contributing](#contributing)
   - [Versioning](#versioning)
   - [License](#license)
+
 
 
 ## Features
