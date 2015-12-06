@@ -31,6 +31,7 @@
     },
 
     load: function (url) {
+      var options = this.options;
       var read;
       var xhr;
 
@@ -38,10 +39,14 @@
         return;
       }
 
+      if (isFunction(options.build) && options.build.call(this.element) === false) {
+        return;
+      }
+
       this.url = url;
       this.imageData = {};
 
-      if (!this.options.checkOrientation || !ArrayBuffer) {
+      if (!options.checkOrientation || !ArrayBuffer) {
         return this.clone();
       }
 
@@ -127,7 +132,6 @@
     },
 
     clone: function () {
-      var options = this.options;
       var element = this.element;
       var url = this.url;
       var crossOrigin;
@@ -136,11 +140,7 @@
       var start;
       var stop;
 
-      if (isFunction(options.build) && options.build.call(element) === false) {
-        return;
-      }
-
-      if (options.checkCrossOrigin && isCrossOriginURL(url)) {
+      if (this.options.checkCrossOrigin && isCrossOriginURL(url)) {
         crossOrigin = element.crossOrigin;
 
         if (!crossOrigin) {
