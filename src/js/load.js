@@ -60,7 +60,7 @@
     read: function (arrayBuffer) {
       var options = this.options;
       var orientation = getOrientation(arrayBuffer);
-      var imageData = {};
+      var imageData = this.imageData;
       var base64 = '';
       var rotate;
       var scaleX;
@@ -123,7 +123,6 @@
         imageData.scaleY = scaleY;
       }
 
-      this.imageData = imageData;
       this.clone();
     },
 
