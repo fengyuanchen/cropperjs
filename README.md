@@ -35,7 +35,7 @@
 - Supports multiple croppers
 - Supports to crop on a canvas
 - Supports to crop image in the browser-side by canvas
-- Supports to read [Exif](https://en.wikipedia.org/wiki/Exchangeable_image_file_format) Orientation from an image and transform it automatically
+- Supports to translate Exif Orientation information
 - Cross-browser support
 
 
