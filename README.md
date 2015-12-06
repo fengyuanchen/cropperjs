@@ -5,7 +5,7 @@
 - [Homepage](http://cropperjs.com)
 - [Cropper with jQuery](http://github.com/fengyuanchen/cropper)
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/fengyuanchen/cropperjs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Build Status Images](https://travis-ci.org/fengyuanchen/cropperjs.svg)](https://travis-ci.org/fengyuanchen/cropperjs) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/fengyuanchen/cropperjs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 
 
