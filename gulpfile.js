@@ -221,7 +221,12 @@ gulp.task('docs:all', function () {
 
 gulp.task('docs', ['docs:img', 'docs:all']);
 
-gulp.task('release', ['js', 'css', 'docs'], function () {
+gulp.task('test', ['js', 'css'], function () {
+  return gulp.src('test/*.html')
+    .pipe(plugins.qunit());
+});
+
+gulp.task('release', ['test', 'docs'], function () {
   return gulp.src('dist/*.{js,css}')
     .pipe(gulp.dest('_releases/' + pkg.version));
 });
