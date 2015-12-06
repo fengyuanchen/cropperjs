@@ -26,8 +26,8 @@
 
 ## Features
 
-- Supports 39 options (includes 7 callbacks)
-- Supports 27 methods
+- Supports 39 [options](#options) (includes 7 callbacks)
+- Supports 27 [methods](#methods)
 - Supports touch (mobile)
 - Supports zooming
 - Supports rotating
@@ -1016,3 +1016,6 @@ Maintained under the [Semantic Versioning guidelines](http://semver.org/).
 ## License
 
 [MIT](http://opensource.org/licenses/MIT) © [Fengyuan Chen](http://chenfengyuan.com)
+
+
+[⬆ back to top](#table-of-contents)
