@@ -94,6 +94,7 @@ gulp.task('js', ['jshint', 'jscs'], function () {
   return gulp.src(scripts.main)
     .pipe(plugins.replace(replacement.regexp, replacement.filter))
     .pipe(gulp.dest(scripts.dest))
+    .pipe(gulp.dest(scripts.site))
     .pipe(plugins.rename(scripts.min))
     .pipe(plugins.uglify({
         preserveComments: 'license'
@@ -140,6 +141,7 @@ gulp.task('css', ['csslint'], function () {
         ]
       }))
     .pipe(gulp.dest(styles.dest))
+    .pipe(gulp.dest(styles.site))
     .pipe(plugins.rename(styles.min))
     .pipe(plugins.minifyCss({
         compatibility: 'ie8',
