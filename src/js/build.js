@@ -109,6 +109,7 @@
       }
 
       this.isBuilt = false;
+      this.isCompleted = false;
       this.initialImageData = null;
 
       // Clear `initialCanvasData` is necessary when replace
