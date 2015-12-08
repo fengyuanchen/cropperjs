@@ -4,7 +4,7 @@
     });
   }
 
-  if (typeof noGlobal === 'undefined') {
+  if (!noGlobal) {
     window.Cropper = Cropper;
   }
 

@@ -25,7 +25,7 @@
         aspectRatio = width && height ? width / height : 1;
       }
 
-      if (this.isLimited) {
+      if (this.limited) {
         minLeft = cropBoxData.minLeft;
         minTop = cropBoxData.minTop;
         maxWidth = minLeft + min(containerData.width, canvasData.width);
@@ -373,11 +373,11 @@
           }
 
           // Show the crop box if is hidden
-          if (!this.isCropped) {
+          if (!this.cropped) {
             removeClass(this.cropBox, CLASS_HIDDEN);
-            this.isCropped = true;
+            this.cropped = true;
 
-            if (this.isLimited) {
+            if (this.limited) {
               this.limitCropBox(true, true);
             }
           }

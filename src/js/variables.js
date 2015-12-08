@@ -1,23 +1,19 @@
   // Globals
   var document = window.document;
   var location = window.location;
-  var ArrayBuffer = window.ArrayBuffer;
-  var Uint8Array = window.Uint8Array;
-  var DataView = window.DataView;
-  var btoa = window.btoa;
 
   // Constants
   var NAMESPACE = 'cropper';
 
   // Classes
-  var CLASS_MODAL = 'cropper-modal';
-  var CLASS_HIDE = 'cropper-hide';
-  var CLASS_HIDDEN = 'cropper-hidden';
-  var CLASS_INVISIBLE = 'cropper-invisible';
-  var CLASS_MOVE = 'cropper-move';
-  var CLASS_CROP = 'cropper-crop';
-  var CLASS_DISABLED = 'cropper-disabled';
-  var CLASS_BG = 'cropper-bg';
+  var CLASS_MODAL = NAMESPACE + '-modal';
+  var CLASS_HIDE = NAMESPACE + '-hide';
+  var CLASS_HIDDEN = NAMESPACE + '-hidden';
+  var CLASS_INVISIBLE = NAMESPACE + '-invisible';
+  var CLASS_MOVE = NAMESPACE + '-move';
+  var CLASS_CROP = NAMESPACE + '-crop';
+  var CLASS_DISABLED = NAMESPACE + '-disabled';
+  var CLASS_BG = NAMESPACE + '-bg';
 
   // Events
   var EVENT_MOUSE_DOWN = 'mousedown touchstart pointerdown MSPointerDown';
@@ -68,9 +64,7 @@
   var floor = Math.floor;
 
   // Prototype
-  var prototype = {
-    version: '@VERSION'
-  };
+  var prototype = {};
 
   // Utilities
   var EMPTY_OBJECT = {};

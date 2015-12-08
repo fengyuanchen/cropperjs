@@ -9,7 +9,7 @@ window.addEventListener('DOMContentLoaded', function () {
       var cropper = this.cropper;
 
       QUnit.test('options.autoCrop: true', function (assert) {
-        assert.equal(cropper.isCropped, true);
+        assert.equal(cropper.cropped, true);
       });
 
     }
@@ -25,7 +25,7 @@ window.addEventListener('DOMContentLoaded', function () {
         var cropper = this.cropper;
 
         QUnit.test('options.autoCrop: false', function (assert) {
-          assert.equal(cropper.isCropped, false);
+          assert.equal(cropper.cropped, false);
         });
 
       }

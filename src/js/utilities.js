@@ -372,7 +372,7 @@
     return transforms.length ? transforms.join(' ') : 'none';
   }
 
-  function getRotatedSizes(data, isReversed) {
+  function getRotatedSizes(data, reversed) {
     var deg = abs(data.degree) % 180;
     var arc = (deg > 90 ? (180 - deg) : deg) * Math.PI / 180;
     var sinArc = sin(arc);
@@ -383,7 +383,7 @@
     var newWidth;
     var newHeight;
 
-    if (!isReversed) {
+    if (!reversed) {
       newWidth = width * cosArc + height * sinArc;
       newHeight = width * sinArc + height * cosArc;
     } else {

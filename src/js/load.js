@@ -46,12 +46,12 @@
       this.url = url;
       this.imageData = {};
 
-      if (!options.checkOrientation || !ArrayBuffer) {
+      if (!options.checkOrientation || !window.ArrayBuffer) {
         return this.clone();
       }
 
       read = proxy(this.read, this);
-      xhr = new XMLHttpRequest();
+      xhr = new window.XMLHttpRequest();
 
       xhr.onload = function () {
         read(this.response);
@@ -193,7 +193,7 @@
           aspectRatio: naturalWidth / naturalHeight
         });
 
-        this.isLoaded = true;
+        this.loaded = true;
         this.build();
       }, this));
     },

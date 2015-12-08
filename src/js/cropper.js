@@ -1,14 +1,14 @@
   function Cropper(element, options) {
     this.element = element;
     this.options = extend({}, Cropper.DEFAULTS, isPlainObject(options) && options);
-    this.isLoaded = false;
-    this.isBuilt = false;
-    this.isCompleted = false;
-    this.isRotated = false;
-    this.isCropped = false;
-    this.isDisabled = false;
-    this.isReplaced = false;
-    this.isLimited = false;
+    this.loaded = false;
+    this.built = false;
+    this.complete = false;
+    this.rotated = false;
+    this.cropped = false;
+    this.disabled = false;
+    this.replaced = false;
+    this.limited = false;
     this.isImg = false;
     this.originalUrl = '';
     this.canvasData = null;

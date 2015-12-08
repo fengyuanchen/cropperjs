@@ -10,12 +10,12 @@
 
 (function (global, factory) {
   if (typeof module === 'object' && typeof module.exports === 'object') {
-    module.exports = global.document ? factory(global, true) : function (w) {
-      if (!w.document) {
+    module.exports = global.document ? factory(global, true) : function (window) {
+      if (!window.document) {
         throw new Error('Cropper requires a window with a document');
       }
 
-      return factory(w);
+      return factory(window);
     };
   } else {
     factory(global);

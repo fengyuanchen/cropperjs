@@ -75,7 +75,7 @@
       var top = cropBoxData.top - canvasData.top - imageData.top;
       var transform = getTransform(imageData);
 
-      if (!this.isCropped || this.isDisabled) {
+      if (!this.cropped || this.disabled) {
         return;
       }
 

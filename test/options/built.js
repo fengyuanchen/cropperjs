@@ -9,7 +9,7 @@ window.addEventListener('DOMContentLoaded', function () {
       var cropper = this.cropper;
 
       QUnit.test('options.built', function (assert) {
-        assert.equal(cropper.isBuilt, true);
+        assert.equal(cropper.built, true);
       });
 
     }
