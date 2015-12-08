@@ -20,7 +20,7 @@
         _this.unbuild();
       }
 
-      template = document.createElement('div');
+      template = createElement('div');
       template.innerHTML = Cropper.TEMPLATE;
 
       // Create cropper elements

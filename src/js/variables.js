@@ -27,8 +27,8 @@
 
   // RegExps
   var REGEXP_ACTIONS = /^(e|w|s|n|se|sw|ne|nw|all|crop|move|zoom)$/;
+  var REGEXP_ORIGINS = /^(https?:)\/\/([^\:\/\?#]+):?(\d*)/i;
   var REGEXP_SPACES = /\s+/;
-  var REGEXP_TRIM = /^\s+(.*)\s+$/;
 
   // Data
   var DATA_PREVIEW = 'preview';
@@ -50,7 +50,7 @@
   var ACTION_NONE = 'none';
 
   // Supports
-  var SUPPORT_CANVAS = !!document.createElement('canvas').getContext;
+  var SUPPORT_CANVAS = !!createElement('canvas').getContext;
 
   // Maths
   var num = Number;
@@ -62,6 +62,7 @@
   var sqrt = Math.sqrt;
   var round = Math.round;
   var floor = Math.floor;
+  var PI = Math.PI;
 
   // Prototype
   var prototype = {};

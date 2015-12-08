@@ -2,7 +2,7 @@
     initPreview: function () {
       var _this = this;
       var preview = _this.options.preview;
-      var image = document.createElement('img');
+      var image = createElement('img');
       var crossOrigin = _this.crossOrigin;
       var url = crossOrigin ? _this.crossOriginUrl : _this.url;
       var previews;
@@ -20,7 +20,7 @@
 
       _this.previews = previews = querySelectorAll(document, preview);
       each(previews, function (element) {
-        var image = document.createElement('img');
+        var image = createElement('img');
 
         // Save the original size for recover
         setData(element, DATA_PREVIEW, {

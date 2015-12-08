@@ -2,10 +2,6 @@
     return toString.call(obj).slice(8, -1).toLowerCase();
   }
 
-  function isString(str) {
-    return typeof str === 'string';
-  }
-
   function isNumber(num) {
     return typeof num === 'number' && !isNaN(num);
   }
@@ -68,31 +64,21 @@
     return index;
   }
 
-  function trim(str) {
-    if (!isString(str)) {
-      return str;
-    }
-
-    return str.trim ? str.trim() : str.replace(REGEXP_TRIM, '$1');
-  }
-
   function each(obj, callback) {
-    var length;
+    var length = obj.length;
     var i;
 
-    if (obj && isFunction(callback)) {
-      if (isArray(obj) || isNumber(obj.length)/* array-like */) {
-        for (i = 0, length = obj.length; i < length; i++) {
-          if (callback.call(obj, obj[i], i, obj) === false) {
-            break;
-          }
+    if (isArray(obj) && length) {
+      for (i = 0; i < length; i++) {
+        if (callback.call(obj, obj[i], i) === false) {
+          break;
         }
-      } else if (isObject(obj)) {
-        for (i in obj) {
-          if (hasOwnProperty.call(obj, i)) {
-            if (callback.call(obj, obj[i], i, obj) === false) {
-              break;
-            }
+      }
+    } else if (isObject(obj)) {
+      for (i in obj) {
+        if (hasOwnProperty.call(obj, i)) {
+          if (callback.call(obj, obj[i], i) === false) {
+            break;
           }
         }
       }
@@ -126,7 +112,7 @@
   }
 
   function parseClass(className) {
-    return trim(className).split(REGEXP_SPACES);
+    return className.split(REGEXP_SPACES);
   }
 
   function hasClass(element, value) {
@@ -208,13 +194,7 @@
   }
 
   function addListener(element, type, handler) {
-    var types;
-
-    if (!isFunction(handler)) {
-      return;
-    }
-
-    types = trim(type).split(REGEXP_SPACES);
+    var types = type.split(REGEXP_SPACES);
 
     if (types.length > 1) {
       return each(types, function (type) {
@@ -230,13 +210,7 @@
   }
 
   function removeListener(element, type, handler) {
-    var types;
-
-    if (!isFunction(handler)) {
-      return;
-    }
-
-    types = trim(type).split(REGEXP_SPACES);
+    var types = type.split(REGEXP_SPACES);
 
     if (types.length > 1) {
       return each(types, function (type) {
@@ -252,12 +226,10 @@
   }
 
   function preventDefault(e) {
-    if (e) {
-      if (e.preventDefault) {
-        e.preventDefault();
-      } else {
-        e.returnValue = false;
-      }
+    if (e.preventDefault) {
+      e.preventDefault();
+    } else {
+      e.returnValue = false;
     }
   }
 
@@ -301,6 +273,10 @@
     element.parentNode.insertBefore(elem, element);
   }
 
+  function createElement(tagName) {
+    return document.createElement(tagName);
+  }
+
   function appendChild(element, elem) {
     element.appendChild(elem);
   }
@@ -316,7 +292,7 @@
   }
 
   function isCrossOriginURL(url) {
-    var parts = url.match(/^(https?:)\/\/([^\:\/\?#]+):?(\d*)/i);
+    var parts = url.match(REGEXP_ORIGINS);
 
     return parts && (
       parts[1] !== location.protocol ||
@@ -340,7 +316,7 @@
     }
 
     // IE8: Don't use `new Image()` here
-    newImage = document.createElement('img');
+    newImage = createElement('img');
 
     newImage.onload = function () {
       callback(this.width, this.height);
@@ -349,11 +325,11 @@
     newImage.src = image.src;
   }
 
-  function getTransform(options) {
+  function getTransform(data) {
     var transforms = [];
-    var rotate = options.rotate;
-    var scaleX = options.scaleX;
-    var scaleY = options.scaleY;
+    var rotate = data.rotate;
+    var scaleX = data.scaleX;
+    var scaleY = data.scaleY;
 
     if (isNumber(rotate)) {
       transforms.push('rotate(' + rotate + 'deg)');
@@ -368,7 +344,7 @@
 
   function getRotatedSizes(data, reversed) {
     var deg = abs(data.degree) % 180;
-    var arc = (deg > 90 ? (180 - deg) : deg) * Math.PI / 180;
+    var arc = (deg > 90 ? (180 - deg) : deg) * PI / 180;
     var sinArc = sin(arc);
     var cosArc = cos(arc);
     var width = data.width;
@@ -392,7 +368,7 @@
   }
 
   function getSourceCanvas(image, data) {
-    var canvas = document.createElement('canvas');
+    var canvas = createElement('canvas');
     var context = canvas.getContext('2d');
     var x = 0;
     var y = 0;
@@ -440,7 +416,7 @@
     }
 
     if (rotatable) {
-      context.rotate(rotate * Math.PI / 180);
+      context.rotate(rotate * PI / 180);
     }
 
     // Should call `scale` after rotated
@@ -459,9 +435,9 @@
 
   function getStringFromCharCode(dataView, start, length) {
     var str = '';
-    var i;
+    var i = start;
 
-    for (i = start, length += start; i < length; i++) {
+    for (length += start; i < length; i++) {
       str += fromCharCode(dataView.getUint8(i));
     }
 

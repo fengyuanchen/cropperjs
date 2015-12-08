@@ -157,7 +157,7 @@
 
       _this.crossOrigin = crossOrigin;
       _this.crossOriginUrl = crossOriginUrl;
-      image = document.createElement('img');
+      image = createElement('img');
 
       if (crossOrigin) {
         image.crossOrigin = crossOrigin;

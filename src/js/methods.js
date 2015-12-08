@@ -677,7 +677,7 @@
       canvasWidth = round(scaledWidth || originalWidth);
       canvasHeight = round(scaledHeight || originalHeight);
 
-      canvas = document.createElement('canvas');
+      canvas = createElement('canvas');
       canvas.width = canvasWidth;
       canvas.height = canvasHeight;
       context = canvas.getContext('2d');
