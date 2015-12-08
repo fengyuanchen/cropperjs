@@ -487,7 +487,7 @@
         cropBoxData.maxTop
       );
 
-      if (options.movable && options.cropBoxDataMovable) {
+      if (options.movable && options.cropBoxMovable) {
 
         // Turn to move the canvas when the crop box is equal to the container
         setData(_this.face, DATA_ACTION, (cropBoxData.width === containerWidth && cropBoxData.height === containerHeight) ? ACTION_MOVE : ACTION_ALL);
