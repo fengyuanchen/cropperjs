@@ -28,7 +28,7 @@
   // RegExps
   var REGEXP_ACTIONS = /^(e|w|s|n|se|sw|ne|nw|all|crop|move|zoom)$/;
   var REGEXP_SPACES = /\s+/;
-  var REGEXP_TRIM = /^\s+(.*)\s+^/;
+  var REGEXP_TRIM = /^\s+(.*)\s+$/;
 
   // Data
   var DATA_PREVIEW = 'preview';

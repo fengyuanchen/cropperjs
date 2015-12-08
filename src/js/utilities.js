@@ -70,16 +70,10 @@
 
   function trim(str) {
     if (!isString(str)) {
-      str = String(str);
+      return str;
     }
 
-    if (str.trim) {
-      str = str.trim();
-    } else {
-      str = str.replace(REGEXP_TRIM, '$1');
-    }
-
-    return str;
+    return str.trim ? str.trim() : str.replace(REGEXP_TRIM, '$1');
   }
 
   function each(obj, callback) {
