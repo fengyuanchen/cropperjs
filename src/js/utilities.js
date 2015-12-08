@@ -111,6 +111,18 @@
     };
   }
 
+  function addStyle(element, styles) {
+    var style = element.style;
+
+    each(styles, function (value, property) {
+      if (REGEXP_SUFFIX.test(property)) {
+        value +=  'px';
+      }
+
+      style[property] = value;
+    });
+  }
+
   function parseClass(className) {
     return className.split(REGEXP_SPACES);
   }

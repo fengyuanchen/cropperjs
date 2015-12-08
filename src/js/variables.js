@@ -26,7 +26,8 @@
   var EVENT_LOAD = 'load';
 
   // RegExps
-  var REGEXP_ACTIONS = /^(e|w|s|n|se|sw|ne|nw|all|crop|move|zoom)$/;
+  var REGEXP_ACTIONS = /e|w|s|n|se|sw|ne|nw|all|crop|move|zoom/;
+  var REGEXP_SUFFIX = /width|height|left|top|marginLeft|marginTop/;
   var REGEXP_ORIGINS = /^(https?:)\/\/([^\:\/\?#]+):?(\d*)/i;
   var REGEXP_SPACES = /\s+/;
 
@@ -50,7 +51,7 @@
   var ACTION_NONE = 'none';
 
   // Supports
-  var SUPPORT_CANVAS = !!createElement('canvas').getContext;
+  var SUPPORT_CANVAS = !!document.createElement('canvas').getContext;
 
   // Maths
   var num = Number;

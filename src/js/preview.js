@@ -19,6 +19,7 @@
       }
 
       _this.previews = previews = querySelectorAll(document, preview);
+
       each(previews, function (element) {
         var image = createElement('img');
 
@@ -41,10 +42,15 @@
          * Add `height:auto` to override `height` attribute on IE8
          * (Occur only when margin-top <= -height)
          */
+
         image.style.cssText = (
-          'display:block;width:100%;height:auto;' +
-          'min-width:0!important;min-height:0!important;' +
-          'max-width:none!important;max-height:none!important;' +
+          'display:block;' +
+          'width:100%;' +
+          'height:auto;' +
+          'min-width:0!important;' +
+          'min-height:0!important;' +
+          'max-width:none!important;' +
+          'max-height:none!important;' +
           'image-orientation:0deg!important;"'
         );
 
@@ -57,8 +63,11 @@
       each(this.previews, function (element) {
         var data = getData(element, DATA_PREVIEW);
 
-        element.style.width = data.width + 'px';
-        element.style.height = data.height + 'px';
+        addStyle(element, {
+          width: data.width,
+          height: data.height
+        });
+
         element.innerHTML = data.html;
         removeData(element, DATA_PREVIEW);
       });
@@ -76,23 +85,24 @@
       var left = cropBoxData.left - canvasData.left - imageData.left;
       var top = cropBoxData.top - canvasData.top - imageData.top;
       var transform = getTransform(imageData);
+      var transforms = {
+            WebkitTransform: transform,
+            msTransform: transform,
+            transform: transform
+          };
 
       if (!_this.cropped || _this.disabled) {
         return;
       }
 
-      querySelector(_this.viewBox, 'img').style.cssText = (
-        'width:' + width + 'px;' +
-        'height:' + height + 'px;' +
-        'margin-left:' + -left + 'px;' +
-        'margin-top:' + -top + 'px;' +
-        '-webkit-transform:' + transform + ';' +
-        '-ms-transform:' + transform + ';' +
-        'transform:' + transform + ';'
-      );
+      addStyle(querySelector(_this.viewBox, 'img'), extend({
+        width: width,
+        height: height,
+        marginLeft: -left,
+        marginTop: -top
+      }, transforms));
 
       each(_this.previews, function (element) {
-        var imageStyle = querySelector(element, 'img').style;
         var data = getData(element, DATA_PREVIEW);
         var originalWidth = data.width;
         var originalHeight = data.height;
@@ -111,15 +121,17 @@
           newHeight = originalHeight;
         }
 
-        element.style.width = newWidth + 'px';
-        element.style.height = newHeight + 'px';
-        imageStyle.width = width * ratio + 'px';
-        imageStyle.height = height * ratio + 'px';
-        imageStyle.marginLeft = -left * ratio + 'px';
-        imageStyle.marginTop = -top * ratio + 'px';
-        imageStyle.WebkitTransform = transform;
-        imageStyle.msTransform = transform;
-        imageStyle.transform = transform;
+        addStyle(element, {
+          width: newWidth,
+          height: newHeight
+        });
+
+        addStyle(querySelector(element, 'img'), extend({
+          width: width * ratio,
+          height: height * ratio,
+          marginLeft: -left * ratio,
+          marginTop: -top * ratio
+        }, transforms));
       });
     }
   });

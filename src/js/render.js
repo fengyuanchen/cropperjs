@@ -29,10 +29,10 @@
         height: max(container.offsetHeight, num(options.minContainerHeight) || 100)
       };
 
-      cropper.style.cssText = (
-        'width:' + containerData.width + 'px;' +
-        'height:' + containerData.height + 'px;'
-      );
+      addStyle(cropper, {
+        width: containerData.width,
+        height: containerData.height
+      });
 
       addClass(element, CLASS_HIDDEN);
       removeClass(cropper, CLASS_HIDDEN);
@@ -274,12 +274,12 @@
         canvasData.maxTop
       );
 
-      _this.canvas.style.cssText = (
-        'width:' + canvasData.width + 'px;' +
-        'height:' + canvasData.height + 'px;' +
-        'left:' + canvasData.left + 'px;' +
-        'top:' + canvasData.top + 'px;'
-      );
+      addStyle(_this.canvas, {
+        width: canvasData.width,
+        height: canvasData.height,
+        left: canvasData.left,
+        top: canvasData.top
+      });
 
       _this.renderImage();
 
@@ -322,15 +322,13 @@
 
       transform = getTransform(imageData);
 
-      _this.image.style.cssText = (
-        'width:' + imageData.width + 'px;' +
-        'height:' + imageData.height + 'px;' +
-        'margin-left:' + imageData.left + 'px;' +
-        'margin-top:' + imageData.top + 'px;' +
-        '-webkit-transform:' + transform + ';' +
-        '-ms-transform:' + transform + ';' +
-        'transform:' + transform + ';'
-      );
+      addStyle(_this.image, {
+        width: imageData.width,
+        height: imageData.height,
+        marginLeft: imageData.left,
+        marginTop: imageData.top,
+        transform: transform
+      });
 
       if (changed) {
         _this.output();
@@ -493,12 +491,12 @@
         setData(_this.face, DATA_ACTION, (cropBoxData.width === containerWidth && cropBoxData.height === containerHeight) ? ACTION_MOVE : ACTION_ALL);
       }
 
-      _this.cropBox.style.cssText = (
-        'width:' + cropBoxData.width + 'px;' +
-        'height:' + cropBoxData.height + 'px;' +
-        'left:' + cropBoxData.left + 'px;' +
-        'top:' + cropBoxData.top + 'px;'
-      );
+      addStyle(_this.cropBox, {
+        width: cropBoxData.width,
+        height: cropBoxData.height,
+        left: cropBoxData.left,
+        top: cropBoxData.top
+      });
 
       if (_this.cropped && _this.limited) {
         _this.limitCanvas(true, true);
