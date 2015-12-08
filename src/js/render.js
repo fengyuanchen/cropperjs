@@ -48,9 +48,9 @@
       var imageData = _this.imageData;
       var imageNaturalWidth = imageData.naturalWidth;
       var imageNaturalHeight = imageData.naturalHeight;
-      var is90Degree = abs(imageData.rotate) === 90;
-      var naturalWidth = is90Degree ? imageNaturalHeight : imageNaturalWidth;
-      var naturalHeight = is90Degree ? imageNaturalWidth : imageNaturalHeight;
+      var rotated = abs(imageData.rotate) === 90;
+      var naturalWidth = rotated ? imageNaturalHeight : imageNaturalWidth;
+      var naturalHeight = rotated ? imageNaturalWidth : imageNaturalHeight;
       var aspectRatio = naturalWidth / naturalHeight;
       var canvasWidth = containerWidth;
       var canvasHeight = containerHeight;
@@ -295,27 +295,37 @@
     renderImage: function (changed) {
       var _this = this;
       var canvasData = _this.canvasData;
+      var canvasWidth = canvasData.width;
+      var canvasHeight = canvasData.height;
       var imageData = _this.imageData;
+      var newImageData;
       var reversedData;
+      var reversedWidth;
+      var reversedHeight;
       var transform;
 
       if (imageData.rotate) {
         reversedData = getRotatedSizes({
-          width: canvasData.width,
-          height: canvasData.height,
+          width: canvasWidth,
+          height: canvasHeight,
           degree: imageData.rotate,
           aspectRatio: imageData.aspectRatio
         }, true);
+
+        reversedWidth = reversedData.width;
+        reversedHeight = reversedData.height;
+
+        newImageData = {
+          width: reversedWidth,
+          height: reversedHeight,
+          left: (canvasWidth - reversedWidth) / 2,
+          top: (canvasHeight - reversedHeight) / 2
+        };
       }
 
-      extend(imageData, reversedData ? {
-        width: reversedData.width,
-        height: reversedData.height,
-        left: (canvasData.width - reversedData.width) / 2,
-        top: (canvasData.height - reversedData.height) / 2
-      } : {
-        width: canvasData.width,
-        height: canvasData.height,
+      extend(imageData, newImageData || {
+        width: canvasWidth,
+        height: canvasHeight,
         left: 0,
         top: 0
       });
@@ -327,6 +337,8 @@
         height: imageData.height,
         marginLeft: imageData.left,
         marginTop: imageData.top,
+        WebkitTransform: transform,
+        msTransform: transform,
         transform: transform
       });
 
@@ -341,13 +353,15 @@
       var aspectRatio = options.aspectRatio;
       var autoCropArea = num(options.autoCropArea) || 0.8;
       var canvasData = _this.canvasData;
+      var canvasWidth = canvasData.width;
+      var canvasHeight = canvasData.height;
       var cropBoxData = {
-            width: canvasData.width,
-            height: canvasData.height
+            width: canvasWidth,
+            height: canvasHeight
           };
 
       if (aspectRatio) {
-        if (canvasData.height * aspectRatio > canvasData.width) {
+        if (canvasHeight * aspectRatio > canvasWidth) {
           cropBoxData.height = cropBoxData.width / aspectRatio;
         } else {
           cropBoxData.width = cropBoxData.height * aspectRatio;
@@ -376,8 +390,8 @@
         cropBoxData.minHeight,
         cropBoxData.height * autoCropArea
       );
-      cropBoxData.oldLeft = cropBoxData.left = canvasData.left + (canvasData.width - cropBoxData.width) / 2;
-      cropBoxData.oldTop = cropBoxData.top = canvasData.top + (canvasData.height - cropBoxData.height) / 2;
+      cropBoxData.oldLeft = cropBoxData.left = canvasData.left + (canvasWidth - cropBoxData.width) / 2;
+      cropBoxData.oldTop = cropBoxData.top = canvasData.top + (canvasHeight - cropBoxData.height) / 2;
 
       _this.initialCropBoxData = extend({}, cropBoxData);
     },
@@ -390,6 +404,10 @@
       var containerWidth = containerData.width;
       var containerHeight = containerData.height;
       var canvasData = _this.canvasData;
+      var canvasWidth = canvasData.width;
+      var canvasHeight = canvasData.height;
+      var canvasLeft = canvasData.left;
+      var canvasTop = canvasData.top;
       var cropBoxData = _this.cropBoxData;
       var limited = _this.limited;
       var minCropBoxWidth;
@@ -404,8 +422,8 @@
         // The min/maxCropBoxWidth/Height must be less than containerWidth/Height
         minCropBoxWidth = min(minCropBoxWidth, containerWidth);
         minCropBoxHeight = min(minCropBoxHeight, containerHeight);
-        maxCropBoxWidth = min(containerWidth, limited ? canvasData.width : containerWidth);
-        maxCropBoxHeight = min(containerHeight, limited ? canvasData.height : containerHeight);
+        maxCropBoxWidth = min(containerWidth, limited ? canvasWidth : containerWidth);
+        maxCropBoxHeight = min(containerHeight, limited ? canvasHeight : containerHeight);
 
         if (aspectRatio) {
           if (minCropBoxWidth && minCropBoxHeight) {
@@ -436,10 +454,10 @@
 
       if (positionLimited) {
         if (limited) {
-          cropBoxData.minLeft = max(0, canvasData.left);
-          cropBoxData.minTop = max(0, canvasData.top);
-          cropBoxData.maxLeft = min(containerWidth, canvasData.left + canvasData.width) - cropBoxData.width;
-          cropBoxData.maxTop = min(containerHeight, canvasData.top + canvasData.height) - cropBoxData.height;
+          cropBoxData.minLeft = max(0, canvasLeft);
+          cropBoxData.minTop = max(0, canvasTop);
+          cropBoxData.maxLeft = min(containerWidth, canvasLeft + canvasWidth) - cropBoxData.width;
+          cropBoxData.maxTop = min(containerHeight, canvasTop + canvasHeight) - cropBoxData.height;
         } else {
           cropBoxData.minLeft = 0;
           cropBoxData.minTop = 0;
@@ -488,7 +506,8 @@
       if (options.movable && options.cropBoxMovable) {
 
         // Turn to move the canvas when the crop box is equal to the container
-        setData(_this.face, DATA_ACTION, (cropBoxData.width === containerWidth && cropBoxData.height === containerHeight) ? ACTION_MOVE : ACTION_ALL);
+        setData(_this.face, DATA_ACTION, (cropBoxData.width === containerWidth &&
+          cropBoxData.height === containerHeight) ? ACTION_MOVE : ACTION_ALL);
       }
 
       addStyle(_this.cropBox, {
