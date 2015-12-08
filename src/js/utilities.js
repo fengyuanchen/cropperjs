@@ -116,7 +116,7 @@
 
     each(styles, function (value, property) {
       if (REGEXP_SUFFIX.test(property)) {
-        value +=  'px';
+        value += 'px';
       }
 
       style[property] = value;
@@ -269,7 +269,7 @@
 
     return {
       left: box.left + (window.scrollX || doc && doc.scrollLeft || 0) - (doc && doc.clientLeft || 0),
-      top: box.top  + (window.scrollY || doc && doc.scrollTop || 0)  - (doc && doc.clientTop  || 0)
+      top: box.top + (window.scrollY || doc && doc.scrollTop || 0) - (doc && doc.clientTop || 0)
     };
   }
 
