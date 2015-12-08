@@ -1,11 +1,12 @@
   extend(prototype, {
     change: function (shiftKey, originalEvent) {
-      var options = this.options;
+      var _this = this;
+      var options = _this.options;
       var aspectRatio = options.aspectRatio;
-      var action = this.action;
-      var containerData = this.containerData;
-      var canvasData = this.canvasData;
-      var cropBoxData = this.cropBoxData;
+      var action = _this.action;
+      var containerData = _this.containerData;
+      var canvasData = _this.canvasData;
+      var cropBoxData = _this.cropBoxData;
       var width = cropBoxData.width;
       var height = cropBoxData.height;
       var left = cropBoxData.left;
@@ -25,7 +26,7 @@
         aspectRatio = width && height ? width / height : 1;
       }
 
-      if (this.limited) {
+      if (_this.limited) {
         minLeft = cropBoxData.minLeft;
         minTop = cropBoxData.minTop;
         maxWidth = minLeft + min(containerData.width, canvasData.width);
@@ -33,8 +34,8 @@
       }
 
       range = {
-        x: this.endX - this.startX,
-        y: this.endY - this.startY
+        x: _this.endX - _this.startX,
+        y: _this.endY - _this.startY
       };
 
       if (aspectRatio) {
@@ -326,25 +327,25 @@
 
         // Move canvas
         case ACTION_MOVE:
-          this.move(range.x, range.y);
+          _this.move(range.x, range.y);
           renderable = false;
           break;
 
         // Zoom canvas
         case ACTION_ZOOM:
-          this.zoom((function (x1, y1, x2, y2) {
+          _this.zoom((function (x1, y1, x2, y2) {
             var z1 = sqrt(x1 * x1 + y1 * y1);
             var z2 = sqrt(x2 * x2 + y2 * y2);
 
             return (z2 - z1) / z1;
           })(
-            abs(this.startX - this.startX2),
-            abs(this.startY - this.startY2),
-            abs(this.endX - this.endX2),
-            abs(this.endY - this.endY2)
+            abs(_this.startX - _this.startX2),
+            abs(_this.startY - _this.startY2),
+            abs(_this.endX - _this.endX2),
+            abs(_this.endY - _this.endY2)
           ), originalEvent);
-          this.startX2 = this.endX2;
-          this.startY2 = this.endY2;
+          _this.startX2 = _this.endX2;
+          _this.startY2 = _this.endY2;
           renderable = false;
           break;
 
@@ -355,9 +356,9 @@
             break;
           }
 
-          offset = getOffset(this.cropper);
-          left = this.startX - offset.left;
-          top = this.startY - offset.top;
+          offset = getOffset(_this.cropper);
+          left = _this.startX - offset.left;
+          top = _this.startY - offset.top;
           width = cropBoxData.minWidth;
           height = cropBoxData.minHeight;
 
@@ -373,12 +374,12 @@
           }
 
           // Show the crop box if is hidden
-          if (!this.cropped) {
-            removeClass(this.cropBox, CLASS_HIDDEN);
-            this.cropped = true;
+          if (!_this.cropped) {
+            removeClass(_this.cropBox, CLASS_HIDDEN);
+            _this.cropped = true;
 
-            if (this.limited) {
-              this.limitCropBox(true, true);
+            if (_this.limited) {
+              _this.limitCropBox(true, true);
             }
           }
 
@@ -392,13 +393,13 @@
         cropBoxData.height = height;
         cropBoxData.left = left;
         cropBoxData.top = top;
-        this.action = action;
+        _this.action = action;
 
-        this.renderCropBox();
+        _this.renderCropBox();
       }
 
       // Override
-      this.startX = this.endX;
-      this.startY = this.endY;
+      _this.startX = _this.endX;
+      _this.startY = _this.endY;
     }
   });

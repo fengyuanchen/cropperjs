@@ -1,45 +1,47 @@
   extend(prototype, {
     bind: function () {
-      var options = this.options;
-      var cropper = this.cropper;
+      var _this = this;
+      var options = _this.options;
+      var cropper = _this.cropper;
 
-      addListener(cropper, EVENT_MOUSE_DOWN, proxy(this.cropStart, this));
+      addListener(cropper, EVENT_MOUSE_DOWN, proxy(_this.cropStart, _this));
 
       if (options.zoomable && options.zoomOnWheel) {
-        addListener(cropper, EVENT_WHEEL, proxy(this.wheel, this));
+        addListener(cropper, EVENT_WHEEL, proxy(_this.wheel, _this));
       }
 
       if (options.toggleDragModeOnDblclick) {
-        addListener(cropper, EVENT_DBLCLICK, proxy(this.dblclick, this));
+        addListener(cropper, EVENT_DBLCLICK, proxy(_this.dblclick, _this));
       }
 
-      addListener(document, EVENT_MOUSE_MOVE, (this._cropMove = proxy(this.cropMove, this)));
-      addListener(document, EVENT_MOUSE_UP, (this._cropEnd = proxy(this.cropEnd, this)));
+      addListener(document, EVENT_MOUSE_MOVE, (_this._cropMove = proxy(_this.cropMove, _this)));
+      addListener(document, EVENT_MOUSE_UP, (_this._cropEnd = proxy(_this.cropEnd, _this)));
 
       if (options.responsive) {
-        addListener(window, EVENT_RESIZE, (this._resize = proxy(this.resize, this)));
+        addListener(window, EVENT_RESIZE, (_this._resize = proxy(_this.resize, _this)));
       }
     },
 
     unbind: function () {
-      var options = this.options;
-      var cropper = this.cropper;
+      var _this = this;
+      var options = _this.options;
+      var cropper = _this.cropper;
 
-      removeListener(cropper, EVENT_MOUSE_DOWN, this.cropStart);
+      removeListener(cropper, EVENT_MOUSE_DOWN, _this.cropStart);
 
       if (options.zoomable && options.zoomOnWheel) {
-        removeListener(cropper, EVENT_WHEEL, this.wheel);
+        removeListener(cropper, EVENT_WHEEL, _this.wheel);
       }
 
       if (options.toggleDragModeOnDblclick) {
-        removeListener(cropper, EVENT_DBLCLICK, this.dblclick);
+        removeListener(cropper, EVENT_DBLCLICK, _this.dblclick);
       }
 
-      removeListener(document, EVENT_MOUSE_MOVE, this._cropMove);
-      removeListener(document, EVENT_MOUSE_UP, this._cropEnd);
+      removeListener(document, EVENT_MOUSE_MOVE, _this._cropMove);
+      removeListener(document, EVENT_MOUSE_UP, _this._cropEnd);
 
       if (options.responsive) {
-        removeListener(window, EVENT_RESIZE, this._resize);
+        removeListener(window, EVENT_RESIZE, _this._resize);
       }
     }
   });

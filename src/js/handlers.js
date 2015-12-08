@@ -1,14 +1,15 @@
   extend(prototype, {
     resize: function () {
-      var restore = this.options.restore;
-      var container = this.container;
-      var containerData = this.containerData;
+      var _this = this;
+      var restore = _this.options.restore;
+      var container = _this.container;
+      var containerData = _this.containerData;
       var canvasData;
       var cropBoxData;
       var ratio;
 
       // Check `container` is necessary for IE8
-      if (this.disabled || !containerData) {
+      if (_this.disabled || !containerData) {
         return;
       }
 
@@ -17,17 +18,17 @@
       // Resize when width changed or height changed
       if (ratio !== 1 || container.offsetHeight !== containerData.height) {
         if (restore) {
-          canvasData = this.getCanvasData();
-          cropBoxData = this.getCropBoxData();
+          canvasData = _this.getCanvasData();
+          cropBoxData = _this.getCropBoxData();
         }
 
-        this.render();
+        _this.render();
 
         if (restore) {
-          this.setCanvasData(each(canvasData, function (n, i) {
+          _this.setCanvasData(each(canvasData, function (n, i) {
             canvasData[i] = n * ratio;
           }));
-          this.setCropBoxData(each(cropBoxData, function (n, i) {
+          _this.setCropBoxData(each(cropBoxData, function (n, i) {
             cropBoxData[i] = n * ratio;
           }));
         }
@@ -35,19 +36,22 @@
     },
 
     dblclick: function () {
-      if (this.disabled) {
+      var _this = this;
+
+      if (_this.disabled) {
         return;
       }
 
-      this.setDragMode(hasClass(this.dragBox, CLASS_CROP) ? ACTION_MOVE : ACTION_CROP);
+      _this.setDragMode(hasClass(_this.dragBox, CLASS_CROP) ? ACTION_MOVE : ACTION_CROP);
     },
 
     wheel: function (event) {
+      var _this = this;
       var e = getEvent(event);
-      var ratio = num(this.options.wheelZoomRatio) || 0.1;
+      var ratio = num(_this.options.wheelZoomRatio) || 0.1;
       var delta = 1;
 
-      if (this.disabled) {
+      if (_this.disabled) {
         return;
       }
 
@@ -61,18 +65,19 @@
         delta = e.detail > 0 ? 1 : -1;
       }
 
-      this.zoom(-delta * ratio, e);
+      _this.zoom(-delta * ratio, e);
     },
 
     cropStart: function (event) {
-      var options = this.options;
+      var _this = this;
+      var options = _this.options;
       var e = getEvent(event);
       var touches = e.touches;
       var touchesLength;
       var touch;
       var action;
 
-      if (this.disabled) {
+      if (_this.disabled) {
         return;
       }
 
@@ -82,8 +87,8 @@
         if (touchesLength > 1) {
           if (options.zoomable && options.zoomOnTouch && touchesLength === 2) {
             touch = touches[1];
-            this.startX2 = touch.pageX;
-            this.startY2 = touch.pageY;
+            _this.startX2 = touch.pageX;
+            _this.startY2 = touch.pageY;
             action = ACTION_ZOOM;
           } else {
             return;
@@ -96,7 +101,7 @@
       action = action || getData(e.target, DATA_ACTION);
 
       if (REGEXP_ACTIONS.test(action)) {
-        if (isFunction(options.cropstart) && options.cropstart.call(this.element, {
+        if (isFunction(options.cropstart) && options.cropstart.call(_this.element, {
           originalEvent: e,
           action: action
         }) === false) {
@@ -105,28 +110,29 @@
 
         preventDefault(e);
 
-        this.action = action;
-        this.cropping = false;
+        _this.action = action;
+        _this.cropping = false;
 
-        this.startX = touch ? touch.pageX : e.pageX;
-        this.startY = touch ? touch.pageY : e.pageY;
+        _this.startX = touch ? touch.pageX : e.pageX;
+        _this.startY = touch ? touch.pageY : e.pageY;
 
         if (action === ACTION_CROP) {
-          this.cropping = true;
-          addClass(this.dragBox, CLASS_MODAL);
+          _this.cropping = true;
+          addClass(_this.dragBox, CLASS_MODAL);
         }
       }
     },
 
     cropMove: function (event) {
-      var options = this.options;
+      var _this = this;
+      var options = _this.options;
       var e = getEvent(event);
       var touches = e.touches;
-      var action = this.action;
+      var action = _this.action;
       var touchesLength;
       var touch;
 
-      if (this.disabled) {
+      if (_this.disabled) {
         return;
       }
 
@@ -136,8 +142,8 @@
         if (touchesLength > 1) {
           if (options.zoomable && options.zoomOnTouch && touchesLength === 2) {
             touch = touches[1];
-            this.endX2 = touch.pageX;
-            this.endY2 = touch.pageY;
+            _this.endX2 = touch.pageX;
+            _this.endY2 = touch.pageY;
           } else {
             return;
           }
@@ -147,7 +153,7 @@
       }
 
       if (action) {
-        if (isFunction(options.cropmove) && options.cropmove.call(this.element, {
+        if (isFunction(options.cropmove) && options.cropmove.call(_this.element, {
           originalEvent: e,
           action: action
         }) === false) {
@@ -156,34 +162,35 @@
 
         preventDefault(e);
 
-        this.endX = touch ? touch.pageX : e.pageX;
-        this.endY = touch ? touch.pageY : e.pageY;
+        _this.endX = touch ? touch.pageX : e.pageX;
+        _this.endY = touch ? touch.pageY : e.pageY;
 
-        this.change(e.shiftKey, action === ACTION_ZOOM ? e : null);
+        _this.change(e.shiftKey, action === ACTION_ZOOM ? e : null);
       }
     },
 
     cropEnd: function (event) {
-      var options = this.options;
+      var _this = this;
+      var options = _this.options;
       var e = getEvent(event);
-      var action = this.action;
+      var action = _this.action;
 
-      if (this.disabled) {
+      if (_this.disabled) {
         return;
       }
 
       if (action) {
         preventDefault(e);
 
-        if (this.cropping) {
-          this.cropping = false;
-          toggleClass(this.dragBox, CLASS_MODAL, this.cropped && options.modal);
+        if (_this.cropping) {
+          _this.cropping = false;
+          toggleClass(_this.dragBox, CLASS_MODAL, _this.cropped && options.modal);
         }
 
-        this.action = '';
+        _this.action = '';
 
         if (isFunction(options.cropend)) {
-          options.cropend.call(this.element, {
+          options.cropend.call(_this.element, {
             originalEvent: e,
             action: action
           });

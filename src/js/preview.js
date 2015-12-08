@@ -1,9 +1,10 @@
   extend(prototype, {
     initPreview: function () {
-      var preview = this.options.preview;
+      var _this = this;
+      var preview = _this.options.preview;
       var image = document.createElement('img');
-      var crossOrigin = this.crossOrigin;
-      var url = crossOrigin ? this.crossOriginUrl : this.url;
+      var crossOrigin = _this.crossOrigin;
+      var url = crossOrigin ? _this.crossOriginUrl : _this.url;
       var previews;
 
       if (crossOrigin) {
@@ -11,13 +12,13 @@
       }
 
       image.src = url;
-      appendChild(this.viewBox, image);
+      appendChild(_this.viewBox, image);
 
       if (!preview) {
         return;
       }
 
-      this.previews = previews = querySelectorAll(document, preview);
+      _this.previews = previews = querySelectorAll(document, preview);
       each(previews, function (element) {
         var image = document.createElement('img');
 
@@ -64,9 +65,10 @@
     },
 
     preview: function () {
-      var imageData = this.imageData;
-      var canvasData = this.canvasData;
-      var cropBoxData = this.cropBoxData;
+      var _this = this;
+      var imageData = _this.imageData;
+      var canvasData = _this.canvasData;
+      var cropBoxData = _this.cropBoxData;
       var cropBoxWidth = cropBoxData.width;
       var cropBoxHeight = cropBoxData.height;
       var width = imageData.width;
@@ -75,11 +77,11 @@
       var top = cropBoxData.top - canvasData.top - imageData.top;
       var transform = getTransform(imageData);
 
-      if (!this.cropped || this.disabled) {
+      if (!_this.cropped || _this.disabled) {
         return;
       }
 
-      querySelector(this.viewBox, 'img').style.cssText = (
+      querySelector(_this.viewBox, 'img').style.cssText = (
         'width:' + width + 'px;' +
         'height:' + height + 'px;' +
         'margin-left:' + -left + 'px;' +
@@ -89,7 +91,7 @@
         'transform:' + transform + ';'
       );
 
-      each(this.previews, function (element) {
+      each(_this.previews, function (element) {
         var imageStyle = querySelector(element, 'img').style;
         var data = getData(element, DATA_PREVIEW);
         var originalWidth = data.width;

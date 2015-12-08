@@ -2,64 +2,70 @@
 
     // Show the crop box manually
     crop: function () {
-      if (this.built && !this.disabled) {
-        if (!this.cropped) {
-          this.cropped = true;
-          this.limitCropBox(true, true);
+      var _this = this;
 
-          if (this.options.modal) {
-            addClass(this.dragBox, CLASS_MODAL);
+      if (_this.built && !_this.disabled) {
+        if (!_this.cropped) {
+          _this.cropped = true;
+          _this.limitCropBox(true, true);
+
+          if (_this.options.modal) {
+            addClass(_this.dragBox, CLASS_MODAL);
           }
 
-          removeClass(this.cropBox, CLASS_HIDDEN);
+          removeClass(_this.cropBox, CLASS_HIDDEN);
         }
 
-        this.setCropBoxData(this.initialCropBoxData);
+        _this.setCropBoxData(_this.initialCropBoxData);
       }
 
-      return this;
+      return _this;
     },
 
     // Reset the image and crop box to their initial states
     reset: function () {
-      if (this.built && !this.disabled) {
-        this.imageData = extend({}, this.initialImageData);
-        this.canvasData = extend({}, this.initialCanvasData);
-        this.cropBoxData = extend({}, this.initialCropBoxData);
+      var _this = this;
 
-        this.renderCanvas();
+      if (_this.built && !_this.disabled) {
+        _this.imageData = extend({}, _this.initialImageData);
+        _this.canvasData = extend({}, _this.initialCanvasData);
+        _this.cropBoxData = extend({}, _this.initialCropBoxData);
 
-        if (this.cropped) {
-          this.renderCropBox();
+        _this.renderCanvas();
+
+        if (_this.cropped) {
+          _this.renderCropBox();
         }
       }
 
-      return this;
+      return _this;
     },
 
     // Clear the crop box
     clear: function () {
-      if (this.cropped && !this.disabled) {
-        extend(this.cropBoxData, {
+      var _this = this;
+
+      if (_this.cropped && !_this.disabled) {
+        extend(_this.cropBoxData, {
           left: 0,
           top: 0,
           width: 0,
           height: 0
         });
 
-        this.cropped = false;
-        this.renderCropBox();
+        _this.cropped = false;
+        _this.renderCropBox();
 
-        this.limitCanvas();
+        _this.limitCanvas();
 
         // Render canvas after crop box rendered
-        this.renderCanvas();
+        _this.renderCanvas();
 
-        removeClass(this.dragBox, CLASS_MODAL);
-        addClass(this.cropBox, CLASS_HIDDEN);
+        removeClass(_this.dragBox, CLASS_MODAL);
+        addClass(_this.cropBox, CLASS_HIDDEN);
       }
 
-      return this;
+      return _this;
     },
 
     /**
@@ -68,55 +74,62 @@
      * @param {String} url
      */
     replace: function (url) {
-      if (!this.disabled && url) {
-        if (this.isImg) {
-          this.replaced = true;
-          this.element.src = url;
+      var _this = this;
+
+      if (!_this.disabled && url) {
+        if (_this.isImg) {
+          _this.replaced = true;
+          _this.element.src = url;
         }
 
         // Clear previous data
-        this.options.data = null;
-        this.load(url);
+        _this.options.data = null;
+        _this.load(url);
       }
 
-      return this;
+      return _this;
     },
 
     // Enable (unfreeze) the cropper
     enable: function () {
-      if (this.built) {
-        this.disabled = false;
-        removeClass(this.cropper, CLASS_DISABLED);
+      var _this = this;
+
+      if (_this.built) {
+        _this.disabled = false;
+        removeClass(_this.cropper, CLASS_DISABLED);
       }
 
-      return this;
+      return _this;
     },
 
     // Disable (freeze) the cropper
     disable: function () {
-      if (this.built) {
-        this.disabled = true;
-        addClass(this.cropper, CLASS_DISABLED);
+      var _this = this;
+
+      if (_this.built) {
+        _this.disabled = true;
+        addClass(_this.cropper, CLASS_DISABLED);
       }
 
-      return this;
+      return _this;
     },
 
     // Destroy the cropper and remove the instance from the image
     destroy: function () {
-      var element = this.element;
-      var image = this.image;
+      var _this = this;
+      var element = _this.element;
+      var image = _this.image;
 
-      if (this.loaded) {
-        if (this.isImg && this.replaced) {
-          element.src = this.originalUrl;
+      if (_this.loaded) {
+        if (_this.isImg && _this.replaced) {
+          element.src = _this.originalUrl;
         }
 
-        this.unbuild();
+        _this.unbuild();
         removeClass(element, CLASS_HIDDEN);
       } else {
-        if (this.isImg) {
-          element.off(EVENT_LOAD, this.start);
+        if (_this.isImg) {
+          element.off(EVENT_LOAD, _this.start);
         } else if (image) {
           removeChild(image);
         }
@@ -124,7 +137,7 @@
 
       removeData(element, NAMESPACE);
 
-      return this;
+      return _this;
     },
 
     /**
@@ -134,9 +147,10 @@
      * @param {Number} offsetY (optional)
      */
     move: function (offsetX, offsetY) {
-      var canvasData = this.canvasData;
+      var _this = this;
+      var canvasData = _this.canvasData;
 
-      return this.moveTo(
+      return _this.moveTo(
         isUndefined(offsetX) ? offsetX : canvasData.left + num(offsetX),
         isUndefined(offsetY) ? offsetY : canvasData.top + num(offsetY)
       );
@@ -149,7 +163,8 @@
      * @param {Number} y (optional)
      */
     moveTo: function (x, y) {
-      var canvasData = this.canvasData;
+      var _this = this;
+      var canvasData = _this.canvasData;
       var changed = false;
 
       // If "y" is not present, its default value is "x"
@@ -160,7 +175,7 @@
       x = num(x);
       y = num(y);
 
-      if (this.built && !this.disabled && this.options.movable) {
+      if (_this.built && !_this.disabled && _this.options.movable) {
         if (isNumber(x)) {
           canvasData.left = x;
           changed = true;
@@ -172,11 +187,11 @@
         }
 
         if (changed) {
-          this.renderCanvas(true);
+          _this.renderCanvas(true);
         }
       }
 
-      return this;
+      return _this;
     },
 
     /**
@@ -186,7 +201,8 @@
      * @param {Event} _originalEvent (private)
      */
     zoom: function (ratio, _originalEvent) {
-      var canvasData = this.canvasData;
+      var _this = this;
+      var canvasData = _this.canvasData;
 
       ratio = num(ratio);
 
@@ -196,7 +212,7 @@
         ratio = 1 + ratio;
       }
 
-      return this.zoomTo(canvasData.width * ratio / canvasData.naturalWidth, _originalEvent);
+      return _this.zoomTo(canvasData.width * ratio / canvasData.naturalWidth, _originalEvent);
     },
 
     /**
@@ -206,8 +222,9 @@
      * @param {Event} _originalEvent (private)
      */
     zoomTo: function (ratio, _originalEvent) {
-      var options = this.options;
-      var canvasData = this.canvasData;
+      var _this = this;
+      var options = _this.options;
+      var canvasData = _this.canvasData;
       var width = canvasData.width;
       var height = canvasData.height;
       var naturalWidth = canvasData.naturalWidth;
@@ -217,26 +234,26 @@
 
       ratio = num(ratio);
 
-      if (ratio >= 0 && this.built && !this.disabled && options.zoomable) {
+      if (ratio >= 0 && _this.built && !_this.disabled && options.zoomable) {
         newWidth = naturalWidth * ratio;
         newHeight = naturalHeight * ratio;
 
-        if (isFunction(options.zoom) && options.zoom.call(this.element, {
+        if (isFunction(options.zoom) && options.zoom.call(_this.element, {
           originalEvent: _originalEvent,
           oldRatio: width / naturalWidth,
           ratio: newWidth / naturalWidth
         }) === false) {
-          return this;
+          return _this;
         }
 
         canvasData.left -= (newWidth - width) / 2;
         canvasData.top -= (newHeight - height) / 2;
         canvasData.width = newWidth;
         canvasData.height = newHeight;
-        this.renderCanvas(true);
+        _this.renderCanvas(true);
       }
 
-      return this;
+      return _this;
     },
 
     /**
@@ -245,7 +262,9 @@
      * @param {Number} degree
      */
     rotate: function (degree) {
-      return this.rotateTo((this.imageData.rotate || 0) + num(degree));
+      var _this = this;
+
+      return _this.rotateTo((_this.imageData.rotate || 0) + num(degree));
     },
 
     /**
@@ -255,15 +274,17 @@
      * @param {Number} degree
      */
     rotateTo: function (degree) {
+      var _this = this;
+
       degree = num(degree);
 
-      if (isNumber(degree) && this.built && !this.disabled && this.options.rotatable) {
-        this.imageData.rotate = degree % 360;
-        this.rotated = true;
-        this.renderCanvas(true);
+      if (isNumber(degree) && _this.built && !_this.disabled && _this.options.rotatable) {
+        _this.imageData.rotate = degree % 360;
+        _this.rotated = true;
+        _this.renderCanvas(true);
       }
 
-      return this;
+      return _this;
     },
 
     /**
@@ -274,7 +295,8 @@
      * @param {Number} scaleY (optional)
      */
     scale: function (scaleX, scaleY) {
-      var imageData = this.imageData;
+      var _this = this;
+      var imageData = _this.imageData;
       var changed = false;
 
       // If "scaleY" is not present, its default value is "scaleX"
@@ -285,7 +307,7 @@
       scaleX = num(scaleX);
       scaleY = num(scaleY);
 
-      if (this.built && !this.disabled && this.options.scalable) {
+      if (_this.built && !_this.disabled && _this.options.scalable) {
         if (isNumber(scaleX)) {
           imageData.scaleX = scaleX;
           changed = true;
@@ -297,11 +319,11 @@
         }
 
         if (changed) {
-          this.renderImage(true);
+          _this.renderImage(true);
         }
       }
 
-      return this;
+      return _this;
     },
 
     /**
@@ -310,9 +332,10 @@
      * @param {Number} scaleX
      */
     scaleX: function (scaleX) {
-      var scaleY = this.imageData.scaleY;
+      var _this = this;
+      var scaleY = _this.imageData.scaleY;
 
-      return this.scale(scaleX, isNumber(scaleY) ? scaleY : 1);
+      return _this.scale(scaleX, isNumber(scaleY) ? scaleY : 1);
     },
 
     /**
@@ -321,9 +344,10 @@
      * @param {Number} scaleY
      */
     scaleY: function (scaleY) {
-      var scaleX = this.imageData.scaleX;
+      var _this = this;
+      var scaleX = _this.imageData.scaleX;
 
-      return this.scale(isNumber(scaleX) ? scaleX : 1, scaleY);
+      return _this.scale(isNumber(scaleX) ? scaleX : 1, scaleY);
     },
 
     /**
@@ -333,14 +357,15 @@
      * @return {Object} data
      */
     getData: function (rounded) {
-      var options = this.options;
-      var imageData = this.imageData;
-      var canvasData = this.canvasData;
-      var cropBoxData = this.cropBoxData;
+      var _this = this;
+      var options = _this.options;
+      var imageData = _this.imageData;
+      var canvasData = _this.canvasData;
+      var cropBoxData = _this.cropBoxData;
       var ratio;
       var data;
 
-      if (this.built && this.cropped) {
+      if (_this.built && _this.cropped) {
         data = {
           x: cropBoxData.left - canvasData.left,
           y: cropBoxData.top - canvasData.top,
@@ -382,23 +407,24 @@
      * @param {Object} data
      */
     setData: function (data) {
-      var options = this.options;
-      var imageData = this.imageData;
-      var canvasData = this.canvasData;
+      var _this = this;
+      var options = _this.options;
+      var imageData = _this.imageData;
+      var canvasData = _this.canvasData;
       var cropBoxData = {};
       var rotated;
       var scaled;
       var ratio;
 
       if (isFunction(data)) {
-        data = data.call(this.element);
+        data = data.call(_this.element);
       }
 
-      if (this.built && !this.disabled && isPlainObject(data)) {
+      if (_this.built && !_this.disabled && isPlainObject(data)) {
         if (options.rotatable) {
           if (isNumber(data.rotate) && data.rotate !== imageData.rotate) {
             imageData.rotate = data.rotate;
-            this.rotated = rotated = true;
+            _this.rotated = rotated = true;
           }
         }
 
@@ -415,9 +441,9 @@
         }
 
         if (rotated) {
-          this.renderCanvas();
+          _this.renderCanvas();
         } else if (scaled) {
-          this.renderImage();
+          _this.renderImage();
         }
 
         ratio = imageData.width / imageData.naturalWidth;
@@ -438,10 +464,10 @@
           cropBoxData.height = data.height * ratio;
         }
 
-        this.setCropBoxData(cropBoxData);
+        _this.setCropBoxData(cropBoxData);
       }
 
-      return this;
+      return _this;
     },
 
     /**
@@ -450,7 +476,9 @@
      * @return {Object} data
      */
     getContainerData: function () {
-      return this.built ? this.containerData : {};
+      var _this = this;
+
+      return _this.built ? _this.containerData : {};
     },
 
     /**
@@ -459,7 +487,9 @@
      * @return {Object} data
      */
     getImageData: function () {
-      return this.loaded ? this.imageData : {};
+      var _this = this;
+
+      return _this.loaded ? _this.imageData : {};
     },
 
     /**
@@ -468,10 +498,11 @@
      * @return {Object} data
      */
     getCanvasData: function () {
-      var canvasData = this.canvasData;
+      var _this = this;
+      var canvasData = _this.canvasData;
       var data = {};
 
-      if (this.built) {
+      if (_this.built) {
         each([
           'left',
           'top',
@@ -493,14 +524,15 @@
      * @param {Object} data
      */
     setCanvasData: function (data) {
-      var canvasData = this.canvasData;
+      var _this = this;
+      var canvasData = _this.canvasData;
       var aspectRatio = canvasData.aspectRatio;
 
       if (isFunction(data)) {
-        data = data.call(this.element);
+        data = data.call(_this.element);
       }
 
-      if (this.built && !this.disabled && isPlainObject(data)) {
+      if (_this.built && !_this.disabled && isPlainObject(data)) {
         if (isNumber(data.left)) {
           canvasData.left = data.left;
         }
@@ -517,10 +549,10 @@
           canvasData.width = data.height * aspectRatio;
         }
 
-        this.renderCanvas(true);
+        _this.renderCanvas(true);
       }
 
-      return this;
+      return _this;
     },
 
     /**
@@ -529,10 +561,11 @@
      * @return {Object} data
      */
     getCropBoxData: function () {
-      var cropBoxData = this.cropBoxData;
+      var _this = this;
+      var cropBoxData = _this.cropBoxData;
       var data;
 
-      if (this.built && this.cropped) {
+      if (_this.built && _this.cropped) {
         data = {
           left: cropBoxData.left,
           top: cropBoxData.top,
@@ -550,16 +583,17 @@
      * @param {Object} data
      */
     setCropBoxData: function (data) {
-      var cropBoxData = this.cropBoxData;
-      var aspectRatio = this.options.aspectRatio;
+      var _this = this;
+      var cropBoxData = _this.cropBoxData;
+      var aspectRatio = _this.options.aspectRatio;
       var widthChanged;
       var heightChanged;
 
       if (isFunction(data)) {
-        data = data.call(this.element);
+        data = data.call(_this.element);
       }
 
-      if (this.built && this.cropped && !this.disabled && isPlainObject(data)) {
+      if (_this.built && _this.cropped && !_this.disabled && isPlainObject(data)) {
 
         if (isNumber(data.left)) {
           cropBoxData.left = data.left;
@@ -587,10 +621,10 @@
           }
         }
 
-        this.renderCropBox();
+        _this.renderCropBox();
       }
 
-      return this;
+      return _this;
     },
 
     /**
@@ -600,6 +634,7 @@
      * @return {HTMLCanvasElement} canvas
      */
     getCroppedCanvas: function (options) {
+      var _this = this;
       var originalWidth;
       var originalHeight;
       var canvasWidth;
@@ -612,7 +647,7 @@
       var context;
       var data;
 
-      if (!this.built || !this.cropped || !SUPPORT_CANVAS) {
+      if (!_this.built || !_this.cropped || !SUPPORT_CANVAS) {
         return;
       }
 
@@ -620,7 +655,7 @@
         options = {};
       }
 
-      data = this.getData();
+      data = _this.getData();
       originalWidth = data.width;
       originalHeight = data.height;
       aspectRatio = originalWidth / originalHeight;
@@ -654,7 +689,7 @@
 
       // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.drawImage
       context.drawImage.apply(context, (function () {
-        var source = getSourceCanvas(this.image, this.imageData);
+        var source = getSourceCanvas(_this.image, _this.imageData);
         var sourceWidth = source.width;
         var sourceHeight = source.height;
         var args = [source];
@@ -709,7 +744,7 @@
         }
 
         return args;
-      }).call(this));
+      }).call(_this));
 
       return canvas;
     },
@@ -720,23 +755,24 @@
      * @param {Number} aspectRatio
      */
     setAspectRatio: function (aspectRatio) {
-      var options = this.options;
+      var _this = this;
+      var options = _this.options;
 
-      if (!this.disabled && !isUndefined(aspectRatio)) {
+      if (!_this.disabled && !isUndefined(aspectRatio)) {
 
         // 0 -> NaN
         options.aspectRatio = max(0, aspectRatio) || NaN;
 
-        if (this.built) {
-          this.initCropBox();
+        if (_this.built) {
+          _this.initCropBox();
 
-          if (this.cropped) {
-            this.renderCropBox();
+          if (_this.cropped) {
+            _this.renderCropBox();
           }
         }
       }
 
-      return this;
+      return _this;
     },
 
     /**
@@ -745,13 +781,14 @@
      * @param {String} mode (optional)
      */
     setDragMode: function (mode) {
-      var options = this.options;
-      var dragBox = this.dragBox;
-      var face = this.face;
+      var _this = this;
+      var options = _this.options;
+      var dragBox = _this.dragBox;
+      var face = _this.face;
       var croppable;
       var movable;
 
-      if (this.loaded && !this.disabled) {
+      if (_this.loaded && !_this.disabled) {
         croppable = mode === ACTION_CROP;
         movable = options.movable && mode === ACTION_MOVE;
         mode = (croppable || movable) ? mode : ACTION_NONE;
@@ -769,6 +806,6 @@
         }
       }
 
-      return this;
+      return _this;
     }
   });

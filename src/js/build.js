@@ -1,8 +1,9 @@
   extend(prototype, {
     build: function () {
-      var options = this.options;
-      var element = this.element;
-      var image = this.image;
+      var _this = this;
+      var options = _this.options;
+      var element = _this.element;
+      var image = _this.image;
       var template;
       var cropper;
       var canvas;
@@ -10,26 +11,26 @@
       var cropBox;
       var face;
 
-      if (!this.loaded) {
+      if (!_this.loaded) {
         return;
       }
 
       // Unbuild first when replace
-      if (this.built) {
-        this.unbuild();
+      if (_this.built) {
+        _this.unbuild();
       }
 
       template = document.createElement('div');
       template.innerHTML = Cropper.TEMPLATE;
 
       // Create cropper elements
-      this.container = element.parentNode;
-      this.cropper = cropper = querySelector(template, '.cropper-container');
-      this.canvas = canvas = querySelector(cropper, '.cropper-canvas');
-      this.dragBox = dragBox = querySelector(cropper, '.cropper-drag-box');
-      this.cropBox = cropBox = querySelector(cropper, '.cropper-crop-box');
-      this.viewBox = querySelector(cropper, '.cropper-view-box');
-      this.face = face = querySelector(cropBox, '.cropper-face');
+      _this.container = element.parentNode;
+      _this.cropper = cropper = querySelector(template, '.cropper-container');
+      _this.canvas = canvas = querySelector(cropper, '.cropper-canvas');
+      _this.dragBox = dragBox = querySelector(cropper, '.cropper-drag-box');
+      _this.cropBox = cropBox = querySelector(cropper, '.cropper-crop-box');
+      _this.viewBox = querySelector(cropper, '.cropper-view-box');
+      _this.face = face = querySelector(cropBox, '.cropper-face');
 
       appendChild(canvas, image);
 
@@ -38,18 +39,18 @@
       insertBefore(element, cropper);
 
       // Show the image if is hidden
-      if (!this.isImg) {
+      if (!_this.isImg) {
         removeClass(image, CLASS_HIDE);
       }
 
-      this.initPreview();
-      this.bind();
+      _this.initPreview();
+      _this.bind();
 
       options.aspectRatio = max(0, options.aspectRatio) || NaN;
       options.viewMode = max(0, min(3, round(options.viewMode))) || 0;
 
       if (options.autoCrop) {
-        this.cropped = true;
+        _this.cropped = true;
 
         if (options.modal) {
           addClass(dragBox, CLASS_MODAL);
@@ -84,10 +85,10 @@
         addClass(querySelectorAll(cropBox, '.cropper-point'), CLASS_HIDDEN);
       }
 
-      this.setDragMode(options.dragMode);
-      this.render();
-      this.built = true;
-      this.setData(options.data);
+      _this.setDragMode(options.dragMode);
+      _this.render();
+      _this.built = true;
+      _this.setData(options.data);
 
       // Call the built asynchronously to keep "image.cropper" is defined
       setTimeout(proxy(function () {
@@ -96,42 +97,44 @@
         }
 
         if (isFunction(options.crop)) {
-          options.crop.call(element, this.getData());
+          options.crop.call(element, _this.getData());
         }
 
-        this.complete = true;
-      }, this), 0);
+        _this.complete = true;
+      }, _this), 0);
     },
 
     unbuild: function () {
-      if (!this.built) {
+      var _this = this;
+
+      if (!_this.built) {
         return;
       }
 
-      this.built = false;
-      this.complete = false;
-      this.initialImageData = null;
+      _this.built = false;
+      _this.complete = false;
+      _this.initialImageData = null;
 
       // Clear `initialCanvasData` is necessary when replace
-      this.initialCanvasData = null;
-      this.initialCropBoxData = null;
-      this.containerData = null;
-      this.canvasData = null;
+      _this.initialCanvasData = null;
+      _this.initialCropBoxData = null;
+      _this.containerData = null;
+      _this.canvasData = null;
 
       // Clear `cropBoxData` is necessary when replace
-      this.cropBoxData = null;
-      this.unbind();
+      _this.cropBoxData = null;
+      _this.unbind();
 
-      this.resetPreview();
-      this.previews = null;
+      _this.resetPreview();
+      _this.previews = null;
 
-      this.viewBox = null;
-      this.cropBox = null;
-      this.dragBox = null;
-      this.canvas = null;
-      this.container = null;
+      _this.viewBox = null;
+      _this.cropBox = null;
+      _this.dragBox = null;
+      _this.canvas = null;
+      _this.container = null;
 
-      removeChild(this.cropper);
-      this.cropper = null;
+      removeChild(_this.cropper);
+      _this.cropper = null;
     }
   });

@@ -1,6 +1,7 @@
   extend(prototype, {
     init: function () {
-      var element = this.element;
+      var _this = this;
+      var element = _this.element;
       var tagName = element.tagName.toLowerCase();
       var url;
 
@@ -8,13 +9,13 @@
         return;
       }
 
-      setData(element, NAMESPACE, this);
+      setData(element, NAMESPACE, _this);
 
       if (tagName === 'img') {
-        this.isImg = true;
+        _this.isImg = true;
 
         // e.g.: "img/picture.jpg"
-        this.originalUrl = url = element.getAttribute('src');
+        _this.originalUrl = url = element.getAttribute('src');
 
         // Stop when it's a blank image
         if (!url) {
@@ -27,11 +28,12 @@
         url = element.toDataURL();
       }
 
-      this.load(url);
+      _this.load(url);
     },
 
     load: function (url) {
-      var options = this.options;
+      var _this = this;
+      var options = _this.options;
       var read;
       var xhr;
 
@@ -39,18 +41,18 @@
         return;
       }
 
-      if (isFunction(options.build) && options.build.call(this.element) === false) {
+      if (isFunction(options.build) && options.build.call(_this.element) === false) {
         return;
       }
 
-      this.url = url;
-      this.imageData = {};
+      _this.url = url;
+      _this.imageData = {};
 
       if (!options.checkOrientation || !window.ArrayBuffer) {
-        return this.clone();
+        return _this.clone();
       }
 
-      read = proxy(this.read, this);
+      read = proxy(_this.read, _this);
       xhr = new window.XMLHttpRequest();
 
       xhr.onload = function () {
@@ -63,9 +65,10 @@
     },
 
     read: function (arrayBuffer) {
-      var options = this.options;
+      var _this = this;
+      var options = _this.options;
       var orientation = getOrientation(arrayBuffer);
-      var imageData = this.imageData;
+      var imageData = _this.imageData;
       var base64 = '';
       var rotate;
       var scaleX;
@@ -76,7 +79,7 @@
           base64 += fromCharCode(code);
         });
 
-        this.url = 'data:image/jpeg;base64,' + btoa(base64);
+        _this.url = 'data:image/jpeg;base64,' + btoa(base64);
 
         switch (orientation) {
 
@@ -128,19 +131,20 @@
         imageData.scaleY = scaleY;
       }
 
-      this.clone();
+      _this.clone();
     },
 
     clone: function () {
-      var element = this.element;
-      var url = this.url;
+      var _this = this;
+      var element = _this.element;
+      var url = _this.url;
       var crossOrigin;
       var crossOriginUrl;
       var image;
       var start;
       var stop;
 
-      if (this.options.checkCrossOrigin && isCrossOriginURL(url)) {
+      if (_this.options.checkCrossOrigin && isCrossOriginURL(url)) {
         crossOrigin = element.crossOrigin;
 
         if (!crossOrigin) {
@@ -151,8 +155,8 @@
         }
       }
 
-      this.crossOrigin = crossOrigin;
-      this.crossOriginUrl = crossOriginUrl;
+      _this.crossOrigin = crossOrigin;
+      _this.crossOriginUrl = crossOriginUrl;
       image = document.createElement('img');
 
       if (crossOrigin) {
@@ -160,13 +164,13 @@
       }
 
       image.src = crossOriginUrl || url;
-      this.image = image;
-      this._start = start = proxy(this.start, this);
-      this._stop = stop = proxy(this.stop, this);
+      _this.image = image;
+      _this._start = start = proxy(_this.start, _this);
+      _this._stop = stop = proxy(_this.stop, _this);
 
-      if (this.isImg) {
+      if (_this.isImg) {
         if (element.complete) {
-          this.start();
+          _this.start();
         } else {
           addListener(element, EVENT_LOAD, start);
         }
@@ -179,32 +183,34 @@
     },
 
     start: function (event) {
-      var image = this.isImg ? this.element : this.image;
+      var _this = this;
+      var image = _this.isImg ? _this.element : _this.image;
 
       if (event) {
-        removeListener(image, EVENT_LOAD, this._start);
-        removeListener(image, EVENT_ERROR, this._stop);
+        removeListener(image, EVENT_LOAD, _this._start);
+        removeListener(image, EVENT_ERROR, _this._stop);
       }
 
       getImageSize(image, proxy(function (naturalWidth, naturalHeight) {
-        extend(this.imageData, {
+        extend(_this.imageData, {
           naturalWidth: naturalWidth,
           naturalHeight: naturalHeight,
           aspectRatio: naturalWidth / naturalHeight
         });
 
-        this.loaded = true;
-        this.build();
-      }, this));
+        _this.loaded = true;
+        _this.build();
+      }, _this));
     },
 
     stop: function () {
-      var image = this.image;
+      var _this = this;
+      var image = _this.image;
 
-      removeListener(image, EVENT_LOAD, this._start);
-      removeListener(image, EVENT_ERROR, this._stop);
+      removeListener(image, EVENT_LOAD, _this._start);
+      removeListener(image, EVENT_ERROR, _this._stop);
 
       removeChild(image);
-      this.image = null;
+      _this.image = null;
     }
   });
