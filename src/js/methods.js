@@ -120,7 +120,7 @@
       var element = _this.element;
       var image = _this.image;
 
-      if (_this.loaded) {
+      if (_this.ready) {
         if (_this.isImg && _this.replaced) {
           element.src = _this.originalUrl;
         }
@@ -489,7 +489,7 @@
     getImageData: function () {
       var _this = this;
 
-      return _this.loaded ? _this.imageData : {};
+      return _this.ready ? _this.imageData : {};
     },
 
     /**
@@ -788,7 +788,7 @@
       var croppable;
       var movable;
 
-      if (_this.loaded && !_this.disabled) {
+      if (_this.ready && !_this.disabled) {
         croppable = mode === ACTION_CROP;
         movable = options.movable && mode === ACTION_MOVE;
         mode = (croppable || movable) ? mode : ACTION_NONE;

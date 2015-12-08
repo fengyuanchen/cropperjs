@@ -11,7 +11,7 @@
       var cropBox;
       var face;
 
-      if (!_this.loaded) {
+      if (!_this.ready) {
         return;
       }
 

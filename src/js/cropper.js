@@ -3,7 +3,7 @@
 
     _this.element = element;
     _this.options = extend({}, Cropper.DEFAULTS, isPlainObject(options) && options);
-    _this.loaded = false;
+    _this.ready = false;
     _this.built = false;
     _this.complete = false;
     _this.rotated = false;

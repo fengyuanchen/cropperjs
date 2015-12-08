@@ -198,7 +198,7 @@
           aspectRatio: naturalWidth / naturalHeight
         });
 
-        _this.loaded = true;
+        _this.ready = true;
         _this.build();
       }, _this));
     },
