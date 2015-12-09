@@ -64,6 +64,14 @@
     return index;
   }
 
+  function trim(str) {
+    if (typeof str === 'string') {
+      str = str.trim ? str.trim() : str.replace(REGEXP_TRIM, '$1');
+    }
+
+    return str;
+  }
+
   function each(obj, callback) {
     var length = obj.length;
     var i;
@@ -124,7 +132,7 @@
   }
 
   function parseClass(className) {
-    return className.split(REGEXP_SPACES);
+    return trim(className).split(REGEXP_SPACES);
   }
 
   function hasClass(element, value) {
@@ -206,7 +214,7 @@
   }
 
   function addListener(element, type, handler) {
-    var types = type.split(REGEXP_SPACES);
+    var types = trim(type).split(REGEXP_SPACES);
 
     if (types.length > 1) {
       return each(types, function (type) {
@@ -222,7 +230,7 @@
   }
 
   function removeListener(element, type, handler) {
-    var types = type.split(REGEXP_SPACES);
+    var types = trim(type).split(REGEXP_SPACES);
 
     if (types.length > 1) {
       return each(types, function (type) {
