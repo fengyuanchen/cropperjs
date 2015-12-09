@@ -193,7 +193,7 @@
         removeListener(image, EVENT_ERROR, _this._stop);
       }
 
-      getImageSize(image, proxy(function (naturalWidth, naturalHeight) {
+      getImageSize(image, function (naturalWidth, naturalHeight) {
         extend(_this.imageData, {
           naturalWidth: naturalWidth,
           naturalHeight: naturalHeight,
@@ -202,7 +202,7 @@
 
         _this.ready = true;
         _this.build();
-      }, _this));
+      });
     },
 
     stop: function () {

@@ -91,7 +91,7 @@
       _this.setData(options.data);
 
       // Call the built asynchronously to keep "image.cropper" is defined
-      setTimeout(proxy(function () {
+      setTimeout(function () {
         if (isFunction(options.built)) {
           options.built.call(element);
         }
@@ -101,7 +101,7 @@
         }
 
         _this.complete = true;
-      }, _this), 0);
+      }, 0);
     },
 
     unbuild: function () {
