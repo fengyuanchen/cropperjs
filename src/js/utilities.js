@@ -73,20 +73,22 @@
   }
 
   function each(obj, callback) {
-    var length = obj.length;
+    var length;
     var i;
 
-    if (isArray(obj) && length) {
-      for (i = 0; i < length; i++) {
-        if (callback.call(obj, obj[i], i) === false) {
-          break;
-        }
-      }
-    } else if (isObject(obj)) {
-      for (i in obj) {
-        if (hasOwnProperty.call(obj, i)) {
-          if (callback.call(obj, obj[i], i) === false) {
+    if (obj && isFunction(callback)) {
+      if (isArray(obj) || isNumber(obj.length)/* array-like */) {
+        for (i = 0, length = obj.length; i < length; i++) {
+          if (callback.call(obj, obj[i], i, obj) === false) {
             break;
+          }
+        }
+      } else if (isObject(obj)) {
+        for (i in obj) {
+          if (hasOwnProperty.call(obj, i)) {
+            if (callback.call(obj, obj[i], i, obj) === false) {
+              break;
+            }
           }
         }
       }
