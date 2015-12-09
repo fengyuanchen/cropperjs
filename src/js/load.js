@@ -34,7 +34,6 @@
     load: function (url) {
       var _this = this;
       var options = _this.options;
-      var read;
       var xhr;
 
       if (!url) {
@@ -52,11 +51,14 @@
         return _this.clone();
       }
 
-      read = proxy(_this.read, _this);
       xhr = new window.XMLHttpRequest();
 
+      xhr.onerror = xhr.onabort = function () {
+        _this.clone();
+      };
+
       xhr.onload = function () {
-        read(this.response);
+        _this.read(this.response);
       };
 
       xhr.open('get', url);
