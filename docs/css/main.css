@@ -34,12 +34,12 @@ body {
   margin-bottom: 0;
 }
 
-.docs-header .navbar-toggle:hover,
-.docs-header .navbar-toggle:focus {
+.navbar-toggle:hover,
+.navbar-toggle:focus {
   border-color: #3f51b5;
 }
 
-.docs-header .navbar-toggle .icon-bar {
+.navbar-toggle .icon-bar {
   background-color: #3f51b5;
 }
 
