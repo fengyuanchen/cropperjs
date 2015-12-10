@@ -43,6 +43,10 @@
   function toArray(obj, offset) {
     var args = [];
 
+    if (Array.from) {
+      return Array.from(obj).slice(offset || 0);
+    }
+
     // This is necessary for IE8
     if (isNumber(offset)) {
       args.push(offset);
@@ -54,12 +58,16 @@
   function inArray(value, arr) {
     var index = -1;
 
-    each(arr, function (n, i) {
-      if (n === value) {
-        index = i;
-        return false;
-      }
-    });
+    if (arr.indexOf) {
+      return arr.indexOf(value);
+    } else {
+      each(arr, function (n, i) {
+        if (n === value) {
+          index = i;
+          return false;
+        }
+      });
+    }
 
     return index;
   }
@@ -85,7 +93,7 @@
         }
       } else if (isObject(obj)) {
         for (i in obj) {
-          if (hasOwnProperty.call(obj, i)) {
+          if (obj.hasOwnProperty(i)) {
             if (callback.call(obj, obj[i], i, obj) === false) {
               break;
             }
@@ -98,17 +106,23 @@
   }
 
   function extend(obj) {
-    var args = toArray(arguments);
+    var args;
 
-    if (args.length > 1) {
+    if (arguments.length > 1) {
+      args = toArray(arguments);
+
+      if (Object.assign) {
+        return Object.assign.apply(Object, args);
+      }
+
       args.shift();
-    }
 
-    each(args, function (arg) {
-      each(arg, function (prop, i) {
-        obj[i] = prop;
+      each(args, function (arg) {
+        each(arg, function (prop, i) {
+          obj[i] = prop;
+        });
       });
-    });
+    }
 
     return obj;
   }
@@ -138,11 +152,15 @@
   }
 
   function hasClass(element, value) {
-    return element.className.indexOf(value) > -1;
+    return element.classList ?
+      element.classList.contains(value) :
+      element.className.indexOf(value) > -1;
   }
 
   function addClass(element, value) {
-    var classes;
+    var classList;
+    var classNames;
+    var values;
 
     if (isNumber(element.length)) {
       return each(element, function (elem) {
@@ -150,19 +168,28 @@
       });
     }
 
-    classes = parseClass(element.className);
+    classList = element.classList;
+    values = parseClass(value);
 
-    each(parseClass(value), function (n) {
-      if (inArray(n, classes) < 0) {
-        classes.push(n);
+    if (classList) {
+      return classList.add.apply(classList, values);
+    }
+
+    classNames = parseClass(element.className);
+
+    each(values, function (n) {
+      if (inArray(n, classNames) < 0) {
+        classNames.push(n);
       }
     });
 
-    element.className = classes.join(' ');
+    element.className = classNames.join(' ');
   }
 
   function removeClass(element, value) {
-    var classes;
+    var classList;
+    var classNames;
+    var values;
 
     if (isNumber(element.length)) {
       return each(element, function (elem) {
@@ -170,29 +197,44 @@
       });
     }
 
-    classes = parseClass(element.className);
+    classList = element.classList;
+    values = parseClass(value);
 
-    each(parseClass(value), function (n, i) {
-      if ((i = inArray(n, classes)) > -1) {
-        classes.splice(i, 1);
+    if (classList) {
+      return classList.remove.apply(classList, values);
+    }
+
+    classNames = parseClass(element.className);
+
+    each(values, function (n, i) {
+      if ((i = inArray(n, classNames)) > -1) {
+        classNames.splice(i, 1);
       }
     });
 
-    element.className = classes.join(' ');
+    element.className = classNames.join(' ');
   }
 
   function toggleClass(element, value, added) {
-    return added ? addClass(element, value) : removeClass(element, value);
+    var classList = element.classList;
+
+    if (classList) {
+      classList.toggle.call(classList, value, added);
+    } else {
+      if (added) {
+        addClass(element, value);
+      } else {
+        removeClass(element, value);
+      }
+    }
   }
 
   function getData(element, name) {
-    if (isObject(element[name])) {
-      return element[name];
-    } else if (element.dataset) {
-      return element.dataset[name];
-    } else {
-      return element.getAttribute('data-' + name);
-    }
+    return isObject(element[name]) ?
+      element[name] :
+      element.dataset ?
+        element.dataset[name] :
+        element.getAttribute('data-' + name);
   }
 
   function setData(element, name, data) {
