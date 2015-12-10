@@ -1,6 +1,12 @@
   // Globals
   var document = window.document;
   var location = window.location;
+  var ArrayBuffer = window.ArrayBuffer;
+  var Object = window.Object;
+  var Array = window.Array;
+  var String = window.String;
+  var Number = window.Number;
+  var Math = window.Math;
 
   // Constants
   var NAMESPACE = 'cropper';
@@ -55,7 +61,6 @@
   var SUPPORT_CANVAS = !!document.createElement('canvas').getContext;
 
   // Maths
-  var num = Number;
   var min = Math.min;
   var max = Math.max;
   var abs = Math.abs;

@@ -151,8 +151,8 @@
       var canvasData = _this.canvasData;
 
       return _this.moveTo(
-        isUndefined(offsetX) ? offsetX : canvasData.left + num(offsetX),
-        isUndefined(offsetY) ? offsetY : canvasData.top + num(offsetY)
+        isUndefined(offsetX) ? offsetX : canvasData.left + Number(offsetX),
+        isUndefined(offsetY) ? offsetY : canvasData.top + Number(offsetY)
       );
     },
 
@@ -172,8 +172,8 @@
         y = x;
       }
 
-      x = num(x);
-      y = num(y);
+      x = Number(x);
+      y = Number(y);
 
       if (_this.built && !_this.disabled && _this.options.movable) {
         if (isNumber(x)) {
@@ -204,7 +204,7 @@
       var _this = this;
       var canvasData = _this.canvasData;
 
-      ratio = num(ratio);
+      ratio = Number(ratio);
 
       if (ratio < 0) {
         ratio = 1 / (1 - ratio);
@@ -232,7 +232,7 @@
       var newWidth;
       var newHeight;
 
-      ratio = num(ratio);
+      ratio = Number(ratio);
 
       if (ratio >= 0 && _this.built && !_this.disabled && options.zoomable) {
         newWidth = naturalWidth * ratio;
@@ -264,7 +264,7 @@
     rotate: function (degree) {
       var _this = this;
 
-      return _this.rotateTo((_this.imageData.rotate || 0) + num(degree));
+      return _this.rotateTo((_this.imageData.rotate || 0) + Number(degree));
     },
 
     /**
@@ -276,7 +276,7 @@
     rotateTo: function (degree) {
       var _this = this;
 
-      degree = num(degree);
+      degree = Number(degree);
 
       if (isNumber(degree) && _this.built && !_this.disabled && _this.options.rotatable) {
         _this.imageData.rotate = degree % 360;
@@ -304,8 +304,8 @@
         scaleY = scaleX;
       }
 
-      scaleX = num(scaleX);
-      scaleY = num(scaleY);
+      scaleX = Number(scaleX);
+      scaleY = Number(scaleY);
 
       if (_this.built && !_this.disabled && _this.options.scalable) {
         if (isNumber(scaleX)) {

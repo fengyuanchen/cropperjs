@@ -47,7 +47,7 @@
       _this.url = url;
       _this.imageData = {};
 
-      if (!options.checkOrientation || !window.ArrayBuffer) {
+      if (!options.checkOrientation || !ArrayBuffer) {
         return _this.clone();
       }
 

@@ -27,11 +27,11 @@
       _this.containerData = containerData = {
         width: max(
           container.offsetWidth,
-          num(options.minContainerWidth) || 200
+          Number(options.minContainerWidth) || 200
         ),
         height: max(
           container.offsetHeight,
-          num(options.minContainerHeight) || 100
+          Number(options.minContainerHeight) || 100
         )
       };
 
@@ -105,8 +105,8 @@
       var newCanvasTop;
 
       if (sizeLimited) {
-        minCanvasWidth = num(options.minCanvasWidth) || 0;
-        minCanvasHeight = num(options.minCanvasHeight) || 0;
+        minCanvasWidth = Number(options.minCanvasWidth) || 0;
+        minCanvasHeight = Number(options.minCanvasHeight) || 0;
 
         if (viewMode > 1) {
           minCanvasWidth = max(minCanvasWidth, containerData.width);
@@ -353,7 +353,7 @@
       var _this = this;
       var options = _this.options;
       var aspectRatio = options.aspectRatio;
-      var autoCropArea = num(options.autoCropArea) || 0.8;
+      var autoCropArea = Number(options.autoCropArea) || 0.8;
       var canvasData = _this.canvasData;
       var cropBoxData = {
             width: canvasData.width,
@@ -414,8 +414,8 @@
       var maxCropBoxHeight;
 
       if (sizeLimited) {
-        minCropBoxWidth = num(options.minCropBoxWidth) || 0;
-        minCropBoxHeight = num(options.minCropBoxHeight) || 0;
+        minCropBoxWidth = Number(options.minCropBoxWidth) || 0;
+        minCropBoxHeight = Number(options.minCropBoxHeight) || 0;
 
         // The min/maxCropBoxWidth/Height must be less than containerWidth/Height
         minCropBoxWidth = min(minCropBoxWidth, containerData.width);

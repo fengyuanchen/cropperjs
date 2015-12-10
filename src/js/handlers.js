@@ -48,7 +48,7 @@
     wheel: function (event) {
       var _this = this;
       var e = getEvent(event);
-      var ratio = num(_this.options.wheelZoomRatio) || 0.1;
+      var ratio = Number(_this.options.wheelZoomRatio) || 0.1;
       var delta = 1;
 
       if (_this.disabled) {
