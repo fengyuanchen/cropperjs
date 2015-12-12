@@ -46,8 +46,8 @@
 dist/
 ├── cropper.css     ( 5 KB)
 ├── cropper.min.css ( 4 KB)
-├── cropper.js      (87 KB)
-└── cropper.min.js  (29 KB)
+├── cropper.js      (88 KB)
+└── cropper.min.js  (28 KB)
 ```
 
 
