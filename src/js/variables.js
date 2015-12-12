@@ -37,8 +37,8 @@
   var REGEXP_ORIGINS = /^(https?:)\/\/([^\:\/\?#]+):?(\d*)/i;
   var REGEXP_TRIM = /^\s+(.*)\s+$/;
   var REGEXP_SPACES = /\s+/;
-  var REGEXP_DATA_URL = /^data\:+/;
-  var REGEXP_DATA_URL_PREFIX = /^data\:([^\;]+)\;base64,/;
+  var REGEXP_DATA_URL = /^data\:/;
+  var REGEXP_DATA_URL_HEAD = /^data\:([^\;]+)\;base64,/;
   var REGEXP_DATA_URL_JPEG = /^data\:image\/jpeg.*;base64,/;
 
   // Data

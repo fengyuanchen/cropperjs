@@ -581,7 +581,7 @@
   }
 
   function dataURLToArrayBuffer(dataURL) {
-    var base64 = dataURL.replace(REGEXP_DATA_URL_PREFIX, '');
+    var base64 = dataURL.replace(REGEXP_DATA_URL_HEAD, '');
     var binary = atob(base64);
     var length = binary.length;
     var arrayBuffer = new ArrayBuffer(length);
