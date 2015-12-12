@@ -51,7 +51,14 @@
         return _this.clone();
       }
 
-      xhr = new window.XMLHttpRequest();
+      // XMLHttpRequest disallows to open a Data URL in some browsers like IE11 and Safari
+      if (REGEXP_DATA_URL.test(url)) {
+        return REGEXP_DATA_URL_JPEG.test(url) ?
+          _this.read(dataURLToArrayBuffer(url)) :
+          _this.clone();
+      }
+
+      xhr = new XMLHttpRequest();
 
       xhr.onerror = xhr.onabort = function () {
         _this.clone();
@@ -71,17 +78,12 @@
       var options = _this.options;
       var orientation = getOrientation(arrayBuffer);
       var imageData = _this.imageData;
-      var base64 = '';
       var rotate;
       var scaleX;
       var scaleY;
 
       if (orientation > 1) {
-        each(new Uint8Array(arrayBuffer), function (code) {
-          base64 += fromCharCode(code);
-        });
-
-        _this.url = 'data:image/jpeg;base64,' + btoa(base64);
+        _this.url = arrayBufferToDataURL(arrayBuffer);
 
         switch (orientation) {
 

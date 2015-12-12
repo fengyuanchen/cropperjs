@@ -579,3 +579,32 @@
 
     return orientation;
   }
+
+  function dataURLToArrayBuffer(dataURL) {
+    var base64 = dataURL.replace(REGEXP_DATA_URL_PREFIX, '');
+    var binary = atob(base64);
+    var length = binary.length;
+    var arrayBuffer = new ArrayBuffer(length);
+    var dataView = new Uint8Array(arrayBuffer);
+    var i;
+
+    for (i = 0; i < length; i++) {
+      dataView[i] = binary.charCodeAt(i);
+    }
+
+    return arrayBuffer;
+  }
+
+  // Only available for JPEG image
+  function arrayBufferToDataURL(arrayBuffer) {
+    var dataView = new Uint8Array(arrayBuffer);
+    var length = dataView.length;
+    var base64 = '';
+    var i;
+
+    for (i = 0; i < length; i++) {
+      base64 += fromCharCode(dataView[i]);
+    }
+
+    return 'data:image/jpeg;base64,' + btoa(base64);
+  }
