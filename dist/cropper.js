@@ -1,11 +1,11 @@
 /*!
- * Cropper v0.5.1
+ * Cropper v0.5.2
  * https://github.com/fengyuanchen/cropperjs
  *
  * Copyright (c) 2015 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2015-12-12T06:51:30.712Z
+ * Date: 2015-12-15T06:11:25.593Z
  */
 
 (function (global, factory) {
@@ -1797,14 +1797,14 @@
       var options = _this.options;
       var cropper = _this.cropper;
 
-      addListener(cropper, EVENT_MOUSE_DOWN, proxy(_this.cropStart, _this));
+      addListener(cropper, EVENT_MOUSE_DOWN, (_this._cropStart = proxy(_this.cropStart, _this)));
 
       if (options.zoomable && options.zoomOnWheel) {
-        addListener(cropper, EVENT_WHEEL, proxy(_this.wheel, _this));
+        addListener(cropper, EVENT_WHEEL, (_this._wheel = proxy(_this.wheel, _this)));
       }
 
       if (options.toggleDragModeOnDblclick) {
-        addListener(cropper, EVENT_DBLCLICK, proxy(_this.dblclick, _this));
+        addListener(cropper, EVENT_DBLCLICK, (_this._dblclick = proxy(_this.dblclick, _this)));
       }
 
       addListener(document, EVENT_MOUSE_MOVE, (_this._cropMove = proxy(_this.cropMove, _this)));
@@ -1820,14 +1820,14 @@
       var options = _this.options;
       var cropper = _this.cropper;
 
-      removeListener(cropper, EVENT_MOUSE_DOWN, _this.cropStart);
+      removeListener(cropper, EVENT_MOUSE_DOWN, _this._cropStart);
 
       if (options.zoomable && options.zoomOnWheel) {
-        removeListener(cropper, EVENT_WHEEL, _this.wheel);
+        removeListener(cropper, EVENT_WHEEL, _this._wheel);
       }
 
       if (options.toggleDragModeOnDblclick) {
-        removeListener(cropper, EVENT_DBLCLICK, _this.dblclick);
+        removeListener(cropper, EVENT_DBLCLICK, _this._dblclick);
       }
 
       removeListener(document, EVENT_MOUSE_MOVE, _this._cropMove);

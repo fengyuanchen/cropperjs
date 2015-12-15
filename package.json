@@ -1,7 +1,7 @@
 {
   "name": "cropperjs",
   "description": "JavaScript image cropper.",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "main": "dist/cropper.js",
   "license": "MIT",
   "repository": "fengyuanchen/cropperjs",
@@ -28,19 +28,11 @@
     "web",
     "development"
   ],
-  "files": [
-    "src",
-    "dist",
-    "demo",
-    "docs",
-    "test",
-    "assets",
-    "examples"
-  ],
   "devDependencies": {
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-concat": "~2.6.0",
+    "gulp-csscomb": "^3.0.6",
     "gulp-csslint": "^0.2.0",
     "gulp-htmlcomb": "0.1.0",
     "gulp-jscs": "^3.0.2",

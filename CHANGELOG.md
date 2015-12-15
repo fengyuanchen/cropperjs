@@ -1,6 +1,11 @@
 # Changelog
 
 
+## 0.5.2 (Dec 15, 2015)
+
+- Fix event handlers
+
+
 ## 0.5.1 (Dec 12, 2015)
 
 - Handle Data URL (avoid to use XMLHttpRequest to open a Data URL)
