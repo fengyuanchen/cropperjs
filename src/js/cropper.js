@@ -11,7 +11,7 @@
     _this.disabled = false;
     _this.replaced = false;
     _this.limited = false;
-    _this.wheeled = false;
+    _this.wheeling = false;
     _this.isImg = false;
     _this.originalUrl = '';
     _this.canvasData = null;
