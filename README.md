@@ -1018,4 +1018,9 @@ Maintained under the [Semantic Versioning guidelines](http://semver.org/).
 [MIT](http://opensource.org/licenses/MIT) © [Fengyuan Chen](http://chenfengyuan.com)
 
 
+
+## Related projects
+
+- [react-cropperjs](https://github.com/TAPP-TV/react-cropperjs) by @pbojinov
+
 [⬆ back to top](#table-of-contents)
