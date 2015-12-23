@@ -34,7 +34,7 @@
         )
       };
 
-      addStyle(cropper, {
+      setStyle(cropper, {
         width: containerData.width,
         height: containerData.height
       });
@@ -277,7 +277,7 @@
         canvasData.maxTop
       );
 
-      addStyle(_this.canvas, {
+      setStyle(_this.canvas, {
         width: canvasData.width,
         height: canvasData.height,
         left: canvasData.left,
@@ -333,7 +333,7 @@
 
       transform = getTransform(imageData);
 
-      addStyle(_this.image, {
+      setStyle(_this.image, {
         width: imageData.width,
         height: imageData.height,
         marginLeft: imageData.left,
@@ -519,7 +519,7 @@
           cropBoxData.height === containerData.height ? ACTION_MOVE : ACTION_ALL);
       }
 
-      addStyle(_this.cropBox, {
+      setStyle(_this.cropBox, {
         width: cropBoxData.width,
         height: cropBoxData.height,
         left: cropBoxData.left,

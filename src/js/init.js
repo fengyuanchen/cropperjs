@@ -184,7 +184,7 @@
         addListener(image, EVENT_LOAD, start);
         addListener(image, EVENT_ERROR, stop);
         addClass(image, CLASS_HIDE);
-        insertBefore(element, image);
+        element.parentNode.insertBefore(image, element.nextSibling);
       }
     },
 

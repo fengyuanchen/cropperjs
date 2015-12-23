@@ -135,7 +135,7 @@
     };
   }
 
-  function addStyle(element, styles) {
+  function setStyle(element, styles) {
     var style = element.style;
 
     each(styles, function (value, property) {
@@ -147,7 +147,7 @@
     });
   }
 
-  function parseClass(className) {
+  function splitClass(className) {
     return trim(className).split(REGEXP_SPACES);
   }
 
@@ -169,13 +169,13 @@
     }
 
     classList = element.classList;
-    values = parseClass(value);
+    values = splitClass(value);
 
     if (classList) {
       return classList.add.apply(classList, values);
     }
 
-    classNames = parseClass(element.className);
+    classNames = splitClass(element.className);
 
     each(values, function (n) {
       if (inArray(n, classNames) < 0) {
@@ -198,13 +198,13 @@
     }
 
     classList = element.classList;
-    values = parseClass(value);
+    values = splitClass(value);
 
     if (classList) {
       return classList.remove.apply(classList, values);
     }
 
-    classNames = parseClass(element.className);
+    classNames = splitClass(element.className);
 
     each(values, function (n, i) {
       if ((i = inArray(n, classNames)) > -1) {
@@ -220,12 +220,10 @@
 
     if (classList) {
       classList.toggle.call(classList, value, added);
+    } else if (added) {
+      addClass(element, value);
     } else {
-      if (added) {
-        addClass(element, value);
-      } else {
-        removeClass(element, value);
-      }
+      removeClass(element, value);
     }
   }
 
@@ -325,12 +323,22 @@
     };
   }
 
-  function querySelector(element, selector) {
-    return element.querySelector(selector);
+  function getByTag(element, tagName, index) {
+    var elements = element.getElementsByTagName(tagName);
+
+    return isNumber(index) ? elements[index] : elements;
   }
 
-  function querySelectorAll(element, selector) {
-    return element.querySelectorAll(selector);
+  function getByClass(element, className, index) {
+    var elements;
+
+    if (!element.getElementsByClassName) {
+      elements = element.querySelectorAll('.' + className);
+    }
+
+    elements = element.getElementsByClassName(className);
+
+    return isNumber(index) ? elements[index] : elements;
   }
 
   function createElement(tagName) {
@@ -342,7 +350,9 @@
   }
 
   function removeChild(element) {
-    element.parentNode.removeChild(element);
+    if (element.parentNode) {
+      element.parentNode.removeChild(element);
+    }
   }
 
   function empty(element) {

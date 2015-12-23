@@ -17,7 +17,7 @@
         return;
       }
 
-      _this.previews = previews = querySelectorAll(document, preview);
+      _this.previews = previews = document.querySelectorAll(preview);
 
       each(previews, function (element) {
         var image = createElement('img');
@@ -62,7 +62,7 @@
       each(this.previews, function (element) {
         var data = getData(element, DATA_PREVIEW);
 
-        addStyle(element, {
+        setStyle(element, {
           width: data.width,
           height: data.height
         });
@@ -94,7 +94,7 @@
         return;
       }
 
-      addStyle(querySelector(_this.viewBox, 'img'), extend({
+      setStyle(getByTag(_this.viewBox, 'img', 0), extend({
         width: width,
         height: height,
         marginLeft: -left,
@@ -120,12 +120,12 @@
           newHeight = originalHeight;
         }
 
-        addStyle(element, {
+        setStyle(element, {
           width: newWidth,
           height: newHeight
         });
 
-        addStyle(querySelector(element, 'img'), extend({
+        setStyle(getByTag(element, 'img', 0), extend({
           width: width * ratio,
           height: height * ratio,
           marginLeft: -left * ratio,
