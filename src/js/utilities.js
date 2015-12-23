@@ -333,10 +333,6 @@
     return element.querySelectorAll(selector);
   }
 
-  function insertBefore(element, elem) {
-    element.parentNode.insertBefore(elem, element);
-  }
-
   function createElement(tagName) {
     return document.createElement(tagName);
   }

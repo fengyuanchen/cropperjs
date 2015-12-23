@@ -3,6 +3,7 @@
       var options = _this.options;
       var element = _this.element;
       var image = _this.image;
+      var container;
       var template;
       var cropper;
       var canvas;
@@ -23,7 +24,7 @@
       template.innerHTML = Cropper.TEMPLATE;
 
       // Create cropper elements
-      _this.container = element.parentNode;
+      _this.container = container = element.parentNode;
       _this.cropper = cropper = querySelector(template, '.cropper-container');
       _this.canvas = canvas = querySelector(cropper, '.cropper-canvas');
       _this.dragBox = dragBox = querySelector(cropper, '.cropper-drag-box');
@@ -35,7 +36,9 @@
 
       // Hide the original image
       addClass(element, CLASS_HIDDEN);
-      insertBefore(element, cropper);
+
+      // Inserts the cropper after to the current image
+      container.insertBefore(cropper, element.nextSibling);
 
       // Show the image if is hidden
       if (!_this.isImg) {
