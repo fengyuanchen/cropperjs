@@ -1,4 +1,6 @@
-  extend(prototype, {
+  Cropper.prototype = {
+    constructor: Cropper,
+
     init: function () {
       var _this = this;
       var element = _this.element;
@@ -216,5 +218,4 @@
 
       removeChild(image);
       _this.image = null;
-    }
-  });
+    },

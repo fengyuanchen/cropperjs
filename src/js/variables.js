@@ -74,9 +74,6 @@
   var floor = Math.floor;
   var PI = Math.PI;
 
-  // Prototype
-  var prototype = {};
-
   // Utilities
   var EMPTY_OBJECT = {};
   var toString = EMPTY_OBJECT.toString;

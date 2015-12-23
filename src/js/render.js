@@ -1,4 +1,3 @@
-  extend(prototype, {
     render: function () {
       var _this = this;
 
@@ -545,5 +544,4 @@
       if (_this.complete && isFunction(options.crop)) {
         options.crop.call(_this.element, _this.getData());
       }
-    }
-  });
+    },

@@ -1,5 +1,3 @@
-  extend(prototype, {
-
     // Show the crop box manually
     crop: function () {
       var _this = this;
@@ -808,4 +806,4 @@
 
       return _this;
     }
-  });
+  };

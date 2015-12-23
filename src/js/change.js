@@ -1,4 +1,3 @@
-  extend(prototype, {
     change: function (shiftKey, originalEvent) {
       var _this = this;
       var options = _this.options;
@@ -401,5 +400,4 @@
       // Override
       _this.startX = _this.endX;
       _this.startY = _this.endY;
-    }
-  });
+    },

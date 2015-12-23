@@ -1,4 +1,3 @@
-  extend(prototype, {
     resize: function () {
       var _this = this;
       var restore = _this.options.restore;
@@ -207,5 +206,4 @@
           });
         }
       }
-    }
-  });
+    },

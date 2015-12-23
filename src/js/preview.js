@@ -1,4 +1,3 @@
-  extend(prototype, {
     initPreview: function () {
       var _this = this;
       var preview = _this.options.preview;
@@ -133,5 +132,4 @@
           marginTop: -top * ratio
         }, transforms));
       });
-    }
-  });
+    },

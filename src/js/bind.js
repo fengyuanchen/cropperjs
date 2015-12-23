@@ -1,4 +1,3 @@
-  extend(prototype, {
     bind: function () {
       var _this = this;
       var options = _this.options;
@@ -43,5 +42,4 @@
       if (options.responsive) {
         removeListener(window, EVENT_RESIZE, _this._resize);
       }
-    }
-  });
+    },
