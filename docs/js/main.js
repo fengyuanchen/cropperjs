@@ -177,6 +177,10 @@ window.onload = function () {
         }
       }
 
+      if (data.method === 'getCroppedCanvas') {
+        data.option = JSON.parse(data.option);
+      }
+
       result = cropper[data.method](data.option, data.secondOption);
 
       switch (data.method) {
