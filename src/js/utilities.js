@@ -55,23 +55,6 @@
     return args.slice.apply(obj, args);
   }
 
-  function inArray(value, arr) {
-    var index = -1;
-
-    if (arr.indexOf) {
-      return arr.indexOf(value);
-    } else {
-      each(arr, function (n, i) {
-        if (n === value) {
-          index = i;
-          return false;
-        }
-      });
-    }
-
-    return index;
-  }
-
   function trim(str) {
     if (typeof str === 'string') {
       str = str.trim ? str.trim() : str.replace(REGEXP_TRIM, '$1');
@@ -147,10 +130,6 @@
     });
   }
 
-  function splitClass(className) {
-    return trim(className).split(REGEXP_SPACES);
-  }
-
   function hasClass(element, value) {
     return element.classList ?
       element.classList.contains(value) :
@@ -158,9 +137,7 @@
   }
 
   function addClass(element, value) {
-    var classList;
-    var classNames;
-    var values;
+    var className;
 
     if (isNumber(element.length)) {
       return each(element, function (elem) {
@@ -168,59 +145,44 @@
       });
     }
 
-    classList = element.classList;
-    values = splitClass(value);
-
-    if (classList) {
-      return classList.add.apply(classList, values);
+    if (element.classList) {
+      return element.classList.add(value);
     }
 
-    classNames = splitClass(element.className);
+    className = trim(element.className);
 
-    each(values, function (n) {
-      if (inArray(n, classNames) < 0) {
-        classNames.push(n);
-      }
-    });
-
-    element.className = classNames.join(' ');
+    if (!className) {
+      element.className = value;
+    } else if (className.indexOf(value) < 0) {
+      element.className = className + ' ' + value;
+    }
   }
 
   function removeClass(element, value) {
-    var classList;
-    var classNames;
-    var values;
-
     if (isNumber(element.length)) {
       return each(element, function (elem) {
         removeClass(elem, value);
       });
     }
 
-    classList = element.classList;
-    values = splitClass(value);
-
-    if (classList) {
-      return classList.remove.apply(classList, values);
+    if (element.classList) {
+      return element.classList.remove(value);
     }
 
-    classNames = splitClass(element.className);
-
-    each(values, function (n, i) {
-      if ((i = inArray(n, classNames)) > -1) {
-        classNames.splice(i, 1);
-      }
-    });
-
-    element.className = classNames.join(' ');
+    if (element.className.indexOf(value) >= 0) {
+      element.className = element.className.replace(value, '');
+    }
   }
 
   function toggleClass(element, value, added) {
-    var classList = element.classList;
+    if (isNumber(element.length)) {
+      return each(element, function (elem) {
+        toggleClass(elem, value, added);
+      });
+    }
 
-    if (classList) {
-      classList.toggle.call(classList, value, added);
-    } else if (added) {
+    // IE10-11 doesn't support the second parameter of `classList.toggle`
+    if (added) {
       addClass(element, value);
     } else {
       removeClass(element, value);
@@ -330,13 +292,9 @@
   }
 
   function getByClass(element, className, index) {
-    var elements;
-
-    if (!element.getElementsByClassName) {
-      elements = element.querySelectorAll('.' + className);
-    }
-
-    elements = element.getElementsByClassName(className);
+    var elements = element.getElementsByClassName ?
+      element.getElementsByClassName(className) :
+      element.querySelectorAll('.' + className);
 
     return isNumber(index) ? elements[index] : elements;
   }
