@@ -3,7 +3,7 @@
 > JavaScript image cropper.
 
 - [Homepage](http://cropperjs.com)
-- [Cropper with jQuery](http://github.com/fengyuanchen/cropper)
+- [Cropper as jQuery plugin](https://github.com/fengyuanchen/cropper)
 
 [![Build Status Images](https://travis-ci.org/fengyuanchen/cropperjs.svg)](https://travis-ci.org/fengyuanchen/cropperjs) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/fengyuanchen/cropperjs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
@@ -46,7 +46,7 @@
 dist/
 ├── cropper.css     ( 5 KB)
 ├── cropper.min.css ( 4 KB)
-├── cropper.js      (88 KB)
+├── cropper.js      (87 KB)
 └── cropper.min.js  (28 KB)
 ```
 

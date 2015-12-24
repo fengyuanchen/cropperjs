@@ -1,6 +1,12 @@
 # Changelog
 
 
+## 0.5.3 (Dec 24, 2015)
+
+- Limit wheel speed to prevent zoom too fast (#21)
+- Improve the `setCropBoxData` method (#22)
+
+
 ## 0.5.2 (Dec 15, 2015)
 
 - Fix event handlers

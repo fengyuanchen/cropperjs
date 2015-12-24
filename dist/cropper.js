@@ -1,11 +1,11 @@
 /*!
- * Cropper v0.5.2
+ * Cropper v0.5.3
  * https://github.com/fengyuanchen/cropperjs
  *
  * Copyright (c) 2015 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2015-12-15T06:11:25.593Z
+ * Date: 2015-12-24T08:55:18.789Z
  */
 
 (function (global, factory) {
@@ -100,9 +100,6 @@
   var floor = Math.floor;
   var PI = Math.PI;
 
-  // Prototype
-  var prototype = {};
-
   // Utilities
   var EMPTY_OBJECT = {};
   var toString = EMPTY_OBJECT.toString;
@@ -164,23 +161,6 @@
     }
 
     return args.slice.apply(obj, args);
-  }
-
-  function inArray(value, arr) {
-    var index = -1;
-
-    if (arr.indexOf) {
-      return arr.indexOf(value);
-    } else {
-      each(arr, function (n, i) {
-        if (n === value) {
-          index = i;
-          return false;
-        }
-      });
-    }
-
-    return index;
   }
 
   function trim(str) {
@@ -246,7 +226,7 @@
     };
   }
 
-  function addStyle(element, styles) {
+  function setStyle(element, styles) {
     var style = element.style;
 
     each(styles, function (value, property) {
@@ -258,10 +238,6 @@
     });
   }
 
-  function parseClass(className) {
-    return trim(className).split(REGEXP_SPACES);
-  }
-
   function hasClass(element, value) {
     return element.classList ?
       element.classList.contains(value) :
@@ -269,9 +245,7 @@
   }
 
   function addClass(element, value) {
-    var classList;
-    var classNames;
-    var values;
+    var className;
 
     if (isNumber(element.length)) {
       return each(element, function (elem) {
@@ -279,64 +253,47 @@
       });
     }
 
-    classList = element.classList;
-    values = parseClass(value);
-
-    if (classList) {
-      return classList.add.apply(classList, values);
+    if (element.classList) {
+      return element.classList.add(value);
     }
 
-    classNames = parseClass(element.className);
+    className = trim(element.className);
 
-    each(values, function (n) {
-      if (inArray(n, classNames) < 0) {
-        classNames.push(n);
-      }
-    });
-
-    element.className = classNames.join(' ');
+    if (!className) {
+      element.className = value;
+    } else if (className.indexOf(value) < 0) {
+      element.className = className + ' ' + value;
+    }
   }
 
   function removeClass(element, value) {
-    var classList;
-    var classNames;
-    var values;
-
     if (isNumber(element.length)) {
       return each(element, function (elem) {
         removeClass(elem, value);
       });
     }
 
-    classList = element.classList;
-    values = parseClass(value);
-
-    if (classList) {
-      return classList.remove.apply(classList, values);
+    if (element.classList) {
+      return element.classList.remove(value);
     }
 
-    classNames = parseClass(element.className);
-
-    each(values, function (n, i) {
-      if ((i = inArray(n, classNames)) > -1) {
-        classNames.splice(i, 1);
-      }
-    });
-
-    element.className = classNames.join(' ');
+    if (element.className.indexOf(value) >= 0) {
+      element.className = element.className.replace(value, '');
+    }
   }
 
   function toggleClass(element, value, added) {
-    var classList = element.classList;
+    if (isNumber(element.length)) {
+      return each(element, function (elem) {
+        toggleClass(elem, value, added);
+      });
+    }
 
-    if (classList) {
-      classList.toggle.call(classList, value, added);
+    // IE10-11 doesn't support the second parameter of `classList.toggle`
+    if (added) {
+      addClass(element, value);
     } else {
-      if (added) {
-        addClass(element, value);
-      } else {
-        removeClass(element, value);
-      }
+      removeClass(element, value);
     }
   }
 
@@ -436,16 +393,18 @@
     };
   }
 
-  function querySelector(element, selector) {
-    return element.querySelector(selector);
+  function getByTag(element, tagName, index) {
+    var elements = element.getElementsByTagName(tagName);
+
+    return isNumber(index) ? elements[index] : elements;
   }
 
-  function querySelectorAll(element, selector) {
-    return element.querySelectorAll(selector);
-  }
+  function getByClass(element, className, index) {
+    var elements = element.getElementsByClassName ?
+      element.getElementsByClassName(className) :
+      element.querySelectorAll('.' + className);
 
-  function insertBefore(element, elem) {
-    element.parentNode.insertBefore(elem, element);
+    return isNumber(index) ? elements[index] : elements;
   }
 
   function createElement(tagName) {
@@ -457,7 +416,9 @@
   }
 
   function removeChild(element) {
-    element.parentNode.removeChild(element);
+    if (element.parentNode) {
+      element.parentNode.removeChild(element);
+    }
   }
 
   function empty(element) {
@@ -733,6 +694,7 @@
     _this.disabled = false;
     _this.replaced = false;
     _this.limited = false;
+    _this.wheeling = false;
     _this.isImg = false;
     _this.originalUrl = '';
     _this.canvasData = null;
@@ -741,7 +703,9 @@
     _this.init();
   }
 
-  extend(prototype, {
+  Cropper.prototype = {
+    constructor: Cropper,
+
     init: function () {
       var _this = this;
       var element = _this.element;
@@ -925,7 +889,7 @@
         addListener(image, EVENT_LOAD, start);
         addListener(image, EVENT_ERROR, stop);
         addClass(image, CLASS_HIDE);
-        insertBefore(element, image);
+        element.parentNode.insertBefore(image, element.nextSibling);
       }
     },
 
@@ -959,15 +923,14 @@
 
       removeChild(image);
       _this.image = null;
-    }
-  });
+    },
 
-  extend(prototype, {
     build: function () {
       var _this = this;
       var options = _this.options;
       var element = _this.element;
       var image = _this.image;
+      var container;
       var template;
       var cropper;
       var canvas;
@@ -988,19 +951,21 @@
       template.innerHTML = Cropper.TEMPLATE;
 
       // Create cropper elements
-      _this.container = element.parentNode;
-      _this.cropper = cropper = querySelector(template, '.cropper-container');
-      _this.canvas = canvas = querySelector(cropper, '.cropper-canvas');
-      _this.dragBox = dragBox = querySelector(cropper, '.cropper-drag-box');
-      _this.cropBox = cropBox = querySelector(cropper, '.cropper-crop-box');
-      _this.viewBox = querySelector(cropper, '.cropper-view-box');
-      _this.face = face = querySelector(cropBox, '.cropper-face');
+      _this.container = container = element.parentNode;
+      _this.cropper = cropper = getByClass(template, 'cropper-container', 0);
+      _this.canvas = canvas = getByClass(cropper, 'cropper-canvas', 0);
+      _this.dragBox = dragBox = getByClass(cropper, 'cropper-drag-box', 0);
+      _this.cropBox = cropBox = getByClass(cropper, 'cropper-crop-box', 0);
+      _this.viewBox = getByClass(cropper, 'cropper-view-box', 0);
+      _this.face = face = getByClass(cropBox, 'cropper-face', 0);
 
       appendChild(canvas, image);
 
       // Hide the original image
       addClass(element, CLASS_HIDDEN);
-      insertBefore(element, cropper);
+
+      // Inserts the cropper after to the current image
+      container.insertBefore(cropper, element.nextSibling);
 
       // Show the image if is hidden
       if (!_this.isImg) {
@@ -1024,11 +989,11 @@
       }
 
       if (!options.guides) {
-        addClass(querySelectorAll(cropBox, '.cropper-dashed'), CLASS_HIDDEN);
+        addClass(getByClass(cropBox, 'cropper-dashed'), CLASS_HIDDEN);
       }
 
       if (!options.center) {
-        addClass(querySelector(cropBox, '.cropper-center'), CLASS_HIDDEN);
+        addClass(getByClass(cropBox, 'cropper-center', 0), CLASS_HIDDEN);
       }
 
       if (options.background) {
@@ -1045,8 +1010,8 @@
       }
 
       if (!options.cropBoxResizable) {
-        addClass(querySelectorAll(cropBox, '.cropper-line'), CLASS_HIDDEN);
-        addClass(querySelectorAll(cropBox, '.cropper-point'), CLASS_HIDDEN);
+        addClass(getByClass(cropBox, 'cropper-line'), CLASS_HIDDEN);
+        addClass(getByClass(cropBox, 'cropper-point'), CLASS_HIDDEN);
       }
 
       _this.setDragMode(options.dragMode);
@@ -1100,10 +1065,8 @@
 
       removeChild(_this.cropper);
       _this.cropper = null;
-    }
-  });
+    },
 
-  extend(prototype, {
     render: function () {
       var _this = this;
 
@@ -1140,7 +1103,7 @@
         )
       };
 
-      addStyle(cropper, {
+      setStyle(cropper, {
         width: containerData.width,
         height: containerData.height
       });
@@ -1383,7 +1346,7 @@
         canvasData.maxTop
       );
 
-      addStyle(_this.canvas, {
+      setStyle(_this.canvas, {
         width: canvasData.width,
         height: canvasData.height,
         left: canvasData.left,
@@ -1439,7 +1402,7 @@
 
       transform = getTransform(imageData);
 
-      addStyle(_this.image, {
+      setStyle(_this.image, {
         width: imageData.width,
         height: imageData.height,
         marginLeft: imageData.left,
@@ -1625,7 +1588,7 @@
           cropBoxData.height === containerData.height ? ACTION_MOVE : ACTION_ALL);
       }
 
-      addStyle(_this.cropBox, {
+      setStyle(_this.cropBox, {
         width: cropBoxData.width,
         height: cropBoxData.height,
         left: cropBoxData.left,
@@ -1650,10 +1613,8 @@
       if (_this.complete && isFunction(options.crop)) {
         options.crop.call(_this.element, _this.getData());
       }
-    }
-  });
+    },
 
-  extend(prototype, {
     initPreview: function () {
       var _this = this;
       var preview = _this.options.preview;
@@ -1673,7 +1634,7 @@
         return;
       }
 
-      _this.previews = previews = querySelectorAll(document, preview);
+      _this.previews = previews = document.querySelectorAll(preview);
 
       each(previews, function (element) {
         var image = createElement('img');
@@ -1718,7 +1679,7 @@
       each(this.previews, function (element) {
         var data = getData(element, DATA_PREVIEW);
 
-        addStyle(element, {
+        setStyle(element, {
           width: data.width,
           height: data.height
         });
@@ -1750,7 +1711,7 @@
         return;
       }
 
-      addStyle(querySelector(_this.viewBox, 'img'), extend({
+      setStyle(getByTag(_this.viewBox, 'img', 0), extend({
         width: width,
         height: height,
         marginLeft: -left,
@@ -1776,22 +1737,20 @@
           newHeight = originalHeight;
         }
 
-        addStyle(element, {
+        setStyle(element, {
           width: newWidth,
           height: newHeight
         });
 
-        addStyle(querySelector(element, 'img'), extend({
+        setStyle(getByTag(element, 'img', 0), extend({
           width: width * ratio,
           height: height * ratio,
           marginLeft: -left * ratio,
           marginTop: -top * ratio
         }, transforms));
       });
-    }
-  });
+    },
 
-  extend(prototype, {
     bind: function () {
       var _this = this;
       var options = _this.options;
@@ -1836,10 +1795,8 @@
       if (options.responsive) {
         removeListener(window, EVENT_RESIZE, _this._resize);
       }
-    }
-  });
+    },
 
-  extend(prototype, {
     resize: function () {
       var _this = this;
       var restore = _this.options.restore;
@@ -1897,6 +1854,17 @@
       }
 
       preventDefault(e);
+
+      // Limit wheel speed to prevent zoom too fast (#21)
+      if (_this.wheeling) {
+        return;
+      }
+
+      _this.wheeling = true;
+
+      setTimeout(function () {
+        _this.wheeling = false;
+      }, 50);
 
       if (e.deltaY) {
         delta = e.deltaY > 0 ? 1 : -1;
@@ -2037,10 +2005,8 @@
           });
         }
       }
-    }
-  });
+    },
 
-  extend(prototype, {
     change: function (shiftKey, originalEvent) {
       var _this = this;
       var options = _this.options;
@@ -2443,10 +2409,7 @@
       // Override
       _this.startX = _this.endX;
       _this.startY = _this.endY;
-    }
-  });
-
-  extend(prototype, {
+    },
 
     // Show the crop box manually
     crop: function () {
@@ -3051,12 +3014,12 @@
           cropBoxData.top = data.top;
         }
 
-        if (isNumber(data.width) && data.width !== cropBoxData.width) {
+        if (isNumber(data.width)) {
           widthChanged = true;
           cropBoxData.width = data.width;
         }
 
-        if (isNumber(data.height) && data.height !== cropBoxData.height) {
+        if (isNumber(data.height)) {
           heightChanged = true;
           cropBoxData.height = data.height;
         }
@@ -3256,9 +3219,7 @@
 
       return _this;
     }
-  });
-
-  extend(Cropper.prototype, prototype);
+  };
 
   Cropper.DEFAULTS = {
 
