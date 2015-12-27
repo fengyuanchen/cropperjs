@@ -75,7 +75,8 @@
   var PI = Math.PI;
 
   // Utilities
-  var EMPTY_OBJECT = {};
-  var toString = EMPTY_OBJECT.toString;
-  var hasOwnProperty = EMPTY_OBJECT.hasOwnProperty;
+  var objectProto = Object.prototype;
+  var toString = objectProto.toString;
+  var hasOwnProperty = objectProto.hasOwnProperty;
+  var slice = Array.prototype.slice;
   var fromCharCode = String.fromCharCode;
