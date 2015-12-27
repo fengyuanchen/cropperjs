@@ -229,6 +229,8 @@
       var naturalHeight = canvasData.naturalHeight;
       var newWidth;
       var newHeight;
+      var offset;
+      var center;
 
       ratio = Number(ratio);
 
@@ -244,8 +246,27 @@
           return _this;
         }
 
-        canvasData.left -= (newWidth - width) / 2;
-        canvasData.top -= (newHeight - height) / 2;
+        if (_originalEvent) {
+          offset = getOffset(_this.cropper);
+          center = _originalEvent.touches ? getTouchesCenter(_originalEvent.touches) : {
+            pageX: _originalEvent.pageX,
+            pageY: _originalEvent.pageY
+          };
+
+          // Zoom from the triggering point of the event
+          canvasData.left -= (newWidth - width) * (
+            ((center.pageX - offset.left) - canvasData.left) / width
+          );
+          canvasData.top -= (newHeight - height) * (
+            ((center.pageY - offset.top) - canvasData.top) / height
+          );
+        } else {
+
+          // Zoom from the center of the canvas
+          canvasData.left -= (newWidth - width) / 2;
+          canvasData.top -= (newHeight - height) / 2;
+        }
+
         canvasData.width = newWidth;
         canvasData.height = newHeight;
         _this.renderCanvas(true);
