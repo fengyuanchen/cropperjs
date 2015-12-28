@@ -1,11 +1,11 @@
 /*!
- * Cropper v0.5.3
+ * Cropper v0.5.4
  * https://github.com/fengyuanchen/cropperjs
  *
  * Copyright (c) 2015 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2015-12-24T08:55:18.789Z
+ * Date: 2015-12-28T03:39:49.283Z
  */
 
 (function (global, factory) {
@@ -101,9 +101,10 @@
   var PI = Math.PI;
 
   // Utilities
-  var EMPTY_OBJECT = {};
-  var toString = EMPTY_OBJECT.toString;
-  var hasOwnProperty = EMPTY_OBJECT.hasOwnProperty;
+  var objectProto = Object.prototype;
+  var toString = objectProto.toString;
+  var hasOwnProperty = objectProto.hasOwnProperty;
+  var slice = Array.prototype.slice;
   var fromCharCode = String.fromCharCode;
 
   function typeOf(obj) {
@@ -149,18 +150,13 @@
   }
 
   function toArray(obj, offset) {
-    var args = [];
+    offset = offset >= 0 ? offset : 0;
 
     if (Array.from) {
-      return Array.from(obj).slice(offset || 0);
+      return Array.from(obj).slice(offset);
     }
 
-    // This is necessary for IE8
-    if (isNumber(offset)) {
-      args.push(offset);
-    }
-
-    return args.slice.apply(obj, args);
+    return slice.call(obj, offset);
   }
 
   function trim(str) {
@@ -390,6 +386,27 @@
     return {
       left: box.left + (window.scrollX || doc && doc.scrollLeft || 0) - (doc && doc.clientLeft || 0),
       top: box.top + (window.scrollY || doc && doc.scrollTop || 0) - (doc && doc.clientTop || 0)
+    };
+  }
+
+  function getTouchesCenter(touches) {
+    var length = touches.length;
+    var pageX = 0;
+    var pageY = 0;
+
+    if (length) {
+      each(touches, function (touch) {
+        pageX += touch.pageX;
+        pageY += touch.pageY;
+      });
+
+      pageX /= length;
+      pageY /= length;
+    }
+
+    return {
+      pageX: pageX,
+      pageY: pageY
     };
   }
 
@@ -2642,6 +2659,8 @@
       var naturalHeight = canvasData.naturalHeight;
       var newWidth;
       var newHeight;
+      var offset;
+      var center;
 
       ratio = Number(ratio);
 
@@ -2657,8 +2676,27 @@
           return _this;
         }
 
-        canvasData.left -= (newWidth - width) / 2;
-        canvasData.top -= (newHeight - height) / 2;
+        if (_originalEvent) {
+          offset = getOffset(_this.cropper);
+          center = _originalEvent.touches ? getTouchesCenter(_originalEvent.touches) : {
+            pageX: _originalEvent.pageX,
+            pageY: _originalEvent.pageY
+          };
+
+          // Zoom from the triggering point of the event
+          canvasData.left -= (newWidth - width) * (
+            ((center.pageX - offset.left) - canvasData.left) / width
+          );
+          canvasData.top -= (newHeight - height) * (
+            ((center.pageY - offset.top) - canvasData.top) / height
+          );
+        } else {
+
+          // Zoom from the center of the canvas
+          canvasData.left -= (newWidth - width) / 2;
+          canvasData.top -= (newHeight - height) / 2;
+        }
+
         canvasData.width = newWidth;
         canvasData.height = newHeight;
         _this.renderCanvas(true);
