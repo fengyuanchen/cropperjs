@@ -1,30 +1,16 @@
-/* Main
- * ========================================================================== */
-
-/* Button
- * -------------------------------------------------------------------------- */
-
-.btn-primary {
-  border-color: #36469c;
-  background-color: #3f51b5;
-}
-
-.btn-primary:hover,
-.btn-primary:focus,
-.btn-primary:active,
-.btn-primary.active,
-.btn-primary.active:focus,
-.btn-primary.active:hover {
-  border-color: #252f69;
-  background-color: #2e3a82;
-}
-
-
-/* Basic style
- * -------------------------------------------------------------------------- */
+/* Basic */
 
 body {
+  margin: 0;
   overflow-x: hidden;
+}
+
+.browserupgrade {
+  margin: 0;
+  padding: 5px 15px;
+  background-color: #ff851b;
+  color: #fff;
+  text-align: center;
 }
 
 
@@ -36,18 +22,18 @@ body {
 
 .navbar-toggle:hover,
 .navbar-toggle:focus {
-  border-color: #3f51b5;
+  border-color: #0074d9;
 }
 
 .navbar-toggle .icon-bar {
-  background-color: #3f51b5;
+  background-color: #0074d9;
 }
 
 
 /* Jumbotron */
 
 .docs-jumbotron {
-  background-color: #3f51b5;
+  background-color: #0074d9;
   color: #fff;
 }
 
