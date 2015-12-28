@@ -1,66 +1,47 @@
-/* Main
- * ========================================================================== */
-
-/* Button
- * -------------------------------------------------------------------------- */
-
-.btn-primary {
-  border-color: #36469c;
-  background-color: #3f51b5;
-}
-
-.btn-primary:hover,
-.btn-primary:focus,
-.btn-primary:active,
-.btn-primary.active,
-.btn-primary.active:focus,
-.btn-primary.active:hover {
-  border-color: #252f69;
-  background-color: #2e3a82;
-}
-
-
-/* Basic style
- * -------------------------------------------------------------------------- */
+/* Basic */
 
 body {
+  margin: 0;
   overflow-x: hidden;
+}
+
+.browserupgrade {
+  margin: 0;
+  padding: 5px 15px;
+  background-color: #ff851b;
+  color: #fff;
+  text-align: center;
 }
 
 
 /* Header */
 
 .docs-header {
-  border-color: #36469c;
-  background-color: #3f51b5;
+  margin-bottom: 0;
+}
+
+.navbar-toggle:hover,
+.navbar-toggle:focus {
+  border-color: #0074d9;
+}
+
+.navbar-toggle .icon-bar {
+  background-color: #0074d9;
+}
+
+
+/* Jumbotron */
+
+.docs-jumbotron {
+  background-color: #0074d9;
   color: #fff;
 }
 
-.docs-header .navbar-brand {
-  color: #eee;
-}
-
-.docs-header .navbar-toggle {
-  border-color: transparent;
-  background-color: #3f51b5;
-}
-
-.docs-header .navbar-toggle:hover,
-.docs-header .navbar-toggle:focus {
-  border-color: transparent;
-  background-color: #2e3a82;
-}
-
-.docs-header .navbar-collapse {
-  border-color: #36469c;
-}
-
-.docs-header .navbar-text {
-  color: #ddd;
-}
-
-.docs-header .navbar-nav > li > a {
-  color: #eee;
+.docs-jumbotron .version {
+  font-size: 14px;
+  color: #fff;
+  filter: alpha(opacity=50);
+  opacity: 0.5;
 }
 
 
