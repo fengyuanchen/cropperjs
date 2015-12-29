@@ -692,9 +692,9 @@
         }
       }
 
-      // The canvas element will use `Math.floor` on a float number, so round first
-      canvasWidth = round(scaledWidth || originalWidth);
-      canvasHeight = round(scaledHeight || originalHeight);
+      // The canvas element will use `Math.floor` on a float number, so floor first
+      canvasWidth = floor(scaledWidth || originalWidth);
+      canvasHeight = floor(scaledHeight || originalHeight);
 
       canvas = createElement('canvas');
       canvas.width = canvasWidth;
