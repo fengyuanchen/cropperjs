@@ -94,7 +94,7 @@
         return;
       }
 
-      setStyle(getByTag(_this.viewBox, 'img', 0), extend({
+      setStyle(getByTag(_this.viewBox, 'img')[0], extend({
         width: width,
         height: height,
         marginLeft: -left,
@@ -125,7 +125,7 @@
           height: newHeight
         });
 
-        setStyle(getByTag(element, 'img', 0), extend({
+        setStyle(getByTag(element, 'img')[0], extend({
           width: width * ratio,
           height: height * ratio,
           marginLeft: -left * ratio,

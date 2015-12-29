@@ -117,7 +117,7 @@
     var style = element.style;
 
     each(styles, function (value, property) {
-      if (REGEXP_SUFFIX.test(property)) {
+      if (REGEXP_SUFFIX.test(property) && isNumber(value)) {
         value += 'px';
       }
 
@@ -301,18 +301,14 @@
     };
   }
 
-  function getByTag(element, tagName, index) {
-    var elements = element.getElementsByTagName(tagName);
-
-    return isNumber(index) ? elements[index] : elements;
+  function getByTag(element, tagName) {
+    return element.getElementsByTagName(tagName);
   }
 
-  function getByClass(element, className, index) {
-    var elements = element.getElementsByClassName ?
+  function getByClass(element, className) {
+    return element.getElementsByClassName ?
       element.getElementsByClassName(className) :
       element.querySelectorAll('.' + className);
-
-    return isNumber(index) ? elements[index] : elements;
   }
 
   function createElement(tagName) {

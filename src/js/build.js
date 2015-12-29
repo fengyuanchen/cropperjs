@@ -25,12 +25,12 @@
 
       // Create cropper elements
       _this.container = container = element.parentNode;
-      _this.cropper = cropper = getByClass(template, 'cropper-container', 0);
-      _this.canvas = canvas = getByClass(cropper, 'cropper-canvas', 0);
-      _this.dragBox = dragBox = getByClass(cropper, 'cropper-drag-box', 0);
-      _this.cropBox = cropBox = getByClass(cropper, 'cropper-crop-box', 0);
-      _this.viewBox = getByClass(cropper, 'cropper-view-box', 0);
-      _this.face = face = getByClass(cropBox, 'cropper-face', 0);
+      _this.cropper = cropper = getByClass(template, 'cropper-container')[0];
+      _this.canvas = canvas = getByClass(cropper, 'cropper-canvas')[0];
+      _this.dragBox = dragBox = getByClass(cropper, 'cropper-drag-box')[0];
+      _this.cropBox = cropBox = getByClass(cropper, 'cropper-crop-box')[0];
+      _this.viewBox = getByClass(cropper, 'cropper-view-box')[0];
+      _this.face = face = getByClass(cropBox, 'cropper-face')[0];
 
       appendChild(canvas, image);
 
@@ -66,7 +66,7 @@
       }
 
       if (!options.center) {
-        addClass(getByClass(cropBox, 'cropper-center', 0), CLASS_HIDDEN);
+        addClass(getByClass(cropBox, 'cropper-center'), CLASS_HIDDEN);
       }
 
       if (options.background) {
