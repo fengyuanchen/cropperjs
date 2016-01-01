@@ -1,11 +1,11 @@
 /*!
- * Cropper v0.5.4
+ * Cropper.js v0.5.5
  * https://github.com/fengyuanchen/cropperjs
  *
- * Copyright (c) 2015 Fengyuan Chen
+ * Copyright (c) 2015-2016 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2015-12-28T03:39:49.283Z
+ * Date: 2016-01-01T08:10:31.084Z
  */
 
 (function (global, factory) {
@@ -226,7 +226,7 @@
     var style = element.style;
 
     each(styles, function (value, property) {
-      if (REGEXP_SUFFIX.test(property)) {
+      if (REGEXP_SUFFIX.test(property) && isNumber(value)) {
         value += 'px';
       }
 
@@ -410,18 +410,14 @@
     };
   }
 
-  function getByTag(element, tagName, index) {
-    var elements = element.getElementsByTagName(tagName);
-
-    return isNumber(index) ? elements[index] : elements;
+  function getByTag(element, tagName) {
+    return element.getElementsByTagName(tagName);
   }
 
-  function getByClass(element, className, index) {
-    var elements = element.getElementsByClassName ?
+  function getByClass(element, className) {
+    return element.getElementsByClassName ?
       element.getElementsByClassName(className) :
       element.querySelectorAll('.' + className);
-
-    return isNumber(index) ? elements[index] : elements;
   }
 
   function createElement(tagName) {
@@ -969,12 +965,12 @@
 
       // Create cropper elements
       _this.container = container = element.parentNode;
-      _this.cropper = cropper = getByClass(template, 'cropper-container', 0);
-      _this.canvas = canvas = getByClass(cropper, 'cropper-canvas', 0);
-      _this.dragBox = dragBox = getByClass(cropper, 'cropper-drag-box', 0);
-      _this.cropBox = cropBox = getByClass(cropper, 'cropper-crop-box', 0);
-      _this.viewBox = getByClass(cropper, 'cropper-view-box', 0);
-      _this.face = face = getByClass(cropBox, 'cropper-face', 0);
+      _this.cropper = cropper = getByClass(template, 'cropper-container')[0];
+      _this.canvas = canvas = getByClass(cropper, 'cropper-canvas')[0];
+      _this.dragBox = dragBox = getByClass(cropper, 'cropper-drag-box')[0];
+      _this.cropBox = cropBox = getByClass(cropper, 'cropper-crop-box')[0];
+      _this.viewBox = getByClass(cropper, 'cropper-view-box')[0];
+      _this.face = face = getByClass(cropBox, 'cropper-face')[0];
 
       appendChild(canvas, image);
 
@@ -1010,7 +1006,7 @@
       }
 
       if (!options.center) {
-        addClass(getByClass(cropBox, 'cropper-center', 0), CLASS_HIDDEN);
+        addClass(getByClass(cropBox, 'cropper-center'), CLASS_HIDDEN);
       }
 
       if (options.background) {
@@ -1728,7 +1724,7 @@
         return;
       }
 
-      setStyle(getByTag(_this.viewBox, 'img', 0), extend({
+      setStyle(getByTag(_this.viewBox, 'img')[0], extend({
         width: width,
         height: height,
         marginLeft: -left,
@@ -1759,7 +1755,7 @@
           height: newHeight
         });
 
-        setStyle(getByTag(element, 'img', 0), extend({
+        setStyle(getByTag(element, 'img')[0], extend({
           width: width * ratio,
           height: height * ratio,
           marginLeft: -left * ratio,
@@ -3122,9 +3118,9 @@
         }
       }
 
-      // The canvas element will use `Math.floor` on a float number, so round first
-      canvasWidth = round(scaledWidth || originalWidth);
-      canvasHeight = round(scaledHeight || originalHeight);
+      // The canvas element will use `Math.floor` on a float number, so floor first
+      canvasWidth = floor(scaledWidth || originalWidth);
+      canvasHeight = floor(scaledHeight || originalHeight);
 
       canvas = createElement('canvas');
       canvas.width = canvasWidth;

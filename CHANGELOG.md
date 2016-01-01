@@ -1,6 +1,12 @@
 # Changelog
 
 
+## 0.5.5 (Jan 1, 2016)
+
+- Fixed a dimension bug in the "getCroppedCanvas" method.
+- Added an example for cropping round image.
+
+
 ## 0.5.4 (Dec 28, 2015)
 
 - Supports to zoom from event triggering point.

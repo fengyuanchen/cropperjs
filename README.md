@@ -46,7 +46,7 @@
 dist/
 ├── cropper.css     ( 5 KB)
 ├── cropper.min.css ( 4 KB)
-├── cropper.js      (87 KB)
+├── cropper.js      (88 KB)
 └── cropper.min.js  (28 KB)
 ```
 
@@ -1022,5 +1022,6 @@ Maintained under the [Semantic Versioning guidelines](http://semver.org/).
 ## Related projects
 
 - [react-cropperjs](https://github.com/TAPP-TV/react-cropperjs) by @pbojinov
+
 
 [⬆ back to top](#table-of-contents)
