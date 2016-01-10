@@ -538,10 +538,10 @@ This function will be called when the canvas (image wrapper) or the crop box cha
       - Options: `wheel`, `touchmove`.
     - `oldRatio`:
       - Type: `Number`
-      - The old ratio of the canvas
+      - The old (current) ratio of the canvas
     - `ratio`:
       - Type: `Number`
-      - The new ratio of the canvas (`canvasData.width / canvasData.naturalWidth`)
+      - The new (next) ratio of the canvas (`canvasData.width / canvasData.naturalWidth`)
 
 This function will be called when a cropper instance starts to zoom in or zoom out its canvas (image wrapper).
 
