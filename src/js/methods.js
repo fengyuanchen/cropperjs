@@ -127,7 +127,7 @@
         removeClass(element, CLASS_HIDDEN);
       } else {
         if (_this.isImg) {
-          element.off(EVENT_LOAD, _this.start);
+          removeListener(element, EVENT_LOAD, _this.start);
         } else if (image) {
           removeChild(image);
         }
