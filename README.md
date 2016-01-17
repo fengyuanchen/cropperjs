@@ -523,8 +523,6 @@ This function will be called when the canvas (image wrapper) or the crop box sto
 
 This function will be called when the canvas (image wrapper) or the crop box changed.
 
-> Return `false` to prevent to crop.
-
 
 ### zoom
 
