@@ -1,43 +1,36 @@
-window.addEventListener('DOMContentLoaded', function () {
+QUnit.test('methods.setCropBoxData', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-  'use strict';
+  assert.expect(8);
 
-  var image = window.createCropperImage();
-
-  image.newCropper = new Cropper(image, {
+  return new Cropper(image, {
     built: function () {
       var cropper = this.cropper;
+      var cropBoxData = cropper.getCropBoxData();
+      var changedCropBoxData = cropper.setCropBoxData({
+            left: 16,
+            top: 9
+          }).getCropBoxData();
 
-      QUnit.test('methods.setCropBoxData: move', function (assert) {
-        var cropBoxData = cropper.getCropBoxData();
-        var changedCropBoxData = cropper.setCropBoxData({
-              left: 16,
-              top: 9
-            }).getCropBoxData();
+      assert.notStrictEqual(changedCropBoxData.left, cropBoxData.left);
+      assert.notStrictEqual(changedCropBoxData.top, cropBoxData.top);
+      assert.strictEqual(changedCropBoxData.width, cropBoxData.width);
+      assert.strictEqual(changedCropBoxData.height, cropBoxData.height);
 
-        assert.notEqual(changedCropBoxData.left, cropBoxData.left);
-        assert.notEqual(changedCropBoxData.top, cropBoxData.top);
+      cropBoxData = cropper.getCropBoxData();
+      changedCropBoxData = cropper.setCropBoxData({
+        width: 320,
+        height: 180
+      }).getCropBoxData();
 
-        assert.equal(changedCropBoxData.width, cropBoxData.width);
-        assert.equal(changedCropBoxData.height, cropBoxData.height);
-      });
+      assert.strictEqual(changedCropBoxData.left, cropBoxData.left);
+      assert.strictEqual(changedCropBoxData.top, cropBoxData.top);
+      assert.notStrictEqual(changedCropBoxData.width, cropBoxData.width);
+      assert.notStrictEqual(changedCropBoxData.height, cropBoxData.height);
 
-
-      QUnit.test('methods.setCropBoxData: resize', function (assert) {
-        var cropBoxData = cropper.getCropBoxData();
-        var changedCropBoxData = cropper.setCropBoxData({
-              width: 320,
-              height: 180
-            }).getCropBoxData();
-
-        assert.equal(changedCropBoxData.left, cropBoxData.left);
-        assert.equal(changedCropBoxData.top, cropBoxData.top);
-
-        assert.notEqual(changedCropBoxData.width, cropBoxData.width);
-        assert.notEqual(changedCropBoxData.height, cropBoxData.height);
-      });
-
+      done();
     }
   });
-
 });

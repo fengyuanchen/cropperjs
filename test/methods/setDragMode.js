@@ -1,34 +1,27 @@
-window.addEventListener('DOMContentLoaded', function () {
+QUnit.test('methods.setDragMode', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-  'use strict';
+  assert.expect(4);
 
-  var image = window.createCropperImage();
-
-  image.newCropper = new Cropper(image, {
+  return new Cropper(image, {
     built: function () {
       var cropper = this.cropper;
       var dragBox = cropper.dragBox;
 
-      QUnit.test('methods.setDragMode', function (assert) {
-        assert.equal(dragBox.dataset.action, 'crop');
-      });
+      assert.strictEqual(dragBox.dataset.action, 'crop');
 
-      QUnit.test('methods.setDragMode: move', function (assert) {
-        cropper.setDragMode('move');
-        assert.equal(dragBox.dataset.action, 'move');
-      });
+      cropper.setDragMode('move');
+      assert.strictEqual(dragBox.dataset.action, 'move');
 
-      QUnit.test('methods.setDragMode: crop', function (assert) {
-        cropper.setDragMode('crop');
-        assert.equal(dragBox.dataset.action, 'crop');
-      });
+      cropper.setDragMode('crop');
+      assert.strictEqual(dragBox.dataset.action, 'crop');
 
-      QUnit.test('methods.setDragMode: none', function (assert) {
-        cropper.setDragMode('none');
-        assert.equal(dragBox.dataset.action, 'none');
-      });
+      cropper.setDragMode('none');
+      assert.strictEqual(dragBox.dataset.action, 'none');
 
+      done();
     }
   });
-
 });

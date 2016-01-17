@@ -1,39 +1,39 @@
-window.addEventListener('DOMContentLoaded', function () {
+QUnit.test('options.modal: true', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-  'use strict';
+  assert.expect(1);
 
-  var image = window.createCropperImage();
+  return new Cropper(image, {
+    // modal: true,
 
-  function hasClass(element, className) {
-    return element.className.indexOf(className) !== -1;
-  }
-
-  image.newCropper = new Cropper(image, {
     built: function () {
       var cropper = this.cropper;
 
-      QUnit.test('options.modal: true', function (assert) {
-        assert.ok(hasClass(cropper.dragBox, 'cropper-modal'));
-      });
+      assert.ok(util.hasClass(cropper.dragBox, 'cropper-modal'));
 
+      done();
     }
   });
+});
 
-  (function () {
-    var image = window.createCropperImage();
+QUnit.test('options.modal: false', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-    image.newCropper = new Cropper(image, {
-      modal: false,
+  assert.expect(1);
 
-      built: function () {
-        var cropper = this.cropper;
+  return new Cropper(image, {
+    modal: false,
 
-        QUnit.test('options.modal: false', function (assert) {
-          assert.ok(!hasClass(cropper.dragBox, 'cropper-modal'));
-        });
+    built: function () {
+      var cropper = this.cropper;
 
-      }
-    });
-  })();
+      assert.notOk(util.hasClass(cropper.dragBox, 'cropper-modal'));
 
+      done();
+    }
+  });
 });

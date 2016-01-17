@@ -1,41 +1,45 @@
-window.addEventListener('DOMContentLoaded', function () {
+QUnit.test('methods.destroy: before built', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-  'use strict';
+  assert.expect(4);
 
-  var image = window.createCropperImage();
-
-  image.newCropper = new Cropper(image, {
+  return new Cropper(image, {
     build: function () {
       var cropper = this.cropper;
 
-      QUnit.test('methods.destroy: before built', function (assert) {
-        assert.ok(image.className.indexOf('cropper-hidden') !== -1);
-        assert.ok(typeof image.cropper === 'object');
+      assert.ok(typeof cropper === 'object');
+      assert.notOk(util.hasClass(image, 'cropper-hidden'));
 
-        cropper.destroy();
-        assert.ok(image.className.indexOf('cropper-hidden') === -1);
-        assert.ok(typeof image.cropper === 'undefined');
-      });
+      cropper.destroy();
+      assert.ok(typeof this.cropper === 'undefined');
+      assert.notOk(util.hasClass(image, 'cropper-hidden'));
+
+      done();
     }
   });
+});
 
-  (function () {
-    var image = window.createCropperImage();
+QUnit.test('methods.destroy: after built', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-    image.newCropper = new Cropper(image, {
-      built: function () {
-        var cropper = this.cropper;
+  assert.expect(4);
 
-        QUnit.test('methods.destroy: after built', function (assert) {
-          assert.ok(image.className.indexOf('cropper-hidden') !== -1);
-          assert.ok(typeof image.cropper === 'object');
+  return new Cropper(image, {
+    built: function () {
+      var cropper = this.cropper;
 
-          cropper.destroy();
-          assert.ok(image.className.indexOf('cropper-hidden') === -1);
-          assert.ok(typeof image.cropper === 'undefined');
-        });
-      }
-    });
-  })();
+      assert.ok(typeof cropper === 'object');
+      assert.ok(util.hasClass(image, 'cropper-hidden'));
 
+      cropper.destroy();
+      assert.ok(typeof this.cropper === 'undefined');
+      assert.notOk(util.hasClass(image, 'cropper-hidden'));
+
+      done();
+    }
+  });
 });

@@ -1,56 +1,45 @@
-window.addEventListener('DOMContentLoaded', function () {
+QUnit.test('options.toggleDragModeOnDblclick: true', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-  'use strict';
+  assert.expect(2);
 
-  var image = window.createCropperImage();
+  return new Cropper(image, {
+    // toggleDragModeOnDblclick: true,
 
-  function hasClass(element, className) {
-    return element.className.indexOf(className) !== -1;
-  }
-
-  image.newCropper = new Cropper(image, {
     built: function () {
       var cropper = this.cropper;
+      var dragBox = cropper.dragBox;
 
-      QUnit.test('options.toggleDragModeOnDblclick: true', function (assert) {
-        var dragBox = cropper.dragBox;
+      util.dispatchEvent(dragBox, 'dblclick');
+      assert.ok(util.hasClass(dragBox, 'cropper-move'));
+      assert.strictEqual(dragBox.dataset.action, 'move');
 
-        dragBox.dispatchEvent(new MouseEvent('dblclick', {
-          view: window,
-          bubbles: true,
-          cancelable: true
-        }));
-
-        assert.ok(hasClass(dragBox, 'cropper-move'));
-        assert.equal(dragBox.dataset.action, 'move');
-      });
-
+      done();
     }
   });
+});
 
-  (function () {
-    var image = window.createCropperImage();
+QUnit.test('options.toggleDragModeOnDblclick: false', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-    image.newCropper = new Cropper(image, {
-      toggleDragModeOnDblclick: false,
+  assert.expect(2);
 
-      built: function () {
-        var cropper = this.cropper;
+  return new Cropper(image, {
+    toggleDragModeOnDblclick: false,
 
-        QUnit.test('options.toggleDragModeOnDblclick: false', function (assert) {
-          var dragBox = cropper.dragBox;
+    built: function () {
+      var cropper = this.cropper;
+      var dragBox = cropper.dragBox;
 
-          dragBox.dispatchEvent(new MouseEvent('dblclick', {
-            view: window,
-            bubbles: true,
-            cancelable: true
-          }));
-          assert.ok(hasClass(dragBox, 'cropper-crop'));
-          assert.equal(dragBox.dataset.action, 'crop');
-        });
+      util.dispatchEvent(dragBox, 'dblclick');
+      assert.ok(util.hasClass(dragBox, 'cropper-crop'));
+      assert.strictEqual(dragBox.dataset.action, 'crop');
 
-      }
-    });
-  })();
-
+      done();
+    }
+  });
 });

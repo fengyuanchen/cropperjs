@@ -1,38 +1,23 @@
-window.addEventListener('DOMContentLoaded', function () {
+QUnit.test('options.cropmove', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-  'use strict';
+  assert.expect(1);
 
-  var image = window.createCropperImage();
-
-  image.newCropper = new Cropper(image, {
+  return new Cropper(image, {
     built: function () {
       var cropper = this.cropper;
 
-      // Triggers events manually when built
-      cropper.dragBox.dispatchEvent(new MouseEvent('mousedown', {
-        view: window,
-        bubbles: true,
-        cancelable: true
-      }));
-      cropper.dragBox.dispatchEvent(new MouseEvent('mousemove', {
-        view: window,
-        bubbles: true,
-        cancelable: true
-      }));
-      cropper.dragBox.dispatchEvent(new MouseEvent('mouseup', {
-        view: window,
-        bubbles: true,
-        cancelable: true
-      }));
+      util.dispatchEvent(cropper.dragBox, 'mousedown');
+      util.dispatchEvent(cropper.dragBox, 'mousemove');
+      util.dispatchEvent(cropper.dragBox, 'mouseup');
+
+      done();
     },
 
     cropmove: function (data) {
-
-      QUnit.test('options.cropmove', function (assert) {
-        assert.equal(data.action, 'crop');
-      });
-
+      assert.strictEqual(data.action, 'crop');
     }
   });
-
 });

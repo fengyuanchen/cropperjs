@@ -1,40 +1,34 @@
-window.addEventListener('DOMContentLoaded', function () {
+QUnit.test('methods.setCanvasData', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-  'use strict';
+  assert.expect(6);
 
-  var image = window.createCropperImage();
-
-  image.newCropper = new Cropper(image, {
+  return new Cropper(image, {
     built: function () {
       var cropper = this.cropper;
+      var canvasData = cropper.getCanvasData();
+      var changedCanvasData = cropper.setCanvasData({
+            left: 16,
+            top: 9
+          }).getCanvasData();
 
-      QUnit.test('methods.setCanvasData: move', function (assert) {
-        var canvasData = cropper.getCanvasData();
-        var changedCanvasData = cropper.setCanvasData({
-              left: 16,
-              top: 9
-            }).getCanvasData();
+      assert.notStrictEqual(changedCanvasData.left, canvasData.left);
+      assert.notStrictEqual(changedCanvasData.top, canvasData.top);
+      assert.strictEqual(changedCanvasData.width, canvasData.width);
+      assert.strictEqual(changedCanvasData.height, canvasData.height);
 
-        assert.notEqual(changedCanvasData.left, canvasData.left);
-        assert.notEqual(changedCanvasData.top, canvasData.top);
+      canvasData = cropper.getCanvasData();
+      changedCanvasData = cropper.setCanvasData({
+        width: 320,
+        height: 180
+      }).getCanvasData();
 
-        assert.equal(changedCanvasData.width, canvasData.width);
-        assert.equal(changedCanvasData.height, canvasData.height);
-      });
+      assert.notStrictEqual(changedCanvasData.width, canvasData.width);
+      assert.notStrictEqual(changedCanvasData.height, canvasData.height);
 
-
-      QUnit.test('methods.setCanvasData: resize', function (assert) {
-        var canvasData = cropper.getCanvasData();
-        var changedCanvasData = cropper.setCanvasData({
-              width: 320,
-              height: 180
-            }).getCanvasData();
-
-        assert.notEqual(changedCanvasData.width, canvasData.width);
-        assert.notEqual(changedCanvasData.height, canvasData.height);
-      });
-
+      done();
     }
   });
-
 });

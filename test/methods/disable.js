@@ -1,89 +1,60 @@
-window.addEventListener('DOMContentLoaded', function () {
+QUnit.test('methods.disable', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-  'use strict';
+  assert.expect(11);
 
-  var image = window.createCropperImage();
-
-  image.newCropper = new Cropper(image, {
+  return new Cropper(image, {
     built: function () {
       var cropper = this.cropper;
       var options = cropper.options;
+      var cropBoxData;
+      var canvasData;
+      var imageData;
+      var action;
 
       cropper.disable();
+      assert.ok(cropper.disabled);
+      assert.ok(util.hasClass(cropper.cropper, 'cropper-disabled'));
 
-      QUnit.test('methods.disable', function (assert) {
-        assert.equal(cropper.disabled, true);
-        assert.ok(cropper.cropper.className.indexOf('cropper-disabled') !== -1);
+      cropBoxData = cropper.getCropBoxData();
+      cropper.clear();
+      assert.deepEqual(cropper.getCropBoxData(), cropBoxData);
+
+      imageData = cropper.getImageData();
+      cropper.move(10, 10);
+      assert.deepEqual(cropper.getImageData(), imageData);
+
+      cropper.zoom(0.5);
+      assert.strictEqual(cropper.getImageData().ratio, imageData.ratio);
+
+      cropper.rotate(15);
+      assert.strictEqual(cropper.getImageData().rotate, imageData.rotate);
+
+      cropper.scale(-1);
+      assert.strictEqual(cropper.getImageData().scaleX, imageData.scaleX);
+
+      canvasData = cropper.getCanvasData();
+      cropper.setCanvasData({
+        width: canvasData.width - 160
       });
+      assert.deepEqual(cropper.getCanvasData(), canvasData);
 
-      QUnit.test('methods.disable: clear', function (assert) {
-        var cropBoxData = cropper.getCropBoxData();
-
-        cropper.clear();
-        assert.deepEqual(cropper.getCropBoxData(), cropBoxData);
+      cropBoxData = cropper.getCropBoxData();
+      cropper.setCropBoxData({
+        height: cropBoxData.height - 90
       });
+      assert.deepEqual(cropper.getCropBoxData(), cropBoxData);
 
-      QUnit.test('methods.disable: move', function (assert) {
-        var imageData = cropper.getImageData();
+      cropper.setAspectRatio(0.618);
+      assert.ok(isNaN(options.aspectRatio));
 
-        cropper.move(10, 10);
-        assert.deepEqual(cropper.getImageData(), imageData);
-      });
+      action = cropper.dragBox.dataset.action;
+      cropper.setDragMode('none');
+      assert.strictEqual(cropper.dragBox.dataset.action, action);
 
-      QUnit.test('methods.disable: zoom', function (assert) {
-        var imageData = cropper.getImageData();
-
-        cropper.zoom(0.5);
-        assert.equal(cropper.getImageData().ratio, imageData.ratio);
-      });
-
-      QUnit.test('methods.disable: rotate', function (assert) {
-        var imageData = cropper.getImageData();
-
-        cropper.rotate(15);
-        assert.equal(cropper.getImageData().rotate, imageData.rotate);
-      });
-
-      QUnit.test('methods.disable: scale', function (assert) {
-        var imageData = cropper.getImageData();
-
-        cropper.scale(-1);
-        assert.equal(cropper.getImageData().scaleX, imageData.scaleX);
-      });
-
-      QUnit.test('methods.disable: setCanvasData', function (assert) {
-        var canvasData = cropper.getCanvasData();
-
-        cropper.setCanvasData({
-          width: canvasData.width - 160
-        });
-
-        assert.deepEqual(cropper.getCanvasData(), canvasData);
-      });
-
-      QUnit.test('methods.disable: setCropBoxData', function (assert) {
-        var cropBoxData = cropper.getCropBoxData();
-
-        cropper.setCropBoxData({
-          height: cropBoxData.height - 90
-        });
-
-        assert.deepEqual(cropper.getCropBoxData(), cropBoxData);
-      });
-
-      QUnit.test('methods.disable: setAspectRatio', function (assert) {
-        cropper.setAspectRatio(0.618);
-        assert.ok(isNaN(options.aspectRatio));
-      });
-
-      QUnit.test('methods.disable: setDragMode', function (assert) {
-        var action = cropper.dragBox.dataset.action;
-
-        cropper.setDragMode('none');
-        assert.equal(cropper.dragBox.dataset.action, action);
-      });
-
+      done();
     }
   });
-
 });

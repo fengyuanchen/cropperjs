@@ -1,23 +1,20 @@
-window.addEventListener('DOMContentLoaded', function () {
+QUnit.test('methods.setAspectRatio', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-  'use strict';
+  assert.expect(2);
 
-  var image = window.createCropperImage();
-
-  image.newCropper = new Cropper(image, {
+  return new Cropper(image, {
     built: function () {
       var cropper = this.cropper;
+      var options = cropper.options;
 
-      QUnit.test('methods.setAspectRatio', function (assert) {
-        var options = cropper.options;
+      assert.ok(isNaN(options.aspectRatio));
+      cropper.setAspectRatio(1);
+      assert.strictEqual(options.aspectRatio, 1);
 
-        assert.ok(isNaN(options.aspectRatio));
-
-        cropper.setAspectRatio(1);
-        assert.equal(options.aspectRatio, 1);
-      });
-
+      done();
     }
   });
-
 });

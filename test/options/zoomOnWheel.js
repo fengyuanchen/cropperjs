@@ -1,49 +1,47 @@
-window.addEventListener('DOMContentLoaded', function () {
+QUnit.test('options.zoomOnWheel: true', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-  'use strict';
+  assert.expect(1);
 
-  var image = window.createCropperImage();
+  return new Cropper(image, {
+    // zoomOnWheel: true,
 
-  image.newCropper = new Cropper(image, {
     built: function () {
       var cropper = this.cropper;
 
-      cropper.cropper.dispatchEvent(new MouseEvent('wheel', {
-        view: window,
-        bubbles: true,
-        cancelable: true
-      }));
+      util.dispatchEvent(cropper.cropper, 'wheel');
+
+      done();
     },
 
     zoom: function () {
-      QUnit.test('options.zoomOnWheel: true', function (assert) {
-        assert.ok(true);
-      });
+      assert.ok(true);
     }
   });
+});
 
-  (function () {
-    var image = window.createCropperImage();
+QUnit.test('options.zoomOnWheel: false', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-    image.newCropper = new Cropper(image, {
-      zoomOnWheel: false,
+  assert.expect(0);
 
-      built: function () {
-        var cropper = this.cropper;
+  return new Cropper(image, {
+    zoomOnWheel: false,
 
-        cropper.cropper.dispatchEvent(new MouseEvent('wheel', {
-          view: window,
-          bubbles: true,
-          cancelable: true
-        }));
-      },
+    built: function () {
+      var cropper = this.cropper;
 
-      zoom: function () {
-        QUnit.test('options.zoomOnWheel: false', function (assert) {
-          assert.ok(false);
-        });
-      }
-    });
-  })();
+      util.dispatchEvent(cropper.cropper, 'wheel');
 
+      done();
+    },
+
+    zoom: function () {
+      assert.ok(false);
+    }
+  });
 });

@@ -1,39 +1,43 @@
-window.addEventListener('DOMContentLoaded', function () {
+QUnit.test('options.checkOrientation: true', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage({
+        src: '../assets/img/picture-3.jpg'
+      });
 
-  'use strict';
+  assert.expect(1);
 
-  QUnit.test('options.checkOrientation: true', function (assert) {
-    var done = assert.async();
-    var image = window.createCropperImage({
-          src: '../assets/img/picture-3.jpg'
-        });
+  return new Cropper(image, {
+    // checkOrientation: true,
 
-    image.newCropper = new Cropper(image, {
-      built: function () {
-        var data = this.cropper.getData();
+    built: function () {
+      var cropper = this.cropper;
 
-        assert.notEqual(data.rotate, 0);
-        done();
-      }
-    });
+      assert.notStrictEqual(cropper.getData().rotate, 0);
+
+      done();
+    }
   });
+});
 
-  QUnit.test('options.checkOrientation: false', function (assert) {
-    var done = assert.async();
-    var image = window.createCropperImage({
-          src: '../assets/img/picture-3.jpg'
-        });
+QUnit.test('options.checkOrientation: false', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage({
+        src: '../assets/img/picture-3.jpg'
+      });
 
-    image.newCropper = new Cropper(image, {
-      checkOrientation: false,
+  assert.expect(1);
 
-      built: function () {
-        var data = this.cropper.getData();
+  return new Cropper(image, {
+    checkOrientation: false,
 
-        assert.equal(data.rotate, 0);
-        done();
-      }
-    });
+    built: function () {
+      var cropper = this.cropper;
+
+      assert.strictEqual(cropper.getData().rotate, 0);
+
+      done();
+    }
   });
-
 });

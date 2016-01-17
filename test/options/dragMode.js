@@ -1,52 +1,60 @@
-window.addEventListener('DOMContentLoaded', function () {
+QUnit.test('options.dragMode: crop', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-  'use strict';
+  assert.expect(1);
 
-  var image = window.createCropperImage();
+  return new Cropper(image, {
+    // dragMode: 'crop',
 
-  image.newCropper = new Cropper(image, {
     built: function () {
       var cropper = this.cropper;
 
-      QUnit.test('options.dragMode: crop', function (assert) {
-        assert.equal(cropper.dragBox.dataset.action, 'crop');
-      });
+      assert.strictEqual(cropper.dragBox.dataset.action, 'crop');
 
+      done();
     }
   });
+});
 
-  (function () {
-    var image = window.createCropperImage();
+QUnit.test('options.dragMode: move', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-    image.newCropper = new Cropper(image, {
-      dragMode: 'move',
+  assert.expect(1);
 
-      built: function () {
-        var cropper = this.cropper;
+  return new Cropper(image, {
+    dragMode: 'move',
 
-        QUnit.test('options.dragMode: move', function (assert) {
-          assert.equal(cropper.dragBox.dataset.action, 'move');
-        });
+    built: function () {
+      var cropper = this.cropper;
 
-      }
-    });
-  })();
+      assert.strictEqual(cropper.dragBox.dataset.action, 'move');
 
-  (function () {
-    var image = window.createCropperImage();
+      done();
+    }
+  });
+});
 
-    image.newCropper = new Cropper(image, {
-      dragMode: 'none',
 
-      built: function () {
-        var cropper = this.cropper;
+QUnit.test('options.dragMode: none', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-        QUnit.test('options.dragMode: none', function (assert) {
-          assert.equal(cropper.dragBox.dataset.action, 'none');
-        });
+  assert.expect(1);
 
-      }
-    });
-  })();
+  return new Cropper(image, {
+    dragMode: 'none',
 
+    built: function () {
+      var cropper = this.cropper;
+
+      assert.strictEqual(cropper.dragBox.dataset.action, 'none');
+
+      done();
+    }
+  });
 });

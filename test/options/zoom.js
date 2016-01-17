@@ -1,21 +1,46 @@
-window.addEventListener('DOMContentLoaded', function () {
+QUnit.test('options.zoom', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-  'use strict';
+  assert.expect(3);
 
-  var image = window.createCropperImage();
-
-  image.newCropper = new Cropper(image, {
+  return new Cropper(image, {
     built: function () {
-      this.cropper.zoom(0.1);
+      var cropper = this.cropper;
+
+      cropper.zoom(0.1);
+
+      done();
     },
 
     zoom: function (data) {
-      QUnit.test('options.zoom', function (assert) {
-        assert.ok(data.ratio > 0);
-        assert.ok(data.oldRatio > 0);
-        assert.ok(data.ratio > data.oldRatio);
-      });
+      assert.ok(data.ratio > 0);
+      assert.ok(data.oldRatio > 0);
+      assert.ok(data.ratio > data.oldRatio);
     }
   });
+});
 
+QUnit.test('options.zoom: default prevented', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
+
+  assert.expect(1);
+
+  return new Cropper(image, {
+    built: function () {
+      var cropper = this.cropper;
+      var canvasData = cropper.getCanvasData();
+
+      assert.deepEqual(cropper.zoom(0.1).getCanvasData(), canvasData);
+
+      done();
+    },
+
+    zoom: function () {
+      return false;
+    }
+  });
 });

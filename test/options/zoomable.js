@@ -1,35 +1,51 @@
-window.addEventListener('DOMContentLoaded', function () {
+QUnit.test('options.zoomable: true', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-  'use strict';
+  assert.expect(3);
 
-  var image = window.createCropperImage();
+  return new Cropper(image, {
+    // zoomable: true,
 
-  image.newCropper = new Cropper(image, {
     built: function () {
-      this.cropper.zoom(0.1);
+      var cropper = this.cropper;
+      var canvasData = cropper.getCanvasData();
+      var changedCanvasData = cropper.zoom(0.1).getCanvasData();
+
+      assert.ok(changedCanvasData.width > canvasData.width);
+      assert.ok(changedCanvasData.height > canvasData.height);
+
+      done();
     },
     zoom: function () {
-      QUnit.test('options.zoomable: true', function (assert) {
-        assert.ok(true);
-      });
+      assert.ok(true);
     }
   });
+});
 
-  (function () {
-    var image = window.createCropperImage();
+QUnit.test('options.zoomable: false', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-    image.newCropper = new Cropper(image, {
-      zoomable: false,
+  assert.expect(2);
 
-      built: function () {
-        this.cropper.zoom(0.1);
-      },
-      zoom: function () {
-        QUnit.test('options.zoomable: false', function (assert) {
-          assert.ok(false);
-        });
-      }
-    });
-  })();
+  return new Cropper(image, {
+    zoomable: false,
 
+    built: function () {
+      var cropper = this.cropper;
+      var canvasData = cropper.getCanvasData();
+      var changedCanvasData = cropper.zoom(0.1).getCanvasData();
+
+      assert.ok(changedCanvasData.width === canvasData.width);
+      assert.ok(changedCanvasData.height === canvasData.height);
+
+      done();
+    },
+    zoom: function () {
+      assert.ok(false);
+    }
+  });
 });

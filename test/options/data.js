@@ -1,8 +1,7 @@
-window.addEventListener('DOMContentLoaded', function () {
-
-  'use strict';
-
-  var image = window.createCropperImage();
+QUnit.test('options.data', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
   var initialData = {
         x: 360,
         y: 450,
@@ -13,25 +12,24 @@ window.addEventListener('DOMContentLoaded', function () {
         scaleY: -1
       };
 
-  image.newCropper = new Cropper(image, {
+  assert.expect(7);
+
+  return new Cropper(image, {
     data: initialData,
 
     built: function () {
       var cropper = this.cropper;
+      var data = cropper.getData(true);
 
-      QUnit.test('options.data', function (assert) {
-        var data = cropper.getData();
+      assert.strictEqual(data.x, initialData.x);
+      assert.strictEqual(data.y, initialData.y);
+      assert.strictEqual(data.width, initialData.width);
+      assert.strictEqual(data.height, initialData.height);
+      assert.strictEqual(data.rotate, initialData.rotate);
+      assert.strictEqual(data.scaleX, initialData.scaleX);
+      assert.strictEqual(data.scaleY, initialData.scaleY);
 
-        assert.equal(Math.round(data.x), initialData.x);
-        assert.equal(Math.round(data.y), initialData.y);
-        assert.equal(Math.round(data.width), initialData.width);
-        assert.equal(Math.round(data.height), initialData.height);
-        assert.equal(Math.round(data.rotate), initialData.rotate);
-        assert.equal(Math.round(data.scaleX), initialData.scaleX);
-        assert.equal(Math.round(data.scaleY), initialData.scaleY);
-      });
-
+      done();
     }
   });
-
 });

@@ -1,41 +1,43 @@
-window.addEventListener('DOMContentLoaded', function () {
+QUnit.test('options.scalable: true', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-  'use strict';
+  assert.expect(2);
 
-  var image = window.createCropperImage();
+  return new Cropper(image, {
+    // scalable: true,
 
-  image.newCropper = new Cropper(image, {
     built: function () {
       var cropper = this.cropper;
+      var imageData = cropper.scale(-1, -1).getImageData();
 
-      QUnit.test('options.scalable: true', function (assert) {
-        var imageData = cropper.scale(-1, -1).getImageData();
+      assert.strictEqual(imageData.scaleX, -1);
+      assert.strictEqual(imageData.scaleY, -1);
 
-        assert.equal(imageData.scaleX, -1);
-        assert.equal(imageData.scaleY, -1);
-      });
-
+      done();
     }
   });
+});
 
-  (function () {
-    var image = window.createCropperImage();
+QUnit.test('options.scalable: false', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-    image.newCropper = new Cropper(image, {
-      scalable: false,
+  assert.expect(2);
 
-      built: function () {
-        var cropper = this.cropper;
+  return new Cropper(image, {
+    scalable: false,
 
-        QUnit.test('options.scalable: false', function (assert) {
-          var imageData = cropper.scale(-1, -1).getImageData();
+    built: function () {
+      var cropper = this.cropper;
+      var imageData = cropper.scale(-1, -1).getImageData();
 
-          assert.equal(imageData.scaleX, undefined);
-          assert.equal(imageData.scaleY, undefined);
-        });
+      assert.strictEqual(imageData.scaleX, undefined);
+      assert.strictEqual(imageData.scaleY, undefined);
 
-      }
-    });
-  })();
-
+      done();
+    }
+  });
 });

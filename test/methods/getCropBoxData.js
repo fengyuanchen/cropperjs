@@ -1,27 +1,21 @@
-window.addEventListener('DOMContentLoaded', function () {
+QUnit.test('methods.getCropBoxData', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-  'use strict';
+  assert.expect(4);
 
-  var image = window.createCropperImage();
-
-  function isNumber(n) {
-    return typeof n === 'number' && !isNaN(n);
-  }
-
-  image.newCropper = new Cropper(image, {
+  return new Cropper(image, {
     built: function () {
       var cropper = this.cropper;
+      var cropBoxData = cropper.getCropBoxData();
 
-      QUnit.test('methods.getCropBoxData', function (assert) {
-        var cropBoxData = cropper.getCropBoxData();
+      assert.ok(util.isNumber(cropBoxData.left));
+      assert.ok(util.isNumber(cropBoxData.top));
+      assert.ok(util.isNumber(cropBoxData.width));
+      assert.ok(util.isNumber(cropBoxData.height));
 
-        assert.ok(isNumber(cropBoxData.left));
-        assert.ok(isNumber(cropBoxData.top));
-        assert.ok(isNumber(cropBoxData.width));
-        assert.ok(isNumber(cropBoxData.height));
-      });
-
+      done();
     }
   });
-
 });

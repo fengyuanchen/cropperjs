@@ -1,23 +1,21 @@
-window.addEventListener('DOMContentLoaded', function () {
-
-  'use strict';
-
-  var image = window.createCropperImage();
+QUnit.test('options.minContainerWidth', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
   var minContainerWidth = 641;
 
-  image.newCropper = new Cropper(image, {
+  assert.expect(1);
+
+  return new Cropper(image, {
     minContainerWidth: minContainerWidth,
 
     built: function () {
       var cropper = this.cropper;
+      var containerData = cropper.getContainerData();
 
-      QUnit.test('options.minContainerWidth', function (assert) {
-        var containerData = cropper.getContainerData();
+      assert.strictEqual(Math.round(containerData.width), minContainerWidth);
 
-        assert.equal(Math.round(containerData.width), minContainerWidth);
-      });
-
+      done();
     }
   });
-
 });

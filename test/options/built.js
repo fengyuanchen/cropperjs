@@ -1,18 +1,17 @@
-window.addEventListener('DOMContentLoaded', function () {
+QUnit.test('options.built', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-  'use strict';
+  assert.expect(1);
 
-  var image = window.createCropperImage();
-
-  image.newCropper = new Cropper(image, {
+  return new Cropper(image, {
     built: function () {
       var cropper = this.cropper;
 
-      QUnit.test('options.built', function (assert) {
-        assert.equal(cropper.built, true);
-      });
+      assert.ok(cropper.built);
 
+      done();
     }
   });
-
 });

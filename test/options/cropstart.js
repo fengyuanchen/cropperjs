@@ -1,33 +1,54 @@
-window.addEventListener('DOMContentLoaded', function () {
+QUnit.test('options.cropstart', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-  'use strict';
+  assert.expect(1);
 
-  var image = window.createCropperImage();
-
-  image.newCropper = new Cropper(image, {
+  return new Cropper(image, {
     built: function () {
       var cropper = this.cropper;
 
-      // Triggers events manually when built
-      cropper.dragBox.dispatchEvent(new MouseEvent('mousedown', {
-        view: window,
-        bubbles: true,
-        cancelable: true
-      }));
-      cropper.dragBox.dispatchEvent(new MouseEvent('mouseup', {
-        view: window,
-        bubbles: true,
-        cancelable: true
-      }));
+      util.dispatchEvent(cropper.dragBox, 'mousedown');
+      util.dispatchEvent(cropper.dragBox, 'mouseup');
+
+      done();
     },
 
     cropstart: function (data) {
-
-      QUnit.test('options.cropstart', function (assert) {
-        assert.equal(data.action, 'crop');
-      });
-
+      assert.strictEqual(data.action, 'crop');
     }
   });
+});
 
+QUnit.test('options.cropstart: default prevented', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
+
+  assert.expect(0);
+
+  return new Cropper(image, {
+    built: function () {
+      var cropper = this.cropper;
+
+      util.dispatchEvent(cropper.dragBox, 'mousedown');
+      util.dispatchEvent(cropper.dragBox, 'mousemove');
+      util.dispatchEvent(cropper.dragBox, 'mouseup');
+
+      done();
+    },
+
+    cropstart: function () {
+      return false;
+    },
+
+    cropmove: function () {
+      assert.ok(false);
+    },
+
+    cropend: function () {
+      assert.ok(false);
+    }
+  });
 });

@@ -1,35 +1,39 @@
-window.addEventListener('DOMContentLoaded', function () {
+QUnit.test('options.aspectRatio: NaN', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-  'use strict';
+  assert.expect(1);
 
-  var image = window.createCropperImage();
+  return new Cropper(image, {
+    // aspectRatio: NaN,
 
-  image.newCropper = new Cropper(image, {
     built: function () {
       var cropper = this.cropper;
 
-      QUnit.test('options.aspectRatio: NaN', function (assert) {
-        assert.ok(isNaN(cropper.options.aspectRatio));
-      });
+      assert.ok(isNaN(cropper.options.aspectRatio));
 
+      done();
     }
   });
+});
 
-  (function () {
-    var image = window.createCropperImage();
+QUnit.test('options.aspectRatio: 1', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-    image.newCropper = new Cropper(image, {
-      aspectRatio: 1,
+  assert.expect(1);
 
-      built: function () {
-        var cropper = this.cropper;
+  return new Cropper(image, {
+    aspectRatio: 1,
 
-        QUnit.test('options.aspectRatio: 1', function (assert) {
-          assert.equal(cropper.options.aspectRatio, 1);
-        });
+    built: function () {
+      var cropper = this.cropper;
 
-      }
-    });
-  })();
+      assert.strictEqual(cropper.options.aspectRatio, 1);
 
+      done();
+    }
+  });
 });

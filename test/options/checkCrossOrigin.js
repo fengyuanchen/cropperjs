@@ -1,41 +1,67 @@
-window.addEventListener('DOMContentLoaded', function () {
-
-  'use strict';
-
-  var crossOriginImage = 'https://fengyuanchen.github.io/cropper/img/picture.jpg';
-  var image = window.createCropperImage({
-        src: crossOriginImage
+QUnit.test('options.checkCrossOrigin: true', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage({
+        src: 'https://fengyuanchen.github.io/cropper/img/picture.jpg'
       });
 
-  image.newCropper = new Cropper(image, {
+  assert.expect(2);
+
+  return new Cropper(image, {
+    // checkCrossOrigin: true,
+
     built: function () {
       var cropper = this.cropper;
 
-      QUnit.test('options.checkCrossOrigin', function (assert) {
-        assert.ok(cropper.image.crossOrigin === 'anonymous');
-        assert.ok(cropper.image.src.indexOf('timestamp') !== -1);
-      });
+      assert.strictEqual(cropper.image.crossOrigin, 'anonymous');
+      assert.ok(cropper.image.src.indexOf('timestamp') >= 0);
 
+      done();
     }
   });
+});
 
-  (function () {
-    var image = window.createCropperImage({
-          src: crossOriginImage,
-          crossOrigin: 'anonymous'
-        });
+QUnit.test('options.checkCrossOrigin: false', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage({
+        src: 'https://fengyuanchen.github.io/cropper/img/picture.jpg'
+      });
 
-    image.newCropper = new Cropper(image, {
-      built: function () {
-        var cropper = this.cropper;
+  assert.expect(2);
 
-        QUnit.test('options.checkCrossOrigin: exists crossOrigin attribute', function (assert) {
-          assert.ok(cropper.image.crossOrigin === 'anonymous');
-          assert.ok(cropper.image.src.indexOf('timestamp') === -1);
-        });
+  return new Cropper(image, {
+    checkCrossOrigin: false,
 
-      }
-    });
-  })();
+    built: function () {
+      var cropper = this.cropper;
 
+      assert.notStrictEqual(cropper.image.crossOrigin, 'anonymous');
+      assert.ok(cropper.image.src.indexOf('timestamp') < 0);
+
+      done();
+    }
+  });
+});
+
+QUnit.test('options.checkCrossOrigin: exists crossOrigin attribute', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage({
+        src: 'https://fengyuanchen.github.io/cropper/img/picture.jpg',
+        crossOrigin: 'anonymous'
+      });
+
+  assert.expect(2);
+
+  return new Cropper(image, {
+    built: function () {
+      var cropper = this.cropper;
+
+      assert.strictEqual(cropper.image.crossOrigin, 'anonymous');
+      assert.ok(cropper.image.src.indexOf('timestamp') < 0);
+
+      done();
+    }
+  });
 });

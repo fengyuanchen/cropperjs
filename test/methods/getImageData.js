@@ -1,43 +1,31 @@
-window.addEventListener('DOMContentLoaded', function () {
+QUnit.test('methods.getImageData', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-  'use strict';
+  assert.expect(10);
 
-  var image = window.createCropperImage();
-
-  function isNumber(n) {
-    return typeof n === 'number' && !isNaN(n);
-  }
-
-  image.newCropper = new Cropper(image, {
+  return new Cropper(image, {
     built: function () {
       var cropper = this.cropper;
+      var imageData = cropper.getImageData();
 
-      QUnit.test('methods.getImageData', function (assert) {
-        var imageData = cropper.getImageData();
+      assert.ok(util.isNumber(imageData.naturalWidth));
+      assert.ok(util.isNumber(imageData.naturalHeight));
+      assert.ok(util.isNumber(imageData.aspectRatio));
+      assert.ok(util.isNumber(imageData.left));
+      assert.ok(util.isNumber(imageData.top));
+      assert.ok(util.isNumber(imageData.width));
+      assert.ok(util.isNumber(imageData.height));
 
-        assert.ok(isNumber(imageData.naturalWidth));
-        assert.ok(isNumber(imageData.naturalHeight));
-        assert.ok(isNumber(imageData.aspectRatio));
-        assert.ok(isNumber(imageData.left));
-        assert.ok(isNumber(imageData.top));
-        assert.ok(isNumber(imageData.width));
-        assert.ok(isNumber(imageData.height));
-      });
+      imageData = cropper.rotateTo(45).getImageData();
+      assert.strictEqual(imageData.rotate, 45);
 
-      QUnit.test('methods.getImageData: rotated', function (assert) {
-        var imageData = cropper.rotateTo(45).getImageData();
+      imageData = cropper.scale(-1, -1).getImageData();
+      assert.strictEqual(imageData.scaleX, -1);
+      assert.strictEqual(imageData.scaleY, -1);
 
-        assert.equal(imageData.rotate, 45);
-      });
-
-      QUnit.test('methods.getImageData: scaled', function (assert) {
-        var imageData = cropper.scale(-1, -1).getImageData();
-
-        assert.equal(imageData.scaleX, -1);
-        assert.equal(imageData.scaleY, -1);
-      });
-
+      done();
     }
   });
-
 });

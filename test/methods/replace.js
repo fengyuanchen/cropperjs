@@ -1,25 +1,20 @@
-window.addEventListener('DOMContentLoaded', function () {
+QUnit.test('methods.replace', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-  'use strict';
+  assert.expect(1);
 
-  var image = window.createCropperImage();
-
-  image.newCropper = new Cropper(image, {
+  return new Cropper(image, {
     built: function () {
       var cropper = this.cropper;
 
-      QUnit.test('methods.replace', function (assert) {
-        var done = assert.async();
+      cropper.options.built = function () {
+        assert.ok(true);
+        done();
+      };
 
-        cropper.options.built = function () {
-          assert.ok(true);
-          done();
-        };
-
-        cropper.replace('../assets/img/picture-2.jpg');
-      });
-
+      cropper.replace('../assets/img/picture-2.jpg');
     }
   });
-
 });

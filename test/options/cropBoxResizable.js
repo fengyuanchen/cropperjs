@@ -1,45 +1,65 @@
-window.addEventListener('DOMContentLoaded', function () {
+QUnit.test('options.cropBoxResizable: true', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-  'use strict';
+  assert.expect(12);
 
-  var image = window.createCropperImage();
+  return new Cropper(image, {
+    // cropBoxResizable: true,
 
-  function hasClass(element, className) {
-    return element.className.indexOf(className) !== -1;
-  }
-
-  image.newCropper = new Cropper(image, {
     built: function () {
       var cropper = this.cropper;
+      var line = util.getByClass(cropper.cropBox, 'cropper-line');
+      var point = util.getByClass(cropper.cropBox, 'cropper-point');
 
-      QUnit.test('options.cropBoxResizable: true', function (assert) {
-        var cropBox = cropper.cropBox;
+      assert.notOk(util.hasClass(line[0], 'cropper-hidden'));
+      assert.notOk(util.hasClass(line[1], 'cropper-hidden'));
+      assert.notOk(util.hasClass(line[2], 'cropper-hidden'));
+      assert.notOk(util.hasClass(line[3], 'cropper-hidden'));
+      assert.notOk(util.hasClass(point[0], 'cropper-hidden'));
+      assert.notOk(util.hasClass(point[1], 'cropper-hidden'));
+      assert.notOk(util.hasClass(point[2], 'cropper-hidden'));
+      assert.notOk(util.hasClass(point[3], 'cropper-hidden'));
+      assert.notOk(util.hasClass(point[4], 'cropper-hidden'));
+      assert.notOk(util.hasClass(point[5], 'cropper-hidden'));
+      assert.notOk(util.hasClass(point[6], 'cropper-hidden'));
+      assert.notOk(util.hasClass(point[7], 'cropper-hidden'));
 
-        assert.ok(!hasClass(cropBox.querySelector('.cropper-line'), 'cropper-hidden'));
-        assert.ok(!hasClass(cropBox.querySelector('.cropper-point'), 'cropper-hidden'));
-      });
-
+      done();
     }
   });
+});
 
-  (function () {
-    var image = window.createCropperImage();
+QUnit.test('options.cropBoxResizable: false', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-    image.newCropper = new Cropper(image, {
-      cropBoxResizable: false,
+  assert.expect(12);
 
-      built: function () {
-        var cropper = this.cropper;
+  return new Cropper(image, {
+    cropBoxResizable: false,
 
-        QUnit.test('options.cropBoxResizable: false', function (assert) {
-          var cropBox = cropper.cropBox;
+    built: function () {
+      var cropper = this.cropper;
+      var line = util.getByClass(cropper.cropBox, 'cropper-line');
+      var point = util.getByClass(cropper.cropBox, 'cropper-point');
 
-          assert.ok(hasClass(cropBox.querySelector('.cropper-line'), 'cropper-hidden'));
-          assert.ok(hasClass(cropBox.querySelector('.cropper-point'), 'cropper-hidden'));
-        });
+      assert.ok(util.hasClass(line[0], 'cropper-hidden'));
+      assert.ok(util.hasClass(line[1], 'cropper-hidden'));
+      assert.ok(util.hasClass(line[2], 'cropper-hidden'));
+      assert.ok(util.hasClass(line[3], 'cropper-hidden'));
+      assert.ok(util.hasClass(point[0], 'cropper-hidden'));
+      assert.ok(util.hasClass(point[1], 'cropper-hidden'));
+      assert.ok(util.hasClass(point[2], 'cropper-hidden'));
+      assert.ok(util.hasClass(point[3], 'cropper-hidden'));
+      assert.ok(util.hasClass(point[4], 'cropper-hidden'));
+      assert.ok(util.hasClass(point[5], 'cropper-hidden'));
+      assert.ok(util.hasClass(point[6], 'cropper-hidden'));
+      assert.ok(util.hasClass(point[7], 'cropper-hidden'));
 
-      }
-    });
-  })();
-
+      done();
+    }
+  });
 });

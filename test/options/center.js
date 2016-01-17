@@ -1,40 +1,41 @@
-window.addEventListener('DOMContentLoaded', function () {
+QUnit.test('options.center: true', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-  'use strict';
+  assert.expect(1);
 
-  var image = window.createCropperImage();
+  return new Cropper(image, {
+    // center: true,
 
-  function hasClass(element, className) {
-    return element.className.indexOf(className) !== -1;
-  }
-
-  image.newCropper = new Cropper(image, {
     built: function () {
       var cropper = this.cropper;
+      var center = util.getByClass(cropper.cropBox, 'cropper-center');
 
-      QUnit.test('options.center: true', function (assert) {
-        assert.ok(!hasClass(cropper.cropBox.querySelector('.cropper-center'), 'cropper-hidden'));
-      });
+      assert.notOk(util.hasClass(center[0], 'cropper-hidden'));
 
+      done();
     }
   });
+});
 
-  (function () {
-    var image = window.createCropperImage();
+QUnit.test('options.center: false', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-    image.newCropper = new Cropper(image, {
-      center: false,
+  assert.expect(1);
 
-      built: function () {
-        var cropper = this.cropper;
+  return new Cropper(image, {
+    center: false,
 
-        QUnit.test('options.center: false', function (assert) {
-          assert.ok(hasClass(cropper.cropBox.querySelector('.cropper-center'), 'cropper-hidden'));
-        });
+    built: function () {
+      var cropper = this.cropper;
+      var center = util.getByClass(cropper.cropBox, 'cropper-center');
 
-      }
-    });
+      assert.ok(util.hasClass(center[0], 'cropper-hidden'));
 
-  })();
-
+      done();
+    }
+  });
 });

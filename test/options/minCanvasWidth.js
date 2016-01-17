@@ -1,25 +1,23 @@
-window.addEventListener('DOMContentLoaded', function () {
-
-  'use strict';
-
-  var image = window.createCropperImage();
+QUnit.test('options.minCanvasWidth', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
   var minCanvasWidth = 480;
 
-  image.newCropper = new Cropper(image, {
+  assert.expect(1);
+
+  return new Cropper(image, {
     minCanvasWidth: minCanvasWidth,
 
     built: function () {
       var cropper = this.cropper;
+      var canvasData = cropper.setCanvasData({
+            width: 320
+          }).getCanvasData();
 
-      QUnit.test('options.minCanvasWidth', function (assert) {
-        var canvasData = cropper.setCanvasData({
-              width: 320
-            }).getCanvasData();
+      assert.strictEqual(Math.round(canvasData.width), minCanvasWidth);
 
-        assert.equal(Math.round(canvasData.width), minCanvasWidth);
-      });
-
+      done();
     }
   });
-
 });

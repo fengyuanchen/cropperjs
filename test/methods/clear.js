@@ -1,22 +1,29 @@
-window.addEventListener('DOMContentLoaded', function () {
+QUnit.test('methods.clear', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-  'use strict';
+  assert.expect(4);
 
-  var image = window.createCropperImage();
-
-  image.newCropper = new Cropper(image, {
+  return new Cropper(image, {
     built: function () {
       var cropper = this.cropper;
 
-      QUnit.test('methods.clear', function (assert) {
-        var cropBoxData = cropper.clear().getCropBoxData();
-
-        assert.equal(cropper.cropped, false);
-        assert.ok(cropper.cropBox.className.indexOf('cropper-hidden') !== -1);
-        assert.deepEqual(cropBoxData, {});
+      cropper.clear();
+      assert.notOk(cropper.cropped);
+      assert.deepEqual(cropper.getData(), {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0,
+        rotate: 0,
+        scaleX: 1,
+        scaleY: 1
       });
+      assert.deepEqual(cropper.getCropBoxData(), {});
+      assert.ok(util.hasClass(cropper.cropBox, 'cropper-hidden'));
 
+      done();
     }
   });
-
 });

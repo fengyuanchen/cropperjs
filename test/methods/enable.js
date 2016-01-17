@@ -1,24 +1,23 @@
-window.addEventListener('DOMContentLoaded', function () {
+QUnit.test('methods.enable', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-  'use strict';
+  assert.expect(4);
 
-  var image = window.createCropperImage();
-
-  image.newCropper = new Cropper(image, {
+  return new Cropper(image, {
     built: function () {
       var cropper = this.cropper;
 
-      QUnit.test('methods.enable', function (assert) {
-        cropper.disable();
-        assert.equal(cropper.disabled, true);
-        assert.ok(cropper.cropper.className.indexOf('cropper-disabled') !== -1);
+      cropper.disable();
+      assert.ok(cropper.disabled);
+      assert.ok(util.hasClass(cropper.cropper, 'cropper-disabled'));
 
-        cropper.enable();
-        assert.equal(cropper.disabled, false);
-        assert.ok(cropper.cropper.className.indexOf('cropper-disabled') === -1);
-      });
+      cropper.enable();
+      assert.notOk(cropper.disabled);
+      assert.notOk(util.hasClass(cropper.cropper, 'cropper-disabled'));
 
+      done();
     }
   });
-
 });

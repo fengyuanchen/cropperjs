@@ -1,25 +1,23 @@
-window.addEventListener('DOMContentLoaded', function () {
-
-  'use strict';
-
-  var image = window.createCropperImage();
+QUnit.test('options.minCanvasHeight', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
   var minCanvasHeight = 270;
 
-  image.newCropper = new Cropper(image, {
+  assert.expect(1);
+
+  return new Cropper(image, {
     minCanvasHeight: minCanvasHeight,
 
     built: function () {
       var cropper = this.cropper;
+      var canvasData = cropper.setCanvasData({
+            height: 180
+          }).getCanvasData();
 
-      QUnit.test('options.minCanvasHeight', function (assert) {
-        var canvasData = cropper.setCanvasData({
-              height: 180
-            }).getCanvasData();
+      assert.strictEqual(Math.round(canvasData.height), minCanvasHeight);
 
-        assert.equal(Math.round(canvasData.height), minCanvasHeight);
-      });
-
+      done();
     }
   });
-
 });

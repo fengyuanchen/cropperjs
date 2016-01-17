@@ -1,41 +1,45 @@
-window.addEventListener('DOMContentLoaded', function () {
+QUnit.test('options.movable: true', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-  'use strict';
+  assert.expect(2);
 
-  var image = window.createCropperImage();
+  return new Cropper(image, {
+    // movable: true,
 
-  image.newCropper = new Cropper(image, {
     built: function () {
       var cropper = this.cropper;
+      var canvasData = cropper.getCanvasData();
+      var changedCanvasData = cropper.move(10, 10).getCanvasData();
 
-      QUnit.test('options.movable: true', function (assert) {
-        var canvasData = cropper.getCanvasData();
-        var changedCanvadData = cropper.move(10, 10).getCanvasData();
+      assert.strictEqual(changedCanvasData.left, canvasData.left + 10);
+      assert.strictEqual(changedCanvasData.top, canvasData.top + 10);
 
-        assert.equal(changedCanvadData.left, canvasData.left + 10);
-        assert.equal(changedCanvadData.top, canvasData.top + 10);
-      });
+      done();
     }
   });
+});
 
-  (function () {
-    var image = window.createCropperImage();
+QUnit.test('options.movable: false', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-    image.newCropper = new Cropper(image, {
-      movable: false,
+  assert.expect(2);
 
-      built: function () {
-        var cropper = this.cropper;
+  return new Cropper(image, {
+    movable: false,
 
-        QUnit.test('options.movable: false', function (assert) {
-          var canvasData = cropper.getCanvasData();
-          var changedCanvadData = cropper.move(10, 10).getCanvasData();
+    built: function () {
+      var cropper = this.cropper;
+      var canvasData = cropper.getCanvasData();
+      var changedCanvasData = cropper.move(10, 10).getCanvasData();
 
-          assert.equal(changedCanvadData.left, canvasData.left);
-          assert.equal(changedCanvadData.top, canvasData.top);
-        });
-      }
-    });
-  })();
+      assert.strictEqual(changedCanvasData.left, canvasData.left);
+      assert.strictEqual(changedCanvasData.top, canvasData.top);
 
+      done();
+    }
+  });
 });

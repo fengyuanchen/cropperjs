@@ -1,42 +1,36 @@
-window.addEventListener('DOMContentLoaded', function () {
+QUnit.test('methods.setData', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-  'use strict';
+  assert.expect(8);
 
-  var image = window.createCropperImage();
-
-  image.newCropper = new Cropper(image, {
+  return new Cropper(image, {
     built: function () {
       var cropper = this.cropper;
+      var data = cropper.getData();
+      var changedData = cropper.setData({
+            x: 16,
+            y: 9
+          }).getData();
 
-      QUnit.test('methods.setData: move', function (assert) {
-        var data = cropper.getData();
-        var changedData = cropper.setData({
-              x: 16,
-              y: 9
-            }).getData();
+      assert.notStrictEqual(changedData.x, data.x);
+      assert.notStrictEqual(changedData.y, data.y);
+      assert.strictEqual(changedData.width, data.width);
+      assert.strictEqual(changedData.height, data.height);
 
-        assert.notEqual(changedData.x, data.x);
-        assert.notEqual(changedData.y, data.y);
+      data = cropper.getData();
+      changedData = cropper.setData({
+        width: 320,
+        height: 180
+      }).getData();
 
-        assert.equal(changedData.width, data.width);
-        assert.equal(changedData.height, data.height);
-      });
+      assert.strictEqual(changedData.x, data.x);
+      assert.strictEqual(changedData.y, data.y);
+      assert.notStrictEqual(changedData.width, data.width);
+      assert.notStrictEqual(changedData.height, data.height);
 
-
-      QUnit.test('methods.setData: resize', function (assert) {
-        var data = cropper.getData();
-        var changedData = cropper.setData({
-              width: 320,
-              height: 180
-            }).getData();
-
-        assert.equal(changedData.x, data.x);
-        assert.equal(changedData.y, data.y);
-        assert.notEqual(changedData.width, data.width);
-        assert.notEqual(changedData.height, data.height);
-      });
-
+      done();
     }
   });
-
 });

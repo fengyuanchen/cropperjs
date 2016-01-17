@@ -1,21 +1,18 @@
-window.addEventListener('DOMContentLoaded', function () {
+QUnit.test('methods.scaleY', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-  'use strict';
+  assert.expect(1);
 
-  var image = window.createCropperImage();
-
-  image.newCropper = new Cropper(image, {
-
+  return new Cropper(image, {
     built: function () {
       var cropper = this.cropper;
+      var imageData = cropper.scaleY(-1).getImageData();
 
-      QUnit.test('methods.scaleY', function (assert) {
-        var imageData = cropper.scaleY(-1).getImageData();
+      assert.strictEqual(imageData.scaleY, -1);
 
-        assert.equal(imageData.scaleY, -1);
-      });
-
+      done();
     }
   });
-
 });

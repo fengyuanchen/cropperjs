@@ -1,35 +1,41 @@
-window.addEventListener('DOMContentLoaded', function () {
+QUnit.test('options.cropBoxMovable: true', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-  'use strict';
+  assert.expect(1);
 
-  var image = window.createCropperImage();
+  return new Cropper(image, {
+    // cropBoxMovable: true,
 
-  image.newCropper = new Cropper(image, {
     built: function () {
       var cropper = this.cropper;
+      var face = util.getByClass(cropper.cropBox, 'cropper-face');
 
-      QUnit.test('options.cropBoxMovable: true', function (assert) {
-        assert.equal(cropper.cropper.querySelector('.cropper-face').dataset.action, 'all');
-      });
+      assert.strictEqual(face[0].dataset.action, 'all');
 
+      done();
     }
   });
+});
 
-  (function () {
-    var image = window.createCropperImage();
+QUnit.test('options.cropBoxMovable: false', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-    image.newCropper = new Cropper(image, {
-      cropBoxMovable: false,
+  assert.expect(1);
 
-      built: function () {
-        var cropper = this.cropper;
+  return new Cropper(image, {
+    cropBoxMovable: false,
 
-        QUnit.test('options.cropBoxMovable: false', function (assert) {
-          assert.notEqual(cropper.cropper.querySelector('.cropper-face').dataset.action, 'all');
-        });
+    built: function () {
+      var cropper = this.cropper;
+      var face = util.getByClass(cropper.cropBox, 'cropper-face');
 
-      }
-    });
-  })();
+      assert.strictEqual(face[0].dataset.action, cropper.options.dragMode);
 
+      done();
+    }
+  });
 });

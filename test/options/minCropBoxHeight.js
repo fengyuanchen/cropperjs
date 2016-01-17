@@ -1,25 +1,23 @@
-window.addEventListener('DOMContentLoaded', function () {
-
-  'use strict';
-
-  var image = window.createCropperImage();
+QUnit.test('options.minCropBoxHeight', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
   var minCropBoxHeight = 150;
 
-  image.newCropper = new Cropper(image, {
+  assert.expect(1);
+
+  return new Cropper(image, {
     minCropBoxHeight: minCropBoxHeight,
 
     built: function () {
       var cropper = this.cropper;
+      var cropBoxData = cropper.setCropBoxData({
+            height: 100
+          }).getCropBoxData();
 
-      QUnit.test('options.minCropBoxHeight', function (assert) {
-        var cropBoxData = cropper.setCropBoxData({
-              height: 100
-            }).getCropBoxData();
+      assert.strictEqual(Math.round(cropBoxData.height), minCropBoxHeight);
 
-        assert.equal(Math.round(cropBoxData.height), minCropBoxHeight);
-      });
-
+      done();
     }
   });
-
 });

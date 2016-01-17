@@ -1,20 +1,20 @@
-window.addEventListener('DOMContentLoaded', function () {
+QUnit.test('methods.rotateTo', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
 
-  'use strict';
+  assert.expect(4);
 
-  var image = window.createCropperImage();
-
-  image.newCropper = new Cropper(image, {
+  return new Cropper(image, {
     built: function () {
       var cropper = this.cropper;
 
-      QUnit.test('methods.rotateTo', function (assert) {
-        assert.equal(cropper.rotateTo(360).getImageData().rotate, 0);
-        assert.equal(cropper.rotateTo(90).getImageData().rotate, 90);
-        assert.equal(cropper.rotateTo(0).getImageData().rotate, 0);
-      });
+      assert.strictEqual(cropper.rotateTo(360).getImageData().rotate, 0);
+      assert.strictEqual(cropper.rotateTo(90).getImageData().rotate, 90);
+      assert.strictEqual(cropper.rotateTo(0).getImageData().rotate, 0);
+      assert.strictEqual(cropper.rotateTo(-180).getImageData().rotate, -180);
 
+      done();
     }
   });
-
 });
