@@ -153,10 +153,12 @@
       if (_this.options.checkCrossOrigin && isCrossOriginURL(url)) {
         crossOrigin = element.crossOrigin;
 
-        if (!crossOrigin) {
+        if (crossOrigin) {
+          crossOriginUrl = url;
+        } else {
           crossOrigin = 'anonymous';
 
-          // Add a timestamp to url for busting browser cache
+          // Bust cache when there is not a "crossOrigin" property
           crossOriginUrl = addTimestamp(url);
         }
       }
