@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v0.5.5
+ * Cropper.js v0.5.6
  * https://github.com/fengyuanchen/cropperjs
  *
  * Copyright (c) 2015-2016 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2016-01-01T08:10:31.084Z
+ * Date: 2016-01-18T05:33:43.542Z
  */
 
 (function (global, factory) {
@@ -871,10 +871,12 @@
       if (_this.options.checkCrossOrigin && isCrossOriginURL(url)) {
         crossOrigin = element.crossOrigin;
 
-        if (!crossOrigin) {
+        if (crossOrigin) {
+          crossOriginUrl = url;
+        } else {
           crossOrigin = 'anonymous';
 
-          // Add a timestamp to url for busting browser cache
+          // Bust cache when there is not a "crossOrigin" property
           crossOriginUrl = addTimestamp(url);
         }
       }
@@ -2553,7 +2555,7 @@
         removeClass(element, CLASS_HIDDEN);
       } else {
         if (_this.isImg) {
-          element.off(EVENT_LOAD, _this.start);
+          removeListener(element, EVENT_LOAD, _this.start);
         } else if (image) {
           removeChild(image);
         }
