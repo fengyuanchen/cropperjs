@@ -545,9 +545,6 @@
 
           // Get the original orientation value
           orientation = dataView.getUint16(offset, littleEndian);
-
-          // Override the orientation with the default value: 1
-          dataView.setUint16(offset, 1, littleEndian);
           break;
         }
       }
