@@ -1,6 +1,7 @@
   // Globals
   var document = window.document;
   var location = window.location;
+  var navigator = window.navigator;
   var ArrayBuffer = window.ArrayBuffer;
   var Object = window.Object;
   var Array = window.Array;
@@ -62,6 +63,7 @@
 
   // Supports
   var SUPPORT_CANVAS = !!document.createElement('canvas').getContext;
+  var IS_SAFARI = navigator && /safari/i.test(navigator.userAgent) && /apple computer/i.test(navigator.vendor);
 
   // Maths
   var min = Math.min;
