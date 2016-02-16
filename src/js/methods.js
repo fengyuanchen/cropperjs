@@ -70,19 +70,33 @@
      * Replace the image's src and rebuild the cropper
      *
      * @param {String} url
+     * @param {Boolean} onlyColorChanged (optional)
      */
-    replace: function (url) {
+    replace: function (url, onlyColorChanged) {
       var _this = this;
 
       if (!_this.disabled && url) {
         if (_this.isImg) {
-          _this.replaced = true;
           _this.element.src = url;
         }
 
-        // Clear previous data
-        _this.options.data = null;
-        _this.load(url);
+        if (onlyColorChanged) {
+          _this.url = url;
+          _this.image.src = url;
+          _this.image2.src = url;
+
+          each(_this.previews, function (element) {
+            getByTag(element, 'img')[0].src = url;
+          });
+        } else {
+          if (_this.isImg) {
+            _this.replaced = true;
+          }
+
+          // Clear previous data
+          _this.options.data = null;
+          _this.load(url);
+        }
       }
 
       return _this;

@@ -617,11 +617,17 @@ Reset the image and crop box to their initial states.
 Clear the crop box.
 
 
-### replace(url)
+### replace(url[, onlyColorChanged])
 
 - **url**:
   - Type: `String`
   - A new image url.
+
+- **onlyColorChanged** (optional):
+  - Type: `Boolean`
+  - If only change the color, not the size, then the cropper only need to change the srcs of all related images, not need to rebuild the cropper. This can be used for applying filters.
+  - If not present, its default value is `false`.
+
 
 Replace the image's src and rebuild the cropper.
 
