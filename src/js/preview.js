@@ -12,6 +12,7 @@
 
       image.src = url;
       appendChild(_this.viewBox, image);
+      _this.image2 = image;
 
       if (!preview) {
         return;
@@ -94,7 +95,7 @@
         return;
       }
 
-      setStyle(getByTag(_this.viewBox, 'img')[0], extend({
+      setStyle(_this.image2, extend({
         width: width,
         height: height,
         marginLeft: -left,
