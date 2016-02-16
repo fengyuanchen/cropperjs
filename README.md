@@ -407,6 +407,8 @@ The minimum height of the canvas (image wrapper).
 
 The minimum width of the crop box.
 
+**Note:** This size is relative to the page, not the image.
+
 
 ### minCropBoxHeight
 
@@ -414,6 +416,8 @@ The minimum width of the crop box.
 - Default: `0`
 
 The minimum height of the crop box.
+
+**Note:** This size is relative to the page, not the image.
 
 
 ### build
