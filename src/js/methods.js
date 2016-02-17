@@ -725,11 +725,12 @@
         var source = getSourceCanvas(_this.image, _this.imageData);
         var sourceWidth = source.width;
         var sourceHeight = source.height;
-        var args = [source];
+        var canvasData = _this.canvasData;
+        var params = [source];
 
         // Source canvas
-        var srcX = data.x;
-        var srcY = data.y;
+        var srcX = data.x + canvasData.naturalWidth * (abs(data.scaleX || 1) - 1) / 2;
+        var srcY = data.y + canvasData.naturalHeight * (abs(data.scaleY || 1) - 1) / 2;
         var srcWidth;
         var srcHeight;
 
@@ -761,7 +762,7 @@
           srcHeight = dstHeight = min(originalHeight, sourceHeight - srcY);
         }
 
-        args.push(floor(srcX), floor(srcY), floor(srcWidth), floor(srcHeight));
+        params.push(floor(srcX), floor(srcY), floor(srcWidth), floor(srcHeight));
 
         // Scale destination sizes
         if (scaledRatio) {
@@ -773,10 +774,10 @@
 
         // Avoid "IndexSizeError" in IE and Firefox
         if (dstWidth > 0 && dstHeight > 0) {
-          args.push(floor(dstX), floor(dstY), floor(dstWidth), floor(dstHeight));
+          params.push(floor(dstX), floor(dstY), floor(dstWidth), floor(dstHeight));
         }
 
-        return args;
+        return params;
       }).call(_this));
 
       return canvas;

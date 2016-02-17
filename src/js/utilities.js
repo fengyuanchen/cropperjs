@@ -410,46 +410,46 @@
   function getSourceCanvas(image, data) {
     var canvas = createElement('canvas');
     var context = canvas.getContext('2d');
-    var x = 0;
-    var y = 0;
-    var width = data.naturalWidth;
-    var height = data.naturalHeight;
+    var dstX = 0;
+    var dstY = 0;
+    var dstWidth = data.naturalWidth;
+    var dstHeight = data.naturalHeight;
     var rotate = data.rotate;
     var scaleX = data.scaleX;
     var scaleY = data.scaleY;
     var scalable = isNumber(scaleX) && isNumber(scaleY) && (scaleX !== 1 || scaleY !== 1);
     var rotatable = isNumber(rotate) && rotate !== 0;
     var advanced = rotatable || scalable;
-    var canvasWidth = width;
-    var canvasHeight = height;
+    var canvasWidth = dstWidth * abs(scaleX || 1);
+    var canvasHeight = dstHeight * abs(scaleY || 1);
     var translateX;
     var translateY;
     var rotated;
 
     if (scalable) {
-      translateX = width / 2;
-      translateY = height / 2;
+      translateX = canvasWidth / 2;
+      translateY = canvasHeight / 2;
     }
 
     if (rotatable) {
       rotated = getRotatedSizes({
-        width: width,
-        height: height,
+        width: canvasWidth,
+        height: canvasHeight,
         degree: rotate
       });
 
       canvasWidth = rotated.width;
       canvasHeight = rotated.height;
-      translateX = rotated.width / 2;
-      translateY = rotated.height / 2;
+      translateX = canvasWidth / 2;
+      translateY = canvasHeight / 2;
     }
 
     canvas.width = canvasWidth;
     canvas.height = canvasHeight;
 
     if (advanced) {
-      x = -width / 2;
-      y = -height / 2;
+      dstX = -dstWidth / 2;
+      dstY = -dstHeight / 2;
 
       context.save();
       context.translate(translateX, translateY);
@@ -464,7 +464,7 @@
       context.scale(scaleX, scaleY);
     }
 
-    context.drawImage(image, floor(x), floor(y), floor(width), floor(height));
+    context.drawImage(image, floor(dstX), floor(dstY), floor(dstWidth), floor(dstHeight));
 
     if (advanced) {
       context.restore();
