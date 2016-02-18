@@ -83,11 +83,14 @@
         if (onlyColorChanged) {
           _this.url = url;
           _this.image.src = url;
-          _this.image2.src = url;
 
-          each(_this.previews, function (element) {
-            getByTag(element, 'img')[0].src = url;
-          });
+          if (_this.built) {
+            _this.image2.src = url;
+
+            each(_this.previews, function (element) {
+              getByTag(element, 'img')[0].src = url;
+            });
+          }
         } else {
           if (_this.isImg) {
             _this.replaced = true;
