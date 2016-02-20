@@ -583,7 +583,7 @@ new Cropper(image, {
     this.cropper.move(1, -1);
 
     // Allows chain composition
-    this.cropper.move(1, -1).roate(45).scale(1, -1);
+    this.cropper.move(1, -1).rotate(45).scale(1, -1);
   }
 });
 ```
