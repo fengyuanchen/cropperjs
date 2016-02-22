@@ -1,7 +1,7 @@
 {
   "name": "cropperjs",
   "description": "JavaScript image cropper.",
-  "version": "0.5.6",
+  "version": "0.6.0",
   "main": "dist/cropper.js",
   "license": "MIT",
   "repository": "fengyuanchen/cropperjs",

@@ -1,6 +1,14 @@
 # Changelog
 
 
+## 0.6.0 (Feb 22, 2016)
+
+- Added a new parameter to the `replace` method for applying filters.
+- Improved the image initializing for Safari.
+- Fixed incorrect size limitation of the crop box (#30).
+- Fixed incorrect cropped canvas when scaleX or scaleY great than 1.
+
+
 ## 0.5.6 (Jan 18, 2016)
 
 - Fixed crossOriginUrl undefined error when exists the `crossOrigin` property.

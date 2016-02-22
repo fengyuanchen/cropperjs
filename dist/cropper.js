@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v0.5.6
+ * Cropper.js v0.6.0
  * https://github.com/fengyuanchen/cropperjs
  *
  * Copyright (c) 2015-2016 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2016-01-18T05:33:43.542Z
+ * Date: 2016-02-22T03:02:24.645Z
  */
 
 (function (global, factory) {
@@ -27,6 +27,7 @@
   // Globals
   var document = window.document;
   var location = window.location;
+  var navigator = window.navigator;
   var ArrayBuffer = window.ArrayBuffer;
   var Object = window.Object;
   var Array = window.Array;
@@ -88,6 +89,7 @@
 
   // Supports
   var SUPPORT_CANVAS = !!document.createElement('canvas').getContext;
+  var IS_SAFARI = navigator && /safari/i.test(navigator.userAgent) && /apple computer/i.test(navigator.vendor);
 
   // Maths
   var min = Math.min;
@@ -459,8 +461,8 @@
   function getImageSize(image, callback) {
     var newImage;
 
-    // Modern browsers
-    if (image.naturalWidth) {
+    // Modern browsers (ignore Safari)
+    if (image.naturalWidth && !IS_SAFARI) {
       return callback(image.naturalWidth, image.naturalHeight);
     }
 
@@ -519,46 +521,46 @@
   function getSourceCanvas(image, data) {
     var canvas = createElement('canvas');
     var context = canvas.getContext('2d');
-    var x = 0;
-    var y = 0;
-    var width = data.naturalWidth;
-    var height = data.naturalHeight;
+    var dstX = 0;
+    var dstY = 0;
+    var dstWidth = data.naturalWidth;
+    var dstHeight = data.naturalHeight;
     var rotate = data.rotate;
     var scaleX = data.scaleX;
     var scaleY = data.scaleY;
     var scalable = isNumber(scaleX) && isNumber(scaleY) && (scaleX !== 1 || scaleY !== 1);
     var rotatable = isNumber(rotate) && rotate !== 0;
     var advanced = rotatable || scalable;
-    var canvasWidth = width;
-    var canvasHeight = height;
+    var canvasWidth = dstWidth * abs(scaleX || 1);
+    var canvasHeight = dstHeight * abs(scaleY || 1);
     var translateX;
     var translateY;
     var rotated;
 
     if (scalable) {
-      translateX = width / 2;
-      translateY = height / 2;
+      translateX = canvasWidth / 2;
+      translateY = canvasHeight / 2;
     }
 
     if (rotatable) {
       rotated = getRotatedSizes({
-        width: width,
-        height: height,
+        width: canvasWidth,
+        height: canvasHeight,
         degree: rotate
       });
 
       canvasWidth = rotated.width;
       canvasHeight = rotated.height;
-      translateX = rotated.width / 2;
-      translateY = rotated.height / 2;
+      translateX = canvasWidth / 2;
+      translateY = canvasHeight / 2;
     }
 
     canvas.width = canvasWidth;
     canvas.height = canvasHeight;
 
     if (advanced) {
-      x = -width / 2;
-      y = -height / 2;
+      dstX = -dstWidth / 2;
+      dstY = -dstHeight / 2;
 
       context.save();
       context.translate(translateX, translateY);
@@ -573,7 +575,7 @@
       context.scale(scaleX, scaleY);
     }
 
-    context.drawImage(image, floor(x), floor(y), floor(width), floor(height));
+    context.drawImage(image, floor(dstX), floor(dstY), floor(dstWidth), floor(dstHeight));
 
     if (advanced) {
       context.restore();
@@ -655,8 +657,11 @@
           // Get the original orientation value
           orientation = dataView.getUint16(offset, littleEndian);
 
-          // Override the orientation with the default value: 1
-          dataView.setUint16(offset, 1, littleEndian);
+          // Override the orientation with its default value for Safari
+          if (IS_SAFARI) {
+            dataView.setUint16(offset, 1, littleEndian);
+          }
+
           break;
         }
       }
@@ -1644,6 +1649,7 @@
 
       image.src = url;
       appendChild(_this.viewBox, image);
+      _this.image2 = image;
 
       if (!preview) {
         return;
@@ -1726,7 +1732,7 @@
         return;
       }
 
-      setStyle(getByTag(_this.viewBox, 'img')[0], extend({
+      setStyle(_this.image2, extend({
         width: width,
         height: height,
         marginLeft: -left,
@@ -2052,8 +2058,8 @@
       if (_this.limited) {
         minLeft = cropBoxData.minLeft;
         minTop = cropBoxData.minTop;
-        maxWidth = minLeft + min(containerData.width, canvasData.width);
-        maxHeight = minTop + min(containerData.height, canvasData.height);
+        maxWidth = minLeft + min(containerData.width, canvasData.left + canvasData.width);
+        maxHeight = minTop + min(containerData.height, canvasData.top + canvasData.height);
       }
 
       range = {
@@ -2498,19 +2504,36 @@
      * Replace the image's src and rebuild the cropper
      *
      * @param {String} url
+     * @param {Boolean} onlyColorChanged (optional)
      */
-    replace: function (url) {
+    replace: function (url, onlyColorChanged) {
       var _this = this;
 
       if (!_this.disabled && url) {
         if (_this.isImg) {
-          _this.replaced = true;
           _this.element.src = url;
         }
 
-        // Clear previous data
-        _this.options.data = null;
-        _this.load(url);
+        if (onlyColorChanged) {
+          _this.url = url;
+          _this.image.src = url;
+
+          if (_this.built) {
+            _this.image2.src = url;
+
+            each(_this.previews, function (element) {
+              getByTag(element, 'img')[0].src = url;
+            });
+          }
+        } else {
+          if (_this.isImg) {
+            _this.replaced = true;
+          }
+
+          // Clear previous data
+          _this.options.data = null;
+          _this.load(url);
+        }
       }
 
       return _this;
@@ -3139,11 +3162,12 @@
         var source = getSourceCanvas(_this.image, _this.imageData);
         var sourceWidth = source.width;
         var sourceHeight = source.height;
-        var args = [source];
+        var canvasData = _this.canvasData;
+        var params = [source];
 
         // Source canvas
-        var srcX = data.x;
-        var srcY = data.y;
+        var srcX = data.x + canvasData.naturalWidth * (abs(data.scaleX || 1) - 1) / 2;
+        var srcY = data.y + canvasData.naturalHeight * (abs(data.scaleY || 1) - 1) / 2;
         var srcWidth;
         var srcHeight;
 
@@ -3175,7 +3199,7 @@
           srcHeight = dstHeight = min(originalHeight, sourceHeight - srcY);
         }
 
-        args.push(floor(srcX), floor(srcY), floor(srcWidth), floor(srcHeight));
+        params.push(floor(srcX), floor(srcY), floor(srcWidth), floor(srcHeight));
 
         // Scale destination sizes
         if (scaledRatio) {
@@ -3187,10 +3211,10 @@
 
         // Avoid "IndexSizeError" in IE and Firefox
         if (dstWidth > 0 && dstHeight > 0) {
-          args.push(floor(dstX), floor(dstY), floor(dstWidth), floor(dstHeight));
+          params.push(floor(dstX), floor(dstY), floor(dstWidth), floor(dstHeight));
         }
 
-        return args;
+        return params;
       }).call(_this));
 
       return canvas;
