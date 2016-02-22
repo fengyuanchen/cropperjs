@@ -3,6 +3,7 @@
 var gulp = require('gulp');
 var plugins = require('gulp-load-plugins')();
 var pkg = require('./package');
+var now = new Date();
 var scripts = {
       name: 'cropper.js',
       min: 'cropper.min.js',
@@ -59,11 +60,11 @@ var replacement = {
             break;
 
           case '@YEAR':
-            placeholder = (new Date()).getFullYear();
+            placeholder = now.getFullYear();
             break;
 
           case '@DATE':
-            placeholder = (new Date()).toISOString();
+            placeholder = now.toISOString();
             break;
         }
 
