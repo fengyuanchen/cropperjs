@@ -6,7 +6,6 @@ var pkg = require('./package');
 var now = new Date();
 var scripts = {
       name: 'cropper.js',
-      min: 'cropper.min.js',
       all: [
         'gulpfile.js',
         'dist/cropper.js',
@@ -39,7 +38,6 @@ var scripts = {
     };
 var styles = {
       name: 'cropper.css',
-      min: 'cropper.min.css',
       all: [
         'dist/cropper.css',
         'demo/css/main.css',
@@ -95,7 +93,9 @@ gulp.task('js', ['jshint', 'jscs'], function () {
     .pipe(plugins.replace(replacement.regexp, replacement.filter))
     .pipe(gulp.dest(scripts.dest))
     .pipe(gulp.dest(scripts.site))
-    .pipe(plugins.rename(scripts.min))
+    .pipe(plugins.rename({
+      suffix: '.min'
+    }))
     .pipe(plugins.uglify({
         preserveComments: 'license'
       }))
@@ -143,7 +143,9 @@ gulp.task('css', ['csslint'], function () {
     .pipe(plugins.csscomb())
     .pipe(gulp.dest(styles.dest))
     .pipe(gulp.dest(styles.site))
-    .pipe(plugins.rename(styles.min))
+    .pipe(plugins.rename({
+      suffix: '.min'
+    }))
     .pipe(plugins.minifyCss({
         compatibility: 'ie8',
         keepSpecialComments: 1
