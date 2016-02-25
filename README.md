@@ -47,8 +47,8 @@
 dist/
 ├── cropper.css     ( 5 KB)
 ├── cropper.min.css ( 4 KB)
-├── cropper.js      (88 KB)
-└── cropper.min.js  (28 KB)
+├── cropper.js      (89 KB)
+└── cropper.min.js  (29 KB)
 ```
 
 
@@ -83,10 +83,17 @@ Initialize with `Cropper` constructor:
 - NodeJS: `var Cropper = require('cropperjs')(window)`
 
 ```html
-<!-- Wrap the image or canvas element with a block element -->
+<!-- Wrap the image or canvas element with a block element (container) -->
 <div>
   <img id="image" src="picture.jpg">
 </div>
+```
+
+```css
+/* Limit image width to avoid overflow the container */
+img {
+  max-width: 100%;
+}
 ```
 
 ```js
