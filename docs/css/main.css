@@ -7,9 +7,8 @@ body {
 
 .browserupgrade {
   margin: 0;
-  padding: 5px 15px;
-  background-color: #ff851b;
-  color: #fff;
+  padding: .5em 1em;
+  background-color: #fcfcfc;
   text-align: center;
 }
 
@@ -42,6 +41,13 @@ body {
   color: #fff;
   filter: alpha(opacity=50);
   opacity: 0.5;
+}
+
+@media (min-width: 992px) {
+  .docs-jumbotron h1,
+  .docs-jumbotron p {
+    margin-right: 380px;
+  }
 }
 
 .docs-carbonads-container {

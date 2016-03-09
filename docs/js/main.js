@@ -196,7 +196,7 @@ window.onload = function () {
             $('#getCroppedCanvasModal').modal().find('.modal-body').html(result);
 
             if (!download.disabled) {
-              download.href = result.toDataURL();
+              download.href = result.toDataURL('image/jpeg');
             }
           }
 
