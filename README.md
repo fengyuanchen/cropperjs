@@ -131,6 +131,8 @@ See the [FAQ](FAQ.md) documentation.
 
 - [Known iOS resource limits](https://developer.apple.com/library/mac/documentation/AppleApplications/Reference/SafariWebContent/CreatingContentforSafarioniPhone/CreatingContentforSafarioniPhone.html): As iOS devices limit memory, the browser may crash when you are cropping a large image (iPhone camera resolution). To avoid this, you may resize the image first (preferably below 1024 pixels) before start a cropper.
 
+- Known image size increase: When export the cropped image on browser-side with the `HTMLCanvasElement.toDataURL` method, the the exported image'size may be greater than the original image's. This is because the exported image'type is not the same as the original image's. So just pass the original image's type as the first parameter to `toDataURL` to fix this. For example, if the original type is JPEG, then use `cropper.getCroppedCanvas().toDataURL('image/jpeg')` to export image.
+
 
 [⬆ back to top](#table-of-contents)
 
@@ -356,7 +358,7 @@ Define zoom ratio when zoom the image by wheeling mouse.
 - Type: `Boolean`
 - Default: `true`
 
-Enable to move the crop box.
+Enable to move the crop box by dragging.
 
 
 ### cropBoxResizable
@@ -364,7 +366,7 @@ Enable to move the crop box.
 - Type: `Boolean`
 - Default: `true`
 
-Enable to resize the crop box.
+Enable to resize the crop box by dragging.
 
 
 ### toggleDragModeOnDblclick
@@ -935,7 +937,7 @@ Change the crop box position and size with new data.
 
 Get a canvas drawn the cropped image.
 
-> After then, you can display the canvas as an image directly, or use [canvas.toDataURL](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL) to get a Data URL, or use [canvas.toBlob](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) to get a blob and upload it to server with [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) if the browser supports these APIs.
+> After then, you can display the canvas as an image directly, or use [HTMLCanvasElement.toDataURL](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL) to get a Data URL, or use [HTMLCanvasElement.toBlob](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) to get a blob and upload it to server with [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) if the browser supports these APIs.
 
 ```js
 cropper.getCroppedCanvas();
@@ -945,7 +947,7 @@ cropper.getCroppedCanvas({
   height: 90
 });
 
-// Upload cropped image to server if the browser supports `canvas.toBlob`
+// Upload cropped image to server if the browser supports `HTMLCanvasElement.toBlob`
 cropper.getCroppedCanvas().toBlob(function (blob) {
   var formData = new FormData();
 
