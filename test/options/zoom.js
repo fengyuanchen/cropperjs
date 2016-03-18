@@ -14,10 +14,10 @@ QUnit.test('options.zoom', function (assert) {
       done();
     },
 
-    zoom: function (data) {
-      assert.ok(data.ratio > 0);
-      assert.ok(data.oldRatio > 0);
-      assert.ok(data.ratio > data.oldRatio);
+    zoom: function (e) {
+      assert.ok(e.detail.ratio > 0);
+      assert.ok(e.detail.oldRatio > 0);
+      assert.ok(e.detail.ratio > e.detail.oldRatio);
     }
   });
 });
@@ -39,8 +39,8 @@ QUnit.test('options.zoom: default prevented', function (assert) {
       done();
     },
 
-    zoom: function () {
-      return false;
+    zoom: function (e) {
+      e.preventDefault();
     }
   });
 });

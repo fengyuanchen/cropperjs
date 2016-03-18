@@ -6,14 +6,14 @@ QUnit.test('options.crop', function (assert) {
   assert.expect(7);
 
   return new Cropper(image, {
-    crop: function (data) {
-      assert.ok(util.isNumber(data.x));
-      assert.ok(util.isNumber(data.y));
-      assert.ok(util.isNumber(data.width));
-      assert.ok(util.isNumber(data.height));
-      assert.ok(util.isNumber(data.rotate));
-      assert.ok(util.isNumber(data.scaleX));
-      assert.ok(util.isNumber(data.scaleY));
+    crop: function (e) {
+      assert.ok(util.isNumber(e.detail.x));
+      assert.ok(util.isNumber(e.detail.y));
+      assert.ok(util.isNumber(e.detail.width));
+      assert.ok(util.isNumber(e.detail.height));
+      assert.ok(util.isNumber(e.detail.rotate));
+      assert.ok(util.isNumber(e.detail.scaleX));
+      assert.ok(util.isNumber(e.detail.scaleY));
 
       done();
     }

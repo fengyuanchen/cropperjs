@@ -22,10 +22,10 @@ QUnit.test('options.build: default prevented', function (assert) {
   assert.expect(0);
 
   return new Cropper(image, {
-    build: function () {
-      done();
+    build: function (e) {
+      e.preventDefault();
 
-      return false;
+      done();
     },
 
     built: function () {

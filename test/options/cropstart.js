@@ -15,8 +15,8 @@ QUnit.test('options.cropstart', function (assert) {
       done();
     },
 
-    cropstart: function (data) {
-      assert.strictEqual(data.action, 'crop');
+    cropstart: function (e) {
+      assert.strictEqual(e.detail.action, 'crop');
     }
   });
 });
@@ -39,8 +39,8 @@ QUnit.test('options.cropstart: default prevented', function (assert) {
       done();
     },
 
-    cropstart: function () {
-      return false;
+    cropstart: function (e) {
+      e.preventDefault();
     },
 
     cropmove: function () {

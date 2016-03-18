@@ -2,6 +2,9 @@ window.Util = {
   isNumber: function (n) {
     return typeof n === 'number' && !isNaN(n);
   },
+  isFunction: function (fn) {
+    return typeof fn === 'function';
+  },
   hasClass: function (element, className) {
     return element.classList.contains(className);
   },
@@ -35,27 +38,41 @@ window.Util = {
 
     return image;
   },
-  dispatchEvent: function (element, type) {
+  dispatchEvent: function (element, type, data) {
     var event;
 
     if (element.dispatchEvent) {
 
-      // Event on IE is a global object, not a constructor
-      if (typeof Event === 'function') {
-        event = new Event(type, {
-          bubbles: true,
-          cancelable: true
-        });
+      // Event and CustomEvent on IE9-11 are global objects, not constructors
+      if (typeof Event === 'function' && typeof CustomEvent === 'function') {
+        if (!data) {
+          event = new Event(type, {
+            bubbles: true,
+            cancelable: true
+          });
+        } else {
+          event = new CustomEvent(type, {
+            detail: data,
+            bubbles: true,
+            cancelable: true
+          });
+        }
       } else {
-        event = document.createEvent('Event');
-        event.initEvent(type, true, true);
+        // IE9-11
+        if (!data) {
+          event = document.createEvent('Event');
+          event.initEvent(type, true, true);
+        } else {
+          event = document.createEvent('CustomEvent');
+          event.initCustomEvent(type, true, true, data);
+        }
       }
 
       // IE9+
       return element.dispatchEvent(event);
     } else if (element.fireEvent) {
 
-      // IE6-10
+      // IE6-10 (native events only)
       return element.fireEvent('on' + type);
     }
   }

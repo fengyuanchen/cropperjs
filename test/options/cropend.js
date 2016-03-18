@@ -16,8 +16,8 @@ QUnit.test('options.cropend', function (assert) {
       done();
     },
 
-    cropend: function (data) {
-      assert.strictEqual(data.action, 'crop');
+    cropend: function (e) {
+      assert.strictEqual(e.detail.action, 'crop');
     }
   });
 });
