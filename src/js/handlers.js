@@ -111,7 +111,7 @@
       action = action || getData(e.target, DATA_ACTION);
 
       if (REGEXP_ACTIONS.test(action)) {
-        if (isFunction(options.cropstart) && options.cropstart.call(_this.element, {
+        if (dispatchEvent(_this.element, EVENT_CROP_START, {
           originalEvent: e,
           action: action
         }) === false) {
@@ -163,7 +163,7 @@
       }
 
       if (action) {
-        if (isFunction(options.cropmove) && options.cropmove.call(_this.element, {
+        if (dispatchEvent(_this.element, EVENT_CROP_MOVE, {
           originalEvent: e,
           action: action
         }) === false) {
@@ -199,11 +199,9 @@
 
         _this.action = '';
 
-        if (isFunction(options.cropend)) {
-          options.cropend.call(_this.element, {
-            originalEvent: e,
-            action: action
-          });
-        }
+        dispatchEvent(_this.element, EVENT_CROP_END, {
+          originalEvent: e,
+          action: action
+        });
       }
     },

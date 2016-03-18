@@ -95,12 +95,11 @@
       // Call the built asynchronously to keep "image.cropper" is defined
       setTimeout(function () {
         if (isFunction(options.built)) {
-          options.built.call(element);
+          addListener(element, EVENT_BUILT, options.built, true);
         }
 
-        if (isFunction(options.crop)) {
-          options.crop.call(element, _this.getData());
-        }
+        dispatchEvent(element, EVENT_BUILT);
+        dispatchEvent(element, EVENT_CROP, _this.getData());
 
         _this.complete = true;
       }, 0);

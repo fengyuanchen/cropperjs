@@ -212,13 +212,22 @@
     }
   }
 
-  function addListener(element, type, handler) {
+  function addListener(element, type, handler, once) {
     var types = trim(type).split(REGEXP_SPACES);
+    var originalHandler = handler;
 
     if (types.length > 1) {
       return each(types, function (type) {
         addListener(element, type, handler);
       });
+    }
+
+    if (once) {
+      handler = function () {
+        removeListener(element, type, handler);
+
+        return originalHandler.apply(element, arguments);
+      };
     }
 
     if (element.addEventListener) {
@@ -241,6 +250,45 @@
       element.removeEventListener(type, handler, false);
     } else if (element.detachEvent) {
       element.detachEvent('on' + type, handler);
+    }
+  }
+
+  function dispatchEvent(element, type, data) {
+    var event;
+
+    if (element.dispatchEvent) {
+
+      // Event and CustomEvent on IE9-11 are global objects, not constructors
+      if (isFunction(Event) && isFunction(CustomEvent)) {
+        if (isUndefined(data)) {
+          event = new Event(type, {
+            bubbles: true,
+            cancelable: true
+          });
+        } else {
+          event = new CustomEvent(type, {
+            detail: data,
+            bubbles: true,
+            cancelable: true
+          });
+        }
+      } else {
+        // IE9-11
+        if (isUndefined(data)) {
+          event = document.createEvent('Event');
+          event.initEvent(type, true, true);
+        } else {
+          event = document.createEvent('CustomEvent');
+          event.initCustomEvent(type, true, true, data);
+        }
+      }
+
+      // IE9+
+      return element.dispatchEvent(event);
+    } else if (element.fireEvent) {
+
+      // IE6-10 (native events only)
+      return element.fireEvent('on' + type);
     }
   }
 

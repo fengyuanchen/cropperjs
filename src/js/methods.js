@@ -255,7 +255,7 @@
         newWidth = naturalWidth * ratio;
         newHeight = naturalHeight * ratio;
 
-        if (isFunction(options.zoom) && options.zoom.call(_this.element, {
+        if (dispatchEvent(_this.element, EVENT_ZOOM, {
           originalEvent: _originalEvent,
           oldRatio: width / naturalWidth,
           ratio: newWidth / naturalWidth

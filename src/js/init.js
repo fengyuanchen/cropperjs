@@ -36,13 +36,18 @@
     load: function (url) {
       var _this = this;
       var options = _this.options;
+      var element = _this.element;
       var xhr;
 
       if (!url) {
         return;
       }
 
-      if (isFunction(options.build) && options.build.call(_this.element) === false) {
+      if (isFunction(options.build)) {
+        addListener(element, EVENT_BUILD, options.build, true);
+      }
+
+      if (dispatchEvent(element, EVENT_BUILD) === false) {
         return;
       }
 

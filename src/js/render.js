@@ -537,11 +537,10 @@
 
     output: function () {
       var _this = this;
-      var options = _this.options;
 
       _this.preview();
 
-      if (_this.complete && isFunction(options.crop)) {
-        options.crop.call(_this.element, _this.getData());
+      if (_this.complete) {
+        dispatchEvent(_this.element, EVENT_CROP, _this.getData());
       }
     },
