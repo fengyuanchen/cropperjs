@@ -24,16 +24,18 @@ window.onload = function () {
         built: function () {
           console.log('built');
         },
-        cropstart: function (data) {
-          console.log('cropstart', data.action);
+        cropstart: function (e) {
+          console.log('cropstart', e.detail.action);
         },
-        cropmove: function (data) {
-          console.log('cropmove', data.action);
+        cropmove: function (e) {
+          console.log('cropmove', e.detail.action);
         },
-        cropend: function (data) {
-          console.log('cropend', data.action);
+        cropend: function (e) {
+          console.log('cropend', e.detail.action);
         },
-        crop: function (data) {
+        crop: function (e) {
+          var data = e.detail;
+
           console.log('crop');
           dataX.value = Math.round(data.x);
           dataY.value = Math.round(data.y);
@@ -43,8 +45,8 @@ window.onload = function () {
           dataScaleX.value = !isUndefined(data.scaleX) ? data.scaleX : '';
           dataScaleY.value = !isUndefined(data.scaleY) ? data.scaleY : '';
         },
-        zoom: function (data) {
-          console.log('zoom', data.ratio);
+        zoom: function (e) {
+          console.log('zoom', e.detail.ratio);
         }
       };
   var cropper = new Cropper(image, options);
