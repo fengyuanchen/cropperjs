@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v0.6.0
+ * Cropper.js v0.7.0
  * https://github.com/fengyuanchen/cropperjs
  *
  * Copyright (c) 2015-2016 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2016-02-22T03:02:24.645Z
+ * Date: 2016-03-20T06:15:36.234Z
  */
 
 (function (global, factory) {
@@ -57,6 +57,13 @@
   var EVENT_RESIZE = 'resize';
   var EVENT_ERROR = 'error';
   var EVENT_LOAD = 'load';
+  var EVENT_BUILD = 'build';
+  var EVENT_BUILT = 'built';
+  var EVENT_CROP_START = 'cropstart';
+  var EVENT_CROP_MOVE = 'cropmove';
+  var EVENT_CROP_END = 'cropend';
+  var EVENT_CROP = 'crop';
+  var EVENT_ZOOM = 'zoom';
 
   // RegExps
   var REGEXP_ACTIONS = /e|w|s|n|se|sw|ne|nw|all|crop|move|zoom/;
@@ -323,13 +330,22 @@
     }
   }
 
-  function addListener(element, type, handler) {
+  function addListener(element, type, handler, once) {
     var types = trim(type).split(REGEXP_SPACES);
+    var originalHandler = handler;
 
     if (types.length > 1) {
       return each(types, function (type) {
         addListener(element, type, handler);
       });
+    }
+
+    if (once) {
+      handler = function () {
+        removeListener(element, type, handler);
+
+        return originalHandler.apply(element, arguments);
+      };
     }
 
     if (element.addEventListener) {
@@ -352,6 +368,45 @@
       element.removeEventListener(type, handler, false);
     } else if (element.detachEvent) {
       element.detachEvent('on' + type, handler);
+    }
+  }
+
+  function dispatchEvent(element, type, data) {
+    var event;
+
+    if (element.dispatchEvent) {
+
+      // Event and CustomEvent on IE9-11 are global objects, not constructors
+      if (isFunction(Event) && isFunction(CustomEvent)) {
+        if (isUndefined(data)) {
+          event = new Event(type, {
+            bubbles: true,
+            cancelable: true
+          });
+        } else {
+          event = new CustomEvent(type, {
+            detail: data,
+            bubbles: true,
+            cancelable: true
+          });
+        }
+      } else {
+        // IE9-11
+        if (isUndefined(data)) {
+          event = document.createEvent('Event');
+          event.initEvent(type, true, true);
+        } else {
+          event = document.createEvent('CustomEvent');
+          event.initCustomEvent(type, true, true, data);
+        }
+      }
+
+      // IE9+
+      return element.dispatchEvent(event);
+    } else if (element.fireEvent) {
+
+      // IE6-10 (native events only)
+      return element.fireEvent('on' + type);
     }
   }
 
@@ -759,13 +814,18 @@
     load: function (url) {
       var _this = this;
       var options = _this.options;
+      var element = _this.element;
       var xhr;
 
       if (!url) {
         return;
       }
 
-      if (isFunction(options.build) && options.build.call(_this.element) === false) {
+      if (isFunction(options.build)) {
+        addListener(element, EVENT_BUILD, options.build, true);
+      }
+
+      if (dispatchEvent(element, EVENT_BUILD) === false) {
         return;
       }
 
@@ -1042,12 +1102,11 @@
       // Call the built asynchronously to keep "image.cropper" is defined
       setTimeout(function () {
         if (isFunction(options.built)) {
-          options.built.call(element);
+          addListener(element, EVENT_BUILT, options.built, true);
         }
 
-        if (isFunction(options.crop)) {
-          options.crop.call(element, _this.getData());
-        }
+        dispatchEvent(element, EVENT_BUILT);
+        dispatchEvent(element, EVENT_CROP, _this.getData());
 
         _this.complete = true;
       }, 0);
@@ -1626,12 +1685,11 @@
 
     output: function () {
       var _this = this;
-      var options = _this.options;
 
       _this.preview();
 
-      if (_this.complete && isFunction(options.crop)) {
-        options.crop.call(_this.element, _this.getData());
+      if (_this.complete) {
+        dispatchEvent(_this.element, EVENT_CROP, _this.getData());
       }
     },
 
@@ -1775,7 +1833,28 @@
     bind: function () {
       var _this = this;
       var options = _this.options;
+      var element = _this.element;
       var cropper = _this.cropper;
+
+      if (isFunction(options.cropstart)) {
+        addListener(element, EVENT_CROP_START, options.cropstart);
+      }
+
+      if (isFunction(options.cropmove)) {
+        addListener(element, EVENT_CROP_MOVE, options.cropmove);
+      }
+
+      if (isFunction(options.cropend)) {
+        addListener(element, EVENT_CROP_END, options.cropend);
+      }
+
+      if (isFunction(options.crop)) {
+        addListener(element, EVENT_CROP, options.crop);
+      }
+
+      if (isFunction(options.zoom)) {
+        addListener(element, EVENT_ZOOM, options.zoom);
+      }
 
       addListener(cropper, EVENT_MOUSE_DOWN, (_this._cropStart = proxy(_this.cropStart, _this)));
 
@@ -1798,7 +1877,28 @@
     unbind: function () {
       var _this = this;
       var options = _this.options;
+      var element = _this.element;
       var cropper = _this.cropper;
+
+      if (isFunction(options.cropstart)) {
+        removeListener(element, EVENT_CROP_START, options.cropstart);
+      }
+
+      if (isFunction(options.cropmove)) {
+        removeListener(element, EVENT_CROP_MOVE, options.cropmove);
+      }
+
+      if (isFunction(options.cropend)) {
+        removeListener(element, EVENT_CROP_END, options.cropend);
+      }
+
+      if (isFunction(options.crop)) {
+        removeListener(element, EVENT_CROP, options.crop);
+      }
+
+      if (isFunction(options.zoom)) {
+        removeListener(element, EVENT_ZOOM, options.zoom);
+      }
 
       removeListener(cropper, EVENT_MOUSE_DOWN, _this._cropStart);
 
@@ -1931,7 +2031,7 @@
       action = action || getData(e.target, DATA_ACTION);
 
       if (REGEXP_ACTIONS.test(action)) {
-        if (isFunction(options.cropstart) && options.cropstart.call(_this.element, {
+        if (dispatchEvent(_this.element, EVENT_CROP_START, {
           originalEvent: e,
           action: action
         }) === false) {
@@ -1983,7 +2083,7 @@
       }
 
       if (action) {
-        if (isFunction(options.cropmove) && options.cropmove.call(_this.element, {
+        if (dispatchEvent(_this.element, EVENT_CROP_MOVE, {
           originalEvent: e,
           action: action
         }) === false) {
@@ -2019,12 +2119,10 @@
 
         _this.action = '';
 
-        if (isFunction(options.cropend)) {
-          options.cropend.call(_this.element, {
-            originalEvent: e,
-            action: action
-          });
-        }
+        dispatchEvent(_this.element, EVENT_CROP_END, {
+          originalEvent: e,
+          action: action
+        });
       }
     },
 
@@ -2689,7 +2787,7 @@
         newWidth = naturalWidth * ratio;
         newHeight = naturalHeight * ratio;
 
-        if (isFunction(options.zoom) && options.zoom.call(_this.element, {
+        if (dispatchEvent(_this.element, EVENT_ZOOM, {
           originalEvent: _originalEvent,
           oldRatio: width / naturalWidth,
           ratio: newWidth / naturalWidth

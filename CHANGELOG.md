@@ -1,6 +1,13 @@
 # Changelog
 
 
+## 0.7.0 (Mar 20, 2016)
+
+- Supports 7 custom events: `build`, `built`, `cropstart`, `cropmove`, `cropend`, `crop` and `zoom`.
+- The original callback options become shortcuts of these events now.
+- IE8 is no longer supported after added these custom events.
+
+
 ## 0.6.0 (Feb 22, 2016)
 
 - Added a new parameter to the `replace` method for applying filters.

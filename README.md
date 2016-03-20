@@ -2,8 +2,7 @@
 
 > JavaScript image cropper.
 
-- [Homepage](http://cropperjs.com)
-- [Cropper as jQuery plugin](https://github.com/fengyuanchen/cropper)
+- [Website](http://fengyuanchen.github.io/cropperjs)
 - [Photo Editor](http://fengyuanchen.github.io/photo-editor) - An advanced example of Cropper.js.
 
 [![Build Status Images](https://travis-ci.org/fengyuanchen/cropperjs.svg)](https://travis-ci.org/fengyuanchen/cropperjs)
@@ -17,6 +16,7 @@
   - [Getting started](#getting-started)
   - [Options](#options)
   - [Methods](#methods)
+  - [Events](#events)
   - [No conflict](#no-conflict)
   - [Browser support](#browser-support)
   - [Contributing](#contributing)
@@ -27,8 +27,9 @@
 
 ## Features
 
-- Supports 39 [options](#options) (includes 7 callbacks)
+- Supports 39 [options](#options)
 - Supports 27 [methods](#methods)
+- Supports 7 [events](#events)
 - Supports touch (mobile)
 - Supports zooming
 - Supports rotating
@@ -47,7 +48,7 @@
 dist/
 ├── cropper.css     ( 5 KB)
 ├── cropper.min.css ( 4 KB)
-├── cropper.js      (89 KB)
+├── cropper.js      (92 KB)
 └── cropper.min.js  (29 KB)
 ```
 
@@ -100,14 +101,14 @@ img {
 var image = document.getElementById('image');
 var cropper = new Cropper(image, {
   aspectRatio: 16 / 9,
-  crop: function(data) {
-    console.log(data.x);
-    console.log(data.y);
-    console.log(data.width);
-    console.log(data.height);
-    console.log(data.rotate);
-    console.log(data.scaleX);
-    console.log(data.scaleY);
+  crop: function(e) {
+    console.log(e.detail.x);
+    console.log(e.detail.y);
+    console.log(e.detail.width);
+    console.log(e.detail.height);
+    console.log(e.detail.rotate);
+    console.log(e.detail.scaleX);
+    console.log(e.detail.scaleY);
   }
 });
 ```
@@ -434,9 +435,7 @@ The minimum height of the crop box.
 - Type: `Function`
 - Default: `null`
 
-This function will be called when a cropper instance starts to load an image.
-
-> Return `false` to prevent to build.
+A shortcut of the "build" event.
 
 
 ### built
@@ -444,135 +443,47 @@ This function will be called when a cropper instance starts to load an image.
 - Type: `Function`
 - Default: `null`
 
-This function will be called when a cropper instance has built completely.
+A shortcut of the "built" event.
 
-```js
-var cropper = new Cropper(image, {
-  built: function () {
-    console.log(this.cropper === cropper); // true
-  }
-});
-```
 
 ### cropstart
 
 - Type: `Function`
 - Default: `null`
-- (argument):
-  - Type: `Object`
-  - Properties:
-    - `originalEvent`:
-      - Type: `Event`
-      - Options: `mousedown`, `touchstart` and `pointerdown`
-    - `action`:
-      - Type: `String`
-      - Options:
-        - `'crop'`: create a new crop box
-        - `'move'`: move the canvas (image wrapper)
-        - `'zoom'`: zoom in / out the canvas (image wrapper) by touch.
-        - `'e'`: resize the east side of the crop box
-        - `'w'`: resize the west side of the crop box
-        - `'s'`: resize the south side of the crop box
-        - `'n'`: resize the north side of the crop box
-        - `'se'`: resize the southeast side of the crop box
-        - `'sw'`: resize the southwest side of the crop box
-        - `'ne'`: resize the northeast side of the crop box
-        - `'nw'`: resize the northwest side of the crop box
-        - `'all'`: move the crop box (all directions)
 
-This function will be called when the canvas (image wrapper) or the crop box starts to change.
-
-> Return `false` to prevent to start.
-
-```js
-new Cropper(image, {
-  cropstart: function (data) {
-    console.log(data.originalEvent);
-    console.log(data.action);
-  }
-});
-```
+A shortcut of the "cropstart" event.
 
 
 ### cropmove
 
 - Type: `Function`
 - Default: `null`
-- (argument):
-  - Type: `Object`
-  - Properties:
-    - `originalEvent`:
-      - Type: `Event`
-      - Options: `mousemove`, `touchmove` and `pointermove`.
-    - `action`: the same as "cropstart".
 
-This function will be called when the canvas (image wrapper) or the crop box is changing.
-
-> Return `false` to prevent to move.
+A shortcut of the "cropmove" event.
 
 
 ### cropend
 
 - Type: `Function`
 - Default: `null`
-- (argument):
-  - Type: `Object`
-  - Properties:
-    - `originalEvent`:
-      - Type: `Event`
-      - Options: `mouseup`, `touchend`, `touchcancel`, `pointerup` and `pointercancel`.
-    - `action`: the same as "cropstart".
 
-This function will be called when the canvas (image wrapper) or the crop box stops to change.
+A shortcut of the "cropend" event.
 
 
 ### crop
 
 - Type: `Function`
 - Default: `null`
-- (argument):
-  - Type: `Object`
-  - Properties: See the [`getData`](#getdatarounded) method.
 
-This function will be called when the canvas (image wrapper) or the crop box changed.
+A shortcut of the "crop" event.
 
 
 ### zoom
 
 - Type: `Function`
 - Default: `null`
-- (argument):
-  - Type: `Object`
-  - Properties:
-    - `originalEvent`:
-      - Type: `Event`
-      - Options: `wheel`, `touchmove`.
-    - `oldRatio`:
-      - Type: `Number`
-      - The old (current) ratio of the canvas
-    - `ratio`:
-      - Type: `Number`
-      - The new (next) ratio of the canvas (`canvasData.width / canvasData.naturalWidth`)
 
-This function will be called when a cropper instance starts to zoom in or zoom out its canvas (image wrapper).
-
-> Return `false` to prevent to zoom.
-
-
-```js
-new Cropper(image, {
-  zoom: function (data) {
-
-    // Zoom in
-    if (data.ratio > data.oldRatio) {
-      return false; // Prevent zoom in
-    }
-
-    // Zoom out
-    // ...
-  }
-});
-```
+A shortcut of the "zoom" event.
 
 
 [⬆ back to top](#table-of-contents)
@@ -994,6 +905,132 @@ Change the drag mode.
 
 
 
+## Events
+
+### build
+
+This event fires when a cropper instance starts to load an image.
+
+
+### built
+
+This event fires when a cropper instance has built completely.
+
+```js
+var cropper;
+
+image.addEventListener('built', function () {
+  console.log(this.cropper === cropper);
+  // -> true
+});
+
+cropper = new Cropper(image);
+```
+
+
+### cropstart
+
+- **event.detail.originalEvent**:
+  - Type: `Event`
+  - Options: `mousedown`, `touchstart` and `pointerdown`
+
+- **event.detail.action**:
+  - Type: `String`
+  - Options:
+    - `'crop'`: create a new crop box
+    - `'move'`: move the canvas (image wrapper)
+    - `'zoom'`: zoom in / out the canvas (image wrapper) by touch.
+    - `'e'`: resize the east side of the crop box
+    - `'w'`: resize the west side of the crop box
+    - `'s'`: resize the south side of the crop box
+    - `'n'`: resize the north side of the crop box
+    - `'se'`: resize the southeast side of the crop box
+    - `'sw'`: resize the southwest side of the crop box
+    - `'ne'`: resize the northeast side of the crop box
+    - `'nw'`: resize the northwest side of the crop box
+    - `'all'`: move the crop box (all directions)
+
+This event fires when the canvas (image wrapper) or the crop box starts to change.
+
+```js
+image.addEventListener('cropstart', function (e) {
+  console.log(e.detail.originalEvent);
+  console.log(e.detail.action);
+});
+```
+
+
+### cropmove
+
+- **event.detail.originalEvent**:
+  - Type: `Event`
+  - Options: `mousemove`, `touchmove` and `pointermove`.
+
+- **event.detail.action**: the same as "cropstart".
+
+This event fires when the canvas (image wrapper) or the crop box is changing.
+
+
+### cropend
+
+- **event.detail.originalEvent**:
+  - Type: `Event`
+  - Options: `mouseup`, `touchend`, `touchcancel`, `pointerup` and `pointercancel`.
+
+- **event.detail.action**: the same as "cropstart".
+
+This event fires when the canvas (image wrapper) or the crop box stops to change.
+
+
+### crop
+
+- **event.detail.x**
+- **event.detail.y**
+- **event.detail.width**
+- **event.detail.height**
+- **event.detail.rotate**
+- **event.detail.scaleX**
+- **event.detail.scaleY**
+
+> About these properties, see the [`getData`](#getdatarounded) method.
+
+This event fires when the canvas (image wrapper) or the crop box changed.
+
+
+### zoom
+
+- **event.detail.originalEvent**:
+  - Type: `Event`
+  - Options: `wheel`, `touchmove`.
+
+- **event.detail.oldRatio**:
+  - Type: `Number`
+  - The old (current) ratio of the canvas
+
+- **event.detail.ratio**:
+  - Type: `Number`
+  - The new (next) ratio of the canvas (`canvasData.width / canvasData.naturalWidth`)
+
+This event fires when a cropper instance starts to zoom in or zoom out its canvas (image wrapper).
+
+```js
+image.addEventListener('zoom', function (e) {
+
+  // Zoom in
+  if (e.detail.ratio > e.detail.oldRatio) {
+    e.preventDefault(); // Prevent zoom in
+  }
+
+  // Zoom out
+  // ...
+});
+```
+
+
+[⬆ back to top](#table-of-contents)
+
+
+
 ## No conflict
 
 If you have to use other cropper with the same namespace, just call the `Cropper.noConflict` static method to revert to it.
@@ -1011,11 +1048,12 @@ If you have to use other cropper with the same namespace, just call the `Cropper
 
 ## Browser support
 
-- Chrome (latest 2)
-- Firefox (latest 2)
-- Internet Explorer 8+
-- Opera (latest 2)
-- Safari (latest 2)
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Opera (latest)
+- Edge (latest)
+- Internet Explorer 9+
 
 
 
