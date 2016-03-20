@@ -95,7 +95,8 @@
             });
           },
 
-          crop: function (data) {
+          crop: function (e) {
+            var data = e.detail;
             var cropper = this.cropper;
             var imageData = cropper.getImageData();
             var previewAspectRatio = data.width / data.height;
