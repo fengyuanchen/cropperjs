@@ -677,6 +677,8 @@
       var canvasHeight;
       var scaledWidth;
       var scaledHeight;
+      var roundedWidth;
+      var roundedHeight;
       var scaledRatio;
       var aspectRatio;
       var canvas;
@@ -709,9 +711,12 @@
         }
       }
 
+      roundedWidth = round((scaledWidth || originalWidth) * 1000) / 1000;
+      roundedHeight = round((scaledHeight || originalHeight) * 1000) / 1000;
+
       // The canvas element will use `Math.floor` on a float number, so floor first
-      canvasWidth = floor(scaledWidth || originalWidth);
-      canvasHeight = floor(scaledHeight || originalHeight);
+      canvasWidth = floor(roundedWidth);
+      canvasHeight = floor(roundedHeight);
 
       canvas = createElement('canvas');
       canvas.width = canvasWidth;
