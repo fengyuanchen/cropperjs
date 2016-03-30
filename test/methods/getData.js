@@ -17,7 +17,7 @@ QUnit.test('methods.getData', function (assert) {
       assert.ok(util.isNumber(data.rotate));
       assert.ok(util.isNumber(data.scaleX));
       assert.ok(util.isNumber(data.scaleY));
-
+      assert.ok(util.isNumber(data.zoomLevel));
       done();
     }
   });

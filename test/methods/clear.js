@@ -18,7 +18,8 @@ QUnit.test('methods.clear', function (assert) {
         height: 0,
         rotate: 0,
         scaleX: 1,
-        scaleY: 1
+        scaleY: 1,
+        zoomLevel: 1
       });
       assert.deepEqual(cropper.getCropBoxData(), {});
       assert.ok(util.hasClass(cropper.cropBox, 'cropper-hidden'));

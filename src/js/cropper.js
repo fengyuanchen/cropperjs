@@ -17,5 +17,6 @@
     _this.canvasData = null;
     _this.cropBoxData = null;
     _this.previews = null;
+    _this.zoomLevel = 1;
     _this.init();
   }
