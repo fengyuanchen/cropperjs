@@ -435,7 +435,7 @@
         data.scaleY = imageData.scaleY || 1;
       }
 
-      if(options.zoomable) {
+      if (options.zoomable) {
         data.zoom = _this.zoomLevel || 1;
       }
 
