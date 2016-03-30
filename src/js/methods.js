@@ -227,6 +227,7 @@
         ratio = 1 + ratio;
       }
 
+      this.zoomLevel = (canvas.width * ratio / canvas.naturalWidth);
       return _this.zoomTo(canvasData.width * ratio / canvasData.naturalWidth, _originalEvent);
     },
 
@@ -434,6 +435,10 @@
         data.scaleY = imageData.scaleY || 1;
       }
 
+      if(options.zoomable) {
+        data.zoom = this.zoomLevel || 1;
+      }
+      
       return data;
     },
 
