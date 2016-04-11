@@ -122,6 +122,7 @@ See the [FAQ](FAQ.md) documentation.
 #### Notes
 
 - The size of the cropper inherits from the size of the image's parent element (wrapper), so be sure to wrap the image with a **visible block element**.
+  > If you are using cropper in a modal, you should initialize the cropper after the modal shown completely. Otherwise, you will not get a correct cropper.
 
 - The outputted cropped data bases on the original image size, so you can use them to crop the image directly.
 
