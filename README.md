@@ -93,7 +93,7 @@ Initialize with `Cropper` constructor:
 ```css
 /* Limit image width to avoid overflow the container */
 img {
-  max-width: 100%;
+  max-width: 100%; /* This rule is very important, please do not ignore this! */
 }
 ```
 
@@ -636,7 +636,7 @@ cropper.zoomTo(1); // 1:1 (canvasData.width === canvasData.naturalWidth)
   - Rotate right: requires a positive number (degree > 0)
   - Rotate left: requires a negative number (degree < 0)
 
-Rotate the canvas (image wrapper) with a relative degree.
+Rotate the image with a relative degree.
 
 > Requires [CSS3 2D Transforms](https://developer.mozilla.org/en-US/docs/Web/CSS/transform) support ([IE 9+](http://caniuse.com/transforms2d)).
 
@@ -651,7 +651,7 @@ cropper.rotate(-90);
 - **degree**:
   - Type: `Number`
 
-Rotate the canvas (image wrapper) to an absolute degree.
+Rotate the image to an absolute degree.
 
 
 ### scale(scaleX[, scaleY])
@@ -718,7 +718,9 @@ Scale the ordinate of the image.
     - `scaleX`: the scaling factor to apply on the abscissa of the image
     - `scaleY`: the scaling factor to apply on the ordinate of the image
 
-Output the cropped area position and size data (base on the original image).
+Output the final cropped area position and size data (base on the natural size of the original image).
+
+> You can send the data to server-side to crop the image directly.
 
 ![A schematic diagram for data's properties](assets/img/data.jpg)
 
@@ -731,7 +733,7 @@ Output the cropped area position and size data (base on the original image).
 
 Change the cropped area position and size with new data (base on the original image).
 
-**Note:** Only available in strict mode.
+> **Note:** This method only available when the `viewMode` option great than or equal to `1`.
 
 
 ### getContainerData()
