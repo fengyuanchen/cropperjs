@@ -74,6 +74,8 @@ Include files:
 <script src="/path/to/cropper.js"></script>
 ```
 
+The [cdnjs.com](https://cdnjs.com) provides CDN support for Cropper.js's CSS and JavaScript. You can find the links [here](https://cdnjs.com/libraries/cropperjs).
+
 
 ### Usage
 
