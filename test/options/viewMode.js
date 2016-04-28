@@ -1,4 +1,4 @@
-QUnit.test('options.viewMode: 0', function (assert) {
+QUnit.test('options#viewMode: 0', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();
@@ -28,7 +28,7 @@ QUnit.test('options.viewMode: 0', function (assert) {
   });
 });
 
-QUnit.test('options.viewMode: 1', function (assert) {
+QUnit.test('options#viewMode: 1', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();
@@ -51,7 +51,7 @@ QUnit.test('options.viewMode: 1', function (assert) {
   });
 });
 
-QUnit.test('options.viewMode: 2', function (assert) {
+QUnit.test('options#viewMode: 2', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();
@@ -74,7 +74,7 @@ QUnit.test('options.viewMode: 2', function (assert) {
   });
 });
 
-QUnit.test('options.viewMode: 3', function (assert) {
+QUnit.test('options#viewMode: 3', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();

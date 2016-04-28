@@ -1,4 +1,4 @@
-QUnit.test('methods.destroy: before built', function (assert) {
+QUnit.test('methods#destroy: before built', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();
@@ -21,7 +21,7 @@ QUnit.test('methods.destroy: before built', function (assert) {
   });
 });
 
-QUnit.test('methods.destroy: after built', function (assert) {
+QUnit.test('methods#destroy: after built', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();

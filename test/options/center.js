@@ -1,4 +1,4 @@
-QUnit.test('options.center: true', function (assert) {
+QUnit.test('options#center: true', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();
@@ -19,7 +19,7 @@ QUnit.test('options.center: true', function (assert) {
   });
 });
 
-QUnit.test('options.center: false', function (assert) {
+QUnit.test('options#center: false', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();

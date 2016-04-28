@@ -1,4 +1,4 @@
-QUnit.test('methods.scale', function (assert) {
+QUnit.test('methods#scale', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();

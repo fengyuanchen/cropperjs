@@ -1,4 +1,4 @@
-QUnit.test('options.dragMode: crop', function (assert) {
+QUnit.test('options#dragMode: crop', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();
@@ -18,7 +18,7 @@ QUnit.test('options.dragMode: crop', function (assert) {
   });
 });
 
-QUnit.test('options.dragMode: move', function (assert) {
+QUnit.test('options#dragMode: move', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();
@@ -39,7 +39,7 @@ QUnit.test('options.dragMode: move', function (assert) {
 });
 
 
-QUnit.test('options.dragMode: none', function (assert) {
+QUnit.test('options#dragMode: none', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();

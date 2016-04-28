@@ -1,4 +1,4 @@
-QUnit.test('options.guides: true', function (assert) {
+QUnit.test('options#guides: true', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();
@@ -20,7 +20,7 @@ QUnit.test('options.guides: true', function (assert) {
   });
 });
 
-QUnit.test('options.guides: false', function (assert) {
+QUnit.test('options#guides: false', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();

@@ -1,4 +1,4 @@
-QUnit.test('options.toggleDragModeOnDblclick: true', function (assert) {
+QUnit.test('options#toggleDragModeOnDblclick: true', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();
@@ -21,7 +21,7 @@ QUnit.test('options.toggleDragModeOnDblclick: true', function (assert) {
   });
 });
 
-QUnit.test('options.toggleDragModeOnDblclick: false', function (assert) {
+QUnit.test('options#toggleDragModeOnDblclick: false', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();

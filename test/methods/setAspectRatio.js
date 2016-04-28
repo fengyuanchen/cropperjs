@@ -1,4 +1,4 @@
-QUnit.test('methods.setAspectRatio', function (assert) {
+QUnit.test('methods#setAspectRatio', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();

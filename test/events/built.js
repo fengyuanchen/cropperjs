@@ -1,4 +1,4 @@
-QUnit.test('events.built', function (assert) {
+QUnit.test('events#built', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();

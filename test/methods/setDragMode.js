@@ -1,4 +1,4 @@
-QUnit.test('methods.setDragMode', function (assert) {
+QUnit.test('methods#setDragMode', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();

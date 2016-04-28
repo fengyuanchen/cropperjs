@@ -1,4 +1,4 @@
-QUnit.test('methods.clear', function (assert) {
+QUnit.test('methods#clear', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();

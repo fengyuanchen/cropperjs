@@ -1,4 +1,4 @@
-QUnit.test('methods.zoomTo', function (assert) {
+QUnit.test('methods#zoomTo', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();

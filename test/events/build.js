@@ -1,4 +1,4 @@
-QUnit.test('events.build', function (assert) {
+QUnit.test('events#build', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();
@@ -14,7 +14,7 @@ QUnit.test('events.build', function (assert) {
   return new Cropper(image);
 });
 
-QUnit.test('events.build: default prevented', function (assert) {
+QUnit.test('events#build: default prevented', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();

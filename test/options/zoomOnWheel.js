@@ -1,4 +1,4 @@
-QUnit.test('options.zoomOnWheel: true', function (assert) {
+QUnit.test('options#zoomOnWheel: true', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();
@@ -22,7 +22,7 @@ QUnit.test('options.zoomOnWheel: true', function (assert) {
   });
 });
 
-QUnit.test('options.zoomOnWheel: false', function (assert) {
+QUnit.test('options#zoomOnWheel: false', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();

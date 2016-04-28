@@ -1,4 +1,4 @@
-QUnit.test('options.zoom', function (assert) {
+QUnit.test('options#zoom', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();
@@ -22,7 +22,7 @@ QUnit.test('options.zoom', function (assert) {
   });
 });
 
-QUnit.test('options.zoom: default prevented', function (assert) {
+QUnit.test('options#zoom: default prevented', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();

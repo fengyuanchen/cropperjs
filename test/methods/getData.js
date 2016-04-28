@@ -1,4 +1,4 @@
-QUnit.test('methods.getData', function (assert) {
+QUnit.test('methods#getData', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();
@@ -23,7 +23,7 @@ QUnit.test('methods.getData', function (assert) {
   });
 });
 
-QUnit.test('methods.getData: rounded', function (assert) {
+QUnit.test('methods#getData: rounded', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();

@@ -1,4 +1,4 @@
-QUnit.test('options.aspectRatio: NaN', function (assert) {
+QUnit.test('options#aspectRatio: NaN', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();
@@ -18,7 +18,7 @@ QUnit.test('options.aspectRatio: NaN', function (assert) {
   });
 });
 
-QUnit.test('options.aspectRatio: 1', function (assert) {
+QUnit.test('options#aspectRatio: 1', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();

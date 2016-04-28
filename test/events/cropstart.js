@@ -1,4 +1,4 @@
-QUnit.test('events.cropstart', function (assert) {
+QUnit.test('events#cropstart', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();
@@ -21,7 +21,7 @@ QUnit.test('events.cropstart', function (assert) {
   return new Cropper(image);
 });
 
-QUnit.test('events.cropstart: default prevented', function (assert) {
+QUnit.test('events#cropstart: default prevented', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();
