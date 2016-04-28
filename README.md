@@ -2,8 +2,8 @@
 
 > JavaScript image cropper.
 
-- [Website](http://fengyuanchen.github.io/cropperjs)
-- [Photo Editor](http://fengyuanchen.github.io/photo-editor) - An advanced example of Cropper.js.
+- [Website](https://fengyuanchen.github.io/cropperjs)
+- [Photo Editor](https://fengyuanchen.github.io/photo-editor) - An advanced example of Cropper.js.
 
 [![Build Status Images](https://travis-ci.org/fengyuanchen/cropperjs.svg)](https://travis-ci.org/fengyuanchen/cropperjs)
 
