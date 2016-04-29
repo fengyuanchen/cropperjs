@@ -683,8 +683,13 @@
       var context;
       var data;
 
-      if (!_this.built || !_this.cropped || !SUPPORT_CANVAS) {
+      if (!_this.built || !SUPPORT_CANVAS) {
         return;
+      }
+
+      // Return the whole canvas if not cropped
+      if (!_this.cropped) {
+        return getSourceCanvas(_this.image, _this.imageData);
       }
 
       if (!isPlainObject(options)) {
