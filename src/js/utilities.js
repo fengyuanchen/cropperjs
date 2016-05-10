@@ -419,12 +419,13 @@
     var scaleX = data.scaleX;
     var scaleY = data.scaleY;
 
-    if (isNumber(rotate)) {
-      transforms.push('rotate(' + rotate + 'deg)');
-    }
-
+    // Scale should come first before rotate
     if (isNumber(scaleX) && isNumber(scaleY)) {
       transforms.push('scale(' + scaleX + ',' + scaleY + ')');
+    }
+
+    if (isNumber(rotate)) {
+      transforms.push('rotate(' + rotate + 'deg)');
     }
 
     return transforms.length ? transforms.join(' ') : 'none';
