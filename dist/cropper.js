@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v0.7.0
+ * Cropper.js v0.7.1
  * https://github.com/fengyuanchen/cropperjs
  *
  * Copyright (c) 2015-2016 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2016-03-20T06:15:36.234Z
+ * Date: 2016-05-28T14:59:00.132Z
  */
 
 (function (global, factory) {
@@ -330,6 +330,22 @@
     }
   }
 
+  function removeListener(element, type, handler) {
+    var types = trim(type).split(REGEXP_SPACES);
+
+    if (types.length > 1) {
+      return each(types, function (type) {
+        removeListener(element, type, handler);
+      });
+    }
+
+    if (element.removeEventListener) {
+      element.removeEventListener(type, handler, false);
+    } else if (element.detachEvent) {
+      element.detachEvent('on' + type, handler);
+    }
+  }
+
   function addListener(element, type, handler, once) {
     var types = trim(type).split(REGEXP_SPACES);
     var originalHandler = handler;
@@ -352,22 +368,6 @@
       element.addEventListener(type, handler, false);
     } else if (element.attachEvent) {
       element.attachEvent('on' + type, handler);
-    }
-  }
-
-  function removeListener(element, type, handler) {
-    var types = trim(type).split(REGEXP_SPACES);
-
-    if (types.length > 1) {
-      return each(types, function (type) {
-        removeListener(element, type, handler);
-      });
-    }
-
-    if (element.removeEventListener) {
-      element.removeEventListener(type, handler, false);
-    } else if (element.detachEvent) {
-      element.detachEvent('on' + type, handler);
     }
   }
 
@@ -537,12 +537,13 @@
     var scaleX = data.scaleX;
     var scaleY = data.scaleY;
 
-    if (isNumber(rotate)) {
-      transforms.push('rotate(' + rotate + 'deg)');
-    }
-
+    // Scale should come first before rotate
     if (isNumber(scaleX) && isNumber(scaleY)) {
       transforms.push('scale(' + scaleX + ',' + scaleY + ')');
+    }
+
+    if (isNumber(rotate)) {
+      transforms.push('rotate(' + rotate + 'deg)');
     }
 
     return transforms.length ? transforms.join(' ') : 'none';
@@ -852,6 +853,10 @@
       xhr.onload = function () {
         _this.read(this.response);
       };
+
+      if (options.checkCrossOrigin && isCrossOriginURL(url) && element.crossOrigin) {
+        url = addTimestamp(url);
+      }
 
       xhr.open('get', url);
       xhr.responseType = 'arraybuffer';
@@ -3215,8 +3220,13 @@
       var context;
       var data;
 
-      if (!_this.built || !_this.cropped || !SUPPORT_CANVAS) {
+      if (!_this.built || !SUPPORT_CANVAS) {
         return;
+      }
+
+      // Return the whole canvas if not cropped
+      if (!_this.cropped) {
+        return getSourceCanvas(_this.image, _this.imageData);
       }
 
       if (!isPlainObject(options)) {

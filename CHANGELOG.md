@@ -1,6 +1,13 @@
 # Changelog
 
 
+## 0.7.1 (May 28, 2016)
+
+- Improved the rotate and scale transform behaviour.
+- Improved the `getCroppedCanvas` method (returns the whole canvas if it is not cropped).
+- Check cross origin setting when load image by XMLHTTPRequest.
+
+
 ## 0.7.0 (Mar 20, 2016)
 
 - Supports 7 custom events: `build`, `built`, `cropstart`, `cropmove`, `cropend`, `crop` and `zoom`.

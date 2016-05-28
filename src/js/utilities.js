@@ -212,6 +212,22 @@
     }
   }
 
+  function removeListener(element, type, handler) {
+    var types = trim(type).split(REGEXP_SPACES);
+
+    if (types.length > 1) {
+      return each(types, function (type) {
+        removeListener(element, type, handler);
+      });
+    }
+
+    if (element.removeEventListener) {
+      element.removeEventListener(type, handler, false);
+    } else if (element.detachEvent) {
+      element.detachEvent('on' + type, handler);
+    }
+  }
+
   function addListener(element, type, handler, once) {
     var types = trim(type).split(REGEXP_SPACES);
     var originalHandler = handler;
@@ -234,22 +250,6 @@
       element.addEventListener(type, handler, false);
     } else if (element.attachEvent) {
       element.attachEvent('on' + type, handler);
-    }
-  }
-
-  function removeListener(element, type, handler) {
-    var types = trim(type).split(REGEXP_SPACES);
-
-    if (types.length > 1) {
-      return each(types, function (type) {
-        removeListener(element, type, handler);
-      });
-    }
-
-    if (element.removeEventListener) {
-      element.removeEventListener(type, handler, false);
-    } else if (element.detachEvent) {
-      element.detachEvent('on' + type, handler);
     }
   }
 

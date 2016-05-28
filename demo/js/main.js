@@ -15,6 +15,9 @@ window.onload = function () {
   var dataRotate = document.getElementById('dataRotate');
   var dataScaleX = document.getElementById('dataScaleX');
   var dataScaleY = document.getElementById('dataScaleY');
+  var isUndefined = function (obj) {
+    return typeof obj === 'undefined';
+  };
   var options = {
         aspectRatio: 16 / 9,
         preview: '.img-preview',
@@ -50,10 +53,6 @@ window.onload = function () {
         }
       };
   var cropper = new Cropper(image, options);
-
-  function isUndefined(obj) {
-    return typeof obj === 'undefined';
-  }
 
   function preventDefault(e) {
     if (e) {
