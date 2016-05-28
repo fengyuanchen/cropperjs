@@ -435,6 +435,25 @@ The minimum height of the crop box.
 **Note:** This size is relative to the page, not the image.
 
 
+### maxCropBoxWidth
+
+- Type: `Number`
+- Default: `null`
+
+The maximum width of the crop box.
+
+**Note:** This size is relative to the page, not the image.
+
+
+### maxCropBoxHeight
+
+- Type: `Number`
+- Default: `null`
+
+The maximum height of the crop box.
+
+**Note:** This size is relative to the page, not the image.
+
 ### build
 
 - Type: `Function`

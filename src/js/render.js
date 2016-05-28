@@ -416,15 +416,18 @@
         minCropBoxWidth = Number(options.minCropBoxWidth) || 0;
         minCropBoxHeight = Number(options.minCropBoxHeight) || 0;
 
+        maxCropBoxWidth = Number(options.maxCropBoxWidth) || containerData.width;
+        maxCropBoxHeight = Number(options.maxCropBoxHeight) || containerData.height;
+
         // The min/maxCropBoxWidth/Height must be less than containerWidth/Height
         minCropBoxWidth = min(minCropBoxWidth, containerData.width);
         minCropBoxHeight = min(minCropBoxHeight, containerData.height);
         maxCropBoxWidth = min(
-          containerData.width,
+          maxCropBoxWidth,
           limited ? canvasData.width : containerData.width
         );
         maxCropBoxHeight = min(
-          containerData.height,
+          maxCropBoxHeight,
           limited ? canvasData.height : containerData.height
         );
 

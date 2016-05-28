@@ -83,6 +83,8 @@
     minCanvasHeight: 0,
     minCropBoxWidth: 0,
     minCropBoxHeight: 0,
+    maxCropBoxWidth: null,
+    maxCropBoxHeight: null,
     minContainerWidth: 200,
     minContainerHeight: 100,
 
