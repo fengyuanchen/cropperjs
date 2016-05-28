@@ -75,6 +75,10 @@
         _this.read(this.response);
       };
 
+      if (options.checkCrossOrigin && isCrossOriginURL(url) && element.crossOrigin) {
+        url = addTimestamp(url);
+      }
+
       xhr.open('get', url);
       xhr.responseType = 'arraybuffer';
       xhr.send();
