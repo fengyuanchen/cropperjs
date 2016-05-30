@@ -70,7 +70,7 @@
 
   // Supports
   var SUPPORT_CANVAS = !!document.createElement('canvas').getContext;
-  var IS_SAFARI = navigator && /safari/i.test(navigator.userAgent) && /apple computer/i.test(navigator.vendor);
+  var IS_SAFARI_OR_UIWEBVIEW = navigator && /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent);
 
   // Maths
   var min = Math.min;
