@@ -21,25 +21,25 @@ window.onload = function () {
   var options = {
         aspectRatio: 16 / 9,
         preview: '.img-preview',
-        build: function () {
-          console.log('build');
+        build: function (e) {
+          console.log(e.type);
         },
-        built: function () {
-          console.log('built');
+        built: function (e) {
+          console.log(e.type);
         },
         cropstart: function (e) {
-          console.log('cropstart', e.detail.action);
+          console.log(e.type, e.detail.action);
         },
         cropmove: function (e) {
-          console.log('cropmove', e.detail.action);
+          console.log(e.type, e.detail.action);
         },
         cropend: function (e) {
-          console.log('cropend', e.detail.action);
+          console.log(e.type, e.detail.action);
         },
         crop: function (e) {
           var data = e.detail;
 
-          console.log('crop');
+          console.log(e.type);
           dataX.value = Math.round(data.x);
           dataY.value = Math.round(data.y);
           dataHeight.value = Math.round(data.height);
@@ -49,7 +49,7 @@ window.onload = function () {
           dataScaleY.value = !isUndefined(data.scaleY) ? data.scaleY : '';
         },
         zoom: function (e) {
-          console.log('zoom', e.detail.ratio);
+          console.log(e.type, e.detail.ratio);
         }
       };
   var cropper = new Cropper(image, options);
