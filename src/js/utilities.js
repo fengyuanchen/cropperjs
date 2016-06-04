@@ -184,21 +184,27 @@
     }
   }
 
+  function toHyphenCase(str) {
+    return str.replace(/([a-z\d])([A-Z])/g, '$1-$2').toLowerCase();
+  }
+
   function getData(element, name) {
-    return isObject(element[name]) ?
-      element[name] :
-      element.dataset ?
-        element.dataset[name] :
-        element.getAttribute('data-' + name);
+    if (isObject(element[name])) {
+      return element[name];
+    } else if (element.dataset) {
+      return element.dataset[name];
+    }
+
+    return element.getAttribute('data-' + toHyphenCase(name));
   }
 
   function setData(element, name, data) {
-    if (isObject(data) && isUndefined(element[name])) {
+    if (isObject(data)) {
       element[name] = data;
     } else if (element.dataset) {
       element.dataset[name] = data;
     } else {
-      element.setAttribute('data-' + name, data);
+      element.setAttribute('data-' + toHyphenCase(name), data);
     }
   }
 
@@ -208,7 +214,7 @@
     } else if (element.dataset) {
       delete element.dataset[name];
     } else {
-      element.removeAttribute('data-' + name);
+      element.removeAttribute('data-' + toHyphenCase(name));
     }
   }
 
