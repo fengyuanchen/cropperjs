@@ -48,6 +48,7 @@
   var REGEXP_DATA_URL = /^data\:/;
   var REGEXP_DATA_URL_HEAD = /^data\:([^\;]+)\;base64,/;
   var REGEXP_DATA_URL_JPEG = /^data\:image\/jpeg.*;base64,/;
+  var REGEXP_HYPHENATE = /([a-z\d])([A-Z])/g;
 
   // Data
   var DATA_PREVIEW = 'preview';

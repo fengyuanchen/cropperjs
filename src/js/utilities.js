@@ -184,8 +184,8 @@
     }
   }
 
-  function toHyphenCase(str) {
-    return str.replace(/([a-z\d])([A-Z])/g, '$1-$2').toLowerCase();
+  function hyphenate(str) {
+    return str.replace(REGEXP_HYPHENATE, '$1-$2').toLowerCase();
   }
 
   function getData(element, name) {
@@ -195,7 +195,7 @@
       return element.dataset[name];
     }
 
-    return element.getAttribute('data-' + toHyphenCase(name));
+    return element.getAttribute('data-' + hyphenate(name));
   }
 
   function setData(element, name, data) {
@@ -204,7 +204,7 @@
     } else if (element.dataset) {
       element.dataset[name] = data;
     } else {
-      element.setAttribute('data-' + toHyphenCase(name), data);
+      element.setAttribute('data-' + hyphenate(name), data);
     }
   }
 
@@ -214,7 +214,7 @@
     } else if (element.dataset) {
       delete element.dataset[name];
     } else {
-      element.removeAttribute('data-' + toHyphenCase(name));
+      element.removeAttribute('data-' + hyphenate(name));
     }
   }
 
