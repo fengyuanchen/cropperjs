@@ -42,12 +42,12 @@
   // RegExps
   var REGEXP_ACTIONS = /e|w|s|n|se|sw|ne|nw|all|crop|move|zoom/;
   var REGEXP_SUFFIX = /width|height|left|top|marginLeft|marginTop/;
-  var REGEXP_ORIGINS = /^(https?:)\/\/([^\:\/\?#]+):?(\d*)/i;
+  var REGEXP_ORIGINS = /^(https?:)\/\/([^:\/\?#]+):?(\d*)/i;
   var REGEXP_TRIM = /^\s+(.*)\s+$/;
   var REGEXP_SPACES = /\s+/;
-  var REGEXP_DATA_URL = /^data\:/;
-  var REGEXP_DATA_URL_HEAD = /^data\:([^\;]+)\;base64,/;
-  var REGEXP_DATA_URL_JPEG = /^data\:image\/jpeg.*;base64,/;
+  var REGEXP_DATA_URL = /^data:/;
+  var REGEXP_DATA_URL_HEAD = /^data:([^;]+);base64,/;
+  var REGEXP_DATA_URL_JPEG = /^data:image\/jpeg.*;base64,/;
   var REGEXP_HYPHENATE = /([a-z\d])([A-Z])/g;
 
   // Data
