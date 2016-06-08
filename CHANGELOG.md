@@ -1,6 +1,12 @@
 # Changelog
 
 
+## 0.7.2 (Jun 8, 2016)
+
+- Fixed a bug of `data-*` attributes setting and getting.
+- Fixed the calling order of `scale` and `rotate`.
+
+
 ## 0.7.1 (May 28, 2016)
 
 - Improved the rotate and scale transform behaviour.
