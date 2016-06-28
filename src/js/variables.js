@@ -40,8 +40,8 @@
   var EVENT_ZOOM = 'zoom';
 
   // RegExps
-  var REGEXP_ACTIONS = /e|w|s|n|se|sw|ne|nw|all|crop|move|zoom/;
-  var REGEXP_SUFFIX = /width|height|left|top|marginLeft|marginTop/;
+  var REGEXP_ACTIONS = /^(e|w|s|n|se|sw|ne|nw|all|crop|move|zoom)$/;
+  var REGEXP_SUFFIX = /^(width|height|left|top|marginLeft|marginTop)$/;
   var REGEXP_ORIGINS = /^(https?:)\/\/([^:\/\?#]+):?(\d*)/i;
   var REGEXP_TRIM = /^\s+(.*)\s+$/;
   var REGEXP_SPACES = /\s+/;
