@@ -425,13 +425,17 @@
     var scaleX = data.scaleX;
     var scaleY = data.scaleY;
 
-    // Scale should come first before rotate
-    if (isNumber(scaleX) && isNumber(scaleY)) {
-      transforms.push('scale(' + scaleX + ',' + scaleY + ')');
+    // Rotate should come first before scale to match orientation transform
+    if (isNumber(rotate) && rotate !== 0) {
+      transforms.push('rotate(' + rotate + 'deg)');
     }
 
-    if (isNumber(rotate)) {
-      transforms.push('rotate(' + rotate + 'deg)');
+    if (isNumber(scaleX) && scaleX !== 1) {
+      transforms.push('scaleX(' + scaleX + ')');
+    }
+
+    if (isNumber(scaleY) && scaleY !== 1) {
+      transforms.push('scaleY(' + scaleY + ')');
     }
 
     return transforms.length ? transforms.join(' ') : 'none';
@@ -475,8 +479,8 @@
     var scalable = isNumber(scaleX) && isNumber(scaleY) && (scaleX !== 1 || scaleY !== 1);
     var rotatable = isNumber(rotate) && rotate !== 0;
     var advanced = rotatable || scalable;
-    var canvasWidth = dstWidth * abs(scaleX || 1);
-    var canvasHeight = dstHeight * abs(scaleY || 1);
+    var canvasWidth = dstWidth * abs(scaleX);
+    var canvasHeight = dstHeight * abs(scaleY);
     var translateX;
     var translateY;
     var rotated;
@@ -510,13 +514,13 @@
       context.translate(translateX, translateY);
     }
 
-    // Scale should come first before rotate as in the "getTransform" function
-    if (scalable) {
-      context.scale(scaleX, scaleY);
-    }
-
+    // Rotate should come first before scale as in the "getTransform" function
     if (rotatable) {
       context.rotate(rotate * PI / 180);
+    }
+
+    if (scalable) {
+      context.scale(scaleX, scaleY);
     }
 
     context.drawImage(image, floor(dstX), floor(dstY), floor(dstWidth), floor(dstHeight));
