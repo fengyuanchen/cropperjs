@@ -8,7 +8,7 @@ QUnit.test('options#cropBoxResizable: true', function (assert) {
   return new Cropper(image, {
     // cropBoxResizable: true,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
       var line = util.getByClass(cropper.cropBox, 'cropper-line');
       var point = util.getByClass(cropper.cropBox, 'cropper-point');
@@ -41,7 +41,7 @@ QUnit.test('options#cropBoxResizable: false', function (assert) {
   return new Cropper(image, {
     cropBoxResizable: false,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
       var line = util.getByClass(cropper.cropBox, 'cropper-line');
       var point = util.getByClass(cropper.cropBox, 'cropper-point');

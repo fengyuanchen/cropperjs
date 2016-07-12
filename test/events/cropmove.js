@@ -5,7 +5,7 @@ QUnit.test('events#cropmove', function (assert) {
 
   assert.expect(1);
 
-  image.addEventListener('built', function () {
+  image.addEventListener('ready', function () {
     var cropper = this.cropper;
 
     util.dispatchEvent(cropper.dragBox, 'mousedown');

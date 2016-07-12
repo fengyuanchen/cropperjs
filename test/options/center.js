@@ -8,7 +8,7 @@ QUnit.test('options#center: true', function (assert) {
   return new Cropper(image, {
     // center: true,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
       var center = util.getByClass(cropper.cropBox, 'cropper-center');
 
@@ -29,7 +29,7 @@ QUnit.test('options#center: false', function (assert) {
   return new Cropper(image, {
     center: false,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
       var center = util.getByClass(cropper.cropBox, 'cropper-center');
 

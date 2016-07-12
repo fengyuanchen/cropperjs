@@ -8,7 +8,7 @@ QUnit.test('options#scalable: true', function (assert) {
   return new Cropper(image, {
     // scalable: true,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
       var imageData = cropper.scale(-1, -1).getImageData();
 
@@ -30,7 +30,7 @@ QUnit.test('options#scalable: false', function (assert) {
   return new Cropper(image, {
     scalable: false,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
       var imageData = cropper.scale(-1, -1).getImageData();
 

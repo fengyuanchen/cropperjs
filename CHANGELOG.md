@@ -1,6 +1,13 @@
 # Changelog
 
 
+## 0.8.0 (Jun 20, 2016)
+
+- Removed `build` event.
+- Renamed `built` event to `ready`.
+- Fixed the error of orientation transform.
+
+
 ## 0.7.2 (Jun 8, 2016)
 
 - Fixed a bug of `data-*` attributes setting and getting.

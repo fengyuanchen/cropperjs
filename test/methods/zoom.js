@@ -6,7 +6,7 @@ QUnit.test('methods#zoom', function (assert) {
   assert.expect(2);
 
   return new Cropper(image, {
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
       var canvasData = cropper.getCanvasData();
       var changedCanvasData = cropper.zoom(0.1).getCanvasData();

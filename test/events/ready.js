@@ -1,14 +1,12 @@
-QUnit.test('events#built', function (assert) {
+QUnit.test('events#ready', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();
 
   assert.expect(1);
 
-  image.addEventListener('built', function () {
-    var cropper = this.cropper;
-
-    assert.ok(cropper.built);
+  image.addEventListener('ready', function () {
+    assert.ok(true);
 
     done();
   });

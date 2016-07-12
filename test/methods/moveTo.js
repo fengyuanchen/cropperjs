@@ -6,7 +6,7 @@ QUnit.test('methods#moveTo', function (assert) {
   assert.expect(2);
 
   return new Cropper(image, {
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
       var canvasData = cropper.moveTo(0, 0).getCanvasData();
 

@@ -11,12 +11,12 @@
       var cropBox;
       var face;
 
-      if (!_this.ready) {
+      if (!_this.loaded) {
         return;
       }
 
       // Unbuild first when replace
-      if (_this.built) {
+      if (_this.ready) {
         _this.unbuild();
       }
 
@@ -89,16 +89,16 @@
 
       _this.setDragMode(options.dragMode);
       _this.render();
-      _this.built = true;
+      _this.ready = true;
       _this.setData(options.data);
 
-      // Call the built asynchronously to keep "image.cropper" is defined
+      // Call the "ready" option asynchronously to keep "image.cropper" is defined
       setTimeout(function () {
-        if (isFunction(options.built)) {
-          addListener(element, EVENT_BUILT, options.built, true);
+        if (isFunction(options.ready)) {
+          addListener(element, EVENT_READY, options.ready, true);
         }
 
-        dispatchEvent(element, EVENT_BUILT);
+        dispatchEvent(element, EVENT_READY);
         dispatchEvent(element, EVENT_CROP, _this.getData());
 
         _this.complete = true;
@@ -108,11 +108,11 @@
     unbuild: function () {
       var _this = this;
 
-      if (!_this.built) {
+      if (!_this.ready) {
         return;
       }
 
-      _this.built = false;
+      _this.ready = false;
       _this.complete = false;
       _this.initialImageData = null;
 

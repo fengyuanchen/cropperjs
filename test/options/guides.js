@@ -8,7 +8,7 @@ QUnit.test('options#guides: true', function (assert) {
   return new Cropper(image, {
     // guides: true,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
       var dashed = util.getByClass(cropper.cropBox, 'cropper-dashed');
 
@@ -30,7 +30,7 @@ QUnit.test('options#guides: false', function (assert) {
   return new Cropper(image, {
     guides: false,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
       var dashed = util.getByClass(cropper.cropBox, 'cropper-dashed');
 

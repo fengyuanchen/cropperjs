@@ -9,7 +9,7 @@ QUnit.test('options#minCanvasWidth', function (assert) {
   return new Cropper(image, {
     minCanvasWidth: minCanvasWidth,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
       var canvasData = cropper.setCanvasData({
             width: 320

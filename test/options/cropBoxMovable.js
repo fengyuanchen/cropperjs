@@ -8,7 +8,7 @@ QUnit.test('options#cropBoxMovable: true', function (assert) {
   return new Cropper(image, {
     // cropBoxMovable: true,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
       var face = util.getByClass(cropper.cropBox, 'cropper-face');
 
@@ -29,7 +29,7 @@ QUnit.test('options#cropBoxMovable: false', function (assert) {
   return new Cropper(image, {
     cropBoxMovable: false,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
       var face = util.getByClass(cropper.cropBox, 'cropper-face');
 

@@ -6,7 +6,7 @@ QUnit.test('methods#setData', function (assert) {
   assert.expect(8);
 
   return new Cropper(image, {
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
       var data = cropper.getData();
       var changedData = cropper.setData({

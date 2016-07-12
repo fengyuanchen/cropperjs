@@ -6,7 +6,7 @@ QUnit.test('methods#getData', function (assert) {
   assert.expect(7);
 
   return new Cropper(image, {
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
       var data = cropper.getData();
 
@@ -31,7 +31,7 @@ QUnit.test('methods#getData: rounded', function (assert) {
   assert.expect(4);
 
   return new Cropper(image, {
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
       var data = cropper.getData(true);
 

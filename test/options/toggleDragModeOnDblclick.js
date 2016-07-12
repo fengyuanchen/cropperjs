@@ -8,7 +8,7 @@ QUnit.test('options#toggleDragModeOnDblclick: true', function (assert) {
   return new Cropper(image, {
     // toggleDragModeOnDblclick: true,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
       var dragBox = cropper.dragBox;
 
@@ -31,7 +31,7 @@ QUnit.test('options#toggleDragModeOnDblclick: false', function (assert) {
   return new Cropper(image, {
     toggleDragModeOnDblclick: false,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
       var dragBox = cropper.dragBox;
 

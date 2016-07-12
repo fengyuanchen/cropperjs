@@ -6,7 +6,7 @@ QUnit.test('methods#disable', function (assert) {
   assert.expect(11);
 
   return new Cropper(image, {
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
       var options = cropper.options;
       var cropBoxData;

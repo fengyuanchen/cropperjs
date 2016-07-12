@@ -78,7 +78,7 @@
       var image = document.querySelector('.img-container > img');
       var previews = document.querySelectorAll('.img-preview');
       var cropper = new Cropper(image, {
-          build: function () {
+          ready: function () {
             var clone = this.cloneNode();
 
             clone.style.cssText = (

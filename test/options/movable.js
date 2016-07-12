@@ -8,7 +8,7 @@ QUnit.test('options#movable: true', function (assert) {
   return new Cropper(image, {
     // movable: true,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
       var canvasData = cropper.getCanvasData();
       var changedCanvasData = cropper.move(10, 10).getCanvasData();
@@ -31,7 +31,7 @@ QUnit.test('options#movable: false', function (assert) {
   return new Cropper(image, {
     movable: false,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
       var canvasData = cropper.getCanvasData();
       var changedCanvasData = cropper.move(10, 10).getCanvasData();

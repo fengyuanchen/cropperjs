@@ -8,7 +8,7 @@ QUnit.test('options#background: true', function (assert) {
   return new Cropper(image, {
     // background: true,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
 
       assert.ok(util.hasClass(cropper.cropper, 'cropper-bg'));
@@ -28,7 +28,7 @@ QUnit.test('options#background: false', function (assert) {
   return new Cropper(image, {
     background: false,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
 
       assert.notOk(util.hasClass(cropper.cropper, 'cropper-bg'));

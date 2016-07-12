@@ -17,7 +17,7 @@ QUnit.test('options#data', function (assert) {
   return new Cropper(image, {
     data: initialData,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
       var data = cropper.getData(true);
 

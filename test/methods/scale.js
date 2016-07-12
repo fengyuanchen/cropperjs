@@ -6,7 +6,7 @@ QUnit.test('methods#scale', function (assert) {
   assert.expect(2);
 
   return new Cropper(image, {
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
       var imageData = cropper.scale(-1, -1).getImageData();
 
