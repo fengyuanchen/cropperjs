@@ -82,7 +82,7 @@ The [cdnjs](https://github.com/cdnjs/cdnjs) provides CDN support for Cropper.js'
 Initialize with `Cropper` constructor:
 
 - Browser: `window.Cropper`
-- CommonJS: `var Cropper = require('cropper')`
+- CommonJS: `var Cropper = require('cropperjs')`
 - NodeJS: `var Cropper = require('cropperjs')(window)`
 
 ```html
