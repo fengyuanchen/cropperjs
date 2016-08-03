@@ -97,8 +97,8 @@ gulp.task('js', ['jshint', 'jscs'], function () {
       suffix: '.min'
     }))
     .pipe(plugins.uglify({
-        preserveComments: 'license'
-      }))
+      preserveComments: 'license'
+    }))
     .pipe(gulp.dest(scripts.dest))
     .pipe(gulp.dest(scripts.site));
 });

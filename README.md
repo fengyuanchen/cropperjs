@@ -11,17 +11,17 @@
 
 ## Table of contents
 
-  - [Features](#features)
-  - [Main](#main)
-  - [Getting started](#getting-started)
-  - [Options](#options)
-  - [Methods](#methods)
-  - [Events](#events)
-  - [No conflict](#no-conflict)
-  - [Browser support](#browser-support)
-  - [Contributing](#contributing)
-  - [Versioning](#versioning)
-  - [License](#license)
+- [Features](#features)
+- [Main](#main)
+- [Getting started](#getting-started)
+- [Options](#options)
+- [Methods](#methods)
+- [Events](#events)
+- [No conflict](#no-conflict)
+- [Browser support](#browser-support)
+- [Contributing](#contributing)
+- [Versioning](#versioning)
+- [License](#license)
 
 
 
@@ -82,7 +82,7 @@ The [cdnjs](https://github.com/cdnjs/cdnjs) provides CDN support for Cropper.js'
 Initialize with `Cropper` constructor:
 
 - Browser: `window.Cropper`
-- CommonJS: `var Cropper = require('cropper')`
+- CommonJS: `var Cropper = require('cropperjs')`
 - NodeJS: `var Cropper = require('cropperjs')(window)`
 
 ```html
