@@ -8,7 +8,7 @@ QUnit.test('options#zoomOnWheel: true', function (assert) {
   return new Cropper(image, {
     // zoomOnWheel: true,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
 
       util.dispatchEvent(cropper.cropper, 'wheel');
@@ -32,7 +32,7 @@ QUnit.test('options#zoomOnWheel: false', function (assert) {
   return new Cropper(image, {
     zoomOnWheel: false,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
 
       util.dispatchEvent(cropper.cropper, 'wheel');

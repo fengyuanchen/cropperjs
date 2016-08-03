@@ -31,8 +31,7 @@
   var EVENT_RESIZE = 'resize';
   var EVENT_ERROR = 'error';
   var EVENT_LOAD = 'load';
-  var EVENT_BUILD = 'build';
-  var EVENT_BUILT = 'built';
+  var EVENT_READY = 'ready';
   var EVENT_CROP_START = 'cropstart';
   var EVENT_CROP_MOVE = 'cropmove';
   var EVENT_CROP_END = 'cropend';

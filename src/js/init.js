@@ -43,14 +43,6 @@
         return;
       }
 
-      if (isFunction(options.build)) {
-        addListener(element, EVENT_BUILD, options.build, true);
-      }
-
-      if (dispatchEvent(element, EVENT_BUILD) === false) {
-        return;
-      }
-
       _this.url = url;
       _this.imageData = {};
 
@@ -215,7 +207,7 @@
           aspectRatio: naturalWidth / naturalHeight
         });
 
-        _this.ready = true;
+        _this.loaded = true;
         _this.build();
       });
     },

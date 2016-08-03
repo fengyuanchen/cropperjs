@@ -9,7 +9,7 @@ QUnit.test('options#minContainerWidth', function (assert) {
   return new Cropper(image, {
     minContainerWidth: minContainerWidth,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
       var containerData = cropper.getContainerData();
 

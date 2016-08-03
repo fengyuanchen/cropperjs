@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v0.7.2
+ * Cropper.js v0.8.0
  * https://github.com/fengyuanchen/cropperjs
  *
  * Copyright (c) 2015-2016 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2016-06-08T12:25:05.932Z
+ * Date: 2016-07-12T04:37:40.982Z
  */
 .cropper-container {
   font-size: 0;
@@ -17,10 +17,6 @@
       user-select: none;
 
   direction: ltr !important;
-  -ms-touch-action: none;
-      touch-action: none;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
 }
 
 .cropper-container img {

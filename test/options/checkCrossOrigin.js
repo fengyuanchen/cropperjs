@@ -10,7 +10,7 @@ QUnit.test('options#checkCrossOrigin: true', function (assert) {
   return new Cropper(image, {
     // checkCrossOrigin: true,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
 
       assert.strictEqual(cropper.image.crossOrigin, 'anonymous');
@@ -33,7 +33,7 @@ QUnit.test('options#checkCrossOrigin: false', function (assert) {
   return new Cropper(image, {
     checkCrossOrigin: false,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
 
       assert.notStrictEqual(cropper.image.crossOrigin, 'anonymous');
@@ -55,7 +55,7 @@ QUnit.test('options#checkCrossOrigin: exists crossOrigin attribute', function (a
   assert.expect(2);
 
   return new Cropper(image, {
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
 
       assert.strictEqual(cropper.image.crossOrigin, 'anonymous');

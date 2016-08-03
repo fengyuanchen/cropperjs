@@ -8,7 +8,7 @@ QUnit.test('options#dragMode: crop', function (assert) {
   return new Cropper(image, {
     // dragMode: 'crop',
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
 
       assert.strictEqual(cropper.dragBox.dataset.action, 'crop');
@@ -28,7 +28,7 @@ QUnit.test('options#dragMode: move', function (assert) {
   return new Cropper(image, {
     dragMode: 'move',
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
 
       assert.strictEqual(cropper.dragBox.dataset.action, 'move');
@@ -49,7 +49,7 @@ QUnit.test('options#dragMode: none', function (assert) {
   return new Cropper(image, {
     dragMode: 'none',
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
 
       assert.strictEqual(cropper.dragBox.dataset.action, 'none');

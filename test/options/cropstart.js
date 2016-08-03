@@ -6,7 +6,7 @@ QUnit.test('options#cropstart', function (assert) {
   assert.expect(1);
 
   return new Cropper(image, {
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
 
       util.dispatchEvent(cropper.dragBox, 'mousedown');
@@ -29,7 +29,7 @@ QUnit.test('options#cropstart: default prevented', function (assert) {
   assert.expect(0);
 
   return new Cropper(image, {
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
 
       util.dispatchEvent(cropper.dragBox, 'mousedown');

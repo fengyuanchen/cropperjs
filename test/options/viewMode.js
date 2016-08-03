@@ -8,7 +8,7 @@ QUnit.test('options#viewMode: 0', function (assert) {
   return new Cropper(image, {
     // viewMode: 0,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
       var canvasData = {
             left: 100,
@@ -38,7 +38,7 @@ QUnit.test('options#viewMode: 1', function (assert) {
   return new Cropper(image, {
     viewMode: 1,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
       var canvasData = cropper.zoom(-0.5).getCanvasData(); // Zoom out
       var cropBoxData = cropper.getCropBoxData();
@@ -61,7 +61,7 @@ QUnit.test('options#viewMode: 2', function (assert) {
   return new Cropper(image, {
     viewMode: 2,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
       var canvasData = cropper.zoom(-0.5).getCanvasData(); // Zoom out
       var containerData = cropper.getContainerData();
@@ -84,7 +84,7 @@ QUnit.test('options#viewMode: 3', function (assert) {
   return new Cropper(image, {
     viewMode: 3,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
       var canvasData = cropper.zoom(-0.5).getCanvasData(); // Zoom out
       var containerData = cropper.getContainerData();

@@ -5,7 +5,7 @@ QUnit.test('events#zoom', function (assert) {
 
   assert.expect(3);
 
-  image.addEventListener('built', function () {
+  image.addEventListener('ready', function () {
     var cropper = this.cropper;
 
     cropper.zoom(0.1);
@@ -29,7 +29,7 @@ QUnit.test('events#zoom: default prevented', function (assert) {
 
   assert.expect(1);
 
-  image.addEventListener('built', function () {
+  image.addEventListener('ready', function () {
     var cropper = this.cropper;
     var canvasData = cropper.getCanvasData();
 

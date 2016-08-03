@@ -8,7 +8,7 @@ QUnit.test('options#rotatable: true', function (assert) {
   return new Cropper(image, {
     // rotatable: true,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
 
       assert.strictEqual(cropper.rotate(90).getImageData().rotate, 90);
@@ -28,7 +28,7 @@ QUnit.test('options#rotatable: false', function (assert) {
   return new Cropper(image, {
     rotatable: false,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
 
       assert.strictEqual(cropper.rotate(90).getImageData().rotate, undefined);

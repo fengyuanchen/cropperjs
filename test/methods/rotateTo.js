@@ -6,7 +6,7 @@ QUnit.test('methods#rotateTo', function (assert) {
   assert.expect(4);
 
   return new Cropper(image, {
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
 
       assert.strictEqual(cropper.rotateTo(360).getImageData().rotate, 0);

@@ -38,7 +38,7 @@
       var minAspectRatio = 0.5;
       var maxAspectRatio = 1.5;
       var cropper = new Cropper(image, {
-        built: function () {
+        ready: function () {
           var cropper = this.cropper;
           var containerData = cropper.getContainerData();
           var cropBoxData = cropper.getCropBoxData();

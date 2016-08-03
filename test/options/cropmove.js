@@ -6,7 +6,7 @@ QUnit.test('options#cropmove', function (assert) {
   assert.expect(1);
 
   return new Cropper(image, {
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
 
       util.dispatchEvent(cropper.dragBox, 'mousedown');

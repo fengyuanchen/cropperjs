@@ -8,7 +8,7 @@ QUnit.test('options#modal: true', function (assert) {
   return new Cropper(image, {
     // modal: true,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
 
       assert.ok(util.hasClass(cropper.dragBox, 'cropper-modal'));
@@ -28,7 +28,7 @@ QUnit.test('options#modal: false', function (assert) {
   return new Cropper(image, {
     modal: false,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
 
       assert.notOk(util.hasClass(cropper.dragBox, 'cropper-modal'));

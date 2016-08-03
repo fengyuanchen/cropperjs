@@ -8,7 +8,7 @@ QUnit.test('options#zoomable: true', function (assert) {
   return new Cropper(image, {
     // zoomable: true,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
       var canvasData = cropper.getCanvasData();
       var changedCanvasData = cropper.zoom(0.1).getCanvasData();
@@ -34,7 +34,7 @@ QUnit.test('options#zoomable: false', function (assert) {
   return new Cropper(image, {
     zoomable: false,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
       var canvasData = cropper.getCanvasData();
       var changedCanvasData = cropper.zoom(0.1).getCanvasData();

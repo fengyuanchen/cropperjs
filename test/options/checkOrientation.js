@@ -10,7 +10,7 @@ QUnit.test('options#checkOrientation: true', function (assert) {
   return new Cropper(image, {
     // checkOrientation: true,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
 
       assert.notStrictEqual(cropper.getData().rotate, 0);
@@ -32,7 +32,7 @@ QUnit.test('options#checkOrientation: false', function (assert) {
   return new Cropper(image, {
     checkOrientation: false,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
 
       assert.strictEqual(cropper.getData().rotate, 0);

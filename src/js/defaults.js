@@ -87,8 +87,7 @@
     minContainerHeight: 100,
 
     // Shortcuts of events
-    build: null,
-    built: null,
+    ready: null,
     cropstart: null,
     cropmove: null,
     cropend: null,

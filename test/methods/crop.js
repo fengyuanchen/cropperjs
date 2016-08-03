@@ -8,7 +8,7 @@ QUnit.test('methods#crop', function (assert) {
   return new Cropper(image, {
     autoCrop: false,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
 
       assert.notOk(cropper.cropped);

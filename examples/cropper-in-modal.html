@@ -57,7 +57,7 @@
       $('#modal').on('shown.bs.modal', function () {
         cropper = new Cropper(image, {
           autoCropArea: 0.5,
-          built: function () {
+          ready: function () {
 
             // Strict mode: set crop box data first
             cropper.setCropBoxData(cropBoxData).setCanvasData(canvasData);

@@ -5,7 +5,7 @@ QUnit.test('events#cropstart', function (assert) {
 
   assert.expect(1);
 
-  image.addEventListener('built', function () {
+  image.addEventListener('ready', function () {
     var cropper = this.cropper;
 
     util.dispatchEvent(cropper.dragBox, 'mousedown');
@@ -28,7 +28,7 @@ QUnit.test('events#cropstart: default prevented', function (assert) {
 
   assert.expect(0);
 
-  image.addEventListener('built', function () {
+  image.addEventListener('ready', function () {
     var cropper = this.cropper;
 
     util.dispatchEvent(cropper.dragBox, 'mousedown');

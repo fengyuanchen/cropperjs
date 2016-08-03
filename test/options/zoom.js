@@ -6,7 +6,7 @@ QUnit.test('options#zoom', function (assert) {
   assert.expect(3);
 
   return new Cropper(image, {
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
 
       cropper.zoom(0.1);
@@ -30,7 +30,7 @@ QUnit.test('options#zoom: default prevented', function (assert) {
   assert.expect(1);
 
   return new Cropper(image, {
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
       var canvasData = cropper.getCanvasData();
 

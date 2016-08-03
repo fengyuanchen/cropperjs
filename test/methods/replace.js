@@ -6,10 +6,10 @@ QUnit.test('methods#replace', function (assert) {
   assert.expect(1);
 
   return new Cropper(image, {
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
 
-      cropper.options.built = function () {
+      cropper.options.ready = function () {
         assert.ok(true);
         done();
       };

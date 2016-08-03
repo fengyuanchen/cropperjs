@@ -9,7 +9,7 @@ QUnit.test('options#minCropBoxHeight', function (assert) {
   return new Cropper(image, {
     minCropBoxHeight: minCropBoxHeight,
 
-    built: function () {
+    ready: function () {
       var cropper = this.cropper;
       var cropBoxData = cropper.setCropBoxData({
             height: 100

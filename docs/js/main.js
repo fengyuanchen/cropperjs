@@ -21,10 +21,7 @@ window.onload = function () {
   var options = {
         aspectRatio: 16 / 9,
         preview: '.img-preview',
-        build: function (e) {
-          console.log(e.type);
-        },
-        built: function (e) {
+        ready: function (e) {
           console.log(e.type);
         },
         cropstart: function (e) {
@@ -116,14 +113,14 @@ window.onload = function () {
         cropBoxData = cropper.getCropBoxData();
         canvasData = cropper.getCanvasData();
 
-        options.built = function () {
-          console.log('built');
+        options.ready = function () {
+          console.log('ready');
           cropper.setCropBoxData(cropBoxData).setCanvasData(canvasData);
         };
       } else {
         options[target.name] = target.value;
-        options.built = function () {
-          console.log('built');
+        options.ready = function () {
+          console.log('ready');
         };
       }
 
