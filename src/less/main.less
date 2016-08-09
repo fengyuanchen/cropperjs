@@ -13,20 +13,20 @@
 
   user-select: none;
 
-  direction: ltr !important; // Ignore global rtl
+  direction: ltr;
 
   img {
     // Avoid margin top issue (Occur only when margin-top <= -height)
     display: block;
 
-    @include square(100%);
     min-width: 0 !important;
-    min-height: 0 !important;
     max-width: none !important;
+    min-height: 0 !important;
     max-height: none !important;
 
+    .square(100%);
     // https://developer.mozilla.org/en-US/docs/Web/CSS/image-orientation
-    image-orientation: 0deg !important;
+    image-orientation: 0deg;
   }
 }
 
@@ -52,22 +52,22 @@
 
 .cropper-drag-box {
   opacity: 0;
-  background-color: $color-white;
+  background-color: @color-white;
 }
 
 .cropper-modal {
   opacity: .5;
-  background-color: $color-black;
+  background-color: @color-black;
 }
 
 .cropper-view-box {
   display: block;
   overflow: hidden;
 
-  @include square(100%);
+  .square(100%);
 
-  outline: 1px solid $color-brand;
-  outline-color: rgba($color-brand, .75);
+  outline: 1px solid @color-brand;
+  outline-color: fade(@color-brand, 75%);
 }
 
 
@@ -86,7 +86,7 @@
     top: percentage(1 / 3);
     left: 0;
 
-    @include size(100%, percentage(1 / 3));
+    .size(100%, percentage(1 / 3));
 
     border-top-width: 1px;
     border-bottom-width: 1px;
@@ -96,7 +96,7 @@
     top: 0;
     left: percentage(1 / 3);
 
-    @include size(percentage(1 / 3), 100%);
+    .size(percentage(1 / 3), 100%);
 
     border-right-width: 1px;
     border-left-width: 1px;
@@ -154,7 +154,7 @@
 
   display: block;
 
-  @include square(100%);
+  .square(100%);
 
   opacity: .1;
 }
@@ -163,11 +163,11 @@
   top: 0;
   left: 0;
 
-  background-color: $color-white;
+  background-color: @color-white;
 }
 
 .cropper-line {
-  background-color: $color-brand;
+  background-color: @color-brand;
 
   &.line-e {
     top: 0;
@@ -207,10 +207,10 @@
 }
 
 .cropper-point {
-  @include square(5px);
+  .square(5px);
 
   opacity: .75;
-  background-color: $color-brand;
+  background-color: @color-brand;
 
   &.point-e {
     top: 50%;
@@ -273,7 +273,7 @@
     right: -3px;
     bottom: -3px;
 
-    @include square(20px);
+    .square(20px);
 
     cursor: se-resize;
 
@@ -287,29 +287,29 @@
 
     display: block;
 
-    @include square(200%);
+    .square(200%);
 
     content: ' ';
 
     opacity: 0;
-    background-color: $color-brand;
+    background-color: @color-brand;
   }
 
-  @media (min-width: $screen-small-min) {
+  @media (min-width: @screen-small-min) {
     &.point-se {
-      @include square(15px);
+      .square(15px);
     }
   }
 
-  @media (min-width: $screen-medium-min) {
+  @media (min-width: @screen-medium-min) {
     &.point-se {
-      @include square(10px);
+      .square(10px);
     }
   }
 
-  @media (min-width: $screen-large-min) {
+  @media (min-width: @screen-large-min) {
     &.point-se {
-      @include square(5px);
+      .square(5px);
 
       opacity: .75;
     }
