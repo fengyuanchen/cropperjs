@@ -1,9 +1,9 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Cropper.js</title>
   <link rel="stylesheet" href="../dist/cropper.css">
   <style>
@@ -28,7 +28,7 @@
     <h1>Cropper with responsive container</h1>
     <button type="button" id="replace">Replace Image</button>
     <div class="img-container">
-      <img src="../assets/img/picture.jpg" alt="Picture">
+      <img src="../assets/images/picture.jpg" alt="Picture">
     </div>
   </div>
 
@@ -44,7 +44,7 @@
       });
 
       document.getElementById('replace').onclick = function () {
-        cropper.replace('../assets/img/picture-2.jpg');
+        cropper.replace('../assets/images/picture-2.jpg');
       };
     });
   </script>
