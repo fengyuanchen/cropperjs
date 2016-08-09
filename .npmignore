@@ -1,8 +1,10 @@
+archives
 bower_components
 examples
 assets
 demo
 docs
+site
 test
 /_*
 /.*
@@ -10,4 +12,4 @@ dist/*.map
 bower.json
 gulpfile.js
 CONTRIBUTING.md
-FAQ.md
+ISSUE_TEMPLATE.md

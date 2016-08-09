@@ -1,7 +1,13 @@
 # Project
-node_modules
+archives
 bower_components
-dist/*.map
+docs/js/cropper.*
+docs/css/cropper.*
+docs/images
+node_modules
+resources
+site
+*.map
 /_*
 
 # Windows image file caches

@@ -40,13 +40,6 @@
     "docs",
     "gulpfile.js",
     "CONTRIBUTING.md",
-    "FAQ.md"
-  ],
-  "devDependencies": {
-    "bootstrap": "~3.3.6",
-    "fontawesome": "~4.6.1",
-    "html5-boilerplate": "~5.3.0",
-    "jquery": "~2.2.3",
-    "qunit": "~1.22.0"
-  }
+    "ISSUE_TEMPLATE.md"
+  ]
 }

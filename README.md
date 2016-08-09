@@ -27,9 +27,9 @@
 
 ## Features
 
-- Supports 39 [options](#options)
+- Supports 38 [options](#options)
 - Supports 27 [methods](#methods)
-- Supports 7 [events](#events)
+- Supports 6 [events](#events)
 - Supports touch (mobile)
 - Supports zooming
 - Supports rotating
@@ -46,10 +46,10 @@
 
 ```
 dist/
-├── cropper.css     ( 5 KB)
-├── cropper.min.css ( 4 KB)
-├── cropper.js      (92 KB)
-└── cropper.min.js  (29 KB)
+├── cropper.css     (  5 KB)
+├── cropper.min.css (  4 KB)
+├── cropper.js      (100 KB)
+└── cropper.min.js  ( 38 KB)
 ```
 
 
@@ -118,7 +118,25 @@ var cropper = new Cropper(image, {
 
 #### FAQ
 
-See the [FAQ](FAQ.md) documentation.
+##### How to crop an new area after zoom in or zoom out?
+
+> Just double click your mouse to enter crop mode.
+
+
+##### How to move the image after crop an area?
+
+> Just double click your mouse to enter move mode.
+
+
+##### How to fix aspect ratio in free ratio mode?
+
+> Just hold the `shift` key when you resize the crop box.
+
+
+##### How to crop an square area in free ratio mode?
+
+> Just hold the `shift` key when you crop on the image.
+
 
 
 #### Notes
@@ -435,20 +453,12 @@ The minimum height of the crop box.
 **Note:** This size is relative to the page, not the image.
 
 
-### build
+### ready
 
 - Type: `Function`
 - Default: `null`
 
-A shortcut of the "build" event.
-
-
-### built
-
-- Type: `Function`
-- Default: `null`
-
-A shortcut of the "built" event.
+A shortcut of the "ready" event.
 
 
 ### cropstart
@@ -497,13 +507,13 @@ A shortcut of the "zoom" event.
 
 ## Methods
 
-As there is an **asynchronous** process when load the image, you **should call most of the methods after built**, except "setAspectRatio", "replace" and "destroy".
+As there is an **asynchronous** process when load the image, you **should call most of the methods after ready**, except "setAspectRatio", "replace" and "destroy".
 
 > If a method doesn't need to return any value, it will return the cropper instance (`this`) for chain composition.
 
 ```js
 new Cropper(image, {
-  built: function () {
+  ready: function () {
     // this.cropper[method](argument1, , argument2, ..., argumentN);
     this.cropper.move(1, -1);
 
@@ -521,7 +531,7 @@ Show the crop box manually.
 ```js
 new Cropper(image, {
   autoCrop: false,
-  built: function () {
+  ready: function () {
     // Do something here
     // ...
 
@@ -726,7 +736,7 @@ Output the final cropped area position and size data (base on the natural size o
 
 > You can send the data to server-side to crop the image directly.
 
-![A schematic diagram for data's properties](assets/img/data.jpg)
+![A schematic diagram for data's properties](assets/images/data.jpg)
 
 
 ### setData(data)
@@ -750,7 +760,7 @@ Change the cropped area position and size with new data (base on the original im
 
 Output the container size data.
 
-![A schematic diagram for cropper's layers](assets/img/layers.jpg)
+![A schematic diagram for cropper's layers](assets/images/layers.jpg)
 
 
 ### getImageData()
@@ -914,19 +924,15 @@ Change the drag mode.
 
 ## Events
 
-### build
 
-This event fires when a cropper instance starts to load an image.
+### ready
 
-
-### built
-
-This event fires when a cropper instance has built completely.
+This event fires when the target image has been loaded and the cropper instance is ready for cropping.
 
 ```js
 var cropper;
 
-image.addEventListener('built', function () {
+image.addEventListener('ready', function () {
   console.log(this.cropper === cropper);
   // -> true
 });
