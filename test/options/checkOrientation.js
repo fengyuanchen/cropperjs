@@ -2,7 +2,7 @@ QUnit.test('options#checkOrientation: true', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage({
-        src: '../assets/img/picture-3.jpg'
+        src: '../assets/images/picture-3.jpg'
       });
 
   assert.expect(1);
@@ -24,7 +24,7 @@ QUnit.test('options#checkOrientation: false', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage({
-        src: '../assets/img/picture-3.jpg'
+        src: '../assets/images/picture-3.jpg'
       });
 
   assert.expect(1);

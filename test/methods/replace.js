@@ -14,7 +14,7 @@ QUnit.test('methods#replace', function (assert) {
         done();
       };
 
-      cropper.replace('../assets/img/picture-2.jpg');
+      cropper.replace('../assets/images/picture-2.jpg');
     }
   });
 });

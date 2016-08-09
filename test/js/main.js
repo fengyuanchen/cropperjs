@@ -23,7 +23,7 @@ window.Util = {
     }
 
     if (!attrs.src) {
-      attrs.src = '../assets/img/picture.jpg';
+      attrs.src = '../assets/images/picture.jpg';
     }
 
     for (attr in attrs) {
