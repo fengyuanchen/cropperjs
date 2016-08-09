@@ -1,14 +1,15 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="A basic demo of Cropper.">
   <meta name="keywords" content="HTML, CSS, JS, JavaScript, image cropping, cropper, cropperjs, cropper.js, front-end, web development">
   <meta name="author" content="Fengyuan Chen">
   <title>Cropper.js</title>
   <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../assets/css/tether.min.css">
   <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
   <link rel="stylesheet" href="../dist/cropper.css">
   <link rel="stylesheet" href="css/main.css">
@@ -19,24 +20,22 @@
   <![endif]-->
 
   <!-- Header -->
-  <header class="navbar navbar-static-top docs-header" id="top">
+  <header class="navbar navbar-light navbar-static-top docs-header" id="top">
     <div class="container">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-target="#navbar-collapse" data-toggle="collapse">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="./">Cropper.js</a>
-      </div>
-      <nav class="collapse navbar-collapse" id="navbar-collapse" role="navigation">
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="https://github.com/fengyuanchen/cropperjs/blob/master/README.md">Docs</a></li>
-          <li><a href="https://github.com/fengyuanchen/cropperjs">GitHub</a></li>
-          <li><a href="https://fengyuanchen.github.io">More</a></li>
-          <li><a href="http://chenfengyuan.com">About</a></li>
-        </ul>
+      <nav>
+        <div class="clearfix">
+          <button class="navbar-toggler pull-xs-right hidden-sm-up" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">&#9776;</button>
+          <a class="navbar-brand hidden-sm-up" href="./">Cropper.js</a>
+        </div>
+        <div class="collapse navbar-toggleable-xs" id="navbar">
+          <a class="navbar-brand hidden-sm-down" href="./">Cropper.js</a>
+          <ul class="nav navbar-nav pull-sm-right">
+            <li class="nav-item"><a class="nav-link" href="https://github.com/fengyuanchen/cropperjs/blob/master/README.md">Docs</a></li>
+            <li class="nav-item"><a class="nav-link" href="https://github.com/fengyuanchen/cropperjs">GitHub</a></li>
+            <li class="nav-item"><a class="nav-link" href="https://fengyuanchen.github.io">More</a></li>
+            <li class="nav-item"><a class="nav-link" href="http://chenfengyuan.com">About</a></li>
+          </ul>
+        </div>
       </nav>
     </div>
   </header>
@@ -44,7 +43,7 @@
   <!-- Jumbotron -->
   <div class="jumbotron docs-jumbotron">
     <div class="container">
-      <h1>Cropper.js</h1>
+      <h1 class="display-4">Cropper.js</h1>
       <p class="lead">JavaScript image cropper.</p>
     </div>
   </div>
@@ -55,7 +54,7 @@
       <div class="col-md-9">
         <!-- <h3 class="page-header">Demo:</h3> -->
         <div class="img-container">
-          <img src="../assets/img/picture.jpg" alt="Picture">
+          <img src="../assets/images/picture.jpg" alt="Picture">
         </div>
       </div>
       <div class="col-md-3">
@@ -215,7 +214,7 @@
               <span class="fa fa-refresh"></span>
             </span>
           </button>
-          <label class="btn btn-primary btn-upload" for="inputImage" title="Upload image file">
+          <label class="btn btn-primary" for="inputImage" title="Upload image file">
             <input type="file" class="sr-only" id="inputImage" name="file" accept="image/*">
             <span class="docs-tooltip" data-toggle="tooltip" title="Import image with Blob URLs">
               <span class="fa fa-upload"></span>
@@ -324,7 +323,7 @@
 
       <div class="col-md-3 docs-toggles">
         <!-- <h3 class="page-header">Toggles:</h3> -->
-        <div class="btn-group btn-group-justified" data-toggle="buttons">
+        <div class="btn-group docs-aspect-ratios" data-toggle="buttons">
           <label class="btn btn-primary active">
             <input type="radio" class="sr-only" id="aspectRatio0" name="aspectRatio" value="1.7777777777777777" checked>
             <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: 16 / 9">
@@ -357,7 +356,7 @@
           </label>
         </div>
 
-        <div class="btn-group btn-group-justified" data-toggle="buttons">
+        <div class="btn-group docs-view-modes" data-toggle="buttons">
           <label class="btn btn-primary active">
             <input type="radio" class="sr-only" id="viewMode0" name="viewMode" value="0" checked>
             <span class="docs-tooltip" data-toggle="tooltip" title="View Mode 0">
@@ -521,6 +520,7 @@
 
   <!-- Scripts -->
   <script src="../assets/js/jquery.min.js"></script>
+  <script src="../assets/js/tether.min.js"></script>
   <script src="../assets/js/bootstrap.min.js"></script>
   <script src="../dist/cropper.js"></script>
   <script src="js/main.js"></script>

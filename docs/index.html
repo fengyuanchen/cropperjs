@@ -1,16 +1,17 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="JavaScript image cropper.">
   <meta name="keywords" content="HTML, CSS, JS, JavaScript, image cropping, cropper, cropperjs, cropper.js, front-end, web development">
   <meta name="author" content="Fengyuan Chen">
   <title>Cropper.js</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/cropper.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.3/css/tether.min.css">
+  <link rel="stylesheet" href="css/cropper.css">
   <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
@@ -19,25 +20,23 @@
   <![endif]-->
 
   <!-- Header -->
-  <header class="navbar navbar-static-top docs-header" id="top">
+  <header class="navbar navbar-light navbar-static-top docs-header" id="top">
     <div class="container">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-target="#navbar-collapse" data-toggle="collapse">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="./">Cropper.js</a>
-      </div>
-      <nav class="collapse navbar-collapse" id="navbar-collapse" role="navigation">
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="https://github.com/fengyuanchen/cropperjs/blob/master/README.md">Docs</a></li>
-          <li><a href="https://fengyuanchen.github.io/photo-editor" title="An advanced example of Cropper.js">Photo Editor</a></li>
-          <li><a href="https://github.com/fengyuanchen/cropperjs">GitHub</a></li>
-          <li><a href="https://fengyuanchen.github.io">More</a></li>
-          <li><a href="http://chenfengyuan.com">About</a></li>
-        </ul>
+      <nav>
+        <div class="clearfix">
+          <button class="navbar-toggler pull-xs-right hidden-sm-up" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">&#9776;</button>
+          <a class="navbar-brand hidden-sm-up" href="./">Cropper.js</a>
+        </div>
+        <div class="collapse navbar-toggleable-xs" id="navbar">
+          <a class="navbar-brand hidden-sm-down" href="./">Cropper.js</a>
+          <ul class="nav navbar-nav pull-sm-right">
+            <li class="nav-item"><a class="nav-link" href="https://github.com/fengyuanchen/cropperjs/blob/master/README.md">Docs</a></li>
+            <li class="nav-item"><a class="nav-link" href="https://fengyuanchen.github.io/photo-editor" title="An advanced example of Cropper.js">Photo Editor</a></li>
+            <li class="nav-item"><a class="nav-link" href="https://github.com/fengyuanchen/cropperjs">GitHub</a></li>
+            <li class="nav-item"><a class="nav-link" href="https://fengyuanchen.github.io">More</a></li>
+            <li class="nav-item"><a class="nav-link" href="http://chenfengyuan.com">About</a></li>
+          </ul>
+        </div>
       </nav>
     </div>
   </header>
@@ -45,11 +44,11 @@
   <!-- Jumbotron -->
   <div class="jumbotron docs-jumbotron">
     <div class="container">
-      <h1>Cropper.js <small class="version">v0.7.2</small></h1>
+      <h1 class="display-4">Cropper.js <small class="version">v0.8.0</small></h1>
       <p class="lead">JavaScript image cropper.</p>
       <div class="docs-carbonads-container">
         <div class="docs-carbonads">
-          <script id="_carbonads_js" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=fengyuanchen" async></script>
+          <script id="_carbonads_js" src="https://cdn.carbonads.com/carbon.js?zoneid=1673&amps;serve=C6AILKT&amps;placement=fengyuanchen" async></script>
         </div>
       </div>
     </div>
@@ -61,7 +60,7 @@
       <div class="col-md-9">
         <!-- <h3 class="page-header">Demo:</h3> -->
         <div class="img-container">
-          <img src="img/picture.jpg" alt="Picture">
+          <img src="images/picture.jpg" alt="Picture">
         </div>
       </div>
       <div class="col-md-3">
@@ -330,7 +329,7 @@
 
       <div class="col-md-3 docs-toggles">
         <!-- <h3 class="page-header">Toggles:</h3> -->
-        <div class="btn-group btn-group-justified" data-toggle="buttons">
+        <div class="btn-group docs-aspect-ratios" data-toggle="buttons">
           <label class="btn btn-primary active">
             <input type="radio" class="sr-only" id="aspectRatio1" name="aspectRatio" value="1.7777777777777777">
             <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: 16 / 9">
@@ -363,7 +362,7 @@
           </label>
         </div>
 
-        <div class="btn-group btn-group-justified" data-toggle="buttons">
+        <div class="btn-group docs-view-modes" data-toggle="buttons">
           <label class="btn btn-primary active">
             <input type="radio" class="sr-only" id="viewMode0" name="viewMode" value="0" checked>
             <span class="docs-tooltip" data-toggle="tooltip" title="View Mode 0">
@@ -515,7 +514,7 @@
           </ul>
         </div><!-- /.dropdown -->
 
-        <a class="btn btn-default btn-block" data-toggle="tooltip" href="https://fengyuanchen.github.io/photo-editor" title="An advanced example of Cropper.js">Photo Editor</a>
+        <a class="btn btn-secondary btn-block" data-toggle="tooltip" href="https://fengyuanchen.github.io/photo-editor" title="An advanced example of Cropper.js">Photo Editor</a>
 
       </div><!-- /.docs-toggles -->
     </div>
@@ -526,20 +525,20 @@
     <div class="container">
       <p class="heart"></p>
       <ul class="list-inline links">
-        <li><a href="https://github.com/fengyuanchen/cropperjs">GitHub</a></li>
-        <li><a href="https://github.com/fengyuanchen/cropperjs/tree/master/examples">Examples</a></li>
-        <li><a href="https://github.com/fengyuanchen/cropperjs/blob/master/LICENSE">License</a></li>
-        <li><a href="http://chenfengyuan.com">About</a></li>
-        <li><a href="//fengyuanchen.github.io/cropperjs/v0.6.0/">v0.6.0 (IE8)</a></li>
+        <li class="list-inline-item"><a href="https://github.com/fengyuanchen/cropperjs">GitHub</a></li>
+        <li class="list-inline-item"><a href="https://github.com/fengyuanchen/cropperjs/tree/master/examples">Examples</a></li>
+        <li class="list-inline-item"><a href="https://github.com/fengyuanchen/cropperjs/blob/master/LICENSE">License</a></li>
+        <li class="list-inline-item"><a href="http://chenfengyuan.com">About</a></li>
       </ul>
     </div>
   </footer>
 
   <!-- Scripts -->
-  <script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.3/js/tether.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/js/bootstrap.min.js"></script>
   <script src="https://fengyuanchen.github.io/js/common.js"></script>
-  <script src="js/cropper.min.js"></script>
+  <script src="js/cropper.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

@@ -3,7 +3,6 @@ window.onload = function () {
   'use strict';
 
   var Cropper = window.Cropper;
-  var console = window.console || { log: function () {} };
   var container = document.querySelector('.img-container');
   var image = container.getElementsByTagName('img').item(0);
   var download = document.getElementById('download');
@@ -15,9 +14,6 @@ window.onload = function () {
   var dataRotate = document.getElementById('dataRotate');
   var dataScaleX = document.getElementById('dataScaleX');
   var dataScaleY = document.getElementById('dataScaleY');
-  var isUndefined = function (obj) {
-    return typeof obj === 'undefined';
-  };
   var options = {
         aspectRatio: 16 / 9,
         preview: '.img-preview',
@@ -41,26 +37,15 @@ window.onload = function () {
           dataY.value = Math.round(data.y);
           dataHeight.value = Math.round(data.height);
           dataWidth.value = Math.round(data.width);
-          dataRotate.value = !isUndefined(data.rotate) ? data.rotate : '';
-          dataScaleX.value = !isUndefined(data.scaleX) ? data.scaleX : '';
-          dataScaleY.value = !isUndefined(data.scaleY) ? data.scaleY : '';
+          dataRotate.value = typeof data.rotate !== 'undefined' ? data.rotate : '';
+          dataScaleX.value = typeof data.scaleX !== 'undefined' ? data.scaleX : '';
+          dataScaleY.value = typeof data.scaleY !== 'undefined' ? data.scaleY : '';
         },
         zoom: function (e) {
           console.log(e.type, e.detail.ratio);
         }
       };
   var cropper = new Cropper(image, options);
-
-  function preventDefault(e) {
-    if (e) {
-      if (e.preventDefault) {
-        e.preventDefault();
-      } else {
-        e.returnValue = false;
-      }
-    }
-  }
-
 
   // Tooltip
   $('[data-toggle="tooltip"]').tooltip();
@@ -225,22 +210,22 @@ window.onload = function () {
 
     switch (e.keyCode) {
       case 37:
-        preventDefault(e);
+        e.preventDefault();
         cropper.move(-1, 0);
         break;
 
       case 38:
-        preventDefault(e);
+        e.preventDefault();
         cropper.move(0, -1);
         break;
 
       case 39:
-        preventDefault(e);
+        e.preventDefault();
         cropper.move(1, 0);
         break;
 
       case 40:
-        preventDefault(e);
+        e.preventDefault();
         cropper.move(0, 1);
         break;
     }
@@ -273,5 +258,4 @@ window.onload = function () {
     inputImage.disabled = true;
     inputImage.parentNode.className += ' disabled';
   }
-
 };

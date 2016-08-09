@@ -12,92 +12,28 @@ body {
   text-align: center;
 }
 
+.btn-group > .btn {
+  padding-right: 12px;
+  padding-left: 12px;
+}
 
-/* Header */
-
-.docs-header {
+.btn-group > label {
   margin-bottom: 0;
-}
-
-.navbar-toggle:hover,
-.navbar-toggle:focus {
-  border-color: #0074d9;
-}
-
-.navbar-toggle .icon-bar {
-  background-color: #0074d9;
 }
 
 
 /* Jumbotron */
 
 .docs-jumbotron {
-  background-color: #0074d9;
   color: #fff;
+  background-color: #0074d9;
+  border-radius: 0;
 }
 
 .docs-jumbotron .version {
-  font-size: 14px;
+  font-size: 18px;
   color: #fff;
-  filter: alpha(opacity=50);
-  opacity: 0.5;
-}
-
-@media (min-width: 992px) {
-  .docs-jumbotron h1,
-  .docs-jumbotron p {
-    margin-right: 380px;
-  }
-}
-
-.docs-carbonads-container {
-  position: relative;
-}
-
-.docs-carbonads {
-  max-width: 350px;
-  padding: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.carbon-wrap {
-  overflow: hidden;
-}
-
-.carbon-img {
-  clear: left;
-  float: left;
-  display: block;
-}
-
-.carbon-text,
-.carbon-poweredby {
-  display: block;
-  margin-left: 140px;
-}
-
-.carbon-text,
-.carbon-text:hover,
-.carbon-text:focus {
-  color: #fff;
-  text-decoration: none;
-}
-
-.carbon-poweredby,
-.carbon-poweredby:hover,
-.carbon-poweredby:focus {
-  color: #ddd;
-  text-decoration: none;
-}
-
-@media (min-width: 992px) {
-  .docs-carbonads {
-    position: absolute;
-    right: 0;
-    bottom: 5px;
-  }
+  opacity: 0.8;
 }
 
 
@@ -112,13 +48,13 @@ body {
 
 .img-container {
   min-height: 200px;
-  max-height: 516px;
+  max-height: 485px;
   margin-bottom: 20px;
 }
 
 @media (min-width: 768px) {
   .img-container {
-    min-height: 516px;
+    min-height: 485px;
   }
 }
 
@@ -142,23 +78,23 @@ body {
 }
 
 .preview-lg {
-  width: 263px;
-  height: 148px;
+  width: 256px;
+  height: 144px;
 }
 
 .preview-md {
-  width: 139px;
-  height: 78px;
+  width: 128px;
+  height: 72px;
 }
 
 .preview-sm {
-  width: 69px;
-  height: 39px;
+  width: 64px;
+  height: 36px;
 }
 
 .preview-xs {
-  width: 35px;
-  height: 20px;
+  width: 32px;
+  height: 18px;
   margin-right: 0;
 }
 
@@ -177,8 +113,8 @@ body {
 .docs-buttons > .btn,
 .docs-buttons > .btn-group,
 .docs-buttons > .form-control {
-  margin-right: 5px;
-  margin-bottom: 10px;
+  margin-right: 4px;
+  margin-bottom: 8px;
 }
 
 .docs-toggles > .btn,
@@ -189,39 +125,32 @@ body {
 
 .docs-tooltip {
   display: block;
-  margin: -6px -12px;
-  padding: 6px 12px;
-}
-
-.docs-tooltip > .icon {
-  margin: 0 -3px;
-  vertical-align: top;
-}
-
-.tooltip-inner {
-  white-space: normal;
-}
-
-.btn-upload .tooltip-inner {
-  white-space: nowrap;
+  margin: -8px -12px;
+  padding: 8px 12px;
 }
 
 @media (max-width: 400px) {
   .btn-group-crop {
-    margin-right: -15px!important;
+    margin-right: -16px!important;
   }
 
   .btn-group-crop > .btn {
-    padding-left: 5px;
-    padding-right: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
+}
 
-  .btn-group-crop .docs-tooltip {
-    margin-left: -5px;
-    margin-right: -5px;
-    padding-left: 5px;
-    padding-right: 5px;
-  }
+.docs-aspect-ratios,
+.docs-view-modes {
+  width: 100%;
+}
+
+.docs-aspect-ratios > .btn {
+  width: 20%;
+}
+
+.docs-view-modes > .btn {
+  width: 25%;
 }
 
 .docs-options .dropdown-menu {
@@ -238,6 +167,7 @@ body {
 
 .docs-options .dropdown-menu > li > label {
   display: block;
+  width: 105%;
 }
 
 .docs-cropped .modal-body {
@@ -258,19 +188,19 @@ body {
 
 .links {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 32px;
 }
 
 .heart {
   position: relative;
   display: block;
   width: 100%;
-  height: 30px;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  height: 32px;
+  margin-top: 16px;
+  margin-bottom: 16px;
   color: #ddd;
   font-size: 18px;
-  line-height: 30px;
+  line-height: 32px;
   text-align: center;
 }
 
