@@ -61,8 +61,8 @@ Four quick start options are available:
 
 - [Download the latest release](https://github.com/fengyuanchen/cropperjs/archive/master.zip).
 - Clone the repository: `git clone https://github.com/fengyuanchen/cropperjs.git`.
-- Install with [NPM](http://npmjs.org): `npm install cropperjs`.
-- Install with [Bower](http://bower.io): `bower install cropperjs`.
+- Install with [NPM](https://npmjs.com): `npm install cropperjs`.
+- Install with [Bower](https://bower.io): `bower install cropperjs`.
 
 
 ### Installation
