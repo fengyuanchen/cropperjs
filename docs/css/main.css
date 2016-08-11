@@ -31,9 +31,67 @@ body {
 }
 
 .docs-jumbotron .version {
-  font-size: 18px;
+  font-size: 16px;
   color: #fff;
   opacity: 0.8;
+}
+
+@media (min-width: 992px) {
+  .docs-jumbotron h1,
+  .docs-jumbotron p {
+    margin-right: 380px;
+  }
+}
+
+.docs-carbonads-container {
+  font-size: 14px;
+  position: relative;
+}
+
+.docs-carbonads {
+  max-width: 350px;
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.carbon-wrap {
+  overflow: hidden;
+}
+
+.carbon-img {
+  clear: left;
+  float: left;
+  display: block;
+}
+
+.carbon-text,
+.carbon-poweredby {
+  display: block;
+  margin-left: 140px;
+}
+
+.carbon-text,
+.carbon-text:hover,
+.carbon-text:focus {
+  color: #fff;
+  text-decoration: none;
+}
+
+.carbon-poweredby,
+.carbon-poweredby:hover,
+.carbon-poweredby:focus {
+  color: #ddd;
+  text-decoration: none;
+}
+
+@media (min-width: 992px) {
+  .docs-carbonads {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
 }
 
 
