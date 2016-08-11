@@ -12,12 +12,7 @@ import * as $ from './utilities';
 const NAMESPACE = 'cropper';
 
 // Classes
-const CLASS_MODAL = `${NAMESPACE}-modal`;
-const CLASS_HIDE = `${NAMESPACE}-hide`;
 const CLASS_HIDDEN = `${NAMESPACE}-hidden`;
-const CLASS_INVISIBLE = `${NAMESPACE}-invisible`;
-const CLASS_MOVE = `${NAMESPACE}-move`;
-const CLASS_BG = `${NAMESPACE}-bg`;
 
 // Events
 const EVENT_ERROR = 'error';
@@ -242,7 +237,7 @@ class Cropper {
     } else {
       $.addListener(image, EVENT_LOAD, start);
       $.addListener(image, EVENT_ERROR, stop);
-      $.addClass(image, CLASS_HIDE);
+      $.addClass(image, 'cropper-hide');
       element.parentNode.insertBefore(image, element.nextSibling);
     }
   }
@@ -322,7 +317,7 @@ class Cropper {
 
     // Show the image if is hidden
     if (!self.isImg) {
-      $.removeClass(image, CLASS_HIDE);
+      $.removeClass(image, 'cropper-hide');
     }
 
     self.initPreview();
@@ -335,7 +330,7 @@ class Cropper {
       self.cropped = true;
 
       if (options.modal) {
-        $.addClass(dragBox, CLASS_MODAL);
+        $.addClass(dragBox, 'cropper-modal');
       }
     } else {
       $.addClass(cropBox, CLASS_HIDDEN);
@@ -350,15 +345,15 @@ class Cropper {
     }
 
     if (options.background) {
-      $.addClass(cropper, CLASS_BG);
+      $.addClass(cropper, 'cropper-bg');
     }
 
     if (!options.highlight) {
-      $.addClass(face, CLASS_INVISIBLE);
+      $.addClass(face, 'cropper-invisible');
     }
 
     if (options.cropBoxMovable) {
-      $.addClass(face, CLASS_MOVE);
+      $.addClass(face, 'cropper-move');
       $.setData(face, 'action', 'all');
     }
 
