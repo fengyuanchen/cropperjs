@@ -118,7 +118,7 @@ var cropper = new Cropper(image, {
 
 #### FAQ
 
-##### How to crop an new area after zoom in or zoom out?
+##### How to crop a new area after zoom in or zoom out?
 
 > Just double click your mouse to enter crop mode.
 
@@ -133,7 +133,7 @@ var cropper = new Cropper(image, {
 > Just hold the `shift` key when you resize the crop box.
 
 
-##### How to crop an square area in free ratio mode?
+##### How to crop a square area in free ratio mode?
 
 > Just hold the `shift` key when you crop on the image.
 
@@ -853,6 +853,7 @@ Change the crop box position and size with new data.
     - `width`: the destination width of the output canvas
     - `height`: the destination height of the output canvas
     - `fillColor`: a color to fill any alpha values in the output canvas
+  - Note: The aspect ratio of the output canvas will be fitted to aspect ratio of the crop box automatically.
 
 - (return  value):
   - Type: `HTMLCanvasElement`
