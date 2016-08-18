@@ -19,7 +19,7 @@ const styles = {
 };
 const banner = `/*!
  * Cropper.js v${pkg.version}
- * ${pkg.homepage}
+ * https://github.com/${pkg.repository}
  *
  * Copyright (c) 2015-${now.getFullYear()} ${pkg.author.name}
  * Released under the ${pkg.license} license
