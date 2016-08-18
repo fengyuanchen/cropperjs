@@ -1,11 +1,12 @@
 # Changelog
 
 
-## 0.8.0 (Jun 20, 2016)
+## 0.8.0 (Aug 18, 2016)
 
 - Removed `build` event.
 - Renamed `built` event to `ready`.
 - Fixed the error of orientation transform.
+- Ported code to ECMAScript 6.
 
 
 ## 0.7.2 (Jun 8, 2016)
