@@ -37,6 +37,11 @@ body {
 }
 
 @media (min-width: 992px) {
+  .docs-jumbotron h1 {
+    font-size: 4.5rem;
+    font-weight: normal;
+  }
+
   .docs-jumbotron h1,
   .docs-jumbotron p {
     margin-right: 380px;
@@ -106,13 +111,13 @@ body {
 
 .img-container {
   min-height: 200px;
-  max-height: 485px;
-  margin-bottom: 20px;
+  max-height: 469px;
+  margin-bottom: 16px;
 }
 
 @media (min-width: 768px) {
   .img-container {
-    min-height: 485px;
+    min-height: 469px;
   }
 }
 
@@ -121,13 +126,13 @@ body {
 }
 
 .docs-preview {
-  margin-right: -15px;
+  margin-right: -16px;
 }
 
 .img-preview {
   float: left;
-  margin-right: 10px;
-  margin-bottom: 10px;
+  margin-right: 8px;
+  margin-bottom: 8px;
   overflow: hidden;
 }
 
@@ -136,8 +141,8 @@ body {
 }
 
 .preview-lg {
-  width: 256px;
-  height: 144px;
+  width: 255px;
+  height: 143px;
 }
 
 .preview-md {
@@ -146,18 +151,18 @@ body {
 }
 
 .preview-sm {
-  width: 64px;
-  height: 36px;
+  width: 72px;
+  height: 41px;
 }
 
 .preview-xs {
-  width: 32px;
-  height: 18px;
+  width: 40px;
+  height: 24px;
   margin-right: 0;
 }
 
 .docs-data > .input-group {
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .docs-data > .input-group > label {
@@ -178,7 +183,7 @@ body {
 .docs-toggles > .btn,
 .docs-toggles > .btn-group,
 .docs-toggles > .dropdown {
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .docs-tooltip {
@@ -193,8 +198,8 @@ body {
   }
 
   .btn-group-crop > .btn {
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 8px;
+    padding-right: 8px;
   }
 }
 
@@ -216,7 +221,7 @@ body {
 }
 
 .docs-options .dropdown-menu > li {
-  padding: 3px 20px;
+  padding: 4px 16px;
 }
 
 .docs-options .dropdown-menu > li:hover {
@@ -224,8 +229,7 @@ body {
 }
 
 .docs-options .dropdown-menu > li > label {
-  display: block;
-  width: 105%;
+  margin-bottom: 0;
 }
 
 .docs-cropped .modal-body {
