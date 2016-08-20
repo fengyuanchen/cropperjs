@@ -1,4 +1,6 @@
 # Project
+/_*
+*.map
 archives
 bower_components
 docs/js/cropper.*
@@ -7,8 +9,6 @@ docs/images
 node_modules
 resources
 site
-*.map
-/_*
 
 # Windows image file caches
 Thumbs.db
