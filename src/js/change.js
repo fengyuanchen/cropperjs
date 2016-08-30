@@ -40,8 +40,16 @@ export default {
     if (self.limited) {
       minLeft = cropBoxData.minLeft;
       minTop = cropBoxData.minTop;
-      maxWidth = minLeft + Math.min(containerData.width, canvasData.left + canvasData.width);
-      maxHeight = minTop + Math.min(containerData.height, canvasData.top + canvasData.height);
+      maxWidth = minLeft + Math.min(
+        containerData.width,
+        canvasData.width,
+        canvasData.left + canvasData.width
+      );
+      maxHeight = minTop + Math.min(
+        containerData.height,
+        canvasData.height,
+        canvasData.top + canvasData.height
+      );
     }
 
     const range = {
