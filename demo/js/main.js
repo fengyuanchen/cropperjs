@@ -69,7 +69,7 @@ window.onload = function () {
 
 
   // Options
-  actions.querySelector('.docs-toggles').onclick = function (event) {
+  actions.querySelector('.docs-toggles').onchange = function (event) {
     var e = event || window.event;
     var target = e.target || e.srcElement;
     var cropBoxData;
@@ -81,12 +81,8 @@ window.onload = function () {
       return;
     }
 
-    if (target.tagName.toLowerCase() === 'span') {
-      target = target.parentNode;
-    }
-
     if (target.tagName.toLowerCase() === 'label') {
-      target = target.getElementsByTagName('input').item(0);
+      target = target.querySelector('input');
     }
 
     isCheckbox = target.type === 'checkbox';
