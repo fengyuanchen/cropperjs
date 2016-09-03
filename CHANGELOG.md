@@ -1,6 +1,13 @@
 # Changelog
 
 
+## 0.8.1 (Sep 3, 2016)
+
+- Fixed the bug of cropping (#80).
+- Fixed the bug of calling `ready` event twice when call `replace` method (#81).
+- Fixed the bug of `getCroppedCanvas` when set `scalable` or `rotatable` to `false` (#82).
+
+
 ## 0.8.0 (Aug 18, 2016)
 
 - Removed `build` event.

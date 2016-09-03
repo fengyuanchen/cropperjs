@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v0.8.0
+ * Cropper.js v0.8.1
  * https://github.com/fengyuanchen/cropperjs
  *
  * Copyright (c) 2015-2016 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2016-08-18T03:01:29.515Z
+ * Date: 2016-09-03T04:55:16.458Z
  */
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -484,7 +484,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      self.setData(options.data);
 	
 	      // Call the "ready" option asynchronously to keep "image.cropper" is defined
-	      setTimeout(function () {
+	      self.completing = setTimeout(function () {
 	        if ($.isFunction(options.ready)) {
 	          $.addListener(element, EVENT_READY, options.ready, true);
 	        }
@@ -502,6 +502,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	      if (!self.ready) {
 	        return;
+	      }
+	
+	      if (!self.complete) {
+	        clearTimeout(self.completing);
 	      }
 	
 	      self.ready = false;
@@ -1708,8 +1712,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var scalable = isNumber(scaleX) && isNumber(scaleY) && (scaleX !== 1 || scaleY !== 1);
 	  var rotatable = isNumber(rotate) && rotate !== 0;
 	  var advanced = rotatable || scalable;
-	  var canvasWidth = dstWidth * Math.abs(scaleX);
-	  var canvasHeight = dstHeight * Math.abs(scaleY);
+	  var canvasWidth = dstWidth * Math.abs(scaleX || 1);
+	  var canvasHeight = dstHeight * Math.abs(scaleY || 1);
 	  var translateX = void 0;
 	  var translateY = void 0;
 	  var rotated = void 0;
@@ -2419,8 +2423,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (self.limited) {
 	      minLeft = cropBoxData.minLeft;
 	      minTop = cropBoxData.minTop;
-	      maxWidth = minLeft + Math.min(containerData.width, canvasData.left + canvasData.width);
-	      maxHeight = minTop + Math.min(containerData.height, canvasData.top + canvasData.height);
+	      maxWidth = minLeft + Math.min(containerData.width, canvasData.width, canvasData.left + canvasData.width);
+	      maxHeight = minTop + Math.min(containerData.height, canvasData.height, canvasData.top + canvasData.height);
 	    }
 	
 	    var range = {
