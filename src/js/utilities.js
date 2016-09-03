@@ -499,8 +499,8 @@ export function getSourceCanvas(image, data) {
   const scalable = isNumber(scaleX) && isNumber(scaleY) && (scaleX !== 1 || scaleY !== 1);
   const rotatable = isNumber(rotate) && rotate !== 0;
   const advanced = rotatable || scalable;
-  let canvasWidth = dstWidth * Math.abs(scaleX);
-  let canvasHeight = dstHeight * Math.abs(scaleY);
+  let canvasWidth = dstWidth * Math.abs(scaleX || 1);
+  let canvasHeight = dstHeight * Math.abs(scaleY || 1);
   let translateX;
   let translateY;
   let rotated;
