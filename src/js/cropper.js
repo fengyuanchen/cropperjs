@@ -333,6 +333,7 @@ class Cropper {
         $.addClass(dragBox, 'cropper-modal');
       }
     } else {
+      self.cropped = false;
       $.addClass(cropBox, CLASS_HIDDEN);
     }
 

@@ -3,17 +3,20 @@ QUnit.test('methods#replace', function (assert) {
   var util = window.Util;
   var image = util.createImage();
 
-  assert.expect(1);
+  assert.expect(2);
 
   return new Cropper(image, {
     ready: function () {
       var cropper = this.cropper;
 
       cropper.options.ready = function () {
-        assert.ok(true);
+        assert.notOk(cropper.cropped);
+        cropper.crop();
+        assert.ok(cropper.cropped);
         done();
       };
 
+      cropper.options.autoCrop = false;
       cropper.replace('../assets/images/picture-2.jpg');
     }
   });
