@@ -326,14 +326,13 @@ class Cropper {
     options.aspectRatio = Math.max(0, options.aspectRatio) || NaN;
     options.viewMode = Math.max(0, Math.min(3, Math.round(options.viewMode))) || 0;
 
-    if (options.autoCrop) {
-      self.cropped = true;
+    self.cropped = options.autoCrop;
 
+    if (options.autoCrop) {
       if (options.modal) {
         $.addClass(dragBox, 'cropper-modal');
       }
     } else {
-      self.cropped = false;
       $.addClass(cropBox, CLASS_HIDDEN);
     }
 
