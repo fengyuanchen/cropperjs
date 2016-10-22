@@ -3,6 +3,7 @@ window.onload = function () {
   'use strict';
 
   var Cropper = window.Cropper;
+  var URL = window.URL || window.webkitURL;
   var container = document.querySelector('.img-container');
   var image = container.getElementsByTagName('img').item(0);
   var download = document.getElementById('download');
@@ -46,7 +47,8 @@ window.onload = function () {
         }
       };
   var cropper = new Cropper(image, options);
-
+  var originalImageURL = image.src;
+  var uploadedImageURL;
 
   // Tooltip
   $('[data-toggle="tooltip"]').tooltip();
@@ -184,6 +186,13 @@ window.onload = function () {
 
         case 'destroy':
           cropper = null;
+
+          if (uploadedImageURL) {
+            URL.revokeObjectURL(uploadedImageURL);
+            uploadedImageURL = '';
+            image.src = originalImageURL;
+          }
+
           break;
       }
 
@@ -194,7 +203,6 @@ window.onload = function () {
           console.log(e.message);
         }
       }
-
     }
   };
 
@@ -205,7 +213,7 @@ window.onload = function () {
       return;
     }
 
-    switch (e.charCode || e.keyCode) {
+    switch (e.keyCode) {
       case 37:
         e.preventDefault();
         cropper.move(-1, 0);
@@ -231,8 +239,6 @@ window.onload = function () {
 
   // Import image
   var inputImage = document.getElementById('inputImage');
-  var URL = window.URL || window.webkitURL;
-  var blobURL;
 
   if (URL) {
     inputImage.onchange = function () {
@@ -243,8 +249,9 @@ window.onload = function () {
         file = files[0];
 
         if (/^image\/\w+/.test(file.type)) {
-          blobURL = URL.createObjectURL(file);
-          cropper.reset().replace(blobURL);
+          image.src = uploadedImageURL = URL.createObjectURL(file);
+          cropper.destroy();
+          cropper = new Cropper(image, options);
           inputImage.value = null;
         } else {
           window.alert('Please choose an image file.');
