@@ -1094,6 +1094,7 @@ Maintained under the [Semantic Versioning guidelines](http://semver.org/).
 ## Related projects
 
 - [react-cropperjs](https://github.com/TAPP-TV/react-cropperjs) by @pbojinov
+- [vue-cropperjs](https://github.com/Agontuk/vue-cropperjs) by @Agontuk
 
 
 [⬆ back to top](#table-of-contents)
