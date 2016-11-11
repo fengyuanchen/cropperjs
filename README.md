@@ -209,9 +209,9 @@ The previous cropped data if you had stored, will be passed to `setData` method 
 
 ### preview
 
-- Type: `String`
+- Type: `String|DomNode`
 - Default: `''`
-- A valid selector for [Document.querySelectorAll](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll)
+- A valid selector for [Document.querySelectorAll](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll) or a dom node element.
 
 Add extra elements (containers) for previewing.
 
