@@ -5,7 +5,7 @@
  * Copyright (c) 2015-2016 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2016-09-03T04:55:16.458Z
+ * Date: 2016-11-11T14:56:01.922Z
  */
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -442,9 +442,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      options.aspectRatio = Math.max(0, options.aspectRatio) || NaN;
 	      options.viewMode = Math.max(0, Math.min(3, Math.round(options.viewMode))) || 0;
 	
-	      if (options.autoCrop) {
-	        self.cropped = true;
+	      self.cropped = options.autoCrop;
 	
+	      if (options.autoCrop) {
 	        if (options.modal) {
 	          $.addClass(dragBox, 'cropper-modal');
 	        }
@@ -1168,7 +1168,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 	
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 	
 	exports.typeOf = typeOf;
 	exports.isNumber = isNumber;
@@ -1917,11 +1917,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return;
 	    }
 	
-	    var previews = document.querySelectorAll(preview);
+	    if (preview.querySelector) {
+	      self.previews = [preview];
+	    } else {
+	      self.previews = document.querySelectorAll(preview);
+	    }
 	
-	    self.previews = previews;
-	
-	    $.each(previews, function (element) {
+	    $.each(self.previews, function (element) {
 	      var img = $.createElement('img');
 	
 	      // Save the original size for recover

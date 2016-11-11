@@ -22,11 +22,13 @@ export default {
       return;
     }
 
-    const previews = document.querySelectorAll(preview);
+    if (preview.querySelector) {
+      self.previews = [preview];
+    } else {
+      self.previews = document.querySelectorAll(preview);
+    }
 
-    self.previews = previews;
-
-    $.each(previews, (element) => {
+    $.each(self.previews, (element) => {
       const img = $.createElement('img');
 
       // Save the original size for recover
