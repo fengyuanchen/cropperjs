@@ -17,7 +17,7 @@ QUnit.test('methods#replace', function (assert) {
       };
 
       cropper.options.autoCrop = false;
-      cropper.replace('../assets/images/picture-2.jpg');
+      cropper.replace('../docs/images/picture-2.jpg');
     }
   });
 });
