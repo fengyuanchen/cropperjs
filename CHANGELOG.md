@@ -1,6 +1,13 @@
 # Changelog
 
 
+## 1.0.0-alpha (Dec 4, 2016)
+
+- Built JavaScript with Rollup.
+- Build CSS with PostCSS.
+- Fixed a bug of auto crop when replace the image (#83).
+
+
 ## 0.8.1 (Sep 3, 2016)
 
 - Fixed the bug of cropping (#80).
