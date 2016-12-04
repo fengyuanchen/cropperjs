@@ -1,9 +1,6 @@
-// Cropper
-// --------------------------------------------------
-
-
-// Container
-// -------------------------
+:root {
+  --blue: #39f;
+}
 
 .cropper-container {
   font-size: 0;
@@ -16,8 +13,8 @@
   direction: ltr;
   touch-action: none;
 
-  img {
-    // Avoid margin top issue (Occur only when margin-top <= -height)
+  & img {
+    /* Avoid margin top issue (Occur only when margin-top <= -height) */
     display: block;
 
     min-width: 0 !important;
@@ -25,15 +22,12 @@
     min-height: 0 !important;
     max-height: none !important;
 
-    .square(100%);
-    // https://developer.mozilla.org/en-US/docs/Web/CSS/image-orientation
+    width: 100%;
+    height: 100%;
+
     image-orientation: 0deg;
   }
 }
-
-
-// Components
-// -------------------------
 
 .cropper-wrap-box,
 .cropper-canvas,
@@ -53,27 +47,24 @@
 
 .cropper-drag-box {
   opacity: 0;
-  background-color: @color-white;
+  background-color: #fff;
 }
 
 .cropper-modal {
   opacity: .5;
-  background-color: @color-black;
+  background-color: #000;
 }
 
 .cropper-view-box {
   display: block;
   overflow: hidden;
 
-  .square(100%);
+  width: 100%;
+  height: 100%;
 
-  outline: 1px solid @color-brand;
-  outline-color: fade(@color-brand, 75%);
+  outline: 1px solid var(--blue);
+  outline-color: color(var(--blue) alpha(75%));
 }
-
-
-// References
-// -------------------------
 
 .cropper-dashed {
   position: absolute;
@@ -84,10 +75,11 @@
   border: 0 dashed #eee;
 
   &.dashed-h {
-    top: percentage(1 / 3);
+    top: calc(100 / 3)%;
     left: 0;
 
-    .size(100%, percentage(1 / 3));
+    width: 100%;
+    height: calc(100 / 3)%;
 
     border-top-width: 1px;
     border-bottom-width: 1px;
@@ -95,9 +87,10 @@
 
   &.dashed-v {
     top: 0;
-    left: percentage(1 / 3);
+    left: calc(100 / 3)%;
 
-    .size(percentage(1 / 3), 100%);
+    width: calc(100 / 3)%;
+    height: 100%;
 
     border-right-width: 1px;
     border-left-width: 1px;
@@ -144,10 +137,6 @@
   }
 }
 
-
-// Handlers
-// -------------------------
-
 .cropper-face,
 .cropper-line,
 .cropper-point {
@@ -155,7 +144,8 @@
 
   display: block;
 
-  .square(100%);
+  width: 100%;
+  height: 100%;
 
   opacity: .1;
 }
@@ -164,11 +154,11 @@
   top: 0;
   left: 0;
 
-  background-color: @color-white;
+  background-color: #fff;
 }
 
 .cropper-line {
-  background-color: @color-brand;
+  background-color: var(--blue);
 
   &.line-e {
     top: 0;
@@ -208,10 +198,11 @@
 }
 
 .cropper-point {
-  .square(5px);
+  width: 5px;
+  height: 5px;
 
   opacity: .75;
-  background-color: @color-brand;
+  background-color: var(--blue);
 
   &.point-e {
     top: 50%;
@@ -274,11 +265,29 @@
     right: -3px;
     bottom: -3px;
 
-    .square(20px);
+    width: 20px;
+    height: 20px;
 
     cursor: se-resize;
 
     opacity: 1;
+
+    @media (min-width: 768px) {
+      width: 15px;
+      height: 15px;
+    }
+
+    @media (min-width: 992px) {
+      width: 10px;
+      height: 10px;
+    }
+
+    @media (min-width: 1200px) {
+      width: 5px;
+      height: 5px;
+
+      opacity: .75;
+    }
   }
 
   &.point-se:before {
@@ -288,31 +297,49 @@
 
     display: block;
 
-    .square(200%);
+    width: 200%;
+    height: 200%;
 
     content: ' ';
 
     opacity: 0;
-    background-color: @color-brand;
-  }
-
-  @media (min-width: @screen-small-min) {
-    &.point-se {
-      .square(15px);
-    }
-  }
-
-  @media (min-width: @screen-medium-min) {
-    &.point-se {
-      .square(10px);
-    }
-  }
-
-  @media (min-width: @screen-large-min) {
-    &.point-se {
-      .square(5px);
-
-      opacity: .75;
-    }
+    background-color: var(--blue);
   }
 }
+
+.cropper-invisible {
+  opacity: 0;
+}
+
+.cropper-bg {
+  background-image: inline('../images/bg.png');
+}
+
+.cropper-hide {
+  position: absolute;
+
+  display: block;
+
+  width: 0;
+  height: 0;
+}
+
+.cropper-hidden {
+  display: none !important;
+}
+
+.cropper-move {
+  cursor: move;
+}
+
+.cropper-crop {
+  cursor: crosshair;
+}
+
+.cropper-disabled .cropper-drag-box,
+.cropper-disabled .cropper-face,
+.cropper-disabled .cropper-line,
+.cropper-disabled .cropper-point {
+  cursor: not-allowed;
+}
+
