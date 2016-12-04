@@ -249,6 +249,10 @@ window.onload = function () {
         file = files[0];
 
         if (/^image\/\w+/.test(file.type)) {
+          if (uploadedImageURL) {
+            URL.revokeObjectURL(uploadedImageURL);
+          }
+
           image.src = uploadedImageURL = URL.createObjectURL(file);
           cropper.destroy();
           cropper = new Cropper(image, options);
