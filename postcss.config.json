@@ -1,0 +1,8 @@
+{
+  "use": [
+    "postcss-cssnext",
+    "postcss-assets"
+  ],
+  "input": "src/css/cropper.css",
+  "output": "dist/cropper.css"
+}
