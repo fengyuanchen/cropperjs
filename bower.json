@@ -35,10 +35,8 @@
     "tests",
     "test",
     "examples",
-    "assets",
-    "demo",
     "docs",
-    "gulpfile.js",
+    "build",
     "CONTRIBUTING.md",
     "ISSUE_TEMPLATE.md"
   ]
