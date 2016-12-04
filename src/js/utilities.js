@@ -1,12 +1,12 @@
 // RegExps
 const REGEXP_DATA_URL_HEAD = /^data:([^;]+);base64,/;
 const REGEXP_HYPHENATE = /([a-z\d])([A-Z])/g;
-const REGEXP_ORIGINS = /^(https?:)\/\/([^:\/\?#]+):?(\d*)/i;
+const REGEXP_ORIGINS = /^(https?:)\/\/([^:/?#]+):?(\d*)/i;
 const REGEXP_SPACES = /\s+/;
 const REGEXP_SUFFIX = /^(width|height|left|top|marginLeft|marginTop)$/;
 const REGEXP_TRIM = /^\s+(.*)\s+$/;
 const REGEXP_USERAGENT = /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i;
-const navigator = window.navigator;
+const navigator = typeof window !== 'undefined' ? window.navigator : null;
 const IS_SAFARI_OR_UIWEBVIEW = navigator && REGEXP_USERAGENT.test(navigator.userAgent);
 
 // Utilities
@@ -275,7 +275,7 @@ export function addListener(element, type, handler, once) {
   if (element.addEventListener) {
     element.addEventListener(type, handler, false);
   } else if (element.attachEvent) {
-    element.attachEvent('on${type}', handler);
+    element.attachEvent(`on${type}`, handler);
   }
 }
 
