@@ -8,5 +8,7 @@ examples
 node_modules
 test
 bower.json
+postcss.config.json
+rollup.config.js
 CONTRIBUTING.md
 ISSUE_TEMPLATE.md
