@@ -46,15 +46,17 @@
         var context = canvas.getContext('2d');
         var width = sourceCanvas.width;
         var height = sourceCanvas.height;
+        context.imageSmoothingEnabled = true;
 
         canvas.width = width;
         canvas.height = height;
-        context.beginPath();
-        context.arc(width / 2, height / 2, Math.min(width, height) / 2, 0, 2 * Math.PI);
-        context.strokeStyle = 'rgba(0,0,0,0)';
-        context.stroke();
-        context.clip();
+
         context.drawImage(sourceCanvas, 0, 0, width, height);
+        context.globalCompositeOperation = 'destination-in';
+        context.beginPath();
+        context.arc(width / 2, height / 2, Math.min(width, height) / 2, 0, 2 * Math.PI, true);
+        context.fill();
+        
 
         return canvas;
       }
