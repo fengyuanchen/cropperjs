@@ -352,7 +352,10 @@ export default {
           const z1 = Math.sqrt((x1 * x1) + (y1 * y1));
           const z2 = Math.sqrt((x2 * x2) + (y2 * y2));
 
-          return (z2 - z1) / z1;
+          // Temporal fix to #824 from Cropper (jQuery) https://github.com/fengyuanchen/cropper/issues/824
+          // "the cropper doesn't work with the latest version of chrome on mobile devices."
+          const z = (z2 - z1) / z1;
+          return Math.abs(z) > 0.2 ? z : 0;
         })(
           Math.abs(self.startX - self.startX2),
           Math.abs(self.startY - self.startY2),
