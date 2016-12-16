@@ -5,7 +5,7 @@
  * Copyright (c) 2016 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2016-12-04T14:06:47.119Z
+ * Date: 2016-12-16T18:25:25.534Z
  */
 
 (function (global, factory) {
@@ -2144,7 +2144,8 @@ var change$1 = {
           var z1 = Math.sqrt(x1 * x1 + y1 * y1);
           var z2 = Math.sqrt(x2 * x2 + y2 * y2);
 
-          return (z2 - z1) / z1;
+          var z = (z2 - z1) / z1;
+          return Math.abs(z) < 0.2 ? z : 0;
         }(Math.abs(self.startX - self.startX2), Math.abs(self.startY - self.startY2), Math.abs(self.endX - self.endX2), Math.abs(self.endY - self.endY2)), originalEvent);
         self.startX2 = self.endX2;
         self.startY2 = self.endY2;
