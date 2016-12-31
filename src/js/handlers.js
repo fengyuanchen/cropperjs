@@ -185,7 +185,6 @@ export default {
       return;
     }
 
-    const options = self.options;
     const pointers = self.pointers;
     const e = $.getEvent(event);
 
@@ -205,7 +204,7 @@ export default {
 
     if (self.cropping) {
       self.cropping = false;
-      $.toggleClass(self.dragBox, 'cropper-modal', self.cropped && options.modal);
+      $.toggleClass(self.dragBox, 'cropper-modal', self.cropped && this.options.modal);
     }
 
     $.dispatchEvent(self.element, 'cropend', {
