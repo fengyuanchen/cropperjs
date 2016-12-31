@@ -1,5 +1,25 @@
 import * as $ from './utilities';
 
+function getPointersCenter(pointers) {
+  let pageX = 0;
+  let pageY = 0;
+  let count = 0;
+
+  $.each(pointers, ({ startX, startY }) => {
+    pageX += startX;
+    pageY += startY;
+    count += 1;
+  });
+
+  pageX /= count;
+  pageY /= count;
+
+  return {
+    pageX,
+    pageY,
+  };
+}
+
 export default {
   // Show the crop box manually
   crop() {
@@ -245,16 +265,12 @@ export default {
     const height = canvasData.height;
     const naturalWidth = canvasData.naturalWidth;
     const naturalHeight = canvasData.naturalHeight;
-    let newWidth;
-    let newHeight;
-    let offset;
-    let center;
 
     ratio = Number(ratio);
 
     if (ratio >= 0 && self.ready && !self.disabled && options.zoomable) {
-      newWidth = naturalWidth * ratio;
-      newHeight = naturalHeight * ratio;
+      const newWidth = naturalWidth * ratio;
+      const newHeight = naturalHeight * ratio;
 
       if ($.dispatchEvent(self.element, 'zoom', {
         originalEvent: _originalEvent,
@@ -265,8 +281,9 @@ export default {
       }
 
       if (_originalEvent) {
-        offset = $.getOffset(self.cropper);
-        center = _originalEvent.touches ? $.getTouchesCenter(_originalEvent.touches) : {
+        const pointers = self.pointers;
+        const offset = $.getOffset(self.cropper);
+        const center = pointers && Object.keys(pointers).length ? getPointersCenter(pointers) : {
           pageX: _originalEvent.pageX,
           pageY: _originalEvent.pageY,
         };

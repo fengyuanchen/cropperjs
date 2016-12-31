@@ -46,6 +46,7 @@ class Cropper {
     self.canvasData = null;
     self.cropBoxData = null;
     self.previews = null;
+    self.pointers = {};
     self.init();
   }
 

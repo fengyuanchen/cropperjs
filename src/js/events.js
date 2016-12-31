@@ -1,10 +1,12 @@
 import * as $ from './utilities';
 
+// Globals
+const PointerEvent = typeof window !== 'undefined' ? window.PointerEvent : null;
+
 // Events
-const EVENT_MOUSE_DOWN = 'mousedown touchstart pointerdown MSPointerDown';
-const EVENT_MOUSE_MOVE = 'mousemove touchmove pointermove MSPointerMove';
-const EVENT_MOUSE_UP = 'mouseup touchend touchcancel pointerup pointercancel' +
-  ' MSPointerUp MSPointerCancel';
+const EVENT_MOUSE_DOWN = PointerEvent ? 'pointerdown' : 'touchstart mousedown';
+const EVENT_MOUSE_MOVE = PointerEvent ? 'pointermove' : 'touchmove mousemove';
+const EVENT_MOUSE_UP = PointerEvent ? ' pointerup pointercancel' : 'touchend touchcancel mouseup';
 const EVENT_WHEEL = 'wheel mousewheel DOMMouseScroll';
 const EVENT_DBLCLICK = 'dblclick';
 const EVENT_RESIZE = 'resize';

@@ -360,27 +360,6 @@ export function getOffset(element) {
   };
 }
 
-export function getTouchesCenter(touches) {
-  const length = touches.length;
-  let pageX = 0;
-  let pageY = 0;
-
-  if (length) {
-    each(touches, (touch) => {
-      pageX += touch.pageX;
-      pageY += touch.pageY;
-    });
-
-    pageX /= length;
-    pageY /= length;
-  }
-
-  return {
-    pageX,
-    pageY,
-  };
-}
-
 export function getByTag(element, tagName) {
   return element.getElementsByTagName(tagName);
 }

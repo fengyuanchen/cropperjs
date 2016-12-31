@@ -10,8 +10,35 @@ const ACTION_SOUTH_WEST = 'sw';
 const ACTION_NORTH_EAST = 'ne';
 const ACTION_NORTH_WEST = 'nw';
 
+function getMaxZoomRatio(pointers) {
+  const pointers2 = $.extend({}, pointers);
+  const ratios = [];
+
+  $.each(pointers, (pointer, pointerId) => {
+    delete pointers2[pointerId];
+
+    $.each(pointers2, (pointer2) => {
+      const x1 = Math.abs(pointer.startX - pointer2.startX);
+      const y1 = Math.abs(pointer.startY - pointer2.startY);
+      const x2 = Math.abs(pointer.endX - pointer2.endX);
+      const y2 = Math.abs(pointer.endY - pointer2.endY);
+      const z1 = Math.sqrt((x1 * x1) + (y1 * y1));
+      const z2 = Math.sqrt((x2 * x2) + (y2 * y2));
+      const ratio = (z2 - z1) / z1;
+
+      ratios.push(ratio);
+    });
+  });
+
+  ratios.sort((a, b) => {
+    return Math.abs(a) < Math.abs(b);
+  });
+
+  return ratios[0];
+}
+
 export default {
-  change(shiftKey, originalEvent) {
+  change(e) {
     const self = this;
     const options = self.options;
     const containerData = self.containerData;
@@ -33,7 +60,7 @@ export default {
     let offset;
 
     // Locking aspect ratio in "free mode" by holding shift key
-    if (!aspectRatio && shiftKey) {
+    if (!aspectRatio && e.shiftKey) {
       aspectRatio = width && height ? width / height : 1;
     }
 
@@ -52,9 +79,11 @@ export default {
       );
     }
 
+    const pointers = self.pointers;
+    const pointer = pointers[Object.keys(pointers)[0]];
     const range = {
-      x: self.endX - self.startX,
-      y: self.endY - self.startY,
+      x: pointer.endX - pointer.startX,
+      y: pointer.endY - pointer.startY,
     };
 
     if (aspectRatio) {
@@ -348,19 +377,7 @@ export default {
 
       // Zoom canvas
       case 'zoom':
-        self.zoom(((x1, y1, x2, y2) => {
-          const z1 = Math.sqrt((x1 * x1) + (y1 * y1));
-          const z2 = Math.sqrt((x2 * x2) + (y2 * y2));
-
-          return (z2 - z1) / z1;
-        })(
-          Math.abs(self.startX - self.startX2),
-          Math.abs(self.startY - self.startY2),
-          Math.abs(self.endX - self.endX2),
-          Math.abs(self.endY - self.endY2)
-        ), originalEvent);
-        self.startX2 = self.endX2;
-        self.startY2 = self.endY2;
+        self.zoom(getMaxZoomRatio(pointers), e);
         renderable = false;
         break;
 
@@ -372,8 +389,8 @@ export default {
         }
 
         offset = $.getOffset(self.cropper);
-        left = self.startX - offset.left;
-        top = self.startY - offset.top;
+        left = pointer.startX - offset.left;
+        top = pointer.startY - offset.top;
         width = cropBoxData.minWidth;
         height = cropBoxData.minHeight;
 
@@ -414,7 +431,9 @@ export default {
     }
 
     // Override
-    self.startX = self.endX;
-    self.startY = self.endY;
+    $.each(pointers, (p) => {
+      p.startX = p.endX;
+      p.startY = p.endY;
+    });
   },
 };
