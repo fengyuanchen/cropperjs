@@ -22,7 +22,7 @@ export default {
       return;
     }
 
-    const previews = document.querySelectorAll(preview);
+    const previews = preview.querySelector ? [preview] : document.querySelectorAll(preview);
 
     self.previews = previews;
 
