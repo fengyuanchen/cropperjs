@@ -654,12 +654,12 @@ export default {
         cropBoxData.top = data.top;
       }
 
-      if ($.isNumber(data.width)) {
+      if ($.isNumber(data.width) && data.width !== cropBoxData.width) {
         widthChanged = true;
         cropBoxData.width = data.width;
       }
 
-      if ($.isNumber(data.height)) {
+      if ($.isNumber(data.height) && data.height !== cropBoxData.height) {
         heightChanged = true;
         cropBoxData.height = data.height;
       }
