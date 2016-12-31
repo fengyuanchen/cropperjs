@@ -430,9 +430,9 @@ export default {
       if (aspectRatio) {
         if (minCropBoxWidth && minCropBoxHeight) {
           if (minCropBoxHeight * aspectRatio > minCropBoxWidth) {
-            minCropBoxHeight = minCropBoxWidth / aspectRatio;
-          } else {
             minCropBoxWidth = minCropBoxHeight * aspectRatio;
+          } else {
+            minCropBoxHeight = minCropBoxWidth / aspectRatio;
           }
         } else if (minCropBoxWidth) {
           minCropBoxHeight = minCropBoxWidth / aspectRatio;
