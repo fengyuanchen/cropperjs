@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v1.0.0-alpha
+ * Cropper.js v1.0.0-beta
  * https://github.com/fengyuanchen/cropperjs
  *
- * Copyright (c) 2016 Fengyuan Chen
+ * Copyright (c) 2017 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2016-12-04T14:06:47.119Z
+ * Date: 2017-01-01T08:26:22.116Z
  */
 
 (function (global, factory) {
@@ -479,7 +479,12 @@ function removeData(element, name) {
   if (isObject(element[name])) {
     delete element[name];
   } else if (element.dataset) {
-    delete element.dataset[name];
+    // #128 Safari not allows to delete dataset property
+    try {
+      delete element.dataset[name];
+    } catch (e) {
+      element.dataset[name] = null;
+    }
   } else {
     element.removeAttribute('data-' + hyphenate(name));
   }
@@ -595,27 +600,6 @@ function getOffset(element) {
   return {
     left: box.left + ((window.scrollX || doc && doc.scrollLeft || 0) - (doc && doc.clientLeft || 0)),
     top: box.top + ((window.scrollY || doc && doc.scrollTop || 0) - (doc && doc.clientTop || 0))
-  };
-}
-
-function getTouchesCenter(touches) {
-  var length = touches.length;
-  var pageX = 0;
-  var pageY = 0;
-
-  if (length) {
-    each(touches, function (touch) {
-      pageX += touch.pageX;
-      pageY += touch.pageY;
-    });
-
-    pageX /= length;
-    pageY /= length;
-  }
-
-  return {
-    pageX: pageX,
-    pageY: pageY
   };
 }
 
@@ -1387,7 +1371,7 @@ var preview$1 = {
       return;
     }
 
-    var previews = document.querySelectorAll(preview);
+    var previews = preview.querySelector ? [preview] : document.querySelectorAll(preview);
 
     self.previews = previews;
 
@@ -1496,10 +1480,13 @@ var preview$1 = {
   }
 };
 
+// Globals
+var PointerEvent = typeof window !== 'undefined' ? window.PointerEvent : null;
+
 // Events
-var EVENT_MOUSE_DOWN = 'mousedown touchstart pointerdown MSPointerDown';
-var EVENT_MOUSE_MOVE = 'mousemove touchmove pointermove MSPointerMove';
-var EVENT_MOUSE_UP = 'mouseup touchend touchcancel pointerup pointercancel' + ' MSPointerUp MSPointerCancel';
+var EVENT_MOUSE_DOWN = PointerEvent ? 'pointerdown' : 'touchstart mousedown';
+var EVENT_MOUSE_MOVE = PointerEvent ? 'pointermove' : 'touchmove mousemove';
+var EVENT_MOUSE_UP = PointerEvent ? ' pointerup pointercancel' : 'touchend touchcancel mouseup';
 var EVENT_WHEEL = 'wheel mousewheel DOMMouseScroll';
 var EVENT_DBLCLICK = 'dblclick';
 var EVENT_RESIZE = 'resize';
@@ -1600,6 +1587,25 @@ var events = {
 
 var REGEXP_ACTIONS = /^(e|w|s|n|se|sw|ne|nw|all|crop|move|zoom)$/;
 
+function getPointer(_ref, endOnly) {
+  var pageX = _ref.pageX,
+      pageY = _ref.pageY;
+
+  var end = {
+    endX: pageX,
+    endY: pageY
+  };
+
+  if (endOnly) {
+    return end;
+  }
+
+  return extend({
+    startX: pageX,
+    startY: pageY
+  }, end);
+}
+
 var handlers = {
   resize: function resize() {
     var self = this;
@@ -1679,35 +1685,31 @@ var handlers = {
   },
   cropStart: function cropStart(event) {
     var self = this;
-    var options = self.options;
-    var e = getEvent(event);
-    var touches = e.touches;
-    var touchesLength = void 0;
-    var touch = void 0;
-    var action = void 0;
 
     if (self.disabled) {
       return;
     }
 
-    if (touches) {
-      touchesLength = touches.length;
+    var options = self.options;
+    var pointers = self.pointers;
+    var e = getEvent(event);
+    var action = void 0;
 
-      if (touchesLength > 1) {
-        if (options.zoomable && options.zoomOnTouch && touchesLength === 2) {
-          touch = touches[1];
-          self.startX2 = touch.pageX;
-          self.startY2 = touch.pageY;
-          action = 'zoom';
-        } else {
-          return;
-        }
-      }
-
-      touch = touches[0];
+    if (e.changedTouches) {
+      // Handle touch event
+      each(e.changedTouches, function (touch) {
+        pointers[touch.identifier] = getPointer(touch);
+      });
+    } else {
+      // Handle mouse event and pointer event
+      pointers[e.pointerId || 0] = getPointer(e);
     }
 
-    action = action || getData$1(e.target, 'action');
+    if (Object.keys(pointers).length > 1 && options.zoomable && options.zoomOnTouch) {
+      action = 'zoom';
+    } else {
+      action = getData$1(e.target, 'action');
+    }
 
     if (REGEXP_ACTIONS.test(action)) {
       if (dispatchEvent(self.element, 'cropstart', {
@@ -1722,9 +1724,6 @@ var handlers = {
       self.action = action;
       self.cropping = false;
 
-      self.startX = touch ? touch.pageX : e.pageX;
-      self.startY = touch ? touch.pageY : e.pageY;
-
       if (action === 'crop') {
         self.cropping = true;
         addClass(self.dragBox, 'cropper-modal');
@@ -1733,74 +1732,68 @@ var handlers = {
   },
   cropMove: function cropMove(event) {
     var self = this;
-    var options = self.options;
-    var e = getEvent(event);
-    var touches = e.touches;
     var action = self.action;
-    var touchesLength = void 0;
-    var touch = void 0;
 
-    if (self.disabled) {
+    if (self.disabled || !action) {
       return;
     }
 
-    if (touches) {
-      touchesLength = touches.length;
+    var pointers = self.pointers;
+    var e = getEvent(event);
 
-      if (touchesLength > 1) {
-        if (options.zoomable && options.zoomOnTouch && touchesLength === 2) {
-          touch = touches[1];
-          self.endX2 = touch.pageX;
-          self.endY2 = touch.pageY;
-        } else {
-          return;
-        }
-      }
+    e.preventDefault();
 
-      touch = touches[0];
+    if (dispatchEvent(self.element, 'cropmove', {
+      originalEvent: e,
+      action: action
+    }) === false) {
+      return;
     }
 
-    if (action) {
-      if (dispatchEvent(self.element, 'cropmove', {
-        originalEvent: e,
-        action: action
-      }) === false) {
-        return;
-      }
-
-      e.preventDefault();
-
-      self.endX = touch ? touch.pageX : e.pageX;
-      self.endY = touch ? touch.pageY : e.pageY;
-
-      self.change(e.shiftKey, action === 'zoom' ? e : null);
+    if (e.changedTouches) {
+      each(e.changedTouches, function (touch) {
+        extend(pointers[touch.identifier], getPointer(touch, true));
+      });
+    } else {
+      extend(pointers[e.pointerId || 0], getPointer(e, true));
     }
+
+    self.change(e);
   },
   cropEnd: function cropEnd(event) {
     var self = this;
-    var options = self.options;
-    var e = getEvent(event);
     var action = self.action;
 
-    if (self.disabled) {
+    if (self.disabled || !action) {
       return;
     }
 
-    if (action) {
-      e.preventDefault();
+    var pointers = self.pointers;
+    var e = getEvent(event);
 
-      if (self.cropping) {
-        self.cropping = false;
-        toggleClass(self.dragBox, 'cropper-modal', self.cropped && options.modal);
-      }
+    e.preventDefault();
 
-      self.action = '';
-
-      dispatchEvent(self.element, 'cropend', {
-        originalEvent: e,
-        action: action
+    if (e.changedTouches) {
+      each(e.changedTouches, function (touch) {
+        delete pointers[touch.identifier];
       });
+    } else {
+      delete pointers[e.pointerId || 0];
     }
+
+    if (!Object.keys(pointers).length) {
+      self.action = '';
+    }
+
+    if (self.cropping) {
+      self.cropping = false;
+      toggleClass(self.dragBox, 'cropper-modal', self.cropped && this.options.modal);
+    }
+
+    dispatchEvent(self.element, 'cropend', {
+      originalEvent: e,
+      action: action
+    });
   }
 };
 
@@ -1814,8 +1807,35 @@ var ACTION_SOUTH_WEST = 'sw';
 var ACTION_NORTH_EAST = 'ne';
 var ACTION_NORTH_WEST = 'nw';
 
+function getMaxZoomRatio(pointers) {
+  var pointers2 = extend({}, pointers);
+  var ratios = [];
+
+  each(pointers, function (pointer, pointerId) {
+    delete pointers2[pointerId];
+
+    each(pointers2, function (pointer2) {
+      var x1 = Math.abs(pointer.startX - pointer2.startX);
+      var y1 = Math.abs(pointer.startY - pointer2.startY);
+      var x2 = Math.abs(pointer.endX - pointer2.endX);
+      var y2 = Math.abs(pointer.endY - pointer2.endY);
+      var z1 = Math.sqrt(x1 * x1 + y1 * y1);
+      var z2 = Math.sqrt(x2 * x2 + y2 * y2);
+      var ratio = (z2 - z1) / z1;
+
+      ratios.push(ratio);
+    });
+  });
+
+  ratios.sort(function (a, b) {
+    return Math.abs(a) < Math.abs(b);
+  });
+
+  return ratios[0];
+}
+
 var change$1 = {
-  change: function change(shiftKey, originalEvent) {
+  change: function change(e) {
     var self = this;
     var options = self.options;
     var containerData = self.containerData;
@@ -1837,7 +1857,7 @@ var change$1 = {
     var offset = void 0;
 
     // Locking aspect ratio in "free mode" by holding shift key
-    if (!aspectRatio && shiftKey) {
+    if (!aspectRatio && e.shiftKey) {
       aspectRatio = width && height ? width / height : 1;
     }
 
@@ -1848,9 +1868,11 @@ var change$1 = {
       maxHeight = minTop + Math.min(containerData.height, canvasData.height, canvasData.top + canvasData.height);
     }
 
+    var pointers = self.pointers;
+    var pointer = pointers[Object.keys(pointers)[0]];
     var range = {
-      x: self.endX - self.startX,
-      y: self.endY - self.startY
+      x: pointer.endX - pointer.startX,
+      y: pointer.endY - pointer.startY
     };
 
     if (aspectRatio) {
@@ -2140,14 +2162,7 @@ var change$1 = {
 
       // Zoom canvas
       case 'zoom':
-        self.zoom(function (x1, y1, x2, y2) {
-          var z1 = Math.sqrt(x1 * x1 + y1 * y1);
-          var z2 = Math.sqrt(x2 * x2 + y2 * y2);
-
-          return (z2 - z1) / z1;
-        }(Math.abs(self.startX - self.startX2), Math.abs(self.startY - self.startY2), Math.abs(self.endX - self.endX2), Math.abs(self.endY - self.endY2)), originalEvent);
-        self.startX2 = self.endX2;
-        self.startY2 = self.endY2;
+        self.zoom(getMaxZoomRatio(pointers), e);
         renderable = false;
         break;
 
@@ -2159,8 +2174,8 @@ var change$1 = {
         }
 
         offset = getOffset(self.cropper);
-        left = self.startX - offset.left;
-        top = self.startY - offset.top;
+        left = pointer.startX - offset.left;
+        top = pointer.startY - offset.top;
         width = cropBoxData.minWidth;
         height = cropBoxData.minHeight;
 
@@ -2201,10 +2216,35 @@ var change$1 = {
     }
 
     // Override
-    self.startX = self.endX;
-    self.startY = self.endY;
+    each(pointers, function (p) {
+      p.startX = p.endX;
+      p.startY = p.endY;
+    });
   }
 };
+
+function getPointersCenter(pointers) {
+  var pageX = 0;
+  var pageY = 0;
+  var count = 0;
+
+  each(pointers, function (_ref) {
+    var startX = _ref.startX,
+        startY = _ref.startY;
+
+    pageX += startX;
+    pageY += startY;
+    count += 1;
+  });
+
+  pageX /= count;
+  pageY /= count;
+
+  return {
+    pageX: pageX,
+    pageY: pageY
+  };
+}
 
 var methods = {
   // Show the crop box manually
@@ -2458,16 +2498,12 @@ var methods = {
     var height = canvasData.height;
     var naturalWidth = canvasData.naturalWidth;
     var naturalHeight = canvasData.naturalHeight;
-    var newWidth = void 0;
-    var newHeight = void 0;
-    var offset = void 0;
-    var center = void 0;
 
     ratio = Number(ratio);
 
     if (ratio >= 0 && self.ready && !self.disabled && options.zoomable) {
-      newWidth = naturalWidth * ratio;
-      newHeight = naturalHeight * ratio;
+      var newWidth = naturalWidth * ratio;
+      var newHeight = naturalHeight * ratio;
 
       if (dispatchEvent(self.element, 'zoom', {
         originalEvent: _originalEvent,
@@ -2478,8 +2514,9 @@ var methods = {
       }
 
       if (_originalEvent) {
-        offset = getOffset(self.cropper);
-        center = _originalEvent.touches ? getTouchesCenter(_originalEvent.touches) : {
+        var pointers = self.pointers;
+        var offset = getOffset(self.cropper);
+        var center = pointers && Object.keys(pointers).length ? getPointersCenter(pointers) : {
           pageX: _originalEvent.pageX,
           pageY: _originalEvent.pageY
         };
@@ -2852,12 +2889,12 @@ var methods = {
         cropBoxData.top = data.top;
       }
 
-      if (isNumber(data.width)) {
+      if (isNumber(data.width) && data.width !== cropBoxData.width) {
         widthChanged = true;
         cropBoxData.width = data.width;
       }
 
-      if (isNumber(data.height)) {
+      if (isNumber(data.height) && data.height !== cropBoxData.height) {
         heightChanged = true;
         cropBoxData.height = data.height;
       }
@@ -3101,6 +3138,7 @@ var Cropper = function () {
     self.canvasData = null;
     self.cropBoxData = null;
     self.previews = null;
+    self.pointers = {};
     self.init();
   }
 

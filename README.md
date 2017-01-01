@@ -48,8 +48,8 @@
 dist/
 ├── cropper.css     ( 5 KB)
 ├── cropper.min.css ( 4 KB)
-├── cropper.js      (89 KB)
-└── cropper.min.js  (32 KB)
+├── cropper.js      (90 KB)
+└── cropper.min.js  (33 KB)
 ```
 
 
@@ -210,9 +210,9 @@ The previous cropped data if you had stored, will be passed to `setData` method 
 
 ### preview
 
-- Type: `String`
+- Type: `Element` or `String`
 - Default: `''`
-- A valid selector for [Document.querySelectorAll](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll)
+- An element or A valid selector for [Document.querySelectorAll](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll)
 
 Add extra elements (containers) for previewing.
 

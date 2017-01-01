@@ -1,6 +1,11 @@
 # Changelog
 
 
+## 1.0.0-beta (Jan 1, 2017)
+
+- Improved event handler for Pointer Events (#127).
+
+
 ## 1.0.0-alpha (Dec 4, 2016)
 
 - Built JavaScript with Rollup.
