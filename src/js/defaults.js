@@ -74,6 +74,9 @@ export default {
   // Enable to resize the crop box
   cropBoxResizable: true,
 
+  // Fixed the crop box
+  cropBoxFixed: false
+
   // Toggle drag mode between "crop" and "move" when click twice on the cropper
   toggleDragModeOnDblclick: true,
 

@@ -43,8 +43,6 @@ export default {
       $.addListener(element, EVENT_ZOOM, options.zoom);
     }
 
-    $.addListener(cropper, EVENT_MOUSE_DOWN, (self.onCropStart = $.proxy(self.cropStart, self)));
-
     if (options.zoomable && options.zoomOnWheel) {
       $.addListener(cropper, EVENT_WHEEL, (self.onWheel = $.proxy(self.wheel, self)));
     }
@@ -53,11 +51,14 @@ export default {
       $.addListener(cropper, EVENT_DBLCLICK, (self.onDblclick = $.proxy(self.dblclick, self)));
     }
 
-    $.addListener(document, EVENT_MOUSE_MOVE, (self.onCropMove = $.proxy(self.cropMove, self)));
-    $.addListener(document, EVENT_MOUSE_UP, (self.onCropEnd = $.proxy(self.cropEnd, self)));
-
     if (options.responsive) {
       $.addListener(window, EVENT_RESIZE, (self.onResize = $.proxy(self.resize, self)));
+    }
+
+    if (!options.cropBoxFixed) {
+      $.addListener(cropper, EVENT_MOUSE_DOWN, (self.onCropStart = $.proxy(self.cropStart, self)));
+      $.addListener(document, EVENT_MOUSE_MOVE, (self.onCropMove = $.proxy(self.cropMove, self)));
+      $.addListener(document, EVENT_MOUSE_UP, (self.onCropEnd = $.proxy(self.cropEnd, self)));
     }
   },
 
@@ -87,8 +88,6 @@ export default {
       $.removeListener(element, EVENT_ZOOM, options.zoom);
     }
 
-    $.removeListener(cropper, EVENT_MOUSE_DOWN, self.onCropStart);
-
     if (options.zoomable && options.zoomOnWheel) {
       $.removeListener(cropper, EVENT_WHEEL, self.onWheel);
     }
@@ -97,11 +96,14 @@ export default {
       $.removeListener(cropper, EVENT_DBLCLICK, self.onDblclick);
     }
 
-    $.removeListener(document, EVENT_MOUSE_MOVE, self.onCropMove);
-    $.removeListener(document, EVENT_MOUSE_UP, self.onCropEnd);
-
     if (options.responsive) {
       $.removeListener(window, EVENT_RESIZE, self.onResize);
+    }
+
+    if (!options.cropBoxFixed) {
+      $.removeListener(cropper, EVENT_MOUSE_DOWN, self.onCropStart);
+      $.removeListener(document, EVENT_MOUSE_MOVE, self.onCropMove);
+      $.removeListener(document, EVENT_MOUSE_UP, self.onCropEnd);
     }
   },
 };
