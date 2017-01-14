@@ -3,6 +3,7 @@
 
 ## 1.0.0-beta (Jan 1, 2017)
 
+- Supports to set an element for preview (#113).
 - Improved event handler for Pointer Events (#127).
 
 
