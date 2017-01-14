@@ -21,10 +21,11 @@ export default {
     const element = self.element;
     const container = self.container;
     const cropper = self.cropper;
+    const hidden = 'cropper-hidden';
     let containerData;
 
-    $.addClass(cropper, 'cropper-hidden');
-    $.removeClass(element, 'cropper-hidden');
+    $.addClass(cropper, hidden);
+    $.removeClass(element, hidden);
 
     self.containerData = containerData = {
       width: Math.max(
@@ -42,8 +43,8 @@ export default {
       height: containerData.height,
     });
 
-    $.addClass(element, 'cropper-hidden');
-    $.removeClass(cropper, 'cropper-hidden');
+    $.addClass(element, hidden);
+    $.removeClass(cropper, hidden);
   },
 
   // Canvas (image wrapper)
@@ -98,14 +99,10 @@ export default {
     const aspectRatio = canvasData.aspectRatio;
     const cropBoxData = self.cropBoxData;
     const cropped = self.cropped && cropBoxData;
-    let minCanvasWidth;
-    let minCanvasHeight;
-    let newCanvasLeft;
-    let newCanvasTop;
 
     if (sizeLimited) {
-      minCanvasWidth = Number(options.minCanvasWidth) || 0;
-      minCanvasHeight = Number(options.minCanvasHeight) || 0;
+      let minCanvasWidth = Number(options.minCanvasWidth) || 0;
+      let minCanvasHeight = Number(options.minCanvasHeight) || 0;
 
       if (viewMode > 1) {
         minCanvasWidth = Math.max(minCanvasWidth, containerData.width);
@@ -161,8 +158,8 @@ export default {
 
     if (positionLimited) {
       if (viewMode) {
-        newCanvasLeft = containerData.width - canvasData.width;
-        newCanvasTop = containerData.height - canvasData.height;
+        const newCanvasLeft = containerData.width - canvasData.width;
+        const newCanvasTop = containerData.height - canvasData.height;
 
         canvasData.minLeft = Math.min(0, newCanvasLeft);
         canvasData.minTop = Math.min(0, newCanvasTop);
@@ -406,26 +403,22 @@ export default {
     const canvasData = self.canvasData;
     const cropBoxData = self.cropBoxData;
     const limited = self.limited;
-    let minCropBoxWidth;
-    let minCropBoxHeight;
-    let maxCropBoxWidth;
-    let maxCropBoxHeight;
 
     if (sizeLimited) {
-      minCropBoxWidth = Number(options.minCropBoxWidth) || 0;
-      minCropBoxHeight = Number(options.minCropBoxHeight) || 0;
+      let minCropBoxWidth = Number(options.minCropBoxWidth) || 0;
+      let minCropBoxHeight = Number(options.minCropBoxHeight) || 0;
+      let maxCropBoxWidth = Math.min(
+        containerData.width,
+        limited ? canvasData.width : containerData.width
+      );
+      let maxCropBoxHeight = Math.min(
+        containerData.height,
+        limited ? canvasData.height : containerData.height
+      );
 
       // The min/maxCropBoxWidth/Height must be less than containerWidth/Height
       minCropBoxWidth = Math.min(minCropBoxWidth, containerData.width);
       minCropBoxHeight = Math.min(minCropBoxHeight, containerData.height);
-      maxCropBoxWidth = Math.min(
-        containerData.width,
-        limited ? canvasData.width : containerData.width
-      );
-      maxCropBoxHeight = Math.min(
-        containerData.height,
-        limited ? canvasData.height : containerData.height
-      );
 
       if (aspectRatio) {
         if (minCropBoxWidth && minCropBoxHeight) {
