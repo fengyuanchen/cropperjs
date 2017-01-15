@@ -8,16 +8,11 @@
   <link rel="stylesheet" href="../dist/cropper.css">
   <style>
     .container {
-      max-width: 960px;
+      max-width: 640px;
       margin: 20px auto;
     }
 
-    .img-container {
-      width: 100%;
-      margin-top: 10px;
-    }
-
-    .img-container img {
+    img {
       width: 100%;
     }
   </style>
@@ -26,16 +21,18 @@
 
   <div class="container">
     <h1>Cropper with responsive container</h1>
-    <button type="button" id="replace">Replace Image</button>
-    <div class="img-container">
-      <img src="../docs/images/picture.jpg" alt="Picture">
+    <p>
+      <button type="button" id="replace">Replace Image</button>
+    </p>
+    <div>
+      <img id="image" src="../docs/images/picture.jpg" alt="Picture">
     </div>
   </div>
 
   <script src="../dist/cropper.js"></script>
   <script>
     window.addEventListener('DOMContentLoaded', function () {
-      var image = document.querySelector('.img-container > img');
+      var image = document.querySelector('#image');
       var cropper = new Cropper(image, {
         movable: false,
         zoomable: false,

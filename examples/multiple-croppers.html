@@ -8,15 +8,11 @@
   <link rel="stylesheet" href="../dist/cropper.css">
   <style>
     .container {
-      max-width: 960px;
+      max-width: 640px;
       margin: 20px auto;
     }
 
-    .img-container {
-      width: 100%;
-    }
-
-    .img-container img {
+    img {
       max-width: 100%;
     }
   </style>
@@ -26,11 +22,11 @@
   <div class="container">
     <h1>Multiple Croppers</h1>
     <h3>Cropper</h3>
-    <div class="img-container">
+    <div>
       <img src="../docs/images/picture.jpg" alt="Picture">
     </div>
     <h3>Another</h3>
-    <div class="img-container">
+    <div>
       <img src="../docs/images/picture.jpg" alt="Picture">
     </div>
   </div>
@@ -38,7 +34,7 @@
   <script src="../dist/cropper.js"></script>
   <script>
     window.addEventListener('DOMContentLoaded', function () {
-      var images = document.querySelectorAll('.img-container > img');
+      var images = document.querySelectorAll('img');
       var length = images.length;
       var croppers = [];
       var i;

@@ -12,16 +12,12 @@
       margin: 20px auto;
     }
 
-    .img-container {
-      width: 100%;
-      max-height: 450px;
-    }
-
-    .img-container img {
+    img {
       max-width: 100%;
     }
 
-    .img-preview {
+    .row,
+    .preview {
       overflow: hidden;
     }
 
@@ -50,14 +46,19 @@
 
   <div class="container">
     <h1>Customize preview for Cropper</h1>
-    <h3>Cropper</h3>
     <div class="row">
-      <div class="col col-6 img-container">
+      <div class="col col-6">
         <img id="image" src="../docs/images/picture.jpg" alt="Picture">
       </div>
-      <div class="col col-3 img-preview"></div>
-      <div class="col col-2 img-preview"></div>
-      <div class="col col-1 img-preview"></div>
+      <div class="col col-3">
+        <div class="preview"></div>
+      </div>
+      <div class="col col-2">
+        <div class="preview"></div>
+      </div>
+      <div class="col col-1">
+        <div class="preview"></div>
+      </div>
     </div>
   </div>
 
@@ -75,19 +76,20 @@
     }
 
     window.addEventListener('DOMContentLoaded', function () {
-      var image = document.querySelector('.img-container > img');
-      var previews = document.querySelectorAll('.img-preview');
+      var image = document.querySelector('#image');
+      var previews = document.querySelectorAll('.preview');
       var cropper = new Cropper(image, {
           ready: function () {
             var clone = this.cloneNode();
 
+            clone.className = ''
             clone.style.cssText = (
               'display: block;' +
               'width: 100%;' +
-              'minWidth: 0;' +
-              'minHeight: 0;' +
-              'maxWidth: none;' +
-              'maxHeight: none;'
+              'min-width: 0;' +
+              'min-height: 0;' +
+              'max-width: none;' +
+              'max-height: none;'
             );
 
             each(previews, function (elem) {

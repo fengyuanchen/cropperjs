@@ -5,7 +5,7 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Cropper.js</title>
-  <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
   <link rel="stylesheet" href="../dist/cropper.css">
   <style>
     .img-container img {
@@ -16,7 +16,7 @@
 <body>
 
   <div class="container">
-    <h1 class="page-header">Cropper in a Bootstraop modal</h1>
+    <h1>Cropper in a Bootstraop modal</h1>
 
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-primary" data-target="#modal" data-toggle="modal">
@@ -28,8 +28,8 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
+            <h5 class="modal-title" id="modalLabel">Cropper</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="modalLabel">Cropper</h4>
           </div>
           <div class="modal-body">
             <div class="img-container">
@@ -44,8 +44,8 @@
     </div>
   </div>
 
-  <script src="../assets/js/jquery.min.js"></script>
-  <script src="../assets/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
   <script src="../dist/cropper.js"></script>
   <script>
     window.addEventListener('DOMContentLoaded', function () {

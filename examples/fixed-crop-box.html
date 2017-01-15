@@ -8,16 +8,11 @@
   <link rel="stylesheet" href="../dist/cropper.css">
   <style>
     .container {
-      max-width: 960px;
+      max-width: 640px;
       margin: 20px auto;
     }
 
-    .img-container {
-      width: 100%;
-      max-height: 450px;
-    }
-
-    .img-container img {
+    img {
       max-width: 100%;
     }
   </style>
@@ -25,16 +20,16 @@
 <body>
 
   <div class="container">
-    <h1 class="page-header">Cropper with fixed crop box</h1>
-    <div class="img-container">
-      <img src="../docs/images/picture.jpg" alt="Picture">
+    <h1>Cropper with fixed crop box</h1>
+    <div>
+      <img id="image" src="../docs/images/picture.jpg" alt="Picture">
     </div>
   </div>
 
   <script src="../dist/cropper.js"></script>
   <script>
     window.addEventListener('DOMContentLoaded', function () {
-      var image = document.querySelector('.img-container > img');
+      var image = document.querySelector('#image');
       var cropper = new Cropper(image, {
         dragMode: 'move',
         aspectRatio: 16 / 9,
