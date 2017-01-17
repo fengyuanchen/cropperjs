@@ -77,6 +77,9 @@ export default {
   // Toggle drag mode between "crop" and "move" when click twice on the cropper
   toggleDragModeOnDblclick: true,
 
+  // Enable flag withCredentials to invoke with cookies.
+  withCredentials: false,
+
   // Size limitation
   minCanvasWidth: 0,
   minCanvasHeight: 0,

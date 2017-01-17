@@ -125,6 +125,9 @@ class Cropper {
 
     xhr.open('get', url);
     xhr.responseType = 'arraybuffer';
+    if (options.withCredentials) {
+      xhr.withCredentials = true;
+    }
     xhr.send();
   }
 
