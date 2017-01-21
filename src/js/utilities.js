@@ -99,13 +99,8 @@ export function extend(...args) {
   const deep = args[0] === true;
   const data = deep ? args[1] : args[0];
 
-  if (args.length > 1) {
-    // if (Object.assign) {
-    //   return Object.assign.apply(Object, args);
-    // }
-
+  if (isObject(data) && args.length > 1) {
     args.shift();
-
     args.forEach((arg) => {
       if (isObject(arg)) {
         Object.keys(arg).forEach((key) => {
