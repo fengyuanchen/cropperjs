@@ -90,12 +90,6 @@ export default {
     const height = imageData.height;
     const left = cropBoxData.left - canvasData.left - imageData.left;
     const top = cropBoxData.top - canvasData.top - imageData.top;
-    const transform = $.getTransform(imageData);
-    const transforms = {
-      WebkitTransform: transform,
-      msTransform: transform,
-      transform,
-    };
 
     if (!self.cropped || self.disabled) {
       return;
@@ -104,9 +98,10 @@ export default {
     $.setStyle(self.image2, $.extend({
       width,
       height,
-      marginLeft: -left,
-      marginTop: -top,
-    }, transforms));
+    }, $.getTransforms($.extend({
+      translateX: -left,
+      translateY: -top,
+    }, imageData))));
 
     $.each(self.previews, (element) => {
       const data = $.getData(element, DATA_PREVIEW);
@@ -135,9 +130,10 @@ export default {
       $.setStyle($.getByTag(element, 'img')[0], $.extend({
         width: width * ratio,
         height: height * ratio,
-        marginLeft: -left * ratio,
-        marginTop: -top * ratio,
-      }, transforms));
+      }, $.getTransforms($.extend({
+        translateX: -left * ratio,
+        translateY: -top * ratio,
+      }, imageData))));
     });
   },
 };

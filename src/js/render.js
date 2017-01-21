@@ -274,12 +274,13 @@ export default {
       canvasData.maxTop
     );
 
-    $.setStyle(self.canvas, {
+    $.setStyle(self.canvas, $.extend({
       width: canvasData.width,
       height: canvasData.height,
-      left: canvasData.left,
-      top: canvasData.top,
-    });
+    }, $.getTransforms({
+      translateX: canvasData.left,
+      translateY: canvasData.top,
+    })));
 
     self.renderImage();
 
@@ -327,17 +328,13 @@ export default {
       top: 0,
     });
 
-    const transform = $.getTransform(imageData);
-
-    $.setStyle(self.image, {
+    $.setStyle(self.image, $.extend({
       width: imageData.width,
       height: imageData.height,
-      marginLeft: imageData.left,
-      marginTop: imageData.top,
-      WebkitTransform: transform,
-      msTransform: transform,
-      transform,
-    });
+    }, $.getTransforms($.extend({
+      translateX: imageData.left,
+      translateY: imageData.top,
+    }, imageData))));
 
     if (changed) {
       self.output();
@@ -510,12 +507,13 @@ export default {
         cropBoxData.height === containerData.height ? 'move' : 'all');
     }
 
-    $.setStyle(self.cropBox, {
+    $.setStyle(self.cropBox, $.extend({
       width: cropBoxData.width,
       height: cropBoxData.height,
-      left: cropBoxData.left,
-      top: cropBoxData.top,
-    });
+    }, $.getTransforms({
+      translateX: cropBoxData.left,
+      translateY: cropBoxData.top,
+    })));
 
     if (self.cropped && self.limited) {
       self.limitCanvas(true, true);

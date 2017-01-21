@@ -418,11 +418,21 @@ export function getImageSize(image, callback) {
   newImage.src = image.src;
 }
 
-export function getTransform(data) {
+export function getTransforms(data) {
   const transforms = [];
+  const translateX = data.translateX;
+  const translateY = data.translateY;
   const rotate = data.rotate;
   const scaleX = data.scaleX;
   const scaleY = data.scaleY;
+
+  if (isNumber(translateX) && translateX !== 0) {
+    transforms.push(`translateX(${translateX}px)`);
+  }
+
+  if (isNumber(translateY) && translateY !== 0) {
+    transforms.push(`translateY(${translateY}px)`);
+  }
 
   // Rotate should come first before scale to match orientation transform
   if (isNumber(rotate) && rotate !== 0) {
@@ -437,7 +447,13 @@ export function getTransform(data) {
     transforms.push(`scaleY(${scaleY})`);
   }
 
-  return transforms.length ? transforms.join(' ') : 'none';
+  const transform = transforms.length ? transforms.join(' ') : 'none';
+
+  return {
+    WebkitTransform: transform,
+    msTransform: transform,
+    transform,
+  };
 }
 
 export function getRotatedSizes(data, reversed) {
