@@ -1,6 +1,12 @@
 # Changelog
 
 
+## 1.0.0-beta.1 (Jan 21, 2017)
+
+- Use CSS3 2D Transforms instead of `left` and `top` for better performance (#138).
+- Set `withCredentials` attribute when read the image data by XMLHttpRequest (#141).
+
+
 ## 1.0.0-beta (Jan 1, 2017)
 
 - Supports to set an element for preview (#113).
