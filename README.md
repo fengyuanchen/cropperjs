@@ -251,6 +251,8 @@ If it is, when clone the image, a `crossOrigin` attribute will be added to the c
 
 By adding `crossOrigin` attribute to image will stop adding timestamp to image url, and stop reload of image.
 
+If the value of the image's `crossOrigin` attribute is `"use-credentials"`, then the `withCredentials` attribute will set to `true` when read the image data by XMLHttpRequest.
+
 
 ### checkOrientation
 
