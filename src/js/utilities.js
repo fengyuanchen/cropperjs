@@ -95,26 +95,22 @@ export function each(obj, callback) {
   return obj;
 }
 
-export function extend(...args) {
-  const deep = args[0] === true;
-  const data = deep ? args[1] : args[0];
+export function extend(obj, ...args) {
+  if (isObject(obj) && args.length > 0) {
+    if (Object.assign) {
+      return Object.assign(obj, ...args);
+    }
 
-  if (isObject(data) && args.length > 1) {
-    args.shift();
     args.forEach((arg) => {
       if (isObject(arg)) {
         Object.keys(arg).forEach((key) => {
-          if (deep && isObject(data[key])) {
-            extend(true, data[key], arg[key]);
-          } else {
-            data[key] = arg[key];
-          }
+          obj[key] = arg[key];
         });
       }
     });
   }
 
-  return data;
+  return obj;
 }
 
 export function proxy(fn, context, ...args) {
@@ -142,6 +138,10 @@ export function hasClass(element, value) {
 }
 
 export function addClass(element, value) {
+  if (!value) {
+    return;
+  }
+
   if (isNumber(element.length)) {
     each(element, (elem) => {
       addClass(elem, value);
@@ -164,6 +164,10 @@ export function addClass(element, value) {
 }
 
 export function removeClass(element, value) {
+  if (!value) {
+    return;
+  }
+
   if (isNumber(element.length)) {
     each(element, (elem) => {
       removeClass(elem, value);
@@ -182,6 +186,10 @@ export function removeClass(element, value) {
 }
 
 export function toggleClass(element, value, added) {
+  if (!value) {
+    return;
+  }
+
   if (isNumber(element.length)) {
     each(element, (elem) => {
       toggleClass(elem, value, added);
