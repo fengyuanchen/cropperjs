@@ -166,7 +166,7 @@ export default {
       self.unbuild();
       $.removeClass(element, 'cropper-hidden');
     } else if (self.isImg) {
-      $.removeListener(element, 'load', self.start);
+      $.removeListener(element, 'load', self.onStart);
     } else if (image) {
       $.removeChild(image);
     }
