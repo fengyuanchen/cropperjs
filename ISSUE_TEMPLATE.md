@@ -17,5 +17,5 @@ When reporting a bug, include:
 
 When suggesting a feature, include:
 
-- As much detail as possible for what we should add and why it's important to Bootstrap
+- As much detail as possible for what we should add and why it's important to Cropper.js
 - Relevant links to prior art, screenshots, or live demos whenever possible
