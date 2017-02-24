@@ -5,7 +5,7 @@
  * Copyright (c) 2017 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2017-01-21T12:28:26.786Z
+ * Date: 2017-02-24T06:55:37.608Z
  */
 
 (function (global, factory) {
@@ -246,7 +246,7 @@ var toConsumableArray = function (arr) {
 };
 
 // RegExps
-var REGEXP_DATA_URL_HEAD = /^data:([^;]+);base64,/;
+var REGEXP_DATA_URL_HEAD = /^data:([^;]*);base64,/;
 var REGEXP_HYPHENATE = /([a-z\d])([A-Z])/g;
 var REGEXP_ORIGINS = /^(https?:)\/\/([^:/?#]+):?(\d*)/i;
 var REGEXP_SPACES = /\s+/;
@@ -334,30 +334,26 @@ function each(obj, callback) {
   return obj;
 }
 
-function extend() {
-  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
+function extend(obj) {
+  for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    args[_key - 1] = arguments[_key];
   }
 
-  var deep = args[0] === true;
-  var data = deep ? args[1] : args[0];
+  if (isObject(obj) && args.length > 0) {
+    if (Object.assign) {
+      return Object.assign.apply(Object, [obj].concat(args));
+    }
 
-  if (isObject(data) && args.length > 1) {
-    args.shift();
     args.forEach(function (arg) {
       if (isObject(arg)) {
         Object.keys(arg).forEach(function (key) {
-          if (deep && isObject(data[key])) {
-            extend(true, data[key], arg[key]);
-          } else {
-            data[key] = arg[key];
-          }
+          obj[key] = arg[key];
         });
       }
     });
   }
 
-  return data;
+  return obj;
 }
 
 function proxy(fn, context) {
@@ -391,6 +387,10 @@ function hasClass(element, value) {
 }
 
 function addClass(element, value) {
+  if (!value) {
+    return;
+  }
+
   if (isNumber(element.length)) {
     each(element, function (elem) {
       addClass(elem, value);
@@ -413,6 +413,10 @@ function addClass(element, value) {
 }
 
 function removeClass(element, value) {
+  if (!value) {
+    return;
+  }
+
   if (isNumber(element.length)) {
     each(element, function (elem) {
       removeClass(elem, value);
@@ -431,6 +435,10 @@ function removeClass(element, value) {
 }
 
 function toggleClass(element, value, added) {
+  if (!value) {
+    return;
+  }
+
   if (isNumber(element.length)) {
     each(element, function (elem) {
       toggleClass(elem, value, added);
@@ -2396,7 +2404,7 @@ var methods = {
       self.unbuild();
       removeClass(element, 'cropper-hidden');
     } else if (self.isImg) {
-      removeListener(element, 'load', self.start);
+      removeListener(element, 'load', self.onStart);
     } else if (image) {
       removeChild(image);
     }
