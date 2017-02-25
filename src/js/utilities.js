@@ -1,5 +1,5 @@
 // RegExps
-const REGEXP_DATA_URL_HEAD = /^data:([^;]+);base64,/;
+const REGEXP_DATA_URL_HEAD = /^data:.*,/;
 const REGEXP_HYPHENATE = /([a-z\d])([A-Z])/g;
 const REGEXP_ORIGINS = /^(https?:)\/\/([^:/?#]+):?(\d*)/i;
 const REGEXP_SPACES = /\s+/;
