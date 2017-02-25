@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v1.0.0-beta.1
+ * Cropper.js v1.0.0-beta.2
  * https://github.com/fengyuanchen/cropperjs
  *
  * Copyright (c) 2017 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2017-01-21T12:28:26.786Z
+ * Date: 2017-02-25T07:36:34.540Z
  */
 
 (function (global, factory) {
@@ -246,7 +246,7 @@ var toConsumableArray = function (arr) {
 };
 
 // RegExps
-var REGEXP_DATA_URL_HEAD = /^data:([^;]+);base64,/;
+var REGEXP_DATA_URL_HEAD = /^data:.*,/;
 var REGEXP_HYPHENATE = /([a-z\d])([A-Z])/g;
 var REGEXP_ORIGINS = /^(https?:)\/\/([^:/?#]+):?(\d*)/i;
 var REGEXP_SPACES = /\s+/;
@@ -334,30 +334,26 @@ function each(obj, callback) {
   return obj;
 }
 
-function extend() {
-  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
+function extend(obj) {
+  for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    args[_key - 1] = arguments[_key];
   }
 
-  var deep = args[0] === true;
-  var data = deep ? args[1] : args[0];
+  if (isObject(obj) && args.length > 0) {
+    if (Object.assign) {
+      return Object.assign.apply(Object, [obj].concat(args));
+    }
 
-  if (isObject(data) && args.length > 1) {
-    args.shift();
     args.forEach(function (arg) {
       if (isObject(arg)) {
         Object.keys(arg).forEach(function (key) {
-          if (deep && isObject(data[key])) {
-            extend(true, data[key], arg[key]);
-          } else {
-            data[key] = arg[key];
-          }
+          obj[key] = arg[key];
         });
       }
     });
   }
 
-  return data;
+  return obj;
 }
 
 function proxy(fn, context) {
@@ -391,6 +387,10 @@ function hasClass(element, value) {
 }
 
 function addClass(element, value) {
+  if (!value) {
+    return;
+  }
+
   if (isNumber(element.length)) {
     each(element, function (elem) {
       addClass(elem, value);
@@ -413,6 +413,10 @@ function addClass(element, value) {
 }
 
 function removeClass(element, value) {
+  if (!value) {
+    return;
+  }
+
   if (isNumber(element.length)) {
     each(element, function (elem) {
       removeClass(elem, value);
@@ -431,6 +435,10 @@ function removeClass(element, value) {
 }
 
 function toggleClass(element, value, added) {
+  if (!value) {
+    return;
+  }
+
   if (isNumber(element.length)) {
     each(element, function (elem) {
       toggleClass(elem, value, added);
@@ -1082,22 +1090,20 @@ var render$1 = {
     var canvasData = self.canvasData;
     var imageData = self.imageData;
     var rotate = imageData.rotate;
-    var aspectRatio = void 0;
-    var rotatedData = void 0;
 
     if (self.rotated) {
       self.rotated = false;
 
       // Computes rotated sizes with image sizes
-      rotatedData = getRotatedSizes({
+      var rotatedData = getRotatedSizes({
         width: imageData.width,
         height: imageData.height,
         degree: rotate
       });
+      var aspectRatio = rotatedData.width / rotatedData.height;
+      var isSquareImage = imageData.aspectRatio === 1;
 
-      aspectRatio = rotatedData.width / rotatedData.height;
-
-      if (aspectRatio !== canvasData.aspectRatio) {
+      if (isSquareImage || aspectRatio !== canvasData.aspectRatio) {
         canvasData.left -= (rotatedData.width - canvasData.width) / 2;
         canvasData.top -= (rotatedData.height - canvasData.height) / 2;
         canvasData.width = rotatedData.width;
@@ -1107,15 +1113,15 @@ var render$1 = {
         canvasData.naturalHeight = imageData.naturalHeight;
 
         // Computes rotated sizes with natural image sizes
-        if (rotate % 180) {
-          rotatedData = getRotatedSizes({
+        if (isSquareImage && rotate % 90 || rotate % 180) {
+          var rotatedData2 = getRotatedSizes({
             width: imageData.naturalWidth,
             height: imageData.naturalHeight,
             degree: rotate
           });
 
-          canvasData.naturalWidth = rotatedData.width;
-          canvasData.naturalHeight = rotatedData.height;
+          canvasData.naturalWidth = rotatedData2.width;
+          canvasData.naturalHeight = rotatedData2.height;
         }
 
         self.limitCanvas(true, false);
@@ -2396,7 +2402,7 @@ var methods = {
       self.unbuild();
       removeClass(element, 'cropper-hidden');
     } else if (self.isImg) {
-      removeListener(element, 'load', self.start);
+      removeListener(element, 'load', self.onStart);
     } else if (image) {
       removeChild(image);
     }
@@ -3110,7 +3116,7 @@ var EVENT_CROP = 'crop';
 
 // RegExps
 var REGEXP_DATA_URL = /^data:/;
-var REGEXP_DATA_URL_JPEG = /^data:image\/jpeg.*;base64,/;
+var REGEXP_DATA_URL_JPEG = /^data:image\/jpeg;base64,/;
 
 var AnotherCropper = void 0;
 

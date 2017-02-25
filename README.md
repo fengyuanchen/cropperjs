@@ -749,6 +749,7 @@ Output the final cropped area position and size data (base on the natural size o
 - **data**:
   - Type: `Object`
   - Properties: See the [`getData`](#getdatarounded) method.
+  - You may need to round the data properties before pass it in.
 
 Change the cropped area position and size with new data (base on the original image).
 
