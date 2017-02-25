@@ -204,22 +204,20 @@ export default {
     const canvasData = self.canvasData;
     const imageData = self.imageData;
     const rotate = imageData.rotate;
-    let aspectRatio;
-    let rotatedData;
 
     if (self.rotated) {
       self.rotated = false;
 
       // Computes rotated sizes with image sizes
-      rotatedData = $.getRotatedSizes({
+      const rotatedData = $.getRotatedSizes({
         width: imageData.width,
         height: imageData.height,
         degree: rotate,
       });
+      const aspectRatio = rotatedData.width / rotatedData.height;
+      const isSquareImage = imageData.aspectRatio === 1;
 
-      aspectRatio = rotatedData.width / rotatedData.height;
-
-      if (aspectRatio !== canvasData.aspectRatio) {
+      if (isSquareImage || aspectRatio !== canvasData.aspectRatio) {
         canvasData.left -= (rotatedData.width - canvasData.width) / 2;
         canvasData.top -= (rotatedData.height - canvasData.height) / 2;
         canvasData.width = rotatedData.width;
@@ -229,15 +227,15 @@ export default {
         canvasData.naturalHeight = imageData.naturalHeight;
 
         // Computes rotated sizes with natural image sizes
-        if (rotate % 180) {
-          rotatedData = $.getRotatedSizes({
+        if ((isSquareImage && rotate % 90) || rotate % 180) {
+          const rotatedData2 = $.getRotatedSizes({
             width: imageData.naturalWidth,
             height: imageData.naturalHeight,
             degree: rotate,
           });
 
-          canvasData.naturalWidth = rotatedData.width;
-          canvasData.naturalHeight = rotatedData.height;
+          canvasData.naturalWidth = rotatedData2.width;
+          canvasData.naturalHeight = rotatedData2.height;
         }
 
         self.limitCanvas(true, false);
