@@ -228,14 +228,14 @@ export default {
 
         // Computes rotated sizes with natural image sizes
         if ((isSquareImage && rotate % 90) || rotate % 180) {
-          const rotatedData2 = $.getRotatedSizes({
+          const rotatedNaturalData = $.getRotatedSizes({
             width: imageData.naturalWidth,
             height: imageData.naturalHeight,
             degree: rotate,
           });
 
-          canvasData.naturalWidth = rotatedData2.width;
-          canvasData.naturalHeight = rotatedData2.height;
+          canvasData.naturalWidth = rotatedNaturalData.width;
+          canvasData.naturalHeight = rotatedNaturalData.height;
         }
 
         self.limitCanvas(true, false);
