@@ -57,7 +57,7 @@ export default {
   dblclick() {
     const self = this;
 
-    if (self.disabled) {
+    if (self.disabled || self.options.dragMode === 'none') {
       return;
     }
 
