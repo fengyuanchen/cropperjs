@@ -17,5 +17,4 @@ module.exports = {
       exclude: '/node_modules/**',
     }),
   ],
-  sourceMap: true,
 };

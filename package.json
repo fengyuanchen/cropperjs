@@ -36,7 +36,7 @@
     "compress:js": "uglifyjs dist/cropper.js -o dist/cropper.min.js -c -m --comments /^!/",
     "compress": "npm run compress:css && npm run compress:js",
     "watch:css": "postcss -c postcss.config.json -w",
-    "watch:js": "rollup -c -w",
+    "watch:js": "rollup -c -w -m",
     "lint": "eslint src/js",
     "postbuild": "npm run compress && node build",
     "prebuild": "npm run lint && npm test",
