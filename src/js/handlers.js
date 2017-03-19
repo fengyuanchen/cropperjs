@@ -21,12 +21,14 @@ function getPointer({ pageX, pageY }, endOnly) {
 export default {
   resize() {
     const self = this;
-    const restore = self.options.restore;
+    const options = self.options;
     const container = self.container;
     const containerData = self.containerData;
+    const minContainerWidth = Number(options.minContainerWidth) || 200;
+    const minContainerHeight = Number(options.minContainerHeight) || 100;
 
-    // Check `container` is necessary for IE8
-    if (self.disabled || !containerData) {
+    if (self.disabled || containerData.width === minContainerWidth ||
+      containerData.height === minContainerHeight) {
       return;
     }
 
@@ -36,14 +38,14 @@ export default {
 
     // Resize when width changed or height changed
     if (ratio !== 1 || container.offsetHeight !== containerData.height) {
-      if (restore) {
+      if (options.restore) {
         canvasData = self.getCanvasData();
         cropBoxData = self.getCropBoxData();
       }
 
       self.render();
 
-      if (restore) {
+      if (options.restore) {
         self.setCanvasData($.each(canvasData, (n, i) => {
           canvasData[i] = n * ratio;
         }));
