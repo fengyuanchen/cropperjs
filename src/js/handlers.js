@@ -128,23 +128,25 @@ export default {
       action = $.getData(e.target, 'action');
     }
 
-    if (REGEXP_ACTIONS.test(action)) {
-      if ($.dispatchEvent(self.element, 'cropstart', {
-        originalEvent: e,
-        action,
-      }) === false) {
-        return;
-      }
+    if (!REGEXP_ACTIONS.test(action)) {
+      return;
+    }
 
-      e.preventDefault();
+    if ($.dispatchEvent(self.element, 'cropstart', {
+      originalEvent: e,
+      action,
+    }) === false) {
+      return;
+    }
 
-      self.action = action;
-      self.cropping = false;
+    e.preventDefault();
 
-      if (action === 'crop') {
-        self.cropping = true;
-        $.addClass(self.dragBox, 'cropper-modal');
-      }
+    self.action = action;
+    self.cropping = false;
+
+    if (action === 'crop') {
+      self.cropping = true;
+      $.addClass(self.dragBox, 'cropper-modal');
     }
   },
 
@@ -198,22 +200,24 @@ export default {
       delete pointers[e.pointerId || 0];
     }
 
-    if (action) {
-      e.preventDefault();
-
-      if (!Object.keys(pointers).length) {
-        self.action = '';
-      }
-
-      if (self.cropping) {
-        self.cropping = false;
-        $.toggleClass(self.dragBox, 'cropper-modal', self.cropped && this.options.modal);
-      }
-
-      $.dispatchEvent(self.element, 'cropend', {
-        originalEvent: e,
-        action,
-      });
+    if (!action) {
+      return;
     }
+
+    e.preventDefault();
+
+    if (!Object.keys(pointers).length) {
+      self.action = '';
+    }
+
+    if (self.cropping) {
+      self.cropping = false;
+      $.toggleClass(self.dragBox, 'cropper-modal', self.cropped && this.options.modal);
+    }
+
+    $.dispatchEvent(self.element, 'cropend', {
+      originalEvent: e,
+      action,
+    });
   },
 };
