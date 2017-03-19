@@ -179,16 +179,14 @@ export default {
 
   cropEnd(event) {
     const self = this;
-    const action = self.action;
 
-    if (self.disabled || !action) {
+    if (self.disabled) {
       return;
     }
 
+    const action = self.action;
     const pointers = self.pointers;
     const e = $.getEvent(event);
-
-    e.preventDefault();
 
     if (e.changedTouches) {
       $.each(e.changedTouches, (touch) => {
@@ -198,18 +196,22 @@ export default {
       delete pointers[e.pointerId || 0];
     }
 
-    if (!Object.keys(pointers).length) {
-      self.action = '';
-    }
+    if (action) {
+      e.preventDefault();
 
-    if (self.cropping) {
-      self.cropping = false;
-      $.toggleClass(self.dragBox, 'cropper-modal', self.cropped && this.options.modal);
-    }
+      if (!Object.keys(pointers).length) {
+        self.action = '';
+      }
 
-    $.dispatchEvent(self.element, 'cropend', {
-      originalEvent: e,
-      action,
-    });
+      if (self.cropping) {
+        self.cropping = false;
+        $.toggleClass(self.dragBox, 'cropper-modal', self.cropped && this.options.modal);
+      }
+
+      $.dispatchEvent(self.element, 'cropend', {
+        originalEvent: e,
+        action,
+      });
+    }
   },
 };
