@@ -1,6 +1,13 @@
 # Changelog
 
 
+## 1.0.0-rc (Mar 25, 2017)
+
+- Fixed the bug of touch zoom (#161).
+- Fixed the bug of window resize (#162).
+- Improve the `toggleDragModeOnDblclick` option (only available when the `dragMode` option is set to `crop` or `move`)
+
+
 ## 1.0.0-beta.2 (Feb 25, 2017)
 
 - Fixed the bug of rotate square image lead image shrink (#155).
