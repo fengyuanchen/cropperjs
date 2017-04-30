@@ -7,6 +7,14 @@ module.exports = {
       dest: 'dist/cropper.js',
     },
     {
+      dest: 'dist/cropper.common.js',
+      format: 'cjs',
+    },
+    {
+      dest: 'dist/cropper.esm.js',
+      format: 'es',
+    },
+    {
       dest: 'docs/js/cropper.js',
     },
   ],

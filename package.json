@@ -1,8 +1,10 @@
 {
   "name": "cropperjs",
   "description": "JavaScript image cropper.",
-  "version": "1.0.0-rc",
-  "main": "dist/cropper.js",
+  "version": "1.0.0-rc.1",
+  "main": "dist/cropper.common.js",
+  "module": "dist/cropper.esm.js",
+  "browser": "dist/cropper.js",
   "license": "MIT",
   "repository": "fengyuanchen/cropperjs",
   "homepage": "https://fengyuanchen.github.io/cropperjs",
