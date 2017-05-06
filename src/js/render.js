@@ -53,7 +53,7 @@ export default {
     const viewMode = self.options.viewMode;
     const containerData = self.containerData;
     const imageData = self.imageData;
-    const rotated = Math.abs(imageData.rotate) === 90;
+    const rotated = Math.abs(imageData.rotate) % 180 === 90;
     const naturalWidth = rotated ? imageData.naturalHeight : imageData.naturalWidth;
     const naturalHeight = rotated ? imageData.naturalWidth : imageData.naturalHeight;
     const aspectRatio = naturalWidth / naturalHeight;
