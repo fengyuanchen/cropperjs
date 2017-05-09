@@ -31,3 +31,28 @@ QUnit.test('methods#getCroppedCanvas', function (assert) {
     }
   });
 });
+
+QUnit.test('methods#getCropperCanvas: ignoreAspectRatio', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
+
+  assert.expect(3);
+
+  return new Cropper(image, {
+    ready: function () {
+      var cropper = this.cropper;
+      var canvas = cropper.getCroppedCanvas({
+        width: 600,
+        height: 96,
+        ignoreAspectRatio: true
+      });
+
+      assert.ok(canvas instanceof HTMLCanvasElement);
+      assert.strictEqual(canvas.width, 600);
+      assert.strictEqual(canvas.height, 96);
+
+      done();
+    }
+  })
+});
