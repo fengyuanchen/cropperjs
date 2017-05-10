@@ -697,7 +697,7 @@ export default {
     }
 
     if (!$.isPlainObject(options)) {
-      options = { ignoreAspectRatio: false };
+      options = { };
     }
 
     const data = self.getData();
@@ -712,10 +712,10 @@ export default {
       scaledWidth = options.width;
       scaledHeight = options.height;
 
-      if (scaledWidth && !options.ignoreAspectRatio) {
+      if (scaledWidth) {
         scaledHeight = scaledWidth / aspectRatio;
         scaledRatio = scaledWidth / originalWidth;
-      } else if (scaledHeight && !options.ignoreAspectRatio) {
+      } else if (scaledHeight) {
         scaledWidth = scaledHeight * aspectRatio;
         scaledRatio = scaledHeight / originalHeight;
       }

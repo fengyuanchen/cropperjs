@@ -3,6 +3,7 @@
 *.map
 bower_components
 node_modules
+npm-debug.log
 
 # Windows image file caches
 Thumbs.db
