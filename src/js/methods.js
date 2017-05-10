@@ -697,7 +697,7 @@ export default {
     }
 
     if (!$.isPlainObject(options)) {
-      options = {};
+      options = { };
     }
 
     const data = self.getData();

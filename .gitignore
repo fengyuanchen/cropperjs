@@ -3,6 +3,7 @@
 *.map
 bower_components
 node_modules
+npm-debug.log
 
 # Windows image file caches
 Thumbs.db
@@ -47,3 +48,6 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# IDE files
+.idea/

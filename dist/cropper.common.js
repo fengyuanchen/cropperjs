@@ -5,7 +5,7 @@
  * Copyright (c) 2017 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2017-04-30T03:26:33.550Z
+ * Date: 2017-05-10T14:57:41.500Z
  */
 
 'use strict';
@@ -949,7 +949,7 @@ var render$1 = {
     var viewMode = self.options.viewMode;
     var containerData = self.containerData;
     var imageData = self.imageData;
-    var rotated = Math.abs(imageData.rotate) === 90;
+    var rotated = Math.abs(imageData.rotate) % 180 === 90;
     var naturalWidth = rotated ? imageData.naturalHeight : imageData.naturalWidth;
     var naturalHeight = rotated ? imageData.naturalWidth : imageData.naturalHeight;
     var aspectRatio = naturalWidth / naturalHeight;
@@ -1623,26 +1623,24 @@ var handlers = {
 
     // Resize when width changed or height changed
     if (ratio !== 1 || container.offsetHeight !== containerData.height) {
-      (function () {
-        var canvasData = void 0;
-        var cropBoxData = void 0;
+      var canvasData = void 0;
+      var cropBoxData = void 0;
 
-        if (options.restore) {
-          canvasData = self.getCanvasData();
-          cropBoxData = self.getCropBoxData();
-        }
+      if (options.restore) {
+        canvasData = self.getCanvasData();
+        cropBoxData = self.getCropBoxData();
+      }
 
-        self.render();
+      self.render();
 
-        if (options.restore) {
-          self.setCanvasData(each(canvasData, function (n, i) {
-            canvasData[i] = n * ratio;
-          }));
-          self.setCropBoxData(each(cropBoxData, function (n, i) {
-            cropBoxData[i] = n * ratio;
-          }));
-        }
-      })();
+      if (options.restore) {
+        self.setCanvasData(each(canvasData, function (n, i) {
+          canvasData[i] = n * ratio;
+        }));
+        self.setCropBoxData(each(cropBoxData, function (n, i) {
+          cropBoxData[i] = n * ratio;
+        }));
+      }
     }
   },
   dblclick: function dblclick() {

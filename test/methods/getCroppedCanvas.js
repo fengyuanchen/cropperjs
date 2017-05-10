@@ -31,3 +31,47 @@ QUnit.test('methods#getCroppedCanvas', function (assert) {
     }
   });
 });
+
+QUnit.test('methods#getCroppedCanvas: width', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
+
+  assert.expect(3);
+
+  return new Cropper(image, {
+    ready: function () {
+      var cropper = this.cropper;
+      var canvas = cropper.getCroppedCanvas({width: 600});
+
+      console.log(canvas.height);
+
+      assert.ok(canvas instanceof HTMLCanvasElement);
+      assert.strictEqual(canvas.width, 600);
+      assert.strictEqual(canvas.height, 337);
+
+      done();
+    }
+  })
+});
+
+QUnit.test('methods#getCroppedCanvas: height', function (assert) {
+  var done = assert.async();
+  var util = window.Util;
+  var image = util.createImage();
+
+  assert.expect(3);
+
+  return new Cropper(image, {
+    ready: function () {
+      var cropper = this.cropper;
+      var canvas = cropper.getCroppedCanvas({height: 96});
+
+      assert.ok(canvas instanceof HTMLCanvasElement);
+      assert.strictEqual(canvas.width, 170);
+      assert.strictEqual(canvas.height, 96);
+
+      done();
+    }
+  })
+});
