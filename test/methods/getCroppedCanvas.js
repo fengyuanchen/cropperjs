@@ -32,7 +32,7 @@ QUnit.test('methods#getCroppedCanvas', function (assert) {
   });
 });
 
-QUnit.test('methods#getCropperCanvas: width', function (assert) {
+QUnit.test('methods#getCroppedCanvas: width', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();
@@ -55,7 +55,7 @@ QUnit.test('methods#getCropperCanvas: width', function (assert) {
   })
 });
 
-QUnit.test('methods#getCropperCanvas: height', function (assert) {
+QUnit.test('methods#getCroppedCanvas: height', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage();
