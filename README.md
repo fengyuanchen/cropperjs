@@ -860,6 +860,7 @@ Change the crop box position and size with new data.
     - `width`: the destination width of the output canvas
     - `height`: the destination height of the output canvas
     - `fillColor`: a color to fill any alpha values in the output canvas
+    - `beforeDrawImage(canvas)`: a function for transform the canvas before draw the cropped image onto it.
   - Note: The aspect ratio of the output canvas will be fitted to aspect ratio of the crop box automatically.
 
 - (return  value):
@@ -880,7 +881,13 @@ cropper.getCroppedCanvas();
 
 cropper.getCroppedCanvas({
   width: 160,
-  height: 90
+  height: 90,
+  beforeDrawImage: function(canvas) {
+    const context = canvas.getContext('2d');
+
+    context.imageSmoothingEnabled = false;
+    context.imageSmoothingQuality = 'high';
+  },
 });
 
 // Upload cropped image to server if the browser supports `HTMLCanvasElement.toBlob`

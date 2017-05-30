@@ -736,6 +736,10 @@ export default {
       context.fillRect(0, 0, canvasWidth, canvasHeight);
     }
 
+    if ($.isFunction(options.beforeDrawImage)) {
+      options.beforeDrawImage(canvas);
+    }
+
     // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.drawImage
     const parameters = (() => {
       const source = $.getSourceCanvas(self.image, self.imageData);
