@@ -85,7 +85,6 @@ Initialize with `Cropper` constructor:
 
 - Browser: `window.Cropper`
 - CommonJS: `var Cropper = require('cropperjs')`
-- NodeJS: `var Cropper = require('cropperjs')`
 - ES2015: `import Cropper from 'cropperjs'`
 
 ```html

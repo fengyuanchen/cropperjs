@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v1.0.0-rc.1
+ * Cropper.js v1.0.0-rc.2
  * https://github.com/fengyuanchen/cropperjs
  *
  * Copyright (c) 2017 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2017-04-30T03:26:33.550Z
+ * Date: 2017-05-30T05:02:48.005Z
  */
 
 'use strict';
@@ -949,7 +949,7 @@ var render$1 = {
     var viewMode = self.options.viewMode;
     var containerData = self.containerData;
     var imageData = self.imageData;
-    var rotated = Math.abs(imageData.rotate) === 90;
+    var rotated = Math.abs(imageData.rotate) % 180 === 90;
     var naturalWidth = rotated ? imageData.naturalHeight : imageData.naturalWidth;
     var naturalHeight = rotated ? imageData.naturalWidth : imageData.naturalHeight;
     var aspectRatio = naturalWidth / naturalHeight;
