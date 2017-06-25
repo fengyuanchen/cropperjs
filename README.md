@@ -1105,8 +1105,8 @@ Maintained under the [Semantic Versioning guidelines](http://semver.org/).
 
 ## Related projects
 
+- [iron-cropper](https://www.webcomponents.org/element/safetychanger/iron-cropper) (web component) by @safetychanger
 - [react-cropper](https://github.com/roadmanfong/react-cropper) by @roadmanfong
 - [vue-cropperjs](https://github.com/Agontuk/vue-cropperjs) by @Agontuk
-
 
 [⬆ back to top](#table-of-contents)
