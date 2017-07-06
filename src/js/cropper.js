@@ -101,7 +101,7 @@ class Cropper {
 
     // XMLHttpRequest disallows to open a Data URL in some browsers like IE11 and Safari
     if (REGEXP_DATA_URL.test(url)) {
-      if (REGEXP_DATA_URL_JPEG) {
+      if (REGEXP_DATA_URL_JPEG.test(url)) {
         self.read($.dataURLToArrayBuffer(url));
       } else {
         self.clone();
