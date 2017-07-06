@@ -691,13 +691,13 @@ export default {
       return null;
     }
 
-    // Return the whole canvas if not cropped
-    if (!self.cropped) {
-      return $.getSourceCanvas(self.image, self.imageData);
-    }
-
     if (!$.isPlainObject(options)) {
       options = {};
+    }
+
+    // Return the whole canvas if not cropped
+    if (!self.cropped) {
+      return $.getSourceCanvas(self.image, self.imageData, options);
     }
 
     const data = self.getData();
@@ -736,13 +736,9 @@ export default {
       context.fillRect(0, 0, canvasWidth, canvasHeight);
     }
 
-    if ($.isFunction(options.beforeDrawImage)) {
-      options.beforeDrawImage(canvas);
-    }
-
     // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.drawImage
     const parameters = (() => {
-      const source = $.getSourceCanvas(self.image, self.imageData);
+      const source = $.getSourceCanvas(self.image, self.imageData, options);
       const sourceWidth = source.width;
       const sourceHeight = source.height;
       const canvasData = self.canvasData;
@@ -804,6 +800,14 @@ export default {
 
       return params;
     })();
+
+    if (options.imageSmoothingEnabled) {
+      context.imageSmoothingEnabled = options.imageSmoothingEnabled;
+    }
+
+    if (options.imageSmoothingQuality) {
+      context.imageSmoothingQuality = options.imageSmoothingQuality;
+    }
 
     context.drawImage(...parameters);
 
