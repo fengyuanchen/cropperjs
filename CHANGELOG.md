@@ -1,6 +1,12 @@
 # Changelog
 
 
+## 1.0.0-rc.3 (Jul 7, 2017)
+
+- Added two new options (`imageSmoothingEnabled` and `imageSmoothingQuality`) to `getCroppedCanvas` method.
+- Fixed a bug of RegExp using (#195 by @arusakov).
+
+
 ## 1.0.0-rc.2 (May 30, 2017)
 
 - Fixed the issue of canvas box initialization (#179).

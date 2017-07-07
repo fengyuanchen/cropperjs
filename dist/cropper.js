@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v1.0.0-rc.2
+ * Cropper.js v1.0.0-rc.3
  * https://github.com/fengyuanchen/cropperjs
  *
  * Copyright (c) 2017 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2017-05-30T05:02:48.005Z
+ * Date: 2017-07-07T12:56:42.462Z
  */
 
 (function (global, factory) {
@@ -726,7 +726,7 @@ function getRotatedSizes(data, reversed) {
   };
 }
 
-function getSourceCanvas(image, data) {
+function getSourceCanvas(image, data, options) {
   var canvas = createElement('canvas');
   var context = canvas.getContext('2d');
   var dstX = 0;
@@ -766,6 +766,11 @@ function getSourceCanvas(image, data) {
   canvas.width = canvasWidth;
   canvas.height = canvasHeight;
 
+  if (options.fillColor) {
+    context.fillStyle = options.fillColor;
+    context.fillRect(0, 0, canvasWidth, canvasHeight);
+  }
+
   if (advanced) {
     dstX = -dstWidth / 2;
     dstY = -dstHeight / 2;
@@ -781,6 +786,12 @@ function getSourceCanvas(image, data) {
 
   if (scalable) {
     context.scale(scaleX, scaleY);
+  }
+
+  context.imageSmoothingEnabled = !!options.imageSmoothingEnabled;
+
+  if (options.imageSmoothingQuality) {
+    context.imageSmoothingQuality = options.imageSmoothingQuality;
   }
 
   context.drawImage(image, Math.floor(dstX), Math.floor(dstY), Math.floor(dstWidth), Math.floor(dstHeight));
@@ -2941,13 +2952,13 @@ var methods = {
       return null;
     }
 
-    // Return the whole canvas if not cropped
-    if (!self.cropped) {
-      return getSourceCanvas(self.image, self.imageData);
-    }
-
     if (!isPlainObject(options)) {
       options = {};
+    }
+
+    // Return the whole canvas if not cropped
+    if (!self.cropped) {
+      return getSourceCanvas(self.image, self.imageData, options);
     }
 
     var data = self.getData();
@@ -2988,7 +2999,7 @@ var methods = {
 
     // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.drawImage
     var parameters = function () {
-      var source = getSourceCanvas(self.image, self.imageData);
+      var source = getSourceCanvas(self.image, self.imageData, options);
       var sourceWidth = source.width;
       var sourceHeight = source.height;
       var canvasData = self.canvasData;
@@ -3045,6 +3056,12 @@ var methods = {
 
       return params;
     }();
+
+    context.imageSmoothingEnabled = !!options.imageSmoothingEnabled;
+
+    if (options.imageSmoothingQuality) {
+      context.imageSmoothingQuality = options.imageSmoothingQuality;
+    }
 
     context.drawImage.apply(context, toConsumableArray(parameters));
 
@@ -3210,7 +3227,7 @@ var Cropper = function () {
 
       // XMLHttpRequest disallows to open a Data URL in some browsers like IE11 and Safari
       if (REGEXP_DATA_URL.test(url)) {
-        if (REGEXP_DATA_URL_JPEG) {
+        if (REGEXP_DATA_URL_JPEG.test(url)) {
           self.read(dataURLToArrayBuffer(url));
         } else {
           self.clone();
