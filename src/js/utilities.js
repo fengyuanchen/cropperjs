@@ -551,9 +551,7 @@ export function getSourceCanvas(image, data, options) {
     context.scale(scaleX, scaleY);
   }
 
-  if (options.imageSmoothingEnabled) {
-    context.imageSmoothingEnabled = options.imageSmoothingEnabled;
-  }
+  context.imageSmoothingEnabled = !!options.imageSmoothingEnabled;
 
   if (options.imageSmoothingQuality) {
     context.imageSmoothingQuality = options.imageSmoothingQuality;

@@ -801,9 +801,7 @@ export default {
       return params;
     })();
 
-    if (options.imageSmoothingEnabled) {
-      context.imageSmoothingEnabled = options.imageSmoothingEnabled;
-    }
+    context.imageSmoothingEnabled = !!options.imageSmoothingEnabled;
 
     if (options.imageSmoothingQuality) {
       context.imageSmoothingQuality = options.imageSmoothingQuality;
