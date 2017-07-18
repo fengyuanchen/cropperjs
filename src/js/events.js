@@ -53,8 +53,8 @@ export default {
       $.addListener(cropper, EVENT_DBLCLICK, (self.onDblclick = $.proxy(self.dblclick, self)));
     }
 
-    $.addListener(document, EVENT_POINTER_MOVE, (self.onCropMove = $.proxy(self.cropMove, self)));
-    $.addListener(document, EVENT_POINTER_UP, (self.onCropEnd = $.proxy(self.cropEnd, self)));
+    $.addListener(element.ownerDocument, EVENT_POINTER_MOVE, (self.onCropMove = $.proxy(self.cropMove, self)));
+    $.addListener(element.ownerDocument, EVENT_POINTER_UP, (self.onCropEnd = $.proxy(self.cropEnd, self)));
 
     if (options.responsive) {
       $.addListener(window, EVENT_RESIZE, (self.onResize = $.proxy(self.resize, self)));
@@ -97,8 +97,8 @@ export default {
       $.removeListener(cropper, EVENT_DBLCLICK, self.onDblclick);
     }
 
-    $.removeListener(document, EVENT_POINTER_MOVE, self.onCropMove);
-    $.removeListener(document, EVENT_POINTER_UP, self.onCropEnd);
+    $.removeListener(element.ownerDocument, EVENT_POINTER_MOVE, self.onCropMove);
+    $.removeListener(element.ownerDocument, EVENT_POINTER_UP, self.onCropEnd);
 
     if (options.responsive) {
       $.removeListener(window, EVENT_RESIZE, self.onResize);
