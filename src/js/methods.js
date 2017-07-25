@@ -721,9 +721,10 @@ export default {
       }
     }
 
-    // The canvas element will use `Math.floor` on a float number, so floor first
-    const canvasWidth = Math.floor(scaledWidth || originalWidth);
-    const canvasHeight = Math.floor(scaledHeight || originalHeight);
+    // The canvas element requires an integer, so the width and height need 
+    // to be rounded (otherwise the canvas will effectively Math.floor them)
+    const canvasWidth = Math.round(scaledWidth || originalWidth);
+    const canvasHeight = Math.round(scaledHeight || originalHeight);
 
     const canvas = $.createElement('canvas');
     const context = canvas.getContext('2d');
@@ -778,7 +779,7 @@ export default {
         srcHeight = dstHeight = Math.min(originalHeight, sourceHeight - srcY);
       }
 
-      params.push(Math.floor(srcX), Math.floor(srcY), Math.floor(srcWidth), Math.floor(srcHeight));
+      params.push(Math.round(srcX), Math.round(srcY), Math.round(srcWidth), Math.round(srcHeight));
 
       // Scale destination sizes
       if (scaledRatio) {
@@ -791,10 +792,10 @@ export default {
       // Avoid "IndexSizeError" in IE and Firefox
       if (dstWidth > 0 && dstHeight > 0) {
         params.push(
-          Math.floor(dstX),
-          Math.floor(dstY),
-          Math.floor(dstWidth),
-          Math.floor(dstHeight)
+          Math.round(dstX),
+          Math.round(dstY),
+          Math.round(dstWidth),
+          Math.round(dstHeight)
         );
       }
 
