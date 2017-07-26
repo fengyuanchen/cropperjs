@@ -387,6 +387,12 @@ export default {
       canvasData.top + ((canvasData.height - cropBoxData.height) / 2)
     );
 
+    // Initialize pivot point
+    if (options.pivot) {
+      cropBoxData.pivotX = cropBoxData.left + (cropBoxData.width * 0.5);
+      cropBoxData.pivotY = cropBoxData.top + (cropBoxData.height * 0.5);
+    }
+
     self.initialCropBoxData = $.extend({}, cropBoxData);
   },
 
@@ -463,6 +469,16 @@ export default {
     }
   },
 
+  limitPivot() {
+    const self = this;
+    const cropBoxData = self.cropBoxData;
+    const right = cropBoxData.left + cropBoxData.width;
+    const bottom = cropBoxData.top + cropBoxData.height;
+
+    cropBoxData.pivotX = Math.min(right, Math.max(cropBoxData.left, cropBoxData.pivotX));
+    cropBoxData.pivotY = Math.min(bottom, Math.max(cropBoxData.top, cropBoxData.pivotY));
+  },
+
   renderCropBox() {
     const self = this;
     const options = self.options;
@@ -515,6 +531,13 @@ export default {
 
     if (self.cropped && self.limited) {
       self.limitCanvas(true, true);
+    }
+
+    if (options.pivot) {
+      $.setStyle(self.pivot, {
+        left: cropBoxData.pivotX - cropBoxData.left,
+        top: cropBoxData.pivotY - cropBoxData.top
+      });
     }
 
     if (!self.disabled) {

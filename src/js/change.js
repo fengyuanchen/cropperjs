@@ -9,6 +9,7 @@ const ACTION_SOUTH_EAST = 'se';
 const ACTION_SOUTH_WEST = 'sw';
 const ACTION_NORTH_EAST = 'ne';
 const ACTION_NORTH_WEST = 'nw';
+const ACTION_PIVOT = 'pivot';
 
 function getMaxZoomRatio(pointers) {
   const pointers2 = $.extend({}, pointers);
@@ -50,6 +51,8 @@ export default {
     let height = cropBoxData.height;
     let left = cropBoxData.left;
     let top = cropBoxData.top;
+    let pivotX = cropBoxData.pivotX;
+    let pivotY = cropBoxData.pivotY;
     const right = left + width;
     const bottom = top + height;
     let minLeft = 0;
@@ -417,7 +420,19 @@ export default {
 
         break;
 
+      case ACTION_PIVOT:
+        pivotX += range.x;
+        pivotY += range.y;
+
+        break;
+
       // No default
+    }
+
+    // Auto-pivot while resetting the crop
+    if (self.cropping && action !== ACTION_PIVOT) {
+      pivotX = left + (width * 0.5);
+      pivotY = top + (height * 0.5);
     }
 
     if (renderable) {
@@ -425,6 +440,12 @@ export default {
       cropBoxData.height = height;
       cropBoxData.left = left;
       cropBoxData.top = top;
+
+      cropBoxData.pivotX = pivotX;
+      cropBoxData.pivotY = pivotY;
+
+      self.limitPivot();
+
       self.action = action;
 
       self.renderCropBox();

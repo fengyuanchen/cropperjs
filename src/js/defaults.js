@@ -35,6 +35,9 @@ export default {
   // Show the center indicator for guiding
   center: true,
 
+  // Show an editable pivot/anchor point
+  pivot: false,
+
   // Show the white modal to highlight the crop box
   highlight: true,
 

@@ -450,6 +450,11 @@ export default {
       data.scaleY = imageData.scaleY || 1;
     }
 
+    if (options.pivot) {
+      data.pivotX = cropBoxData.pivotX;
+      data.pivotY = cropBoxData.pivotY;
+    }
+
     return data;
   },
 
@@ -489,6 +494,16 @@ export default {
         if ($.isNumber(data.scaleY) && data.scaleY !== imageData.scaleY) {
           imageData.scaleY = data.scaleY;
           scaled = true;
+        }
+      }
+
+      if (options.pivot) {
+        if ($.isNumber(data.pivotX)) {
+          cropBoxData.pivotX = data.pivotX;
+        }
+
+        if ($.isNumber(data.pivotY)) {
+          cropBoxData.pivotY = data.pivotY;
         }
       }
 
@@ -670,6 +685,14 @@ export default {
         } else if (heightChanged) {
           cropBoxData.width = cropBoxData.height * aspectRatio;
         }
+      }
+
+      if ($.isNumber(data.pivotX)) {
+        cropBoxData.pivotX = data.pivotX;
+      }
+
+      if ($.isNumber(data.pivotY)) {
+        cropBoxData.pivotY = data.pivotY;
       }
 
       self.renderCropBox();
