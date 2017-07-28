@@ -5,7 +5,7 @@
  * Copyright (c) 2017 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2017-07-26T13:23:52.173Z
+ * Date: 2017-07-28T13:59:43.270Z
  */
 
 var DEFAULTS = {
@@ -2724,6 +2724,11 @@ var methods = {
         height: cropBoxData.height
       };
 
+      if (options.pivot) {
+        data.pivotX = cropBoxData.pivotX;
+        data.pivotY = cropBoxData.pivotY;
+      }
+
       ratio = imageData.width / imageData.naturalWidth;
 
       each(data, function (n, i) {
@@ -2737,6 +2742,11 @@ var methods = {
         width: 0,
         height: 0
       };
+
+      if (options.pivot) {
+        data.pivotX = 0;
+        data.pivotY = 0;
+      }
     }
 
     if (options.rotatable) {
@@ -2746,11 +2756,6 @@ var methods = {
     if (options.scalable) {
       data.scaleX = imageData.scaleX || 1;
       data.scaleY = imageData.scaleY || 1;
-    }
-
-    if (options.pivot) {
-      data.pivotX = cropBoxData.pivotX;
-      data.pivotY = cropBoxData.pivotY;
     }
 
     return data;

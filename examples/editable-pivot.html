@@ -32,7 +32,18 @@
     window.addEventListener('DOMContentLoaded', function () {
       var image = document.querySelector('#image');
       var cropper = new Cropper(image, {
-        pivot: true
+        pivot: true,
+        ready: function () {
+          cropper.setData({
+            left: 100,
+            top: 50,
+            width: 200,
+            height: 100,
+            pivotX: 150,
+            pivotY: 75
+          });
+          console.log(cropper.getData());
+        }
       });
       document.querySelector('#button').addEventListener('click', function () {
         alert(JSON.stringify(cropper.getData()));
