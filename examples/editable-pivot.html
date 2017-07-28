@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Cropper.js</title>
+  <link rel="stylesheet" href="../dist/cropper.css">
+  <style>
+    .container {
+      max-width: 640px;
+      margin: 20px auto;
+    }
+
+    img {
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Cropper with editable pivot/anchor point</h1>
+    <div>
+      <img id="image" src="../docs/images/picture.jpg" alt="Picture">
+    </div>
+    <button id="button">Get Data</button>
+  </div>
+
+  <script src="../dist/cropper.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      var image = document.querySelector('#image');
+      var cropper = new Cropper(image, {
+        pivot: true
+      });
+      document.querySelector('#button').addEventListener('click', function () {
+        alert(JSON.stringify(cropper.getData()));
+      });
+    });
+  </script>
+</body>
+</html>
