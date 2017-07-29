@@ -10,6 +10,7 @@ export default (
       '<span class="cropper-dashed dashed-v"></span>' +
       '<span class="cropper-center"></span>' +
       '<span class="cropper-face"></span>' +
+      '<span class="cropper-pivot" data-action="pivot"></span>' +
       '<span class="cropper-line line-e" data-action="e"></span>' +
       '<span class="cropper-line line-n" data-action="n"></span>' +
       '<span class="cropper-line line-w" data-action="w"></span>' +

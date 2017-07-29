@@ -137,6 +137,48 @@
   }
 }
 
+.cropper-pivot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  display: block;
+
+  width: 15px;
+  height: 15px;
+
+  margin-left: -7px;
+  margin-top: -7px;
+
+  cursor: all-scroll;
+
+  &:before,
+  &:after {
+    display: block;
+    position: absolute;
+    content: ' ';
+    background: #000;
+  }
+
+  &:before {
+    top: 7px;
+    left: 0;
+
+    width: 15px;
+    height: 1px;
+    border-top: dotted 1px #fff;
+  }
+
+  &:after {
+    top: 0;
+    left: 7px;
+
+    width: 1px;
+    height: 15px;
+    border-left: dotted 1px #fff;
+  }
+}
+
 .cropper-face,
 .cropper-line,
 .cropper-point {

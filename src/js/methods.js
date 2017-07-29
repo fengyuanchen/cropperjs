@@ -426,6 +426,11 @@ export default {
         height: cropBoxData.height,
       };
 
+      if (options.pivot) {
+        data.pivotX = cropBoxData.pivotX;
+        data.pivotY = cropBoxData.pivotY;
+      }
+
       ratio = imageData.width / imageData.naturalWidth;
 
       $.each(data, (n, i) => {
@@ -439,6 +444,11 @@ export default {
         width: 0,
         height: 0,
       };
+
+      if (options.pivot) {
+        data.pivotX = 0;
+        data.pivotY = 0;
+      }
     }
 
     if (options.rotatable) {
@@ -489,6 +499,16 @@ export default {
         if ($.isNumber(data.scaleY) && data.scaleY !== imageData.scaleY) {
           imageData.scaleY = data.scaleY;
           scaled = true;
+        }
+      }
+
+      if (options.pivot) {
+        if ($.isNumber(data.pivotX)) {
+          cropBoxData.pivotX = data.pivotX;
+        }
+
+        if ($.isNumber(data.pivotY)) {
+          cropBoxData.pivotY = data.pivotY;
         }
       }
 
@@ -670,6 +690,14 @@ export default {
         } else if (heightChanged) {
           cropBoxData.width = cropBoxData.height * aspectRatio;
         }
+      }
+
+      if ($.isNumber(data.pivotX)) {
+        cropBoxData.pivotX = data.pivotX;
+      }
+
+      if ($.isNumber(data.pivotY)) {
+        cropBoxData.pivotY = data.pivotY;
       }
 
       self.renderCropBox();

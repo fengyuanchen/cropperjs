@@ -5,7 +5,7 @@
  * Copyright (c) 2017 Fengyuan Chen
  * Released under the MIT license
  *
- * Date: 2017-07-07T12:56:42.462Z
+ * Date: 2017-07-28T13:59:43.270Z
  */
 
 'use strict';
@@ -46,6 +46,9 @@ var DEFAULTS = {
 
   // Show the center indicator for guiding
   center: true,
+
+  // Show an editable pivot/anchor point
+  pivot: false,
 
   // Show the white modal to highlight the crop box
   highlight: true,
@@ -106,7 +109,7 @@ var DEFAULTS = {
   zoom: null
 };
 
-var TEMPLATE = '<div class="cropper-container">' + '<div class="cropper-wrap-box">' + '<div class="cropper-canvas"></div>' + '</div>' + '<div class="cropper-drag-box"></div>' + '<div class="cropper-crop-box">' + '<span class="cropper-view-box"></span>' + '<span class="cropper-dashed dashed-h"></span>' + '<span class="cropper-dashed dashed-v"></span>' + '<span class="cropper-center"></span>' + '<span class="cropper-face"></span>' + '<span class="cropper-line line-e" data-action="e"></span>' + '<span class="cropper-line line-n" data-action="n"></span>' + '<span class="cropper-line line-w" data-action="w"></span>' + '<span class="cropper-line line-s" data-action="s"></span>' + '<span class="cropper-point point-e" data-action="e"></span>' + '<span class="cropper-point point-n" data-action="n"></span>' + '<span class="cropper-point point-w" data-action="w"></span>' + '<span class="cropper-point point-s" data-action="s"></span>' + '<span class="cropper-point point-ne" data-action="ne"></span>' + '<span class="cropper-point point-nw" data-action="nw"></span>' + '<span class="cropper-point point-sw" data-action="sw"></span>' + '<span class="cropper-point point-se" data-action="se"></span>' + '</div>' + '</div>';
+var TEMPLATE = '<div class="cropper-container">' + '<div class="cropper-wrap-box">' + '<div class="cropper-canvas"></div>' + '</div>' + '<div class="cropper-drag-box"></div>' + '<div class="cropper-crop-box">' + '<span class="cropper-view-box"></span>' + '<span class="cropper-dashed dashed-h"></span>' + '<span class="cropper-dashed dashed-v"></span>' + '<span class="cropper-center"></span>' + '<span class="cropper-face"></span>' + '<span class="cropper-pivot" data-action="pivot"></span>' + '<span class="cropper-line line-e" data-action="e"></span>' + '<span class="cropper-line line-n" data-action="n"></span>' + '<span class="cropper-line line-w" data-action="w"></span>' + '<span class="cropper-line line-s" data-action="s"></span>' + '<span class="cropper-point point-e" data-action="e"></span>' + '<span class="cropper-point point-n" data-action="n"></span>' + '<span class="cropper-point point-w" data-action="w"></span>' + '<span class="cropper-point point-s" data-action="s"></span>' + '<span class="cropper-point point-ne" data-action="ne"></span>' + '<span class="cropper-point point-nw" data-action="nw"></span>' + '<span class="cropper-point point-sw" data-action="sw"></span>' + '<span class="cropper-point point-se" data-action="se"></span>' + '</div>' + '</div>';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
@@ -1248,6 +1251,12 @@ var render$1 = {
     cropBoxData.oldLeft = cropBoxData.left = canvasData.left + (canvasData.width - cropBoxData.width) / 2;
     cropBoxData.oldTop = cropBoxData.top = canvasData.top + (canvasData.height - cropBoxData.height) / 2;
 
+    // Initialize pivot point
+    if (options.pivot) {
+      cropBoxData.pivotX = cropBoxData.left + cropBoxData.width * 0.5;
+      cropBoxData.pivotY = cropBoxData.top + cropBoxData.height * 0.5;
+    }
+
     self.initialCropBoxData = extend({}, cropBoxData);
   },
   limitCropBox: function limitCropBox(sizeLimited, positionLimited) {
@@ -1310,6 +1319,15 @@ var render$1 = {
       }
     }
   },
+  limitPivot: function limitPivot() {
+    var self = this;
+    var cropBoxData = self.cropBoxData;
+    var right = cropBoxData.left + cropBoxData.width;
+    var bottom = cropBoxData.top + cropBoxData.height;
+
+    cropBoxData.pivotX = Math.min(right, Math.max(cropBoxData.left, cropBoxData.pivotX));
+    cropBoxData.pivotY = Math.min(bottom, Math.max(cropBoxData.top, cropBoxData.pivotY));
+  },
   renderCropBox: function renderCropBox() {
     var self = this;
     var options = self.options;
@@ -1347,6 +1365,13 @@ var render$1 = {
 
     if (self.cropped && self.limited) {
       self.limitCanvas(true, true);
+    }
+
+    if (options.pivot) {
+      setStyle(self.pivot, {
+        left: cropBoxData.pivotX - cropBoxData.left,
+        top: cropBoxData.pivotY - cropBoxData.top
+      });
     }
 
     if (!self.disabled) {
@@ -1596,7 +1621,7 @@ var events = {
   }
 };
 
-var REGEXP_ACTIONS = /^(e|w|s|n|se|sw|ne|nw|all|crop|move|zoom)$/;
+var REGEXP_ACTIONS = /^(e|w|s|n|se|sw|ne|nw|all|crop|move|zoom|pivot)$/;
 
 function getPointer(_ref, endOnly) {
   var pageX = _ref.pageX,
@@ -1634,26 +1659,24 @@ var handlers = {
 
     // Resize when width changed or height changed
     if (ratio !== 1 || container.offsetHeight !== containerData.height) {
-      (function () {
-        var canvasData = void 0;
-        var cropBoxData = void 0;
+      var canvasData = void 0;
+      var cropBoxData = void 0;
 
-        if (options.restore) {
-          canvasData = self.getCanvasData();
-          cropBoxData = self.getCropBoxData();
-        }
+      if (options.restore) {
+        canvasData = self.getCanvasData();
+        cropBoxData = self.getCropBoxData();
+      }
 
-        self.render();
+      self.render();
 
-        if (options.restore) {
-          self.setCanvasData(each(canvasData, function (n, i) {
-            canvasData[i] = n * ratio;
-          }));
-          self.setCropBoxData(each(cropBoxData, function (n, i) {
-            cropBoxData[i] = n * ratio;
-          }));
-        }
-      })();
+      if (options.restore) {
+        self.setCanvasData(each(canvasData, function (n, i) {
+          canvasData[i] = n * ratio;
+        }));
+        self.setCropBoxData(each(cropBoxData, function (n, i) {
+          cropBoxData[i] = n * ratio;
+        }));
+      }
     }
   },
   dblclick: function dblclick() {
@@ -1827,6 +1850,7 @@ var ACTION_SOUTH_EAST = 'se';
 var ACTION_SOUTH_WEST = 'sw';
 var ACTION_NORTH_EAST = 'ne';
 var ACTION_NORTH_WEST = 'nw';
+var ACTION_PIVOT = 'pivot';
 
 function getMaxZoomRatio(pointers) {
   var pointers2 = extend({}, pointers);
@@ -1868,6 +1892,8 @@ var change$1 = {
     var height = cropBoxData.height;
     var left = cropBoxData.left;
     var top = cropBoxData.top;
+    var pivotX = cropBoxData.pivotX;
+    var pivotY = cropBoxData.pivotY;
     var right = left + width;
     var bottom = top + height;
     var minLeft = 0;
@@ -2223,7 +2249,19 @@ var change$1 = {
 
         break;
 
+      case ACTION_PIVOT:
+        pivotX += range.x;
+        pivotY += range.y;
+
+        break;
+
       // No default
+    }
+
+    // Auto-pivot while resetting the crop
+    if (self.cropping && action !== ACTION_PIVOT) {
+      pivotX = left + width * 0.5;
+      pivotY = top + height * 0.5;
     }
 
     if (renderable) {
@@ -2231,6 +2269,12 @@ var change$1 = {
       cropBoxData.height = height;
       cropBoxData.left = left;
       cropBoxData.top = top;
+
+      cropBoxData.pivotX = pivotX;
+      cropBoxData.pivotY = pivotY;
+
+      self.limitPivot();
+
       self.action = action;
 
       self.renderCropBox();
@@ -2682,6 +2726,11 @@ var methods = {
         height: cropBoxData.height
       };
 
+      if (options.pivot) {
+        data.pivotX = cropBoxData.pivotX;
+        data.pivotY = cropBoxData.pivotY;
+      }
+
       ratio = imageData.width / imageData.naturalWidth;
 
       each(data, function (n, i) {
@@ -2695,6 +2744,11 @@ var methods = {
         width: 0,
         height: 0
       };
+
+      if (options.pivot) {
+        data.pivotX = 0;
+        data.pivotY = 0;
+      }
     }
 
     if (options.rotatable) {
@@ -2746,6 +2800,16 @@ var methods = {
         if (isNumber(data.scaleY) && data.scaleY !== imageData.scaleY) {
           imageData.scaleY = data.scaleY;
           scaled = true;
+        }
+      }
+
+      if (options.pivot) {
+        if (isNumber(data.pivotX)) {
+          cropBoxData.pivotX = data.pivotX;
+        }
+
+        if (isNumber(data.pivotY)) {
+          cropBoxData.pivotY = data.pivotY;
         }
       }
 
@@ -2926,6 +2990,14 @@ var methods = {
         } else if (heightChanged) {
           cropBoxData.width = cropBoxData.height * aspectRatio;
         }
+      }
+
+      if (isNumber(data.pivotX)) {
+        cropBoxData.pivotX = data.pivotX;
+      }
+
+      if (isNumber(data.pivotY)) {
+        cropBoxData.pivotY = data.pivotY;
       }
 
       self.renderCropBox();
@@ -3414,6 +3486,7 @@ var Cropper = function () {
       var dragBox = void 0;
       var cropBox = void 0;
       var face = void 0;
+      var pivot = void 0;
 
       if (!self.loaded) {
         return;
@@ -3435,6 +3508,7 @@ var Cropper = function () {
       self.cropBox = cropBox = getByClass(cropper, 'cropper-crop-box')[0];
       self.viewBox = getByClass(cropper, 'cropper-view-box')[0];
       self.face = face = getByClass(cropBox, 'cropper-face')[0];
+      self.pivot = pivot = getByClass(cropBox, 'cropper-pivot')[0];
 
       appendChild(canvas, image);
 
@@ -3471,6 +3545,10 @@ var Cropper = function () {
 
       if (!options.center) {
         addClass(getByClass(cropBox, 'cropper-center'), CLASS_HIDDEN);
+      }
+
+      if (!options.pivot) {
+        addClass(pivot, CLASS_HIDDEN);
       }
 
       if (options.background) {

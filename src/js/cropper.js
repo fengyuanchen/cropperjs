@@ -287,6 +287,7 @@ class Cropper {
     let dragBox;
     let cropBox;
     let face;
+    let pivot;
 
     if (!self.loaded) {
       return;
@@ -308,6 +309,7 @@ class Cropper {
     self.cropBox = cropBox = $.getByClass(cropper, 'cropper-crop-box')[0];
     self.viewBox = $.getByClass(cropper, 'cropper-view-box')[0];
     self.face = face = $.getByClass(cropBox, 'cropper-face')[0];
+    self.pivot = pivot = $.getByClass(cropBox, 'cropper-pivot')[0];
 
     $.appendChild(canvas, image);
 
@@ -344,6 +346,10 @@ class Cropper {
 
     if (!options.center) {
       $.addClass($.getByClass(cropBox, 'cropper-center'), CLASS_HIDDEN);
+    }
+
+    if (!options.pivot) {
+      $.addClass(pivot, CLASS_HIDDEN);
     }
 
     if (options.background) {

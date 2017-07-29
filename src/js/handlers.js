@@ -1,6 +1,6 @@
 import * as $ from './utilities';
 
-const REGEXP_ACTIONS = /^(e|w|s|n|se|sw|ne|nw|all|crop|move|zoom)$/;
+const REGEXP_ACTIONS = /^(e|w|s|n|se|sw|ne|nw|all|crop|move|zoom|pivot)$/;
 
 function getPointer({ pageX, pageY }, endOnly) {
   const end = {

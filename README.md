@@ -295,6 +295,16 @@ Show the dashed lines above the crop box.
 Show the center indicator above the crop box.
 
 
+### pivot
+
+- Type: `Boolean`
+- Default: `false`
+
+Show a draggable pivot/anchor point. The coordinates of the pivot point can be
+obtained via `getData()` or `getCropBoxData()` and changed using `setData()` or
+`setCropBoxData()` as `pivotX` and `pivotY`.
+
+
 ### highlight
 
 - Type: `Boolean`
@@ -737,6 +747,8 @@ Scale the ordinate of the image.
     - `rotate`: the rotated degrees of the image
     - `scaleX`: the scaling factor to apply on the abscissa of the image
     - `scaleY`: the scaling factor to apply on the ordinate of the image
+    - `pivotX`: the pivot point X coordinate (if `pivot` option enabled)
+    - `pivotY`: the pivot point Y coordinate (if `pivot` option enabled)
 
 Output the final cropped area position and size data (base on the natural size of the original image).
 
@@ -835,6 +847,8 @@ Change the canvas (image wrapper) position and size with new data.
     - `top`: the offset top of the crop box
     - `width`: the width of the crop box
     - `height`: the height of the crop box
+    - `pivotX`: the pivot point X coordinate (if `pivot` option enabled)
+    - `pivotY`: the pivot point Y coordinate (if `pivot` option enabled)
 
 Output the crop box position and size data.
 
@@ -848,6 +862,8 @@ Output the crop box position and size data.
     - `top`: the new offset top of the crop box
     - `width`: the new width of the crop box
     - `height`: the new height of the crop box
+    - `pivotX`: the pivot point X coordinate (if `pivot` option enabled)
+    - `pivotY`: the pivot point Y coordinate (if `pivot` option enabled)
 
 Change the crop box position and size with new data.
 
