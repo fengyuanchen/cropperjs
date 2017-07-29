@@ -862,18 +862,21 @@ Change the crop box position and size with new data.
     - `fillColor`: a color to fill any alpha values in the output canvas
     - [`imageSmoothingEnabled`](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/imageSmoothingEnabled): set to change if images are smoothed (true, default) or not (false)
     - [`imageSmoothingQuality`](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/imageSmoothingQuality): set the quality of image smoothing, one of "low", "medium", or "high"
-  - Note: The aspect ratio of the output canvas will be fitted to aspect ratio of the crop box automatically.
 
 - (return  value):
   - Type: `HTMLCanvasElement`
   - A canvas drawn the cropped image.
+
+- Notes:
+  - The aspect ratio of the output canvas will be fitted to aspect ratio of the crop box automatically.
+  - If you intend to get a JPEG image from the output canvas, you should set the `fillColor` option first, if not, the transparent part in the JPEG image will become black by default.
 
 - Browser support:
   - Basic image: requires [Canvas](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement) support ([IE 9+](http://caniuse.com/canvas)).
   - Rotated image: requires [CSS3 2D Transforms](https://developer.mozilla.org/en-US/docs/Web/CSS/transform) support ([IE 9+](http://caniuse.com/transforms2d)).
   - Cross-origin image: requires HTML5 [CORS settings attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_settings_attributes) support ([IE 11+](http://caniuse.com/cors)).
 
-Get a canvas drawn the cropped image. If it is not cropped, then returns the whole canvas.
+Get a canvas drawn the cropped image. If it is not cropped, then returns a canvas drawn the whole image.
 
 > After then, you can display the canvas as an image directly, or use [HTMLCanvasElement.toDataURL](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL) to get a Data URL, or use [HTMLCanvasElement.toBlob](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) to get a blob and upload it to server with [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) if the browser supports these APIs.
 
