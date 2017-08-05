@@ -77,7 +77,7 @@ export default {
       self.cropped = false;
       self.renderCropBox();
 
-      self.limitCanvas();
+      self.limitCanvas(true, true);
 
       // Render canvas after crop box rendered
       self.renderCanvas();
