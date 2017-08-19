@@ -70,12 +70,12 @@ export default {
       maxWidth = minLeft + Math.min(
         containerData.width,
         canvasData.width,
-        canvasData.left + canvasData.width
+        canvasData.left + canvasData.width,
       );
       maxHeight = minTop + Math.min(
         containerData.height,
         canvasData.height,
-        canvasData.top + canvasData.height
+        canvasData.top + canvasData.height,
       );
     }
 
@@ -417,7 +417,7 @@ export default {
 
         break;
 
-      // No default
+      default:
     }
 
     if (renderable) {
