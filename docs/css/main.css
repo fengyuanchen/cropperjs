@@ -6,9 +6,9 @@ body {
 }
 
 .browserupgrade {
+  background-color: #fcfcfc;
   margin: 0;
   padding: .5rem 1rem;
-  background-color: #fcfcfc;
   text-align: center;
 }
 
@@ -35,9 +35,9 @@ label.btn {
 }
 
 .docs-jumbotron .version {
-  font-size: .875rem;
   color: #fff;
   filter: alpha(opacity=50);
+  font-size: .875rem;
   opacity: 0.5;
 }
 
@@ -53,12 +53,12 @@ label.btn {
 }
 
 .docs-carbonads {
+  border-radius: .25rem;
+  border: 1px solid #ccc;
   font-size: .875rem;
   max-width: 360px;
-  padding: 1rem;
-  border: 1px solid #ccc;
-  border-radius: .25rem;
   overflow: hidden;
+  padding: 1rem;
 }
 
 .carbon-wrap {
@@ -67,8 +67,8 @@ label.btn {
 
 .carbon-img {
   clear: left;
-  float: left;
   display: block;
+  float: left;
 }
 
 .carbon-text,
@@ -93,9 +93,9 @@ label.btn {
 
 @media (min-width: 992px) {
   .docs-carbonads {
+    bottom: -1.25rem;
     position: absolute;
     right: 0;
-    bottom: -1.25rem;
   }
 }
 
@@ -105,19 +105,19 @@ label.btn {
 .img-container,
 .img-preview {
   background-color: #f7f7f7;
-  width: 100%;
   text-align: center;
+  width: 100%;
 }
 
 .img-container {
-  min-height: 200px;
-  max-height: 469px;
   margin-bottom: 1rem;
+  max-height: 497px;
+  min-height: 200px;
 }
 
 @media (min-width: 768px) {
   .img-container {
-    min-height: 469px;
+    min-height: 497px;
   }
 }
 
@@ -131,8 +131,8 @@ label.btn {
 
 .img-preview {
   float: left;
-  margin-right: .5rem;
   margin-bottom: .5rem;
+  margin-right: .5rem;
   overflow: hidden;
 }
 
@@ -141,24 +141,24 @@ label.btn {
 }
 
 .preview-lg {
-  width: 16rem;
   height: 9rem;
+  width: 16rem;
 }
 
 .preview-md {
-  width: 8rem;
   height: 4.5rem;
+  width: 8rem;
 }
 
 .preview-sm {
-  width: 4rem;
   height: 2.25rem;
+  width: 4rem;
 }
 
 .preview-xs {
-  width: 2rem;
   height: 1.125rem;
   margin-right: 0;
+  width: 2rem;
 }
 
 .docs-data > .input-group {
@@ -167,17 +167,19 @@ label.btn {
 
 .docs-data > .input-group > label {
   min-width: 5rem;
+  justify-content: center;
 }
 
 .docs-data > .input-group > span {
   min-width: 3rem;
+  justify-content: center;
 }
 
 .docs-buttons > .btn,
 .docs-buttons > .btn-group,
 .docs-buttons > .form-control {
-  margin-right: .25rem;
   margin-bottom: .5rem;
+  margin-right: .25rem;
 }
 
 .docs-toggles > .btn,
@@ -273,16 +275,16 @@ label.btn {
 }
 
 .heart {
-  position: relative;
-  display: block;
-  width: 100%;
-  height: 2rem;
-  margin-top: 1rem;
-  margin-bottom: 0;
   color: #ddd;
+  display: block;
   font-size: 1.125rem;
+  height: 2rem;
   line-height: 2rem;
+  margin-bottom: 0;
+  margin-top: 1rem;
+  position: relative;
   text-align: center;
+  width: 100%;
 }
 
 .heart:hover {
@@ -290,21 +292,21 @@ label.btn {
 }
 
 .heart:before {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  left: 0;
-  display: block;
-  height: 0;
   border-top: 1px solid #eee;
   content: " ";
+  display: block;
+  height: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 50%;
 }
 
 .heart:after {
-  position: relative;
-  z-index: 1;
-  padding-left: .5rem;
-  padding-right: .5rem;
   background-color: #fff;
   content: "♥";
+  padding-left: .5rem;
+  padding-right: .5rem;
+  position: relative;
+  z-index: 1;
 }
