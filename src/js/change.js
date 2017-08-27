@@ -102,7 +102,7 @@ export default {
         }
 
         if (right + range.x > maxWidth) {
-          range.x -= (right + range.x) - maxWidth;
+          range.x = maxWidth - right;
         }
 
         width += range.x;
@@ -127,7 +127,7 @@ export default {
         }
 
         if (top + range.y < minTop) {
-          range.y += minTop - (top + range.y);
+          range.y = minTop - top;
         }
 
         height -= range.y;
@@ -153,7 +153,7 @@ export default {
         }
 
         if (left + range.x < minLeft) {
-          range.x += minLeft - (left + range.x);
+          range.x = minLeft - left;
         }
 
         width -= range.x;
@@ -179,7 +179,7 @@ export default {
         }
 
         if (bottom + range.y > maxHeight) {
-          range.y -= (bottom + range.y) - maxHeight;
+          range.y = maxHeight - bottom;
         }
 
         height += range.y;
@@ -252,7 +252,7 @@ export default {
           height -= range.y;
           top += range.y;
           width = height * aspectRatio;
-          left += (range.y * aspectRatio);
+          left += range.y * aspectRatio;
         } else {
           if (range.x <= 0) {
             if (left > minLeft) {
