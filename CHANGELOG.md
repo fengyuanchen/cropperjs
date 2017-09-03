@@ -1,6 +1,12 @@
 # Changelog
 
 
+## 1.0.0 (Sep 3, 2017)
+
+- Fixed a bug of zoom out after cleared the crop box in view mode 1, 2 and 3 (#209).
+- Fixed a bug of crop box resizing (#222).
+
+
 ## 1.0.0-rc.3 (Jul 7, 2017)
 
 - Added two new options (`imageSmoothingEnabled` and `imageSmoothingQuality`) to `getCroppedCanvas` method.

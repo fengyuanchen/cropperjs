@@ -1,7 +1,7 @@
 {
   "name": "cropperjs",
   "description": "JavaScript image cropper.",
-  "version": "1.0.0-rc.3",
+  "version": "1.0.0",
   "main": "dist/cropper.common.js",
   "module": "dist/cropper.esm.js",
   "browser": "dist/cropper.js",
@@ -37,9 +37,9 @@
     "compress:css": "postcss dist/cropper.css -u cssnano --no-map -o dist/cropper.min.css",
     "compress:js": "uglifyjs dist/cropper.js -o dist/cropper.min.js -c -m --comments /^!/",
     "compress": "npm run compress:css && npm run compress:js",
-    "watch:css": "postcss src/css/cropper.css -o dist/cropper.css -w",
+    "watch:css": "postcss src/css/cropper.css -o docs/css/cropper.css -w",
     "watch:js": "rollup -c -w -m",
-    "lint": "eslint src/js",
+    "lint": "eslint src/js --fix",
     "postbuild": "npm test && npm run compress && node build",
     "prebuild": "npm run lint",
     "start": "npm-run-all --parallel watch:*",
@@ -49,17 +49,17 @@
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.0",
     "cssnano": "^3.10.0",
-    "eslint": "^4.5.0",
-    "eslint-config-airbnb-base": "^11.3.1",
+    "eslint": "^4.6.0",
+    "eslint-config-airbnb-base": "^11.3.2",
     "eslint-plugin-import": "^2.7.0",
     "node-qunit-phantomjs": "^1.5.0",
-    "npm-run-all": "^4.0.2",
+    "npm-run-all": "^4.1.1",
     "postcss-cli": "^4.1.0",
     "postcss-cssnext": "^3.0.2",
     "postcss-url": "^7.1.2",
-    "rollup": "^0.47.6",
+    "rollup": "^0.49.2",
     "rollup-plugin-babel": "^3.0.2",
     "rollup-watch": "^4.3.1",
-    "uglify-js": "^3.0.27"
+    "uglify-js": "^3.0.28"
   }
 }

@@ -166,13 +166,13 @@ label.btn {
 }
 
 .docs-data > .input-group > label {
-  min-width: 5rem;
   justify-content: center;
+  min-width: 5rem;
 }
 
 .docs-data > .input-group > span {
-  min-width: 3rem;
   justify-content: center;
+  min-width: 3rem;
 }
 
 .docs-buttons > .btn,
