@@ -740,7 +740,10 @@ Scale the ordinate of the image.
 
 Output the final cropped area position and size data (base on the natural size of the original image).
 
-> You can send the data to server-side to crop the image directly.
+> You can send the data to server-side to crop the image directly:
+> 1. Rotate the image with the `rotate` property.
+> 2. Scale the image with the `scaleX` and `scaleY` properties.
+> 3. Crop the image with the `x`, `y`, `width` and `height` properties.
 
 ![A schematic diagram for data's properties](docs/images/data.jpg)
 
