@@ -1,6 +1,11 @@
 # Changelog
 
 
+## next
+
+- Added 4 new options to `getCroppedCanvas` method:  `minWidth`, `minHeight`, `maxWidth` and `maxHeight`.
+
+
 ## 1.0.0 (Sep 3, 2017)
 
 - Fixed a bug of zoom out after cleared the crop box in view mode 1, 2 and 3 (#209).

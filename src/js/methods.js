@@ -682,135 +682,61 @@ export default {
   /**
    * Get a canvas drawn the cropped image
    *
-   * @param {Object} options (optional)
-   * @return {HTMLCanvasElement} canvas
+   * @param {Object} [options={}] - The config options.
+   * @returns {HTMLCanvasElement} - The result canvas.
    */
-  getCroppedCanvas(options) {
-    const self = this;
-
-    if (!self.ready || !window.HTMLCanvasElement) {
+  getCroppedCanvas(options = {}) {
+    if (!this.ready || !window.HTMLCanvasElement) {
       return null;
     }
 
-    if (!$.isPlainObject(options)) {
-      options = {};
+    const { canvasData } = this;
+    const source = $.getSourceCanvas(this.image, this.imageData, canvasData, options);
+
+    // Returns the source canvas if it is not cropped.
+    if (!this.cropped) {
+      return source;
     }
 
-    // Return the whole canvas if not cropped
-    if (!self.cropped) {
-      return $.getSourceCanvas(self.image, self.imageData, options);
-    }
+    const {
+      x,
+      y,
+      scaleX,
+      scaleY,
+      width: initialWidth,
+      height: initialHeight,
+    } = this.getData();
+    const aspectRatio = initialWidth / initialHeight;
+    const maxSizes = $.getContainSizes({
+      aspectRatio,
+      width: options.maxWidth || Infinity,
+      height: options.maxHeight || Infinity,
+    });
+    const minSizes = $.getContainSizes({
+      aspectRatio,
+      width: options.minWidth || 0,
+      height: options.minHeight || 0,
+    });
+    let {
+      width,
+      height,
+    } = $.getContainSizes({
+      aspectRatio,
+      width: options.width || initialWidth,
+      height: options.height || initialHeight,
+    });
 
-    const data = self.getData();
-    const originalWidth = data.width;
-    const originalHeight = data.height;
-    const aspectRatio = originalWidth / originalHeight;
-    let scaledWidth;
-    let scaledHeight;
-    let scaledRatio;
-
-    if ($.isPlainObject(options)) {
-      scaledWidth = options.width;
-      scaledHeight = options.height;
-
-      if (scaledWidth) {
-        scaledHeight = scaledWidth / aspectRatio;
-        scaledRatio = scaledWidth / originalWidth;
-      } else if (scaledHeight) {
-        scaledWidth = scaledHeight * aspectRatio;
-        scaledRatio = scaledHeight / originalHeight;
-      }
-    }
-
-    // The canvas element will use `Math.floor` on a float number, so floor first
-    const canvasWidth = Math.floor(scaledWidth || originalWidth);
-    const canvasHeight = Math.floor(scaledHeight || originalHeight);
+    width = Math.min(maxSizes.width, Math.max(minSizes.width, width));
+    height = Math.min(maxSizes.height, Math.max(minSizes.height, height));
 
     const canvas = $.createElement('canvas');
     const context = canvas.getContext('2d');
 
-    canvas.width = canvasWidth;
-    canvas.height = canvasHeight;
+    canvas.width = width;
+    canvas.height = height;
 
-    if (options.fillColor) {
-      context.fillStyle = options.fillColor;
-      context.fillRect(0, 0, canvasWidth, canvasHeight);
-    }
-
-    // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.drawImage
-    const parameters = (() => {
-      const source = $.getSourceCanvas(self.image, self.imageData, options);
-      const sourceWidth = source.width;
-      const sourceHeight = source.height;
-      const canvasData = self.canvasData;
-      const params = [source];
-
-      // Source canvas
-      let srcX = data.x + ((canvasData.naturalWidth * (Math.abs(data.scaleX || 1) - 1)) / 2);
-      let srcY = data.y + ((canvasData.naturalHeight * (Math.abs(data.scaleY || 1) - 1)) / 2);
-      let srcWidth;
-      let srcHeight;
-
-      // Destination canvas
-      let dstX;
-      let dstY;
-      let dstWidth;
-      let dstHeight;
-
-      if (srcX <= -originalWidth || srcX > sourceWidth) {
-        srcX = 0;
-        srcWidth = 0;
-        dstX = 0;
-        dstWidth = 0;
-      } else if (srcX <= 0) {
-        dstX = -srcX;
-        srcX = 0;
-        srcWidth = Math.min(sourceWidth, originalWidth + srcX);
-        dstWidth = srcWidth;
-      } else if (srcX <= sourceWidth) {
-        dstX = 0;
-        srcWidth = Math.min(originalWidth, sourceWidth - srcX);
-        dstWidth = srcWidth;
-      }
-
-      if (srcWidth <= 0 || srcY <= -originalHeight || srcY > sourceHeight) {
-        srcY = 0;
-        srcHeight = 0;
-        dstY = 0;
-        dstHeight = 0;
-      } else if (srcY <= 0) {
-        dstY = -srcY;
-        srcY = 0;
-        srcHeight = Math.min(sourceHeight, originalHeight + srcY);
-        dstHeight = srcHeight;
-      } else if (srcY <= sourceHeight) {
-        dstY = 0;
-        srcHeight = Math.min(originalHeight, sourceHeight - srcY);
-        dstHeight = srcHeight;
-      }
-
-      params.push(Math.floor(srcX), Math.floor(srcY), Math.floor(srcWidth), Math.floor(srcHeight));
-
-      // Scale destination sizes
-      if (scaledRatio) {
-        dstX *= scaledRatio;
-        dstY *= scaledRatio;
-        dstWidth *= scaledRatio;
-        dstHeight *= scaledRatio;
-      }
-
-      // Avoid "IndexSizeError" in IE and Firefox
-      if (dstWidth > 0 && dstHeight > 0) {
-        params.push(
-          Math.floor(dstX),
-          Math.floor(dstY),
-          Math.floor(dstWidth),
-          Math.floor(dstHeight),
-        );
-      }
-
-      return params;
-    })();
+    context.fillStyle = options.fillColor || 'transparent';
+    context.fillRect(0, 0, width, height);
 
     context.imageSmoothingEnabled = !!options.imageSmoothingEnabled;
 
@@ -818,7 +744,76 @@ export default {
       context.imageSmoothingQuality = options.imageSmoothingQuality;
     }
 
-    context.drawImage(...parameters);
+    // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.drawImage
+    const sourceWidth = source.width;
+    const sourceHeight = source.height;
+
+    // Source canvas parameters
+    let srcX = x + ((canvasData.naturalWidth * (Math.abs(scaleX) - 1)) / 2);
+    let srcY = y + ((canvasData.naturalHeight * (Math.abs(scaleY) - 1)) / 2);
+    let srcWidth;
+    let srcHeight;
+
+    // Destination canvas parameters
+    let dstX;
+    let dstY;
+    let dstWidth;
+    let dstHeight;
+
+    if (srcX <= -initialWidth || srcX > sourceWidth) {
+      srcX = 0;
+      srcWidth = 0;
+      dstX = 0;
+      dstWidth = 0;
+    } else if (srcX <= 0) {
+      dstX = -srcX;
+      srcX = 0;
+      srcWidth = Math.min(sourceWidth, initialWidth + srcX);
+      dstWidth = srcWidth;
+    } else if (srcX <= sourceWidth) {
+      dstX = 0;
+      srcWidth = Math.min(initialWidth, sourceWidth - srcX);
+      dstWidth = srcWidth;
+    }
+
+    if (srcWidth <= 0 || srcY <= -initialHeight || srcY > sourceHeight) {
+      srcY = 0;
+      srcHeight = 0;
+      dstY = 0;
+      dstHeight = 0;
+    } else if (srcY <= 0) {
+      dstY = -srcY;
+      srcY = 0;
+      srcHeight = Math.min(sourceHeight, initialHeight + srcY);
+      dstHeight = srcHeight;
+    } else if (srcY <= sourceHeight) {
+      dstY = 0;
+      srcHeight = Math.min(initialHeight, sourceHeight - srcY);
+      dstHeight = srcHeight;
+    }
+
+    // All the numerical parameters should be integer for `drawImage`
+    // https://github.com/fengyuanchen/cropper/issues/476
+    const params = [
+      Math.floor(srcX),
+      Math.floor(srcY),
+      Math.floor(srcWidth),
+      Math.floor(srcHeight),
+    ];
+
+    // Avoid "IndexSizeError"
+    if (dstWidth > 0 && dstHeight > 0) {
+      const scale = width / initialWidth;
+
+      params.push(
+        Math.floor(dstX * scale),
+        Math.floor(dstY * scale),
+        Math.floor(dstWidth * scale),
+        Math.floor(dstHeight * scale),
+      );
+    }
+
+    context.drawImage(source, ...params);
 
     return canvas;
   },

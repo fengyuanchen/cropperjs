@@ -860,11 +860,15 @@ Change the crop box position and size with new data.
 - **options** (optional):
   - Type: `Object`
   - Properties:
-    - `width`: the destination width of the output canvas
-    - `height`: the destination height of the output canvas
-    - `fillColor`: a color to fill any alpha values in the output canvas
-    - [`imageSmoothingEnabled`](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/imageSmoothingEnabled): set to change if images are smoothed (true, default) or not (false)
-    - [`imageSmoothingQuality`](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/imageSmoothingQuality): set the quality of image smoothing, one of "low", "medium", or "high"
+    - `width`: the destination width of the output canvas.
+    - `height`: the destination height of the output canvas.
+    - `minWidth`: the minimum destination width of the output canvas, the default value is `0`.
+    - `minHeight`: the minimum destination height of the output canvas, the default value is `0`.
+    - `maxWidth`: the maximum destination width of the output canvas, the default value is `Infinity`.
+    - `maxHeight`: the maximum destination height of the output canvas, the default value is `Infinity`.
+    - `fillColor`: a color to fill any alpha values in the output canvas, the default value is `transparent`.
+    - [`imageSmoothingEnabled`](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/imageSmoothingEnabled): set to change if images are smoothed (`true`, default) or not (`false`).
+    - [`imageSmoothingQuality`](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/imageSmoothingQuality): set the quality of image smoothing, one of "low", "medium", or "high".
 
 - (return  value):
   - Type: `HTMLCanvasElement`
@@ -883,12 +887,18 @@ Get a canvas drawn the cropped image. If it is not cropped, then returns a canva
 
 > After then, you can display the canvas as an image directly, or use [HTMLCanvasElement.toDataURL](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL) to get a Data URL, or use [HTMLCanvasElement.toBlob](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) to get a blob and upload it to server with [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) if the browser supports these APIs.
 
+Avoid to get a blank output image, you might need to set the `maxWidth` and `maxHeight`properties to limited numbers, because of [the size limits of a canvas element](https://stackoverflow.com/questions/6081483/maximum-size-of-a-canvas-element).
+
 ```js
 cropper.getCroppedCanvas();
 
 cropper.getCroppedCanvas({
   width: 160,
   height: 90,
+  minWidth: 256,
+  minHeight: 256,
+  maxWidth: 4096,
+  maxHeight: 4096,
   fillColor: '#fff',
   imageSmoothingEnabled: false,
   imageSmoothingQuality: 'high',

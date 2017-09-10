@@ -464,14 +464,49 @@ export function getTransforms(data) {
   };
 }
 
-export function getRotatedSizes(data, reversed) {
-  const deg = Math.abs(data.degree) % 180;
-  const arc = ((deg > 90 ? (180 - deg) : deg) * Math.PI) / 180;
+const isFinite = window.isFinite;
+
+export function getContainSizes(
+  {
+    aspectRatio,
+    height,
+    width,
+  },
+) {
+  const isValidNumber = (value) => {
+    return isFinite(value) && value > 0;
+  };
+
+  if (isValidNumber(width) && isValidNumber(height)) {
+    if (height * aspectRatio > width) {
+      height = width / aspectRatio;
+    } else {
+      width = height * aspectRatio;
+    }
+  } else if (isValidNumber(width)) {
+    height = width / aspectRatio;
+  } else if (isValidNumber(height)) {
+    width = height * aspectRatio;
+  }
+
+  return {
+    width,
+    height,
+  };
+}
+
+export function getRotatedSizes(
+  {
+    aspectRatio,
+    degree,
+    height,
+    width,
+  },
+  reversed = false,
+) {
+  const arc = ((Math.abs(degree) % 90) * Math.PI) / 180;
   const sinArc = Math.sin(arc);
   const cosArc = Math.cos(arc);
-  const width = data.width;
-  const height = data.height;
-  const aspectRatio = data.aspectRatio;
   let newWidth;
   let newHeight;
 
@@ -489,85 +524,98 @@ export function getRotatedSizes(data, reversed) {
   };
 }
 
-export function getSourceCanvas(image, data, options) {
+export function getSourceCanvas(
+  image,
+  {
+    aspectRatio: imageAspectRatio,
+    rotate,
+    scaleX,
+    scaleY,
+  },
+  {
+    aspectRatio,
+    naturalWidth,
+    naturalHeight,
+  },
+  {
+    fillColor,
+    fillStyle,
+    imageSmoothingEnabled,
+    imageSmoothingQuality,
+    maxWidth,
+    maxHeight,
+    minWidth,
+    minHeight,
+  },
+) {
+  const scaled = isNumber(scaleX) && isNumber(scaleY) && (scaleX !== 1 || scaleY !== 1);
+  const rotated = isNumber(rotate) && rotate !== 0;
+  let width = naturalWidth;
+  let height = naturalHeight;
+
+  const maxSizes = getContainSizes({
+    aspectRatio,
+    width: maxWidth || Infinity,
+    height: maxHeight || Infinity,
+  });
+  const minSizes = getContainSizes({
+    aspectRatio,
+    width: minWidth || 0,
+    height: minHeight || 0,
+  });
+
+  width = Math.min(maxSizes.width, Math.max(minSizes.width, width));
+  height = Math.min(maxSizes.height, Math.max(minSizes.height, height));
+
   const canvas = createElement('canvas');
   const context = canvas.getContext('2d');
-  let dstX = 0;
-  let dstY = 0;
-  const dstWidth = data.naturalWidth;
-  const dstHeight = data.naturalHeight;
-  const rotate = data.rotate;
-  const scaleX = data.scaleX;
-  const scaleY = data.scaleY;
-  const scalable = isNumber(scaleX) && isNumber(scaleY) && (scaleX !== 1 || scaleY !== 1);
-  const rotatable = isNumber(rotate) && rotate !== 0;
-  const advanced = rotatable || scalable;
-  let canvasWidth = dstWidth * Math.abs(scaleX || 1);
-  let canvasHeight = dstHeight * Math.abs(scaleY || 1);
-  let translateX;
-  let translateY;
-  let rotated;
 
-  if (scalable) {
-    translateX = canvasWidth / 2;
-    translateY = canvasHeight / 2;
-  }
+  canvas.width = width;
+  canvas.height = height;
+  context.fillStyle = fillColor || 'transparent';
+  context.fillRect(0, 0, width, height);
+  context.save();
+  context.translate(width / 2, height / 2);
 
-  if (rotatable) {
-    rotated = getRotatedSizes({
-      width: canvasWidth,
-      height: canvasHeight,
-      degree: rotate,
-    });
-
-    canvasWidth = rotated.width;
-    canvasHeight = rotated.height;
-    translateX = canvasWidth / 2;
-    translateY = canvasHeight / 2;
-  }
-
-  canvas.width = canvasWidth;
-  canvas.height = canvasHeight;
-
-  if (options.fillColor) {
-    context.fillStyle = options.fillColor;
-    context.fillRect(0, 0, canvasWidth, canvasHeight);
-  }
-
-  if (advanced) {
-    dstX = -dstWidth / 2;
-    dstY = -dstHeight / 2;
-
-    context.save();
-    context.translate(translateX, translateY);
-  }
-
-  // Rotate should come first before scale as in the "getTransform" function
-  if (rotatable) {
+  // Rotate first before scale (as in the "getTransform" function)
+  if (rotated) {
     context.rotate((rotate * Math.PI) / 180);
   }
 
-  if (scalable) {
+  if (scaled) {
     context.scale(scaleX, scaleY);
   }
 
-  context.imageSmoothingEnabled = !!options.imageSmoothingEnabled;
+  context.imageSmoothingEnabled = !!imageSmoothingEnabled;
 
-  if (options.imageSmoothingQuality) {
-    context.imageSmoothingQuality = options.imageSmoothingQuality;
+  if (imageSmoothingQuality) {
+    context.imageSmoothingQuality = imageSmoothingQuality;
+  }
+
+  let dstWidth = width;
+  let dstHeight = height;
+
+  if (rotated) {
+    const reversed = getRotatedSizes({
+      width,
+      height,
+      aspectRatio: imageAspectRatio,
+      degree: rotate,
+    }, true);
+
+    dstWidth = reversed.width;
+    dstHeight = reversed.height;
   }
 
   context.drawImage(
     image,
-    Math.floor(dstX),
-    Math.floor(dstY),
+    Math.floor(-dstWidth / 2),
+    Math.floor(-dstHeight / 2),
     Math.floor(dstWidth),
     Math.floor(dstHeight),
   );
 
-  if (advanced) {
-    context.restore();
-  }
+  context.restore();
 
   return canvas;
 }
