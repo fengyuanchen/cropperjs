@@ -21,14 +21,19 @@ const EVENT_READY = 'ready';
 const EVENT_CROP = 'crop';
 
 // RegExps
+const REGEXP_TAG_NAME = /^(img|canvas)$/i;
 const REGEXP_DATA_URL = /^data:/;
 const REGEXP_DATA_URL_JPEG = /^data:image\/jpeg;base64,/;
 
 let AnotherCropper;
 
 class Cropper {
-  constructor(element, options) {
+  constructor(element, options = {}) {
     const self = this;
+
+    if (!element || !REGEXP_TAG_NAME.test(element.tagName)) {
+      throw new Error('The first argument is required and must be an <img> or <canvas> element.');
+    }
 
     self.element = element;
     self.options = $.extend({}, DEFAULTS, $.isPlainObject(options) && options);
