@@ -4,6 +4,7 @@
 ## next
 
 - Added 4 new options to `getCroppedCanvas` method:  `minWidth`, `minHeight`, `maxWidth` and `maxHeight`.
+- Improved crop box resizing (#222).
 
 
 ## 1.0.0 (Sep 3, 2017)
