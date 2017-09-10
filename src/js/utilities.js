@@ -8,7 +8,7 @@ const REGEXP_TRIM = /^\s+(.*)\s+$/;
 const REGEXP_USERAGENT = /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i;
 
 // Utilities
-const navigator = typeof window !== 'undefined' ? window.navigator : null;
+const navigator = window.navigator;
 const IS_SAFARI_OR_UIWEBVIEW = navigator && REGEXP_USERAGENT.test(navigator.userAgent);
 const objectProto = Object.prototype;
 const toString = objectProto.toString;

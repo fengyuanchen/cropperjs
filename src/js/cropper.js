@@ -25,7 +25,7 @@ const REGEXP_TAG_NAME = /^(img|canvas)$/i;
 const REGEXP_DATA_URL = /^data:/;
 const REGEXP_DATA_URL_JPEG = /^data:image\/jpeg;base64,/;
 
-let AnotherCropper;
+const AnotherCropper = window.Cropper;
 
 class Cropper {
   constructor(element, options = {}) {
@@ -448,9 +448,6 @@ $.extend(Cropper.prototype, handlers);
 $.extend(Cropper.prototype, change);
 $.extend(Cropper.prototype, methods);
 
-if (typeof window !== 'undefined') {
-  AnotherCropper = window.Cropper;
-  window.Cropper = Cropper;
-}
+window.Cropper = Cropper;
 
 export default Cropper;
