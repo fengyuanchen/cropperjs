@@ -230,8 +230,8 @@
         </div>
 
         <div class="btn-group btn-group-crop">
-          <button type="button" class="btn btn-primary" data-method="getCroppedCanvas">
-            <span class="docs-tooltip" data-toggle="tooltip" title="cropper.getCroppedCanvas()">
+          <button type="button" class="btn btn-primary" data-method="getCroppedCanvas" data-option="{ &quot;maxWidth&quot;: 4096, &quot;maxHeight&quot;: 4096 }">
+            <span class="docs-tooltip" data-toggle="tooltip" title="cropper.getCroppedCanvas({ maxWidth: 4096, maxHeight: 4096 })">
               Get Cropped Canvas
             </span>
           </button>
@@ -252,8 +252,8 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
+                <h5 class="modal-title" id="getCroppedCanvasTitle">Cropped</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="getCroppedCanvasTitle">Cropped</h4>
               </div>
               <div class="modal-body"></div>
               <div class="modal-footer">
