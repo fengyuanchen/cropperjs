@@ -53,6 +53,9 @@ class Cropper {
   init() {
     const self = this;
     const element = self.element;
+    if(!element){
+      return;
+    }
     const tagName = element.tagName.toLowerCase();
     let url;
 
