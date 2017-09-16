@@ -510,8 +510,8 @@ export default {
 
     if (options.movable && options.cropBoxMovable) {
       // Turn to move the canvas when the crop box is equal to the container
-      $.setData(self.face, 'action', cropBoxData.width === containerData.width &&
-        cropBoxData.height === containerData.height ? 'move' : 'all');
+      $.setData(self.face, 'action', cropBoxData.width >= containerData.width &&
+        cropBoxData.height >= containerData.height ? 'move' : 'all');
     }
 
     $.setStyle(self.cropBox, $.extend({
