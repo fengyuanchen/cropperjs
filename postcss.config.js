@@ -4,5 +4,6 @@ module.exports = {
     'postcss-url': {
       url: 'inline',
     },
+    stylefmt: {},
   },
 };
