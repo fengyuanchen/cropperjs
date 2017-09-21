@@ -539,7 +539,7 @@ export function getSourceCanvas(
   },
   {
     fillColor,
-    imageSmoothingEnabled,
+    imageSmoothingEnabled = true,
     imageSmoothingQuality,
     maxWidth,
     maxHeight,
@@ -585,7 +585,7 @@ export function getSourceCanvas(
     context.scale(scaleX, scaleY);
   }
 
-  context.imageSmoothingEnabled = !!imageSmoothingEnabled;
+  context.imageSmoothingEnabled = imageSmoothingEnabled;
 
   if (imageSmoothingQuality) {
     context.imageSmoothingQuality = imageSmoothingQuality;

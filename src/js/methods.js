@@ -738,10 +738,12 @@ export default {
     context.fillStyle = options.fillColor || 'transparent';
     context.fillRect(0, 0, width, height);
 
-    context.imageSmoothingEnabled = !!options.imageSmoothingEnabled;
+    const { imageSmoothingEnabled = true, imageSmoothingQuality } = options;
 
-    if (options.imageSmoothingQuality) {
-      context.imageSmoothingQuality = options.imageSmoothingQuality;
+    context.imageSmoothingEnabled = imageSmoothingEnabled;
+
+    if (imageSmoothingQuality) {
+      context.imageSmoothingQuality = imageSmoothingQuality;
     }
 
     // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.drawImage
