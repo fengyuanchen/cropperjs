@@ -144,8 +144,8 @@ window.onload = function () {
     data = {
       method: target.getAttribute('data-method'),
       target: target.getAttribute('data-target'),
-      option: target.getAttribute('data-option'),
-      secondOption: target.getAttribute('data-second-option')
+      option: target.getAttribute('data-option') || undefined,
+      secondOption: target.getAttribute('data-second-option') || undefined
     };
 
     cropped = cropper.cropped;

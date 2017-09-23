@@ -1,17 +1,5 @@
 /* Basic */
 
-body {
-  margin: 0;
-  overflow-x: hidden;
-}
-
-.browserupgrade {
-  background-color: #fcfcfc;
-  margin: 0;
-  padding: .5rem 1rem;
-  text-align: center;
-}
-
 .btn {
   padding-left: .75rem;
   padding-right: .75rem;
@@ -22,41 +10,16 @@ label.btn {
 }
 
 .d-flex > .btn {
-  flex-grow: 1;
+  flex: 1;
 }
 
 
-/* Jumbotron */
-
-.docs-jumbotron {
-  background-color: #0074d9;
-  border-radius: 0;
-  color: #fff;
-}
-
-.docs-jumbotron .version {
-  color: #fff;
-  filter: alpha(opacity=50);
-  font-size: .875rem;
-  opacity: 0.5;
-}
-
-@media (min-width: 992px) {
-  .docs-jumbotron h1,
-  .docs-jumbotron p {
-    margin-right: 380px;
-  }
-}
-
-.docs-carbonads-container {
-  position: relative;
-}
+/* CarbonADs */
 
 .docs-carbonads {
   border-radius: .25rem;
   border: 1px solid #ccc;
   font-size: .875rem;
-  max-width: 360px;
   overflow: hidden;
   padding: 1rem;
 }
@@ -91,11 +54,10 @@ label.btn {
   text-decoration: none;
 }
 
-@media (min-width: 992px) {
+@media (min-width: 768px) {
   .docs-carbonads {
-    bottom: -1.25rem;
-    position: absolute;
-    right: 0;
+    float: right;
+    max-width: 360px;
   }
 }
 
@@ -267,17 +229,11 @@ label.btn {
 
 .docs-footer {
   font-size: .875rem;
-  overflow: hidden;
-}
-
-.docs-footer .nav {
-  margin-bottom: 1rem;
 }
 
 .heart {
   color: #ddd;
   display: block;
-  font-size: 1.125rem;
   height: 2rem;
   line-height: 2rem;
   margin-bottom: 0;
@@ -291,7 +247,7 @@ label.btn {
   color: #ff4136;
 }
 
-.heart:before {
+.heart::before {
   border-top: 1px solid #eee;
   content: " ";
   display: block;
@@ -302,7 +258,7 @@ label.btn {
   top: 50%;
 }
 
-.heart:after {
+.heart::after {
   background-color: #fff;
   content: "♥";
   padding-left: .5rem;
