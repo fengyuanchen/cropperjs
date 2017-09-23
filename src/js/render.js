@@ -202,47 +202,27 @@ export default {
     }
   },
 
-  renderCanvas(changed) {
-    const self = this;
-    const canvasData = self.canvasData;
-    const imageData = self.imageData;
-    const rotate = imageData.rotate;
+  renderCanvas(changed, transformed) {
+    const { canvasData, imageData } = this;
 
-    if (self.rotated) {
-      self.rotated = false;
-
-      // Computes rotated sizes with image sizes
-      const rotatedData = $.getRotatedSizes({
-        width: imageData.width,
-        height: imageData.height,
-        degree: rotate,
+    if (transformed) {
+      const { width: naturalWidth, height: naturalHeight } = $.getRotatedSizes({
+        width: imageData.naturalWidth * Math.abs(imageData.scaleX),
+        height: imageData.naturalHeight * Math.abs(imageData.scaleY),
+        degree: imageData.rotate,
       });
-      const aspectRatio = rotatedData.width / rotatedData.height;
-      const isSquareImage = imageData.aspectRatio === 1;
 
-      if (isSquareImage || aspectRatio !== canvasData.aspectRatio) {
-        canvasData.left -= (rotatedData.width - canvasData.width) / 2;
-        canvasData.top -= (rotatedData.height - canvasData.height) / 2;
-        canvasData.width = rotatedData.width;
-        canvasData.height = rotatedData.height;
-        canvasData.aspectRatio = aspectRatio;
-        canvasData.naturalWidth = imageData.naturalWidth;
-        canvasData.naturalHeight = imageData.naturalHeight;
+      const width = canvasData.width * (naturalWidth / canvasData.naturalWidth);
+      const height = canvasData.height * (naturalHeight / canvasData.naturalHeight);
 
-        // Computes rotated sizes with natural image sizes
-        if ((isSquareImage && rotate % 90) || rotate % 180) {
-          const rotatedData2 = $.getRotatedSizes({
-            width: imageData.naturalWidth,
-            height: imageData.naturalHeight,
-            degree: rotate,
-          });
-
-          canvasData.naturalWidth = rotatedData2.width;
-          canvasData.naturalHeight = rotatedData2.height;
-        }
-
-        self.limitCanvas(true, false);
-      }
+      canvasData.left -= (width - canvasData.width) / 2;
+      canvasData.top -= (height - canvasData.height) / 2;
+      canvasData.width = width;
+      canvasData.height = height;
+      canvasData.aspectRatio = naturalWidth / naturalHeight;
+      canvasData.naturalWidth = naturalWidth;
+      canvasData.naturalHeight = naturalHeight;
+      this.limitCanvas(true, false);
     }
 
     if (canvasData.width > canvasData.maxWidth ||
@@ -264,7 +244,7 @@ export default {
       canvasData.maxHeight,
     );
 
-    self.limitCanvas(false, true);
+    this.limitCanvas(false, true);
 
     canvasData.left = Math.min(
       Math.max(canvasData.left, canvasData.minLeft),
@@ -277,7 +257,7 @@ export default {
     canvasData.oldLeft = canvasData.left;
     canvasData.oldTop = canvasData.top;
 
-    $.setStyle(self.canvas, $.extend({
+    $.setStyle(this.canvas, $.extend({
       width: canvasData.width,
       height: canvasData.height,
     }, $.getTransforms({
@@ -285,53 +265,25 @@ export default {
       translateY: canvasData.top,
     })));
 
-    self.renderImage();
+    this.renderImage(changed);
 
-    if (self.cropped && self.limited) {
-      self.limitCropBox(true, true);
-    }
-
-    if (changed) {
-      self.output();
+    if (this.cropped && this.limited) {
+      this.limitCropBox(true, true);
     }
   },
 
   renderImage(changed) {
-    const self = this;
-    const canvasData = self.canvasData;
-    const imageData = self.imageData;
-    let newImageData;
-    let reversedData;
-    let reversedWidth;
-    let reversedHeight;
+    const { canvasData, imageData } = this;
+    const width = imageData.naturalWidth * (canvasData.width / canvasData.naturalWidth);
+    const height = imageData.naturalHeight * (canvasData.height / canvasData.naturalHeight);
 
-    if (imageData.rotate) {
-      reversedData = $.getRotatedSizes({
-        width: canvasData.width,
-        height: canvasData.height,
-        degree: imageData.rotate,
-        aspectRatio: imageData.aspectRatio,
-      }, true);
-
-      reversedWidth = reversedData.width;
-      reversedHeight = reversedData.height;
-
-      newImageData = {
-        width: reversedWidth,
-        height: reversedHeight,
-        left: (canvasData.width - reversedWidth) / 2,
-        top: (canvasData.height - reversedHeight) / 2,
-      };
-    }
-
-    $.extend(imageData, newImageData || {
-      width: canvasData.width,
-      height: canvasData.height,
-      left: 0,
-      top: 0,
+    $.extend(imageData, {
+      width,
+      height,
+      left: (canvasData.width - width) / 2,
+      top: (canvasData.height - height) / 2,
     });
-
-    $.setStyle(self.image, $.extend({
+    $.setStyle(this.image, $.extend({
       width: imageData.width,
       height: imageData.height,
     }, $.getTransforms($.extend({
@@ -340,7 +292,7 @@ export default {
     }, imageData))));
 
     if (changed) {
-      self.output();
+      this.output();
     }
   },
 

@@ -40,7 +40,6 @@ class Cropper {
     self.loaded = false;
     self.ready = false;
     self.complete = false;
-    self.rotated = false;
     self.cropped = false;
     self.disabled = false;
     self.replaced = false;

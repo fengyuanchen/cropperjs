@@ -35,7 +35,8 @@
   top: 0;
 }
 
-.cropper-wrap-box {
+.cropper-wrap-box,
+.cropper-canvas {
   overflow: hidden;
 }
 

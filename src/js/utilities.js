@@ -495,39 +495,31 @@ export function getContainSizes(
   };
 }
 
-export function getRotatedSizes(
-  {
-    aspectRatio,
-    degree,
-    height,
-    width,
-  },
-  reversed = false,
-) {
-  const arc = ((Math.abs(degree) % 90) * Math.PI) / 180;
-  const sinArc = Math.sin(arc);
-  const cosArc = Math.cos(arc);
-  let newWidth;
-  let newHeight;
+export function getRotatedSizes({ width, height, degree }) {
+  degree = Math.abs(degree);
 
-  if (!reversed) {
-    newWidth = (width * cosArc) + (height * sinArc);
-    newHeight = (width * sinArc) + (height * cosArc);
-  } else {
-    newWidth = width / (cosArc + (sinArc / aspectRatio));
-    newHeight = newWidth / aspectRatio;
+  if (degree % 180 === 90) {
+    return {
+      width: height,
+      height: width,
+    };
   }
 
+  const arc = ((degree % 90) * Math.PI) / 180;
+  const sinArc = Math.sin(arc);
+  const cosArc = Math.cos(arc);
+
   return {
-    width: newWidth,
-    height: newHeight,
+    width: (width * cosArc) + (height * sinArc),
+    height: (width * sinArc) + (height * cosArc),
   };
 }
 
 export function getSourceCanvas(
   image,
   {
-    aspectRatio: imageAspectRatio,
+    naturalWidth: imageNaturalWidth,
+    naturalHeight: imageNaturalHeight,
     rotate,
     scaleX,
     scaleY,
@@ -538,84 +530,48 @@ export function getSourceCanvas(
     naturalHeight,
   },
   {
-    fillColor,
+    fillColor = 'transparent',
     imageSmoothingEnabled = true,
-    imageSmoothingQuality,
-    maxWidth,
-    maxHeight,
-    minWidth,
-    minHeight,
+    imageSmoothingQuality = 'low',
+    maxWidth = Infinity,
+    maxHeight = Infinity,
+    minWidth = 0,
+    minHeight = 0,
   },
 ) {
-  const scaled = isNumber(scaleX) && isNumber(scaleY) && (scaleX !== 1 || scaleY !== 1);
-  const rotated = isNumber(rotate) && rotate !== 0;
-  let width = naturalWidth;
-  let height = naturalHeight;
-
+  const canvas = createElement('canvas');
+  const context = canvas.getContext('2d');
   const maxSizes = getContainSizes({
     aspectRatio,
-    width: maxWidth || Infinity,
-    height: maxHeight || Infinity,
+    width: maxWidth,
+    height: maxHeight,
   });
   const minSizes = getContainSizes({
     aspectRatio,
-    width: minWidth || 0,
-    height: minHeight || 0,
+    width: minWidth,
+    height: minHeight,
   });
-
-  width = Math.min(maxSizes.width, Math.max(minSizes.width, width));
-  height = Math.min(maxSizes.height, Math.max(minSizes.height, height));
-
-  const canvas = createElement('canvas');
-  const context = canvas.getContext('2d');
+  const width = Math.min(maxSizes.width, Math.max(minSizes.width, naturalWidth));
+  const height = Math.min(maxSizes.height, Math.max(minSizes.height, naturalHeight));
 
   canvas.width = width;
   canvas.height = height;
-  context.fillStyle = fillColor || 'transparent';
+  context.fillStyle = fillColor;
   context.fillRect(0, 0, width, height);
   context.save();
   context.translate(width / 2, height / 2);
-
-  // Rotate first before scale (as in the "getTransform" function)
-  if (rotated) {
-    context.rotate((rotate * Math.PI) / 180);
-  }
-
-  if (scaled) {
-    context.scale(scaleX, scaleY);
-  }
-
+  context.rotate((rotate * Math.PI) / 180);
+  context.scale(scaleX, scaleY);
   context.imageSmoothingEnabled = imageSmoothingEnabled;
-
-  if (imageSmoothingQuality) {
-    context.imageSmoothingQuality = imageSmoothingQuality;
-  }
-
-  let dstWidth = width;
-  let dstHeight = height;
-
-  if (rotated) {
-    const reversed = getRotatedSizes({
-      width,
-      height,
-      aspectRatio: imageAspectRatio,
-      degree: rotate,
-    }, true);
-
-    dstWidth = reversed.width;
-    dstHeight = reversed.height;
-  }
-
+  context.imageSmoothingQuality = imageSmoothingQuality;
   context.drawImage(
     image,
-    Math.floor(-dstWidth / 2),
-    Math.floor(-dstHeight / 2),
-    Math.floor(dstWidth),
-    Math.floor(dstHeight),
+    Math.floor(-imageNaturalWidth / 2),
+    Math.floor(-imageNaturalHeight / 2),
+    Math.floor(imageNaturalWidth),
+    Math.floor(imageNaturalHeight),
   );
-
   context.restore();
-
   return canvas;
 }
 

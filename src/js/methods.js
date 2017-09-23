@@ -333,8 +333,7 @@ export default {
 
     if ($.isNumber(degree) && self.ready && !self.disabled && self.options.rotatable) {
       self.imageData.rotate = degree % 360;
-      self.rotated = true;
-      self.renderCanvas(true);
+      self.renderCanvas(true, true);
     }
 
     return self;
@@ -350,7 +349,7 @@ export default {
   scale(scaleX, scaleY) {
     const self = this;
     const imageData = self.imageData;
-    let changed = false;
+    let transformed = false;
 
     // If "scaleY" is not present, its default value is "scaleX"
     if ($.isUndefined(scaleY)) {
@@ -363,16 +362,16 @@ export default {
     if (self.ready && !self.disabled && self.options.scalable) {
       if ($.isNumber(scaleX)) {
         imageData.scaleX = scaleX;
-        changed = true;
+        transformed = true;
       }
 
       if ($.isNumber(scaleY)) {
         imageData.scaleY = scaleY;
-        changed = true;
+        transformed = true;
       }
 
-      if (changed) {
-        self.renderImage(true);
+      if (transformed) {
+        self.renderCanvas(true, true);
       }
     }
 
@@ -464,42 +463,38 @@ export default {
     const imageData = self.imageData;
     const canvasData = self.canvasData;
     const cropBoxData = {};
-    let rotated;
-    let scaled;
-    let ratio;
 
     if ($.isFunction(data)) {
       data = data.call(self.element);
     }
 
     if (self.ready && !self.disabled && $.isPlainObject(data)) {
+      let transformed = false;
+
       if (options.rotatable) {
         if ($.isNumber(data.rotate) && data.rotate !== imageData.rotate) {
           imageData.rotate = data.rotate;
-          rotated = true;
-          self.rotated = rotated;
+          transformed = true;
         }
       }
 
       if (options.scalable) {
         if ($.isNumber(data.scaleX) && data.scaleX !== imageData.scaleX) {
           imageData.scaleX = data.scaleX;
-          scaled = true;
+          transformed = true;
         }
 
         if ($.isNumber(data.scaleY) && data.scaleY !== imageData.scaleY) {
           imageData.scaleY = data.scaleY;
-          scaled = true;
+          transformed = true;
         }
       }
 
-      if (rotated) {
-        self.renderCanvas();
-      } else if (scaled) {
-        self.renderImage();
+      if (transformed) {
+        self.renderCanvas(true, true);
       }
 
-      ratio = imageData.width / imageData.naturalWidth;
+      const ratio = imageData.width / imageData.naturalWidth;
 
       if ($.isNumber(data.x)) {
         cropBoxData.left = (data.x * ratio) + canvasData.left;
@@ -701,8 +696,6 @@ export default {
     const {
       x,
       y,
-      scaleX,
-      scaleY,
       width: initialWidth,
       height: initialHeight,
     } = this.getData();
@@ -751,8 +744,8 @@ export default {
     const sourceHeight = source.height;
 
     // Source canvas parameters
-    let srcX = x + ((canvasData.naturalWidth * (Math.abs(scaleX) - 1)) / 2);
-    let srcY = y + ((canvasData.naturalHeight * (Math.abs(scaleY) - 1)) / 2);
+    let srcX = x;
+    let srcY = y;
     let srcWidth;
     let srcHeight;
 
