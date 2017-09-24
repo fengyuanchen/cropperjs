@@ -244,46 +244,52 @@ export function removeData(element, name) {
   }
 }
 
-export function removeListener(element, type, handler) {
+export function removeListener(element, type, listener, options = {}) {
   const types = trim(type).split(REGEXP_SPACES);
 
   if (types.length > 1) {
     each(types, (t) => {
-      removeListener(element, t, handler);
+      removeListener(element, t, listener);
     });
     return;
+  }
+
+  if (isFunction(listener.onceListener)) {
+    listener = listener.onceListener;
+    delete listener.onceListener;
   }
 
   if (element.removeEventListener) {
-    element.removeEventListener(type, handler, false);
+    element.removeEventListener(type, listener, options);
   } else if (element.detachEvent) {
-    element.detachEvent(`on${type}`, handler);
+    element.detachEvent(`on${type}`, listener);
   }
 }
 
-export function addListener(element, type, handler, once) {
+export function addListener(element, type, listener, options = {}) {
   const types = trim(type).split(REGEXP_SPACES);
-  const originalHandler = handler;
 
   if (types.length > 1) {
     each(types, (t) => {
-      addListener(element, t, handler);
+      addListener(element, t, listener);
     });
     return;
   }
 
-  if (once) {
-    handler = (...args) => {
-      removeListener(element, type, handler);
-
-      return originalHandler.apply(element, args);
+  if (options.once) {
+    const originalListener = listener;
+    const onceListener = (...args) => {
+      removeListener(element, type, onceListener);
+      return originalListener.apply(element, args);
     };
+    originalListener.onceListener = onceListener;
+    listener = onceListener;
   }
 
   if (element.addEventListener) {
-    element.addEventListener(type, handler, false);
+    element.addEventListener(type, listener, options);
   } else if (element.attachEvent) {
-    element.attachEvent(`on${type}`, handler);
+    element.attachEvent(`on${type}`, listener);
   }
 }
 

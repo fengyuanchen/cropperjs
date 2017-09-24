@@ -382,7 +382,9 @@ class Cropper {
     // Call the "ready" option asynchronously to keep "image.cropper" is defined
     self.completing = setTimeout(() => {
       if ($.isFunction(options.ready)) {
-        $.addListener(element, EVENT_READY, options.ready, true);
+        $.addListener(element, EVENT_READY, options.ready, {
+          once: true,
+        });
       }
 
       $.dispatchEvent(element, EVENT_READY);
