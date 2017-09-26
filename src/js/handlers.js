@@ -20,14 +20,11 @@ function getPointer({ pageX, pageY }, endOnly) {
 
 export default {
   resize() {
-    const self = this;
-    const options = self.options;
-    const container = self.container;
-    const containerData = self.containerData;
+    const { options, container, containerData } = this;
     const minContainerWidth = Number(options.minContainerWidth) || 200;
     const minContainerHeight = Number(options.minContainerHeight) || 100;
 
-    if (self.disabled || containerData.width <= minContainerWidth ||
+    if (this.disabled || containerData.width <= minContainerWidth ||
       containerData.height <= minContainerHeight) {
       return;
     }
@@ -40,17 +37,17 @@ export default {
       let cropBoxData;
 
       if (options.restore) {
-        canvasData = self.getCanvasData();
-        cropBoxData = self.getCropBoxData();
+        canvasData = this.getCanvasData();
+        cropBoxData = this.getCropBoxData();
       }
 
-      self.render();
+      this.render();
 
       if (options.restore) {
-        self.setCanvasData($.each(canvasData, (n, i) => {
+        this.setCanvasData($.each(canvasData, (n, i) => {
           canvasData[i] = n * ratio;
         }));
-        self.setCropBoxData($.each(cropBoxData, (n, i) => {
+        this.setCropBoxData($.each(cropBoxData, (n, i) => {
           cropBoxData[i] = n * ratio;
         }));
       }
@@ -58,36 +55,33 @@ export default {
   },
 
   dblclick() {
-    const self = this;
-
-    if (self.disabled || self.options.dragMode === 'none') {
+    if (this.disabled || this.options.dragMode === 'none') {
       return;
     }
 
-    self.setDragMode($.hasClass(self.dragBox, 'cropper-crop') ? 'move' : 'crop');
+    this.setDragMode($.hasClass(this.dragBox, 'cropper-crop') ? 'move' : 'crop');
   },
 
   wheel(event) {
-    const self = this;
     const e = $.getEvent(event);
-    const ratio = Number(self.options.wheelZoomRatio) || 0.1;
+    const ratio = Number(this.options.wheelZoomRatio) || 0.1;
     let delta = 1;
 
-    if (self.disabled) {
+    if (this.disabled) {
       return;
     }
 
     e.preventDefault();
 
     // Limit wheel speed to prevent zoom too fast (#21)
-    if (self.wheeling) {
+    if (this.wheeling) {
       return;
     }
 
-    self.wheeling = true;
+    this.wheeling = true;
 
     setTimeout(() => {
-      self.wheeling = false;
+      this.wheeling = false;
     }, 50);
 
     if (e.deltaY) {
@@ -98,18 +92,15 @@ export default {
       delta = e.detail > 0 ? 1 : -1;
     }
 
-    self.zoom(-delta * ratio, e);
+    this.zoom(-delta * ratio, e);
   },
 
   cropStart(event) {
-    const self = this;
-
-    if (self.disabled) {
+    if (this.disabled) {
       return;
     }
 
-    const options = self.options;
-    const pointers = self.pointers;
+    const { options, pointers } = this;
     const e = $.getEvent(event);
     let action;
 
@@ -133,7 +124,7 @@ export default {
       return;
     }
 
-    if ($.dispatchEvent(self.element, 'cropstart', {
+    if ($.dispatchEvent(this.element, 'cropstart', {
       originalEvent: e,
       action,
     }) === false) {
@@ -142,29 +133,28 @@ export default {
 
     e.preventDefault();
 
-    self.action = action;
-    self.cropping = false;
+    this.action = action;
+    this.cropping = false;
 
     if (action === 'crop') {
-      self.cropping = true;
-      $.addClass(self.dragBox, 'cropper-modal');
+      this.cropping = true;
+      $.addClass(this.dragBox, 'cropper-modal');
     }
   },
 
   cropMove(event) {
-    const self = this;
-    const action = self.action;
+    const { action } = this;
 
-    if (self.disabled || !action) {
+    if (this.disabled || !action) {
       return;
     }
 
-    const pointers = self.pointers;
+    const { pointers } = this;
     const e = $.getEvent(event);
 
     e.preventDefault();
 
-    if ($.dispatchEvent(self.element, 'cropmove', {
+    if ($.dispatchEvent(this.element, 'cropmove', {
       originalEvent: e,
       action,
     }) === false) {
@@ -179,18 +169,15 @@ export default {
       $.extend(pointers[e.pointerId || 0], getPointer(e, true));
     }
 
-    self.change(e);
+    this.change(e);
   },
 
   cropEnd(event) {
-    const self = this;
-
-    if (self.disabled) {
+    if (this.disabled) {
       return;
     }
 
-    const action = self.action;
-    const pointers = self.pointers;
+    const { action, pointers } = this;
     const e = $.getEvent(event);
 
     if (e.changedTouches) {
@@ -208,15 +195,15 @@ export default {
     e.preventDefault();
 
     if (!Object.keys(pointers).length) {
-      self.action = '';
+      this.action = '';
     }
 
-    if (self.cropping) {
-      self.cropping = false;
-      $.toggleClass(self.dragBox, 'cropper-modal', self.cropped && this.options.modal);
+    if (this.cropping) {
+      this.cropping = false;
+      $.toggleClass(this.dragBox, 'cropper-modal', this.cropped && this.options.modal);
     }
 
-    $.dispatchEvent(self.element, 'cropend', {
+    $.dispatchEvent(this.element, 'cropend', {
       originalEvent: e,
       action,
     });

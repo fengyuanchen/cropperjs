@@ -30,26 +30,30 @@ function getMaxZoomRatio(pointers) {
     });
   });
 
-  ratios.sort((a, b) => {
-    return Math.abs(a) < Math.abs(b);
-  });
+  ratios.sort((a, b) => Math.abs(a) < Math.abs(b));
 
   return ratios[0];
 }
 
 export default {
   change(e) {
-    const self = this;
-    const options = self.options;
-    const containerData = self.containerData;
-    const canvasData = self.canvasData;
-    const cropBoxData = self.cropBoxData;
-    let aspectRatio = options.aspectRatio;
-    let action = self.action;
-    let width = cropBoxData.width;
-    let height = cropBoxData.height;
-    let left = cropBoxData.left;
-    let top = cropBoxData.top;
+    const {
+      options,
+      canvasData,
+      containerData,
+      cropBoxData,
+      pointers,
+    } = this;
+    let {
+      action,
+    } = this;
+    let { aspectRatio } = options;
+    let {
+      left,
+      top,
+      width,
+      height,
+    } = cropBoxData;
     const right = left + width;
     const bottom = top + height;
     let minLeft = 0;
@@ -64,9 +68,8 @@ export default {
       aspectRatio = width && height ? width / height : 1;
     }
 
-    if (self.limited) {
-      minLeft = cropBoxData.minLeft;
-      minTop = cropBoxData.minTop;
+    if (this.limited) {
+      ({ minLeft, minTop } = cropBoxData);
       maxWidth = minLeft + Math.min(
         containerData.width,
         canvasData.width,
@@ -79,7 +82,6 @@ export default {
       );
     }
 
-    const pointers = self.pointers;
     const pointer = pointers[Object.keys(pointers)[0]];
     const range = {
       x: pointer.endX - pointer.startX,
@@ -419,13 +421,13 @@ export default {
 
       // Move canvas
       case 'move':
-        self.move(range.x, range.y);
+        this.move(range.x, range.y);
         renderable = false;
         break;
 
       // Zoom canvas
       case 'zoom':
-        self.zoom(getMaxZoomRatio(pointers), e);
+        this.zoom(getMaxZoomRatio(pointers), e);
         renderable = false;
         break;
 
@@ -436,7 +438,7 @@ export default {
           break;
         }
 
-        offset = $.getOffset(self.cropper);
+        offset = $.getOffset(this.cropper);
         left = pointer.startX - offset.left;
         top = pointer.startY - offset.top;
         width = cropBoxData.minWidth;
@@ -454,12 +456,12 @@ export default {
         }
 
         // Show the crop box if is hidden
-        if (!self.cropped) {
-          $.removeClass(self.cropBox, 'cropper-hidden');
-          self.cropped = true;
+        if (!this.cropped) {
+          $.removeClass(this.cropBox, 'cropper-hidden');
+          this.cropped = true;
 
-          if (self.limited) {
-            self.limitCropBox(true, true);
+          if (this.limited) {
+            this.limitCropBox(true, true);
           }
         }
 
@@ -473,9 +475,8 @@ export default {
       cropBoxData.height = height;
       cropBoxData.left = left;
       cropBoxData.top = top;
-      self.action = action;
-
-      self.renderCropBox();
+      this.action = action;
+      this.renderCropBox();
     }
 
     // Override

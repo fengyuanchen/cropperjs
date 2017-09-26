@@ -1,24 +1,11 @@
-// RegExps
-const REGEXP_DATA_URL_HEAD = /^data:.*,/;
-const REGEXP_HYPHENATE = /([a-z\d])([A-Z])/g;
-const REGEXP_ORIGINS = /^(https?:)\/\/([^:/?#]+):?(\d*)/i;
-const REGEXP_SPACES = /\s+/;
-const REGEXP_SUFFIX = /^(width|height|left|top|marginLeft|marginTop)$/;
-const REGEXP_TRIM = /^\s+(.*)\s+$/;
-const REGEXP_USERAGENT = /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i;
-
-// Utilities
-const navigator = window.navigator;
-const IS_SAFARI_OR_UIWEBVIEW = navigator && REGEXP_USERAGENT.test(navigator.userAgent);
-const objectProto = Object.prototype;
-const toString = objectProto.toString;
-const hasOwnProperty = objectProto.hasOwnProperty;
-const slice = Array.prototype.slice;
-const fromCharCode = String.fromCharCode;
+const { toString, hasOwnProperty } = Object.prototype;
+const { slice } = Array.prototype;
 
 export function typeOf(obj) {
   return toString.call(obj).slice(8, -1).toLowerCase();
 }
+
+const { isNaN } = window;
 
 export function isNumber(num) {
   return typeof num === 'number' && !isNaN(num);
@@ -38,8 +25,8 @@ export function isPlainObject(obj) {
   }
 
   try {
-    const constructor = obj.constructor;
-    const prototype = constructor.prototype;
+    const { constructor } = obj;
+    const { prototype } = constructor;
 
     return constructor && prototype && hasOwnProperty.call(prototype, 'isPrototypeOf');
   } catch (e) {
@@ -65,6 +52,8 @@ export function toArray(obj, offset) {
   return slice.call(obj, offset);
 }
 
+const REGEXP_TRIM = /^\s+(.*)\s+$/;
+
 export function trim(str) {
   if (typeof str === 'string') {
     str = str.trim ? str.trim() : str.replace(REGEXP_TRIM, '$1');
@@ -75,10 +64,9 @@ export function trim(str) {
 
 export function each(obj, callback) {
   if (obj && isFunction(callback)) {
-    let i;
-
     if (isArray(obj) || isNumber(obj.length)/* array-like */) {
-      const length = obj.length;
+      const { length } = obj;
+      let i;
 
       for (i = 0; i < length; i += 1) {
         if (callback.call(obj, obj[i], i, obj) === false) {
@@ -114,13 +102,13 @@ export function extend(obj, ...args) {
 }
 
 export function proxy(fn, context, ...args) {
-  return (...args2) => {
-    return fn.apply(context, args.concat(args2));
-  };
+  return (...args2) => fn.apply(context, args.concat(args2));
 }
 
+const REGEXP_SUFFIX = /^(width|height|left|top|marginLeft|marginTop)$/;
+
 export function setStyle(element, styles) {
-  const style = element.style;
+  const { style } = element;
 
   each(styles, (value, property) => {
     if (REGEXP_SUFFIX.test(property) && isNumber(value)) {
@@ -205,6 +193,8 @@ export function toggleClass(element, value, added) {
   }
 }
 
+const REGEXP_HYPHENATE = /([a-z\d])([A-Z])/g;
+
 export function hyphenate(str) {
   return str.replace(REGEXP_HYPHENATE, '$1-$2').toLowerCase();
 }
@@ -243,6 +233,8 @@ export function removeData(element, name) {
     element.removeAttribute(`data-${hyphenate(name)}`);
   }
 }
+
+const REGEXP_SPACES = /\s+/;
 
 export function removeListener(element, type, listener, options = {}) {
   const types = trim(type).split(REGEXP_SPACES);
@@ -339,8 +331,7 @@ export function getEvent(event) {
 
   if (!isNumber(e.pageX) && isNumber(e.clientX)) {
     const eventDoc = event.target.ownerDocument || document;
-    const doc = eventDoc.documentElement;
-    const body = eventDoc.body;
+    const { documentElement: doc, body } = eventDoc;
 
     e.pageX = e.clientX + (
       ((doc && doc.scrollLeft) || (body && body.scrollLeft) || 0) -
@@ -399,6 +390,9 @@ export function empty(element) {
   }
 }
 
+const { location } = window;
+const REGEXP_ORIGINS = /^(https?:)\/\/([^:/?#]+):?(\d*)/i;
+
 export function isCrossOriginURL(url) {
   const parts = url.match(REGEXP_ORIGINS);
 
@@ -414,6 +408,9 @@ export function addTimestamp(url) {
 
   return (url + (url.indexOf('?') === -1 ? '?' : '&') + timestamp);
 }
+
+const { navigator } = window;
+const IS_SAFARI_OR_UIWEBVIEW = navigator && /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent);
 
 export function getImageSize(image, callback) {
   // Modern browsers (ignore Safari)
@@ -432,13 +429,14 @@ export function getImageSize(image, callback) {
   newImage.src = image.src;
 }
 
-export function getTransforms(data) {
+export function getTransforms({
+  rotate,
+  scaleX,
+  scaleY,
+  translateX,
+  translateY,
+}) {
   const transforms = [];
-  const translateX = data.translateX;
-  const translateY = data.translateY;
-  const rotate = data.rotate;
-  const scaleX = data.scaleX;
-  const scaleY = data.scaleY;
 
   if (isNumber(translateX) && translateX !== 0) {
     transforms.push(`translateX(${translateX}px)`);
@@ -470,18 +468,14 @@ export function getTransforms(data) {
   };
 }
 
-const isFinite = window.isFinite;
+const { isFinite } = window;
 
-export function getContainSizes(
-  {
-    aspectRatio,
-    height,
-    width,
-  },
-) {
-  const isValidNumber = (value) => {
-    return isFinite(value) && value > 0;
-  };
+export function getContainSizes({
+  aspectRatio,
+  height,
+  width,
+}) {
+  const isValidNumber = value => isFinite(value) && value > 0;
 
   if (isValidNumber(width) && isValidNumber(height)) {
     if (height * aspectRatio > width) {
@@ -581,6 +575,8 @@ export function getSourceCanvas(
   return canvas;
 }
 
+const { fromCharCode } = String;
+
 export function getStringFromCharCode(dataView, start, length) {
   let str = '';
   let i = start;
@@ -666,10 +662,12 @@ export function getOrientation(arrayBuffer) {
   return orientation;
 }
 
+const REGEXP_DATA_URL_HEAD = /^data:.*,/;
+
 export function dataURLToArrayBuffer(dataURL) {
   const base64 = dataURL.replace(REGEXP_DATA_URL_HEAD, '');
   const binary = atob(base64);
-  const length = binary.length;
+  const { length } = binary;
   const arrayBuffer = new ArrayBuffer(length);
   const dataView = new Uint8Array(arrayBuffer);
   let i;
@@ -684,7 +682,7 @@ export function dataURLToArrayBuffer(dataURL) {
 // Only available for JPEG image
 export function arrayBufferToDataURL(arrayBuffer) {
   const dataView = new Uint8Array(arrayBuffer);
-  const length = dataView.length;
+  const { length } = dataView;
   let base64 = '';
   let i;
 

@@ -1,7 +1,7 @@
 import * as $ from './utilities';
 
 // Globals
-const PointerEvent = window.PointerEvent;
+const { PointerEvent } = window;
 
 // Events
 const EVENT_POINTER_DOWN = PointerEvent ? 'pointerdown' : 'touchstart mousedown';
@@ -18,10 +18,7 @@ const EVENT_ZOOM = 'zoom';
 
 export default {
   bind() {
-    const self = this;
-    const options = self.options;
-    const element = self.element;
-    const cropper = self.cropper;
+    const { element, options, cropper } = this;
 
     if ($.isFunction(options.cropstart)) {
       $.addListener(element, EVENT_CROP_START, options.cropstart);
@@ -43,29 +40,26 @@ export default {
       $.addListener(element, EVENT_ZOOM, options.zoom);
     }
 
-    $.addListener(cropper, EVENT_POINTER_DOWN, (self.onCropStart = $.proxy(self.cropStart, self)));
+    $.addListener(cropper, EVENT_POINTER_DOWN, (this.onCropStart = $.proxy(this.cropStart, this)));
 
     if (options.zoomable && options.zoomOnWheel) {
-      $.addListener(cropper, EVENT_WHEEL, (self.onWheel = $.proxy(self.wheel, self)));
+      $.addListener(cropper, EVENT_WHEEL, (this.onWheel = $.proxy(this.wheel, this)));
     }
 
     if (options.toggleDragModeOnDblclick) {
-      $.addListener(cropper, EVENT_DBLCLICK, (self.onDblclick = $.proxy(self.dblclick, self)));
+      $.addListener(cropper, EVENT_DBLCLICK, (this.onDblclick = $.proxy(this.dblclick, this)));
     }
 
-    $.addListener(document, EVENT_POINTER_MOVE, (self.onCropMove = $.proxy(self.cropMove, self)));
-    $.addListener(document, EVENT_POINTER_UP, (self.onCropEnd = $.proxy(self.cropEnd, self)));
+    $.addListener(document, EVENT_POINTER_MOVE, (this.onCropMove = $.proxy(this.cropMove, this)));
+    $.addListener(document, EVENT_POINTER_UP, (this.onCropEnd = $.proxy(this.cropEnd, this)));
 
     if (options.responsive) {
-      $.addListener(window, EVENT_RESIZE, (self.onResize = $.proxy(self.resize, self)));
+      $.addListener(window, EVENT_RESIZE, (this.onResize = $.proxy(this.resize, this)));
     }
   },
 
   unbind() {
-    const self = this;
-    const options = self.options;
-    const element = self.element;
-    const cropper = self.cropper;
+    const { element, options, cropper } = this;
 
     if ($.isFunction(options.cropstart)) {
       $.removeListener(element, EVENT_CROP_START, options.cropstart);
@@ -87,21 +81,21 @@ export default {
       $.removeListener(element, EVENT_ZOOM, options.zoom);
     }
 
-    $.removeListener(cropper, EVENT_POINTER_DOWN, self.onCropStart);
+    $.removeListener(cropper, EVENT_POINTER_DOWN, this.onCropStart);
 
     if (options.zoomable && options.zoomOnWheel) {
-      $.removeListener(cropper, EVENT_WHEEL, self.onWheel);
+      $.removeListener(cropper, EVENT_WHEEL, this.onWheel);
     }
 
     if (options.toggleDragModeOnDblclick) {
-      $.removeListener(cropper, EVENT_DBLCLICK, self.onDblclick);
+      $.removeListener(cropper, EVENT_DBLCLICK, this.onDblclick);
     }
 
-    $.removeListener(document, EVENT_POINTER_MOVE, self.onCropMove);
-    $.removeListener(document, EVENT_POINTER_UP, self.onCropEnd);
+    $.removeListener(document, EVENT_POINTER_MOVE, this.onCropMove);
+    $.removeListener(document, EVENT_POINTER_UP, this.onCropEnd);
 
     if (options.responsive) {
-      $.removeListener(window, EVENT_RESIZE, self.onResize);
+      $.removeListener(window, EVENT_RESIZE, this.onResize);
     }
   },
 };

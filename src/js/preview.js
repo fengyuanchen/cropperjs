@@ -4,19 +4,18 @@ const DATA_PREVIEW = 'preview';
 
 export default {
   initPreview() {
-    const self = this;
-    const preview = self.options.preview;
+    const { crossOrigin } = this;
+    const { preview } = this.options;
     const image = $.createElement('img');
-    const crossOrigin = self.crossOrigin;
-    const url = crossOrigin ? self.crossOriginUrl : self.url;
+    const url = crossOrigin ? this.crossOriginUrl : this.url;
 
     if (crossOrigin) {
       image.crossOrigin = crossOrigin;
     }
 
     image.src = url;
-    $.appendChild(self.viewBox, image);
-    self.image2 = image;
+    $.appendChild(this.viewBox, image);
+    this.image2 = image;
 
     if (!preview) {
       return;
@@ -24,7 +23,7 @@ export default {
 
     const previews = preview.querySelector ? [preview] : document.querySelectorAll(preview);
 
-    self.previews = previews;
+    this.previews = previews;
 
     $.each(previews, (element) => {
       const img = $.createElement('img');
@@ -80,22 +79,17 @@ export default {
   },
 
   preview() {
-    const self = this;
-    const imageData = self.imageData;
-    const canvasData = self.canvasData;
-    const cropBoxData = self.cropBoxData;
-    const cropBoxWidth = cropBoxData.width;
-    const cropBoxHeight = cropBoxData.height;
-    const width = imageData.width;
-    const height = imageData.height;
+    const { imageData, canvasData, cropBoxData } = this;
+    const { width: cropBoxWidth, height: cropBoxHeight } = cropBoxData;
+    const { width, height } = imageData;
     const left = cropBoxData.left - canvasData.left - imageData.left;
     const top = cropBoxData.top - canvasData.top - imageData.top;
 
-    if (!self.cropped || self.disabled) {
+    if (!this.cropped || this.disabled) {
       return;
     }
 
-    $.setStyle(self.image2, $.extend({
+    $.setStyle(this.image2, $.extend({
       width,
       height,
     }, $.getTransforms($.extend({
@@ -103,7 +97,7 @@ export default {
       translateY: -top,
     }, imageData))));
 
-    $.each(self.previews, (element) => {
+    $.each(this.previews, (element) => {
       const data = $.getData(element, DATA_PREVIEW);
       const originalWidth = data.width;
       const originalHeight = data.height;
