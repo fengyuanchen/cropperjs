@@ -132,7 +132,7 @@ How to crop a square area in free ratio mode?
 
 - [Known iOS resource limits](https://developer.apple.com/library/mac/documentation/AppleApplications/Reference/SafariWebContent/CreatingContentforSafarioniPhone/CreatingContentforSafarioniPhone.html): As iOS devices limit memory, the browser may crash when you are cropping a large image (iPhone camera resolution). To avoid this, you may resize the image first (preferably below 1024 pixels) before start a cropper.
 
-- Known image size increase: When export the cropped image on browser-side with the `HTMLCanvasElement.toDataURL` method, the size of the exported image may be greater than the original image's. This is because the type of the exported image is not the same as the original image's. So just pass the type the original image's as the first parameter to `toDataURL` to fix this. For example, if the original type is JPEG, then use `cropper.getCroppedCanvas().toDataURL('image/jpeg')` to export image.
+- Known image size increase: When export the cropped image on browser-side with the `HTMLCanvasElement.toDataURL` method, the size of the exported image may be greater than the original image's. This is because the type of the exported image is not the same as the original image's. So just pass the type the original image's as the first parameter to `toDataURL` to fix this. For example, if the original type is JPEG, then use `cropper.getCroppedCanvas().toDataURL('image/jpeg')` to export image. You can get right image type in this manner: `cropper.getImageData().mimeType`.
 
 [⬆ back to top](#table-of-contents)
 
@@ -830,7 +830,7 @@ cropper.getCroppedCanvas().toBlob(function (blob) {
       console.log('Upload error');
     }
   });
-});
+}, cropper.getImageData().mimeType);
 ```
 
 ### setAspectRatio(aspectRatio)
