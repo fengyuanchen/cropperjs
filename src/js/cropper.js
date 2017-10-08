@@ -274,18 +274,18 @@ class Cropper {
 
     template.innerHTML = TEMPLATE;
 
-    const [cropper] = template.getElementsByClassName(`${NAMESPACE}-container`);
-    const [canvas] = cropper.getElementsByClassName(`${NAMESPACE}-canvas`);
-    const [dragBox] = cropper.getElementsByClassName(`${NAMESPACE}-drag-box`);
-    const [cropBox] = cropper.getElementsByClassName(`${NAMESPACE}-crop-box`);
-    const [face] = cropBox.getElementsByClassName(`${NAMESPACE}-face`);
+    const cropper = template.querySelector(`.${NAMESPACE}-container`);
+    const canvas = cropper.querySelector(`.${NAMESPACE}-canvas`);
+    const dragBox = cropper.querySelector(`.${NAMESPACE}-drag-box`);
+    const cropBox = cropper.querySelector(`.${NAMESPACE}-crop-box`);
+    const face = cropBox.querySelector(`.${NAMESPACE}-face`);
 
     this.container = container;
     this.cropper = cropper;
     this.canvas = canvas;
     this.dragBox = dragBox;
     this.cropBox = cropBox;
-    [this.viewBox] = cropper.getElementsByClassName(`${NAMESPACE}-view-box`);
+    this.viewBox = cropper.querySelector(`.${NAMESPACE}-view-box`);
     this.face = face;
 
     canvas.appendChild(image);
