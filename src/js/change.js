@@ -1,39 +1,24 @@
-import * as $ from './utilities';
-
-// Actions
-const ACTION_EAST = 'e';
-const ACTION_WEST = 'w';
-const ACTION_SOUTH = 's';
-const ACTION_NORTH = 'n';
-const ACTION_SOUTH_EAST = 'se';
-const ACTION_SOUTH_WEST = 'sw';
-const ACTION_NORTH_EAST = 'ne';
-const ACTION_NORTH_WEST = 'nw';
-
-function getMaxZoomRatio(pointers) {
-  const pointers2 = $.extend({}, pointers);
-  const ratios = [];
-
-  $.each(pointers, (pointer, pointerId) => {
-    delete pointers2[pointerId];
-
-    $.each(pointers2, (pointer2) => {
-      const x1 = Math.abs(pointer.startX - pointer2.startX);
-      const y1 = Math.abs(pointer.startY - pointer2.startY);
-      const x2 = Math.abs(pointer.endX - pointer2.endX);
-      const y2 = Math.abs(pointer.endY - pointer2.endY);
-      const z1 = Math.sqrt((x1 * x1) + (y1 * y1));
-      const z2 = Math.sqrt((x2 * x2) + (y2 * y2));
-      const ratio = (z2 - z1) / z1;
-
-      ratios.push(ratio);
-    });
-  });
-
-  ratios.sort((a, b) => Math.abs(a) < Math.abs(b));
-
-  return ratios[0];
-}
+import {
+  ACTION_ALL,
+  ACTION_CROP,
+  ACTION_EAST,
+  ACTION_MOVE,
+  ACTION_NORTH,
+  ACTION_NORTH_EAST,
+  ACTION_NORTH_WEST,
+  ACTION_SOUTH,
+  ACTION_SOUTH_EAST,
+  ACTION_SOUTH_WEST,
+  ACTION_WEST,
+  ACTION_ZOOM,
+  CLASS_HIDDEN,
+} from './constants';
+import {
+  each,
+  getMaxZoomRatio,
+  getOffset,
+  removeClass,
+} from './utilities';
 
 export default {
   change(e) {
@@ -44,9 +29,7 @@ export default {
       cropBoxData,
       pointers,
     } = this;
-    let {
-      action,
-    } = this;
+    let { action } = this;
     let { aspectRatio } = options;
     let {
       left,
@@ -123,7 +106,7 @@ export default {
 
     switch (action) {
       // Move crop box
-      case 'all':
+      case ACTION_ALL:
         left += range.x;
         top += range.y;
         break;
@@ -420,25 +403,25 @@ export default {
         break;
 
       // Move canvas
-      case 'move':
+      case ACTION_MOVE:
         this.move(range.x, range.y);
         renderable = false;
         break;
 
       // Zoom canvas
-      case 'zoom':
+      case ACTION_ZOOM:
         this.zoom(getMaxZoomRatio(pointers), e);
         renderable = false;
         break;
 
       // Create crop box
-      case 'crop':
+      case ACTION_CROP:
         if (!range.x || !range.y) {
           renderable = false;
           break;
         }
 
-        offset = $.getOffset(this.cropper);
+        offset = getOffset(this.cropper);
         left = pointer.startX - offset.left;
         top = pointer.startY - offset.top;
         width = cropBoxData.minWidth;
@@ -457,7 +440,7 @@ export default {
 
         // Show the crop box if is hidden
         if (!this.cropped) {
-          $.removeClass(this.cropBox, 'cropper-hidden');
+          removeClass(this.cropBox, CLASS_HIDDEN);
           this.cropped = true;
 
           if (this.limited) {
@@ -480,7 +463,7 @@ export default {
     }
 
     // Override
-    $.each(pointers, (p) => {
+    each(pointers, (p) => {
       p.startX = p.endX;
       p.startY = p.endY;
     });

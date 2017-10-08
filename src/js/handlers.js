@@ -1,22 +1,27 @@
-import * as $ from './utilities';
-
-const REGEXP_ACTIONS = /^(e|w|s|n|se|sw|ne|nw|all|crop|move|zoom)$/;
-
-function getPointer({ pageX, pageY }, endOnly) {
-  const end = {
-    endX: pageX,
-    endY: pageY,
-  };
-
-  if (endOnly) {
-    return end;
-  }
-
-  return $.extend({
-    startX: pageX,
-    startY: pageY,
-  }, end);
-}
+import {
+  ACTION_CROP,
+  ACTION_ZOOM,
+  CLASS_CROP,
+  CLASS_MODAL,
+  DATA_ACTION,
+  DRAG_MODE_CROP,
+  DRAG_MODE_MOVE,
+  DRAG_MODE_NONE,
+  EVENT_CROP_END,
+  EVENT_CROP_MOVE,
+  EVENT_CROP_START,
+  REGEXP_ACTIONS,
+} from './constants';
+import {
+  addClass,
+  dispatchEvent,
+  each,
+  extend,
+  getData,
+  getPointer,
+  hasClass,
+  toggleClass,
+} from './utilities';
 
 export default {
   resize() {
@@ -44,10 +49,10 @@ export default {
       this.render();
 
       if (options.restore) {
-        this.setCanvasData($.each(canvasData, (n, i) => {
+        this.setCanvasData(each(canvasData, (n, i) => {
           canvasData[i] = n * ratio;
         }));
-        this.setCropBoxData($.each(cropBoxData, (n, i) => {
+        this.setCropBoxData(each(cropBoxData, (n, i) => {
           cropBoxData[i] = n * ratio;
         }));
       }
@@ -55,15 +60,14 @@ export default {
   },
 
   dblclick() {
-    if (this.disabled || this.options.dragMode === 'none') {
+    if (this.disabled || this.options.dragMode === DRAG_MODE_NONE) {
       return;
     }
 
-    this.setDragMode($.hasClass(this.dragBox, 'cropper-crop') ? 'move' : 'crop');
+    this.setDragMode(hasClass(this.dragBox, CLASS_CROP) ? DRAG_MODE_MOVE : DRAG_MODE_CROP);
   },
 
-  wheel(event) {
-    const e = $.getEvent(event);
+  wheel(e) {
     const ratio = Number(this.options.wheelZoomRatio) || 0.1;
     let delta = 1;
 
@@ -95,18 +99,17 @@ export default {
     this.zoom(-delta * ratio, e);
   },
 
-  cropStart(event) {
+  cropStart(e) {
     if (this.disabled) {
       return;
     }
 
     const { options, pointers } = this;
-    const e = $.getEvent(event);
     let action;
 
     if (e.changedTouches) {
       // Handle touch event
-      $.each(e.changedTouches, (touch) => {
+      each(e.changedTouches, (touch) => {
         pointers[touch.identifier] = getPointer(touch);
       });
     } else {
@@ -115,16 +118,16 @@ export default {
     }
 
     if (Object.keys(pointers).length > 1 && options.zoomable && options.zoomOnTouch) {
-      action = 'zoom';
+      action = ACTION_ZOOM;
     } else {
-      action = $.getData(e.target, 'action');
+      action = getData(e.target, DATA_ACTION);
     }
 
     if (!REGEXP_ACTIONS.test(action)) {
       return;
     }
 
-    if ($.dispatchEvent(this.element, 'cropstart', {
+    if (dispatchEvent(this.element, EVENT_CROP_START, {
       originalEvent: e,
       action,
     }) === false) {
@@ -136,13 +139,13 @@ export default {
     this.action = action;
     this.cropping = false;
 
-    if (action === 'crop') {
+    if (action === ACTION_CROP) {
       this.cropping = true;
-      $.addClass(this.dragBox, 'cropper-modal');
+      addClass(this.dragBox, CLASS_MODAL);
     }
   },
 
-  cropMove(event) {
+  cropMove(e) {
     const { action } = this;
 
     if (this.disabled || !action) {
@@ -150,11 +153,10 @@ export default {
     }
 
     const { pointers } = this;
-    const e = $.getEvent(event);
 
     e.preventDefault();
 
-    if ($.dispatchEvent(this.element, 'cropmove', {
+    if (dispatchEvent(this.element, EVENT_CROP_MOVE, {
       originalEvent: e,
       action,
     }) === false) {
@@ -162,26 +164,25 @@ export default {
     }
 
     if (e.changedTouches) {
-      $.each(e.changedTouches, (touch) => {
-        $.extend(pointers[touch.identifier], getPointer(touch, true));
+      each(e.changedTouches, (touch) => {
+        extend(pointers[touch.identifier], getPointer(touch, true));
       });
     } else {
-      $.extend(pointers[e.pointerId || 0], getPointer(e, true));
+      extend(pointers[e.pointerId || 0], getPointer(e, true));
     }
 
     this.change(e);
   },
 
-  cropEnd(event) {
+  cropEnd(e) {
     if (this.disabled) {
       return;
     }
 
     const { action, pointers } = this;
-    const e = $.getEvent(event);
 
     if (e.changedTouches) {
-      $.each(e.changedTouches, (touch) => {
+      each(e.changedTouches, (touch) => {
         delete pointers[touch.identifier];
       });
     } else {
@@ -200,10 +201,10 @@ export default {
 
     if (this.cropping) {
       this.cropping = false;
-      $.toggleClass(this.dragBox, 'cropper-modal', this.cropped && this.options.modal);
+      toggleClass(this.dragBox, CLASS_MODAL, this.cropped && this.options.modal);
     }
 
-    $.dispatchEvent(this.element, 'cropend', {
+    dispatchEvent(this.element, EVENT_CROP_END, {
       originalEvent: e,
       action,
     });

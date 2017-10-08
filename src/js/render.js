@@ -1,4 +1,21 @@
-import * as $ from './utilities';
+import {
+  ACTION_ALL,
+  ACTION_MOVE,
+  CLASS_HIDDEN,
+  DATA_ACTION,
+  EVENT_CROP,
+} from './constants';
+import {
+  addClass,
+  dispatchEvent,
+  extend,
+  getContainSizes,
+  getRotatedSizes,
+  getTransforms,
+  removeClass,
+  setData,
+  setStyle,
+} from './utilities';
 
 export default {
   render() {
@@ -19,10 +36,9 @@ export default {
       container,
       cropper,
     } = this;
-    const hidden = 'cropper-hidden';
 
-    $.addClass(cropper, hidden);
-    $.removeClass(element, hidden);
+    addClass(cropper, CLASS_HIDDEN);
+    removeClass(element, CLASS_HIDDEN);
 
     const containerData = {
       width: Math.max(
@@ -37,13 +53,13 @@ export default {
 
     this.containerData = containerData;
 
-    $.setStyle(cropper, {
+    setStyle(cropper, {
       width: containerData.width,
       height: containerData.height,
     });
 
-    $.addClass(element, hidden);
-    $.removeClass(cropper, hidden);
+    addClass(element, CLASS_HIDDEN);
+    removeClass(cropper, CLASS_HIDDEN);
   },
 
   // Canvas (image wrapper)
@@ -70,9 +86,9 @@ export default {
     }
 
     const canvasData = {
+      aspectRatio,
       naturalWidth,
       naturalHeight,
-      aspectRatio,
       width: canvasWidth,
       height: canvasHeight,
     };
@@ -85,8 +101,8 @@ export default {
     this.canvasData = canvasData;
     this.limited = (viewMode === 1 || viewMode === 2);
     this.limitCanvas(true, true);
-    this.initialImageData = $.extend({}, imageData);
-    this.initialCanvasData = $.extend({}, canvasData);
+    this.initialImageData = extend({}, imageData);
+    this.initialCanvasData = extend({}, canvasData);
   },
 
   limitCanvas(sizeLimited, positionLimited) {
@@ -138,7 +154,7 @@ export default {
         }
       }
 
-      ({ width: minCanvasWidth, height: minCanvasHeight } = $.getContainSizes({
+      ({ width: minCanvasWidth, height: minCanvasHeight } = getContainSizes({
         aspectRatio,
         width: minCanvasWidth,
         height: minCanvasHeight,
@@ -197,12 +213,11 @@ export default {
     const { canvasData, imageData } = this;
 
     if (transformed) {
-      const { width: naturalWidth, height: naturalHeight } = $.getRotatedSizes({
+      const { width: naturalWidth, height: naturalHeight } = getRotatedSizes({
         width: imageData.naturalWidth * Math.abs(imageData.scaleX),
         height: imageData.naturalHeight * Math.abs(imageData.scaleY),
         degree: imageData.rotate,
       });
-
       const width = canvasData.width * (naturalWidth / canvasData.naturalWidth);
       const height = canvasData.height * (naturalHeight / canvasData.naturalHeight);
 
@@ -248,10 +263,10 @@ export default {
     canvasData.oldLeft = canvasData.left;
     canvasData.oldTop = canvasData.top;
 
-    $.setStyle(this.canvas, $.extend({
+    setStyle(this.canvas, extend({
       width: canvasData.width,
       height: canvasData.height,
-    }, $.getTransforms({
+    }, getTransforms({
       translateX: canvasData.left,
       translateY: canvasData.top,
     })));
@@ -268,16 +283,16 @@ export default {
     const width = imageData.naturalWidth * (canvasData.width / canvasData.naturalWidth);
     const height = imageData.naturalHeight * (canvasData.height / canvasData.naturalHeight);
 
-    $.extend(imageData, {
+    extend(imageData, {
       width,
       height,
       left: (canvasData.width - width) / 2,
       top: (canvasData.height - height) / 2,
     });
-    $.setStyle(this.image, $.extend({
+    setStyle(this.image, extend({
       width: imageData.width,
       height: imageData.height,
-    }, $.getTransforms($.extend({
+    }, getTransforms(extend({
       translateX: imageData.left,
       translateY: imageData.top,
     }, imageData))));
@@ -335,7 +350,7 @@ export default {
     cropBoxData.oldLeft = cropBoxData.left;
     cropBoxData.oldTop = cropBoxData.top;
 
-    this.initialCropBoxData = $.extend({}, cropBoxData);
+    this.initialCropBoxData = extend({}, cropBoxData);
   },
 
   limitCropBox(sizeLimited, positionLimited) {
@@ -360,7 +375,7 @@ export default {
         limited ? canvasData.height : containerData.height,
       );
 
-      // The min/maxCropBoxWidth/Height must be less than containerWidth/Height
+      // The min/maxCropBoxWidth/Height must be less than container's width/height
       minCropBoxWidth = Math.min(minCropBoxWidth, containerData.width);
       minCropBoxHeight = Math.min(minCropBoxHeight, containerData.height);
 
@@ -449,14 +464,14 @@ export default {
 
     if (options.movable && options.cropBoxMovable) {
       // Turn to move the canvas when the crop box is equal to the container
-      $.setData(this.face, 'action', cropBoxData.width >= containerData.width &&
-        cropBoxData.height >= containerData.height ? 'move' : 'all');
+      setData(this.face, DATA_ACTION, cropBoxData.width >= containerData.width &&
+        cropBoxData.height >= containerData.height ? ACTION_MOVE : ACTION_ALL);
     }
 
-    $.setStyle(this.cropBox, $.extend({
+    setStyle(this.cropBox, extend({
       width: cropBoxData.width,
       height: cropBoxData.height,
-    }, $.getTransforms({
+    }, getTransforms({
       translateX: cropBoxData.left,
       translateY: cropBoxData.top,
     })));
@@ -474,7 +489,7 @@ export default {
     this.preview();
 
     if (this.complete) {
-      $.dispatchEvent(this.element, 'crop', this.getData());
+      dispatchEvent(this.element, EVENT_CROP, this.getData());
     }
   },
 };

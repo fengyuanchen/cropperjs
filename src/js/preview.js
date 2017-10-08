@@ -1,20 +1,30 @@
-import * as $ from './utilities';
-
-const DATA_PREVIEW = 'preview';
+import {
+  DATA_PREVIEW,
+} from './constants';
+import {
+  each,
+  empty,
+  extend,
+  getData,
+  getTransforms,
+  removeData,
+  setData,
+  setStyle,
+} from './utilities';
 
 export default {
   initPreview() {
     const { crossOrigin } = this;
     const { preview } = this.options;
-    const image = $.createElement('img');
     const url = crossOrigin ? this.crossOriginUrl : this.url;
+    const image = document.createElement('img');
 
     if (crossOrigin) {
       image.crossOrigin = crossOrigin;
     }
 
     image.src = url;
-    $.appendChild(this.viewBox, image);
+    this.viewBox.appendChild(image);
     this.image2 = image;
 
     if (!preview) {
@@ -25,11 +35,11 @@ export default {
 
     this.previews = previews;
 
-    $.each(previews, (element) => {
-      const img = $.createElement('img');
+    each(previews, (element) => {
+      const img = document.createElement('img');
 
       // Save the original size for recover
-      $.setData(element, DATA_PREVIEW, {
+      setData(element, DATA_PREVIEW, {
         width: element.offsetWidth,
         height: element.offsetHeight,
         html: element.innerHTML,
@@ -59,22 +69,22 @@ export default {
         'image-orientation:0deg!important;"'
       );
 
-      $.empty(element);
-      $.appendChild(element, img);
+      empty(element);
+      element.appendChild(img);
     });
   },
 
   resetPreview() {
-    $.each(this.previews, (element) => {
-      const data = $.getData(element, DATA_PREVIEW);
+    each(this.previews, (element) => {
+      const data = getData(element, DATA_PREVIEW);
 
-      $.setStyle(element, {
+      setStyle(element, {
         width: data.width,
         height: data.height,
       });
 
       element.innerHTML = data.html;
-      $.removeData(element, DATA_PREVIEW);
+      removeData(element, DATA_PREVIEW);
     });
   },
 
@@ -89,16 +99,16 @@ export default {
       return;
     }
 
-    $.setStyle(this.image2, $.extend({
+    setStyle(this.image2, extend({
       width,
       height,
-    }, $.getTransforms($.extend({
+    }, getTransforms(extend({
       translateX: -left,
       translateY: -top,
     }, imageData))));
 
-    $.each(this.previews, (element) => {
-      const data = $.getData(element, DATA_PREVIEW);
+    each(this.previews, (element) => {
+      const data = getData(element, DATA_PREVIEW);
       const originalWidth = data.width;
       const originalHeight = data.height;
       let newWidth = originalWidth;
@@ -116,15 +126,15 @@ export default {
         newHeight = originalHeight;
       }
 
-      $.setStyle(element, {
+      setStyle(element, {
         width: newWidth,
         height: newHeight,
       });
 
-      $.setStyle($.getByTag(element, 'img')[0], $.extend({
+      setStyle(element.getElementsByTagName('img')[0], extend({
         width: width * ratio,
         height: height * ratio,
-      }, $.getTransforms($.extend({
+      }, getTransforms(extend({
         translateX: -left * ratio,
         translateY: -top * ratio,
       }, imageData))));
