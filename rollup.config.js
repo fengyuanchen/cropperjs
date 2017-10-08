@@ -1,4 +1,7 @@
 const babel = require('rollup-plugin-babel');
+const pkg = require('./package');
+
+const now = new Date();
 
 module.exports = {
   input: 'src/js/cropper.js',
@@ -24,6 +27,19 @@ module.exports = {
   plugins: [
     babel({
       exclude: 'node_modules/**',
+      plugins: [
+        'external-helpers',
+      ],
     }),
   ],
+  banner: `/*!
+ * Cropper.js v${pkg.version}
+ * https://github.com/${pkg.repository}
+ *
+ * Copyright (c) 2015-${now.getFullYear()} ${pkg.author.name}
+ * Released under the ${pkg.license} license
+ *
+ * Date: ${now.toISOString()}
+ */
+`,
 };
