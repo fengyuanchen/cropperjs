@@ -310,6 +310,10 @@ const REGEXP_SPACES = /\s+/;
  * @param {Object} options - The event options.
  */
 export function removeListener(element, type, listener, options = {}) {
+  if (!isFunction(listener)) {
+    return;
+  }
+
   const types = type.trim().split(REGEXP_SPACES);
 
   if (types.length > 1) {
@@ -339,6 +343,10 @@ export function removeListener(element, type, listener, options = {}) {
  * @param {Object} options - The event options.
  */
 export function addListener(element, type, listener, options = {}) {
+  if (!isFunction(listener)) {
+    return;
+  }
+
   const types = type.trim().split(REGEXP_SPACES);
 
   if (types.length > 1) {
@@ -510,6 +518,7 @@ export function getTransforms({
   };
 }
 
+const { navigator } = window;
 const IS_SAFARI_OR_UIWEBVIEW = navigator && /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent);
 
 /**
