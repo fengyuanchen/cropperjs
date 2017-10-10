@@ -57,7 +57,6 @@ export default {
        * Add `height:auto` to override `height` attribute on IE8
        * (Occur only when margin-top <= -height)
        */
-
       img.style.cssText = (
         'display:block;' +
         'width:100%;' +

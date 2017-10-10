@@ -1,3 +1,4 @@
+import global from './global';
 import DEFAULTS from './defaults';
 import TEMPLATE from './template';
 import render from './render';
@@ -44,7 +45,7 @@ import {
   setData,
 } from './utilities';
 
-const AnotherCropper = window.Cropper;
+const AnotherCropper = global.Cropper;
 
 class Cropper {
   /**
@@ -101,7 +102,7 @@ class Cropper {
 
       // e.g.: "http://example.com/img/picture.jpg"
       url = element.src;
-    } else if (tagName === 'canvas' && window.HTMLCanvasElement) {
+    } else if (tagName === 'canvas' && global.HTMLCanvasElement) {
       url = element.toDataURL();
     }
 
@@ -118,7 +119,7 @@ class Cropper {
 
     const { element, options } = this;
 
-    if (!options.checkOrientation || !window.ArrayBuffer) {
+    if (!options.checkOrientation || !global.ArrayBuffer) {
       this.clone();
       return;
     }
@@ -401,7 +402,7 @@ class Cropper {
    * @returns {Cropper} The cropper class.
    */
   static noConflict() {
-    window.Cropper = AnotherCropper;
+    global.Cropper = AnotherCropper;
     return Cropper;
   }
 

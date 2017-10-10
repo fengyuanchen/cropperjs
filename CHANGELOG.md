@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1 (Oct 10, 2017)
+
+- supports to load in node environment (#237).
+
 ## 1.1.0 (Oct 8, 2017)
 
 - Added 4 new options to `getCroppedCanvas` method:  `minWidth`, `minHeight`, `maxWidth` and `maxHeight`.

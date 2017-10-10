@@ -1,3 +1,4 @@
+import global from './global';
 import {
   EVENT_CROP,
   EVENT_CROP_END,
@@ -56,7 +57,7 @@ export default {
     addListener(document, EVENT_POINTER_UP, (this.onCropEnd = proxy(this.cropEnd, this)));
 
     if (options.responsive) {
-      addListener(window, EVENT_RESIZE, (this.onResize = proxy(this.resize, this)));
+      addListener(global, EVENT_RESIZE, (this.onResize = proxy(this.resize, this)));
     }
   },
 
@@ -97,7 +98,7 @@ export default {
     removeListener(document, EVENT_POINTER_UP, this.onCropEnd);
 
     if (options.responsive) {
-      removeListener(window, EVENT_RESIZE, this.onResize);
+      removeListener(global, EVENT_RESIZE, this.onResize);
     }
   },
 };

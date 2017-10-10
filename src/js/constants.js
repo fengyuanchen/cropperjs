@@ -1,4 +1,4 @@
-const { PointerEvent } = window;
+import global from './global';
 
 export const NAMESPACE = 'cropper';
 
@@ -42,9 +42,9 @@ export const EVENT_CROP_START = 'cropstart';
 export const EVENT_DBLCLICK = 'dblclick';
 export const EVENT_ERROR = 'error';
 export const EVENT_LOAD = 'load';
-export const EVENT_POINTER_DOWN = PointerEvent ? 'pointerdown' : 'touchstart mousedown';
-export const EVENT_POINTER_MOVE = PointerEvent ? 'pointermove' : 'touchmove mousemove';
-export const EVENT_POINTER_UP = PointerEvent ? ' pointerup pointercancel' : 'touchend touchcancel mouseup';
+export const EVENT_POINTER_DOWN = global.PointerEvent ? 'pointerdown' : 'touchstart mousedown';
+export const EVENT_POINTER_MOVE = global.PointerEvent ? 'pointermove' : 'touchmove mousemove';
+export const EVENT_POINTER_UP = global.PointerEvent ? ' pointerup pointercancel' : 'touchend touchcancel mouseup';
 export const EVENT_READY = 'ready';
 export const EVENT_RESIZE = 'resize';
 export const EVENT_WHEEL = 'wheel mousewheel DOMMouseScroll';

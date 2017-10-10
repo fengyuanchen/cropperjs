@@ -1,7 +1,9 @@
+import global from './global';
+
 /**
  * Check if the given value is not a number.
  */
-export const isNaN = Number.isNaN || window.isNaN;
+export const isNaN = Number.isNaN || global.isNaN;
 
 /**
  * Check if the given value is a number.
@@ -427,10 +429,10 @@ export function getOffset(element) {
 
   return {
     left: box.left + (
-      (window.scrollX || (doc && doc.scrollLeft) || 0) - ((doc && doc.clientLeft) || 0)
+      (global.scrollX || (doc && doc.scrollLeft) || 0) - ((doc && doc.clientLeft) || 0)
     ),
     top: box.top + (
-      (window.scrollY || (doc && doc.scrollTop) || 0) - ((doc && doc.clientTop) || 0)
+      (global.scrollY || (doc && doc.scrollTop) || 0) - ((doc && doc.clientTop) || 0)
     ),
   };
 }
@@ -445,7 +447,7 @@ export function empty(element) {
   }
 }
 
-const { location } = window;
+const { location } = global;
 const REGEXP_ORIGINS = /^(https?:)\/\/([^:/?#]+):?(\d*)/i;
 
 /**
@@ -518,7 +520,7 @@ export function getTransforms({
   };
 }
 
-const { navigator } = window;
+const { navigator } = global;
 const IS_SAFARI_OR_UIWEBVIEW = navigator && /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent);
 
 /**
@@ -622,7 +624,7 @@ export function getPointersCenter(pointers) {
 /**
  * Check if the given value is a finite number.
  */
-export const isFinite = Number.isFinite || window.isFinite;
+export const isFinite = Number.isFinite || global.isFinite;
 
 /**
  * Get the max sizes in a rectangle under the given aspect ratio.
@@ -769,7 +771,6 @@ export function getStringFromCharCode(dataView, start, length) {
   return str;
 }
 
-const { atob } = window;
 const REGEXP_DATA_URL_HEAD = /^data:.*,/;
 
 /**
@@ -789,8 +790,6 @@ export function dataURLToArrayBuffer(dataURL) {
 
   return arrayBuffer;
 }
-
-const { btoa } = window;
 
 /**
  * Transform array buffer to Data URL.
