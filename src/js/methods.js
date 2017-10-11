@@ -1,244 +1,232 @@
-import * as $ from './utilities';
-
-function getPointersCenter(pointers) {
-  let pageX = 0;
-  let pageY = 0;
-  let count = 0;
-
-  $.each(pointers, ({ startX, startY }) => {
-    pageX += startX;
-    pageY += startY;
-    count += 1;
-  });
-
-  pageX /= count;
-  pageY /= count;
-
-  return {
-    pageX,
-    pageY,
-  };
-}
+import global from './global';
+import {
+  CLASS_CROP,
+  CLASS_DISABLED,
+  CLASS_HIDDEN,
+  CLASS_MODAL,
+  CLASS_MOVE,
+  DATA_ACTION,
+  DRAG_MODE_CROP,
+  DRAG_MODE_MOVE,
+  DRAG_MODE_NONE,
+  EVENT_LOAD,
+  EVENT_ZOOM,
+  NAMESPACE,
+} from './constants';
+import {
+  addClass,
+  dispatchEvent,
+  each,
+  extend,
+  getContainSizes,
+  getOffset,
+  getPointersCenter,
+  getSourceCanvas,
+  isFunction,
+  isNumber,
+  isPlainObject,
+  isUndefined,
+  removeClass,
+  removeData,
+  removeListener,
+  setData,
+  toggleClass,
+} from './utilities';
 
 export default {
   // Show the crop box manually
   crop() {
-    const self = this;
+    if (this.ready && !this.disabled) {
+      if (!this.cropped) {
+        this.cropped = true;
+        this.limitCropBox(true, true);
 
-    if (self.ready && !self.disabled) {
-      if (!self.cropped) {
-        self.cropped = true;
-        self.limitCropBox(true, true);
-
-        if (self.options.modal) {
-          $.addClass(self.dragBox, 'cropper-modal');
+        if (this.options.modal) {
+          addClass(this.dragBox, CLASS_MODAL);
         }
 
-        $.removeClass(self.cropBox, 'cropper-hidden');
+        removeClass(this.cropBox, CLASS_HIDDEN);
       }
 
-      self.setCropBoxData(self.initialCropBoxData);
+      this.setCropBoxData(this.initialCropBoxData);
     }
 
-    return self;
+    return this;
   },
 
   // Reset the image and crop box to their initial states
   reset() {
-    const self = this;
+    if (this.ready && !this.disabled) {
+      this.imageData = extend({}, this.initialImageData);
+      this.canvasData = extend({}, this.initialCanvasData);
+      this.cropBoxData = extend({}, this.initialCropBoxData);
+      this.renderCanvas();
 
-    if (self.ready && !self.disabled) {
-      self.imageData = $.extend({}, self.initialImageData);
-      self.canvasData = $.extend({}, self.initialCanvasData);
-      self.cropBoxData = $.extend({}, self.initialCropBoxData);
-
-      self.renderCanvas();
-
-      if (self.cropped) {
-        self.renderCropBox();
+      if (this.cropped) {
+        this.renderCropBox();
       }
     }
 
-    return self;
+    return this;
   },
 
   // Clear the crop box
   clear() {
-    const self = this;
-
-    if (self.cropped && !self.disabled) {
-      $.extend(self.cropBoxData, {
+    if (this.cropped && !this.disabled) {
+      extend(this.cropBoxData, {
         left: 0,
         top: 0,
         width: 0,
         height: 0,
       });
 
-      self.cropped = false;
-      self.renderCropBox();
-
-      self.limitCanvas(true, true);
+      this.cropped = false;
+      this.renderCropBox();
+      this.limitCanvas(true, true);
 
       // Render canvas after crop box rendered
-      self.renderCanvas();
-
-      $.removeClass(self.dragBox, 'cropper-modal');
-      $.addClass(self.cropBox, 'cropper-hidden');
+      this.renderCanvas();
+      removeClass(this.dragBox, CLASS_MODAL);
+      addClass(this.cropBox, CLASS_HIDDEN);
     }
 
-    return self;
+    return this;
   },
 
   /**
    * Replace the image's src and rebuild the cropper
-   *
-   * @param {String} url
-   * @param {Boolean} onlyColorChanged (optional)
+   * @param {string} url - The new URL.
+   * @param {boolean} [onlyColorChanged] - Indicate if the new image only changed color.
+   * @returns {Object} this
    */
-  replace(url, onlyColorChanged) {
-    const self = this;
-
-    if (!self.disabled && url) {
-      if (self.isImg) {
-        self.element.src = url;
+  replace(url, onlyColorChanged = false) {
+    if (!this.disabled && url) {
+      if (this.isImg) {
+        this.element.src = url;
       }
 
       if (onlyColorChanged) {
-        self.url = url;
-        self.image.src = url;
+        this.url = url;
+        this.image.src = url;
 
-        if (self.ready) {
-          self.image2.src = url;
+        if (this.ready) {
+          this.image2.src = url;
 
-          $.each(self.previews, (element) => {
-            $.getByTag(element, 'img')[0].src = url;
+          each(this.previews, (element) => {
+            element.getElementsByTagName('img')[0].src = url;
           });
         }
       } else {
-        if (self.isImg) {
-          self.replaced = true;
+        if (this.isImg) {
+          this.replaced = true;
         }
 
         // Clear previous data
-        self.options.data = null;
-        self.load(url);
+        this.options.data = null;
+        this.load(url);
       }
     }
 
-    return self;
+    return this;
   },
 
   // Enable (unfreeze) the cropper
   enable() {
-    const self = this;
-
-    if (self.ready) {
-      self.disabled = false;
-      $.removeClass(self.cropper, 'cropper-disabled');
+    if (this.ready) {
+      this.disabled = false;
+      removeClass(this.cropper, CLASS_DISABLED);
     }
 
-    return self;
+    return this;
   },
 
   // Disable (freeze) the cropper
   disable() {
-    const self = this;
-
-    if (self.ready) {
-      self.disabled = true;
-      $.addClass(self.cropper, 'cropper-disabled');
+    if (this.ready) {
+      this.disabled = true;
+      addClass(this.cropper, CLASS_DISABLED);
     }
 
-    return self;
+    return this;
   },
 
   // Destroy the cropper and remove the instance from the image
   destroy() {
-    const self = this;
-    const element = self.element;
-    const image = self.image;
+    const { element, image } = this;
 
-    if (self.loaded) {
-      if (self.isImg && self.replaced) {
-        element.src = self.originalUrl;
+    if (this.loaded) {
+      if (this.isImg && this.replaced) {
+        element.src = this.originalUrl;
       }
 
-      self.unbuild();
-      $.removeClass(element, 'cropper-hidden');
-    } else if (self.isImg) {
-      $.removeListener(element, 'load', self.onStart);
+      this.unbuild();
+      removeClass(element, CLASS_HIDDEN);
+    } else if (this.isImg) {
+      removeListener(element, EVENT_LOAD, this.onStart);
     } else if (image) {
-      $.removeChild(image);
+      image.parentNode.removeChild(image);
     }
 
-    $.removeData(element, 'cropper');
+    removeData(element, NAMESPACE);
 
-    return self;
+    return this;
   },
 
   /**
    * Move the canvas with relative offsets
-   *
-   * @param {Number} offsetX
-   * @param {Number} offsetY (optional)
+   * @param {number} offsetX - The relative offset distance on the x-axis.
+   * @param {number} offsetY - The relative offset distance on the y-axis.
+   * @returns {Object} this
    */
   move(offsetX, offsetY) {
-    const self = this;
-    const canvasData = self.canvasData;
+    const { left, top } = this.canvasData;
 
-    return self.moveTo(
-      $.isUndefined(offsetX) ? offsetX : (canvasData.left + Number(offsetX)),
-      $.isUndefined(offsetY) ? offsetY : (canvasData.top + Number(offsetY)),
+    return this.moveTo(
+      isUndefined(offsetX) ? offsetX : (left + Number(offsetX)),
+      isUndefined(offsetY) ? offsetY : (top + Number(offsetY)),
     );
   },
 
   /**
    * Move the canvas to an absolute point
-   *
-   * @param {Number} x
-   * @param {Number} y (optional)
+   * @param {number} x - The x-axis coordinate.
+   * @param {number} [y=x] - The y-axis coordinate.
+   * @returns {Object} this
    */
-  moveTo(x, y) {
-    const self = this;
-    const canvasData = self.canvasData;
+  moveTo(x, y = x) {
+    const { canvasData } = this;
     let changed = false;
-
-    // If "y" is not present, its default value is "x"
-    if ($.isUndefined(y)) {
-      y = x;
-    }
 
     x = Number(x);
     y = Number(y);
 
-    if (self.ready && !self.disabled && self.options.movable) {
-      if ($.isNumber(x)) {
+    if (this.ready && !this.disabled && this.options.movable) {
+      if (isNumber(x)) {
         canvasData.left = x;
         changed = true;
       }
 
-      if ($.isNumber(y)) {
+      if (isNumber(y)) {
         canvasData.top = y;
         changed = true;
       }
 
       if (changed) {
-        self.renderCanvas(true);
+        this.renderCanvas(true);
       }
     }
 
-    return self;
+    return this;
   },
 
   /**
    * Zoom the canvas with a relative ratio
-   *
-   * @param {Number} ratio
-   * @param {Event} _originalEvent (private)
+   * @param {number} ratio - The target ratio.
+   * @param {Event} _originalEvent - The original event if any.
+   * @returns {Object} this
    */
   zoom(ratio, _originalEvent) {
-    const self = this;
-    const canvasData = self.canvasData;
+    const { canvasData } = this;
 
     ratio = Number(ratio);
 
@@ -248,41 +236,41 @@ export default {
       ratio = 1 + ratio;
     }
 
-    return self.zoomTo((canvasData.width * ratio) / canvasData.naturalWidth, _originalEvent);
+    return this.zoomTo((canvasData.width * ratio) / canvasData.naturalWidth, _originalEvent);
   },
 
   /**
    * Zoom the canvas to an absolute ratio
-   *
-   * @param {Number} ratio
-   * @param {Event} _originalEvent (private)
+   * @param {number} ratio - The target ratio.
+   * @param {Event} _originalEvent - The original event if any.
+   * @returns {Object} this
    */
   zoomTo(ratio, _originalEvent) {
-    const self = this;
-    const options = self.options;
-    const canvasData = self.canvasData;
-    const width = canvasData.width;
-    const height = canvasData.height;
-    const naturalWidth = canvasData.naturalWidth;
-    const naturalHeight = canvasData.naturalHeight;
+    const { options, canvasData } = this;
+    const {
+      width,
+      height,
+      naturalWidth,
+      naturalHeight,
+    } = canvasData;
 
     ratio = Number(ratio);
 
-    if (ratio >= 0 && self.ready && !self.disabled && options.zoomable) {
+    if (ratio >= 0 && this.ready && !this.disabled && options.zoomable) {
       const newWidth = naturalWidth * ratio;
       const newHeight = naturalHeight * ratio;
 
-      if ($.dispatchEvent(self.element, 'zoom', {
+      if (dispatchEvent(this.element, EVENT_ZOOM, {
         originalEvent: _originalEvent,
         oldRatio: width / naturalWidth,
         ratio: newWidth / naturalWidth,
       }) === false) {
-        return self;
+        return this;
       }
 
       if (_originalEvent) {
-        const pointers = self.pointers;
-        const offset = $.getOffset(self.cropper);
+        const { pointers } = this;
+        const offset = getOffset(this.cropper);
         const center = pointers && Object.keys(pointers).length ? getPointersCenter(pointers) : {
           pageX: _originalEvent.pageX,
           pageY: _originalEvent.pageY,
@@ -303,122 +291,106 @@ export default {
 
       canvasData.width = newWidth;
       canvasData.height = newHeight;
-      self.renderCanvas(true);
+      this.renderCanvas(true);
     }
 
-    return self;
+    return this;
   },
 
   /**
    * Rotate the canvas with a relative degree
-   *
-   * @param {Number} degree
+   * @param {number} degree - The rotate degree.
+   * @returns {Object} this
    */
   rotate(degree) {
-    const self = this;
-
-    return self.rotateTo((self.imageData.rotate || 0) + Number(degree));
+    return this.rotateTo((this.imageData.rotate || 0) + Number(degree));
   },
 
   /**
    * Rotate the canvas to an absolute degree
-   * https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#rotate()
-   *
-   * @param {Number} degree
+   * @param {number} degree - The rotate degree.
+   * @returns {Object} this
    */
   rotateTo(degree) {
-    const self = this;
-
     degree = Number(degree);
 
-    if ($.isNumber(degree) && self.ready && !self.disabled && self.options.rotatable) {
-      self.imageData.rotate = degree % 360;
-      self.rotated = true;
-      self.renderCanvas(true);
+    if (isNumber(degree) && this.ready && !this.disabled && this.options.rotatable) {
+      this.imageData.rotate = degree % 360;
+      this.renderCanvas(true, true);
     }
 
-    return self;
+    return this;
+  },
+
+  /**
+   * Scale the image on the x-axis.
+   * @param {number} scaleX - The scale ratio on the x-axis.
+   * @returns {Object} this
+   */
+  scaleX(scaleX) {
+    const { scaleY } = this.imageData;
+
+    return this.scale(scaleX, isNumber(scaleY) ? scaleY : 1);
+  },
+
+  /**
+   * Scale the image on the y-axis.
+   * @param {number} scaleY - The scale ratio on the y-axis.
+   * @returns {Object} this
+   */
+  scaleY(scaleY) {
+    const { scaleX } = this.imageData;
+
+    return this.scale(isNumber(scaleX) ? scaleX : 1, scaleY);
   },
 
   /**
    * Scale the image
-   * https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#scale()
-   *
-   * @param {Number} scaleX
-   * @param {Number} scaleY (optional)
+   * @param {number} scaleX - The scale ratio on the x-axis.
+   * @param {number} [scaleY=scaleX] - The scale ratio on the y-axis.
+   * @returns {Object} this
    */
-  scale(scaleX, scaleY) {
-    const self = this;
-    const imageData = self.imageData;
-    let changed = false;
-
-    // If "scaleY" is not present, its default value is "scaleX"
-    if ($.isUndefined(scaleY)) {
-      scaleY = scaleX;
-    }
+  scale(scaleX, scaleY = scaleX) {
+    const { imageData } = this;
+    let transformed = false;
 
     scaleX = Number(scaleX);
     scaleY = Number(scaleY);
 
-    if (self.ready && !self.disabled && self.options.scalable) {
-      if ($.isNumber(scaleX)) {
+    if (this.ready && !this.disabled && this.options.scalable) {
+      if (isNumber(scaleX)) {
         imageData.scaleX = scaleX;
-        changed = true;
+        transformed = true;
       }
 
-      if ($.isNumber(scaleY)) {
+      if (isNumber(scaleY)) {
         imageData.scaleY = scaleY;
-        changed = true;
+        transformed = true;
       }
 
-      if (changed) {
-        self.renderImage(true);
+      if (transformed) {
+        this.renderCanvas(true, true);
       }
     }
 
-    return self;
-  },
-
-  /**
-   * Scale the abscissa of the image
-   *
-   * @param {Number} scaleX
-   */
-  scaleX(scaleX) {
-    const self = this;
-    const scaleY = self.imageData.scaleY;
-
-    return self.scale(scaleX, $.isNumber(scaleY) ? scaleY : 1);
-  },
-
-  /**
-   * Scale the ordinate of the image
-   *
-   * @param {Number} scaleY
-   */
-  scaleY(scaleY) {
-    const self = this;
-    const scaleX = self.imageData.scaleX;
-
-    return self.scale($.isNumber(scaleX) ? scaleX : 1, scaleY);
+    return this;
   },
 
   /**
    * Get the cropped area position and size data (base on the original image)
-   *
-   * @param {Boolean} rounded (optional)
-   * @return {Object} data
+   * @param {boolean} [rounded=false] - Indicate if round the data values or not.
+   * @returns {Object} The result cropped data.
    */
-  getData(rounded) {
-    const self = this;
-    const options = self.options;
-    const imageData = self.imageData;
-    const canvasData = self.canvasData;
-    const cropBoxData = self.cropBoxData;
-    let ratio;
+  getData(rounded = false) {
+    const {
+      options,
+      imageData,
+      canvasData,
+      cropBoxData,
+    } = this;
     let data;
 
-    if (self.ready && self.cropped) {
+    if (this.ready && this.cropped) {
       data = {
         x: cropBoxData.left - canvasData.left,
         y: cropBoxData.top - canvasData.top,
@@ -426,9 +398,9 @@ export default {
         height: cropBoxData.height,
       };
 
-      ratio = imageData.width / imageData.naturalWidth;
+      const ratio = imageData.width / imageData.naturalWidth;
 
-      $.each(data, (n, i) => {
+      each(data, (n, i) => {
         n /= ratio;
         data[i] = rounded ? Math.round(n) : n;
       });
@@ -455,108 +427,93 @@ export default {
 
   /**
    * Set the cropped area position and size with new data
-   *
-   * @param {Object} data
+   * @param {Object} data - The new data.
+   * @returns {Object} this
    */
   setData(data) {
-    const self = this;
-    const options = self.options;
-    const imageData = self.imageData;
-    const canvasData = self.canvasData;
+    const { options, imageData, canvasData } = this;
     const cropBoxData = {};
-    let rotated;
-    let scaled;
-    let ratio;
 
-    if ($.isFunction(data)) {
-      data = data.call(self.element);
+    if (isFunction(data)) {
+      data = data.call(this.element);
     }
 
-    if (self.ready && !self.disabled && $.isPlainObject(data)) {
+    if (this.ready && !this.disabled && isPlainObject(data)) {
+      let transformed = false;
+
       if (options.rotatable) {
-        if ($.isNumber(data.rotate) && data.rotate !== imageData.rotate) {
+        if (isNumber(data.rotate) && data.rotate !== imageData.rotate) {
           imageData.rotate = data.rotate;
-          rotated = true;
-          self.rotated = rotated;
+          transformed = true;
         }
       }
 
       if (options.scalable) {
-        if ($.isNumber(data.scaleX) && data.scaleX !== imageData.scaleX) {
+        if (isNumber(data.scaleX) && data.scaleX !== imageData.scaleX) {
           imageData.scaleX = data.scaleX;
-          scaled = true;
+          transformed = true;
         }
 
-        if ($.isNumber(data.scaleY) && data.scaleY !== imageData.scaleY) {
+        if (isNumber(data.scaleY) && data.scaleY !== imageData.scaleY) {
           imageData.scaleY = data.scaleY;
-          scaled = true;
+          transformed = true;
         }
       }
 
-      if (rotated) {
-        self.renderCanvas();
-      } else if (scaled) {
-        self.renderImage();
+      if (transformed) {
+        this.renderCanvas(true, true);
       }
 
-      ratio = imageData.width / imageData.naturalWidth;
+      const ratio = imageData.width / imageData.naturalWidth;
 
-      if ($.isNumber(data.x)) {
+      if (isNumber(data.x)) {
         cropBoxData.left = (data.x * ratio) + canvasData.left;
       }
 
-      if ($.isNumber(data.y)) {
+      if (isNumber(data.y)) {
         cropBoxData.top = (data.y * ratio) + canvasData.top;
       }
 
-      if ($.isNumber(data.width)) {
+      if (isNumber(data.width)) {
         cropBoxData.width = data.width * ratio;
       }
 
-      if ($.isNumber(data.height)) {
+      if (isNumber(data.height)) {
         cropBoxData.height = data.height * ratio;
       }
 
-      self.setCropBoxData(cropBoxData);
+      this.setCropBoxData(cropBoxData);
     }
 
-    return self;
+    return this;
   },
 
   /**
-   * Get the container size data
-   *
-   * @return {Object} data
+   * Get the container size data.
+   * @returns {Object} The result container data.
    */
   getContainerData() {
-    const self = this;
-
-    return self.ready ? self.containerData : {};
+    return this.ready ? extend({}, this.containerData) : {};
   },
 
   /**
-   * Get the image position and size data
-   *
-   * @return {Object} data
+   * Get the image position and size data.
+   * @returns {Object} The result image data.
    */
   getImageData() {
-    const self = this;
-
-    return self.loaded ? self.imageData : {};
+    return this.loaded ? extend({}, this.imageData) : {};
   },
 
   /**
-   * Get the canvas position and size data
-   *
-   * @return {Object} data
+   * Get the canvas position and size data.
+   * @returns {Object} The result canvas data.
    */
   getCanvasData() {
-    const self = this;
-    const canvasData = self.canvasData;
+    const { canvasData } = this;
     const data = {};
 
-    if (self.ready) {
-      $.each([
+    if (this.ready) {
+      each([
         'left',
         'top',
         'width',
@@ -572,53 +529,50 @@ export default {
   },
 
   /**
-   * Set the canvas position and size with new data
-   *
-   * @param {Object} data
+   * Set the canvas position and size with new data.
+   * @param {Object} data - The new canvas data.
+   * @returns {Object} this
    */
   setCanvasData(data) {
-    const self = this;
-    const canvasData = self.canvasData;
-    const aspectRatio = canvasData.aspectRatio;
+    const { canvasData } = this;
+    const { aspectRatio } = canvasData;
 
-    if ($.isFunction(data)) {
-      data = data.call(self.element);
+    if (isFunction(data)) {
+      data = data.call(this.element);
     }
 
-    if (self.ready && !self.disabled && $.isPlainObject(data)) {
-      if ($.isNumber(data.left)) {
+    if (this.ready && !this.disabled && isPlainObject(data)) {
+      if (isNumber(data.left)) {
         canvasData.left = data.left;
       }
 
-      if ($.isNumber(data.top)) {
+      if (isNumber(data.top)) {
         canvasData.top = data.top;
       }
 
-      if ($.isNumber(data.width)) {
+      if (isNumber(data.width)) {
         canvasData.width = data.width;
         canvasData.height = data.width / aspectRatio;
-      } else if ($.isNumber(data.height)) {
+      } else if (isNumber(data.height)) {
         canvasData.height = data.height;
         canvasData.width = data.height * aspectRatio;
       }
 
-      self.renderCanvas(true);
+      this.renderCanvas(true);
     }
 
-    return self;
+    return this;
   },
 
   /**
-   * Get the crop box position and size data
-   *
-   * @return {Object} data
+   * Get the crop box position and size data.
+   * @returns {Object} The result crop box data.
    */
   getCropBoxData() {
-    const self = this;
-    const cropBoxData = self.cropBoxData;
+    const { cropBoxData } = this;
     let data;
 
-    if (self.ready && self.cropped) {
+    if (this.ready && this.cropped) {
       data = {
         left: cropBoxData.left,
         top: cropBoxData.top,
@@ -631,36 +585,35 @@ export default {
   },
 
   /**
-   * Set the crop box position and size with new data
-   *
-   * @param {Object} data
+   * Set the crop box position and size with new data.
+   * @param {Object} data - The new crop box data.
+   * @returns {Object} this
    */
   setCropBoxData(data) {
-    const self = this;
-    const cropBoxData = self.cropBoxData;
-    const aspectRatio = self.options.aspectRatio;
+    const { cropBoxData } = this;
+    const { aspectRatio } = this.options;
     let widthChanged;
     let heightChanged;
 
-    if ($.isFunction(data)) {
-      data = data.call(self.element);
+    if (isFunction(data)) {
+      data = data.call(this.element);
     }
 
-    if (self.ready && self.cropped && !self.disabled && $.isPlainObject(data)) {
-      if ($.isNumber(data.left)) {
+    if (this.ready && this.cropped && !this.disabled && isPlainObject(data)) {
+      if (isNumber(data.left)) {
         cropBoxData.left = data.left;
       }
 
-      if ($.isNumber(data.top)) {
+      if (isNumber(data.top)) {
         cropBoxData.top = data.top;
       }
 
-      if ($.isNumber(data.width) && data.width !== cropBoxData.width) {
+      if (isNumber(data.width) && data.width !== cropBoxData.width) {
         widthChanged = true;
         cropBoxData.width = data.width;
       }
 
-      if ($.isNumber(data.height) && data.height !== cropBoxData.height) {
+      if (isNumber(data.height) && data.height !== cropBoxData.height) {
         heightChanged = true;
         cropBoxData.height = data.height;
       }
@@ -673,211 +626,200 @@ export default {
         }
       }
 
-      self.renderCropBox();
+      this.renderCropBox();
     }
 
-    return self;
+    return this;
   },
 
   /**
-   * Get a canvas drawn the cropped image
-   *
-   * @param {Object} options (optional)
-   * @return {HTMLCanvasElement} canvas
+   * Get a canvas drawn the cropped image.
+   * @param {Object} [options={}] - The config options.
+   * @returns {HTMLCanvasElement} - The result canvas.
    */
-  getCroppedCanvas(options) {
-    const self = this;
-
-    if (!self.ready || !window.HTMLCanvasElement) {
+  getCroppedCanvas(options = {}) {
+    if (!this.ready || !global.HTMLCanvasElement) {
       return null;
     }
 
-    if (!$.isPlainObject(options)) {
-      options = {};
+    const { canvasData } = this;
+    const source = getSourceCanvas(this.image, this.imageData, canvasData, options);
+
+    // Returns the source canvas if it is not cropped.
+    if (!this.cropped) {
+      return source;
     }
 
-    // Return the whole canvas if not cropped
-    if (!self.cropped) {
-      return $.getSourceCanvas(self.image, self.imageData, options);
-    }
+    const {
+      x,
+      y,
+      width: initialWidth,
+      height: initialHeight,
+    } = this.getData();
+    const aspectRatio = initialWidth / initialHeight;
+    const maxSizes = getContainSizes({
+      aspectRatio,
+      width: options.maxWidth || Infinity,
+      height: options.maxHeight || Infinity,
+    });
+    const minSizes = getContainSizes({
+      aspectRatio,
+      width: options.minWidth || 0,
+      height: options.minHeight || 0,
+    });
+    let {
+      width,
+      height,
+    } = getContainSizes({
+      aspectRatio,
+      width: options.width || initialWidth,
+      height: options.height || initialHeight,
+    });
 
-    const data = self.getData();
-    const originalWidth = data.width;
-    const originalHeight = data.height;
-    const aspectRatio = originalWidth / originalHeight;
-    let scaledWidth;
-    let scaledHeight;
-    let scaledRatio;
+    width = Math.min(maxSizes.width, Math.max(minSizes.width, width));
+    height = Math.min(maxSizes.height, Math.max(minSizes.height, height));
 
-    if ($.isPlainObject(options)) {
-      scaledWidth = options.width;
-      scaledHeight = options.height;
-
-      if (scaledWidth) {
-        scaledHeight = scaledWidth / aspectRatio;
-        scaledRatio = scaledWidth / originalWidth;
-      } else if (scaledHeight) {
-        scaledWidth = scaledHeight * aspectRatio;
-        scaledRatio = scaledHeight / originalHeight;
-      }
-    }
-
-    // The canvas element will use `Math.floor` on a float number, so floor first
-    const canvasWidth = Math.floor(scaledWidth || originalWidth);
-    const canvasHeight = Math.floor(scaledHeight || originalHeight);
-
-    const canvas = $.createElement('canvas');
+    const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
 
-    canvas.width = canvasWidth;
-    canvas.height = canvasHeight;
+    canvas.width = width;
+    canvas.height = height;
 
-    if (options.fillColor) {
-      context.fillStyle = options.fillColor;
-      context.fillRect(0, 0, canvasWidth, canvasHeight);
+    context.fillStyle = options.fillColor || 'transparent';
+    context.fillRect(0, 0, width, height);
+
+    const { imageSmoothingEnabled = true, imageSmoothingQuality } = options;
+
+    context.imageSmoothingEnabled = imageSmoothingEnabled;
+
+    if (imageSmoothingQuality) {
+      context.imageSmoothingQuality = imageSmoothingQuality;
     }
 
     // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.drawImage
-    const parameters = (() => {
-      const source = $.getSourceCanvas(self.image, self.imageData, options);
-      const sourceWidth = source.width;
-      const sourceHeight = source.height;
-      const canvasData = self.canvasData;
-      const params = [source];
+    const sourceWidth = source.width;
+    const sourceHeight = source.height;
 
-      // Source canvas
-      let srcX = data.x + ((canvasData.naturalWidth * (Math.abs(data.scaleX || 1) - 1)) / 2);
-      let srcY = data.y + ((canvasData.naturalHeight * (Math.abs(data.scaleY || 1) - 1)) / 2);
-      let srcWidth;
-      let srcHeight;
+    // Source canvas parameters
+    let srcX = x;
+    let srcY = y;
+    let srcWidth;
+    let srcHeight;
 
-      // Destination canvas
-      let dstX;
-      let dstY;
-      let dstWidth;
-      let dstHeight;
+    // Destination canvas parameters
+    let dstX;
+    let dstY;
+    let dstWidth;
+    let dstHeight;
 
-      if (srcX <= -originalWidth || srcX > sourceWidth) {
-        srcX = 0;
-        srcWidth = 0;
-        dstX = 0;
-        dstWidth = 0;
-      } else if (srcX <= 0) {
-        dstX = -srcX;
-        srcX = 0;
-        srcWidth = Math.min(sourceWidth, originalWidth + srcX);
-        dstWidth = srcWidth;
-      } else if (srcX <= sourceWidth) {
-        dstX = 0;
-        srcWidth = Math.min(originalWidth, sourceWidth - srcX);
-        dstWidth = srcWidth;
-      }
-
-      if (srcWidth <= 0 || srcY <= -originalHeight || srcY > sourceHeight) {
-        srcY = 0;
-        srcHeight = 0;
-        dstY = 0;
-        dstHeight = 0;
-      } else if (srcY <= 0) {
-        dstY = -srcY;
-        srcY = 0;
-        srcHeight = Math.min(sourceHeight, originalHeight + srcY);
-        dstHeight = srcHeight;
-      } else if (srcY <= sourceHeight) {
-        dstY = 0;
-        srcHeight = Math.min(originalHeight, sourceHeight - srcY);
-        dstHeight = srcHeight;
-      }
-
-      params.push(Math.floor(srcX), Math.floor(srcY), Math.floor(srcWidth), Math.floor(srcHeight));
-
-      // Scale destination sizes
-      if (scaledRatio) {
-        dstX *= scaledRatio;
-        dstY *= scaledRatio;
-        dstWidth *= scaledRatio;
-        dstHeight *= scaledRatio;
-      }
-
-      // Avoid "IndexSizeError" in IE and Firefox
-      if (dstWidth > 0 && dstHeight > 0) {
-        params.push(
-          Math.floor(dstX),
-          Math.floor(dstY),
-          Math.floor(dstWidth),
-          Math.floor(dstHeight),
-        );
-      }
-
-      return params;
-    })();
-
-    context.imageSmoothingEnabled = !!options.imageSmoothingEnabled;
-
-    if (options.imageSmoothingQuality) {
-      context.imageSmoothingQuality = options.imageSmoothingQuality;
+    if (srcX <= -initialWidth || srcX > sourceWidth) {
+      srcX = 0;
+      srcWidth = 0;
+      dstX = 0;
+      dstWidth = 0;
+    } else if (srcX <= 0) {
+      dstX = -srcX;
+      srcX = 0;
+      srcWidth = Math.min(sourceWidth, initialWidth + srcX);
+      dstWidth = srcWidth;
+    } else if (srcX <= sourceWidth) {
+      dstX = 0;
+      srcWidth = Math.min(initialWidth, sourceWidth - srcX);
+      dstWidth = srcWidth;
     }
 
-    context.drawImage(...parameters);
+    if (srcWidth <= 0 || srcY <= -initialHeight || srcY > sourceHeight) {
+      srcY = 0;
+      srcHeight = 0;
+      dstY = 0;
+      dstHeight = 0;
+    } else if (srcY <= 0) {
+      dstY = -srcY;
+      srcY = 0;
+      srcHeight = Math.min(sourceHeight, initialHeight + srcY);
+      dstHeight = srcHeight;
+    } else if (srcY <= sourceHeight) {
+      dstY = 0;
+      srcHeight = Math.min(initialHeight, sourceHeight - srcY);
+      dstHeight = srcHeight;
+    }
+
+    // All the numerical parameters should be integer for `drawImage`
+    // https://github.com/fengyuanchen/cropper/issues/476
+    const params = [
+      Math.floor(srcX),
+      Math.floor(srcY),
+      Math.floor(srcWidth),
+      Math.floor(srcHeight),
+    ];
+
+    // Avoid "IndexSizeError"
+    if (dstWidth > 0 && dstHeight > 0) {
+      const scale = width / initialWidth;
+
+      params.push(
+        Math.floor(dstX * scale),
+        Math.floor(dstY * scale),
+        Math.floor(dstWidth * scale),
+        Math.floor(dstHeight * scale),
+      );
+    }
+
+    context.drawImage(source, ...params);
 
     return canvas;
   },
 
   /**
-   * Change the aspect ratio of the crop box
-   *
-   * @param {Number} aspectRatio
+   * Change the aspect ratio of the crop box.
+   * @param {number} aspectRatio - The new aspect ratio.
+   * @returns {Object} this
    */
   setAspectRatio(aspectRatio) {
-    const self = this;
-    const options = self.options;
+    const { options } = this;
 
-    if (!self.disabled && !$.isUndefined(aspectRatio)) {
+    if (!this.disabled && !isUndefined(aspectRatio)) {
       // 0 -> NaN
       options.aspectRatio = Math.max(0, aspectRatio) || NaN;
 
-      if (self.ready) {
-        self.initCropBox();
+      if (this.ready) {
+        this.initCropBox();
 
-        if (self.cropped) {
-          self.renderCropBox();
+        if (this.cropped) {
+          this.renderCropBox();
         }
       }
     }
 
-    return self;
+    return this;
   },
 
   /**
-   * Change the drag mode
-   *
-   * @param {String} mode (optional)
+   * Change the drag mode.
+   * @param {string} mode - The new drag mode.
+   * @returns {Object} this
    */
   setDragMode(mode) {
-    const self = this;
-    const options = self.options;
-    const dragBox = self.dragBox;
-    const face = self.face;
-    let croppable;
-    let movable;
+    const { options, dragBox, face } = this;
 
-    if (self.loaded && !self.disabled) {
-      croppable = mode === 'crop';
-      movable = options.movable && mode === 'move';
-      mode = (croppable || movable) ? mode : 'none';
+    if (this.loaded && !this.disabled) {
+      const croppable = mode === DRAG_MODE_CROP;
+      const movable = options.movable && mode === DRAG_MODE_MOVE;
 
-      $.setData(dragBox, 'action', mode);
-      $.toggleClass(dragBox, 'cropper-crop', croppable);
-      $.toggleClass(dragBox, 'cropper-move', movable);
+      mode = (croppable || movable) ? mode : DRAG_MODE_NONE;
+
+      setData(dragBox, DATA_ACTION, mode);
+      toggleClass(dragBox, CLASS_CROP, croppable);
+      toggleClass(dragBox, CLASS_MOVE, movable);
 
       if (!options.cropBoxMovable) {
         // Sync drag mode to crop box when it is not movable
-        $.setData(face, 'action', mode);
-        $.toggleClass(face, 'cropper-crop', croppable);
-        $.toggleClass(face, 'cropper-move', movable);
+        setData(face, DATA_ACTION, mode);
+        toggleClass(face, CLASS_CROP, croppable);
+        toggleClass(face, CLASS_MOVE, movable);
       }
     }
 
-    return self;
+    return this;
   },
 };

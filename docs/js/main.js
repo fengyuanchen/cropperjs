@@ -120,6 +120,7 @@ window.onload = function () {
   actions.querySelector('.docs-buttons').onclick = function (event) {
     var e = event || window.event;
     var target = e.target || e.srcElement;
+    var cropped;
     var result;
     var input;
     var data;
@@ -143,9 +144,11 @@ window.onload = function () {
     data = {
       method: target.getAttribute('data-method'),
       target: target.getAttribute('data-target'),
-      option: target.getAttribute('data-option'),
-      secondOption: target.getAttribute('data-second-option')
+      option: target.getAttribute('data-option') || undefined,
+      secondOption: target.getAttribute('data-second-option') || undefined
     };
+
+    cropped = cropper.cropped;
 
     if (data.method) {
       if (typeof data.target !== 'undefined') {
@@ -162,7 +165,10 @@ window.onload = function () {
 
       switch (data.method) {
         case 'rotate':
-          cropper.clear();
+          if (cropped) {
+            cropper.clear();
+          }
+
           break;
 
         case 'getCroppedCanvas':
@@ -187,7 +193,10 @@ window.onload = function () {
 
       switch (data.method) {
         case 'rotate':
-          cropper.crop();
+          if (cropped) {
+            cropper.crop();
+          }
+
           break;
 
         case 'scaleX':

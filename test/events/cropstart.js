@@ -6,10 +6,11 @@ QUnit.test('events#cropstart', function (assert) {
   assert.expect(1);
 
   image.addEventListener('ready', function () {
+    var PointerEvent = window.PointerEvent;
     var cropper = this.cropper;
 
-    util.dispatchEvent(cropper.dragBox, 'mousedown');
-    util.dispatchEvent(cropper.dragBox, 'mouseup');
+    util.dispatchEvent(cropper.dragBox, PointerEvent ? 'pointerdown' : 'mousedown');
+    util.dispatchEvent(cropper.dragBox, PointerEvent ? 'pointerup' : 'mouseup');
 
     done();
   });
@@ -29,11 +30,12 @@ QUnit.test('events#cropstart: default prevented', function (assert) {
   assert.expect(0);
 
   image.addEventListener('ready', function () {
+    var PointerEvent = window.PointerEvent;
     var cropper = this.cropper;
 
-    util.dispatchEvent(cropper.dragBox, 'mousedown');
-    util.dispatchEvent(cropper.dragBox, 'mousemove');
-    util.dispatchEvent(cropper.dragBox, 'mouseup');
+    util.dispatchEvent(cropper.dragBox, PointerEvent ? 'pointerdown' : 'mousedown');
+    util.dispatchEvent(cropper.dragBox, PointerEvent ? 'pointermove' : 'mousemove');
+    util.dispatchEvent(cropper.dragBox, PointerEvent ? 'pointerup' : 'mouseup');
 
     done();
   });

@@ -1,30 +1,44 @@
-import * as $ from './utilities';
+import {
+  ACTION_ALL,
+  ACTION_MOVE,
+  CLASS_HIDDEN,
+  DATA_ACTION,
+  EVENT_CROP,
+} from './constants';
+import {
+  addClass,
+  dispatchEvent,
+  extend,
+  getContainSizes,
+  getRotatedSizes,
+  getTransforms,
+  removeClass,
+  setData,
+  setStyle,
+} from './utilities';
 
 export default {
   render() {
-    const self = this;
+    this.initContainer();
+    this.initCanvas();
+    this.initCropBox();
+    this.renderCanvas();
 
-    self.initContainer();
-    self.initCanvas();
-    self.initCropBox();
-
-    self.renderCanvas();
-
-    if (self.cropped) {
-      self.renderCropBox();
+    if (this.cropped) {
+      this.renderCropBox();
     }
   },
 
   initContainer() {
-    const self = this;
-    const options = self.options;
-    const element = self.element;
-    const container = self.container;
-    const cropper = self.cropper;
-    const hidden = 'cropper-hidden';
+    const {
+      element,
+      options,
+      container,
+      cropper,
+    } = this;
 
-    $.addClass(cropper, hidden);
-    $.removeClass(element, hidden);
+    addClass(cropper, CLASS_HIDDEN);
+    removeClass(element, CLASS_HIDDEN);
 
     const containerData = {
       width: Math.max(
@@ -37,23 +51,21 @@ export default {
       ),
     };
 
-    self.containerData = containerData;
+    this.containerData = containerData;
 
-    $.setStyle(cropper, {
+    setStyle(cropper, {
       width: containerData.width,
       height: containerData.height,
     });
 
-    $.addClass(element, hidden);
-    $.removeClass(cropper, hidden);
+    addClass(element, CLASS_HIDDEN);
+    removeClass(cropper, CLASS_HIDDEN);
   },
 
   // Canvas (image wrapper)
   initCanvas() {
-    const self = this;
-    const viewMode = self.options.viewMode;
-    const containerData = self.containerData;
-    const imageData = self.imageData;
+    const { containerData, imageData } = this;
+    const { viewMode } = this.options;
     const rotated = Math.abs(imageData.rotate) % 180 === 90;
     const naturalWidth = rotated ? imageData.naturalHeight : imageData.naturalWidth;
     const naturalHeight = rotated ? imageData.naturalWidth : imageData.naturalHeight;
@@ -74,9 +86,9 @@ export default {
     }
 
     const canvasData = {
+      aspectRatio,
       naturalWidth,
       naturalHeight,
-      aspectRatio,
       width: canvasWidth,
       height: canvasHeight,
     };
@@ -86,22 +98,23 @@ export default {
     canvasData.oldLeft = canvasData.left;
     canvasData.oldTop = canvasData.top;
 
-    self.canvasData = canvasData;
-    self.limited = (viewMode === 1 || viewMode === 2);
-    self.limitCanvas(true, true);
-    self.initialImageData = $.extend({}, imageData);
-    self.initialCanvasData = $.extend({}, canvasData);
+    this.canvasData = canvasData;
+    this.limited = (viewMode === 1 || viewMode === 2);
+    this.limitCanvas(true, true);
+    this.initialImageData = extend({}, imageData);
+    this.initialCanvasData = extend({}, canvasData);
   },
 
   limitCanvas(sizeLimited, positionLimited) {
-    const self = this;
-    const options = self.options;
-    const viewMode = options.viewMode;
-    const containerData = self.containerData;
-    const canvasData = self.canvasData;
-    const aspectRatio = canvasData.aspectRatio;
-    const cropBoxData = self.cropBoxData;
-    const cropped = self.cropped && cropBoxData;
+    const {
+      options,
+      containerData,
+      canvasData,
+      cropBoxData,
+    } = this;
+    const { viewMode } = options;
+    const { aspectRatio } = canvasData;
+    const cropped = this.cropped && cropBoxData;
 
     if (sizeLimited) {
       let minCanvasWidth = Number(options.minCanvasWidth) || 0;
@@ -141,17 +154,11 @@ export default {
         }
       }
 
-      if (minCanvasWidth && minCanvasHeight) {
-        if (minCanvasHeight * aspectRatio > minCanvasWidth) {
-          minCanvasHeight = minCanvasWidth / aspectRatio;
-        } else {
-          minCanvasWidth = minCanvasHeight * aspectRatio;
-        }
-      } else if (minCanvasWidth) {
-        minCanvasHeight = minCanvasWidth / aspectRatio;
-      } else if (minCanvasHeight) {
-        minCanvasWidth = minCanvasHeight * aspectRatio;
-      }
+      ({ width: minCanvasWidth, height: minCanvasHeight } = getContainSizes({
+        aspectRatio,
+        width: minCanvasWidth,
+        height: minCanvasHeight,
+      }));
 
       canvasData.minWidth = minCanvasWidth;
       canvasData.minHeight = minCanvasHeight;
@@ -169,7 +176,7 @@ export default {
         canvasData.maxLeft = Math.max(0, newCanvasLeft);
         canvasData.maxTop = Math.max(0, newCanvasTop);
 
-        if (cropped && self.limited) {
+        if (cropped && this.limited) {
           canvasData.minLeft = Math.min(
             cropBoxData.left,
             cropBoxData.left + (cropBoxData.width - canvasData.width),
@@ -202,47 +209,26 @@ export default {
     }
   },
 
-  renderCanvas(changed) {
-    const self = this;
-    const canvasData = self.canvasData;
-    const imageData = self.imageData;
-    const rotate = imageData.rotate;
+  renderCanvas(changed, transformed) {
+    const { canvasData, imageData } = this;
 
-    if (self.rotated) {
-      self.rotated = false;
-
-      // Computes rotated sizes with image sizes
-      const rotatedData = $.getRotatedSizes({
-        width: imageData.width,
-        height: imageData.height,
-        degree: rotate,
+    if (transformed) {
+      const { width: naturalWidth, height: naturalHeight } = getRotatedSizes({
+        width: imageData.naturalWidth * Math.abs(imageData.scaleX),
+        height: imageData.naturalHeight * Math.abs(imageData.scaleY),
+        degree: imageData.rotate,
       });
-      const aspectRatio = rotatedData.width / rotatedData.height;
-      const isSquareImage = imageData.aspectRatio === 1;
+      const width = canvasData.width * (naturalWidth / canvasData.naturalWidth);
+      const height = canvasData.height * (naturalHeight / canvasData.naturalHeight);
 
-      if (isSquareImage || aspectRatio !== canvasData.aspectRatio) {
-        canvasData.left -= (rotatedData.width - canvasData.width) / 2;
-        canvasData.top -= (rotatedData.height - canvasData.height) / 2;
-        canvasData.width = rotatedData.width;
-        canvasData.height = rotatedData.height;
-        canvasData.aspectRatio = aspectRatio;
-        canvasData.naturalWidth = imageData.naturalWidth;
-        canvasData.naturalHeight = imageData.naturalHeight;
-
-        // Computes rotated sizes with natural image sizes
-        if ((isSquareImage && rotate % 90) || rotate % 180) {
-          const rotatedData2 = $.getRotatedSizes({
-            width: imageData.naturalWidth,
-            height: imageData.naturalHeight,
-            degree: rotate,
-          });
-
-          canvasData.naturalWidth = rotatedData2.width;
-          canvasData.naturalHeight = rotatedData2.height;
-        }
-
-        self.limitCanvas(true, false);
-      }
+      canvasData.left -= (width - canvasData.width) / 2;
+      canvasData.top -= (height - canvasData.height) / 2;
+      canvasData.width = width;
+      canvasData.height = height;
+      canvasData.aspectRatio = naturalWidth / naturalHeight;
+      canvasData.naturalWidth = naturalWidth;
+      canvasData.naturalHeight = naturalHeight;
+      this.limitCanvas(true, false);
     }
 
     if (canvasData.width > canvasData.maxWidth ||
@@ -264,7 +250,7 @@ export default {
       canvasData.maxHeight,
     );
 
-    self.limitCanvas(false, true);
+    this.limitCanvas(false, true);
 
     canvasData.left = Math.min(
       Math.max(canvasData.left, canvasData.minLeft),
@@ -277,79 +263,49 @@ export default {
     canvasData.oldLeft = canvasData.left;
     canvasData.oldTop = canvasData.top;
 
-    $.setStyle(self.canvas, $.extend({
+    setStyle(this.canvas, extend({
       width: canvasData.width,
       height: canvasData.height,
-    }, $.getTransforms({
+    }, getTransforms({
       translateX: canvasData.left,
       translateY: canvasData.top,
     })));
 
-    self.renderImage();
+    this.renderImage(changed);
 
-    if (self.cropped && self.limited) {
-      self.limitCropBox(true, true);
-    }
-
-    if (changed) {
-      self.output();
+    if (this.cropped && this.limited) {
+      this.limitCropBox(true, true);
     }
   },
 
   renderImage(changed) {
-    const self = this;
-    const canvasData = self.canvasData;
-    const imageData = self.imageData;
-    let newImageData;
-    let reversedData;
-    let reversedWidth;
-    let reversedHeight;
+    const { canvasData, imageData } = this;
+    const width = imageData.naturalWidth * (canvasData.width / canvasData.naturalWidth);
+    const height = imageData.naturalHeight * (canvasData.height / canvasData.naturalHeight);
 
-    if (imageData.rotate) {
-      reversedData = $.getRotatedSizes({
-        width: canvasData.width,
-        height: canvasData.height,
-        degree: imageData.rotate,
-        aspectRatio: imageData.aspectRatio,
-      }, true);
-
-      reversedWidth = reversedData.width;
-      reversedHeight = reversedData.height;
-
-      newImageData = {
-        width: reversedWidth,
-        height: reversedHeight,
-        left: (canvasData.width - reversedWidth) / 2,
-        top: (canvasData.height - reversedHeight) / 2,
-      };
-    }
-
-    $.extend(imageData, newImageData || {
-      width: canvasData.width,
-      height: canvasData.height,
-      left: 0,
-      top: 0,
+    extend(imageData, {
+      width,
+      height,
+      left: (canvasData.width - width) / 2,
+      top: (canvasData.height - height) / 2,
     });
-
-    $.setStyle(self.image, $.extend({
+    setStyle(this.image, extend({
       width: imageData.width,
       height: imageData.height,
-    }, $.getTransforms($.extend({
+    }, getTransforms(extend({
       translateX: imageData.left,
       translateY: imageData.top,
     }, imageData))));
 
     if (changed) {
-      self.output();
+      this.output();
     }
   },
 
   initCropBox() {
-    const self = this;
-    const options = self.options;
-    const aspectRatio = options.aspectRatio;
+    const { options, canvasData } = this;
+    const { aspectRatio } = options;
     const autoCropArea = Number(options.autoCropArea) || 0.8;
-    const canvasData = self.canvasData;
     const cropBoxData = {
       width: canvasData.width,
       height: canvasData.height,
@@ -363,8 +319,8 @@ export default {
       }
     }
 
-    self.cropBoxData = cropBoxData;
-    self.limitCropBox(true, true);
+    this.cropBoxData = cropBoxData;
+    this.limitCropBox(true, true);
 
     // Initialize auto crop area
     cropBoxData.width = Math.min(
@@ -394,17 +350,18 @@ export default {
     cropBoxData.oldLeft = cropBoxData.left;
     cropBoxData.oldTop = cropBoxData.top;
 
-    self.initialCropBoxData = $.extend({}, cropBoxData);
+    this.initialCropBoxData = extend({}, cropBoxData);
   },
 
   limitCropBox(sizeLimited, positionLimited) {
-    const self = this;
-    const options = self.options;
-    const aspectRatio = options.aspectRatio;
-    const containerData = self.containerData;
-    const canvasData = self.canvasData;
-    const cropBoxData = self.cropBoxData;
-    const limited = self.limited;
+    const {
+      options,
+      containerData,
+      canvasData,
+      cropBoxData,
+      limited,
+    } = this;
+    const { aspectRatio } = options;
 
     if (sizeLimited) {
       let minCropBoxWidth = Number(options.minCropBoxWidth) || 0;
@@ -418,7 +375,7 @@ export default {
         limited ? canvasData.height : containerData.height,
       );
 
-      // The min/maxCropBoxWidth/Height must be less than containerWidth/Height
+      // The min/maxCropBoxWidth/Height must be less than container's width/height
       minCropBoxWidth = Math.min(minCropBoxWidth, containerData.width);
       minCropBoxHeight = Math.min(minCropBoxHeight, containerData.height);
 
@@ -471,10 +428,7 @@ export default {
   },
 
   renderCropBox() {
-    const self = this;
-    const options = self.options;
-    const containerData = self.containerData;
-    const cropBoxData = self.cropBoxData;
+    const { options, containerData, cropBoxData } = this;
 
     if (cropBoxData.width > cropBoxData.maxWidth ||
       cropBoxData.width < cropBoxData.minWidth) {
@@ -495,7 +449,7 @@ export default {
       cropBoxData.maxHeight,
     );
 
-    self.limitCropBox(false, true);
+    this.limitCropBox(false, true);
 
     cropBoxData.left = Math.min(
       Math.max(cropBoxData.left, cropBoxData.minLeft),
@@ -510,34 +464,32 @@ export default {
 
     if (options.movable && options.cropBoxMovable) {
       // Turn to move the canvas when the crop box is equal to the container
-      $.setData(self.face, 'action', cropBoxData.width === containerData.width &&
-        cropBoxData.height === containerData.height ? 'move' : 'all');
+      setData(this.face, DATA_ACTION, cropBoxData.width >= containerData.width &&
+        cropBoxData.height >= containerData.height ? ACTION_MOVE : ACTION_ALL);
     }
 
-    $.setStyle(self.cropBox, $.extend({
+    setStyle(this.cropBox, extend({
       width: cropBoxData.width,
       height: cropBoxData.height,
-    }, $.getTransforms({
+    }, getTransforms({
       translateX: cropBoxData.left,
       translateY: cropBoxData.top,
     })));
 
-    if (self.cropped && self.limited) {
-      self.limitCanvas(true, true);
+    if (this.cropped && this.limited) {
+      this.limitCanvas(true, true);
     }
 
-    if (!self.disabled) {
-      self.output();
+    if (!this.disabled) {
+      this.output();
     }
   },
 
   output() {
-    const self = this;
+    this.preview();
 
-    self.preview();
-
-    if (self.complete) {
-      $.dispatchEvent(self.element, 'crop', self.getData());
+    if (this.complete) {
+      dispatchEvent(this.element, EVENT_CROP, this.getData());
     }
   },
 };
