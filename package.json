@@ -1,7 +1,7 @@
 {
   "name": "cropperjs",
   "description": "JavaScript image cropper.",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "main": "dist/cropper.common.js",
   "module": "dist/cropper.esm.js",
   "browser": "dist/cropper.js",
@@ -9,7 +9,7 @@
   "repository": "fengyuanchen/cropperjs",
   "homepage": "https://fengyuanchen.github.io/cropperjs",
   "author": {
-    "name": "Fengyuan Chen",
+    "name": "Chen Fengyuan",
     "url": "http://chenfengyuan.com"
   },
   "keywords": [
@@ -39,7 +39,7 @@
     "compress:js": "uglifyjs dist/cropper.js -o dist/cropper.min.js -c -m --comments /^!/",
     "copy": "cpy dist/cropper.css docs/css",
     "lint": "eslint src/js --fix",
-    "postbuild": "npm test && npm run compress && npm run copy",
+    "postbuild": "npm run compress && npm run copy && npm test",
     "prebuild": "npm run lint",
     "start": "npm-run-all --parallel watch:*",
     "test": "node-qunit-phantomjs test/index.html --timeout 10",

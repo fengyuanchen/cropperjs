@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v1.1.0
+ * Cropper.js v1.1.1
  * https://github.com/fengyuanchen/cropperjs
  *
- * Copyright (c) 2015-2017 Fengyuan Chen
+ * Copyright (c) 2015-2017 Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2017-10-08T09:11:03.372Z
+ * Date: 2017-10-11T13:22:13.165Z
  */
 
 (function (global, factory) {
@@ -14,9 +14,7 @@
 	(global.Cropper = factory());
 }(this, (function () { 'use strict';
 
-var _window = window;
-var PointerEvent = _window.PointerEvent;
-
+var global = typeof window !== 'undefined' ? window : {};
 
 var NAMESPACE = 'cropper';
 
@@ -60,9 +58,9 @@ var EVENT_CROP_START = 'cropstart';
 var EVENT_DBLCLICK = 'dblclick';
 var EVENT_ERROR = 'error';
 var EVENT_LOAD = 'load';
-var EVENT_POINTER_DOWN = PointerEvent ? 'pointerdown' : 'touchstart mousedown';
-var EVENT_POINTER_MOVE = PointerEvent ? 'pointermove' : 'touchmove mousemove';
-var EVENT_POINTER_UP = PointerEvent ? ' pointerup pointercancel' : 'touchend touchcancel mouseup';
+var EVENT_POINTER_DOWN = global.PointerEvent ? 'pointerdown' : 'touchstart mousedown';
+var EVENT_POINTER_MOVE = global.PointerEvent ? 'pointermove' : 'touchmove mousemove';
+var EVENT_POINTER_UP = global.PointerEvent ? ' pointerup pointercancel' : 'touchend touchcancel mouseup';
 var EVENT_READY = 'ready';
 var EVENT_RESIZE = 'resize';
 var EVENT_WHEEL = 'wheel mousewheel DOMMouseScroll';
@@ -177,7 +175,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 /**
  * Check if the given value is not a number.
  */
-var isNaN = Number.isNaN || window.isNaN;
+var isNaN = Number.isNaN || global.isNaN;
 
 /**
  * Check if the given value is a number.
@@ -504,6 +502,10 @@ var REGEXP_SPACES = /\s+/;
 function removeListener(element, type, listener) {
   var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
 
+  if (!isFunction(listener)) {
+    return;
+  }
+
   var types = type.trim().split(REGEXP_SPACES);
 
   if (types.length > 1) {
@@ -534,6 +536,10 @@ function removeListener(element, type, listener) {
  */
 function addListener(element, type, listener) {
   var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+
+  if (!isFunction(listener)) {
+    return;
+  }
 
   var types = type.trim().split(REGEXP_SPACES);
 
@@ -618,8 +624,8 @@ function getOffset(element) {
   var box = element.getBoundingClientRect();
 
   return {
-    left: box.left + ((window.scrollX || doc && doc.scrollLeft || 0) - (doc && doc.clientLeft || 0)),
-    top: box.top + ((window.scrollY || doc && doc.scrollTop || 0) - (doc && doc.clientTop || 0))
+    left: box.left + ((global.scrollX || doc && doc.scrollLeft || 0) - (doc && doc.clientLeft || 0)),
+    top: box.top + ((global.scrollY || doc && doc.scrollTop || 0) - (doc && doc.clientTop || 0))
   };
 }
 
@@ -633,8 +639,7 @@ function empty(element) {
   }
 }
 
-var _window$1 = window;
-var location = _window$1.location;
+var location = global.location;
 
 var REGEXP_ORIGINS = /^(https?:)\/\/([^:/?#]+):?(\d*)/i;
 
@@ -703,6 +708,8 @@ function getTransforms(_ref) {
     transform: transform
   };
 }
+
+var navigator = global.navigator;
 
 var IS_SAFARI_OR_UIWEBVIEW = navigator && /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent);
 
@@ -815,7 +822,7 @@ function getPointersCenter(pointers) {
 /**
  * Check if the given value is a finite number.
  */
-var isFinite = Number.isFinite || window.isFinite;
+var isFinite = Number.isFinite || global.isFinite;
 
 /**
  * Get the max sizes in a rectangle under the given aspect ratio.
@@ -963,9 +970,6 @@ function getStringFromCharCode(dataView, start, length) {
   return str;
 }
 
-var _window2 = window;
-var atob = _window2.atob;
-
 var REGEXP_DATA_URL_HEAD = /^data:.*,/;
 
 /**
@@ -986,16 +990,12 @@ function dataURLToArrayBuffer(dataURL) {
   return arrayBuffer;
 }
 
-var _window3 = window;
-var btoa = _window3.btoa;
-
 /**
  * Transform array buffer to Data URL.
  * @param {ArrayBuffer} arrayBuffer - The array buffer to transform.
  * @param {string} mimeType - The mime type of the Data URL.
  * @returns {string} The result Data URL.
  */
-
 function arrayBufferToDataURL(arrayBuffer, mimeType) {
   var uint8 = new Uint8Array(arrayBuffer);
   var data = '';
@@ -1595,7 +1595,6 @@ var preview = {
        * Add `height:auto` to override `height` attribute on IE8
        * (Occur only when margin-top <= -height)
        */
-
       img.style.cssText = 'display:block;' + 'width:100%;' + 'height:auto;' + 'min-width:0!important;' + 'min-height:0!important;' + 'max-width:none!important;' + 'max-height:none!important;' + 'image-orientation:0deg!important;"';
 
       empty(element);
@@ -1715,7 +1714,7 @@ var events = {
     addListener(document, EVENT_POINTER_UP, this.onCropEnd = proxy(this.cropEnd, this));
 
     if (options.responsive) {
-      addListener(window, EVENT_RESIZE, this.onResize = proxy(this.resize, this));
+      addListener(global, EVENT_RESIZE, this.onResize = proxy(this.resize, this));
     }
   },
   unbind: function unbind() {
@@ -1758,7 +1757,7 @@ var events = {
     removeListener(document, EVENT_POINTER_UP, this.onCropEnd);
 
     if (options.responsive) {
-      removeListener(window, EVENT_RESIZE, this.onResize);
+      removeListener(global, EVENT_RESIZE, this.onResize);
     }
   }
 };
@@ -3032,7 +3031,7 @@ var methods = {
   getCroppedCanvas: function getCroppedCanvas() {
     var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-    if (!this.ready || !window.HTMLCanvasElement) {
+    if (!this.ready || !global.HTMLCanvasElement) {
       return null;
     }
 
@@ -3222,7 +3221,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var AnotherCropper = window.Cropper;
+var AnotherCropper = global.Cropper;
 
 var Cropper = function () {
   /**
@@ -3276,7 +3275,7 @@ var Cropper = function () {
         this.isImg = true;
 
         // e.g.: "img/picture.jpg"
-        url = element.getAttribute('src');
+        url = element.getAttribute('src') || '';
         this.originalUrl = url;
 
         // Stop when it's a blank image
@@ -3286,7 +3285,7 @@ var Cropper = function () {
 
         // e.g.: "http://example.com/img/picture.jpg"
         url = element.src;
-      } else if (tagName === 'canvas' && window.HTMLCanvasElement) {
+      } else if (tagName === 'canvas' && global.HTMLCanvasElement) {
         url = element.toDataURL();
       }
 
@@ -3308,7 +3307,7 @@ var Cropper = function () {
           options = this.options;
 
 
-      if (!options.checkOrientation || !window.ArrayBuffer) {
+      if (!options.checkOrientation || !global.ArrayBuffer) {
         this.clone();
         return;
       }
@@ -3618,7 +3617,7 @@ var Cropper = function () {
   }], [{
     key: 'noConflict',
     value: function noConflict() {
-      window.Cropper = AnotherCropper;
+      global.Cropper = AnotherCropper;
       return Cropper;
     }
 

@@ -1,8 +1,9 @@
 # Changelog
 
-## 1.1.1 (Oct 10, 2017)
+## 1.1.1 (Oct 11, 2017)
 
-- supports to load in node environment (#237).
+- Supports to load in node environment (#237).
+- Fixed a bug of event binding (#238).
 
 ## 1.1.0 (Oct 8, 2017)
 
