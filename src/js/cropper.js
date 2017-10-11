@@ -92,7 +92,7 @@ class Cropper {
       this.isImg = true;
 
       // e.g.: "img/picture.jpg"
-      url = element.getAttribute('src');
+      url = element.getAttribute('src') || '';
       this.originalUrl = url;
 
       // Stop when it's a blank image
