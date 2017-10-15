@@ -124,6 +124,19 @@ export function proxy(fn, context, ...args) {
   return (...args2) => fn.apply(context, args.concat(args2));
 }
 
+const REGEXP_DECIMALS = /\.\d*(?:0|9){12}\d*$/i;
+
+/**
+ * Normalize decimal number.
+ * Check out {@link http://0.30000000000000004.com/ }
+ * @param {number} value - The value to normalize.
+ * @param {number} [times=100000000000] - The times for normalizing.
+ * @returns {number} Returns the normalized number.
+ */
+export function normalizeDecimalNumber(value, times = 100000000000) {
+  return REGEXP_DECIMALS.test(value) ? (Math.round(value * times) / times) : value;
+}
+
 const REGEXP_SUFFIX = /^(width|height|left|top|marginLeft|marginTop)$/;
 
 /**
@@ -727,9 +740,15 @@ export function getSourceCanvas(
   });
   const width = Math.min(maxSizes.width, Math.max(minSizes.width, naturalWidth));
   const height = Math.min(maxSizes.height, Math.max(minSizes.height, naturalHeight));
+  const params = [
+    -imageNaturalWidth / 2,
+    -imageNaturalHeight / 2,
+    imageNaturalWidth,
+    imageNaturalHeight,
+  ];
 
-  canvas.width = width;
-  canvas.height = height;
+  canvas.width = normalizeDecimalNumber(width);
+  canvas.height = normalizeDecimalNumber(height);
   context.fillStyle = fillColor;
   context.fillRect(0, 0, width, height);
   context.save();
@@ -738,13 +757,7 @@ export function getSourceCanvas(
   context.scale(scaleX, scaleY);
   context.imageSmoothingEnabled = imageSmoothingEnabled;
   context.imageSmoothingQuality = imageSmoothingQuality;
-  context.drawImage(
-    image,
-    Math.floor(-imageNaturalWidth / 2),
-    Math.floor(-imageNaturalHeight / 2),
-    Math.floor(imageNaturalWidth),
-    Math.floor(imageNaturalHeight),
-  );
+  context.drawImage(image, ...params.map(param => Math.floor(normalizeDecimalNumber(param))));
   context.restore();
   return canvas;
 }
