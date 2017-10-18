@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v1.1.1
+ * Cropper.js v1.1.2
  * https://github.com/fengyuanchen/cropperjs
  *
  * Copyright (c) 2015-2017 Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2017-10-11T13:22:13.165Z
+ * Date: 2017-10-18T13:27:02.189Z
  */
 
 'use strict';
@@ -168,6 +168,8 @@ var TEMPLATE = '<div class="cropper-container">' + '<div class="cropper-wrap-box
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 /**
  * Check if the given value is not a number.
  */
@@ -307,6 +309,21 @@ function proxy(fn, context) {
 
     return fn.apply(context, args.concat(args2));
   };
+}
+
+var REGEXP_DECIMALS = /\.\d*(?:0|9){12}\d*$/i;
+
+/**
+ * Normalize decimal number.
+ * Check out {@link http://0.30000000000000004.com/ }
+ * @param {number} value - The value to normalize.
+ * @param {number} [times=100000000000] - The times for normalizing.
+ * @returns {number} Returns the normalized number.
+ */
+function normalizeDecimalNumber(value) {
+  var times = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 100000000000;
+
+  return REGEXP_DECIMALS.test(value) ? Math.round(value * times) / times : value;
 }
 
 var REGEXP_SUFFIX = /^(width|height|left|top|marginLeft|marginTop)$/;
@@ -927,9 +944,10 @@ function getSourceCanvas(image, _ref6, _ref7, _ref8) {
   });
   var width = Math.min(maxSizes.width, Math.max(minSizes.width, naturalWidth));
   var height = Math.min(maxSizes.height, Math.max(minSizes.height, naturalHeight));
+  var params = [-imageNaturalWidth / 2, -imageNaturalHeight / 2, imageNaturalWidth, imageNaturalHeight];
 
-  canvas.width = width;
-  canvas.height = height;
+  canvas.width = normalizeDecimalNumber(width);
+  canvas.height = normalizeDecimalNumber(height);
   context.fillStyle = fillColor;
   context.fillRect(0, 0, width, height);
   context.save();
@@ -938,7 +956,9 @@ function getSourceCanvas(image, _ref6, _ref7, _ref8) {
   context.scale(scaleX, scaleY);
   context.imageSmoothingEnabled = imageSmoothingEnabled;
   context.imageSmoothingQuality = imageSmoothingQuality;
-  context.drawImage(image, Math.floor(-imageNaturalWidth / 2), Math.floor(-imageNaturalHeight / 2), Math.floor(imageNaturalWidth), Math.floor(imageNaturalHeight));
+  context.drawImage.apply(context, [image].concat(_toConsumableArray(params.map(function (param) {
+    return Math.floor(normalizeDecimalNumber(param));
+  }))));
   context.restore();
   return canvas;
 }
@@ -2388,6 +2408,8 @@ var change = {
   }
 };
 
+function _toConsumableArray$1(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 var methods = {
   // Show the crop box manually
   crop: function crop() {
@@ -3072,8 +3094,8 @@ var methods = {
     var canvas = document.createElement('canvas');
     var context = canvas.getContext('2d');
 
-    canvas.width = width;
-    canvas.height = height;
+    canvas.width = normalizeDecimalNumber(width);
+    canvas.height = normalizeDecimalNumber(height);
 
     context.fillStyle = options.fillColor || 'transparent';
     context.fillRect(0, 0, width, height);
@@ -3139,16 +3161,18 @@ var methods = {
 
     // All the numerical parameters should be integer for `drawImage`
     // https://github.com/fengyuanchen/cropper/issues/476
-    var params = [Math.floor(srcX), Math.floor(srcY), Math.floor(srcWidth), Math.floor(srcHeight)];
+    var params = [srcX, srcY, srcWidth, srcHeight];
 
     // Avoid "IndexSizeError"
     if (dstWidth > 0 && dstHeight > 0) {
       var scale = width / initialWidth;
 
-      params.push(Math.floor(dstX * scale), Math.floor(dstY * scale), Math.floor(dstWidth * scale), Math.floor(dstHeight * scale));
+      params.push(dstX * scale, dstY * scale, dstWidth * scale, dstHeight * scale);
     }
 
-    context.drawImage.apply(context, [source].concat(params));
+    context.drawImage.apply(context, [source].concat(_toConsumableArray$1(params.map(function (param) {
+      return Math.floor(normalizeDecimalNumber(param));
+    }))));
 
     return canvas;
   },

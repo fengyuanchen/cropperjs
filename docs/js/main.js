@@ -16,7 +16,7 @@ window.onload = function () {
   var dataScaleX = document.getElementById('dataScaleX');
   var dataScaleY = document.getElementById('dataScaleY');
   var options = {
-        aspectRatio: 16 / 9,
+        aspectRatio: 321 / 180,
         preview: '.img-preview',
         ready: function (e) {
           console.log(e.type);
