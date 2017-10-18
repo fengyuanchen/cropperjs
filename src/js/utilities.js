@@ -1,9 +1,11 @@
-import global from './global';
+import {
+  WINDOW,
+} from './constants';
 
 /**
  * Check if the given value is not a number.
  */
-export const isNaN = Number.isNaN || global.isNaN;
+export const isNaN = Number.isNaN || WINDOW.isNaN;
 
 /**
  * Check if the given value is a number.
@@ -442,10 +444,10 @@ export function getOffset(element) {
 
   return {
     left: box.left + (
-      (global.scrollX || (doc && doc.scrollLeft) || 0) - ((doc && doc.clientLeft) || 0)
+      (window.scrollX || (doc && doc.scrollLeft) || 0) - ((doc && doc.clientLeft) || 0)
     ),
     top: box.top + (
-      (global.scrollY || (doc && doc.scrollTop) || 0) - ((doc && doc.clientTop) || 0)
+      (window.scrollY || (doc && doc.scrollTop) || 0) - ((doc && doc.clientTop) || 0)
     ),
   };
 }
@@ -460,7 +462,7 @@ export function empty(element) {
   }
 }
 
-const { location } = global;
+const { location } = WINDOW;
 const REGEXP_ORIGINS = /^(https?:)\/\/([^:/?#]+):?(\d*)/i;
 
 /**
@@ -533,7 +535,7 @@ export function getTransforms({
   };
 }
 
-const { navigator } = global;
+const { navigator } = WINDOW;
 const IS_SAFARI_OR_UIWEBVIEW = navigator && /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent);
 
 /**
@@ -637,7 +639,7 @@ export function getPointersCenter(pointers) {
 /**
  * Check if the given value is a finite number.
  */
-export const isFinite = Number.isFinite || global.isFinite;
+export const isFinite = Number.isFinite || WINDOW.isFinite;
 
 /**
  * Get the max sizes in a rectangle under the given aspect ratio.
