@@ -179,11 +179,11 @@ export default {
         if (cropped && this.limited) {
           canvasData.minLeft = Math.min(
             cropBoxData.left,
-            cropBoxData.left + (cropBoxData.width - canvasData.width),
+            cropBoxData.left + (cropBoxData.width - canvasData.width / this.imageData.scaleX),
           );
           canvasData.minTop = Math.min(
             cropBoxData.top,
-            cropBoxData.top + (cropBoxData.height - canvasData.height),
+            cropBoxData.top + (cropBoxData.height - canvasData.height / this.imageData.scaleY),
           );
           canvasData.maxLeft = cropBoxData.left;
           canvasData.maxTop = cropBoxData.top;
