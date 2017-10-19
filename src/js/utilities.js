@@ -709,9 +709,9 @@ export function getSourceCanvas(
   {
     naturalWidth: imageNaturalWidth,
     naturalHeight: imageNaturalHeight,
-    rotate,
-    scaleX,
-    scaleY,
+    rotate = 0,
+    scaleX = 1,
+    scaleY = 1,
   },
   {
     aspectRatio,

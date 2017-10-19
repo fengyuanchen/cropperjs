@@ -214,9 +214,9 @@ export default {
 
     if (transformed) {
       const { width: naturalWidth, height: naturalHeight } = getRotatedSizes({
-        width: imageData.naturalWidth * Math.abs(imageData.scaleX),
-        height: imageData.naturalHeight * Math.abs(imageData.scaleY),
-        degree: imageData.rotate,
+        width: imageData.naturalWidth * Math.abs(imageData.scaleX || 1),
+        height: imageData.naturalHeight * Math.abs(imageData.scaleY || 1),
+        degree: imageData.rotate || 0,
       });
       const width = canvasData.width * (naturalWidth / canvasData.naturalWidth);
       const height = canvasData.height * (naturalHeight / canvasData.naturalHeight);
