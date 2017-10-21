@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.3 (Oct 21, 2017)
+
+- Fixed a bug of render when disable one of `rotatable` and `scalable` options (#241).
+
 ## 1.1.2 (Oct 18, 2017)
 
 - Normalize related decimal numbers when crop an image with canvas.

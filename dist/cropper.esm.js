@@ -1,15 +1,14 @@
 /*!
- * Cropper.js v1.1.2
+ * Cropper.js v1.1.3
  * https://github.com/fengyuanchen/cropperjs
  *
  * Copyright (c) 2015-2017 Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2017-10-18T13:27:02.189Z
+ * Date: 2017-10-21T09:27:36.848Z
  */
 
-var global = typeof window !== 'undefined' ? window : {};
-
+var WINDOW = typeof window !== 'undefined' ? window : {};
 var NAMESPACE = 'cropper';
 
 // Actions
@@ -52,9 +51,9 @@ var EVENT_CROP_START = 'cropstart';
 var EVENT_DBLCLICK = 'dblclick';
 var EVENT_ERROR = 'error';
 var EVENT_LOAD = 'load';
-var EVENT_POINTER_DOWN = global.PointerEvent ? 'pointerdown' : 'touchstart mousedown';
-var EVENT_POINTER_MOVE = global.PointerEvent ? 'pointermove' : 'touchmove mousemove';
-var EVENT_POINTER_UP = global.PointerEvent ? ' pointerup pointercancel' : 'touchend touchcancel mouseup';
+var EVENT_POINTER_DOWN = WINDOW.PointerEvent ? 'pointerdown' : 'touchstart mousedown';
+var EVENT_POINTER_MOVE = WINDOW.PointerEvent ? 'pointermove' : 'touchmove mousemove';
+var EVENT_POINTER_UP = WINDOW.PointerEvent ? ' pointerup pointercancel' : 'touchend touchcancel mouseup';
 var EVENT_READY = 'ready';
 var EVENT_RESIZE = 'resize';
 var EVENT_WHEEL = 'wheel mousewheel DOMMouseScroll';
@@ -171,7 +170,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 /**
  * Check if the given value is not a number.
  */
-var isNaN = Number.isNaN || global.isNaN;
+var isNaN = Number.isNaN || WINDOW.isNaN;
 
 /**
  * Check if the given value is a number.
@@ -635,8 +634,8 @@ function getOffset(element) {
   var box = element.getBoundingClientRect();
 
   return {
-    left: box.left + ((global.scrollX || doc && doc.scrollLeft || 0) - (doc && doc.clientLeft || 0)),
-    top: box.top + ((global.scrollY || doc && doc.scrollTop || 0) - (doc && doc.clientTop || 0))
+    left: box.left + ((window.scrollX || doc && doc.scrollLeft || 0) - (doc && doc.clientLeft || 0)),
+    top: box.top + ((window.scrollY || doc && doc.scrollTop || 0) - (doc && doc.clientTop || 0))
   };
 }
 
@@ -650,7 +649,7 @@ function empty(element) {
   }
 }
 
-var location = global.location;
+var location = WINDOW.location;
 
 var REGEXP_ORIGINS = /^(https?:)\/\/([^:/?#]+):?(\d*)/i;
 
@@ -720,7 +719,7 @@ function getTransforms(_ref) {
   };
 }
 
-var navigator = global.navigator;
+var navigator = WINDOW.navigator;
 
 var IS_SAFARI_OR_UIWEBVIEW = navigator && /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent);
 
@@ -833,7 +832,7 @@ function getPointersCenter(pointers) {
 /**
  * Check if the given value is a finite number.
  */
-var isFinite = Number.isFinite || global.isFinite;
+var isFinite = Number.isFinite || WINDOW.isFinite;
 
 /**
  * Get the max sizes in a rectangle under the given aspect ratio.
@@ -907,9 +906,12 @@ function getRotatedSizes(_ref5) {
 function getSourceCanvas(image, _ref6, _ref7, _ref8) {
   var imageNaturalWidth = _ref6.naturalWidth,
       imageNaturalHeight = _ref6.naturalHeight,
-      rotate = _ref6.rotate,
-      scaleX = _ref6.scaleX,
-      scaleY = _ref6.scaleY;
+      _ref6$rotate = _ref6.rotate,
+      rotate = _ref6$rotate === undefined ? 0 : _ref6$rotate,
+      _ref6$scaleX = _ref6.scaleX,
+      scaleX = _ref6$scaleX === undefined ? 1 : _ref6$scaleX,
+      _ref6$scaleY = _ref6.scaleY,
+      scaleY = _ref6$scaleY === undefined ? 1 : _ref6$scaleY;
   var aspectRatio = _ref7.aspectRatio,
       naturalWidth = _ref7.naturalWidth,
       naturalHeight = _ref7.naturalHeight;
@@ -1336,9 +1338,9 @@ var render = {
 
     if (transformed) {
       var _getRotatedSizes = getRotatedSizes({
-        width: imageData.naturalWidth * Math.abs(imageData.scaleX),
-        height: imageData.naturalHeight * Math.abs(imageData.scaleY),
-        degree: imageData.rotate
+        width: imageData.naturalWidth * Math.abs(imageData.scaleX || 1),
+        height: imageData.naturalHeight * Math.abs(imageData.scaleY || 1),
+        degree: imageData.rotate || 0
       }),
           naturalWidth = _getRotatedSizes.width,
           naturalHeight = _getRotatedSizes.height;
@@ -1728,7 +1730,7 @@ var events = {
     addListener(document, EVENT_POINTER_UP, this.onCropEnd = proxy(this.cropEnd, this));
 
     if (options.responsive) {
-      addListener(global, EVENT_RESIZE, this.onResize = proxy(this.resize, this));
+      addListener(window, EVENT_RESIZE, this.onResize = proxy(this.resize, this));
     }
   },
   unbind: function unbind() {
@@ -1771,7 +1773,7 @@ var events = {
     removeListener(document, EVENT_POINTER_UP, this.onCropEnd);
 
     if (options.responsive) {
-      removeListener(global, EVENT_RESIZE, this.onResize);
+      removeListener(window, EVENT_RESIZE, this.onResize);
     }
   }
 };
@@ -3047,7 +3049,7 @@ var methods = {
   getCroppedCanvas: function getCroppedCanvas() {
     var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-    if (!this.ready || !global.HTMLCanvasElement) {
+    if (!this.ready || !window.HTMLCanvasElement) {
       return null;
     }
 
@@ -3239,7 +3241,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var AnotherCropper = global.Cropper;
+var AnotherCropper = WINDOW.Cropper;
 
 var Cropper = function () {
   /**
@@ -3303,7 +3305,7 @@ var Cropper = function () {
 
         // e.g.: "http://example.com/img/picture.jpg"
         url = element.src;
-      } else if (tagName === 'canvas' && global.HTMLCanvasElement) {
+      } else if (tagName === 'canvas' && window.HTMLCanvasElement) {
         url = element.toDataURL();
       }
 
@@ -3325,7 +3327,7 @@ var Cropper = function () {
           options = this.options;
 
 
-      if (!options.checkOrientation || !global.ArrayBuffer) {
+      if (!options.checkOrientation || !window.ArrayBuffer) {
         this.clone();
         return;
       }
@@ -3635,7 +3637,7 @@ var Cropper = function () {
   }], [{
     key: 'noConflict',
     value: function noConflict() {
-      global.Cropper = AnotherCropper;
+      window.Cropper = AnotherCropper;
       return Cropper;
     }
 
