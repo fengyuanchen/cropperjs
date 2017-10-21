@@ -2,7 +2,7 @@ QUnit.test('options#checkCrossOrigin: true', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage({
-        src: 'https://fengyuanchen.github.io/cropper/img/picture.jpg'
+        src: 'https://fengyuanchen.github.io/cropperjs/images/picture.jpg'
       });
 
   assert.expect(2);
@@ -25,7 +25,7 @@ QUnit.test('options#checkCrossOrigin: false', function (assert) {
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage({
-        src: 'https://fengyuanchen.github.io/cropper/img/picture.jpg'
+        src: 'https://fengyuanchen.github.io/cropperjs/images/picture.jpg'
       });
 
   assert.expect(2);
@@ -48,7 +48,7 @@ QUnit.test('options#checkCrossOrigin: exists crossOrigin attribute', function (a
   var done = assert.async();
   var util = window.Util;
   var image = util.createImage({
-        src: 'https://fengyuanchen.github.io/cropper/img/picture.jpg',
+        src: 'https://fengyuanchen.github.io/cropperjs/images/picture.jpg',
         crossOrigin: 'anonymous'
       });
 

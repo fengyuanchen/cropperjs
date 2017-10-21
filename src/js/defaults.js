@@ -1,9 +1,13 @@
+import {
+  DRAG_MODE_CROP,
+} from './constants';
+
 export default {
   // Define the view mode of the cropper
   viewMode: 0, // 0, 1, 2, 3
 
   // Define the dragging mode of the cropper
-  dragMode: 'crop', // 'crop', 'move' or 'none'
+  dragMode: DRAG_MODE_CROP, // 'crop', 'move' or 'none'
 
   // Define the aspect ratio of the crop box
   aspectRatio: NaN,

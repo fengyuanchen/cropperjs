@@ -1,7 +1,7 @@
 {
   "name": "cropperjs",
   "description": "JavaScript image cropper.",
-  "version": "1.0.0-rc.3",
+  "version": "1.1.3",
   "main": "dist/cropper.common.js",
   "module": "dist/cropper.esm.js",
   "browser": "dist/cropper.js",
@@ -9,9 +9,13 @@
   "repository": "fengyuanchen/cropperjs",
   "homepage": "https://fengyuanchen.github.io/cropperjs",
   "author": {
-    "name": "Fengyuan Chen",
+    "name": "Chen Fengyuan",
     "url": "http://chenfengyuan.com"
   },
+  "files": [
+    "src",
+    "dist"
+  ],
   "keywords": [
     "image",
     "crop",
@@ -31,35 +35,38 @@
     "development"
   ],
   "scripts": {
-    "build:css": "postcss -c postcss.config.json",
-    "build:js": "rollup -c",
     "build": "npm run build:css && npm run build:js",
-    "compress:css": "postcss -u cssnano dist/cropper.css -o dist/cropper.min.css",
-    "compress:js": "uglifyjs dist/cropper.js -o dist/cropper.min.js -c -m --comments /^!/",
+    "build:css": "postcss src/css/cropper.css -o dist/cropper.css -m",
+    "build:js": "rollup -c",
     "compress": "npm run compress:css && npm run compress:js",
-    "watch:css": "postcss -c postcss.config.json -w",
-    "watch:js": "rollup -c -w -m",
-    "lint": "eslint src/js",
-    "postbuild": "npm run compress && node build",
-    "prebuild": "npm run lint && npm test",
+    "compress:css": "postcss dist/cropper.css -u cssnano -o dist/cropper.min.css -m",
+    "compress:js": "uglifyjs dist/cropper.js -o dist/cropper.min.js -c -m --comments /^!/",
+    "copy": "cpy dist/cropper.css docs/css",
+    "lint": "eslint src/js --fix",
+    "release": "npm run lint && npm run build && npm run compress && npm run copy && npm test",
     "start": "npm-run-all --parallel watch:*",
-    "test": "node-qunit-phantomjs test/index.html"
+    "test": "node-qunit-phantomjs test/index.html --timeout 10",
+    "watch:css": "postcss src/css/cropper.css -o docs/css/cropper.css -m -w",
+    "watch:js": "rollup -c -m -w"
   },
   "devDependencies": {
-    "babel-plugin-external-helpers": "^6.22.0",
-    "babel-preset-es2015": "^6.22.0",
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "cpy-cli": "^1.0.1",
     "cssnano": "^3.10.0",
-    "eslint": "^3.14.0",
-    "eslint-config-airbnb-base": "^10.0.1",
-    "eslint-plugin-import": "^2.2.0",
-    "node-qunit-phantomjs": "^1.5.0",
-    "npm-run-all": "^3.1.2",
-    "postcss-assets": "^4.1.0",
-    "postcss-cli": "^2.6.0",
-    "postcss-cssnext": "^2.9.0",
-    "rollup": "^0.36.4",
-    "rollup-plugin-babel": "^2.7.1",
-    "rollup-watch": "^2.5.0",
-    "uglify-js": "^2.7.5"
+    "eslint": "^4.9.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "node-qunit-phantomjs": "^1.5.1",
+    "npm-run-all": "^4.1.1",
+    "postcss-cli": "^4.1.1",
+    "postcss-cssnext": "^3.0.2",
+    "postcss-header": "^1.0.0",
+    "postcss-url": "^7.1.2",
+    "rollup": "^0.50.0",
+    "rollup-plugin-babel": "^3.0.2",
+    "rollup-watch": "^4.3.1",
+    "stylefmt": "^6.0.0",
+    "uglify-js": "^3.1.4"
   }
 }
