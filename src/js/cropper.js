@@ -142,6 +142,10 @@ class Cropper {
     };
 
     xhr.onload = () => {
+      const mimeType = xhr.getResponseHeader('content-type');
+      if (mimeType) {
+        this.imageData.mimeType = mimeType;
+      }
       this.read(xhr.response);
     };
 
