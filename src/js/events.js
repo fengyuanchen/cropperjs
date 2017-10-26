@@ -52,8 +52,16 @@ export default {
       addListener(cropper, EVENT_DBLCLICK, (this.onDblclick = proxy(this.dblclick, this)));
     }
 
-    addListener(element.ownerDocument, EVENT_POINTER_MOVE, (this.onCropMove = proxy(this.cropMove, this)));
-    addListener(element.ownerDocument, EVENT_POINTER_UP, (this.onCropEnd = proxy(this.cropEnd, this)));
+    addListener(
+      element.ownerDocument,
+      EVENT_POINTER_MOVE,
+      (this.onCropMove = proxy(this.cropMove, this)),
+    );
+    addListener(
+      element.ownerDocument,
+      EVENT_POINTER_UP,
+      (this.onCropEnd = proxy(this.cropEnd, this)),
+    );
 
     if (options.responsive) {
       addListener(window, EVENT_RESIZE, (this.onResize = proxy(this.resize, this)));
