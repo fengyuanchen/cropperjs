@@ -166,7 +166,7 @@
 
     width: 5px;
 
-    cursor: e-resize;
+    cursor: ew-resize;
   }
 
   &.line-n {
@@ -175,7 +175,7 @@
 
     height: 5px;
 
-    cursor: n-resize;
+    cursor: ns-resize;
   }
 
   &.line-w {
@@ -184,7 +184,7 @@
 
     width: 5px;
 
-    cursor: w-resize;
+    cursor: ew-resize;
   }
 
   &.line-s {
@@ -193,7 +193,7 @@
 
     height: 5px;
 
-    cursor: s-resize;
+    cursor: ns-resize;
   }
 }
 
@@ -210,7 +210,7 @@
 
     margin-top: -3px;
 
-    cursor: e-resize;
+    cursor: ew-resize;
   }
 
   &.point-n {
@@ -219,7 +219,7 @@
 
     margin-left: -3px;
 
-    cursor: n-resize;
+    cursor: ns-resize;
   }
 
   &.point-w {
@@ -228,7 +228,7 @@
 
     margin-top: -3px;
 
-    cursor: w-resize;
+    cursor: ew-resize;
   }
 
   &.point-s {
@@ -237,28 +237,28 @@
 
     margin-left: -3px;
 
-    cursor: s-resize;
+    cursor: ns-resize;
   }
 
   &.point-ne {
     top: -3px;
     right: -3px;
 
-    cursor: ne-resize;
+    cursor: nesw-resize;
   }
 
   &.point-nw {
     top: -3px;
     left: -3px;
 
-    cursor: nw-resize;
+    cursor: nwse-resize;
   }
 
   &.point-sw {
     bottom: -3px;
     left: -3px;
 
-    cursor: sw-resize;
+    cursor: nesw-resize;
   }
 
   &.point-se {
@@ -268,7 +268,7 @@
     width: 20px;
     height: 20px;
 
-    cursor: se-resize;
+    cursor: nwse-resize;
 
     opacity: 1;
 
