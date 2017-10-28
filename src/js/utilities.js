@@ -1,45 +1,54 @@
-// RegExps
-const REGEXP_DATA_URL_HEAD = /^data:.*,/;
-const REGEXP_HYPHENATE = /([a-z\d])([A-Z])/g;
-const REGEXP_ORIGINS = /^(https?:)\/\/([^:/?#]+):?(\d*)/i;
-const REGEXP_SPACES = /\s+/;
-const REGEXP_SUFFIX = /^(width|height|left|top|marginLeft|marginTop)$/;
-const REGEXP_TRIM = /^\s+(.*)\s+$/;
-const REGEXP_USERAGENT = /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i;
+import {
+  WINDOW,
+} from './constants';
 
-// Utilities
-const navigator = typeof window !== 'undefined' ? window.navigator : null;
-const IS_SAFARI_OR_UIWEBVIEW = navigator && REGEXP_USERAGENT.test(navigator.userAgent);
-const objectProto = Object.prototype;
-const toString = objectProto.toString;
-const hasOwnProperty = objectProto.hasOwnProperty;
-const slice = Array.prototype.slice;
-const fromCharCode = String.fromCharCode;
+/**
+ * Check if the given value is not a number.
+ */
+export const isNaN = Number.isNaN || WINDOW.isNaN;
 
-export function typeOf(obj) {
-  return toString.call(obj).slice(8, -1).toLowerCase();
+/**
+ * Check if the given value is a number.
+ * @param {*} value - The value to check.
+ * @returns {boolean} Returns `true` if the given value is a number, else `false`.
+ */
+export function isNumber(value) {
+  return typeof value === 'number' && !isNaN(value);
 }
 
-export function isNumber(num) {
-  return typeof num === 'number' && !isNaN(num);
+/**
+ * Check if the given value is undefined.
+ * @param {*} value - The value to check.
+ * @returns {boolean} Returns `true` if the given value is undefined, else `false`.
+ */
+export function isUndefined(value) {
+  return typeof value === 'undefined';
 }
 
-export function isUndefined(obj) {
-  return typeof obj === 'undefined';
+/**
+ * Check if the given value is an object.
+ * @param {*} value - The value to check.
+ * @returns {boolean} Returns `true` if the given value is an object, else `false`.
+ */
+export function isObject(value) {
+  return typeof value === 'object' && value !== null;
 }
 
-export function isObject(obj) {
-  return typeof obj === 'object' && obj !== null;
-}
+const { hasOwnProperty } = Object.prototype;
 
-export function isPlainObject(obj) {
-  if (!isObject(obj)) {
+/**
+ * Check if the given value is a plain object.
+ * @param {*} value - The value to check.
+ * @returns {boolean} Returns `true` if the given value is a plain object, else `false`.
+ */
+export function isPlainObject(value) {
+  if (!isObject(value)) {
     return false;
   }
 
   try {
-    const constructor = obj.constructor;
-    const prototype = constructor.prototype;
+    const { constructor } = value;
+    const { prototype } = constructor;
 
     return constructor && prototype && hasOwnProperty.call(prototype, 'isPrototypeOf');
   } catch (e) {
@@ -47,54 +56,48 @@ export function isPlainObject(obj) {
   }
 }
 
-export function isFunction(fn) {
-  return typeOf(fn) === 'function';
+/**
+ * Check if the given value is a function.
+ * @param {*} value - The value to check.
+ * @returns {boolean} Returns `true` if the given value is a function, else `false`.
+ */
+export function isFunction(value) {
+  return typeof value === 'function';
 }
 
-export function isArray(arr) {
-  return Array.isArray ? Array.isArray(arr) : typeOf(arr) === 'array';
-}
+/**
+ * Iterate the given data.
+ * @param {*} data - The data to iterate.
+ * @param {Function} callback - The process function for each element.
+ * @returns {*} The original data.
+ */
+export function each(data, callback) {
+  if (data && isFunction(callback)) {
+    if (Array.isArray(data) || isNumber(data.length)/* array-like */) {
+      const { length } = data;
+      let i;
 
-export function toArray(obj, offset) {
-  offset = offset >= 0 ? offset : 0;
-
-  if (Array.from) {
-    return Array.from(obj).slice(offset);
-  }
-
-  return slice.call(obj, offset);
-}
-
-export function trim(str) {
-  if (typeof str === 'string') {
-    str = str.trim ? str.trim() : str.replace(REGEXP_TRIM, '$1');
-  }
-
-  return str;
-}
-
-export function each(obj, callback) {
-  if (obj && isFunction(callback)) {
-    let i;
-
-    if (isArray(obj) || isNumber(obj.length)/* array-like */) {
-      const length = obj.length;
-
-      for (i = 0; i < length; i++) {
-        if (callback.call(obj, obj[i], i, obj) === false) {
+      for (i = 0; i < length; i += 1) {
+        if (callback.call(data, data[i], i, data) === false) {
           break;
         }
       }
-    } else if (isObject(obj)) {
-      Object.keys(obj).forEach((key) => {
-        callback.call(obj, obj[key], key, obj);
+    } else if (isObject(data)) {
+      Object.keys(data).forEach((key) => {
+        callback.call(data, data[key], key, data);
       });
     }
   }
 
-  return obj;
+  return data;
 }
 
+/**
+ * Extend the given object.
+ * @param {*} obj - The object to be extended.
+ * @param {*} args - The rest objects which will be merged to the first object.
+ * @returns {Object} The extended object.
+ */
 export function extend(obj, ...args) {
   if (isObject(obj) && args.length > 0) {
     if (Object.assign) {
@@ -113,14 +116,38 @@ export function extend(obj, ...args) {
   return obj;
 }
 
+/**
+ * Takes a function and returns a new one that will always have a particular context.
+ * @param {Function} fn - The target function.
+ * @param {Object} context - The new context for the function.
+ * @returns {boolean} The new function.
+ */
 export function proxy(fn, context, ...args) {
-  return (...args2) => {
-    return fn.apply(context, args.concat(args2));
-  };
+  return (...args2) => fn.apply(context, args.concat(args2));
 }
 
+const REGEXP_DECIMALS = /\.\d*(?:0|9){12}\d*$/i;
+
+/**
+ * Normalize decimal number.
+ * Check out {@link http://0.30000000000000004.com/ }
+ * @param {number} value - The value to normalize.
+ * @param {number} [times=100000000000] - The times for normalizing.
+ * @returns {number} Returns the normalized number.
+ */
+export function normalizeDecimalNumber(value, times = 100000000000) {
+  return REGEXP_DECIMALS.test(value) ? (Math.round(value * times) / times) : value;
+}
+
+const REGEXP_SUFFIX = /^(width|height|left|top|marginLeft|marginTop)$/;
+
+/**
+ * Apply styles to the given element.
+ * @param {Element} element - The target element.
+ * @param {Object} styles - The styles for applying.
+ */
 export function setStyle(element, styles) {
-  const style = element.style;
+  const { style } = element;
 
   each(styles, (value, property) => {
     if (REGEXP_SUFFIX.test(property) && isNumber(value)) {
@@ -131,12 +158,23 @@ export function setStyle(element, styles) {
   });
 }
 
+/**
+ * Check if the given element has a special class.
+ * @param {Element} element - The element to check.
+ * @param {string} value - The class to search.
+ * @returns {boolean} Returns `true` if the special class was found.
+ */
 export function hasClass(element, value) {
   return element.classList ?
     element.classList.contains(value) :
     element.className.indexOf(value) > -1;
 }
 
+/**
+ * Add classes to the given element.
+ * @param {Element} element - The target element.
+ * @param {string} value - The classes to be added.
+ */
 export function addClass(element, value) {
   if (!value) {
     return;
@@ -154,7 +192,7 @@ export function addClass(element, value) {
     return;
   }
 
-  const className = trim(element.className);
+  const className = element.className.trim();
 
   if (!className) {
     element.className = value;
@@ -163,6 +201,11 @@ export function addClass(element, value) {
   }
 }
 
+/**
+ * Remove classes from the given element.
+ * @param {Element} element - The target element.
+ * @param {string} value - The classes to be removed.
+ */
 export function removeClass(element, value) {
   if (!value) {
     return;
@@ -185,6 +228,12 @@ export function removeClass(element, value) {
   }
 }
 
+/**
+ * Add or remove classes from the given element.
+ * @param {Element} element - The target element.
+ * @param {string} value - The classes to be toggled.
+ * @param {boolean} added - Add only.
+ */
 export function toggleClass(element, value, added) {
   if (!value) {
     return;
@@ -205,10 +254,23 @@ export function toggleClass(element, value, added) {
   }
 }
 
-export function hyphenate(str) {
-  return str.replace(REGEXP_HYPHENATE, '$1-$2').toLowerCase();
+const REGEXP_HYPHENATE = /([a-z\d])([A-Z])/g;
+
+/**
+ * Hyphenate the given value.
+ * @param {string} value - The value to hyphenate.
+ * @returns {string} The hyphenated value.
+ */
+export function hyphenate(value) {
+  return value.replace(REGEXP_HYPHENATE, '$1-$2').toLowerCase();
 }
 
+/**
+ * Get data from the given element.
+ * @param {Element} element - The target element.
+ * @param {string} name - The data key to get.
+ * @returns {string} The data value.
+ */
 export function getData(element, name) {
   if (isObject(element[name])) {
     return element[name];
@@ -219,6 +281,12 @@ export function getData(element, name) {
   return element.getAttribute(`data-${hyphenate(name)}`);
 }
 
+/**
+ * Set data to the given element.
+ * @param {Element} element - The target element.
+ * @param {string} name - The data key to set.
+ * @param {string} data - The data value.
+ */
 export function setData(element, name, data) {
   if (isObject(data)) {
     element[name] = data;
@@ -229,6 +297,11 @@ export function setData(element, name, data) {
   }
 }
 
+/**
+ * Remove data from the given element.
+ * @param {Element} element - The target element.
+ * @param {string} name - The data key to remove.
+ */
 export function removeData(element, name) {
   if (isObject(element[name])) {
     delete element[name];
@@ -244,49 +317,86 @@ export function removeData(element, name) {
   }
 }
 
-export function removeListener(element, type, handler) {
-  const types = trim(type).split(REGEXP_SPACES);
+const REGEXP_SPACES = /\s+/;
+
+/**
+ * Remove event listener from the given element.
+ * @param {Element} element - The target element.
+ * @param {string} type - The event type(s) to remove,
+ * @param {Function} listener - The event listener to remove.
+ * @param {Object} options - The event options.
+ */
+export function removeListener(element, type, listener, options = {}) {
+  if (!isFunction(listener)) {
+    return;
+  }
+
+  const types = type.trim().split(REGEXP_SPACES);
 
   if (types.length > 1) {
     each(types, (t) => {
-      removeListener(element, t, handler);
+      removeListener(element, t, listener);
     });
     return;
+  }
+
+  if (isFunction(listener.onceListener)) {
+    listener = listener.onceListener;
+    delete listener.onceListener;
   }
 
   if (element.removeEventListener) {
-    element.removeEventListener(type, handler, false);
+    element.removeEventListener(type, listener, options);
   } else if (element.detachEvent) {
-    element.detachEvent(`on${type}`, handler);
+    element.detachEvent(`on${type}`, listener);
   }
 }
 
-export function addListener(element, type, handler, once) {
-  const types = trim(type).split(REGEXP_SPACES);
-  const originalHandler = handler;
+/**
+ * Add event listener to the given element.
+ * @param {Element} element - The target element.
+ * @param {string} type - The event type(s) to add,
+ * @param {Function} listener - The event listener to add.
+ * @param {Object} options - The event options.
+ */
+export function addListener(element, type, listener, options = {}) {
+  if (!isFunction(listener)) {
+    return;
+  }
+
+  const types = type.trim().split(REGEXP_SPACES);
 
   if (types.length > 1) {
     each(types, (t) => {
-      addListener(element, t, handler);
+      addListener(element, t, listener);
     });
     return;
   }
 
-  if (once) {
-    handler = (...args) => {
-      removeListener(element, type, handler);
-
-      return originalHandler.apply(element, args);
+  if (options.once) {
+    const originalListener = listener;
+    const onceListener = (...args) => {
+      removeListener(element, type, onceListener);
+      return originalListener.apply(element, args);
     };
+    originalListener.onceListener = onceListener;
+    listener = onceListener;
   }
 
   if (element.addEventListener) {
-    element.addEventListener(type, handler, false);
+    element.addEventListener(type, listener, options);
   } else if (element.attachEvent) {
-    element.attachEvent(`on${type}`, handler);
+    element.attachEvent(`on${type}`, listener);
   }
 }
 
+/**
+ * Dispatch event on the given element.
+ * @param {Element} element - The target element.
+ * @param {string} type - The event type(s) to dispatch,
+ * @param {Object} data - The additional event data.
+ * @returns {boolean} Indicate if the event is default prevented or not.
+ */
 export function dispatchEvent(element, type, data) {
   if (element.dispatchEvent) {
     let event;
@@ -323,32 +433,11 @@ export function dispatchEvent(element, type, data) {
   return true;
 }
 
-export function getEvent(event) {
-  const e = event || window.event;
-
-  // Fix target property (IE8)
-  if (!e.target) {
-    e.target = e.srcElement || document;
-  }
-
-  if (!isNumber(e.pageX) && isNumber(e.clientX)) {
-    const eventDoc = event.target.ownerDocument || document;
-    const doc = eventDoc.documentElement;
-    const body = eventDoc.body;
-
-    e.pageX = e.clientX + (
-      ((doc && doc.scrollLeft) || (body && body.scrollLeft) || 0) -
-      ((doc && doc.clientLeft) || (body && body.clientLeft) || 0)
-    );
-    e.pageY = e.clientY + (
-      ((doc && doc.scrollTop) || (body && body.scrollTop) || 0) -
-      ((doc && doc.clientTop) || (body && body.clientTop) || 0)
-    );
-  }
-
-  return e;
-}
-
+/**
+ * Get the offset base on the document.
+ * @param {Element} element - The target element.
+ * @returns {Object} The offset data.
+ */
 export function getOffset(element) {
   const doc = document.documentElement;
   const box = element.getBoundingClientRect();
@@ -363,36 +452,24 @@ export function getOffset(element) {
   };
 }
 
-export function getByTag(element, tagName) {
-  return element.getElementsByTagName(tagName);
-}
-
-export function getByClass(element, className) {
-  return element.getElementsByClassName ?
-    element.getElementsByClassName(className) :
-    element.querySelectorAll(`.${className}`);
-}
-
-export function createElement(tagName) {
-  return document.createElement(tagName);
-}
-
-export function appendChild(element, elem) {
-  element.appendChild(elem);
-}
-
-export function removeChild(element) {
-  if (element.parentNode) {
-    element.parentNode.removeChild(element);
-  }
-}
-
+/**
+ * Empty an element.
+ * @param {Element} element - The element to empty.
+ */
 export function empty(element) {
   while (element.firstChild) {
     element.removeChild(element.firstChild);
   }
 }
 
+const { location } = WINDOW;
+const REGEXP_ORIGINS = /^(https?:)\/\/([^:/?#]+):?(\d*)/i;
+
+/**
+ * Check if the given URL is a cross origin URL.
+ * @param {string} url - The target URL.
+ * @returns {boolean} Returns `true` if the given URL is a cross origin URL, else `false`.
+ */
 export function isCrossOriginURL(url) {
   const parts = url.match(REGEXP_ORIGINS);
 
@@ -403,59 +480,53 @@ export function isCrossOriginURL(url) {
   );
 }
 
+/**
+ * Add timestamp to the given URL.
+ * @param {string} url - The target URL.
+ * @returns {string} The result URL.
+ */
 export function addTimestamp(url) {
   const timestamp = `timestamp=${(new Date()).getTime()}`;
 
   return (url + (url.indexOf('?') === -1 ? '?' : '&') + timestamp);
 }
 
-export function getImageSize(image, callback) {
-  // Modern browsers (ignore Safari)
-  if (image.naturalWidth && !IS_SAFARI_OR_UIWEBVIEW) {
-    callback(image.naturalWidth, image.naturalHeight);
-    return;
-  }
-
-  // IE8: Don't use `new Image()` here
-  const newImage = createElement('img');
-
-  newImage.onload = function load() {
-    callback(this.width, this.height);
-  };
-
-  newImage.src = image.src;
-}
-
-export function getTransforms(data) {
-  const transforms = [];
-  const translateX = data.translateX;
-  const translateY = data.translateY;
-  const rotate = data.rotate;
-  const scaleX = data.scaleX;
-  const scaleY = data.scaleY;
+/**
+ * Get transforms base on the given object.
+ * @param {Object} obj - The target object.
+ * @returns {string} A string contains transform values.
+ */
+export function getTransforms({
+  rotate,
+  scaleX,
+  scaleY,
+  translateX,
+  translateY,
+}) {
+  const values = [];
 
   if (isNumber(translateX) && translateX !== 0) {
-    transforms.push(`translateX(${translateX}px)`);
+    values.push(`translateX(${translateX}px)`);
   }
 
   if (isNumber(translateY) && translateY !== 0) {
-    transforms.push(`translateY(${translateY}px)`);
+    values.push(`translateY(${translateY}px)`);
   }
 
   // Rotate should come first before scale to match orientation transform
   if (isNumber(rotate) && rotate !== 0) {
-    transforms.push(`rotate(${rotate}deg)`);
+    values.push(`rotate(${rotate}deg)`);
   }
 
   if (isNumber(scaleX) && scaleX !== 1) {
-    transforms.push(`scaleX(${scaleX})`);
+    values.push(`scaleX(${scaleX})`);
   }
 
   if (isNumber(scaleY) && scaleY !== 1) {
-    transforms.push(`scaleY(${scaleY})`);
+    values.push(`scaleY(${scaleY})`);
   }
 
-  const transform = transforms.length ? transforms.join(' ') : 'none';
+  const transform = values.length ? values.join(' ') : 'none';
 
   return {
     WebkitTransform: transform,
@@ -464,131 +535,311 @@ export function getTransforms(data) {
   };
 }
 
-export function getRotatedSizes(data, reversed) {
-  const deg = Math.abs(data.degree) % 180;
-  const arc = ((deg > 90 ? (180 - deg) : deg) * Math.PI) / 180;
-  const sinArc = Math.sin(arc);
-  const cosArc = Math.cos(arc);
-  const width = data.width;
-  const height = data.height;
-  const aspectRatio = data.aspectRatio;
-  let newWidth;
-  let newHeight;
+const { navigator } = WINDOW;
+const IS_SAFARI_OR_UIWEBVIEW = navigator && /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent);
 
-  if (!reversed) {
-    newWidth = (width * cosArc) + (height * sinArc);
-    newHeight = (width * sinArc) + (height * cosArc);
-  } else {
-    newWidth = width / (cosArc + (sinArc / aspectRatio));
-    newHeight = newWidth / aspectRatio;
+/**
+ * Get an image's natural sizes.
+ * @param {string} image - The target image.
+ * @param {Function} callback - The callback function.
+ */
+export function getImageNaturalSizes(image, callback) {
+  // Modern browsers (except Safari)
+  if (image.naturalWidth && !IS_SAFARI_OR_UIWEBVIEW) {
+    callback(image.naturalWidth, image.naturalHeight);
+    return;
   }
 
+  const newImage = document.createElement('img');
+
+  newImage.onload = () => {
+    callback(newImage.width, newImage.height);
+  };
+
+  newImage.src = image.src;
+}
+
+/**
+ * Get the max ratio of a group of pointers.
+ * @param {string} pointers - The target pointers.
+ * @returns {number} The result ratio.
+ */
+export function getMaxZoomRatio(pointers) {
+  const pointers2 = extend({}, pointers);
+  const ratios = [];
+
+  each(pointers, (pointer, pointerId) => {
+    delete pointers2[pointerId];
+
+    each(pointers2, (pointer2) => {
+      const x1 = Math.abs(pointer.startX - pointer2.startX);
+      const y1 = Math.abs(pointer.startY - pointer2.startY);
+      const x2 = Math.abs(pointer.endX - pointer2.endX);
+      const y2 = Math.abs(pointer.endY - pointer2.endY);
+      const z1 = Math.sqrt((x1 * x1) + (y1 * y1));
+      const z2 = Math.sqrt((x2 * x2) + (y2 * y2));
+      const ratio = (z2 - z1) / z1;
+
+      ratios.push(ratio);
+    });
+  });
+
+  ratios.sort((a, b) => Math.abs(a) < Math.abs(b));
+
+  return ratios[0];
+}
+
+/**
+ * Get a pointer from an event object.
+ * @param {Object} event - The target event object.
+ * @param {boolean} endOnly - Indicates if only returns the end point coordinate or not.
+ * @returns {Object} The result pointer contains start and/or end point coordinates.
+ */
+export function getPointer({ pageX, pageY }, endOnly) {
+  const end = {
+    endX: pageX,
+    endY: pageY,
+  };
+
+  if (endOnly) {
+    return end;
+  }
+
+  return extend({
+    startX: pageX,
+    startY: pageY,
+  }, end);
+}
+
+/**
+ * Get the center point coordinate of a group of pointers.
+ * @param {Object} pointers - The target pointers.
+ * @returns {Object} The center point coordinate.
+ */
+export function getPointersCenter(pointers) {
+  let pageX = 0;
+  let pageY = 0;
+  let count = 0;
+
+  each(pointers, ({ startX, startY }) => {
+    pageX += startX;
+    pageY += startY;
+    count += 1;
+  });
+
+  pageX /= count;
+  pageY /= count;
+
   return {
-    width: newWidth,
-    height: newHeight,
+    pageX,
+    pageY,
   };
 }
 
-export function getSourceCanvas(image, data) {
-  const canvas = createElement('canvas');
+/**
+ * Check if the given value is a finite number.
+ */
+export const isFinite = Number.isFinite || WINDOW.isFinite;
+
+/**
+ * Get the max sizes in a rectangle under the given aspect ratio.
+ * @param {Object} data - The original sizes.
+ * @returns {Object} The result sizes.
+ */
+export function getContainSizes({
+  aspectRatio,
+  height,
+  width,
+}) {
+  const isValidNumber = value => isFinite(value) && value > 0;
+
+  if (isValidNumber(width) && isValidNumber(height)) {
+    if (height * aspectRatio > width) {
+      height = width / aspectRatio;
+    } else {
+      width = height * aspectRatio;
+    }
+  } else if (isValidNumber(width)) {
+    height = width / aspectRatio;
+  } else if (isValidNumber(height)) {
+    width = height * aspectRatio;
+  }
+
+  return {
+    width,
+    height,
+  };
+}
+
+/**
+ * Get the new sizes of a rectangle after rotated.
+ * @param {Object} data - The original sizes.
+ * @returns {Object} The result sizes.
+ */
+export function getRotatedSizes({ width, height, degree }) {
+  degree = Math.abs(degree);
+
+  if (degree % 180 === 90) {
+    return {
+      width: height,
+      height: width,
+    };
+  }
+
+  const arc = ((degree % 90) * Math.PI) / 180;
+  const sinArc = Math.sin(arc);
+  const cosArc = Math.cos(arc);
+
+  return {
+    width: (width * cosArc) + (height * sinArc),
+    height: (width * sinArc) + (height * cosArc),
+  };
+}
+
+/**
+ * Get a canvas which drew the given image.
+ * @param {HTMLImageElement} image - The image for drawing.
+ * @param {Object} imageData - The image data.
+ * @param {Object} canvasData - The canvas data.
+ * @param {Object} options - The options.
+ * @returns {HTMLCanvasElement} The result canvas.
+ */
+export function getSourceCanvas(
+  image,
+  {
+    naturalWidth: imageNaturalWidth,
+    naturalHeight: imageNaturalHeight,
+    rotate = 0,
+    scaleX = 1,
+    scaleY = 1,
+  },
+  {
+    aspectRatio,
+    naturalWidth,
+    naturalHeight,
+  },
+  {
+    fillColor = 'transparent',
+    imageSmoothingEnabled = true,
+    imageSmoothingQuality = 'low',
+    maxWidth = Infinity,
+    maxHeight = Infinity,
+    minWidth = 0,
+    minHeight = 0,
+  },
+) {
+  const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
-  let dstX = 0;
-  let dstY = 0;
-  const dstWidth = data.naturalWidth;
-  const dstHeight = data.naturalHeight;
-  const rotate = data.rotate;
-  const scaleX = data.scaleX;
-  const scaleY = data.scaleY;
-  const scalable = isNumber(scaleX) && isNumber(scaleY) && (scaleX !== 1 || scaleY !== 1);
-  const rotatable = isNumber(rotate) && rotate !== 0;
-  const advanced = rotatable || scalable;
-  let canvasWidth = dstWidth * Math.abs(scaleX || 1);
-  let canvasHeight = dstHeight * Math.abs(scaleY || 1);
-  let translateX;
-  let translateY;
-  let rotated;
+  const maxSizes = getContainSizes({
+    aspectRatio,
+    width: maxWidth,
+    height: maxHeight,
+  });
+  const minSizes = getContainSizes({
+    aspectRatio,
+    width: minWidth,
+    height: minHeight,
+  });
+  const width = Math.min(maxSizes.width, Math.max(minSizes.width, naturalWidth));
+  const height = Math.min(maxSizes.height, Math.max(minSizes.height, naturalHeight));
+  const params = [
+    -imageNaturalWidth / 2,
+    -imageNaturalHeight / 2,
+    imageNaturalWidth,
+    imageNaturalHeight,
+  ];
 
-  if (scalable) {
-    translateX = canvasWidth / 2;
-    translateY = canvasHeight / 2;
-  }
-
-  if (rotatable) {
-    rotated = getRotatedSizes({
-      width: canvasWidth,
-      height: canvasHeight,
-      degree: rotate,
-    });
-
-    canvasWidth = rotated.width;
-    canvasHeight = rotated.height;
-    translateX = canvasWidth / 2;
-    translateY = canvasHeight / 2;
-  }
-
-  canvas.width = canvasWidth;
-  canvas.height = canvasHeight;
-
-  if (advanced) {
-    dstX = -dstWidth / 2;
-    dstY = -dstHeight / 2;
-
-    context.save();
-    context.translate(translateX, translateY);
-  }
-
-  // Rotate should come first before scale as in the "getTransform" function
-  if (rotatable) {
-    context.rotate((rotate * Math.PI) / 180);
-  }
-
-  if (scalable) {
-    context.scale(scaleX, scaleY);
-  }
-
-  context.drawImage(
-    image,
-    Math.floor(dstX),
-    Math.floor(dstY),
-    Math.floor(dstWidth),
-    Math.floor(dstHeight)
-  );
-
-  if (advanced) {
-    context.restore();
-  }
-
+  canvas.width = normalizeDecimalNumber(width);
+  canvas.height = normalizeDecimalNumber(height);
+  context.fillStyle = fillColor;
+  context.fillRect(0, 0, width, height);
+  context.save();
+  context.translate(width / 2, height / 2);
+  context.rotate((rotate * Math.PI) / 180);
+  context.scale(scaleX, scaleY);
+  context.imageSmoothingEnabled = imageSmoothingEnabled;
+  context.imageSmoothingQuality = imageSmoothingQuality;
+  context.drawImage(image, ...params.map(param => Math.floor(normalizeDecimalNumber(param))));
+  context.restore();
   return canvas;
 }
 
+const { fromCharCode } = String;
+
+/**
+ * Get string from char code in data view.
+ * @param {DataView} dataView - The data view for read.
+ * @param {number} start - The start index.
+ * @param {number} length - The read length.
+ * @returns {string} The read result.
+ */
 export function getStringFromCharCode(dataView, start, length) {
   let str = '';
-  let i = start;
+  let i;
 
-  for (length += start; i < length; i++) {
+  length += start;
+
+  for (i = start; i < length; i += 1) {
     str += fromCharCode(dataView.getUint8(i));
   }
 
   return str;
 }
 
+const REGEXP_DATA_URL_HEAD = /^data:.*,/;
+
+/**
+ * Transform Data URL to array buffer.
+ * @param {string} dataURL - The Data URL to transform.
+ * @returns {ArrayBuffer} The result array buffer.
+ */
+export function dataURLToArrayBuffer(dataURL) {
+  const base64 = dataURL.replace(REGEXP_DATA_URL_HEAD, '');
+  const binary = atob(base64);
+  const arrayBuffer = new ArrayBuffer(binary.length);
+  const uint8 = new Uint8Array(arrayBuffer);
+
+  each(uint8, (value, i) => {
+    uint8[i] = binary.charCodeAt(i);
+  });
+
+  return arrayBuffer;
+}
+
+/**
+ * Transform array buffer to Data URL.
+ * @param {ArrayBuffer} arrayBuffer - The array buffer to transform.
+ * @param {string} mimeType - The mime type of the Data URL.
+ * @returns {string} The result Data URL.
+ */
+export function arrayBufferToDataURL(arrayBuffer, mimeType) {
+  const uint8 = new Uint8Array(arrayBuffer);
+  let data = '';
+
+  // TypedArray.prototype.forEach is not supported in some browsers.
+  each(uint8, (value) => {
+    data += fromCharCode(value);
+  });
+
+  return `data:${mimeType};base64,${btoa(data)}`;
+}
+
+/**
+ * Get orientation value from given array buffer.
+ * @param {ArrayBuffer} arrayBuffer - The array buffer to read.
+ * @returns {number} The read orientation value.
+ */
 export function getOrientation(arrayBuffer) {
   const dataView = new DataView(arrayBuffer);
-  let length = dataView.byteLength;
   let orientation;
-  let exifIDCode;
-  let tiffOffset;
-  let firstIFDOffset;
   let littleEndian;
-  let endianness;
   let app1Start;
   let ifdStart;
-  let offset;
-  let i;
 
   // Only handle JPEG image (start by 0xFFD8)
   if (dataView.getUint8(0) === 0xFF && dataView.getUint8(1) === 0xD8) {
-    offset = 2;
+    const length = dataView.byteLength;
+    let offset = 2;
 
     while (offset < length) {
       if (dataView.getUint8(offset) === 0xFF && dataView.getUint8(offset + 1) === 0xE1) {
@@ -596,21 +847,22 @@ export function getOrientation(arrayBuffer) {
         break;
       }
 
-      offset++;
+      offset += 1;
     }
   }
 
   if (app1Start) {
-    exifIDCode = app1Start + 4;
-    tiffOffset = app1Start + 10;
+    const exifIDCode = app1Start + 4;
+    const tiffOffset = app1Start + 10;
 
     if (getStringFromCharCode(dataView, exifIDCode, 4) === 'Exif') {
-      endianness = dataView.getUint16(tiffOffset);
+      const endianness = dataView.getUint16(tiffOffset);
+
       littleEndian = endianness === 0x4949;
 
       if (littleEndian || endianness === 0x4D4D /* bigEndian */) {
         if (dataView.getUint16(tiffOffset + 2, littleEndian) === 0x002A) {
-          firstIFDOffset = dataView.getUint32(tiffOffset + 4, littleEndian);
+          const firstIFDOffset = dataView.getUint32(tiffOffset + 4, littleEndian);
 
           if (firstIFDOffset >= 0x00000008) {
             ifdStart = tiffOffset + firstIFDOffset;
@@ -621,9 +873,11 @@ export function getOrientation(arrayBuffer) {
   }
 
   if (ifdStart) {
-    length = dataView.getUint16(ifdStart, littleEndian);
+    const length = dataView.getUint16(ifdStart, littleEndian);
+    let offset;
+    let i;
 
-    for (i = 0; i < length; i++) {
+    for (i = 0; i < length; i += 1) {
       offset = ifdStart + (i * 12) + 2;
 
       if (dataView.getUint16(offset, littleEndian) === 0x0112 /* Orientation */) {
@@ -633,11 +887,8 @@ export function getOrientation(arrayBuffer) {
         // Get the original orientation value
         orientation = dataView.getUint16(offset, littleEndian);
 
-        // Override the orientation with its default value for Safari
-        if (IS_SAFARI_OR_UIWEBVIEW) {
-          dataView.setUint16(offset, 1, littleEndian);
-        }
-
+        // Override the orientation with its default value
+        dataView.setUint16(offset, 1, littleEndian);
         break;
       }
     }
@@ -646,31 +897,60 @@ export function getOrientation(arrayBuffer) {
   return orientation;
 }
 
-export function dataURLToArrayBuffer(dataURL) {
-  const base64 = dataURL.replace(REGEXP_DATA_URL_HEAD, '');
-  const binary = atob(base64);
-  const length = binary.length;
-  const arrayBuffer = new ArrayBuffer(length);
-  const dataView = new Uint8Array(arrayBuffer);
-  let i;
+/**
+ * Parse Exif Orientation value.
+ * @param {number} orientation - The orientation to parse.
+ * @returns {Object} The parsed result.
+ */
+export function parseOrientation(orientation) {
+  let rotate = 0;
+  let scaleX = 1;
+  let scaleY = 1;
 
-  for (i = 0; i < length; i++) {
-    dataView[i] = binary.charCodeAt(i);
+  switch (orientation) {
+    // Flip horizontal
+    case 2:
+      scaleX = -1;
+      break;
+
+    // Rotate left 180°
+    case 3:
+      rotate = -180;
+      break;
+
+    // Flip vertical
+    case 4:
+      scaleY = -1;
+      break;
+
+    // Flip vertical and rotate right 90°
+    case 5:
+      rotate = 90;
+      scaleY = -1;
+      break;
+
+    // Rotate right 90°
+    case 6:
+      rotate = 90;
+      break;
+
+    // Flip horizontal and rotate right 90°
+    case 7:
+      rotate = 90;
+      scaleX = -1;
+      break;
+
+    // Rotate left 90°
+    case 8:
+      rotate = -90;
+      break;
+
+    default:
   }
 
-  return arrayBuffer;
-}
-
-// Only available for JPEG image
-export function arrayBufferToDataURL(arrayBuffer) {
-  const dataView = new Uint8Array(arrayBuffer);
-  const length = dataView.length;
-  let base64 = '';
-  let i;
-
-  for (i = 0; i < length; i++) {
-    base64 += fromCharCode(dataView[i]);
-  }
-
-  return `data:image/jpeg;base64,${btoa(base64)}`;
+  return {
+    rotate,
+    scaleX,
+    scaleY,
+  };
 }

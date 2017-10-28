@@ -42,7 +42,6 @@ window.Util = {
     var event;
 
     if (element.dispatchEvent) {
-
       // Event and CustomEvent on IE9-11 are global objects, not constructors
       if (typeof Event === 'function' && typeof CustomEvent === 'function') {
         if (!data) {
@@ -57,21 +56,17 @@ window.Util = {
             cancelable: true
           });
         }
+      } else if (!data) {
+        event = document.createEvent('Event');
+        event.initEvent(type, true, true);
       } else {
-        // IE9-11
-        if (!data) {
-          event = document.createEvent('Event');
-          event.initEvent(type, true, true);
-        } else {
-          event = document.createEvent('CustomEvent');
-          event.initCustomEvent(type, true, true, data);
-        }
+        event = document.createEvent('CustomEvent');
+        event.initCustomEvent(type, true, true, data);
       }
 
       // IE9+
       return element.dispatchEvent(event);
     } else if (element.fireEvent) {
-
       // IE6-10 (native events only)
       return element.fireEvent('on' + type);
     }

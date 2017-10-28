@@ -6,21 +6,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="JavaScript image cropper.">
   <meta name="keywords" content="HTML, CSS, JS, JavaScript, image cropping, cropper, cropperjs, cropper.js, front-end, web development">
-  <meta name="author" content="Fengyuan Chen">
+  <meta name="author" content="Chen Fengyuan">
   <title>Cropper.js</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/css/tether.min.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
   <link rel="stylesheet" href="css/cropper.css">
   <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
   <!--[if lt IE 9]>
-  <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <div class="alert alert-warning alert-dismissible fade show m-0 rounded-0" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.
+  </div>
   <![endif]-->
 
   <!-- Header -->
-  <header class="navbar navbar-light navbar-toggleable-md">
+  <header class="navbar navbar-light navbar-expand-md">
     <div class="container">
       <a class="navbar-brand" href="./">Cropper.js</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,24 +32,28 @@
       </button>
       <div class="collapse navbar-collapse justify-content-end" id="navbar-collapse" role="navigation">
         <nav class="nav navbar-nav">
-          <a class="nav-link" href="https://github.com/fengyuanchen/cropperjs/blob/master/README.md">Docs</a>
-          <a class="nav-link" href="https://fengyuanchen.github.io/photo-editor" title="An advanced example of Cropper.js">Photo Editor</a>
-          <a class="nav-link" href="https://github.com/fengyuanchen/cropperjs">GitHub</a>
-          <a class="nav-link" href="https://fengyuanchen.github.io">More</a>
-          <a class="nav-link" href="http://chenfengyuan.com">About</a>
+          <a class="nav-link" href="https://github.com/fengyuanchen/cropperjs/blob/master/README.md" data-toggle="tooltip" title="View the documentation">Docs</a>
+          <a class="nav-link" href="https://fengyuanchen.github.io/photo-editor" data-toggle="tooltip" title="An advanced example of Cropper.js">Photo Editor</a>
+          <a class="nav-link" href="https://github.com/fengyuanchen/cropperjs" data-toggle="tooltip" title="View the GitHub project">GitHub</a>
+          <a class="nav-link" href="https://fengyuanchen.github.io" data-toggle="tooltip" title="More projects">More</a>
+          <a class="nav-link" href="http://chenfengyuan.com" data-toggle="tooltip" title="About the author">About</a>
         </nav>
       </div>
     </nav>
   </header>
 
   <!-- Jumbotron -->
-  <div class="jumbotron docs-jumbotron">
+  <div class="jumbotron bg-primary text-white rounded-0">
     <div class="container">
-      <h1>Cropper.js <small class="version">v1.0.0-rc</small></h1>
-      <p class="lead">JavaScript image cropper.</p>
-      <div class="docs-carbonads-container">
-        <div class="docs-carbonads">
-          <script id="_carbonads_js" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=fengyuanchen" async></script>
+      <div class="row">
+        <div class="col-md">
+          <h1>Cropper.js <small class="h6">v1.1.3</small></h1>
+          <p class="lead">JavaScript image cropper.</p>
+        </div>
+        <div class="col-md">
+          <div class="carbonads">
+            <script id="_carbonads_js" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=fengyuanchen" async></script>
+          </div>
         </div>
       </div>
     </div>
@@ -231,17 +239,17 @@
         </div>
 
         <div class="btn-group btn-group-crop">
-          <button type="button" class="btn btn-primary" data-method="getCroppedCanvas">
-            <span class="docs-tooltip" data-toggle="tooltip" title="cropper.getCroppedCanvas()">
+          <button type="button" class="btn btn-success" data-method="getCroppedCanvas" data-option="{ &quot;maxWidth&quot;: 4096, &quot;maxHeight&quot;: 4096 }">
+            <span class="docs-tooltip" data-toggle="tooltip" title="cropper.getCroppedCanvas({ maxWidth: 4096, maxHeight: 4096 })">
               Get Cropped Canvas
             </span>
           </button>
-          <button type="button" class="btn btn-primary" data-method="getCroppedCanvas" data-option="{ &quot;width&quot;: 160, &quot;height&quot;: 90 }">
+          <button type="button" class="btn btn-success" data-method="getCroppedCanvas" data-option="{ &quot;width&quot;: 160, &quot;height&quot;: 90 }">
             <span class="docs-tooltip" data-toggle="tooltip" title="cropper.getCroppedCanvas({ width: 160, height: 90 })">
               160&times;90
             </span>
           </button>
-          <button type="button" class="btn btn-primary" data-method="getCroppedCanvas" data-option="{ &quot;width&quot;: 320, &quot;height&quot;: 180 }">
+          <button type="button" class="btn btn-success" data-method="getCroppedCanvas" data-option="{ &quot;width&quot;: 320, &quot;height&quot;: 180 }">
             <span class="docs-tooltip" data-toggle="tooltip" title="cropper.getCroppedCanvas({ width: 320, height: 180 })">
               320&times;180
             </span>
@@ -253,8 +261,10 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="getCroppedCanvasTitle">Cropped</h4>
+                <h5 class="modal-title" id="getCroppedCanvasTitle">Cropped</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
               </div>
               <div class="modal-body"></div>
               <div class="modal-footer">
@@ -265,68 +275,73 @@
           </div>
         </div><!-- /.modal -->
 
-        <button type="button" class="btn btn-primary" data-method="getData" data-option data-target="#putData">
+        <button type="button" class="btn btn-secondary" data-method="getData" data-option data-target="#putData">
           <span class="docs-tooltip" data-toggle="tooltip" title="cropper.getData()">
             Get Data
           </span>
         </button>
-        <button type="button" class="btn btn-primary" data-method="setData" data-target="#putData">
+        <button type="button" class="btn btn-secondary" data-method="setData" data-target="#putData">
           <span class="docs-tooltip" data-toggle="tooltip" title="cropper.setData(data)">
             Set Data
           </span>
         </button>
-        <button type="button" class="btn btn-primary" data-method="getContainerData" data-option data-target="#putData">
+        <button type="button" class="btn btn-secondary" data-method="getContainerData" data-option data-target="#putData">
           <span class="docs-tooltip" data-toggle="tooltip" title="cropper.getContainerData()">
             Get Container Data
           </span>
         </button>
-        <button type="button" class="btn btn-primary" data-method="getImageData" data-option data-target="#putData">
+        <button type="button" class="btn btn-secondary" data-method="getImageData" data-option data-target="#putData">
           <span class="docs-tooltip" data-toggle="tooltip" title="cropper.getImageData()">
             Get Image Data
           </span>
         </button>
-        <button type="button" class="btn btn-primary" data-method="getCanvasData" data-option data-target="#putData">
+        <button type="button" class="btn btn-secondary" data-method="getCanvasData" data-option data-target="#putData">
           <span class="docs-tooltip" data-toggle="tooltip" title="cropper.getCanvasData()">
             Get Canvas Data
           </span>
         </button>
-        <button type="button" class="btn btn-primary" data-method="setCanvasData" data-target="#putData">
+        <button type="button" class="btn btn-secondary" data-method="setCanvasData" data-target="#putData">
           <span class="docs-tooltip" data-toggle="tooltip" title="cropper.setCanvasData(data)">
             Set Canvas Data
           </span>
         </button>
-        <button type="button" class="btn btn-primary" data-method="getCropBoxData" data-option data-target="#putData">
+        <button type="button" class="btn btn-secondary" data-method="getCropBoxData" data-option data-target="#putData">
           <span class="docs-tooltip" data-toggle="tooltip" title="cropper.getCropBoxData()">
             Get Crop Box Data
           </span>
         </button>
-        <button type="button" class="btn btn-primary" data-method="setCropBoxData" data-target="#putData">
+        <button type="button" class="btn btn-secondary" data-method="setCropBoxData" data-target="#putData">
           <span class="docs-tooltip" data-toggle="tooltip" title="cropper.setCropBoxData(data)">
             Set Crop Box Data
           </span>
         </button>
-        <button type="button" class="btn btn-primary" data-method="moveTo" data-option="0">
+        <button type="button" class="btn btn-secondary" data-method="moveTo" data-option="0">
           <span class="docs-tooltip" data-toggle="tooltip" title="cropper.moveTo(0)">
-            0,0
+            Move to [0,0]
           </span>
         </button>
-        <button type="button" class="btn btn-primary" data-method="zoomTo" data-option="1">
+        <button type="button" class="btn btn-secondary" data-method="zoomTo" data-option="1">
           <span class="docs-tooltip" data-toggle="tooltip" title="cropper.zoomTo(1)">
-            100%
+            Zoom to 100%
           </span>
         </button>
-        <button type="button" class="btn btn-primary" data-method="rotateTo" data-option="180">
+        <button type="button" class="btn btn-secondary" data-method="rotateTo" data-option="180">
           <span class="docs-tooltip" data-toggle="tooltip" title="cropper.rotateTo(180)">
-            180°
+            Rotate 180°
           </span>
         </button>
-        <input type="text" class="form-control" id="putData" placeholder="Get data to here or set data with this value">
+        <button type="button" class="btn btn-secondary" data-method="scale" data-option="-2" data-second-option="-1">
+          <span class="docs-tooltip" data-toggle="tooltip" title="cropper.scale(-2, -1)">
+            Scale (-2, -1)
+          </span>
+        </button>
+        <textarea class="form-control" id="putData" rows="1" placeholder="Get data to here or set data with this value"></textarea>
 
       </div><!-- /.docs-buttons -->
 
       <div class="col-md-3 docs-toggles">
         <!-- <h3>Toggles:</h3> -->
-        <div class="btn-group docs-aspect-ratios" data-toggle="buttons">
+        <div class="btn-group d-flex flex-nowrap" data-toggle="buttons">
           <label class="btn btn-primary active">
             <input type="radio" class="sr-only" id="aspectRatio1" name="aspectRatio" value="1.7777777777777777">
             <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: 16 / 9">
@@ -359,7 +374,7 @@
           </label>
         </div>
 
-        <div class="btn-group docs-view-modes" data-toggle="buttons">
+        <div class="btn-group d-flex flex-nowrap" data-toggle="buttons">
           <label class="btn btn-primary active">
             <input type="radio" class="sr-only" id="viewMode0" name="viewMode" value="0" checked>
             <span class="docs-tooltip" data-toggle="tooltip" title="View Mode 0">
@@ -392,136 +407,136 @@
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" role="menu" aria-labelledby="toggleOptions">
-            <li role="presentation">
-              <label class="checkbox-inline">
-                <input type="checkbox" name="responsive" checked>
+            <li class="dropdown-item">
+              <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" name="responsive" checked>
                 responsive
               </label>
             </li>
-            <li role="presentation">
-              <label class="checkbox-inline">
-                <input type="checkbox" name="restore" checked>
+            <li class="dropdown-item">
+              <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" name="restore" checked>
                 restore
               </label>
             </li>
-            <li role="presentation">
-              <label class="checkbox-inline">
-                <input type="checkbox" name="checkCrossOrigin" checked>
+            <li class="dropdown-item">
+              <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" name="checkCrossOrigin" checked>
                 checkCrossOrigin
               </label>
             </li>
-            <li role="presentation">
-              <label class="checkbox-inline">
-                <input type="checkbox" name="checkOrientation" checked>
+            <li class="dropdown-item">
+              <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" name="checkOrientation" checked>
                 checkOrientation
               </label>
             </li>
 
-            <li role="presentation">
-              <label class="checkbox-inline">
-                <input type="checkbox" name="modal" checked>
+            <li class="dropdown-item">
+              <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" name="modal" checked>
                 modal
               </label>
             </li>
-            <li role="presentation">
-              <label class="checkbox-inline">
-                <input type="checkbox" name="guides" checked>
+            <li class="dropdown-item">
+              <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" name="guides" checked>
                 guides
               </label>
             </li>
-            <li role="presentation">
-              <label class="checkbox-inline">
-                <input type="checkbox" name="center" checked>
+            <li class="dropdown-item">
+              <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" name="center" checked>
                 center
               </label>
             </li>
-            <li role="presentation">
-              <label class="checkbox-inline">
-                <input type="checkbox" name="highlight" checked>
+            <li class="dropdown-item">
+              <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" name="highlight" checked>
                 highlight
               </label>
             </li>
-            <li role="presentation">
-              <label class="checkbox-inline">
-                <input type="checkbox" name="background" checked>
+            <li class="dropdown-item">
+              <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" name="background" checked>
                 background
               </label>
             </li>
 
-            <li role="presentation">
-              <label class="checkbox-inline">
-                <input type="checkbox" name="autoCrop" checked>
+            <li class="dropdown-item">
+              <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" name="autoCrop" checked>
                 autoCrop
               </label>
             </li>
-            <li role="presentation">
-              <label class="checkbox-inline">
-                <input type="checkbox" name="movable" checked>
+            <li class="dropdown-item">
+              <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" name="movable" checked>
                 movable
               </label>
             </li>
-            <li role="presentation">
-              <label class="checkbox-inline">
-                <input type="checkbox" name="rotatable" checked>
+            <li class="dropdown-item">
+              <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" name="rotatable" checked>
                 rotatable
               </label>
             </li>
-            <li role="presentation">
-              <label class="checkbox-inline">
-                <input type="checkbox" name="scalable" checked>
+            <li class="dropdown-item">
+              <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" name="scalable" checked>
                 scalable
               </label>
             </li>
-            <li role="presentation">
-              <label class="checkbox-inline">
-                <input type="checkbox" name="zoomable" checked>
+            <li class="dropdown-item">
+              <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" name="zoomable" checked>
                 zoomable
               </label>
             </li>
-            <li role="presentation">
-              <label class="checkbox-inline">
-                <input type="checkbox" name="zoomOnTouch" checked>
+            <li class="dropdown-item">
+              <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" name="zoomOnTouch" checked>
                 zoomOnTouch
               </label>
             </li>
-            <li role="presentation">
-              <label class="checkbox-inline">
-                <input type="checkbox" name="zoomOnWheel" checked>
+            <li class="dropdown-item">
+              <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" name="zoomOnWheel" checked>
                 zoomOnWheel
               </label>
             </li>
-            <li role="presentation">
-              <label class="checkbox-inline">
-                <input type="checkbox" name="cropBoxMovable" checked>
+            <li class="dropdown-item">
+              <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" name="cropBoxMovable" checked>
                 cropBoxMovable
               </label>
             </li>
-            <li role="presentation">
-              <label class="checkbox-inline">
-                <input type="checkbox" name="cropBoxResizable" checked>
+            <li class="dropdown-item">
+              <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" name="cropBoxResizable" checked>
                 cropBoxResizable
               </label>
             </li>
-            <li role="presentation">
-              <label class="checkbox-inline">
-                <input type="checkbox" name="toggleDragModeOnDblclick" checked>
+            <li class="dropdown-item">
+              <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" name="toggleDragModeOnDblclick" checked>
                 toggleDragModeOnDblclick
               </label>
             </li>
           </ul>
         </div><!-- /.dropdown -->
 
-        <a class="btn btn-secondary btn-block" data-toggle="tooltip" href="https://fengyuanchen.github.io/photo-editor" title="An advanced example of Cropper.js">Photo Editor</a>
+        <a class="btn btn-success btn-block" data-toggle="tooltip" href="https://fengyuanchen.github.io/photo-editor" title="An advanced example of Cropper.js">Photo Editor</a>
 
       </div><!-- /.docs-toggles -->
     </div>
   </div>
 
   <!-- Footer -->
-  <footer class="docs-footer">
+  <footer class="footer">
     <div class="container">
       <p class="heart"></p>
-      <nav class="nav flex-wrap justify-content-center">
+      <nav class="nav flex-wrap justify-content-center mb-3">
         <a class="nav-link" href="https://github.com/fengyuanchen/cropperjs">GitHub</a>
         <a class="nav-link" href="https://github.com/fengyuanchen/cropperjs/tree/master/examples">Examples</a>
         <a class="nav-link" href="https://github.com/fengyuanchen/cropperjs/blob/master/LICENSE">License</a>
@@ -531,9 +546,9 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
   <script src="https://fengyuanchen.github.io/js/common.js"></script>
   <script src="js/cropper.js"></script>
   <script src="js/main.js"></script>

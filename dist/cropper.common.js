@@ -8,11 +8,7 @@
  * Date: 2017-10-21T09:27:36.848Z
  */
 
-(function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-	typeof define === 'function' && define.amd ? define(factory) :
-	(global.Cropper = factory());
-}(this, (function () { 'use strict';
+'use strict';
 
 var WINDOW = typeof window !== 'undefined' ? window : {};
 var NAMESPACE = 'cropper';
@@ -3664,6 +3660,4 @@ var Cropper = function () {
 
 extend(Cropper.prototype, render, preview, events, handlers, change, methods);
 
-return Cropper;
-
-})));
+module.exports = Cropper;

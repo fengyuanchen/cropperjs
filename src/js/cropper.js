@@ -6,67 +6,94 @@ import events from './events';
 import handlers from './handlers';
 import change from './change';
 import methods from './methods';
-import * as $ from './utilities';
+import {
+  ACTION_ALL,
+  CLASS_HIDDEN,
+  CLASS_HIDE,
+  CLASS_INVISIBLE,
+  CLASS_MODAL,
+  CLASS_MOVE,
+  DATA_ACTION,
+  EVENT_CROP,
+  EVENT_ERROR,
+  EVENT_LOAD,
+  EVENT_READY,
+  NAMESPACE,
+  REGEXP_DATA_URL,
+  REGEXP_DATA_URL_JPEG,
+  REGEXP_TAG_NAME,
+  WINDOW,
+} from './constants';
+import {
+  addClass,
+  addListener,
+  addTimestamp,
+  arrayBufferToDataURL,
+  dataURLToArrayBuffer,
+  dispatchEvent,
+  extend,
+  getData,
+  getImageNaturalSizes,
+  getOrientation,
+  isCrossOriginURL,
+  isFunction,
+  isPlainObject,
+  parseOrientation,
+  proxy,
+  removeClass,
+  removeListener,
+  setData,
+} from './utilities';
 
-// Constants
-const NAMESPACE = 'cropper';
-
-// Classes
-const CLASS_HIDDEN = `${NAMESPACE}-hidden`;
-
-// Events
-const EVENT_ERROR = 'error';
-const EVENT_LOAD = 'load';
-const EVENT_READY = 'ready';
-const EVENT_CROP = 'crop';
-
-// RegExps
-const REGEXP_DATA_URL = /^data:/;
-const REGEXP_DATA_URL_JPEG = /^data:image\/jpeg;base64,/;
-
-let AnotherCropper;
+const AnotherCropper = WINDOW.Cropper;
 
 class Cropper {
-  constructor(element, options) {
-    const self = this;
+  /**
+   * Create a new Cropper.
+   * @param {Element} element - The target element for cropping.
+   * @param {Object} [options={}] - The configuration options.
+   */
+  constructor(element, options = {}) {
+    if (!element || !REGEXP_TAG_NAME.test(element.tagName)) {
+      throw new Error('The first argument is required and must be an <img> or <canvas> element.');
+    }
 
-    self.element = element;
-    self.options = $.extend({}, DEFAULTS, $.isPlainObject(options) && options);
-    self.loaded = false;
-    self.ready = false;
-    self.complete = false;
-    self.rotated = false;
-    self.cropped = false;
-    self.disabled = false;
-    self.replaced = false;
-    self.limited = false;
-    self.wheeling = false;
-    self.isImg = false;
-    self.originalUrl = '';
-    self.canvasData = null;
-    self.cropBoxData = null;
-    self.previews = null;
-    self.pointers = {};
-    self.init();
+    this.element = element;
+    this.options = extend({}, DEFAULTS, isPlainObject(options) && options);
+    this.complete = false;
+    this.cropped = false;
+    this.disabled = false;
+    this.isImg = false;
+    this.limited = false;
+    this.loaded = false;
+    this.ready = false;
+    this.replaced = false;
+    this.wheeling = false;
+    this.originalUrl = '';
+    this.canvasData = null;
+    this.cropBoxData = null;
+    this.previews = null;
+    this.pointers = {};
+    this.init();
   }
 
   init() {
-    const self = this;
-    const element = self.element;
+    const { element } = this;
     const tagName = element.tagName.toLowerCase();
     let url;
 
-    if ($.getData(element, NAMESPACE)) {
+    if (getData(element, NAMESPACE)) {
       return;
     }
 
-    $.setData(element, NAMESPACE, self);
+    setData(element, NAMESPACE, this);
 
     if (tagName === 'img') {
-      self.isImg = true;
+      this.isImg = true;
 
       // e.g.: "img/picture.jpg"
-      self.originalUrl = url = element.getAttribute('src');
+      url = element.getAttribute('src') || '';
+      this.originalUrl = url;
 
       // Stop when it's a blank image
       if (!url) {
@@ -79,48 +106,47 @@ class Cropper {
       url = element.toDataURL();
     }
 
-    self.load(url);
+    this.load(url);
   }
 
   load(url) {
-    const self = this;
-    const options = self.options;
-    const element = self.element;
-
     if (!url) {
       return;
     }
 
-    self.url = url;
-    self.imageData = {};
+    this.url = url;
+    this.imageData = {};
+
+    const { element, options } = this;
 
     if (!options.checkOrientation || !window.ArrayBuffer) {
-      self.clone();
+      this.clone();
       return;
     }
 
     // XMLHttpRequest disallows to open a Data URL in some browsers like IE11 and Safari
     if (REGEXP_DATA_URL.test(url)) {
-      if (REGEXP_DATA_URL_JPEG) {
-        self.read($.dataURLToArrayBuffer(url));
+      if (REGEXP_DATA_URL_JPEG.test(url)) {
+        this.read(dataURLToArrayBuffer(url));
       } else {
-        self.clone();
+        this.clone();
       }
+
       return;
     }
 
     const xhr = new XMLHttpRequest();
 
-    xhr.onerror = xhr.onabort = () => {
-      self.clone();
+    xhr.onerror = () => {
+      this.clone();
     };
 
     xhr.onload = () => {
-      self.read(xhr.response);
+      this.read(xhr.response);
     };
 
-    if (options.checkCrossOrigin && $.isCrossOriginURL(url) && element.crossOrigin) {
-      url = $.addTimestamp(url);
+    if (options.checkCrossOrigin && isCrossOriginURL(url) && element.crossOrigin) {
+      url = addTimestamp(url);
     }
 
     xhr.open('get', url);
@@ -130,56 +156,15 @@ class Cropper {
   }
 
   read(arrayBuffer) {
-    const self = this;
-    const options = self.options;
-    const orientation = $.getOrientation(arrayBuffer);
-    const imageData = self.imageData;
+    const { options, imageData } = this;
+    const orientation = getOrientation(arrayBuffer);
     let rotate = 0;
     let scaleX = 1;
     let scaleY = 1;
 
     if (orientation > 1) {
-      self.url = $.arrayBufferToDataURL(arrayBuffer);
-
-      switch (orientation) {
-
-        // flip horizontal
-        case 2:
-          scaleX = -1;
-          break;
-
-        // rotate left 180°
-        case 3:
-          rotate = -180;
-          break;
-
-        // flip vertical
-        case 4:
-          scaleY = -1;
-          break;
-
-        // flip vertical + rotate right 90°
-        case 5:
-          rotate = 90;
-          scaleY = -1;
-          break;
-
-        // rotate right 90°
-        case 6:
-          rotate = 90;
-          break;
-
-        // flip horizontal + rotate right 90°
-        case 7:
-          rotate = 90;
-          scaleX = -1;
-          break;
-
-        // rotate left 90°
-        case 8:
-          rotate = -90;
-          break;
-      }
+      this.url = arrayBufferToDataURL(arrayBuffer, 'image/jpeg');
+      ({ rotate, scaleX, scaleY } = parseOrientation(orientation));
     }
 
     if (options.rotatable) {
@@ -191,20 +176,16 @@ class Cropper {
       imageData.scaleY = scaleY;
     }
 
-    self.clone();
+    this.clone();
   }
 
   clone() {
-    const self = this;
-    const element = self.element;
-    const url = self.url;
+    const { element, url } = this;
     let crossOrigin;
     let crossOriginUrl;
-    let start;
-    let stop;
 
-    if (self.options.checkCrossOrigin && $.isCrossOriginURL(url)) {
-      crossOrigin = element.crossOrigin;
+    if (this.options.checkCrossOrigin && isCrossOriginURL(url)) {
+      ({ crossOrigin } = element);
 
       if (crossOrigin) {
         crossOriginUrl = url;
@@ -212,234 +193,228 @@ class Cropper {
         crossOrigin = 'anonymous';
 
         // Bust cache when there is not a "crossOrigin" property
-        crossOriginUrl = $.addTimestamp(url);
+        crossOriginUrl = addTimestamp(url);
       }
     }
 
-    self.crossOrigin = crossOrigin;
-    self.crossOriginUrl = crossOriginUrl;
+    this.crossOrigin = crossOrigin;
+    this.crossOriginUrl = crossOriginUrl;
 
-    const image = $.createElement('img');
+    const image = document.createElement('img');
 
     if (crossOrigin) {
       image.crossOrigin = crossOrigin;
     }
 
     image.src = crossOriginUrl || url;
-    self.image = image;
-    self.onStart = start = $.proxy(self.start, self);
-    self.onStop = stop = $.proxy(self.stop, self);
 
-    if (self.isImg) {
+    const start = proxy(this.start, this);
+    const stop = proxy(this.stop, this);
+
+    this.image = image;
+    this.onStart = start;
+    this.onStop = stop;
+
+    if (this.isImg) {
       if (element.complete) {
-        self.start();
+        this.start();
       } else {
-        $.addListener(element, EVENT_LOAD, start);
+        addListener(element, EVENT_LOAD, start);
       }
     } else {
-      $.addListener(image, EVENT_LOAD, start);
-      $.addListener(image, EVENT_ERROR, stop);
-      $.addClass(image, 'cropper-hide');
+      addListener(image, EVENT_LOAD, start);
+      addListener(image, EVENT_ERROR, stop);
+      addClass(image, CLASS_HIDE);
       element.parentNode.insertBefore(image, element.nextSibling);
     }
   }
 
   start(event) {
-    const self = this;
-    const image = self.isImg ? self.element : self.image;
+    const image = this.isImg ? this.element : this.image;
 
     if (event) {
-      $.removeListener(image, EVENT_LOAD, self.onStart);
-      $.removeListener(image, EVENT_ERROR, self.onStop);
+      removeListener(image, EVENT_LOAD, this.onStart);
+      removeListener(image, EVENT_ERROR, this.onStop);
     }
 
-    $.getImageSize(image, (naturalWidth, naturalHeight) => {
-      $.extend(self.imageData, {
+    getImageNaturalSizes(image, (naturalWidth, naturalHeight) => {
+      extend(this.imageData, {
         naturalWidth,
         naturalHeight,
         aspectRatio: naturalWidth / naturalHeight,
       });
-
-      self.loaded = true;
-      self.build();
+      this.loaded = true;
+      this.build();
     });
   }
 
   stop() {
-    const self = this;
-    const image = self.image;
+    const { image } = this;
 
-    $.removeListener(image, EVENT_LOAD, self.onStart);
-    $.removeListener(image, EVENT_ERROR, self.onStop);
-
-    $.removeChild(image);
-    self.image = null;
+    removeListener(image, EVENT_LOAD, this.onStart);
+    removeListener(image, EVENT_ERROR, this.onStop);
+    image.parentNode.removeChild(image);
+    this.image = null;
   }
 
   build() {
-    const self = this;
-    const options = self.options;
-    const element = self.element;
-    const image = self.image;
-    let container;
-    let cropper;
-    let canvas;
-    let dragBox;
-    let cropBox;
-    let face;
-
-    if (!self.loaded) {
+    if (!this.loaded) {
       return;
     }
 
     // Unbuild first when replace
-    if (self.ready) {
-      self.unbuild();
+    if (this.ready) {
+      this.unbuild();
     }
 
-    const template = $.createElement('div');
-    template.innerHTML = TEMPLATE;
+    const { element, options, image } = this;
 
     // Create cropper elements
-    self.container = container = element.parentNode;
-    self.cropper = cropper = $.getByClass(template, 'cropper-container')[0];
-    self.canvas = canvas = $.getByClass(cropper, 'cropper-canvas')[0];
-    self.dragBox = dragBox = $.getByClass(cropper, 'cropper-drag-box')[0];
-    self.cropBox = cropBox = $.getByClass(cropper, 'cropper-crop-box')[0];
-    self.viewBox = $.getByClass(cropper, 'cropper-view-box')[0];
-    self.face = face = $.getByClass(cropBox, 'cropper-face')[0];
+    const container = element.parentNode;
+    const template = document.createElement('div');
 
-    $.appendChild(canvas, image);
+    template.innerHTML = TEMPLATE;
+
+    const cropper = template.querySelector(`.${NAMESPACE}-container`);
+    const canvas = cropper.querySelector(`.${NAMESPACE}-canvas`);
+    const dragBox = cropper.querySelector(`.${NAMESPACE}-drag-box`);
+    const cropBox = cropper.querySelector(`.${NAMESPACE}-crop-box`);
+    const face = cropBox.querySelector(`.${NAMESPACE}-face`);
+
+    this.container = container;
+    this.cropper = cropper;
+    this.canvas = canvas;
+    this.dragBox = dragBox;
+    this.cropBox = cropBox;
+    this.viewBox = cropper.querySelector(`.${NAMESPACE}-view-box`);
+    this.face = face;
+
+    canvas.appendChild(image);
 
     // Hide the original image
-    $.addClass(element, CLASS_HIDDEN);
+    addClass(element, CLASS_HIDDEN);
 
     // Inserts the cropper after to the current image
     container.insertBefore(cropper, element.nextSibling);
 
     // Show the image if is hidden
-    if (!self.isImg) {
-      $.removeClass(image, 'cropper-hide');
+    if (!this.isImg) {
+      removeClass(image, CLASS_HIDE);
     }
 
-    self.initPreview();
-    self.bind();
+    this.initPreview();
+    this.bind();
 
     options.aspectRatio = Math.max(0, options.aspectRatio) || NaN;
     options.viewMode = Math.max(0, Math.min(3, Math.round(options.viewMode))) || 0;
 
-    self.cropped = options.autoCrop;
+    this.cropped = options.autoCrop;
 
     if (options.autoCrop) {
       if (options.modal) {
-        $.addClass(dragBox, 'cropper-modal');
+        addClass(dragBox, CLASS_MODAL);
       }
     } else {
-      $.addClass(cropBox, CLASS_HIDDEN);
+      addClass(cropBox, CLASS_HIDDEN);
     }
 
     if (!options.guides) {
-      $.addClass($.getByClass(cropBox, 'cropper-dashed'), CLASS_HIDDEN);
+      addClass(cropBox.getElementsByClassName(`${NAMESPACE}-dashed`), CLASS_HIDDEN);
     }
 
     if (!options.center) {
-      $.addClass($.getByClass(cropBox, 'cropper-center'), CLASS_HIDDEN);
+      addClass(cropBox.getElementsByClassName(`${NAMESPACE}-center`), CLASS_HIDDEN);
     }
 
     if (options.background) {
-      $.addClass(cropper, 'cropper-bg');
+      addClass(cropper, `${NAMESPACE}-bg`);
     }
 
     if (!options.highlight) {
-      $.addClass(face, 'cropper-invisible');
+      addClass(face, CLASS_INVISIBLE);
     }
 
     if (options.cropBoxMovable) {
-      $.addClass(face, 'cropper-move');
-      $.setData(face, 'action', 'all');
+      addClass(face, CLASS_MOVE);
+      setData(face, DATA_ACTION, ACTION_ALL);
     }
 
     if (!options.cropBoxResizable) {
-      $.addClass($.getByClass(cropBox, 'cropper-line'), CLASS_HIDDEN);
-      $.addClass($.getByClass(cropBox, 'cropper-point'), CLASS_HIDDEN);
+      addClass(cropBox.getElementsByClassName(`${NAMESPACE}-line`), CLASS_HIDDEN);
+      addClass(cropBox.getElementsByClassName(`${NAMESPACE}-point`), CLASS_HIDDEN);
     }
 
-    self.setDragMode(options.dragMode);
-    self.render();
-    self.ready = true;
-    self.setData(options.data);
+    this.setDragMode(options.dragMode);
+    this.render();
+    this.ready = true;
+    this.setData(options.data);
 
     // Call the "ready" option asynchronously to keep "image.cropper" is defined
-    self.completing = setTimeout(() => {
-      if ($.isFunction(options.ready)) {
-        $.addListener(element, EVENT_READY, options.ready, true);
+    this.completing = setTimeout(() => {
+      if (isFunction(options.ready)) {
+        addListener(element, EVENT_READY, options.ready, {
+          once: true,
+        });
       }
 
-      $.dispatchEvent(element, EVENT_READY);
-      $.dispatchEvent(element, EVENT_CROP, self.getData());
+      dispatchEvent(element, EVENT_READY);
+      dispatchEvent(element, EVENT_CROP, this.getData());
 
-      self.complete = true;
+      this.complete = true;
     }, 0);
   }
 
   unbuild() {
-    const self = this;
-
-    if (!self.ready) {
+    if (!this.ready) {
       return;
     }
 
-    if (!self.complete) {
-      clearTimeout(self.completing);
+    if (!this.complete) {
+      clearTimeout(this.completing);
     }
 
-    self.ready = false;
-    self.complete = false;
-    self.initialImageData = null;
+    this.ready = false;
+    this.complete = false;
+    this.initialImageData = null;
 
     // Clear `initialCanvasData` is necessary when replace
-    self.initialCanvasData = null;
-    self.initialCropBoxData = null;
-    self.containerData = null;
-    self.canvasData = null;
+    this.initialCanvasData = null;
+    this.initialCropBoxData = null;
+    this.containerData = null;
+    this.canvasData = null;
 
     // Clear `cropBoxData` is necessary when replace
-    self.cropBoxData = null;
-    self.unbind();
-
-    self.resetPreview();
-    self.previews = null;
-
-    self.viewBox = null;
-    self.cropBox = null;
-    self.dragBox = null;
-    self.canvas = null;
-    self.container = null;
-
-    $.removeChild(self.cropper);
-    self.cropper = null;
+    this.cropBoxData = null;
+    this.unbind();
+    this.resetPreview();
+    this.previews = null;
+    this.viewBox = null;
+    this.cropBox = null;
+    this.dragBox = null;
+    this.canvas = null;
+    this.container = null;
+    this.cropper.parentNode.removeChild(this.cropper);
+    this.cropper = null;
   }
 
+  /**
+   * Get the no conflict cropper class.
+   * @returns {Cropper} The cropper class.
+   */
   static noConflict() {
     window.Cropper = AnotherCropper;
     return Cropper;
   }
 
+  /**
+   * Change the default options.
+   * @param {Object} options - The new default options.
+   */
   static setDefaults(options) {
-    $.extend(DEFAULTS, $.isPlainObject(options) && options);
+    extend(DEFAULTS, isPlainObject(options) && options);
   }
 }
 
-$.extend(Cropper.prototype, render);
-$.extend(Cropper.prototype, preview);
-$.extend(Cropper.prototype, events);
-$.extend(Cropper.prototype, handlers);
-$.extend(Cropper.prototype, change);
-$.extend(Cropper.prototype, methods);
-
-if (typeof window !== 'undefined') {
-  AnotherCropper = window.Cropper;
-  window.Cropper = Cropper;
-}
+extend(Cropper.prototype, render, preview, events, handlers, change, methods);
 
 export default Cropper;
