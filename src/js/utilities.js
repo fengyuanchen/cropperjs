@@ -340,11 +340,6 @@ export function removeListener(element, type, listener, options = {}) {
     return;
   }
 
-  if (isFunction(listener.onceListener)) {
-    listener = listener.onceListener;
-    delete listener.onceListener;
-  }
-
   if (element.removeEventListener) {
     element.removeEventListener(type, listener, options);
   } else if (element.detachEvent) {
@@ -375,13 +370,11 @@ export function addListener(element, type, listener, options = {}) {
 
   if (options.once) {
     const originalListener = listener;
-    const onceListener = (...args) => {
-      removeListener(element, type, onceListener, options);
+
+    listener = (...args) => {
+      removeListener(element, type, listener, options);
       return originalListener.apply(element, args);
     };
-
-    originalListener.onceListener = onceListener;
-    listener = onceListener;
   }
 
   if (element.addEventListener) {
