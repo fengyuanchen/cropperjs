@@ -558,15 +558,29 @@ cropper.zoom(0.1);
 cropper.zoom(-0.1);
 ```
 
-### zoomTo(ratio)
+### zoomTo(ratio[, pivot])
 
 - **ratio**:
   - Type: `Number`
+  - Requires a positive number (ratio > 0)
+
+- **pivot** (optional):
+  - Type: `Object`
+  - Schema: `{ x: Number, y: Number }`
+  - The coordinate of the center point for zooming, base on the top left corner of the cropper container.
 
 Zoom the canvas (image wrapper) to an absolute ratio.
 
 ```js
 cropper.zoomTo(1); // 1:1 (canvasData.width === canvasData.naturalWidth)
+
+const containerData = cropper.getContainerData();
+
+// Zoom to 50% from the center of the container.
+cropper.zoomTo(.5, {
+  x: containerData.width / 2,
+  y: containerData.height / 2,
+});
 ```
 
 ### rotate(degree)

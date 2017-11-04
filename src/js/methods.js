@@ -236,16 +236,17 @@ export default {
       ratio = 1 + ratio;
     }
 
-    return this.zoomTo((canvasData.width * ratio) / canvasData.naturalWidth, _originalEvent);
+    return this.zoomTo((canvasData.width * ratio) / canvasData.naturalWidth, null, _originalEvent);
   },
 
   /**
    * Zoom the canvas to an absolute ratio
    * @param {number} ratio - The target ratio.
+   * @param {Object} pivot - The zoom pivot point coordinate.
    * @param {Event} _originalEvent - The original event if any.
    * @returns {Object} this
    */
-  zoomTo(ratio, _originalEvent) {
+  zoomTo(ratio, pivot, _originalEvent) {
     const { options, canvasData } = this;
     const {
       width,
@@ -282,6 +283,13 @@ export default {
         );
         canvasData.top -= (newHeight - height) * (
           ((center.pageY - offset.top) - canvasData.top) / height
+        );
+      } else if (isPlainObject(pivot) && isNumber(pivot.x) && isNumber(pivot.y)) {
+        canvasData.left -= (newWidth - width) * (
+          (pivot.x - canvasData.left) / width
+        );
+        canvasData.top -= (newHeight - height) * (
+          (pivot.y - canvasData.top) / height
         );
       } else {
         // Zoom from the center of the canvas
