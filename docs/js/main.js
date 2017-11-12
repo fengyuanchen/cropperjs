@@ -16,7 +16,7 @@ window.onload = function () {
   var dataScaleX = document.getElementById('dataScaleX');
   var dataScaleY = document.getElementById('dataScaleY');
   var options = {
-    aspectRatio: 321 / 180,
+    aspectRatio: 16 / 9,
     preview: '.img-preview',
     ready: function (e) {
       console.log(e.type);
@@ -161,7 +161,7 @@ window.onload = function () {
 
       switch (data.method) {
         case 'rotate':
-          if (cropped) {
+          if (cropped && options.viewMode > 0) {
             cropper.clear();
           }
 
@@ -189,7 +189,7 @@ window.onload = function () {
 
       switch (data.method) {
         case 'rotate':
-          if (cropped) {
+          if (cropped && options.viewMode > 0) {
             cropper.crop();
           }
 
