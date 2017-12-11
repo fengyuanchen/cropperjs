@@ -671,9 +671,9 @@ export function getContainSizes({
  * @returns {Object} The result sizes.
  */
 export function getRotatedSizes({ width, height, degree }) {
-  degree = Math.abs(degree);
+  degree = Math.abs(degree) % 180;
 
-  if (degree % 180 === 90) {
+  if (degree === 90) {
     return {
       width: height,
       height: width,
@@ -683,10 +683,15 @@ export function getRotatedSizes({ width, height, degree }) {
   const arc = ((degree % 90) * Math.PI) / 180;
   const sinArc = Math.sin(arc);
   const cosArc = Math.cos(arc);
+  const newWidth = (width * cosArc) + (height * sinArc);
+  const newHeight = (width * sinArc) + (height * cosArc);
 
-  return {
-    width: (width * cosArc) + (height * sinArc),
-    height: (width * sinArc) + (height * cosArc),
+  return degree > 90 ? {
+    width: newHeight,
+    height: newWidth,
+  } : {
+    width: newWidth,
+    height: newHeight,
   };
 }
 
