@@ -304,7 +304,11 @@ export function setData(element, name, data) {
  */
 export function removeData(element, name) {
   if (isObject(element[name])) {
-    delete element[name];
+    try {
+      delete element[name];
+    } catch (e) {
+      element[name] = null;
+    }
   } else if (element.dataset) {
     // #128 Safari not allows to delete dataset property
     try {
