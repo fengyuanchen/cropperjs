@@ -1,5 +1,5 @@
-QUnit.test('Issue #99', function (assert) {
-  const loadFromData = oldData => {
+QUnit.test('Issue #99 (failing)', function (assert) {
+  function loadFromData (oldData) {
     var done = assert.async();
     var util = window.Util;
     var image = util.createImage();
@@ -31,9 +31,9 @@ QUnit.test('Issue #99', function (assert) {
         assert.strictEqual(newData.height, oldData.height);
 
         done();
-      }
+      },
     });
-  };
+  }
 
   loadFromData(null);
 });
