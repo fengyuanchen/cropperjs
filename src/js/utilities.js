@@ -549,12 +549,16 @@ export function getImageNaturalSizes(image, callback) {
   }
 
   const newImage = document.createElement('img');
+  const { body } = document;
 
   newImage.onload = () => {
     callback(newImage.width, newImage.height);
+    body.removeChild(newImage);
   };
 
   newImage.src = image.src;
+  newImage.style.cssText = 'position: absolute; top: 0; left: 0; z-index: -1; opacity: 0;';
+  body.appendChild(newImage);
 }
 
 /**
