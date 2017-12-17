@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v1.2.0
+ * Cropper.js v1.2.1
  * https://github.com/fengyuanchen/cropperjs
  *
  * Copyright (c) 2015-2017 Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2017-12-17T09:39:02.683Z
+ * Date: 2017-12-17T10:34:04.181Z
  */
 
 (function (global, factory) {
@@ -826,12 +826,16 @@ function getImageNaturalSizes(image, callback) {
   }
 
   var newImage = document.createElement('img');
+  var body = document.body || document.documentElement;
 
   newImage.onload = function () {
     callback(newImage.width, newImage.height);
+    body.removeChild(newImage);
   };
 
   newImage.src = image.src;
+  newImage.style.cssText = 'position: absolute; top: 0; left: 0; z-index: -1; opacity: 0;';
+  body.appendChild(newImage);
 }
 
 /**

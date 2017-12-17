@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.1 (Dec 17, 2017)
+
+- Add `style` field to `package.json`.
+- Fix size error when load SVG image (#256).
+
 ## 1.2.0 (Dec 17, 2017)
 
 - Allow to set the pivot of zoom (#144).
