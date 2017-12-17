@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.0 (Dec 17, 2017)
+
+- Allow to set the pivot of zoom (#144).
+- Fixed a bug of rotation (#260).
+
 ## 1.1.3 (Oct 21, 2017)
 
 - Fixed a bug of render when disable one of `rotatable` and `scalable` options (#241).

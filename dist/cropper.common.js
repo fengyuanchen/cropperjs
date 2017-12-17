@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v1.1.3
+ * Cropper.js v1.2.0
  * https://github.com/fengyuanchen/cropperjs
  *
  * Copyright (c) 2015-2017 Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2017-10-21T09:27:36.848Z
+ * Date: 2017-12-17T09:39:02.683Z
  */
 
 'use strict';
@@ -55,7 +55,7 @@ var EVENT_ERROR = 'error';
 var EVENT_LOAD = 'load';
 var EVENT_POINTER_DOWN = WINDOW.PointerEvent ? 'pointerdown' : 'touchstart mousedown';
 var EVENT_POINTER_MOVE = WINDOW.PointerEvent ? 'pointermove' : 'touchmove mousemove';
-var EVENT_POINTER_UP = WINDOW.PointerEvent ? ' pointerup pointercancel' : 'touchend touchcancel mouseup';
+var EVENT_POINTER_UP = WINDOW.PointerEvent ? 'pointerup pointercancel' : 'touchend touchcancel mouseup';
 var EVENT_READY = 'ready';
 var EVENT_RESIZE = 'resize';
 var EVENT_WHEEL = 'wheel mousewheel DOMMouseScroll';
@@ -165,9 +165,95 @@ var DEFAULTS = {
 
 var TEMPLATE = '<div class="cropper-container">' + '<div class="cropper-wrap-box">' + '<div class="cropper-canvas"></div>' + '</div>' + '<div class="cropper-drag-box"></div>' + '<div class="cropper-crop-box">' + '<span class="cropper-view-box"></span>' + '<span class="cropper-dashed dashed-h"></span>' + '<span class="cropper-dashed dashed-v"></span>' + '<span class="cropper-center"></span>' + '<span class="cropper-face"></span>' + '<span class="cropper-line line-e" data-action="e"></span>' + '<span class="cropper-line line-n" data-action="n"></span>' + '<span class="cropper-line line-w" data-action="w"></span>' + '<span class="cropper-line line-s" data-action="s"></span>' + '<span class="cropper-point point-e" data-action="e"></span>' + '<span class="cropper-point point-n" data-action="n"></span>' + '<span class="cropper-point point-w" data-action="w"></span>' + '<span class="cropper-point point-s" data-action="s"></span>' + '<span class="cropper-point point-ne" data-action="ne"></span>' + '<span class="cropper-point point-nw" data-action="nw"></span>' + '<span class="cropper-point point-sw" data-action="sw"></span>' + '<span class="cropper-point point-se" data-action="se"></span>' + '</div>' + '</div>';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+  return typeof obj;
+} : function (obj) {
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+};
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+
+
+
+
+
+
+
+
+
+var classCallCheck = function (instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+};
+
+var createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+
+  return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) defineProperties(Constructor, staticProps);
+    return Constructor;
+  };
+}();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var toConsumableArray = function (arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+    return arr2;
+  } else {
+    return Array.from(arr);
+  }
+};
 
 /**
  * Check if the given value is not a number.
@@ -489,7 +575,11 @@ function setData(element, name, data) {
  */
 function removeData(element, name) {
   if (isObject(element[name])) {
-    delete element[name];
+    try {
+      delete element[name];
+    } catch (e) {
+      element[name] = null;
+    }
   } else if (element.dataset) {
     // #128 Safari not allows to delete dataset property
     try {
@@ -505,10 +595,10 @@ function removeData(element, name) {
 var REGEXP_SPACES = /\s+/;
 
 /**
- * Remove event listener from the given element.
- * @param {Element} element - The target element.
- * @param {string} type - The event type(s) to remove,
- * @param {Function} listener - The event listener to remove.
+ * Remove event listener from the target element.
+ * @param {Element} element - The event target.
+ * @param {string} type - The event type(s).
+ * @param {Function} listener - The event listener.
  * @param {Object} options - The event options.
  */
 function removeListener(element, type, listener) {
@@ -522,14 +612,9 @@ function removeListener(element, type, listener) {
 
   if (types.length > 1) {
     each(types, function (t) {
-      removeListener(element, t, listener);
+      removeListener(element, t, listener, options);
     });
     return;
-  }
-
-  if (isFunction(listener.onceListener)) {
-    listener = listener.onceListener;
-    delete listener.onceListener;
   }
 
   if (element.removeEventListener) {
@@ -540,16 +625,16 @@ function removeListener(element, type, listener) {
 }
 
 /**
- * Add event listener to the given element.
- * @param {Element} element - The target element.
- * @param {string} type - The event type(s) to add,
- * @param {Function} listener - The event listener to add.
+ * Add event listener to the target element.
+ * @param {Element} element - The event target.
+ * @param {string} type - The event type(s).
+ * @param {Function} listener - The event listener.
  * @param {Object} options - The event options.
  */
-function addListener(element, type, listener) {
+function addListener(element, type, _listener) {
   var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
 
-  if (!isFunction(listener)) {
+  if (!isFunction(_listener)) {
     return;
   }
 
@@ -557,36 +642,35 @@ function addListener(element, type, listener) {
 
   if (types.length > 1) {
     each(types, function (t) {
-      addListener(element, t, listener);
+      addListener(element, t, _listener, options);
     });
     return;
   }
 
   if (options.once) {
-    var originalListener = listener;
-    var onceListener = function onceListener() {
+    var originalListener = _listener;
+
+    _listener = function listener() {
       for (var _len4 = arguments.length, args = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
         args[_key4] = arguments[_key4];
       }
 
-      removeListener(element, type, onceListener);
+      removeListener(element, type, _listener, options);
       return originalListener.apply(element, args);
     };
-    originalListener.onceListener = onceListener;
-    listener = onceListener;
   }
 
   if (element.addEventListener) {
-    element.addEventListener(type, listener, options);
+    element.addEventListener(type, _listener, options);
   } else if (element.attachEvent) {
-    element.attachEvent('on' + type, listener);
+    element.attachEvent('on' + type, _listener);
   }
 }
 
 /**
- * Dispatch event on the given element.
- * @param {Element} element - The target element.
- * @param {string} type - The event type(s) to dispatch,
+ * Dispatch event on the target element.
+ * @param {Element} element - The event target.
+ * @param {string} type - The event type(s).
  * @param {Object} data - The additional event data.
  * @returns {boolean} Indicate if the event is default prevented or not.
  */
@@ -878,9 +962,9 @@ function getRotatedSizes(_ref5) {
       height = _ref5.height,
       degree = _ref5.degree;
 
-  degree = Math.abs(degree);
+  degree = Math.abs(degree) % 180;
 
-  if (degree % 180 === 90) {
+  if (degree === 90) {
     return {
       width: height,
       height: width
@@ -890,10 +974,15 @@ function getRotatedSizes(_ref5) {
   var arc = degree % 90 * Math.PI / 180;
   var sinArc = Math.sin(arc);
   var cosArc = Math.cos(arc);
+  var newWidth = width * cosArc + height * sinArc;
+  var newHeight = width * sinArc + height * cosArc;
 
-  return {
-    width: width * cosArc + height * sinArc,
-    height: width * sinArc + height * cosArc
+  return degree > 90 ? {
+    width: newHeight,
+    height: newWidth
+  } : {
+    width: newWidth,
+    height: newHeight
   };
 }
 
@@ -958,7 +1047,7 @@ function getSourceCanvas(image, _ref6, _ref7, _ref8) {
   context.scale(scaleX, scaleY);
   context.imageSmoothingEnabled = imageSmoothingEnabled;
   context.imageSmoothingQuality = imageSmoothingQuality;
-  context.drawImage.apply(context, [image].concat(_toConsumableArray(params.map(function (param) {
+  context.drawImage.apply(context, [image].concat(toConsumableArray(params.map(function (param) {
     return Math.floor(normalizeDecimalNumber(param));
   }))));
   context.restore();
@@ -1728,8 +1817,8 @@ var events = {
       addListener(cropper, EVENT_DBLCLICK, this.onDblclick = proxy(this.dblclick, this));
     }
 
-    addListener(document, EVENT_POINTER_MOVE, this.onCropMove = proxy(this.cropMove, this));
-    addListener(document, EVENT_POINTER_UP, this.onCropEnd = proxy(this.cropEnd, this));
+    addListener(element.ownerDocument, EVENT_POINTER_MOVE, this.onCropMove = proxy(this.cropMove, this));
+    addListener(element.ownerDocument, EVENT_POINTER_UP, this.onCropEnd = proxy(this.cropEnd, this));
 
     if (options.responsive) {
       addListener(window, EVENT_RESIZE, this.onResize = proxy(this.resize, this));
@@ -1771,8 +1860,8 @@ var events = {
       removeListener(cropper, EVENT_DBLCLICK, this.onDblclick);
     }
 
-    removeListener(document, EVENT_POINTER_MOVE, this.onCropMove);
-    removeListener(document, EVENT_POINTER_UP, this.onCropEnd);
+    removeListener(element.ownerDocument, EVENT_POINTER_MOVE, this.onCropMove);
+    removeListener(element.ownerDocument, EVENT_POINTER_UP, this.onCropEnd);
 
     if (options.responsive) {
       removeListener(window, EVENT_RESIZE, this.onResize);
@@ -2410,8 +2499,6 @@ var change = {
   }
 };
 
-function _toConsumableArray$1(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 var methods = {
   // Show the crop box manually
   crop: function crop() {
@@ -2631,17 +2718,18 @@ var methods = {
       ratio = 1 + ratio;
     }
 
-    return this.zoomTo(canvasData.width * ratio / canvasData.naturalWidth, _originalEvent);
+    return this.zoomTo(canvasData.width * ratio / canvasData.naturalWidth, null, _originalEvent);
   },
 
 
   /**
    * Zoom the canvas to an absolute ratio
    * @param {number} ratio - The target ratio.
+   * @param {Object} pivot - The zoom pivot point coordinate.
    * @param {Event} _originalEvent - The original event if any.
    * @returns {Object} this
    */
-  zoomTo: function zoomTo(ratio, _originalEvent) {
+  zoomTo: function zoomTo(ratio, pivot, _originalEvent) {
     var options = this.options,
         canvasData = this.canvasData;
     var width = canvasData.width,
@@ -2676,6 +2764,9 @@ var methods = {
         // Zoom from the triggering point of the event
         canvasData.left -= (newWidth - width) * ((center.pageX - offset.left - canvasData.left) / width);
         canvasData.top -= (newHeight - height) * ((center.pageY - offset.top - canvasData.top) / height);
+      } else if (isPlainObject(pivot) && isNumber(pivot.x) && isNumber(pivot.y)) {
+        canvasData.left -= (newWidth - width) * ((pivot.x - canvasData.left) / width);
+        canvasData.top -= (newHeight - height) * ((pivot.y - canvasData.top) / height);
       } else {
         // Zoom from the center of the canvas
         canvasData.left -= (newWidth - width) / 2;
@@ -3172,7 +3263,7 @@ var methods = {
       params.push(dstX * scale, dstY * scale, dstWidth * scale, dstHeight * scale);
     }
 
-    context.drawImage.apply(context, [source].concat(_toConsumableArray$1(params.map(function (param) {
+    context.drawImage.apply(context, [source].concat(toConsumableArray(params.map(function (param) {
       return Math.floor(normalizeDecimalNumber(param));
     }))));
 
@@ -3239,10 +3330,6 @@ var methods = {
   }
 };
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 var AnotherCropper = WINDOW.Cropper;
 
 var Cropper = function () {
@@ -3253,8 +3340,7 @@ var Cropper = function () {
    */
   function Cropper(element) {
     var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-    _classCallCheck(this, Cropper);
+    classCallCheck(this, Cropper);
 
     if (!element || !REGEXP_TAG_NAME.test(element.tagName)) {
       throw new Error('The first argument is required and must be an <img> or <canvas> element.');
@@ -3279,7 +3365,7 @@ var Cropper = function () {
     this.init();
   }
 
-  _createClass(Cropper, [{
+  createClass(Cropper, [{
     key: 'init',
     value: function init() {
       var element = this.element;
@@ -3654,7 +3740,6 @@ var Cropper = function () {
       extend(DEFAULTS, isPlainObject(options) && options);
     }
   }]);
-
   return Cropper;
 }();
 
