@@ -549,7 +549,7 @@ export function getImageNaturalSizes(image, callback) {
   }
 
   const newImage = document.createElement('img');
-  const { body } = document;
+  const body = document.body || document.documentElement;
 
   newImage.onload = () => {
     callback(newImage.width, newImage.height);
