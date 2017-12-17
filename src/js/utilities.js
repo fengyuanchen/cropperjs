@@ -557,7 +557,17 @@ export function getImageNaturalSizes(image, callback) {
   };
 
   newImage.src = image.src;
-  newImage.style.cssText = 'position: absolute; top: 0; left: 0; z-index: -1; opacity: 0;';
+  newImage.style.cssText = (
+    'left:0;' +
+    'max-height:none!important;' +
+    'max-width:none!important;' +
+    'min-height:0!important;' +
+    'min-width:0!important;' +
+    'opacity:0;' +
+    'position:absolute;' +
+    'top:0;' +
+    'z-index:-1;'
+  );
   body.appendChild(newImage);
 }
 
