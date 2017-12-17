@@ -27,6 +27,7 @@ module.exports = {
   plugins: [
     babel({
       exclude: 'node_modules/**',
+      plugins: ['external-helpers'],
     }),
   ],
   banner: `/*!
