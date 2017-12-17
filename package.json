@@ -5,6 +5,7 @@
   "main": "dist/cropper.common.js",
   "module": "dist/cropper.esm.js",
   "browser": "dist/cropper.js",
+  "style": "dist/cropper.css",
   "repository": "fengyuanchen/cropperjs",
   "homepage": "https://fengyuanchen.github.io/cropperjs",
   "license": "MIT",
