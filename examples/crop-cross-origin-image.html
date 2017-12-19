@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Cropper.js</title>
+  <link rel="stylesheet" href="../dist/cropper.css">
+  <style>
+    .container {
+      max-width: 640px;
+      margin: 20px auto;
+    }
+
+    img {
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Crop a cross origin image</h1>
+    <p>A cross origin image with a <code>crossorigin</code> attribute and an available <code>Access-Control-Allow-Origin</code> response header can be cropped by Cropper.</p>
+    <h3>Image</h3>
+    <div>
+      <img id="image" src="https://raw.githubusercontent.com/fengyuanchen/cropperjs/master/docs/images/picture.jpg" crossorigin>
+    </div>
+    <h3>Result</h3>
+    <div id="result"></div>
+  </div>
+
+  <script src="../dist/cropper.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      var image = document.querySelector('#image');
+      var result = document.querySelector('#result');
+      var cropper = new Cropper(image, {
+        ready: function () {
+          var image = new Image();
+
+          image.src = cropper.getCroppedCanvas().toDataURL('image/jpeg');
+          result.appendChild(image);
+        },
+      });
+    });
+  </script>
+</body>
+</html>
