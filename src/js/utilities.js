@@ -553,22 +553,30 @@ export function getImageNaturalSizes(image, callback) {
 
   newImage.onload = () => {
     callback(newImage.width, newImage.height);
-    body.removeChild(newImage);
+
+    if (!IS_SAFARI_OR_UIWEBVIEW) {
+      body.removeChild(newImage);
+    }
   };
 
   newImage.src = image.src;
-  newImage.style.cssText = (
-    'left:0;' +
-    'max-height:none!important;' +
-    'max-width:none!important;' +
-    'min-height:0!important;' +
-    'min-width:0!important;' +
-    'opacity:0;' +
-    'position:absolute;' +
-    'top:0;' +
-    'z-index:-1;'
-  );
-  body.appendChild(newImage);
+
+  // iOS Safari will convert the image automatically
+  // with its orientation once append it into DOM (#279)
+  if (!IS_SAFARI_OR_UIWEBVIEW) {
+    newImage.style.cssText = (
+      'left:0;' +
+      'max-height:none!important;' +
+      'max-width:none!important;' +
+      'min-height:0!important;' +
+      'min-width:0!important;' +
+      'opacity:0;' +
+      'position:absolute;' +
+      'top:0;' +
+      'z-index:-1;'
+    );
+    body.appendChild(newImage);
+  }
 }
 
 /**
