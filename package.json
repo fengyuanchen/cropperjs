@@ -58,7 +58,7 @@
     "cpy-cli": "^1.0.1",
     "cssnano": "^3.10.0",
     "del-cli": "^1.1.0",
-    "eslint": "^4.13.1",
+    "eslint": "^4.14.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
     "node-qunit-phantomjs": "^2.0.0",
@@ -67,10 +67,10 @@
     "postcss-cssnext": "^3.0.2",
     "postcss-header": "^1.0.0",
     "postcss-url": "^7.3.0",
-    "rollup": "^0.52.2",
-    "rollup-plugin-babel": "^3.0.2",
+    "rollup": "^0.53.3",
+    "rollup-plugin-babel": "^3.0.3",
     "rollup-watch": "^4.3.1",
     "stylefmt": "^6.0.0",
-    "uglify-js": "^3.2.2"
+    "uglify-js": "^3.3.4"
   }
 }
