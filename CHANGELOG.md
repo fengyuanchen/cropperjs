@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.2 (Jan 3, 2018)
+
+- Fix incorrect image natural sizes in iOS Safari (#279).
+
 ## 1.2.1 (Dec 17, 2017)
 
 - Add `style` field to `package.json`.

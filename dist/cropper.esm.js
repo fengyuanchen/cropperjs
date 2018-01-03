@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v1.2.1
+ * Cropper.js v1.2.2
  * https://github.com/fengyuanchen/cropperjs
  *
- * Copyright (c) 2015-2017 Chen Fengyuan
+ * Copyright (c) 2015-2018 Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2017-12-17T10:34:04.181Z
+ * Date: 2018-01-03T13:27:18.062Z
  */
 
 var WINDOW = typeof window !== 'undefined' ? window : {};
@@ -824,12 +824,20 @@ function getImageNaturalSizes(image, callback) {
 
   newImage.onload = function () {
     callback(newImage.width, newImage.height);
-    body.removeChild(newImage);
+
+    if (!IS_SAFARI_OR_UIWEBVIEW) {
+      body.removeChild(newImage);
+    }
   };
 
   newImage.src = image.src;
-  newImage.style.cssText = 'position: absolute; top: 0; left: 0; z-index: -1; opacity: 0;';
-  body.appendChild(newImage);
+
+  // iOS Safari will convert the image automatically
+  // with its orientation once append it into DOM (#279)
+  if (!IS_SAFARI_OR_UIWEBVIEW) {
+    newImage.style.cssText = 'left:0;' + 'max-height:none!important;' + 'max-width:none!important;' + 'min-height:0!important;' + 'min-width:0!important;' + 'opacity:0;' + 'position:absolute;' + 'top:0;' + 'z-index:-1;';
+    body.appendChild(newImage);
+  }
 }
 
 /**
