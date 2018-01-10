@@ -218,7 +218,7 @@ Check if the current image is a cross-origin image.
 
 If it is, when clone the image, a `crossOrigin` attribute will be added to the cloned image element and a timestamp will be added to the `src` attribute to reload the source image to avoid browser cache error.
 
-By adding `crossOrigin` attribute to image will stop adding timestamp to image url, and stop reload of image.
+By adding `crossOrigin` attribute to image will stop adding timestamp to image url and stop reload of image, but the request (XMLHttpRequest) to read the image data for orientation checking will require a timestamp now.
 
 If the value of the image's `crossOrigin` attribute is `"use-credentials"`, then the `withCredentials` attribute will set to `true` when read the image data by XMLHttpRequest.
 
