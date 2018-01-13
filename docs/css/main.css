@@ -161,13 +161,11 @@ label.btn {
   margin-bottom: .5rem;
 }
 
-.docs-data > .input-group > label {
-  justify-content: center;
-  min-width: 5rem;
+.docs-data .input-group-prepend .input-group-text {
+  min-width: 4rem;
 }
 
-.docs-data > .input-group > span {
-  justify-content: center;
+.docs-data .input-group-append .input-group-text {
   min-width: 3rem;
 }
 
@@ -237,15 +235,10 @@ label.btn {
 
 .docs-options .dropdown-menu > li {
   font-size: .875rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding: .125rem 1rem;
 }
 
-.docs-options .dropdown-menu > li:hover {
-  background-color: #f7f7f7;
-}
-
-.docs-options .dropdown-menu > li > label {
+.docs-options .dropdown-menu .form-check-label {
   display: block;
 }
 
