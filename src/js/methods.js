@@ -17,7 +17,7 @@ import {
   dispatchEvent,
   each,
   extend,
-  getContainSizes,
+  getAdjustedSizes,
   getOffset,
   getPointersCenter,
   getSourceCanvas,
@@ -658,30 +658,39 @@ export default {
       return source;
     }
 
-    const {
-      x,
-      y,
+    let {
+      x: initialX,
+      y: initialY,
       width: initialWidth,
       height: initialHeight,
     } = this.getData();
+    const ratio = source.width / Math.floor(canvasData.naturalWidth);
+
+    if (ratio !== 1) {
+      initialX *= ratio;
+      initialY *= ratio;
+      initialWidth *= ratio;
+      initialHeight *= ratio;
+    }
+
     const aspectRatio = initialWidth / initialHeight;
-    const maxSizes = getContainSizes({
+    const maxSizes = getAdjustedSizes({
       aspectRatio,
       width: options.maxWidth || Infinity,
       height: options.maxHeight || Infinity,
     });
-    const minSizes = getContainSizes({
+    const minSizes = getAdjustedSizes({
       aspectRatio,
       width: options.minWidth || 0,
       height: options.minHeight || 0,
-    });
+    }, 'cover');
     let {
       width,
       height,
-    } = getContainSizes({
+    } = getAdjustedSizes({
       aspectRatio,
-      width: options.width || initialWidth,
-      height: options.height || initialHeight,
+      width: options.width || (ratio !== 1 ? source.width : initialWidth),
+      height: options.height || (ratio !== 1 ? source.height : initialHeight),
     });
 
     width = Math.min(maxSizes.width, Math.max(minSizes.width, width));
@@ -709,8 +718,8 @@ export default {
     const sourceHeight = source.height;
 
     // Source canvas parameters
-    let srcX = x;
-    let srcY = y;
+    let srcX = initialX;
+    let srcY = initialY;
     let srcWidth;
     let srcHeight;
 

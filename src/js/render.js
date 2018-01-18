@@ -9,7 +9,7 @@ import {
   addClass,
   dispatchEvent,
   extend,
-  getContainSizes,
+  getAdjustedSizes,
   getRotatedSizes,
   getTransforms,
   removeClass,
@@ -154,11 +154,11 @@ export default {
         }
       }
 
-      ({ width: minCanvasWidth, height: minCanvasHeight } = getContainSizes({
+      ({ width: minCanvasWidth, height: minCanvasHeight } = getAdjustedSizes({
         aspectRatio,
         width: minCanvasWidth,
         height: minCanvasHeight,
-      }));
+      }, 'cover'));
 
       canvasData.minWidth = minCanvasWidth;
       canvasData.minHeight = minCanvasHeight;

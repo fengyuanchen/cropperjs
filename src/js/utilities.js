@@ -664,17 +664,23 @@ export const isFinite = Number.isFinite || WINDOW.isFinite;
 /**
  * Get the max sizes in a rectangle under the given aspect ratio.
  * @param {Object} data - The original sizes.
+ * @param {string} [type='contain'] - The adjust type.
  * @returns {Object} The result sizes.
  */
-export function getContainSizes({
-  aspectRatio,
-  height,
-  width,
-}) {
+export function getAdjustedSizes(
+  {
+    aspectRatio,
+    height,
+    width,
+  },
+  type = 'contain', // or 'cover'
+) {
   const isValidNumber = value => isFinite(value) && value > 0;
 
   if (isValidNumber(width) && isValidNumber(height)) {
-    if (height * aspectRatio > width) {
+    const adjustedWidth = height * aspectRatio;
+
+    if ((type === 'contain' && adjustedWidth > width) || (type === 'cover' && adjustedWidth < width)) {
       height = width / aspectRatio;
     } else {
       width = height * aspectRatio;
@@ -732,8 +738,6 @@ export function getRotatedSizes({ width, height, degree }) {
 export function getSourceCanvas(
   image,
   {
-    naturalWidth: imageNaturalWidth,
-    naturalHeight: imageNaturalHeight,
     rotate = 0,
     scaleX = 1,
     scaleY = 1,
@@ -755,23 +759,23 @@ export function getSourceCanvas(
 ) {
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
-  const maxSizes = getContainSizes({
+  const maxSizes = getAdjustedSizes({
     aspectRatio,
     width: maxWidth,
     height: maxHeight,
   });
-  const minSizes = getContainSizes({
+  const minSizes = getAdjustedSizes({
     aspectRatio,
     width: minWidth,
     height: minHeight,
-  });
+  }, 'cover');
   const width = Math.min(maxSizes.width, Math.max(minSizes.width, naturalWidth));
   const height = Math.min(maxSizes.height, Math.max(minSizes.height, naturalHeight));
   const params = [
-    -imageNaturalWidth / 2,
-    -imageNaturalHeight / 2,
-    imageNaturalWidth,
-    imageNaturalHeight,
+    -width / 2,
+    -height / 2,
+    width,
+    height,
   ];
 
   canvas.width = normalizeDecimalNumber(width);
