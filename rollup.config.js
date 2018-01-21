@@ -14,8 +14,6 @@ const banner = `/*!
 `;
 
 module.exports = {
-  // Export banner for PostCSS
-  banner,
   input: 'src/js/cropper.js',
   output: [
     {

@@ -7,7 +7,7 @@ module.exports = {
       url: 'inline',
     },
     'postcss-header': {
-      header: rollupConfig.banner,
+      header: rollupConfig.output[0].banner,
     },
     stylefmt: {},
   },
