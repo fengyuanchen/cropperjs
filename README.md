@@ -182,9 +182,9 @@ The previous cropped data if you had stored, will be passed to `setData` method 
 
 ### preview
 
-- Type: `Element` or `String`
+- Type: `Element`, `Array` (elements), `NodeList` or `String` (selector)
 - Default: `''`
-- An element or A valid selector for [Document.querySelectorAll](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll)
+- An element or an array of elements or a node list object or a valid selector for [Document.querySelectorAll](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll)
 
 Add extra elements (containers) for previewing.
 

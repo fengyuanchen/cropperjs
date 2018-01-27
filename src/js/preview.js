@@ -31,7 +31,13 @@ export default {
       return;
     }
 
-    const previews = preview.querySelector ? [preview] : document.querySelectorAll(preview);
+    let previews = preview;
+
+    if (typeof preview === 'string') {
+      previews = this.element.ownerDocument.querySelectorAll(preview);
+    } else if (preview.querySelector) {
+      previews = [preview];
+    }
 
     this.previews = previews;
 
