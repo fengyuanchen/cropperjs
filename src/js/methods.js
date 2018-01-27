@@ -132,7 +132,7 @@ export default {
 
   // Enable (unfreeze) the cropper
   enable() {
-    if (this.ready) {
+    if (this.ready && this.disabled) {
       this.disabled = false;
       removeClass(this.cropper, CLASS_DISABLED);
     }
@@ -142,7 +142,7 @@ export default {
 
   // Disable (freeze) the cropper
   disable() {
-    if (this.ready) {
+    if (this.ready && !this.disabled) {
       this.disabled = true;
       addClass(this.cropper, CLASS_DISABLED);
     }
@@ -161,6 +161,8 @@ export default {
 
       this.unbuild();
       removeClass(element, CLASS_HIDDEN);
+    } else if (this.xhr) {
+      this.xhr.abort();
     } else if (this.isImg) {
       removeListener(element, EVENT_LOAD, this.onStart);
     } else if (image) {
@@ -825,6 +827,7 @@ export default {
 
       mode = (croppable || movable) ? mode : DRAG_MODE_NONE;
 
+      options.dragMode = mode;
       setData(dragBox, DATA_ACTION, mode);
       toggleClass(dragBox, CLASS_CROP, croppable);
       toggleClass(dragBox, CLASS_MOVE, movable);

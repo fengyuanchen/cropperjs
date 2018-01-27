@@ -74,6 +74,7 @@ class Cropper {
     this.cropBoxData = null;
     this.previews = null;
     this.pointers = {};
+    this.xhr = null;
     this.init();
   }
 
@@ -137,11 +138,14 @@ class Cropper {
 
     const xhr = new XMLHttpRequest();
 
+    this.xhr = xhr;
     xhr.onerror = () => {
+      this.xhr = null;
       this.clone();
     };
 
     xhr.onload = () => {
+      this.xhr = null;
       this.read(xhr.response);
     };
 
