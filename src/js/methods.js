@@ -820,7 +820,7 @@ export default {
   setDragMode(mode) {
     const { options, dragBox, face } = this;
 
-    if (this.loaded && !this.disabled) {
+    if (this.ready && !this.disabled) {
       const croppable = mode === DRAG_MODE_CROP;
       const movable = options.movable && mode === DRAG_MODE_MOVE;
 
