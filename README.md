@@ -178,7 +178,7 @@ Set the aspect ratio of the crop box. By default, the crop box is free ratio.
 - Type: `Object`
 - Default: `null`
 
-The previous cropped data if you had stored, will be passed to `setData` method automatically when built.
+The previous cropped data if you had stored, will be passed to `setData` method automatically when initialized.
 
 ### preview
 
@@ -277,7 +277,7 @@ Show the grid background of the container.
 - Type: `Boolean`
 - Default: `true`
 
-Enable to crop the image automatically when initialize.
+Enable to crop the image automatically when initialized.
 
 ### autoCropArea
 
@@ -471,6 +471,7 @@ Show the crop box manually.
 ```js
 new Cropper(image, {
   autoCrop: false,
+
   ready: function () {
     // Do something here
     // ...
@@ -874,7 +875,7 @@ Change the drag mode.
 
 ### ready
 
-This event fires when the target image has been loaded and the cropper instance is ready for cropping.
+This event fires when the target image has been loaded and the cropper instance is ready for operating.
 
 ```js
 var cropper;
@@ -951,6 +952,11 @@ This event fires when the canvas (image wrapper) or the crop box stops to change
 > About these properties, see the [`getData`](#getdatarounded) method.
 
 This event fires when the canvas (image wrapper) or the crop box changed.
+
+**Notes:**
+
+- When the `autoCrop` option is set to `true`, a `crop` event will be triggered before the `ready` event.
+- When the `data` option is set, another `crop` event will be triggered before `ready` event.
 
 ### zoom
 
