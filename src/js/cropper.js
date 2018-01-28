@@ -139,13 +139,20 @@ class Cropper {
     const xhr = new XMLHttpRequest();
 
     this.xhr = xhr;
-    xhr.onerror = () => {
+
+    const done = () => {
       this.xhr = null;
+    };
+
+    xhr.ontimeout = done;
+    xhr.onabort = done;
+    xhr.onerror = () => {
+      done();
       this.clone();
     };
 
     xhr.onload = () => {
-      this.xhr = null;
+      done();
       this.read(xhr.response);
     };
 

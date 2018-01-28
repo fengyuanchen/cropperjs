@@ -152,7 +152,7 @@ export default {
 
   // Destroy the cropper and remove the instance from the image
   destroy() {
-    const { element, image } = this;
+    const { element, image, xhr } = this;
 
     if (this.loaded) {
       if (this.isImg && this.replaced) {
@@ -161,8 +161,10 @@ export default {
 
       this.unbuild();
       removeClass(element, CLASS_HIDDEN);
-    } else if (this.xhr) {
-      this.xhr.abort();
+    } else if (xhr) {
+      if (xhr.readyState < 4) {
+        xhr.abort();
+      }
     } else if (this.isImg) {
       removeListener(element, EVENT_LOAD, this.onStart);
     } else if (image) {
