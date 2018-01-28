@@ -36,18 +36,15 @@ import {
 export default {
   // Show the crop box manually
   crop() {
-    if (this.ready && !this.disabled) {
-      if (!this.cropped) {
-        this.cropped = true;
-        this.limitCropBox(true, true);
+    if (this.ready && !this.cropped && !this.disabled) {
+      this.cropped = true;
+      this.limitCropBox(true, true);
 
-        if (this.options.modal) {
-          addClass(this.dragBox, CLASS_MODAL);
-        }
-
-        removeClass(this.cropBox, CLASS_HIDDEN);
+      if (this.options.modal) {
+        addClass(this.dragBox, CLASS_MODAL);
       }
 
+      removeClass(this.cropBox, CLASS_HIDDEN);
       this.setCropBoxData(this.initialCropBoxData);
     }
 
