@@ -14,7 +14,6 @@ import {
   CLASS_MODAL,
   CLASS_MOVE,
   DATA_ACTION,
-  EVENT_CROP,
   EVENT_ERROR,
   EVENT_LOAD,
   EVENT_READY,
@@ -60,20 +59,20 @@ class Cropper {
 
     this.element = element;
     this.options = extend({}, DEFAULTS, isPlainObject(options) && options);
-    this.complete = false;
+    this.canvasData = null;
+    this.completing = false;
+    this.cropBoxData = null;
     this.cropped = false;
     this.disabled = false;
     this.isImg = false;
     this.limited = false;
     this.loaded = false;
+    this.originalUrl = '';
+    this.pointers = {};
+    this.previews = null;
     this.ready = false;
     this.replaced = false;
     this.wheeling = false;
-    this.originalUrl = '';
-    this.canvasData = null;
-    this.cropBoxData = null;
-    this.previews = null;
-    this.pointers = {};
     this.xhr = null;
     this.init();
   }
@@ -320,9 +319,9 @@ class Cropper {
     options.aspectRatio = Math.max(0, options.aspectRatio) || NaN;
     options.viewMode = Math.max(0, Math.min(3, Math.round(options.viewMode))) || 0;
 
-    this.cropped = options.autoCrop;
-
     if (options.autoCrop) {
+      this.cropped = true;
+
       if (options.modal) {
         addClass(dragBox, CLASS_MODAL);
       }
@@ -356,13 +355,15 @@ class Cropper {
       addClass(cropBox.getElementsByClassName(`${NAMESPACE}-point`), CLASS_HIDDEN);
     }
 
-    this.setDragMode(options.dragMode);
     this.render();
     this.ready = true;
+    this.setDragMode(options.dragMode);
     this.setData(options.data);
 
-    // Call the "ready" option asynchronously to keep "image.cropper" is defined
+    // Call the "ready" hook function asynchronously for accessing instance variable in the hook.
     this.completing = setTimeout(() => {
+      this.completing = false;
+
       if (isFunction(options.ready)) {
         addListener(element, EVENT_READY, options.ready, {
           once: true,
@@ -370,9 +371,6 @@ class Cropper {
       }
 
       dispatchEvent(element, EVENT_READY);
-      dispatchEvent(element, EVENT_CROP, this.getData());
-
-      this.complete = true;
     }, 0);
   }
 
@@ -381,12 +379,12 @@ class Cropper {
       return;
     }
 
-    if (!this.complete) {
+    if (this.completing) {
       clearTimeout(this.completing);
+      this.completing = false;
     }
 
     this.ready = false;
-    this.complete = false;
     this.initialImageData = null;
 
     // Clear `initialCanvasData` is necessary when replace

@@ -487,9 +487,6 @@ export default {
 
   output() {
     this.preview();
-
-    if (this.complete) {
-      dispatchEvent(this.element, EVENT_CROP, this.getData());
-    }
+    dispatchEvent(this.element, EVENT_CROP, this.getData());
   },
 };
