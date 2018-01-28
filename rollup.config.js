@@ -14,7 +14,7 @@ const banner = `/*!
 `;
 
 module.exports = {
-  input: 'src/js/cropper.js',
+  input: 'src/index.js',
   output: [
     {
       banner,
