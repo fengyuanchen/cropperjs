@@ -49,6 +49,7 @@ window.onload = function () {
   var cropper = new Cropper(image, options);
   var originalImageURL = image.src;
   var uploadedImageType = 'image/jpeg';
+  var uploadedImageName = 'cropped.jpg';
   var uploadedImageURL;
 
   // Tooltip
@@ -206,6 +207,7 @@ window.onload = function () {
             $('#getCroppedCanvasModal').modal().find('.modal-body').html(result);
 
             if (!download.disabled) {
+              download.download = uploadedImageName;
               download.href = result.toDataURL(uploadedImageType);
             }
           }
@@ -277,6 +279,7 @@ window.onload = function () {
 
         if (/^image\/\w+/.test(file.type)) {
           uploadedImageType = file.type;
+          uploadedImageName = file.name;
 
           if (uploadedImageURL) {
             URL.revokeObjectURL(uploadedImageURL);
