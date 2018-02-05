@@ -70,12 +70,12 @@ The [cdnjs](https://github.com/cdnjs/cdnjs) provides CDN support for Cropper.js'
 #### Syntax
 
 ```js
-new Cropper(target[, options])
+new Cropper(element[, options])
 ```
 
-- **target**
+- **element**
   - Type: `HTMLImageElement` or `HTMLCanvasElement`
-  - The target image or canvas for cropping.
+  - The target image or canvas element for cropping.
 
 - **options** (optional)
   - Type: `Object`
