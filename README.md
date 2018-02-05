@@ -67,11 +67,21 @@ The [cdnjs](https://github.com/cdnjs/cdnjs) provides CDN support for Cropper.js'
 
 ### Usage
 
-Initialize with `Cropper` constructor:
+#### Syntax
 
-- Browser: `window.Cropper`
-- CommonJS: `var Cropper = require('cropperjs')`
-- ES2015: `import Cropper from 'cropperjs'`
+```js
+new Cropper(target[, options])
+```
+
+- **target**
+  - Type: `HTMLImageElement` or `HTMLCanvasElement`
+  - The target image or canvas for cropping.
+
+- **options** (optional)
+  - Type: `Object`
+  - The options for cropping. Check out the available [options](#options).
+
+#### Example
 
 ```html
 <!-- Wrap the image or canvas element with a block element (container) -->
