@@ -42,6 +42,7 @@
     "build:css": "postcss src/index.css -o dist/cropper.css --no-map",
     "build:js": "rollup -c",
     "clear": "del-cli dist",
+    "commitmsg": "commitlint -e",
     "compress": "npm run compress:css && npm run compress:js",
     "compress:css": "postcss dist/cropper.css -u cssnano -o dist/cropper.min.css --no-map",
     "compress:js": "uglifyjs dist/cropper.js -o dist/cropper.min.js -c -m --comments /^!/",
@@ -54,6 +55,8 @@
     "watch:js": "rollup -c -m -w"
   },
   "devDependencies": {
+    "@commitlint/cli": "^6.1.0",
+    "@commitlint/config-angular": "^6.1.0",
     "babel-core": "^6.26.0",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-env": "^1.6.1",
@@ -64,6 +67,7 @@
     "eslint": "^4.16.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
+    "husky": "^0.14.3",
     "karma": "^2.0.0",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^2.2.0",
