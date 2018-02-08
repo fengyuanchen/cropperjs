@@ -163,7 +163,11 @@ export default {
         xhr.abort();
       }
     } else if (this.isImg) {
-      removeListener(element, EVENT_LOAD, this.onStart);
+      if (element.complete) {
+        clearTimeout(this.timeout);
+      } else {
+        removeListener(element, EVENT_LOAD, this.onStart);
+      }
     } else if (image) {
       image.parentNode.removeChild(image);
     }

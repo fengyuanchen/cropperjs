@@ -60,7 +60,6 @@ class Cropper {
     this.element = element;
     this.options = extend({}, DEFAULTS, isPlainObject(options) && options);
     this.canvasData = null;
-    this.completing = false;
     this.cropBoxData = null;
     this.cropped = false;
     this.disabled = false;
@@ -72,6 +71,7 @@ class Cropper {
     this.previews = null;
     this.ready = false;
     this.replaced = false;
+    this.timeout = 0;
     this.wheeling = false;
     this.xhr = null;
     this.init();
@@ -228,7 +228,7 @@ class Cropper {
 
     if (this.isImg) {
       if (element.complete) {
-        this.start();
+        this.timeout = setTimeout(start, 0);
       } else {
         addListener(element, EVENT_LOAD, start);
       }
@@ -360,28 +360,18 @@ class Cropper {
     this.setDragMode(options.dragMode);
     this.setData(options.data);
 
-    // Call the "ready" hook function asynchronously for accessing instance variable in the hook.
-    this.completing = setTimeout(() => {
-      this.completing = false;
+    if (isFunction(options.ready)) {
+      addListener(element, EVENT_READY, options.ready, {
+        once: true,
+      });
+    }
 
-      if (isFunction(options.ready)) {
-        addListener(element, EVENT_READY, options.ready, {
-          once: true,
-        });
-      }
-
-      dispatchEvent(element, EVENT_READY);
-    }, 0);
+    dispatchEvent(element, EVENT_READY);
   }
 
   unbuild() {
     if (!this.ready) {
       return;
-    }
-
-    if (this.completing) {
-      clearTimeout(this.completing);
-      this.completing = false;
     }
 
     this.ready = false;
