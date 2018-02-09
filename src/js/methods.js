@@ -149,19 +149,18 @@ export default {
 
   // Destroy the cropper and remove the instance from the image
   destroy() {
-    const { element, image, xhr } = this;
+    const { element, image } = this;
 
-    if (this.loaded) {
+    if (this.ready) {
       if (this.isImg && this.replaced) {
         element.src = this.originalUrl;
       }
 
       this.unbuild();
-      removeClass(element, CLASS_HIDDEN);
-    } else if (xhr) {
-      if (xhr.readyState < 4) {
-        xhr.abort();
-      }
+    } else if (this.sizing) {
+      this.sizing = false;
+    } else if (this.reloading) {
+      this.xhr.abort();
     } else if (this.isImg) {
       if (element.complete) {
         clearTimeout(this.timeout);
@@ -173,7 +172,6 @@ export default {
     }
 
     removeData(element, NAMESPACE);
-
     return this;
   },
 
@@ -514,7 +512,7 @@ export default {
    * @returns {Object} The result image data.
    */
   getImageData() {
-    return this.loaded ? extend({}, this.imageData) : {};
+    return this.sized ? extend({}, this.imageData) : {};
   },
 
   /**

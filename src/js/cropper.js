@@ -62,15 +62,18 @@ class Cropper {
     this.canvasData = null;
     this.cropBoxData = null;
     this.cropped = false;
+    this.cropping = false;
     this.disabled = false;
     this.isImg = false;
     this.limited = false;
-    this.loaded = false;
     this.originalUrl = '';
     this.pointers = {};
     this.previews = null;
     this.ready = false;
+    this.reloading = false;
     this.replaced = false;
+    this.sized = false;
+    this.sizing = false;
     this.timeout = 0;
     this.wheeling = false;
     this.xhr = null;
@@ -137,9 +140,11 @@ class Cropper {
 
     const xhr = new XMLHttpRequest();
 
+    this.reloading = true;
     this.xhr = xhr;
 
     const done = () => {
+      this.reloading = false;
       this.xhr = null;
     };
 
@@ -248,13 +253,19 @@ class Cropper {
       removeListener(image, EVENT_ERROR, this.onStop);
     }
 
+    this.sizing = true;
     getImageNaturalSizes(image, (naturalWidth, naturalHeight) => {
+      if (!this.sizing) {
+        return;
+      }
+
       extend(this.imageData, {
         naturalWidth,
         naturalHeight,
         aspectRatio: naturalWidth / naturalHeight,
       });
-      this.loaded = true;
+      this.sizing = false;
+      this.sized = true;
       this.build();
     });
   }
@@ -269,7 +280,7 @@ class Cropper {
   }
 
   build() {
-    if (!this.loaded) {
+    if (!this.sized) {
       return;
     }
 
@@ -395,6 +406,7 @@ class Cropper {
     this.container = null;
     this.cropper.parentNode.removeChild(this.cropper);
     this.cropper = null;
+    removeClass(this.element, CLASS_HIDDEN);
   }
 
   /**
