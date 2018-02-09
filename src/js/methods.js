@@ -93,16 +93,16 @@ export default {
   /**
    * Replace the image's src and rebuild the cropper
    * @param {string} url - The new URL.
-   * @param {boolean} [onlyColorChanged] - Indicate if the new image only changed color.
+   * @param {boolean} [hasSameSize] - Indicate if the new image only changed color.
    * @returns {Object} this
    */
-  replace(url, onlyColorChanged = false) {
+  replace(url, hasSameSize = false) {
     if (!this.disabled && url) {
       if (this.isImg) {
         this.element.src = url;
       }
 
-      if (onlyColorChanged) {
+      if (hasSameSize) {
         this.url = url;
         this.image.src = url;
 
