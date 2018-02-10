@@ -698,7 +698,7 @@ Output the final cropped area position and size data (base on the natural size o
 
 Change the cropped area position and size with new data (base on the original image).
 
-> **Note:** This method only available when the `viewMode` option great than or equal to `1`.
+> **Note:** This method only available when the value of the `viewMode` option is greater than or equal to `1`.
 
 ### getContainerData()
 

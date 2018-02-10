@@ -14,7 +14,6 @@ import {
   CLASS_MODAL,
   CLASS_MOVE,
   DATA_ACTION,
-  EVENT_ERROR,
   EVENT_LOAD,
   EVENT_READY,
   NAMESPACE,
@@ -32,7 +31,6 @@ import {
   dispatchEvent,
   extend,
   getData,
-  getImageNaturalSizes,
   getOrientation,
   isCrossOriginURL,
   isFunction,
@@ -59,24 +57,14 @@ class Cropper {
 
     this.element = element;
     this.options = extend({}, DEFAULTS, isPlainObject(options) && options);
-    this.canvasData = null;
-    this.cropBoxData = null;
     this.cropped = false;
-    this.cropping = false;
     this.disabled = false;
-    this.isImg = false;
-    this.limited = false;
-    this.originalUrl = '';
     this.pointers = {};
-    this.previews = null;
     this.ready = false;
     this.reloading = false;
     this.replaced = false;
     this.sized = false;
     this.sizing = false;
-    this.timeout = 0;
-    this.wheeling = false;
-    this.xhr = null;
     this.init();
   }
 
@@ -238,8 +226,8 @@ class Cropper {
         addListener(element, EVENT_LOAD, start);
       }
     } else {
-      addListener(image, EVENT_LOAD, start);
-      addListener(image, EVENT_ERROR, stop);
+      image.onload = start;
+      image.onerror = stop;
       addClass(image, CLASS_HIDE);
       element.parentNode.insertBefore(image, element.nextSibling);
     }
@@ -249,16 +237,14 @@ class Cropper {
     const image = this.isImg ? this.element : this.image;
 
     if (event) {
-      removeListener(image, EVENT_LOAD, this.onStart);
-      removeListener(image, EVENT_ERROR, this.onStop);
+      image.onload = null;
+      image.onerror = null;
     }
 
     this.sizing = true;
-    getImageNaturalSizes(image, (naturalWidth, naturalHeight) => {
-      if (!this.sizing) {
-        return;
-      }
 
+    const IS_SAFARI = WINDOW.navigator && /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i.test(WINDOW.navigator.userAgent);
+    const done = (naturalWidth, naturalHeight) => {
       extend(this.imageData, {
         naturalWidth,
         naturalHeight,
@@ -267,26 +253,59 @@ class Cropper {
       this.sizing = false;
       this.sized = true;
       this.build();
-    });
+    };
+
+    // Modern browsers (except Safari)
+    if (image.naturalWidth && !IS_SAFARI) {
+      done(image.naturalWidth, image.naturalHeight);
+      return;
+    }
+
+    const sizingImage = document.createElement('img');
+    const body = document.body || document.documentElement;
+
+    this.sizingImage = sizingImage;
+
+    sizingImage.onload = () => {
+      done(sizingImage.width, sizingImage.height);
+
+      if (!IS_SAFARI) {
+        body.removeChild(sizingImage);
+      }
+    };
+
+    sizingImage.src = image.src;
+
+    // iOS Safari will convert the image automatically
+    // with its orientation once append it into DOM (#279)
+    if (!IS_SAFARI) {
+      sizingImage.style.cssText = (
+        'left:0;' +
+        'max-height:none!important;' +
+        'max-width:none!important;' +
+        'min-height:0!important;' +
+        'min-width:0!important;' +
+        'opacity:0;' +
+        'position:absolute;' +
+        'top:0;' +
+        'z-index:-1;'
+      );
+      body.appendChild(sizingImage);
+    }
   }
 
   stop() {
     const { image } = this;
 
-    removeListener(image, EVENT_LOAD, this.onStart);
-    removeListener(image, EVENT_ERROR, this.onStop);
+    image.onload = null;
+    image.onerror = null;
     image.parentNode.removeChild(image);
     this.image = null;
   }
 
   build() {
-    if (!this.sized) {
+    if (!this.sized || this.ready) {
       return;
-    }
-
-    // Unbuild first when replace
-    if (this.ready) {
-      this.unbuild();
     }
 
     const { element, options, image } = this;
@@ -386,27 +405,34 @@ class Cropper {
     }
 
     this.ready = false;
-    this.initialImageData = null;
-
-    // Clear `initialCanvasData` is necessary when replace
-    this.initialCanvasData = null;
-    this.initialCropBoxData = null;
-    this.containerData = null;
-    this.canvasData = null;
-
-    // Clear `cropBoxData` is necessary when replace
-    this.cropBoxData = null;
     this.unbind();
     this.resetPreview();
-    this.previews = null;
-    this.viewBox = null;
-    this.cropBox = null;
-    this.dragBox = null;
-    this.canvas = null;
-    this.container = null;
     this.cropper.parentNode.removeChild(this.cropper);
-    this.cropper = null;
     removeClass(this.element, CLASS_HIDDEN);
+  }
+
+  uncreate() {
+    const { element } = this;
+
+    if (this.ready) {
+      this.unbuild();
+      this.ready = false;
+      this.cropped = false;
+    } else if (this.sizing) {
+      this.sizingImage.onload = null;
+      this.sizing = false;
+      this.sized = false;
+    } else if (this.reloading) {
+      this.xhr.abort();
+    } else if (this.isImg) {
+      if (element.complete) {
+        clearTimeout(this.timeout);
+      } else {
+        removeListener(element, EVENT_LOAD, this.onStart);
+      }
+    } else if (this.image) {
+      this.stop();
+    }
   }
 
   /**

@@ -533,52 +533,6 @@ export function getTransforms({
   };
 }
 
-const { navigator } = WINDOW;
-const IS_SAFARI_OR_UIWEBVIEW = navigator && /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent);
-
-/**
- * Get an image's natural sizes.
- * @param {string} image - The target image.
- * @param {Function} callback - The callback function.
- */
-export function getImageNaturalSizes(image, callback) {
-  // Modern browsers (except Safari)
-  if (image.naturalWidth && !IS_SAFARI_OR_UIWEBVIEW) {
-    callback(image.naturalWidth, image.naturalHeight);
-    return;
-  }
-
-  const newImage = document.createElement('img');
-  const body = document.body || document.documentElement;
-
-  newImage.onload = () => {
-    callback(newImage.width, newImage.height);
-
-    if (!IS_SAFARI_OR_UIWEBVIEW) {
-      body.removeChild(newImage);
-    }
-  };
-
-  newImage.src = image.src;
-
-  // iOS Safari will convert the image automatically
-  // with its orientation once append it into DOM (#279)
-  if (!IS_SAFARI_OR_UIWEBVIEW) {
-    newImage.style.cssText = (
-      'left:0;' +
-      'max-height:none!important;' +
-      'max-width:none!important;' +
-      'min-height:0!important;' +
-      'min-width:0!important;' +
-      'opacity:0;' +
-      'position:absolute;' +
-      'top:0;' +
-      'z-index:-1;'
-    );
-    body.appendChild(newImage);
-  }
-}
-
 /**
  * Get the max ratio of a group of pointers.
  * @param {string} pointers - The target pointers.

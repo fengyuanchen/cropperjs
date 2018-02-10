@@ -25,7 +25,7 @@ export default {
 
     image.src = url;
     this.viewBox.appendChild(image);
-    this.image2 = image;
+    this.viewBoxImage = image;
 
     if (!preview) {
       return;
@@ -104,7 +104,7 @@ export default {
       return;
     }
 
-    setStyle(this.image2, extend({
+    setStyle(this.viewBoxImage, extend({
       width,
       height,
     }, getTransforms(extend({

@@ -8,7 +8,6 @@ import {
   DRAG_MODE_CROP,
   DRAG_MODE_MOVE,
   DRAG_MODE_NONE,
-  EVENT_LOAD,
   EVENT_ZOOM,
   NAMESPACE,
 } from './constants';
@@ -18,17 +17,16 @@ import {
   each,
   extend,
   getAdjustedSizes,
+  getData,
   getOffset,
   getPointersCenter,
   getSourceCanvas,
-  isFunction,
   isNumber,
   isPlainObject,
   isUndefined,
   normalizeDecimalNumber,
   removeClass,
   removeData,
-  removeListener,
   setData,
   toggleClass,
 } from './utilities';
@@ -93,8 +91,8 @@ export default {
   /**
    * Replace the image's src and rebuild the cropper
    * @param {string} url - The new URL.
-   * @param {boolean} [hasSameSize] - Indicate if the new image only changed color.
-   * @returns {Object} this
+   * @param {boolean} [hasSameSize] - Indicate if the new image has the same size as the old one.
+   * @returns {Cropper} this
    */
   replace(url, hasSameSize = false) {
     if (!this.disabled && url) {
@@ -107,7 +105,7 @@ export default {
         this.image.src = url;
 
         if (this.ready) {
-          this.image2.src = url;
+          this.viewBoxImage.src = url;
 
           each(this.previews, (element) => {
             element.getElementsByTagName('img')[0].src = url;
@@ -118,8 +116,8 @@ export default {
           this.replaced = true;
         }
 
-        // Clear previous data
         this.options.data = null;
+        this.uncreate();
         this.load(url);
       }
     }
@@ -147,41 +145,34 @@ export default {
     return this;
   },
 
-  // Destroy the cropper and remove the instance from the image
+  /**
+   * Destroy the cropper and remove the instance from the image
+   * @returns {Cropper} this
+   */
   destroy() {
-    const { element, image } = this;
+    const { element } = this;
 
-    if (this.ready) {
-      if (this.isImg && this.replaced) {
-        element.src = this.originalUrl;
-      }
-
-      this.unbuild();
-    } else if (this.sizing) {
-      this.sizing = false;
-    } else if (this.reloading) {
-      this.xhr.abort();
-    } else if (this.isImg) {
-      if (element.complete) {
-        clearTimeout(this.timeout);
-      } else {
-        removeListener(element, EVENT_LOAD, this.onStart);
-      }
-    } else if (image) {
-      image.parentNode.removeChild(image);
+    if (!getData(element, NAMESPACE)) {
+      return this;
     }
 
+    if (this.isImg && this.replaced) {
+      element.src = this.originalUrl;
+    }
+
+    this.uncreate();
     removeData(element, NAMESPACE);
+
     return this;
   },
 
   /**
    * Move the canvas with relative offsets
    * @param {number} offsetX - The relative offset distance on the x-axis.
-   * @param {number} offsetY - The relative offset distance on the y-axis.
-   * @returns {Object} this
+   * @param {number} [offsetY=offsetX] - The relative offset distance on the y-axis.
+   * @returns {Cropper} this
    */
-  move(offsetX, offsetY) {
+  move(offsetX, offsetY = offsetX) {
     const { left, top } = this.canvasData;
 
     return this.moveTo(
@@ -194,7 +185,7 @@ export default {
    * Move the canvas to an absolute point
    * @param {number} x - The x-axis coordinate.
    * @param {number} [y=x] - The y-axis coordinate.
-   * @returns {Object} this
+   * @returns {Cropper} this
    */
   moveTo(x, y = x) {
     const { canvasData } = this;
@@ -226,7 +217,7 @@ export default {
    * Zoom the canvas with a relative ratio
    * @param {number} ratio - The target ratio.
    * @param {Event} _originalEvent - The original event if any.
-   * @returns {Object} this
+   * @returns {Cropper} this
    */
   zoom(ratio, _originalEvent) {
     const { canvasData } = this;
@@ -247,7 +238,7 @@ export default {
    * @param {number} ratio - The target ratio.
    * @param {Object} pivot - The zoom pivot point coordinate.
    * @param {Event} _originalEvent - The original event if any.
-   * @returns {Object} this
+   * @returns {Cropper} this
    */
   zoomTo(ratio, pivot, _originalEvent) {
     const { options, canvasData } = this;
@@ -311,7 +302,7 @@ export default {
   /**
    * Rotate the canvas with a relative degree
    * @param {number} degree - The rotate degree.
-   * @returns {Object} this
+   * @returns {Cropper} this
    */
   rotate(degree) {
     return this.rotateTo((this.imageData.rotate || 0) + Number(degree));
@@ -320,7 +311,7 @@ export default {
   /**
    * Rotate the canvas to an absolute degree
    * @param {number} degree - The rotate degree.
-   * @returns {Object} this
+   * @returns {Cropper} this
    */
   rotateTo(degree) {
     degree = Number(degree);
@@ -336,7 +327,7 @@ export default {
   /**
    * Scale the image on the x-axis.
    * @param {number} scaleX - The scale ratio on the x-axis.
-   * @returns {Object} this
+   * @returns {Cropper} this
    */
   scaleX(scaleX) {
     const { scaleY } = this.imageData;
@@ -347,7 +338,7 @@ export default {
   /**
    * Scale the image on the y-axis.
    * @param {number} scaleY - The scale ratio on the y-axis.
-   * @returns {Object} this
+   * @returns {Cropper} this
    */
   scaleY(scaleY) {
     const { scaleX } = this.imageData;
@@ -359,7 +350,7 @@ export default {
    * Scale the image
    * @param {number} scaleX - The scale ratio on the x-axis.
    * @param {number} [scaleY=scaleX] - The scale ratio on the y-axis.
-   * @returns {Object} this
+   * @returns {Cropper} this
    */
   scale(scaleX, scaleY = scaleX) {
     const { imageData } = this;
@@ -439,15 +430,11 @@ export default {
   /**
    * Set the cropped area position and size with new data
    * @param {Object} data - The new data.
-   * @returns {Object} this
+   * @returns {Cropper} this
    */
   setData(data) {
     const { options, imageData, canvasData } = this;
     const cropBoxData = {};
-
-    if (isFunction(data)) {
-      data = data.call(this.element);
-    }
 
     if (this.ready && !this.disabled && isPlainObject(data)) {
       let transformed = false;
@@ -542,15 +529,11 @@ export default {
   /**
    * Set the canvas position and size with new data.
    * @param {Object} data - The new canvas data.
-   * @returns {Object} this
+   * @returns {Cropper} this
    */
   setCanvasData(data) {
     const { canvasData } = this;
     const { aspectRatio } = canvasData;
-
-    if (isFunction(data)) {
-      data = data.call(this.element);
-    }
 
     if (this.ready && !this.disabled && isPlainObject(data)) {
       if (isNumber(data.left)) {
@@ -598,17 +581,13 @@ export default {
   /**
    * Set the crop box position and size with new data.
    * @param {Object} data - The new crop box data.
-   * @returns {Object} this
+   * @returns {Cropper} this
    */
   setCropBoxData(data) {
     const { cropBoxData } = this;
     const { aspectRatio } = this.options;
     let widthChanged;
     let heightChanged;
-
-    if (isFunction(data)) {
-      data = data.call(this.element);
-    }
 
     if (this.ready && this.cropped && !this.disabled && isPlainObject(data)) {
       if (isNumber(data.left)) {
@@ -793,7 +772,7 @@ export default {
   /**
    * Change the aspect ratio of the crop box.
    * @param {number} aspectRatio - The new aspect ratio.
-   * @returns {Object} this
+   * @returns {Cropper} this
    */
   setAspectRatio(aspectRatio) {
     const { options } = this;
@@ -817,7 +796,7 @@ export default {
   /**
    * Change the drag mode.
    * @param {string} mode - The new drag mode.
-   * @returns {Object} this
+   * @returns {Cropper} this
    */
   setDragMode(mode) {
     const { options, dragBox, face } = this;
