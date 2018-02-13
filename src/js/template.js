@@ -1,5 +1,5 @@
 export default (
-  '<div class="cropper-container">' +
+  '<div class="cropper-container" touch-action="none">' +
     '<div class="cropper-wrap-box">' +
       '<div class="cropper-canvas"></div>' +
     '</div>' +
