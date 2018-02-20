@@ -1,6 +1,4 @@
-import {
-  DRAG_MODE_CROP,
-} from './constants';
+import { DRAG_MODE_CROP } from './constants';
 
 export default {
   // Define the view mode of the cropper
@@ -17,6 +15,9 @@ export default {
 
   // A selector for adding extra containers to preview
   preview: '',
+
+  // Take rounding errors into account for preview
+  precisePreview: false,
 
   // Re-render the cropper when resize the window
   responsive: true,

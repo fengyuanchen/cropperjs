@@ -1,6 +1,4 @@
-import {
-  WINDOW,
-} from './constants';
+import { WINDOW } from './constants';
 
 /**
  * Check if the given value is not a number.

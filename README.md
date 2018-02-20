@@ -195,6 +195,13 @@ Add extra elements (containers) for previewing.
 - If you set an `aspectRatio` option, be sure to set the same aspect ratio to the preview container.
 - If preview is not getting properly displayed, set `overflow: hidden` style to the preview container.
 
+### precisePreview
+
+- Type: `Boolean`
+- Default: `false`
+
+Make the preview exactly match the cropped result (take rounding errors into account).
+
 ### responsive
 
 - Type: `Boolean`
