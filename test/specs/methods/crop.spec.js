@@ -1,5 +1,5 @@
 describe('crop (method)', () => {
-  it('should match the expected behaviours by default', (done) => {
+  it('should match the expected behaviors by default', (done) => {
     const image = window.createImage();
     const cropper = new Cropper(image, {
       autoCrop: false,

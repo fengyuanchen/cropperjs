@@ -1,5 +1,5 @@
 describe('clear (method)', () => {
-  it('should match the expected behaviours after cleared', (done) => {
+  it('should match the expected behaviors after cleared', (done) => {
     const image = window.createImage();
     const cropper = new Cropper(image, {
       ready() {
