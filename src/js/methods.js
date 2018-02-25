@@ -13,9 +13,9 @@ import {
 } from './constants';
 import {
   addClass,
+  assign,
   dispatchEvent,
-  each,
-  extend,
+  forEach,
   getAdjustedSizes,
   getData,
   getOffset,
@@ -52,9 +52,9 @@ export default {
   // Reset the image and crop box to their initial states
   reset() {
     if (this.ready && !this.disabled) {
-      this.imageData = extend({}, this.initialImageData);
-      this.canvasData = extend({}, this.initialCanvasData);
-      this.cropBoxData = extend({}, this.initialCropBoxData);
+      this.imageData = assign({}, this.initialImageData);
+      this.canvasData = assign({}, this.initialCanvasData);
+      this.cropBoxData = assign({}, this.initialCropBoxData);
       this.renderCanvas();
 
       if (this.cropped) {
@@ -68,7 +68,7 @@ export default {
   // Clear the crop box
   clear() {
     if (this.cropped && !this.disabled) {
-      extend(this.cropBoxData, {
+      assign(this.cropBoxData, {
         left: 0,
         top: 0,
         width: 0,
@@ -107,7 +107,7 @@ export default {
         if (this.ready) {
           this.viewBoxImage.src = url;
 
-          each(this.previews, (element) => {
+          forEach(this.previews, (element) => {
             element.getElementsByTagName('img')[0].src = url;
           });
         }
@@ -402,7 +402,7 @@ export default {
 
       const ratio = imageData.width / imageData.naturalWidth;
 
-      each(data, (n, i) => {
+      forEach(data, (n, i) => {
         n /= ratio;
         data[i] = rounded ? Math.round(n) : n;
       });
@@ -491,7 +491,7 @@ export default {
    * @returns {Object} The result container data.
    */
   getContainerData() {
-    return this.ready ? extend({}, this.containerData) : {};
+    return this.ready ? assign({}, this.containerData) : {};
   },
 
   /**
@@ -499,7 +499,7 @@ export default {
    * @returns {Object} The result image data.
    */
   getImageData() {
-    return this.sized ? extend({}, this.imageData) : {};
+    return this.sized ? assign({}, this.imageData) : {};
   },
 
   /**
@@ -511,7 +511,7 @@ export default {
     const data = {};
 
     if (this.ready) {
-      each([
+      forEach([
         'left',
         'top',
         'width',

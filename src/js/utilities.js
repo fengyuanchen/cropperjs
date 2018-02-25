@@ -71,7 +71,7 @@ export function isFunction(value) {
  * @param {Function} callback - The process function for each element.
  * @returns {*} The original data.
  */
-export function each(data, callback) {
+export function forEach(data, callback) {
   if (data && isFunction(callback)) {
     if (Array.isArray(data) || isNumber(data.length)/* array-like */) {
       const { length } = data;
@@ -98,12 +98,8 @@ export function each(data, callback) {
  * @param {*} args - The rest objects which will be merged to the first object.
  * @returns {Object} The extended object.
  */
-export function extend(obj, ...args) {
+export const assign = Object.assign || function assign(obj, ...args) {
   if (isObject(obj) && args.length > 0) {
-    if (Object.assign) {
-      return Object.assign(obj, ...args);
-    }
-
     args.forEach((arg) => {
       if (isObject(arg)) {
         Object.keys(arg).forEach((key) => {
@@ -114,16 +110,6 @@ export function extend(obj, ...args) {
   }
 
   return obj;
-}
-
-/**
- * Takes a function and returns a new one that will always have a particular context.
- * @param {Function} fn - The target function.
- * @param {Object} context - The new context for the function.
- * @returns {boolean} The new function.
- */
-export function proxy(fn, context, ...args) {
-  return (...args2) => fn.apply(context, args.concat(args2));
 }
 
 const REGEXP_DECIMALS = /\.\d*(?:0|9){12}\d*$/i;
@@ -149,7 +135,7 @@ const REGEXP_SUFFIX = /^(?:width|height|left|top|marginLeft|marginTop)$/;
 export function setStyle(element, styles) {
   const { style } = element;
 
-  each(styles, (value, property) => {
+  forEach(styles, (value, property) => {
     if (REGEXP_SUFFIX.test(property) && isNumber(value)) {
       value += 'px';
     }
@@ -181,7 +167,7 @@ export function addClass(element, value) {
   }
 
   if (isNumber(element.length)) {
-    each(element, (elem) => {
+    forEach(element, (elem) => {
       addClass(elem, value);
     });
     return;
@@ -212,7 +198,7 @@ export function removeClass(element, value) {
   }
 
   if (isNumber(element.length)) {
-    each(element, (elem) => {
+    forEach(element, (elem) => {
       removeClass(elem, value);
     });
     return;
@@ -240,7 +226,7 @@ export function toggleClass(element, value, added) {
   }
 
   if (isNumber(element.length)) {
-    each(element, (elem) => {
+    forEach(element, (elem) => {
       toggleClass(elem, value, added);
     });
     return;
@@ -257,9 +243,9 @@ export function toggleClass(element, value, added) {
 const REGEXP_HYPHENATE = /([a-z\d])([A-Z])/g;
 
 /**
- * Hyphenate the given value.
- * @param {string} value - The value to hyphenate.
- * @returns {string} The hyphenated value.
+ * Transform the given string from camelCase to kebab-case
+ * @param {string} value - The value to transform.
+ * @returns {string} The transformed value.
  */
 export function hyphenate(value) {
   return value.replace(REGEXP_HYPHENATE, '$1-$2').toLowerCase();
@@ -307,14 +293,14 @@ export function removeData(element, name) {
     try {
       delete element[name];
     } catch (e) {
-      element[name] = null;
+      element[name] = undefined;
     }
   } else if (element.dataset) {
     // #128 Safari not allows to delete dataset property
     try {
       delete element.dataset[name];
     } catch (e) {
-      element.dataset[name] = null;
+      element.dataset[name] = undefined;
     }
   } else {
     element.removeAttribute(`data-${hyphenate(name)}`);
@@ -331,24 +317,9 @@ const REGEXP_SPACES = /\s\s*/;
  * @param {Object} options - The event options.
  */
 export function removeListener(element, type, listener, options = {}) {
-  if (!isFunction(listener)) {
-    return;
-  }
-
-  const types = type.trim().split(REGEXP_SPACES);
-
-  if (types.length > 1) {
-    each(types, (t) => {
-      removeListener(element, t, listener, options);
-    });
-    return;
-  }
-
-  if (element.removeEventListener) {
-    element.removeEventListener(type, listener, options);
-  } else if (element.detachEvent) {
-    element.detachEvent(`on${type}`, listener);
-  }
+  forEach(type.trim().split(REGEXP_SPACES), (t) => {
+    element.removeEventListener(t, listener, options);
+  });
 }
 
 /**
@@ -359,19 +330,6 @@ export function removeListener(element, type, listener, options = {}) {
  * @param {Object} options - The event options.
  */
 export function addListener(element, type, listener, options = {}) {
-  if (!isFunction(listener)) {
-    return;
-  }
-
-  const types = type.trim().split(REGEXP_SPACES);
-
-  if (types.length > 1) {
-    each(types, (t) => {
-      addListener(element, t, listener, options);
-    });
-    return;
-  }
-
   if (options.once) {
     const originalListener = listener;
 
@@ -381,11 +339,9 @@ export function addListener(element, type, listener, options = {}) {
     };
   }
 
-  if (element.addEventListener) {
-    element.addEventListener(type, listener, options);
-  } else if (element.attachEvent) {
-    element.attachEvent(`on${type}`, listener);
-  }
+  forEach(type.trim().split(REGEXP_SPACES), (t) => {
+    element.addEventListener(t, listener, options);
+  });
 }
 
 /**
@@ -396,39 +352,21 @@ export function addListener(element, type, listener, options = {}) {
  * @returns {boolean} Indicate if the event is default prevented or not.
  */
 export function dispatchEvent(element, type, data) {
-  if (element.dispatchEvent) {
-    let event;
+  let event;
 
-    // Event and CustomEvent on IE9-11 are global objects, not constructors
-    if (isFunction(Event) && isFunction(CustomEvent)) {
-      if (isUndefined(data)) {
-        event = new Event(type, {
-          bubbles: true,
-          cancelable: true,
-        });
-      } else {
-        event = new CustomEvent(type, {
-          detail: data,
-          bubbles: true,
-          cancelable: true,
-        });
-      }
-    } else if (isUndefined(data)) {
-      event = document.createEvent('Event');
-      event.initEvent(type, true, true);
-    } else {
-      event = document.createEvent('CustomEvent');
-      event.initCustomEvent(type, true, true, data);
-    }
-
-    // IE9+
-    return element.dispatchEvent(event);
-  } else if (element.fireEvent) {
-    // IE6-10 (native events only)
-    return element.fireEvent(`on${type}`);
+  // Event and CustomEvent on IE9-11 are global objects, not constructors
+  if (isFunction(Event) && isFunction(CustomEvent)) {
+    event = new CustomEvent(type, {
+      detail: data,
+      bubbles: true,
+      cancelable: true,
+    });
+  } else {
+    event = document.createEvent('CustomEvent');
+    event.initCustomEvent(type, true, true, data);
   }
 
-  return true;
+  return element.dispatchEvent(event);
 }
 
 /**
@@ -437,27 +375,12 @@ export function dispatchEvent(element, type, data) {
  * @returns {Object} The offset data.
  */
 export function getOffset(element) {
-  const doc = document.documentElement;
   const box = element.getBoundingClientRect();
 
   return {
-    left: box.left + (
-      (window.scrollX || (doc && doc.scrollLeft) || 0) - ((doc && doc.clientLeft) || 0)
-    ),
-    top: box.top + (
-      (window.scrollY || (doc && doc.scrollTop) || 0) - ((doc && doc.clientTop) || 0)
-    ),
+    left: box.left + (window.pageXOffset - document.documentElement.clientLeft),
+    top: box.top + (window.pageYOffset - document.documentElement.clientTop),
   };
-}
-
-/**
- * Empty an element.
- * @param {Element} element - The element to empty.
- */
-export function empty(element) {
-  while (element.firstChild) {
-    element.removeChild(element.firstChild);
-  }
 }
 
 const { location } = WINDOW;
@@ -486,7 +409,7 @@ export function isCrossOriginURL(url) {
 export function addTimestamp(url) {
   const timestamp = `timestamp=${(new Date()).getTime()}`;
 
-  return (url + (url.indexOf('?') === -1 ? '?' : '&') + timestamp);
+  return url + (url.indexOf('?') === -1 ? '?' : '&') + timestamp;
 }
 
 /**
@@ -539,13 +462,13 @@ export function getTransforms({
  * @returns {number} The result ratio.
  */
 export function getMaxZoomRatio(pointers) {
-  const pointers2 = extend({}, pointers);
+  const pointers2 = assign({}, pointers);
   const ratios = [];
 
-  each(pointers, (pointer, pointerId) => {
+  forEach(pointers, (pointer, pointerId) => {
     delete pointers2[pointerId];
 
-    each(pointers2, (pointer2) => {
+    forEach(pointers2, (pointer2) => {
       const x1 = Math.abs(pointer.startX - pointer2.startX);
       const y1 = Math.abs(pointer.startY - pointer2.startY);
       const x2 = Math.abs(pointer.endX - pointer2.endX);
@@ -575,11 +498,7 @@ export function getPointer({ pageX, pageY }, endOnly) {
     endY: pageY,
   };
 
-  if (endOnly) {
-    return end;
-  }
-
-  return extend({
+  return endOnly ? end : assign({
     startX: pageX,
     startY: pageY,
   }, end);
@@ -595,7 +514,7 @@ export function getPointersCenter(pointers) {
   let pageY = 0;
   let count = 0;
 
-  each(pointers, ({ startX, startY }) => {
+  forEach(pointers, ({ startX, startY }) => {
     pageX += startX;
     pageY += startY;
     count += 1;
@@ -782,7 +701,7 @@ export function dataURLToArrayBuffer(dataURL) {
   const arrayBuffer = new ArrayBuffer(binary.length);
   const uint8 = new Uint8Array(arrayBuffer);
 
-  each(uint8, (value, i) => {
+  forEach(uint8, (value, i) => {
     uint8[i] = binary.charCodeAt(i);
   });
 
@@ -800,7 +719,7 @@ export function arrayBufferToDataURL(arrayBuffer, mimeType) {
   let data = '';
 
   // TypedArray.prototype.forEach is not supported in some browsers.
-  each(uint8, (value) => {
+  forEach(uint8, (value) => {
     data += fromCharCode(value);
   });
 

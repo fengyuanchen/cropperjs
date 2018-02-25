@@ -14,7 +14,7 @@ import {
   CLASS_HIDDEN,
 } from './constants';
 import {
-  each,
+  forEach,
   getMaxZoomRatio,
   getOffset,
   removeClass,
@@ -463,7 +463,7 @@ export default {
     }
 
     // Override
-    each(pointers, (p) => {
+    forEach(pointers, (p) => {
       p.startX = p.endX;
       p.startY = p.endY;
     });

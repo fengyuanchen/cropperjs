@@ -2,9 +2,8 @@ import {
   DATA_PREVIEW,
 } from './constants';
 import {
-  each,
-  empty,
-  extend,
+  assign,
+  forEach,
   getData,
   getTransforms,
   removeData,
@@ -41,14 +40,14 @@ export default {
 
     this.previews = previews;
 
-    each(previews, (element) => {
+    forEach(previews, (el) => {
       const img = document.createElement('img');
 
       // Save the original size for recover
-      setData(element, DATA_PREVIEW, {
-        width: element.offsetWidth,
-        height: element.offsetHeight,
-        html: element.innerHTML,
+      setData(el, DATA_PREVIEW, {
+        width: el.offsetWidth,
+        height: el.offsetHeight,
+        html: el.innerHTML,
       });
 
       if (crossOrigin) {
@@ -74,13 +73,13 @@ export default {
         'image-orientation:0deg!important;"'
       );
 
-      empty(element);
-      element.appendChild(img);
+      el.innerHTML = '';
+      el.appendChild(img);
     });
   },
 
   resetPreview() {
-    each(this.previews, (element) => {
+    forEach(this.previews, (element) => {
       const data = getData(element, DATA_PREVIEW);
 
       setStyle(element, {
@@ -104,15 +103,15 @@ export default {
       return;
     }
 
-    setStyle(this.viewBoxImage, extend({
+    setStyle(this.viewBoxImage, assign({
       width,
       height,
-    }, getTransforms(extend({
+    }, getTransforms(assign({
       translateX: -left,
       translateY: -top,
     }, imageData))));
 
-    each(this.previews, (element) => {
+    forEach(this.previews, (element) => {
       const data = getData(element, DATA_PREVIEW);
       const originalWidth = data.width;
       const originalHeight = data.height;
@@ -136,10 +135,10 @@ export default {
         height: newHeight,
       });
 
-      setStyle(element.getElementsByTagName('img')[0], extend({
+      setStyle(element.getElementsByTagName('img')[0], assign({
         width: width * ratio,
         height: height * ratio,
-      }, getTransforms(extend({
+      }, getTransforms(assign({
         translateX: -left * ratio,
         translateY: -top * ratio,
       }, imageData))));

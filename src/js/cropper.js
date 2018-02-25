@@ -27,16 +27,15 @@ import {
   addListener,
   addTimestamp,
   arrayBufferToDataURL,
+  assign,
   dataURLToArrayBuffer,
   dispatchEvent,
-  extend,
   getData,
   getOrientation,
   isCrossOriginURL,
   isFunction,
   isPlainObject,
   parseOrientation,
-  proxy,
   removeClass,
   removeListener,
   setData,
@@ -56,7 +55,7 @@ class Cropper {
     }
 
     this.element = element;
-    this.options = extend({}, DEFAULTS, isPlainObject(options) && options);
+    this.options = assign({}, DEFAULTS, isPlainObject(options) && options);
     this.cropped = false;
     this.disabled = false;
     this.pointers = {};
@@ -212,8 +211,8 @@ class Cropper {
 
     image.src = crossOriginUrl || url;
 
-    const start = proxy(this.start, this);
-    const stop = proxy(this.stop, this);
+    const start = this.start.bind(this);
+    const stop = this.stop.bind(this);
 
     this.image = image;
     this.onStart = start;
@@ -245,7 +244,7 @@ class Cropper {
 
     const IS_SAFARI = WINDOW.navigator && /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i.test(WINDOW.navigator.userAgent);
     const done = (naturalWidth, naturalHeight) => {
-      extend(this.imageData, {
+      assign(this.imageData, {
         naturalWidth,
         naturalHeight,
         aspectRatio: naturalWidth / naturalHeight,
@@ -449,10 +448,10 @@ class Cropper {
    * @param {Object} options - The new default options.
    */
   static setDefaults(options) {
-    extend(DEFAULTS, isPlainObject(options) && options);
+    assign(DEFAULTS, isPlainObject(options) && options);
   }
 }
 
-extend(Cropper.prototype, render, preview, events, handlers, change, methods);
+assign(Cropper.prototype, render, preview, events, handlers, change, methods);
 
 export default Cropper;

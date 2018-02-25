@@ -7,8 +7,8 @@ import {
 } from './constants';
 import {
   addClass,
+  assign,
   dispatchEvent,
-  extend,
   getAdjustedSizes,
   getRotatedSizes,
   getTransforms,
@@ -101,8 +101,8 @@ export default {
     this.canvasData = canvasData;
     this.limited = (viewMode === 1 || viewMode === 2);
     this.limitCanvas(true, true);
-    this.initialImageData = extend({}, imageData);
-    this.initialCanvasData = extend({}, canvasData);
+    this.initialImageData = assign({}, imageData);
+    this.initialCanvasData = assign({}, canvasData);
   },
 
   limitCanvas(sizeLimited, positionLimited) {
@@ -263,7 +263,7 @@ export default {
     canvasData.oldLeft = canvasData.left;
     canvasData.oldTop = canvasData.top;
 
-    setStyle(this.canvas, extend({
+    setStyle(this.canvas, assign({
       width: canvasData.width,
       height: canvasData.height,
     }, getTransforms({
@@ -283,16 +283,16 @@ export default {
     const width = imageData.naturalWidth * (canvasData.width / canvasData.naturalWidth);
     const height = imageData.naturalHeight * (canvasData.height / canvasData.naturalHeight);
 
-    extend(imageData, {
+    assign(imageData, {
       width,
       height,
       left: (canvasData.width - width) / 2,
       top: (canvasData.height - height) / 2,
     });
-    setStyle(this.image, extend({
+    setStyle(this.image, assign({
       width: imageData.width,
       height: imageData.height,
-    }, getTransforms(extend({
+    }, getTransforms(assign({
       translateX: imageData.left,
       translateY: imageData.top,
     }, imageData))));
@@ -350,7 +350,7 @@ export default {
     cropBoxData.oldLeft = cropBoxData.left;
     cropBoxData.oldTop = cropBoxData.top;
 
-    this.initialCropBoxData = extend({}, cropBoxData);
+    this.initialCropBoxData = assign({}, cropBoxData);
   },
 
   limitCropBox(sizeLimited, positionLimited) {
@@ -468,7 +468,7 @@ export default {
         cropBoxData.height >= containerData.height ? ACTION_MOVE : ACTION_ALL);
     }
 
-    setStyle(this.cropBox, extend({
+    setStyle(this.cropBox, assign({
       width: cropBoxData.width,
       height: cropBoxData.height,
     }, getTransforms({

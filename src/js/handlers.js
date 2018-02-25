@@ -14,9 +14,9 @@ import {
 } from './constants';
 import {
   addClass,
+  assign,
   dispatchEvent,
-  each,
-  extend,
+  forEach,
   getData,
   getPointer,
   hasClass,
@@ -49,10 +49,10 @@ export default {
       this.render();
 
       if (options.restore) {
-        this.setCanvasData(each(canvasData, (n, i) => {
+        this.setCanvasData(forEach(canvasData, (n, i) => {
           canvasData[i] = n * ratio;
         }));
-        this.setCropBoxData(each(cropBoxData, (n, i) => {
+        this.setCropBoxData(forEach(cropBoxData, (n, i) => {
           cropBoxData[i] = n * ratio;
         }));
       }
@@ -109,7 +109,7 @@ export default {
 
     if (e.changedTouches) {
       // Handle touch event
-      each(e.changedTouches, (touch) => {
+      forEach(e.changedTouches, (touch) => {
         pointers[touch.identifier] = getPointer(touch);
       });
     } else {
@@ -164,11 +164,11 @@ export default {
     }
 
     if (e.changedTouches) {
-      each(e.changedTouches, (touch) => {
-        extend(pointers[touch.identifier], getPointer(touch, true));
+      forEach(e.changedTouches, (touch) => {
+        assign(pointers[touch.identifier], getPointer(touch, true));
       });
     } else {
-      extend(pointers[e.pointerId || 0], getPointer(e, true));
+      assign(pointers[e.pointerId || 0], getPointer(e, true));
     }
 
     this.change(e);
@@ -182,7 +182,7 @@ export default {
     const { action, pointers } = this;
 
     if (e.changedTouches) {
-      each(e.changedTouches, (touch) => {
+      forEach(e.changedTouches, (touch) => {
         delete pointers[touch.identifier];
       });
     } else {
