@@ -41,7 +41,7 @@
     "build:css": "postcss src/index.css -o dist/cropper.css --no-map",
     "build:js": "rollup -c",
     "clear": "del-cli dist",
-    "commitmsg": "commitlint -e",
+    "commitmsg": "npm run lint && commitlint -e",
     "compress": "npm run compress:css && npm run compress:js",
     "compress:css": "postcss dist/cropper.css -u cssnano -o dist/cropper.min.css --no-map",
     "compress:js": "uglifyjs dist/cropper.js -o dist/cropper.min.js -c -m --comments /^!/",
