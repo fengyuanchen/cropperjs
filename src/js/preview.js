@@ -1,6 +1,4 @@
-import {
-  DATA_PREVIEW,
-} from './constants';
+import { DATA_PREVIEW } from './constants';
 import {
   assign,
   forEach,

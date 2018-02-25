@@ -1,6 +1,4 @@
-import {
-  WINDOW,
-} from './constants';
+import { WINDOW } from './constants';
 
 /**
  * Check if the given value is not a number.
@@ -110,7 +108,7 @@ export const assign = Object.assign || function assign(obj, ...args) {
   }
 
   return obj;
-}
+};
 
 const REGEXP_DECIMALS = /\.\d*(?:0|9){12}\d*$/i;
 
