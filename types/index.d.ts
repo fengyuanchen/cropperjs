@@ -63,13 +63,15 @@ declare namespace Cropper {
   }
 
   export interface GetCroppedCanvasOptions {
+    width?: number;
+    height?: number;
+    minWidth?: number;
+    minHeight?: number;
+    maxWidth?: number;
+    maxHeight?: number;
     fillColor?: string;
     imageSmoothingEnabled?: boolean;
     imageSmoothingQuality?: ImageSmoothingQuality;
-    maxHeight?: number;
-    maxWidth?: number;
-    minHeight?: number;
-    minWidth?: number;
   }
 
   export interface SetDataOptions {
