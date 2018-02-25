@@ -11,7 +11,6 @@ import {
   CLASS_HIDDEN,
   CLASS_HIDE,
   CLASS_INVISIBLE,
-  CLASS_MODAL,
   CLASS_MOVE,
   DATA_ACTION,
   EVENT_LOAD,
@@ -348,15 +347,7 @@ class Cropper {
     options.aspectRatio = Math.max(0, options.aspectRatio) || NaN;
     options.viewMode = Math.max(0, Math.min(3, Math.round(options.viewMode))) || 0;
 
-    if (options.autoCrop) {
-      this.cropped = true;
-
-      if (options.modal) {
-        addClass(dragBox, CLASS_MODAL);
-      }
-    } else {
-      addClass(cropBox, CLASS_HIDDEN);
-    }
+    addClass(cropBox, CLASS_HIDDEN);
 
     if (!options.guides) {
       addClass(cropBox.getElementsByClassName(`${NAMESPACE}-dashed`), CLASS_HIDDEN);
@@ -387,6 +378,11 @@ class Cropper {
     this.render();
     this.ready = true;
     this.setDragMode(options.dragMode);
+
+    if (options.autoCrop) {
+      this.crop();
+    }
+
     this.setData(options.data);
 
     if (isFunction(options.ready)) {
