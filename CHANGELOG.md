@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.0 (Feb 25, 2018)
+
+- Add type definition files for TypeScript.
+- Enhance the `preview` option to support `Array` and `NodeList`.
+- Fix incorrect cropped canvas sizes when max/min sizes provided.
+
 ## 1.2.2 (Jan 3, 2018)
 
 - Fix incorrect image natural sizes in iOS Safari (#279).
@@ -31,12 +37,12 @@
 
 - Added 4 new options to `getCroppedCanvas` method:  `minWidth`, `minHeight`, `maxWidth` and `maxHeight`.
 - Enhanced image scaling: the `scaleX` and `scaleY` values should only be `1` or `-1` before, but now they can be any numbers.
-- Improved crop box resizing behaviour in the northeast, northwest, southeast and southwest directions. (#222).
+- Improved crop box resizing behavior in the northeast, northwest, southeast and southwest directions. (#222).
 
 ## 1.0.0 (Sep 3, 2017)
 
 - Fixed a bug of zoom out after cleared the crop box in view mode 1, 2 and 3 (#209).
-- Improve crop box resizing behaviour in the east, west, south and north directions (#222).
+- Improve crop box resizing behavior in the east, west, south and north directions (#222).
 
 ## 1.0.0-rc.3 (Jul 7, 2017)
 
@@ -99,7 +105,7 @@
 
 ## 0.7.1 (May 28, 2016)
 
-- Improved the rotate and scale transform behaviour.
+- Improved the rotate and scale transform behavior.
 - Improved the `getCroppedCanvas` method (returns the whole canvas if it is not cropped).
 - Check cross origin setting when load image by XMLHTTPRequest.
 
