@@ -221,7 +221,9 @@ class Cropper {
       if (element.complete) {
         this.timeout = setTimeout(start, 0);
       } else {
-        addListener(element, EVENT_LOAD, start);
+        addListener(element, EVENT_LOAD, start, {
+          once: true,
+        });
       }
     } else {
       image.onload = start;
