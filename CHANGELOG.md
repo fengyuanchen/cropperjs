@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.1 (Feb 28, 2018)
+
+- Add missing `width` and `height` definitions (#302).
+- Fix incorrect behavior of `viewMode: 2` (#304).
+- Fix the bug of multiple starts (#306).
+- Remove `browser` field from the `package.json` file (#307).
+
 ## 1.3.0 (Feb 25, 2018)
 
 - Add type definition files for TypeScript.

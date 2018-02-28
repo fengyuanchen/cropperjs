@@ -101,14 +101,14 @@ img {
 var image = document.getElementById('image');
 var cropper = new Cropper(image, {
   aspectRatio: 16 / 9,
-  crop: function(e) {
-    console.log(e.detail.x);
-    console.log(e.detail.y);
-    console.log(e.detail.width);
-    console.log(e.detail.height);
-    console.log(e.detail.rotate);
-    console.log(e.detail.scaleX);
-    console.log(e.detail.scaleY);
+  crop: function(event) {
+    console.log(event.detail.x);
+    console.log(event.detail.y);
+    console.log(event.detail.width);
+    console.log(event.detail.height);
+    console.log(event.detail.rotate);
+    console.log(event.detail.scaleX);
+    console.log(event.detail.scaleY);
   }
 });
 ```
@@ -923,9 +923,9 @@ cropper = new Cropper(image);
 This event fires when the canvas (image wrapper) or the crop box starts to change.
 
 ```js
-image.addEventListener('cropstart', function (e) {
-  console.log(e.detail.originalEvent);
-  console.log(e.detail.action);
+image.addEventListener('cropstart', function (event) {
+  console.log(event.detail.originalEvent);
+  console.log(event.detail.action);
 });
 ```
 
@@ -985,11 +985,11 @@ This event fires when the canvas (image wrapper) or the crop box changed.
 This event fires when a cropper instance starts to zoom in or zoom out its canvas (image wrapper).
 
 ```js
-image.addEventListener('zoom', function (e) {
+image.addEventListener('zoom', function (event) {
 
   // Zoom in
-  if (e.detail.ratio > e.detail.oldRatio) {
-    e.preventDefault(); // Prevent zoom in
+  if (event.detail.ratio > event.detail.oldRatio) {
+    event.preventDefault(); // Prevent zoom in
   }
 
   // Zoom out
@@ -1037,7 +1037,7 @@ Maintained under the [Semantic Versioning guidelines](http://semver.org/).
 
 - [angular-cropperjs](https://github.com/matheusdavidson/angular-cropperjs) by @matheusdavidson
 - [ember-cropperjs](https://github.com/danielthall/ember-cropperjs) by @danielthall
-- [iron-cropper](https://www.webcomponents.org/element/safetychanger/iron-cropper) (web component) by @safetychanger
+- [iron-cropper](https://github.com/safetychanger/iron-cropper) by @safetychanger
 - [react-cropper](https://github.com/roadmanfong/react-cropper) by @roadmanfong
 - [vue-cropperjs](https://github.com/Agontuk/vue-cropperjs) by @Agontuk
 

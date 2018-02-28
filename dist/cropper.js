@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v1.3.0
+ * Cropper.js v1.3.1
  * https://github.com/fengyuanchen/cropperjs
  *
  * Copyright (c) 2015-2018 Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2018-02-25T07:26:41.685Z
+ * Date: 2018-02-28T13:25:11.920Z
  */
 
 (function (global, factory) {
@@ -1218,7 +1218,7 @@ var render = {
         aspectRatio: aspectRatio,
         width: minCanvasWidth,
         height: minCanvasHeight
-      }, 'cover');
+      });
 
       minCanvasWidth = _getAdjustedSizes.width;
       minCanvasHeight = _getAdjustedSizes.height;
@@ -3375,7 +3375,9 @@ var Cropper = function () {
         if (element.complete) {
           this.timeout = setTimeout(start, 0);
         } else {
-          addListener(element, EVENT_LOAD, start);
+          addListener(element, EVENT_LOAD, start, {
+            once: true
+          });
         }
       } else {
         image.onload = start;
