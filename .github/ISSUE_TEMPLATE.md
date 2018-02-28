@@ -10,7 +10,7 @@ ISSUES MISSING IMPORTANT INFORMATION MAY BE CLOSED WITHOUT INVESTIGATION.
 
 <pre><code>
 [ ] Regression (a behavior that used to work and stopped working in a new release)
-[ ] Bug report  <!-- Please search GitHub for a similar issue or PR before submitting -->
+[ ] Bug report <!-- Please search GitHub for a similar issue or PR before submitting -->
 [ ] Feature request
 [ ] Documentation issue or request
 </code></pre>
@@ -42,8 +42,8 @@ https://codepen.io/pen or similar.
 ## Environment
 
 <pre><code>
-Viewer.js version: X.Y.Z
-<!-- Check whether this is still an issue in the most recent Viewer.js version -->
+Cropper.js version: X.Y.Z
+<!-- Check whether this is still an issue in the most recent Cropper.js version -->
 
 Browser:
 - [ ] Chrome (desktop) version XX

@@ -2,7 +2,7 @@
 
 Please check if your PR fulfills the following requirements:
 
-- [ ] The commit message follows our [guidelines](CONTRIBUTING.md#commit-message-guidelines).
+- [ ] The commit message follows our [guidelines](https://github.com/fengyuanchen/cropperjs/blob/master/.github/CONTRIBUTING.md#commit-message-guidelines).
 - [ ] Tests for the changes have been added (for bug fixes / features)
 - [ ] Docs have been added / updated (for bug fixes / features)
 
