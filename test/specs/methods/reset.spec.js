@@ -1,5 +1,5 @@
 describe('reset (method)', () => {
-  it('should reset the viewer to its initial state', (done) => {
+  it('should reset the cropper to its initial state', (done) => {
     const image = window.createImage();
     const cropper = new Cropper(image, {
       ready() {
