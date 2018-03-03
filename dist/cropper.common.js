@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v1.3.1
+ * Cropper.js v1.3.2
  * https://github.com/fengyuanchen/cropperjs
  *
  * Copyright (c) 2015-2018 Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2018-02-28T13:25:11.920Z
+ * Date: 2018-03-03T03:43:36.276Z
  */
 
 'use strict';
@@ -837,7 +837,9 @@ function getRotatedSizes(_ref5) {
  * @returns {HTMLCanvasElement} The result canvas.
  */
 function getSourceCanvas(image, _ref6, _ref7, _ref8) {
-  var _ref6$rotate = _ref6.rotate,
+  var imageNaturalWidth = _ref6.naturalWidth,
+      imageNaturalHeight = _ref6.naturalHeight,
+      _ref6$rotate = _ref6.rotate,
       rotate = _ref6$rotate === undefined ? 0 : _ref6$rotate,
       _ref6$scaleX = _ref6.scaleX,
       scaleX = _ref6$scaleX === undefined ? 1 : _ref6$scaleX,
@@ -875,7 +877,12 @@ function getSourceCanvas(image, _ref6, _ref7, _ref8) {
   }, 'cover');
   var width = Math.min(maxSizes.width, Math.max(minSizes.width, naturalWidth));
   var height = Math.min(maxSizes.height, Math.max(minSizes.height, naturalHeight));
-  var params = [-width / 2, -height / 2, width, height];
+
+  // Note: should always use image's natural sizes for drawing as
+  // imageData.naturalWidth === canvasData.naturalHeight when rotate % 180 === 90
+  var destWidth = Math.min(maxSizes.width, Math.max(minSizes.width, imageNaturalWidth));
+  var destHeight = Math.min(maxSizes.height, Math.max(minSizes.height, imageNaturalHeight));
+  var params = [-destWidth / 2, -destHeight / 2, destWidth, destHeight];
 
   canvas.width = normalizeDecimalNumber(width);
   canvas.height = normalizeDecimalNumber(height);

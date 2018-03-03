@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.2 (Mar 3, 2018)
+
+- Fix the bug of cropping image with orientation (#313).
+
 ## 1.3.1 (Feb 28, 2018)
 
 - Add missing `width` and `height` definitions (#302).
