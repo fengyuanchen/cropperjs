@@ -92,8 +92,8 @@
 
         button.onclick = function () {
           var croppedCanvas;
-          var roundedCanvas;
-          var roundedImage;
+          var maskedCanvas;
+          var maskedImage;
 
           if (!croppable) {
             return;
@@ -107,7 +107,7 @@
 
           // Show
           maskedImage = document.createElement('img');
-          maskedImage.src = maskedCanvas.toDataURL()
+          maskedImage.src = maskedCanvas.toDataURL();
           result.innerHTML = '';
           result.appendChild(maskedImage);
 
