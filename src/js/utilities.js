@@ -306,6 +306,20 @@ export function removeData(element, name) {
 }
 
 const REGEXP_SPACES = /\s\s*/;
+const onceSupported = (() => {
+  let supported = false;
+  const listener = () => {};
+  const options = Object.defineProperty({}, 'once', {
+    get() {
+      supported = true;
+      return true;
+    },
+  });
+
+  WINDOW.addEventListener('test', listener, options);
+  WINDOW.removeEventListener('test', listener, options);
+  return supported;
+})();
 
 /**
  * Remove event listener from the target element.
@@ -315,8 +329,27 @@ const REGEXP_SPACES = /\s\s*/;
  * @param {Object} options - The event options.
  */
 export function removeListener(element, type, listener, options = {}) {
-  forEach(type.trim().split(REGEXP_SPACES), (t) => {
-    element.removeEventListener(t, listener, options);
+  let handler = listener;
+
+  type.trim().split(REGEXP_SPACES).forEach((event) => {
+    if (!onceSupported) {
+      const { listeners } = element;
+
+      if (listeners && listeners[event] && listeners[event][listener]) {
+        handler = listeners[event][listener];
+        delete listeners[event][listener];
+
+        if (Object.keys(listeners[event]).length === 0) {
+          delete listeners[event];
+        }
+
+        if (Object.keys(listeners).length === 0) {
+          delete element.listeners;
+        }
+      }
+    }
+
+    element.removeEventListener(event, handler, options);
   });
 }
 
@@ -328,17 +361,31 @@ export function removeListener(element, type, listener, options = {}) {
  * @param {Object} options - The event options.
  */
 export function addListener(element, type, listener, options = {}) {
-  if (options.once) {
-    const originalListener = listener;
+  let handler = listener;
 
-    listener = (...args) => {
-      removeListener(element, type, listener, options);
-      return originalListener.apply(element, args);
-    };
-  }
+  type.trim().split(REGEXP_SPACES).forEach((event) => {
+    if (options.once && !onceSupported) {
+      const { listeners = {} } = element;
 
-  forEach(type.trim().split(REGEXP_SPACES), (t) => {
-    element.addEventListener(t, listener, options);
+      handler = (...args) => {
+        delete listeners[event][listener];
+        element.removeEventListener(event, handler, options);
+        listener.apply(element, args);
+      };
+
+      if (!listeners[event]) {
+        listeners[event] = {};
+      }
+
+      if (listeners[event][listener]) {
+        element.removeEventListener(event, listeners[event][listener], options);
+      }
+
+      listeners[event][listener] = handler;
+      element.listeners = listeners;
+    }
+
+    element.addEventListener(event, handler, options);
   });
 }
 
