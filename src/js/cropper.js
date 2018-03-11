@@ -219,6 +219,7 @@ class Cropper {
 
     if (this.isImg) {
       if (element.complete) {
+        // start asynchronously to keep `this.cropper` is accessible in `ready` event handler.
         this.timeout = setTimeout(start, 0);
       } else {
         addListener(element, EVENT_LOAD, start, {
