@@ -6,6 +6,7 @@
 
 - [Website](https://fengyuanchen.github.io/cropperjs)
 - [Photo Editor](https://fengyuanchen.github.io/photo-editor) - An advanced example of Cropper.js.
+- [jquery-cropper](https://github.com/fengyuanchen/jquery-cropper) - A jQuery plugin wrapper for Cropper.js.
 
 ## Table of contents
 
@@ -1023,7 +1024,7 @@ If you have to use other cropper with the same namespace, just call the `Cropper
 
 ## Contributing
 
-Please read through our [contributing guidelines](CONTRIBUTING.md).
+Please read through our [contributing guidelines](.github/CONTRIBUTING.md).
 
 ## Versioning
 

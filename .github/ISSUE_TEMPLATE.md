@@ -56,5 +56,5 @@ Browser:
 - [ ] Edge version XX
 
 Others:
-<!-- Anything else relevant?  Operating system version, IDE, package manager, HTTP server, ... -->
+<!-- Anything else relevant? -->
 </code></pre>

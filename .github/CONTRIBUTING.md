@@ -140,41 +140,9 @@ To ensure consistency throughout the source code, keep these rules in mind as yo
 
 ## Commit Message Guidelines
 
-### Examples
-
-Appears under "Features" header, icon subheader:
-
-```
-feat: enhance the `preview` option
-```
-
-Appears under "Bug Fixes" header, icon subheader, with a link to issue #1:
-
-```
-fix: enforce type checking
-
-Closes #1
-```
-
-Appears under "Performance Improvements" header, and under "Breaking Changes" with the breaking change explanation:
-
-```
-perf: remove `preview` option
-
-BREAKING CHANGE: The `preview` option has been removed for performance reason.
-```
-
-The following commit and commit `6eecc6e` do not appear in the changelog if they are under the same release. If not, the revert commit appears under the "Reverts" header.
-
-```
-revert: feat: enhance the `preview` option
-
-This reverts commit 6eecc6ecf005e9094f1cd2c184204040db73d723.
-```
-
 ### Commit Message Format
 
-A commit message consists of a **header**, **body** and **footer**.  The header has a **type**, **scope** and **subject**:
+A commit message consists of a **header**, **body** and **footer**. The header has a **type**, **scope** and **subject**:
 
 ```
 <type>(<scope>): <subject>
@@ -185,6 +153,12 @@ A commit message consists of a **header**, **body** and **footer**.  The header 
 ```
 
 The **header** is mandatory and the **scope** of the header is optional.
+
+Any line of the commit message cannot be longer 100 characters! This allows the message to be easier to read on GitHub as well as in various git tools.
+
+The footer should contain a [closing reference to an issue](https://help.github.com/articles/closing-issues-via-commit-messages/) if any.
+
+Here are some [samples](https://github.com/fengyuanchen/cropperjs/commits/master).
 
 ### Revert
 
