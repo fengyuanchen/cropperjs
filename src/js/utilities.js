@@ -308,11 +308,21 @@ export function removeData(element, name) {
 const REGEXP_SPACES = /\s\s*/;
 const onceSupported = (() => {
   let supported = false;
+  let once = false;
   const listener = () => {};
   const options = Object.defineProperty({}, 'once', {
     get() {
       supported = true;
-      return true;
+      return once;
+    },
+
+    /**
+     * This setter can fix a `TypeError` in strict mode
+     * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Getter_only}
+     * @param {boolean} value - The value to set
+     */
+    set(value) {
+      once = value;
     },
   });
 
