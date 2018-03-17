@@ -1,18 +1,18 @@
 declare namespace Cropper {
-  export enum DragMode {
+  export const enum DragMode {
     Crop = 'crop',
     Move = 'move',
     None = 'none',
   }
 
-  export enum ViewMode {
+  export const enum ViewMode {
     Free = 0,
     CanvasWidthAndHeightShouldNotBeLessThanCropBoxSize = 1,
     CanvasWidthOrHeightShouldNotBeLessThanContainerSize = 2,
     CanvasWidthAndHeightShouldNotBeLessThanContainerSize = 3,
   }
 
-  export enum ImageSmoothingQuality {
+  export const enum ImageSmoothingQuality {
     Low = 'low',
     Medium = 'medium',
     High = 'high',
