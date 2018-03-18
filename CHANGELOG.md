@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.3 (Mar 18, 2018)
+
+- Improve event binding.
+- Add missing `pivot` definition to `zoomTo` method (#320)
+
 ## 1.3.2 (Mar 3, 2018)
 
 - Fix the bug of cropping image with orientation (#313).
