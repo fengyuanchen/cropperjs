@@ -670,6 +670,7 @@ export function getRotatedSizes({ width, height, degree }) {
 export function getSourceCanvas(
   image,
   {
+    aspectRatio: imageAspectRatio,
     naturalWidth: imageNaturalWidth,
     naturalHeight: imageNaturalHeight,
     rotate = 0,
@@ -708,8 +709,24 @@ export function getSourceCanvas(
 
   // Note: should always use image's natural sizes for drawing as
   // imageData.naturalWidth === canvasData.naturalHeight when rotate % 180 === 90
-  const destWidth = Math.min(maxSizes.width, Math.max(minSizes.width, imageNaturalWidth));
-  const destHeight = Math.min(maxSizes.height, Math.max(minSizes.height, imageNaturalHeight));
+  const destMaxSizes = getAdjustedSizes({
+    aspectRatio: imageAspectRatio,
+    width: maxWidth,
+    height: maxHeight,
+  });
+  const destMinSizes = getAdjustedSizes({
+    aspectRatio: imageAspectRatio,
+    width: minWidth,
+    height: minHeight,
+  }, 'cover');
+  const destWidth = Math.min(
+    destMaxSizes.width,
+    Math.max(destMinSizes.width, imageNaturalWidth),
+  );
+  const destHeight = Math.min(
+    destMaxSizes.height,
+    Math.max(destMinSizes.height, imageNaturalHeight),
+  );
   const params = [
     -destWidth / 2,
     -destHeight / 2,
