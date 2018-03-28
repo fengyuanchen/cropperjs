@@ -1,4 +1,4 @@
-import { WINDOW } from './constants';
+import { IN_BROWSER, WINDOW } from './constants';
 
 /**
  * Check if the given value is not a number.
@@ -306,6 +306,34 @@ export function removeData(element, name) {
 }
 
 const REGEXP_SPACES = /\s\s*/;
+const onceSupported = (() => {
+  let supported = false;
+
+  if (IN_BROWSER) {
+    let once = false;
+    const listener = () => {};
+    const options = Object.defineProperty({}, 'once', {
+      get() {
+        supported = true;
+        return once;
+      },
+
+      /**
+       * This setter can fix a `TypeError` in strict mode
+       * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Getter_only}
+       * @param {boolean} value - The value to set
+       */
+      set(value) {
+        once = value;
+      },
+    });
+
+    WINDOW.addEventListener('test', listener, options);
+    WINDOW.removeEventListener('test', listener, options);
+  }
+
+  return supported;
+})();
 
 /**
  * Remove event listener from the target element.
@@ -315,8 +343,27 @@ const REGEXP_SPACES = /\s\s*/;
  * @param {Object} options - The event options.
  */
 export function removeListener(element, type, listener, options = {}) {
-  forEach(type.trim().split(REGEXP_SPACES), (t) => {
-    element.removeEventListener(t, listener, options);
+  let handler = listener;
+
+  type.trim().split(REGEXP_SPACES).forEach((event) => {
+    if (!onceSupported) {
+      const { listeners } = element;
+
+      if (listeners && listeners[event] && listeners[event][listener]) {
+        handler = listeners[event][listener];
+        delete listeners[event][listener];
+
+        if (Object.keys(listeners[event]).length === 0) {
+          delete listeners[event];
+        }
+
+        if (Object.keys(listeners).length === 0) {
+          delete element.listeners;
+        }
+      }
+    }
+
+    element.removeEventListener(event, handler, options);
   });
 }
 
@@ -328,17 +375,31 @@ export function removeListener(element, type, listener, options = {}) {
  * @param {Object} options - The event options.
  */
 export function addListener(element, type, listener, options = {}) {
-  if (options.once) {
-    const originalListener = listener;
+  let handler = listener;
 
-    listener = (...args) => {
-      removeListener(element, type, listener, options);
-      return originalListener.apply(element, args);
-    };
-  }
+  type.trim().split(REGEXP_SPACES).forEach((event) => {
+    if (options.once && !onceSupported) {
+      const { listeners = {} } = element;
 
-  forEach(type.trim().split(REGEXP_SPACES), (t) => {
-    element.addEventListener(t, listener, options);
+      handler = (...args) => {
+        delete listeners[event][listener];
+        element.removeEventListener(event, handler, options);
+        listener.apply(element, args);
+      };
+
+      if (!listeners[event]) {
+        listeners[event] = {};
+      }
+
+      if (listeners[event][listener]) {
+        element.removeEventListener(event, listeners[event][listener], options);
+      }
+
+      listeners[event][listener] = handler;
+      element.listeners = listeners;
+    }
+
+    element.addEventListener(event, handler, options);
   });
 }
 
@@ -609,6 +670,7 @@ export function getRotatedSizes({ width, height, degree }) {
 export function getSourceCanvas(
   image,
   {
+    aspectRatio: imageAspectRatio,
     naturalWidth: imageNaturalWidth,
     naturalHeight: imageNaturalHeight,
     rotate = 0,
@@ -647,8 +709,24 @@ export function getSourceCanvas(
 
   // Note: should always use image's natural sizes for drawing as
   // imageData.naturalWidth === canvasData.naturalHeight when rotate % 180 === 90
-  const destWidth = Math.min(maxSizes.width, Math.max(minSizes.width, imageNaturalWidth));
-  const destHeight = Math.min(maxSizes.height, Math.max(minSizes.height, imageNaturalHeight));
+  const destMaxSizes = getAdjustedSizes({
+    aspectRatio: imageAspectRatio,
+    width: maxWidth,
+    height: maxHeight,
+  });
+  const destMinSizes = getAdjustedSizes({
+    aspectRatio: imageAspectRatio,
+    width: minWidth,
+    height: minHeight,
+  }, 'cover');
+  const destWidth = Math.min(
+    destMaxSizes.width,
+    Math.max(destMinSizes.width, imageNaturalWidth),
+  );
+  const destHeight = Math.min(
+    destMaxSizes.height,
+    Math.max(destMinSizes.height, imageNaturalHeight),
+  );
   const params = [
     -destWidth / 2,
     -destHeight / 2,

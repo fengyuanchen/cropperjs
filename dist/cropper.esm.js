@@ -1,14 +1,15 @@
 /*!
- * Cropper.js v1.3.2
+ * Cropper.js v1.3.3
  * https://github.com/fengyuanchen/cropperjs
  *
  * Copyright (c) 2015-2018 Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2018-03-03T03:43:36.276Z
+ * Date: 2018-03-18T03:19:54.147Z
  */
 
-var WINDOW = typeof window !== 'undefined' ? window : {};
+var IN_BROWSER = typeof window !== 'undefined';
+var WINDOW = IN_BROWSER ? window : {};
 var NAMESPACE = 'cropper';
 
 // Actions
@@ -516,6 +517,35 @@ function removeData(element, name) {
 }
 
 var REGEXP_SPACES = /\s\s*/;
+var onceSupported = function () {
+  var supported = false;
+
+  if (IN_BROWSER) {
+    var once = false;
+    var listener = function listener() {};
+    var options = Object.defineProperty({}, 'once', {
+      get: function get$$1() {
+        supported = true;
+        return once;
+      },
+
+
+      /**
+       * This setter can fix a `TypeError` in strict mode
+       * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Getter_only}
+       * @param {boolean} value - The value to set
+       */
+      set: function set$$1(value) {
+        once = value;
+      }
+    });
+
+    WINDOW.addEventListener('test', listener, options);
+    WINDOW.removeEventListener('test', listener, options);
+  }
+
+  return supported;
+}();
 
 /**
  * Remove event listener from the target element.
@@ -527,8 +557,28 @@ var REGEXP_SPACES = /\s\s*/;
 function removeListener(element, type, listener) {
   var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
 
-  forEach(type.trim().split(REGEXP_SPACES), function (t) {
-    element.removeEventListener(t, listener, options);
+  var handler = listener;
+
+  type.trim().split(REGEXP_SPACES).forEach(function (event) {
+    if (!onceSupported) {
+      var listeners = element.listeners;
+
+
+      if (listeners && listeners[event] && listeners[event][listener]) {
+        handler = listeners[event][listener];
+        delete listeners[event][listener];
+
+        if (Object.keys(listeners[event]).length === 0) {
+          delete listeners[event];
+        }
+
+        if (Object.keys(listeners).length === 0) {
+          delete element.listeners;
+        }
+      }
+    }
+
+    element.removeEventListener(event, handler, options);
   });
 }
 
@@ -539,24 +589,40 @@ function removeListener(element, type, listener) {
  * @param {Function} listener - The event listener.
  * @param {Object} options - The event options.
  */
-function addListener(element, type, _listener) {
+function addListener(element, type, listener) {
   var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
 
-  if (options.once) {
-    var originalListener = _listener;
+  var _handler = listener;
 
-    _listener = function listener() {
-      for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-        args[_key2] = arguments[_key2];
+  type.trim().split(REGEXP_SPACES).forEach(function (event) {
+    if (options.once && !onceSupported) {
+      var _element$listeners = element.listeners,
+          listeners = _element$listeners === undefined ? {} : _element$listeners;
+
+
+      _handler = function handler() {
+        for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+          args[_key2] = arguments[_key2];
+        }
+
+        delete listeners[event][listener];
+        element.removeEventListener(event, _handler, options);
+        listener.apply(element, args);
+      };
+
+      if (!listeners[event]) {
+        listeners[event] = {};
       }
 
-      removeListener(element, type, _listener, options);
-      return originalListener.apply(element, args);
-    };
-  }
+      if (listeners[event][listener]) {
+        element.removeEventListener(event, listeners[event][listener], options);
+      }
 
-  forEach(type.trim().split(REGEXP_SPACES), function (t) {
-    element.addEventListener(t, _listener, options);
+      listeners[event][listener] = _handler;
+      element.listeners = listeners;
+    }
+
+    element.addEventListener(event, _handler, options);
   });
 }
 
@@ -3374,6 +3440,7 @@ var Cropper = function () {
 
       if (this.isImg) {
         if (element.complete) {
+          // start asynchronously to keep `this.cropper` is accessible in `ready` event handler.
           this.timeout = setTimeout(start, 0);
         } else {
           addListener(element, EVENT_LOAD, start, {
