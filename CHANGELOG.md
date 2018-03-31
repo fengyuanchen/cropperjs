@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.4 (Mar 31, 2018)
+
+- Compute destination sizes with image's aspect ratio when draw image (#326)
+
 ## 1.3.3 (Mar 18, 2018)
 
 - Improve event binding.

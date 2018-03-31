@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v1.3.3
+ * Cropper.js v1.3.4
  * https://github.com/fengyuanchen/cropperjs
  *
  * Copyright (c) 2015-2018 Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2018-03-18T03:19:54.147Z
+ * Date: 2018-03-31T06:49:16.394Z
  */
 
 var IN_BROWSER = typeof window !== 'undefined';
@@ -324,7 +324,7 @@ var REGEXP_DECIMALS = /\.\d*(?:0|9){12}\d*$/i;
 
 /**
  * Normalize decimal number.
- * Check out {@link http://0.30000000000000004.com/ }
+ * Check out {@link http://0.30000000000000004.com/}
  * @param {number} value - The value to normalize.
  * @param {number} [times=100000000000] - The times for normalizing.
  * @returns {number} Returns the normalized number.
@@ -901,7 +901,8 @@ function getRotatedSizes(_ref5) {
  * @returns {HTMLCanvasElement} The result canvas.
  */
 function getSourceCanvas(image, _ref6, _ref7, _ref8) {
-  var imageNaturalWidth = _ref6.naturalWidth,
+  var imageAspectRatio = _ref6.aspectRatio,
+      imageNaturalWidth = _ref6.naturalWidth,
       imageNaturalHeight = _ref6.naturalHeight,
       _ref6$rotate = _ref6.rotate,
       rotate = _ref6$rotate === undefined ? 0 : _ref6$rotate,
@@ -944,8 +945,18 @@ function getSourceCanvas(image, _ref6, _ref7, _ref8) {
 
   // Note: should always use image's natural sizes for drawing as
   // imageData.naturalWidth === canvasData.naturalHeight when rotate % 180 === 90
-  var destWidth = Math.min(maxSizes.width, Math.max(minSizes.width, imageNaturalWidth));
-  var destHeight = Math.min(maxSizes.height, Math.max(minSizes.height, imageNaturalHeight));
+  var destMaxSizes = getAdjustedSizes({
+    aspectRatio: imageAspectRatio,
+    width: maxWidth,
+    height: maxHeight
+  });
+  var destMinSizes = getAdjustedSizes({
+    aspectRatio: imageAspectRatio,
+    width: minWidth,
+    height: minHeight
+  }, 'cover');
+  var destWidth = Math.min(destMaxSizes.width, Math.max(destMinSizes.width, imageNaturalWidth));
+  var destHeight = Math.min(destMaxSizes.height, Math.max(destMinSizes.height, imageNaturalHeight));
   var params = [-destWidth / 2, -destHeight / 2, destWidth, destHeight];
 
   canvas.width = normalizeDecimalNumber(width);
@@ -3159,8 +3170,6 @@ var methods = {
       dstHeight = srcHeight;
     }
 
-    // All the numerical parameters should be integer for `drawImage`
-    // https://github.com/fengyuanchen/cropper/issues/476
     var params = [srcX, srcY, srcWidth, srcHeight];
 
     // Avoid "IndexSizeError"
@@ -3170,6 +3179,8 @@ var methods = {
       params.push(dstX * scale, dstY * scale, dstWidth * scale, dstHeight * scale);
     }
 
+    // All the numerical parameters should be integer for `drawImage`
+    // https://github.com/fengyuanchen/cropper/issues/476
     context.drawImage.apply(context, [source].concat(toConsumableArray(params.map(function (param) {
       return Math.floor(normalizeDecimalNumber(param));
     }))));
