@@ -13,7 +13,6 @@ import {
   CLASS_INVISIBLE,
   CLASS_MOVE,
   DATA_ACTION,
-  EVENT_LOAD,
   EVENT_READY,
   NAMESPACE,
   REGEXP_DATA_URL,
@@ -36,7 +35,6 @@ import {
   isPlainObject,
   parseOrientation,
   removeClass,
-  removeListener,
   setData,
 } from './utilities';
 
@@ -209,39 +207,18 @@ class Cropper {
     }
 
     image.src = crossOriginUrl || url;
-
-    const start = this.start.bind(this);
-    const stop = this.stop.bind(this);
-
     this.image = image;
-    this.onStart = start;
-    this.onStop = stop;
-
-    if (this.isImg) {
-      if (element.complete) {
-        // start asynchronously to keep `this.cropper` is accessible in `ready` event handler.
-        this.timeout = setTimeout(start, 0);
-      } else {
-        addListener(element, EVENT_LOAD, start, {
-          once: true,
-        });
-      }
-    } else {
-      image.onload = start;
-      image.onerror = stop;
-      addClass(image, CLASS_HIDE);
-      element.parentNode.insertBefore(image, element.nextSibling);
-    }
+    image.onload = this.start.bind(this);
+    image.onerror = this.stop.bind(this);
+    addClass(image, CLASS_HIDE);
+    element.parentNode.insertBefore(image, element.nextSibling);
   }
 
-  start(event) {
+  start() {
     const image = this.isImg ? this.element : this.image;
 
-    if (event) {
-      image.onload = null;
-      image.onerror = null;
-    }
-
+    image.onload = null;
+    image.onerror = null;
     this.sizing = true;
 
     const IS_SAFARI = WINDOW.navigator && /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i.test(WINDOW.navigator.userAgent);
@@ -410,8 +387,6 @@ class Cropper {
   }
 
   uncreate() {
-    const { element } = this;
-
     if (this.ready) {
       this.unbuild();
       this.ready = false;
@@ -422,12 +397,6 @@ class Cropper {
       this.sized = false;
     } else if (this.reloading) {
       this.xhr.abort();
-    } else if (this.isImg) {
-      if (element.complete) {
-        clearTimeout(this.timeout);
-      } else {
-        removeListener(element, EVENT_LOAD, this.onStart);
-      }
     } else if (this.image) {
       this.stop();
     }
