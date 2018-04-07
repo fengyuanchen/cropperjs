@@ -3,7 +3,7 @@ describe('dragMode (option)', () => {
     const image = window.createImage();
     const cropper = new Cropper(image, {
       ready() {
-        expect(cropper.dragBox.dataset.action).to.equal('crop');
+        expect(cropper.dragBox.dataset.cropperAction).to.equal('crop');
         done();
       },
     });
@@ -17,7 +17,7 @@ describe('dragMode (option)', () => {
       dragMode: 'move',
 
       ready() {
-        expect(cropper.dragBox.dataset.action).to.equal('move');
+        expect(cropper.dragBox.dataset.cropperAction).to.equal('move');
         done();
       },
     });
@@ -31,7 +31,7 @@ describe('dragMode (option)', () => {
       dragMode: 'none',
 
       ready() {
-        expect(cropper.dragBox.dataset.action).to.equal('none');
+        expect(cropper.dragBox.dataset.cropperAction).to.equal('none');
         done();
       },
     });
