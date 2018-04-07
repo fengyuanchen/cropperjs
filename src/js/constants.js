@@ -26,8 +26,8 @@ export const CLASS_MODAL = `${NAMESPACE}-modal`;
 export const CLASS_MOVE = `${NAMESPACE}-move`;
 
 // Data keys
-export const DATA_ACTION = 'action';
-export const DATA_PREVIEW = 'preview';
+export const DATA_ACTION = `${NAMESPACE}Action`;
+export const DATA_PREVIEW = `${NAMESPACE}Preview`;
 
 // Drag modes
 export const DRAG_MODE_CROP = 'crop';

@@ -10,18 +10,18 @@ export default (
       '<span class="cropper-dashed dashed-v"></span>' +
       '<span class="cropper-center"></span>' +
       '<span class="cropper-face"></span>' +
-      '<span class="cropper-line line-e" data-action="e"></span>' +
-      '<span class="cropper-line line-n" data-action="n"></span>' +
-      '<span class="cropper-line line-w" data-action="w"></span>' +
-      '<span class="cropper-line line-s" data-action="s"></span>' +
-      '<span class="cropper-point point-e" data-action="e"></span>' +
-      '<span class="cropper-point point-n" data-action="n"></span>' +
-      '<span class="cropper-point point-w" data-action="w"></span>' +
-      '<span class="cropper-point point-s" data-action="s"></span>' +
-      '<span class="cropper-point point-ne" data-action="ne"></span>' +
-      '<span class="cropper-point point-nw" data-action="nw"></span>' +
-      '<span class="cropper-point point-sw" data-action="sw"></span>' +
-      '<span class="cropper-point point-se" data-action="se"></span>' +
+      '<span class="cropper-line line-e" data-cropper-action="e"></span>' +
+      '<span class="cropper-line line-n" data-cropper-action="n"></span>' +
+      '<span class="cropper-line line-w" data-cropper-action="w"></span>' +
+      '<span class="cropper-line line-s" data-cropper-action="s"></span>' +
+      '<span class="cropper-point point-e" data-cropper-action="e"></span>' +
+      '<span class="cropper-point point-n" data-cropper-action="n"></span>' +
+      '<span class="cropper-point point-w" data-cropper-action="w"></span>' +
+      '<span class="cropper-point point-s" data-cropper-action="s"></span>' +
+      '<span class="cropper-point point-ne" data-cropper-action="ne"></span>' +
+      '<span class="cropper-point point-nw" data-cropper-action="nw"></span>' +
+      '<span class="cropper-point point-sw" data-cropper-action="sw"></span>' +
+      '<span class="cropper-point point-se" data-cropper-action="se"></span>' +
     '</div>' +
   '</div>'
 );

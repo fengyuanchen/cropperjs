@@ -1,8 +1,13 @@
 # Changelog
 
+## next
+
+- Ensure the cloned image loads completely before trigger the `ready` event to avoid side effect (#303).
+- Add namespace to data attribute names (from `data-*` to `data-cropper-*`) to avoid side effect (#319).
+
 ## 1.3.4 (Mar 31, 2018)
 
-- Compute destination sizes with image's aspect ratio when draw image (#326)
+- Compute destination sizes with image's aspect ratio when draw image (#326).
 
 ## 1.3.3 (Mar 18, 2018)
 
