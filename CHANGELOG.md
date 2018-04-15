@@ -1,6 +1,6 @@
 # Changelog
 
-## next
+## 1.3.5 (Apr 15, 2018)
 
 - Ensure the cloned image loads completely before trigger the `ready` event to avoid side effect (#303).
 - Add namespace to data attribute names (from `data-*` to `data-cropper-*`) to avoid side effect (#319).

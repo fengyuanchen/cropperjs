@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v1.3.4
+ * Cropper.js v1.3.5
  * https://github.com/fengyuanchen/cropperjs
  *
  * Copyright (c) 2015-2018 Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2018-03-31T06:49:16.394Z
+ * Date: 2018-04-15T06:20:44.574Z
  */
 
 var IN_BROWSER = typeof window !== 'undefined';
@@ -36,8 +36,8 @@ var CLASS_MODAL = NAMESPACE + '-modal';
 var CLASS_MOVE = NAMESPACE + '-move';
 
 // Data keys
-var DATA_ACTION = 'action';
-var DATA_PREVIEW = 'preview';
+var DATA_ACTION = NAMESPACE + 'Action';
+var DATA_PREVIEW = NAMESPACE + 'Preview';
 
 // Drag modes
 var DRAG_MODE_CROP = 'crop';
@@ -50,7 +50,6 @@ var EVENT_CROP_END = 'cropend';
 var EVENT_CROP_MOVE = 'cropmove';
 var EVENT_CROP_START = 'cropstart';
 var EVENT_DBLCLICK = 'dblclick';
-var EVENT_LOAD = 'load';
 var EVENT_POINTER_DOWN = WINDOW.PointerEvent ? 'pointerdown' : 'touchstart mousedown';
 var EVENT_POINTER_MOVE = WINDOW.PointerEvent ? 'pointermove' : 'touchmove mousemove';
 var EVENT_POINTER_UP = WINDOW.PointerEvent ? 'pointerup pointercancel' : 'touchend touchcancel mouseup';
@@ -161,7 +160,7 @@ var DEFAULTS = {
   zoom: null
 };
 
-var TEMPLATE = '<div class="cropper-container" touch-action="none">' + '<div class="cropper-wrap-box">' + '<div class="cropper-canvas"></div>' + '</div>' + '<div class="cropper-drag-box"></div>' + '<div class="cropper-crop-box">' + '<span class="cropper-view-box"></span>' + '<span class="cropper-dashed dashed-h"></span>' + '<span class="cropper-dashed dashed-v"></span>' + '<span class="cropper-center"></span>' + '<span class="cropper-face"></span>' + '<span class="cropper-line line-e" data-action="e"></span>' + '<span class="cropper-line line-n" data-action="n"></span>' + '<span class="cropper-line line-w" data-action="w"></span>' + '<span class="cropper-line line-s" data-action="s"></span>' + '<span class="cropper-point point-e" data-action="e"></span>' + '<span class="cropper-point point-n" data-action="n"></span>' + '<span class="cropper-point point-w" data-action="w"></span>' + '<span class="cropper-point point-s" data-action="s"></span>' + '<span class="cropper-point point-ne" data-action="ne"></span>' + '<span class="cropper-point point-nw" data-action="nw"></span>' + '<span class="cropper-point point-sw" data-action="sw"></span>' + '<span class="cropper-point point-se" data-action="se"></span>' + '</div>' + '</div>';
+var TEMPLATE = '<div class="cropper-container" touch-action="none">' + '<div class="cropper-wrap-box">' + '<div class="cropper-canvas"></div>' + '</div>' + '<div class="cropper-drag-box"></div>' + '<div class="cropper-crop-box">' + '<span class="cropper-view-box"></span>' + '<span class="cropper-dashed dashed-h"></span>' + '<span class="cropper-dashed dashed-v"></span>' + '<span class="cropper-center"></span>' + '<span class="cropper-face"></span>' + '<span class="cropper-line line-e" data-cropper-action="e"></span>' + '<span class="cropper-line line-n" data-cropper-action="n"></span>' + '<span class="cropper-line line-w" data-cropper-action="w"></span>' + '<span class="cropper-line line-s" data-cropper-action="s"></span>' + '<span class="cropper-point point-e" data-cropper-action="e"></span>' + '<span class="cropper-point point-n" data-cropper-action="n"></span>' + '<span class="cropper-point point-w" data-cropper-action="w"></span>' + '<span class="cropper-point point-s" data-cropper-action="s"></span>' + '<span class="cropper-point point-ne" data-cropper-action="ne"></span>' + '<span class="cropper-point point-nw" data-cropper-action="nw"></span>' + '<span class="cropper-point point-sw" data-cropper-action="sw"></span>' + '<span class="cropper-point point-se" data-cropper-action="se"></span>' + '</div>' + '</div>';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
@@ -3441,42 +3440,21 @@ var Cropper = function () {
       }
 
       image.src = crossOriginUrl || url;
-
-      var start = this.start.bind(this);
-      var stop = this.stop.bind(this);
-
       this.image = image;
-      this.onStart = start;
-      this.onStop = stop;
-
-      if (this.isImg) {
-        if (element.complete) {
-          // start asynchronously to keep `this.cropper` is accessible in `ready` event handler.
-          this.timeout = setTimeout(start, 0);
-        } else {
-          addListener(element, EVENT_LOAD, start, {
-            once: true
-          });
-        }
-      } else {
-        image.onload = start;
-        image.onerror = stop;
-        addClass(image, CLASS_HIDE);
-        element.parentNode.insertBefore(image, element.nextSibling);
-      }
+      image.onload = this.start.bind(this);
+      image.onerror = this.stop.bind(this);
+      addClass(image, CLASS_HIDE);
+      element.parentNode.insertBefore(image, element.nextSibling);
     }
   }, {
     key: 'start',
-    value: function start(event) {
+    value: function start() {
       var _this2 = this;
 
       var image = this.isImg ? this.element : this.image;
 
-      if (event) {
-        image.onload = null;
-        image.onerror = null;
-      }
-
+      image.onload = null;
+      image.onerror = null;
       this.sizing = true;
 
       var IS_SAFARI = WINDOW.navigator && /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i.test(WINDOW.navigator.userAgent);
@@ -3643,9 +3621,6 @@ var Cropper = function () {
   }, {
     key: 'uncreate',
     value: function uncreate() {
-      var element = this.element;
-
-
       if (this.ready) {
         this.unbuild();
         this.ready = false;
@@ -3656,12 +3631,6 @@ var Cropper = function () {
         this.sized = false;
       } else if (this.reloading) {
         this.xhr.abort();
-      } else if (this.isImg) {
-        if (element.complete) {
-          clearTimeout(this.timeout);
-        } else {
-          removeListener(element, EVENT_LOAD, this.onStart);
-        }
       } else if (this.image) {
         this.stop();
       }
