@@ -8,6 +8,11 @@ module.exports = (config) => {
     autoWatch: false,
     basePath: '..',
     browsers: ['ChromeHeadlessWithoutSandbox'],
+    client: {
+      mocha: {
+        timeout: 10000,
+      },
+    },
     customLaunchers: {
       ChromeHeadlessWithoutSandbox: {
         base: 'ChromeHeadless',
