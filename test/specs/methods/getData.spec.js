@@ -62,4 +62,31 @@ describe('getData (method)', () => {
       },
     });
   });
+
+  it('should round value without increase px', (done) => {
+    const image = window.createImage();
+
+    const cropper = new Cropper(image, {
+      ready() {
+        // mock an edge case
+        cropper.cropBoxData = {
+          left: 100.50000000000001,
+          top: 100.50000000000001,
+          width: 100.5,
+          height: 100.5,
+        };
+        cropper.canvasData = {
+          left: 0,
+          top: 0,
+        };
+        cropper.imageData.width = 200;
+        cropper.imageData.naturalWidth = 200;
+
+        const data = cropper.getData(true);
+        expect(data.x + data.width === 201).to.be.true;
+        expect(data.y + data.height === 201).to.be.true;
+        done();
+      },
+    });
+  });
 });
