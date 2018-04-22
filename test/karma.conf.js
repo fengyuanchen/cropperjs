@@ -39,8 +39,6 @@ module.exports = (config) => {
       plugins: rollupConfig.plugins,
       output: {
         format: 'iife',
-        name: 'Cropper',
-        sourcemap: 'inline',
       },
     },
     singleRun: true,
