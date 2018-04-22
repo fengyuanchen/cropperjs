@@ -63,28 +63,30 @@ describe('getData (method)', () => {
     });
   });
 
-  it('should round value without increase px', (done) => {
+  it('should not exceed the natural width/height after rounded', (done) => {
     const image = window.createImage();
-
     const cropper = new Cropper(image, {
-      ready() {
-        // mock an edge case
-        cropper.cropBoxData = {
-          left: 100.50000000000001,
-          top: 100.50000000000001,
-          width: 100.5,
-          height: 100.5,
-        };
-        cropper.canvasData = {
-          left: 0,
-          top: 0,
-        };
-        cropper.imageData.width = 200;
-        cropper.imageData.naturalWidth = 200;
+      viewMode: 1,
 
-        const data = cropper.getData(true);
-        expect(data.x + data.width === 201).to.be.true;
-        expect(data.y + data.height === 201).to.be.true;
+      ready() {
+        const imageData = cropper.getImageData();
+        const left = 100.5;
+        const top = 100.5;
+
+        cropper.setData({
+          left,
+          top,
+          width: imageData.naturalWidth - left,
+          height: imageData.naturalHeight - top,
+        });
+
+        const data = cropper.getData();
+        const roundedData = cropper.getData(true);
+
+        expect((Math.round(data.x) + Math.round(data.width) > imageData.naturalWidth)
+          || (Math.round(data.y) + Math.round(data.height) > imageData.naturalHeight)).to.be.true;
+        expect((roundedData.x + roundedData.width > imageData.naturalWidth)
+          || (roundedData.y + roundedData.height > imageData.naturalHeight)).to.be.false;
         done();
       },
     });
