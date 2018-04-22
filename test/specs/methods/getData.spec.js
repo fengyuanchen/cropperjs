@@ -70,8 +70,8 @@ describe('getData (method)', () => {
 
       ready() {
         const imageData = cropper.getImageData();
-        const left = 100.5;
-        const top = 100.5;
+        const left = 155.5;
+        const top = 155.5;
 
         cropper.setData({
           left,
@@ -80,13 +80,10 @@ describe('getData (method)', () => {
           height: imageData.naturalHeight - top,
         });
 
-        const data = cropper.getData();
         const roundedData = cropper.getData(true);
 
-        expect((Math.round(data.x) + Math.round(data.width) > imageData.naturalWidth)
-          || (Math.round(data.y) + Math.round(data.height) > imageData.naturalHeight)).to.be.true;
-        expect((roundedData.x + roundedData.width > imageData.naturalWidth)
-          || (roundedData.y + roundedData.height > imageData.naturalHeight)).to.be.false;
+        expect(roundedData.x + roundedData.width).to.be.at.most(imageData.naturalWidth);
+        expect(roundedData.y + roundedData.height).to.be.at.most(imageData.naturalHeight);
         done();
       },
     });
