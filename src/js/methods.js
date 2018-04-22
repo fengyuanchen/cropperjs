@@ -407,8 +407,8 @@ export default {
       });
 
       if (rounded) {
-        // in case rounding off leads to extra 1px in right or bottom border
-        // we should round the top-left corner and the dimension.
+        // In case rounding off leads to extra 1px in right or bottom border
+        // we should round the top-left corner and the dimension (#343).
         const bottom = Math.round(data.y + data.height);
         const right = Math.round(data.x + data.width);
 
