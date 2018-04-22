@@ -403,9 +403,20 @@ export default {
       const ratio = imageData.width / imageData.naturalWidth;
 
       forEach(data, (n, i) => {
-        n /= ratio;
-        data[i] = rounded ? Math.round(n) : n;
+        data[i] = n / ratio;
       });
+
+      if (rounded) {
+        // in case rounding off leads to extra 1px in right or bottom border
+        // we should round the top-left corner and the dimension.
+        const bottom = Math.round(data.y + data.height);
+        const right = Math.round(data.x + data.width);
+
+        data.x = Math.round(data.x);
+        data.y = Math.round(data.y);
+        data.width = right - data.x;
+        data.height = bottom - data.y;
+      }
     } else {
       data = {
         x: 0,
