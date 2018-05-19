@@ -30,4 +30,16 @@ describe('checkOrientation (option)', () => {
 
     expect(cropper.options.checkOrientation).to.be.false;
   });
+
+  it('should not check orientation when it is not rotatable and not scalable', () => {
+    const image = window.createImage({
+      src: imageURL,
+    });
+    const cropper = new Cropper(image, {
+      rotatable: false,
+      scalable: false,
+    });
+
+    expect(cropper.options.checkOrientation).to.be.false;
+  });
 });

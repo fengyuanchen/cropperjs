@@ -106,12 +106,11 @@ class Cropper {
 
     const { element, options } = this;
 
-    if (
-      !options.rotatable
-      || !options.scalable
-      || !options.checkOrientation
-      || !window.ArrayBuffer
-    ) {
+    if (!options.rotatable && !options.scalable) {
+      options.checkOrientation = false;
+    }
+
+    if (!options.checkOrientation || !window.ArrayBuffer) {
       this.clone();
       return;
     }
