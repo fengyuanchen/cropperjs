@@ -1,42 +1,42 @@
 const babel = require('rollup-plugin-babel');
+const changeCase = require('change-case');
+const createBanner = require('create-banner');
 const pkg = require('./package');
 
-const now = new Date();
-const banner = `/*!
- * Cropper.js v${pkg.version}
- * https://github.com/${pkg.repository}
- *
- * Copyright (c) 2015-${now.getFullYear()} ${pkg.author.name}
- * Released under the ${pkg.license} license
- *
- * Date: ${now.toISOString()}
- */
-`;
+pkg.name = pkg.name.replace('js', '');
+
+const name = changeCase.pascalCase(pkg.name);
+const banner = createBanner({
+  data: {
+    name: `${name}.js`,
+    year: '2015-present',
+  },
+});
 
 module.exports = {
   input: 'src/index.js',
   output: [
     {
       banner,
-      file: 'dist/cropper.js',
+      name,
+      file: `dist/${pkg.name}.js`,
       format: 'umd',
-      name: 'Cropper',
     },
     {
       banner,
-      file: 'dist/cropper.common.js',
+      file: `dist/${pkg.name}.common.js`,
       format: 'cjs',
     },
     {
       banner,
-      file: 'dist/cropper.esm.js',
-      format: 'es',
+      file: `dist/${pkg.name}.esm.js`,
+      format: 'esm',
     },
     {
       banner,
-      file: 'docs/js/cropper.js',
+      name,
+      file: `docs/js/${pkg.name}.js`,
       format: 'umd',
-      name: 'Cropper',
     },
   ],
   plugins: [
