@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v1.3.5
- * https://github.com/fengyuanchen/cropperjs
+ * Cropper.js v1.3.6
+ * https://fengyuanchen.github.io/cropperjs
  *
- * Copyright (c) 2015-2018 Chen Fengyuan
+ * Copyright 2015-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2018-04-15T06:20:44.574Z
+ * Date: 2018-05-20T07:58:21.682Z
  */
 
 (function (global, factory) {
@@ -2821,9 +2821,20 @@
         var ratio = imageData.width / imageData.naturalWidth;
 
         forEach(data, function (n, i) {
-          n /= ratio;
-          data[i] = rounded ? Math.round(n) : n;
+          data[i] = n / ratio;
         });
+
+        if (rounded) {
+          // In case rounding off leads to extra 1px in right or bottom border
+          // we should round the top-left corner and the dimension (#343).
+          var bottom = Math.round(data.y + data.height);
+          var right = Math.round(data.x + data.width);
+
+          data.x = Math.round(data.x);
+          data.y = Math.round(data.y);
+          data.width = right - data.x;
+          data.height = bottom - data.y;
+        }
       } else {
         data = {
           x: 0,
@@ -3332,6 +3343,10 @@
         var element = this.element,
             options = this.options;
 
+
+        if (!options.rotatable && !options.scalable) {
+          options.checkOrientation = false;
+        }
 
         if (!options.checkOrientation || !window.ArrayBuffer) {
           this.clone();

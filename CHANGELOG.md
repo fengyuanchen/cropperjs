@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.6 (May 20, 2018)
+
+- Check orientation only when both the `rotatable` and `scalable` options are set to `true`.
+- In case rounding off leads to extra 1px in right or bottom border we should round the top-left corner and the dimension (#343).
+
 ## 1.3.5 (Apr 15, 2018)
 
 - Ensure the cloned image loads completely before trigger the `ready` event to avoid side effect (#303).
