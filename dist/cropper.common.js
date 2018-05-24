@@ -5,7 +5,7 @@
  * Copyright 2015-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2018-05-20T07:58:21.682Z
+ * Date: 2018-05-23T15:07:00.373Z
  */
 
 'use strict';
@@ -2087,7 +2087,13 @@ var change = {
 
         if (width < 0) {
           action = ACTION_WEST;
-          width = 0;
+          width = -width;
+          left = cropBoxData.oldLeft - width;
+
+          if (aspectRatio) {
+            height = -height;
+            top = cropBoxData.oldTop + cropBoxData.height / 2 - height / 2;
+          }
         }
 
         break;
@@ -2109,7 +2115,12 @@ var change = {
 
         if (height < 0) {
           action = ACTION_SOUTH;
-          height = 0;
+          height = -height;
+          top = cropBoxData.oldTop + cropBoxData.height;
+          if (aspectRatio) {
+            width = -width;
+            left = cropBoxData.oldLeft + cropBoxData.width / 2 - width / 2;
+          }
         }
 
         break;
@@ -2131,7 +2142,13 @@ var change = {
 
         if (width < 0) {
           action = ACTION_EAST;
-          width = 0;
+          width = -width;
+          left = cropBoxData.oldLeft + cropBoxData.width;
+
+          if (aspectRatio) {
+            height = -height;
+            top = cropBoxData.oldTop + cropBoxData.height / 2 - height / 2;
+          }
         }
 
         break;
@@ -2152,7 +2169,13 @@ var change = {
 
         if (height < 0) {
           action = ACTION_NORTH;
-          height = 0;
+          height = -height;
+          top = cropBoxData.oldTop - height;
+
+          if (aspectRatio) {
+            width = -width;
+            left = cropBoxData.oldLeft + cropBoxData.width / 2 - width / 2;
+          }
         }
 
         break;
@@ -2165,9 +2188,19 @@ var change = {
           }
 
           check(ACTION_NORTH);
-          height -= range.y;
-          top += range.y;
-          width = height * aspectRatio;
+
+          // changed sizing direction and fixed jumping of box (top right -> bottom left)
+          width += range.x;
+          if (width < 0) {
+            left = cropBoxData.oldLeft + width;
+          } else {
+            top -= range.x / aspectRatio;
+          }
+
+          height = width / aspectRatio;
+          if (height < 0) {
+            top = cropBoxData.oldTop + cropBoxData.height;
+          }
         } else {
           check(ACTION_NORTH);
           check(ACTION_EAST);
@@ -2180,6 +2213,10 @@ var change = {
             }
           } else {
             width += range.x;
+            // Fix for jumping box when moving from top right to top left
+            if (width < 0) {
+              left = cropBoxData.oldLeft + width;
+            }
           }
 
           if (range.y <= 0) {
@@ -2189,20 +2226,25 @@ var change = {
             }
           } else {
             height -= range.y;
-            top += range.y;
+            // Fix for jumping box when moving from top right to bottom right
+            if (height < 0) {
+              top = cropBoxData.oldTop + cropBoxData.height;
+            } else {
+              top += range.y;
+            }
           }
         }
 
         if (width < 0 && height < 0) {
           action = ACTION_SOUTH_WEST;
-          height = 0;
-          width = 0;
+          height = -height;
+          width = -width;
         } else if (width < 0) {
           action = ACTION_NORTH_WEST;
-          width = 0;
+          width = -width;
         } else if (height < 0) {
           action = ACTION_SOUTH_EAST;
-          height = 0;
+          height = -height;
         }
 
         break;
@@ -2215,10 +2257,20 @@ var change = {
           }
 
           check(ACTION_NORTH);
-          height -= range.y;
-          top += range.y;
-          width = height * aspectRatio;
-          left += range.y * aspectRatio;
+          // changed sizing direction and fixed jumping of box (top left -> bottom right)
+          width -= range.x;
+          if (width < 0) {
+            left = cropBoxData.oldLeft + cropBoxData.width;
+          } else {
+            left += range.x;
+          }
+
+          height = width / aspectRatio;
+          if (height < 0) {
+            top = cropBoxData.oldTop + cropBoxData.height;
+          } else {
+            top += range.x / aspectRatio;
+          }
         } else {
           check(ACTION_NORTH);
           check(ACTION_WEST);
@@ -2232,7 +2284,13 @@ var change = {
             }
           } else {
             width -= range.x;
-            left += range.x;
+
+            // Fix for jumping box when moving from top left to top right
+            if (width < 0) {
+              left = cropBoxData.oldLeft + cropBoxData.width;
+            } else {
+              left += range.x;
+            }
           }
 
           if (range.y <= 0) {
@@ -2242,20 +2300,25 @@ var change = {
             }
           } else {
             height -= range.y;
-            top += range.y;
+            // Fix for jumping box when moving from top left to bottom left
+            if (height < 0) {
+              top = cropBoxData.oldTop + cropBoxData.height;
+            } else {
+              top += range.y;
+            }
           }
         }
 
         if (width < 0 && height < 0) {
           action = ACTION_SOUTH_EAST;
-          height = 0;
-          width = 0;
+          height = -height;
+          width = -width;
         } else if (width < 0) {
           action = ACTION_NORTH_EAST;
-          width = 0;
+          width = -width;
         } else if (height < 0) {
           action = ACTION_SOUTH_WEST;
-          height = 0;
+          height = -height;
         }
 
         break;
@@ -2269,8 +2332,17 @@ var change = {
 
           check(ACTION_WEST);
           width -= range.x;
-          left += range.x;
+          // fixed jumping of box (bottom left -> top right)
+          if (width < 0) {
+            left = cropBoxData.oldLeft + cropBoxData.width;
+          } else {
+            left += range.x;
+          }
+
           height = width / aspectRatio;
+          if (height < 0) {
+            top = cropBoxData.oldTop + height;
+          }
         } else {
           check(ACTION_SOUTH);
           check(ACTION_WEST);
@@ -2284,7 +2356,13 @@ var change = {
             }
           } else {
             width -= range.x;
-            left += range.x;
+
+            // Fix for jumping box when moving from bottom left to bottom right
+            if (width < 0) {
+              left = cropBoxData.oldLeft + cropBoxData.width;
+            } else {
+              left += range.x;
+            }
           }
 
           if (range.y >= 0) {
@@ -2293,19 +2371,23 @@ var change = {
             }
           } else {
             height += range.y;
+            // Fix for jumping box when moving from bottom left to top left
+            if (height < 0) {
+              top = cropBoxData.oldTop + height;
+            }
           }
         }
 
         if (width < 0 && height < 0) {
           action = ACTION_NORTH_EAST;
-          height = 0;
-          width = 0;
+          height = -height;
+          width = -width;
         } else if (width < 0) {
           action = ACTION_SOUTH_EAST;
-          width = 0;
+          width = -width;
         } else if (height < 0) {
           action = ACTION_NORTH_WEST;
-          height = 0;
+          height = -height;
         }
 
         break;
@@ -2319,7 +2401,14 @@ var change = {
 
           check(ACTION_EAST);
           width += range.x;
+          // fixed jumping of box (bottom right -> top left)
+          if (width < 0) {
+            left = cropBoxData.oldLeft + width;
+          }
           height = width / aspectRatio;
+          if (height < 0) {
+            top = cropBoxData.oldTop + height;
+          }
         } else {
           check(ACTION_SOUTH);
           check(ACTION_EAST);
@@ -2332,6 +2421,10 @@ var change = {
             }
           } else {
             width += range.x;
+            // Fix for jumping box when moving from bottom right to bottom left
+            if (width < 0) {
+              left = cropBoxData.oldLeft + width;
+            }
           }
 
           if (range.y >= 0) {
@@ -2340,19 +2433,23 @@ var change = {
             }
           } else {
             height += range.y;
+            // Fix for jumping box when moving from bottom right to top right
+            if (height < 0) {
+              top = cropBoxData.oldTop + height;
+            }
           }
         }
 
         if (width < 0 && height < 0) {
           action = ACTION_NORTH_WEST;
-          height = 0;
-          width = 0;
+          height = -height;
+          width = -width;
         } else if (width < 0) {
           action = ACTION_SOUTH_WEST;
-          width = 0;
+          width = -width;
         } else if (height < 0) {
           action = ACTION_NORTH_EAST;
-          height = 0;
+          height = -height;
         }
 
         break;
