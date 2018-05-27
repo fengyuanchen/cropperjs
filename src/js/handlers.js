@@ -134,6 +134,7 @@ export default {
       return;
     }
 
+    // This line is required for preventing page zooming in iOS browsers
     e.preventDefault();
 
     this.action = action;
