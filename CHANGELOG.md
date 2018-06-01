@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.0 (Jun 1, 2018)
+
+- Added 1 new option: `initialAspectRatio`.
+- Improve the smoothness of crop box resizing.
+
 ## 1.3.6 (May 20, 2018)
 
 - Check orientation only when both the `rotatable` and `scalable` options are set to `true`.

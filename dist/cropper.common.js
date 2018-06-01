@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v1.3.6
+ * Cropper.js v1.4.0
  * https://fengyuanchen.github.io/cropperjs
  *
  * Copyright 2015-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2018-05-20T07:58:21.682Z
+ * Date: 2018-06-01T15:18:18.692Z
  */
 
 'use strict';
@@ -72,6 +72,9 @@ var DEFAULTS = {
 
   // Define the dragging mode of the cropper
   dragMode: DRAG_MODE_CROP, // 'crop', 'move' or 'none'
+
+  // Define the initial aspect ratio of the crop box
+  initialAspectRatio: NaN,
 
   // Define the aspect ratio of the crop box
   aspectRatio: NaN,
@@ -1432,8 +1435,8 @@ var render = {
   initCropBox: function initCropBox() {
     var options = this.options,
         canvasData = this.canvasData;
-    var aspectRatio = options.aspectRatio;
 
+    var aspectRatio = options.aspectRatio || options.initialAspectRatio;
     var autoCropArea = Number(options.autoCropArea) || 0.8;
     var cropBoxData = {
       width: canvasData.width,
@@ -1909,6 +1912,7 @@ var handlers = {
       return;
     }
 
+    // This line is required for preventing page zooming in iOS browsers
     e.preventDefault();
 
     this.action = action;
@@ -2080,14 +2084,15 @@ var change = {
         check(ACTION_EAST);
         width += range.x;
 
-        if (aspectRatio) {
-          height = width / aspectRatio;
-          top -= range.x / aspectRatio / 2;
-        }
-
         if (width < 0) {
           action = ACTION_WEST;
-          width = 0;
+          width = -width;
+          left -= width;
+        }
+
+        if (aspectRatio) {
+          height = width / aspectRatio;
+          top += (cropBoxData.height - height) / 2;
         }
 
         break;
@@ -2102,14 +2107,15 @@ var change = {
         height -= range.y;
         top += range.y;
 
-        if (aspectRatio) {
-          width = height * aspectRatio;
-          left += range.y * aspectRatio / 2;
-        }
-
         if (height < 0) {
           action = ACTION_SOUTH;
-          height = 0;
+          height = -height;
+          top -= height;
+        }
+
+        if (aspectRatio) {
+          width = height * aspectRatio;
+          left += (cropBoxData.width - width) / 2;
         }
 
         break;
@@ -2124,14 +2130,15 @@ var change = {
         width -= range.x;
         left += range.x;
 
-        if (aspectRatio) {
-          height = width / aspectRatio;
-          top += range.x / aspectRatio / 2;
-        }
-
         if (width < 0) {
           action = ACTION_EAST;
-          width = 0;
+          width = -width;
+          left -= width;
+        }
+
+        if (aspectRatio) {
+          height = width / aspectRatio;
+          top += (cropBoxData.height - height) / 2;
         }
 
         break;
@@ -2145,14 +2152,15 @@ var change = {
         check(ACTION_SOUTH);
         height += range.y;
 
-        if (aspectRatio) {
-          width = height * aspectRatio;
-          left -= range.y * aspectRatio / 2;
-        }
-
         if (height < 0) {
           action = ACTION_NORTH;
-          height = 0;
+          height = -height;
+          top -= height;
+        }
+
+        if (aspectRatio) {
+          width = height * aspectRatio;
+          left += (cropBoxData.width - width) / 2;
         }
 
         break;
@@ -2195,14 +2203,18 @@ var change = {
 
         if (width < 0 && height < 0) {
           action = ACTION_SOUTH_WEST;
-          height = 0;
-          width = 0;
+          height = -height;
+          width = -width;
+          top -= height;
+          left -= width;
         } else if (width < 0) {
           action = ACTION_NORTH_WEST;
-          width = 0;
+          width = -width;
+          left -= width;
         } else if (height < 0) {
           action = ACTION_SOUTH_EAST;
-          height = 0;
+          height = -height;
+          top -= height;
         }
 
         break;
@@ -2218,7 +2230,7 @@ var change = {
           height -= range.y;
           top += range.y;
           width = height * aspectRatio;
-          left += range.y * aspectRatio;
+          left += cropBoxData.width - width;
         } else {
           check(ACTION_NORTH);
           check(ACTION_WEST);
@@ -2248,14 +2260,18 @@ var change = {
 
         if (width < 0 && height < 0) {
           action = ACTION_SOUTH_EAST;
-          height = 0;
-          width = 0;
+          height = -height;
+          width = -width;
+          top -= height;
+          left -= width;
         } else if (width < 0) {
           action = ACTION_NORTH_EAST;
-          width = 0;
+          width = -width;
+          left -= width;
         } else if (height < 0) {
           action = ACTION_SOUTH_WEST;
-          height = 0;
+          height = -height;
+          top -= height;
         }
 
         break;
@@ -2298,14 +2314,18 @@ var change = {
 
         if (width < 0 && height < 0) {
           action = ACTION_NORTH_EAST;
-          height = 0;
-          width = 0;
+          height = -height;
+          width = -width;
+          top -= height;
+          left -= width;
         } else if (width < 0) {
           action = ACTION_SOUTH_EAST;
-          width = 0;
+          width = -width;
+          left -= width;
         } else if (height < 0) {
           action = ACTION_NORTH_WEST;
-          height = 0;
+          height = -height;
+          top -= height;
         }
 
         break;
@@ -2345,14 +2365,18 @@ var change = {
 
         if (width < 0 && height < 0) {
           action = ACTION_NORTH_WEST;
-          height = 0;
-          width = 0;
+          height = -height;
+          width = -width;
+          top -= height;
+          left -= width;
         } else if (width < 0) {
           action = ACTION_SOUTH_WEST;
-          width = 0;
+          width = -width;
+          left -= width;
         } else if (height < 0) {
           action = ACTION_NORTH_EAST;
-          height = 0;
+          height = -height;
+          top -= height;
         }
 
         break;
@@ -2667,9 +2691,9 @@ var methods = {
       var newHeight = naturalHeight * ratio;
 
       if (dispatchEvent(this.element, EVENT_ZOOM, {
-        originalEvent: _originalEvent,
+        ratio: ratio,
         oldRatio: width / naturalWidth,
-        ratio: newWidth / naturalWidth
+        originalEvent: _originalEvent
       }) === false) {
         return this;
       }
@@ -3573,6 +3597,7 @@ var Cropper = function () {
       this.initPreview();
       this.bind();
 
+      options.initialAspectRatio = Math.max(0, options.initialAspectRatio) || NaN;
       options.aspectRatio = Math.max(0, options.aspectRatio) || NaN;
       options.viewMode = Math.max(0, Math.min(3, Math.round(options.viewMode))) || 0;
 
