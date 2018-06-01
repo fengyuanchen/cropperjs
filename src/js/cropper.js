@@ -328,6 +328,7 @@ class Cropper {
     this.initPreview();
     this.bind();
 
+    options.initialAspectRatio = Math.max(0, options.initialAspectRatio) || NaN;
     options.aspectRatio = Math.max(0, options.aspectRatio) || NaN;
     options.viewMode = Math.max(0, Math.min(3, Math.round(options.viewMode))) || 0;
 

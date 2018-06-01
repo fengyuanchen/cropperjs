@@ -116,6 +116,7 @@ declare namespace Cropper {
     dragMode?: DragMode;
     guides?: boolean;
     highlight?: boolean;
+    initialAspectRatio?: number;
     minCanvasHeight?: number;
     minCanvasWidth?: number;
     minContainerHeight?: number;

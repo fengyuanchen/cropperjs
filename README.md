@@ -24,7 +24,7 @@
 
 ## Features
 
-- Supports 38 [options](#options)
+- Supports 39 [options](#options)
 - Supports 27 [methods](#methods)
 - Supports 6 [events](#events)
 - Supports touch (mobile)
@@ -177,12 +177,21 @@ Define the view mode of the cropper. If you set `viewMode` to `0`, the crop box 
 
 Define the dragging mode of the cropper.
 
+### initialAspectRatio
+
+- Type: `Number`
+- Default: `NaN`
+
+Define the initial aspect ratio of the crop box. By default, it is the same as the aspect ratio of the canvas (image wrapper).
+
+> Only available when the  the `aspectRatio` option is set to `NaN`.
+
 ### aspectRatio
 
 - Type: `Number`
 - Default: `NaN`
 
-Set the aspect ratio of the crop box. By default, the crop box is free ratio.
+Define the fixed aspect ratio of the crop box. By default, the crop box is free ratio.
 
 ### data
 
