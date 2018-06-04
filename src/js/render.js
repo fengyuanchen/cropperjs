@@ -304,7 +304,7 @@ export default {
 
   initCropBox() {
     const { options, canvasData } = this;
-    const { aspectRatio } = options;
+    const aspectRatio = options.aspectRatio || options.initialAspectRatio;
     const autoCropArea = Number(options.autoCropArea) || 0.8;
     const cropBoxData = {
       width: canvasData.width,

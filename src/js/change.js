@@ -122,20 +122,15 @@ export default {
         check(ACTION_EAST);
         width += range.x;
 
-        if (aspectRatio) {
-          height = width / aspectRatio;
-          top -= (range.x / aspectRatio) / 2;
-        }
-
         if (width < 0) {
           action = ACTION_WEST;
           width = -width;
-          left = cropBoxData.oldLeft - width;
+          left -= width;
+        }
 
-          if (aspectRatio) {
-            height = -height;
-            top = (cropBoxData.oldTop + (cropBoxData.height / 2)) - (height / 2);
-          }
+        if (aspectRatio) {
+          height = width / aspectRatio;
+          top += (cropBoxData.height - height) / 2;
         }
 
         break;
@@ -151,19 +146,15 @@ export default {
         height -= range.y;
         top += range.y;
 
-        if (aspectRatio) {
-          width = height * aspectRatio;
-          left += (range.y * aspectRatio) / 2;
-        }
-
         if (height < 0) {
           action = ACTION_SOUTH;
           height = -height;
-          top = cropBoxData.oldTop + cropBoxData.height;
-          if (aspectRatio) {
-            width = -width;
-            left = (cropBoxData.oldLeft + (cropBoxData.width / 2)) - (width / 2);
-          }
+          top -= height;
+        }
+
+        if (aspectRatio) {
+          width = height * aspectRatio;
+          left += (cropBoxData.width - width) / 2;
         }
 
         break;
@@ -179,20 +170,15 @@ export default {
         width -= range.x;
         left += range.x;
 
-        if (aspectRatio) {
-          height = width / aspectRatio;
-          top += (range.x / aspectRatio) / 2;
-        }
-
         if (width < 0) {
           action = ACTION_EAST;
           width = -width;
-          left = cropBoxData.oldLeft + cropBoxData.width;
+          left -= width;
+        }
 
-          if (aspectRatio) {
-            height = -height;
-            top = (cropBoxData.oldTop + (cropBoxData.height / 2)) - (height / 2);
-          }
+        if (aspectRatio) {
+          height = width / aspectRatio;
+          top += (cropBoxData.height - height) / 2;
         }
 
         break;
@@ -207,20 +193,15 @@ export default {
         check(ACTION_SOUTH);
         height += range.y;
 
-        if (aspectRatio) {
-          width = height * aspectRatio;
-          left -= (range.y * aspectRatio) / 2;
-        }
-
         if (height < 0) {
           action = ACTION_NORTH;
           height = -height;
-          top = cropBoxData.oldTop - height;
+          top -= height;
+        }
 
-          if (aspectRatio) {
-            width = -width;
-            left = (cropBoxData.oldLeft + (cropBoxData.width / 2)) - (width / 2);
-          }
+        if (aspectRatio) {
+          width = height * aspectRatio;
+          left += (cropBoxData.width - width) / 2;
         }
 
         break;
@@ -233,19 +214,9 @@ export default {
           }
 
           check(ACTION_NORTH);
-
-          // changed sizing direction and fixed jumping of box (top right -> bottom left)
           width += range.x;
-          if (width < 0) {
-            left = cropBoxData.oldLeft + width;
-          } else {
-            top -= range.x / aspectRatio;
-          }
-
+          top -= range.x / aspectRatio;
           height = width / aspectRatio;
-          if (height < 0) {
-            top = cropBoxData.oldTop + cropBoxData.height;
-          }
         } else {
           check(ACTION_NORTH);
           check(ACTION_EAST);
@@ -258,10 +229,6 @@ export default {
             }
           } else {
             width += range.x;
-            // Fix for jumping box when moving from top right to top left
-            if (width < 0) {
-              left = cropBoxData.oldLeft + width;
-            }
           }
 
           if (range.y <= 0) {
@@ -271,12 +238,7 @@ export default {
             }
           } else {
             height -= range.y;
-            // Fix for jumping box when moving from top right to bottom right
-            if (height < 0) {
-              top = cropBoxData.oldTop + cropBoxData.height;
-            } else {
-              top += range.y;
-            }
+            top += range.y;
           }
         }
 
@@ -284,12 +246,16 @@ export default {
           action = ACTION_SOUTH_WEST;
           height = -height;
           width = -width;
+          top -= height;
+          left -= width;
         } else if (width < 0) {
           action = ACTION_NORTH_WEST;
           width = -width;
+          left -= width;
         } else if (height < 0) {
           action = ACTION_SOUTH_EAST;
           height = -height;
+          top -= height;
         }
 
         break;
@@ -302,20 +268,10 @@ export default {
           }
 
           check(ACTION_NORTH);
-          // changed sizing direction and fixed jumping of box (top left -> bottom right)
           width -= range.x;
-          if (width < 0) {
-            left = cropBoxData.oldLeft + cropBoxData.width;
-          } else {
-            left += range.x;
-          }
-
+          left += range.x;
           height = width / aspectRatio;
-          if (height < 0) {
-            top = cropBoxData.oldTop + cropBoxData.height;
-          } else {
-            top += range.x / aspectRatio;
-          }
+          top += range.x / aspectRatio;
         } else {
           check(ACTION_NORTH);
           check(ACTION_WEST);
@@ -329,13 +285,7 @@ export default {
             }
           } else {
             width -= range.x;
-
-            // Fix for jumping box when moving from top left to top right
-            if (width < 0) {
-              left = cropBoxData.oldLeft + cropBoxData.width;
-            } else {
-              left += range.x;
-            }
+            left += range.x;
           }
 
           if (range.y <= 0) {
@@ -345,12 +295,7 @@ export default {
             }
           } else {
             height -= range.y;
-            // Fix for jumping box when moving from top left to bottom left
-            if (height < 0) {
-              top = cropBoxData.oldTop + cropBoxData.height;
-            } else {
-              top += range.y;
-            }
+            top += range.y;
           }
         }
 
@@ -358,12 +303,16 @@ export default {
           action = ACTION_SOUTH_EAST;
           height = -height;
           width = -width;
+          top -= height;
+          left -= width;
         } else if (width < 0) {
           action = ACTION_NORTH_EAST;
           width = -width;
+          left -= width;
         } else if (height < 0) {
           action = ACTION_SOUTH_WEST;
           height = -height;
+          top -= height;
         }
 
         break;
@@ -377,17 +326,8 @@ export default {
 
           check(ACTION_WEST);
           width -= range.x;
-          // fixed jumping of box (bottom left -> top right)
-          if (width < 0) {
-            left = cropBoxData.oldLeft + cropBoxData.width;
-          } else {
-            left += range.x;
-          }
-
+          left += range.x;
           height = width / aspectRatio;
-          if (height < 0) {
-            top = cropBoxData.oldTop + height;
-          }
         } else {
           check(ACTION_SOUTH);
           check(ACTION_WEST);
@@ -401,13 +341,7 @@ export default {
             }
           } else {
             width -= range.x;
-
-            // Fix for jumping box when moving from bottom left to bottom right
-            if (width < 0) {
-              left = cropBoxData.oldLeft + cropBoxData.width;
-            } else {
-              left += range.x;
-            }
+            left += range.x;
           }
 
           if (range.y >= 0) {
@@ -416,10 +350,6 @@ export default {
             }
           } else {
             height += range.y;
-            // Fix for jumping box when moving from bottom left to top left
-            if (height < 0) {
-              top = cropBoxData.oldTop + height;
-            }
           }
         }
 
@@ -427,12 +357,16 @@ export default {
           action = ACTION_NORTH_EAST;
           height = -height;
           width = -width;
+          top -= height;
+          left -= width;
         } else if (width < 0) {
           action = ACTION_SOUTH_EAST;
           width = -width;
+          left -= width;
         } else if (height < 0) {
           action = ACTION_NORTH_WEST;
           height = -height;
+          top -= height;
         }
 
         break;
@@ -446,14 +380,7 @@ export default {
 
           check(ACTION_EAST);
           width += range.x;
-          // fixed jumping of box (bottom right -> top left)
-          if (width < 0) {
-            left = cropBoxData.oldLeft + width;
-          }
           height = width / aspectRatio;
-          if (height < 0) {
-            top = cropBoxData.oldTop + height;
-          }
         } else {
           check(ACTION_SOUTH);
           check(ACTION_EAST);
@@ -466,10 +393,6 @@ export default {
             }
           } else {
             width += range.x;
-            // Fix for jumping box when moving from bottom right to bottom left
-            if (width < 0) {
-              left = cropBoxData.oldLeft + width;
-            }
           }
 
           if (range.y >= 0) {
@@ -478,10 +401,6 @@ export default {
             }
           } else {
             height += range.y;
-            // Fix for jumping box when moving from bottom right to top right
-            if (height < 0) {
-              top = cropBoxData.oldTop + height;
-            }
           }
         }
 
@@ -489,12 +408,16 @@ export default {
           action = ACTION_NORTH_WEST;
           height = -height;
           width = -width;
+          top -= height;
+          left -= width;
         } else if (width < 0) {
           action = ACTION_SOUTH_WEST;
           width = -width;
+          left -= width;
         } else if (height < 0) {
           action = ACTION_NORTH_EAST;
           height = -height;
+          top -= height;
         }
 
         break;

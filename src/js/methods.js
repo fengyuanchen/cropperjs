@@ -256,9 +256,9 @@ export default {
       const newHeight = naturalHeight * ratio;
 
       if (dispatchEvent(this.element, EVENT_ZOOM, {
-        originalEvent: _originalEvent,
+        ratio,
         oldRatio: width / naturalWidth,
-        ratio: newWidth / naturalWidth,
+        originalEvent: _originalEvent,
       }) === false) {
         return this;
       }
