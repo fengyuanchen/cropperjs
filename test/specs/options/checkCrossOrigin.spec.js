@@ -1,5 +1,5 @@
 describe('checkCrossOrigin (option)', () => {
-  const crossOriginImageURL = `//${['127.0.0.1', window.location.port].join(':')}/base/docs/images/picture.jpg`;
+  const crossOriginImageURL = 'https://fengyuanchen.github.io/cropperjs/images/picture.jpg';
 
   it('should check cross origin by default', (done) => {
     const image = window.createImage({

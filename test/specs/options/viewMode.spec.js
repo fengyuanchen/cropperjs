@@ -49,8 +49,8 @@ describe('viewMode (option)', () => {
         const canvasData = cropper.zoom(-0.5).getCanvasData();
         const containerData = cropper.getContainerData();
 
-        expect(canvasData.width >= containerData.width ||
-          canvasData.height >= containerData.height).to.be.true;
+        expect(canvasData.width >= containerData.width
+          || canvasData.height >= containerData.height).to.be.true;
         done();
       },
     });

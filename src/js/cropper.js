@@ -13,7 +13,6 @@ import {
   CLASS_INVISIBLE,
   CLASS_MOVE,
   DATA_ACTION,
-  EVENT_LOAD,
   EVENT_READY,
   NAMESPACE,
   REGEXP_DATA_URL,
@@ -36,7 +35,6 @@ import {
   isPlainObject,
   parseOrientation,
   removeClass,
-  removeListener,
   setData,
 } from './utilities';
 
@@ -107,6 +105,10 @@ class Cropper {
     this.imageData = {};
 
     const { element, options } = this;
+
+    if (!options.rotatable && !options.scalable) {
+      options.checkOrientation = false;
+    }
 
     if (!options.checkOrientation || !window.ArrayBuffer) {
       this.clone();
@@ -209,39 +211,18 @@ class Cropper {
     }
 
     image.src = crossOriginUrl || url;
-
-    const start = this.start.bind(this);
-    const stop = this.stop.bind(this);
-
     this.image = image;
-    this.onStart = start;
-    this.onStop = stop;
-
-    if (this.isImg) {
-      if (element.complete) {
-        // start asynchronously to keep `this.cropper` is accessible in `ready` event handler.
-        this.timeout = setTimeout(start, 0);
-      } else {
-        addListener(element, EVENT_LOAD, start, {
-          once: true,
-        });
-      }
-    } else {
-      image.onload = start;
-      image.onerror = stop;
-      addClass(image, CLASS_HIDE);
-      element.parentNode.insertBefore(image, element.nextSibling);
-    }
+    image.onload = this.start.bind(this);
+    image.onerror = this.stop.bind(this);
+    addClass(image, CLASS_HIDE);
+    element.parentNode.insertBefore(image, element.nextSibling);
   }
 
-  start(event) {
+  start() {
     const image = this.isImg ? this.element : this.image;
 
-    if (event) {
-      image.onload = null;
-      image.onerror = null;
-    }
-
+    image.onload = null;
+    image.onerror = null;
     this.sizing = true;
 
     const IS_SAFARI = WINDOW.navigator && /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i.test(WINDOW.navigator.userAgent);
@@ -281,15 +262,15 @@ class Cropper {
     // with its orientation once append it into DOM (#279)
     if (!IS_SAFARI) {
       sizingImage.style.cssText = (
-        'left:0;' +
-        'max-height:none!important;' +
-        'max-width:none!important;' +
-        'min-height:0!important;' +
-        'min-width:0!important;' +
-        'opacity:0;' +
-        'position:absolute;' +
-        'top:0;' +
-        'z-index:-1;'
+        'left:0;'
+        + 'max-height:none!important;'
+        + 'max-width:none!important;'
+        + 'min-height:0!important;'
+        + 'min-width:0!important;'
+        + 'opacity:0;'
+        + 'position:absolute;'
+        + 'top:0;'
+        + 'z-index:-1;'
       );
       body.appendChild(sizingImage);
     }
@@ -347,6 +328,7 @@ class Cropper {
     this.initPreview();
     this.bind();
 
+    options.initialAspectRatio = Math.max(0, options.initialAspectRatio) || NaN;
     options.aspectRatio = Math.max(0, options.aspectRatio) || NaN;
     options.viewMode = Math.max(0, Math.min(3, Math.round(options.viewMode))) || 0;
 
@@ -410,8 +392,6 @@ class Cropper {
   }
 
   uncreate() {
-    const { element } = this;
-
     if (this.ready) {
       this.unbuild();
       this.ready = false;
@@ -422,12 +402,6 @@ class Cropper {
       this.sized = false;
     } else if (this.reloading) {
       this.xhr.abort();
-    } else if (this.isImg) {
-      if (element.complete) {
-        clearTimeout(this.timeout);
-      } else {
-        removeListener(element, EVENT_LOAD, this.onStart);
-      }
     } else if (this.image) {
       this.stop();
     }

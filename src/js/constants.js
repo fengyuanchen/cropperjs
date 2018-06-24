@@ -1,4 +1,5 @@
-export const WINDOW = typeof window !== 'undefined' ? window : {};
+export const IN_BROWSER = typeof window !== 'undefined';
+export const WINDOW = IN_BROWSER ? window : {};
 export const NAMESPACE = 'cropper';
 
 // Actions
@@ -25,8 +26,8 @@ export const CLASS_MODAL = `${NAMESPACE}-modal`;
 export const CLASS_MOVE = `${NAMESPACE}-move`;
 
 // Data keys
-export const DATA_ACTION = 'action';
-export const DATA_PREVIEW = 'preview';
+export const DATA_ACTION = `${NAMESPACE}Action`;
+export const DATA_PREVIEW = `${NAMESPACE}Preview`;
 
 // Drag modes
 export const DRAG_MODE_CROP = 'crop';
@@ -39,7 +40,6 @@ export const EVENT_CROP_END = 'cropend';
 export const EVENT_CROP_MOVE = 'cropmove';
 export const EVENT_CROP_START = 'cropstart';
 export const EVENT_DBLCLICK = 'dblclick';
-export const EVENT_LOAD = 'load';
 export const EVENT_POINTER_DOWN = WINDOW.PointerEvent ? 'pointerdown' : 'touchstart mousedown';
 export const EVENT_POINTER_MOVE = WINDOW.PointerEvent ? 'pointermove' : 'touchmove mousemove';
 export const EVENT_POINTER_UP = WINDOW.PointerEvent ? 'pointerup pointercancel' : 'touchend touchcancel mouseup';

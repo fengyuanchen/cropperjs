@@ -1,16 +1,17 @@
 /*!
- * Cropper.js v1.3.2
- * https://github.com/fengyuanchen/cropperjs
+ * Cropper.js v1.4.0
+ * https://fengyuanchen.github.io/cropperjs
  *
- * Copyright (c) 2015-2018 Chen Fengyuan
+ * Copyright 2015-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2018-03-03T03:43:36.276Z
+ * Date: 2018-06-01T15:18:18.692Z
  */
 
 'use strict';
 
-var WINDOW = typeof window !== 'undefined' ? window : {};
+var IN_BROWSER = typeof window !== 'undefined';
+var WINDOW = IN_BROWSER ? window : {};
 var NAMESPACE = 'cropper';
 
 // Actions
@@ -37,8 +38,8 @@ var CLASS_MODAL = NAMESPACE + '-modal';
 var CLASS_MOVE = NAMESPACE + '-move';
 
 // Data keys
-var DATA_ACTION = 'action';
-var DATA_PREVIEW = 'preview';
+var DATA_ACTION = NAMESPACE + 'Action';
+var DATA_PREVIEW = NAMESPACE + 'Preview';
 
 // Drag modes
 var DRAG_MODE_CROP = 'crop';
@@ -51,7 +52,6 @@ var EVENT_CROP_END = 'cropend';
 var EVENT_CROP_MOVE = 'cropmove';
 var EVENT_CROP_START = 'cropstart';
 var EVENT_DBLCLICK = 'dblclick';
-var EVENT_LOAD = 'load';
 var EVENT_POINTER_DOWN = WINDOW.PointerEvent ? 'pointerdown' : 'touchstart mousedown';
 var EVENT_POINTER_MOVE = WINDOW.PointerEvent ? 'pointermove' : 'touchmove mousemove';
 var EVENT_POINTER_UP = WINDOW.PointerEvent ? 'pointerup pointercancel' : 'touchend touchcancel mouseup';
@@ -72,6 +72,9 @@ var DEFAULTS = {
 
   // Define the dragging mode of the cropper
   dragMode: DRAG_MODE_CROP, // 'crop', 'move' or 'none'
+
+  // Define the initial aspect ratio of the crop box
+  initialAspectRatio: NaN,
 
   // Define the aspect ratio of the crop box
   aspectRatio: NaN,
@@ -162,7 +165,7 @@ var DEFAULTS = {
   zoom: null
 };
 
-var TEMPLATE = '<div class="cropper-container" touch-action="none">' + '<div class="cropper-wrap-box">' + '<div class="cropper-canvas"></div>' + '</div>' + '<div class="cropper-drag-box"></div>' + '<div class="cropper-crop-box">' + '<span class="cropper-view-box"></span>' + '<span class="cropper-dashed dashed-h"></span>' + '<span class="cropper-dashed dashed-v"></span>' + '<span class="cropper-center"></span>' + '<span class="cropper-face"></span>' + '<span class="cropper-line line-e" data-action="e"></span>' + '<span class="cropper-line line-n" data-action="n"></span>' + '<span class="cropper-line line-w" data-action="w"></span>' + '<span class="cropper-line line-s" data-action="s"></span>' + '<span class="cropper-point point-e" data-action="e"></span>' + '<span class="cropper-point point-n" data-action="n"></span>' + '<span class="cropper-point point-w" data-action="w"></span>' + '<span class="cropper-point point-s" data-action="s"></span>' + '<span class="cropper-point point-ne" data-action="ne"></span>' + '<span class="cropper-point point-nw" data-action="nw"></span>' + '<span class="cropper-point point-sw" data-action="sw"></span>' + '<span class="cropper-point point-se" data-action="se"></span>' + '</div>' + '</div>';
+var TEMPLATE = '<div class="cropper-container" touch-action="none">' + '<div class="cropper-wrap-box">' + '<div class="cropper-canvas"></div>' + '</div>' + '<div class="cropper-drag-box"></div>' + '<div class="cropper-crop-box">' + '<span class="cropper-view-box"></span>' + '<span class="cropper-dashed dashed-h"></span>' + '<span class="cropper-dashed dashed-v"></span>' + '<span class="cropper-center"></span>' + '<span class="cropper-face"></span>' + '<span class="cropper-line line-e" data-cropper-action="e"></span>' + '<span class="cropper-line line-n" data-cropper-action="n"></span>' + '<span class="cropper-line line-w" data-cropper-action="w"></span>' + '<span class="cropper-line line-s" data-cropper-action="s"></span>' + '<span class="cropper-point point-e" data-cropper-action="e"></span>' + '<span class="cropper-point point-n" data-cropper-action="n"></span>' + '<span class="cropper-point point-w" data-cropper-action="w"></span>' + '<span class="cropper-point point-s" data-cropper-action="s"></span>' + '<span class="cropper-point point-ne" data-cropper-action="ne"></span>' + '<span class="cropper-point point-nw" data-cropper-action="nw"></span>' + '<span class="cropper-point point-sw" data-cropper-action="sw"></span>' + '<span class="cropper-point point-se" data-cropper-action="se"></span>' + '</div>' + '</div>';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
@@ -325,7 +328,7 @@ var REGEXP_DECIMALS = /\.\d*(?:0|9){12}\d*$/i;
 
 /**
  * Normalize decimal number.
- * Check out {@link http://0.30000000000000004.com/ }
+ * Check out {@link http://0.30000000000000004.com/}
  * @param {number} value - The value to normalize.
  * @param {number} [times=100000000000] - The times for normalizing.
  * @returns {number} Returns the normalized number.
@@ -518,6 +521,35 @@ function removeData(element, name) {
 }
 
 var REGEXP_SPACES = /\s\s*/;
+var onceSupported = function () {
+  var supported = false;
+
+  if (IN_BROWSER) {
+    var once = false;
+    var listener = function listener() {};
+    var options = Object.defineProperty({}, 'once', {
+      get: function get$$1() {
+        supported = true;
+        return once;
+      },
+
+
+      /**
+       * This setter can fix a `TypeError` in strict mode
+       * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Getter_only}
+       * @param {boolean} value - The value to set
+       */
+      set: function set$$1(value) {
+        once = value;
+      }
+    });
+
+    WINDOW.addEventListener('test', listener, options);
+    WINDOW.removeEventListener('test', listener, options);
+  }
+
+  return supported;
+}();
 
 /**
  * Remove event listener from the target element.
@@ -529,8 +561,28 @@ var REGEXP_SPACES = /\s\s*/;
 function removeListener(element, type, listener) {
   var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
 
-  forEach(type.trim().split(REGEXP_SPACES), function (t) {
-    element.removeEventListener(t, listener, options);
+  var handler = listener;
+
+  type.trim().split(REGEXP_SPACES).forEach(function (event) {
+    if (!onceSupported) {
+      var listeners = element.listeners;
+
+
+      if (listeners && listeners[event] && listeners[event][listener]) {
+        handler = listeners[event][listener];
+        delete listeners[event][listener];
+
+        if (Object.keys(listeners[event]).length === 0) {
+          delete listeners[event];
+        }
+
+        if (Object.keys(listeners).length === 0) {
+          delete element.listeners;
+        }
+      }
+    }
+
+    element.removeEventListener(event, handler, options);
   });
 }
 
@@ -541,24 +593,40 @@ function removeListener(element, type, listener) {
  * @param {Function} listener - The event listener.
  * @param {Object} options - The event options.
  */
-function addListener(element, type, _listener) {
+function addListener(element, type, listener) {
   var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
 
-  if (options.once) {
-    var originalListener = _listener;
+  var _handler = listener;
 
-    _listener = function listener() {
-      for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-        args[_key2] = arguments[_key2];
+  type.trim().split(REGEXP_SPACES).forEach(function (event) {
+    if (options.once && !onceSupported) {
+      var _element$listeners = element.listeners,
+          listeners = _element$listeners === undefined ? {} : _element$listeners;
+
+
+      _handler = function handler() {
+        for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+          args[_key2] = arguments[_key2];
+        }
+
+        delete listeners[event][listener];
+        element.removeEventListener(event, _handler, options);
+        listener.apply(element, args);
+      };
+
+      if (!listeners[event]) {
+        listeners[event] = {};
       }
 
-      removeListener(element, type, _listener, options);
-      return originalListener.apply(element, args);
-    };
-  }
+      if (listeners[event][listener]) {
+        element.removeEventListener(event, listeners[event][listener], options);
+      }
 
-  forEach(type.trim().split(REGEXP_SPACES), function (t) {
-    element.addEventListener(t, _listener, options);
+      listeners[event][listener] = _handler;
+      element.listeners = listeners;
+    }
+
+    element.addEventListener(event, _handler, options);
   });
 }
 
@@ -837,7 +905,8 @@ function getRotatedSizes(_ref5) {
  * @returns {HTMLCanvasElement} The result canvas.
  */
 function getSourceCanvas(image, _ref6, _ref7, _ref8) {
-  var imageNaturalWidth = _ref6.naturalWidth,
+  var imageAspectRatio = _ref6.aspectRatio,
+      imageNaturalWidth = _ref6.naturalWidth,
       imageNaturalHeight = _ref6.naturalHeight,
       _ref6$rotate = _ref6.rotate,
       rotate = _ref6$rotate === undefined ? 0 : _ref6$rotate,
@@ -880,8 +949,18 @@ function getSourceCanvas(image, _ref6, _ref7, _ref8) {
 
   // Note: should always use image's natural sizes for drawing as
   // imageData.naturalWidth === canvasData.naturalHeight when rotate % 180 === 90
-  var destWidth = Math.min(maxSizes.width, Math.max(minSizes.width, imageNaturalWidth));
-  var destHeight = Math.min(maxSizes.height, Math.max(minSizes.height, imageNaturalHeight));
+  var destMaxSizes = getAdjustedSizes({
+    aspectRatio: imageAspectRatio,
+    width: maxWidth,
+    height: maxHeight
+  });
+  var destMinSizes = getAdjustedSizes({
+    aspectRatio: imageAspectRatio,
+    width: minWidth,
+    height: minHeight
+  }, 'cover');
+  var destWidth = Math.min(destMaxSizes.width, Math.max(destMinSizes.width, imageNaturalWidth));
+  var destHeight = Math.min(destMaxSizes.height, Math.max(destMinSizes.height, imageNaturalHeight));
   var params = [-destWidth / 2, -destHeight / 2, destWidth, destHeight];
 
   canvas.width = normalizeDecimalNumber(width);
@@ -1356,8 +1435,8 @@ var render = {
   initCropBox: function initCropBox() {
     var options = this.options,
         canvasData = this.canvasData;
-    var aspectRatio = options.aspectRatio;
 
+    var aspectRatio = options.aspectRatio || options.initialAspectRatio;
     var autoCropArea = Number(options.autoCropArea) || 0.8;
     var cropBoxData = {
       width: canvasData.width,
@@ -1833,6 +1912,7 @@ var handlers = {
       return;
     }
 
+    // This line is required for preventing page zooming in iOS browsers
     e.preventDefault();
 
     this.action = action;
@@ -2004,14 +2084,15 @@ var change = {
         check(ACTION_EAST);
         width += range.x;
 
-        if (aspectRatio) {
-          height = width / aspectRatio;
-          top -= range.x / aspectRatio / 2;
-        }
-
         if (width < 0) {
           action = ACTION_WEST;
-          width = 0;
+          width = -width;
+          left -= width;
+        }
+
+        if (aspectRatio) {
+          height = width / aspectRatio;
+          top += (cropBoxData.height - height) / 2;
         }
 
         break;
@@ -2026,14 +2107,15 @@ var change = {
         height -= range.y;
         top += range.y;
 
-        if (aspectRatio) {
-          width = height * aspectRatio;
-          left += range.y * aspectRatio / 2;
-        }
-
         if (height < 0) {
           action = ACTION_SOUTH;
-          height = 0;
+          height = -height;
+          top -= height;
+        }
+
+        if (aspectRatio) {
+          width = height * aspectRatio;
+          left += (cropBoxData.width - width) / 2;
         }
 
         break;
@@ -2048,14 +2130,15 @@ var change = {
         width -= range.x;
         left += range.x;
 
-        if (aspectRatio) {
-          height = width / aspectRatio;
-          top += range.x / aspectRatio / 2;
-        }
-
         if (width < 0) {
           action = ACTION_EAST;
-          width = 0;
+          width = -width;
+          left -= width;
+        }
+
+        if (aspectRatio) {
+          height = width / aspectRatio;
+          top += (cropBoxData.height - height) / 2;
         }
 
         break;
@@ -2069,14 +2152,15 @@ var change = {
         check(ACTION_SOUTH);
         height += range.y;
 
-        if (aspectRatio) {
-          width = height * aspectRatio;
-          left -= range.y * aspectRatio / 2;
-        }
-
         if (height < 0) {
           action = ACTION_NORTH;
-          height = 0;
+          height = -height;
+          top -= height;
+        }
+
+        if (aspectRatio) {
+          width = height * aspectRatio;
+          left += (cropBoxData.width - width) / 2;
         }
 
         break;
@@ -2119,14 +2203,18 @@ var change = {
 
         if (width < 0 && height < 0) {
           action = ACTION_SOUTH_WEST;
-          height = 0;
-          width = 0;
+          height = -height;
+          width = -width;
+          top -= height;
+          left -= width;
         } else if (width < 0) {
           action = ACTION_NORTH_WEST;
-          width = 0;
+          width = -width;
+          left -= width;
         } else if (height < 0) {
           action = ACTION_SOUTH_EAST;
-          height = 0;
+          height = -height;
+          top -= height;
         }
 
         break;
@@ -2142,7 +2230,7 @@ var change = {
           height -= range.y;
           top += range.y;
           width = height * aspectRatio;
-          left += range.y * aspectRatio;
+          left += cropBoxData.width - width;
         } else {
           check(ACTION_NORTH);
           check(ACTION_WEST);
@@ -2172,14 +2260,18 @@ var change = {
 
         if (width < 0 && height < 0) {
           action = ACTION_SOUTH_EAST;
-          height = 0;
-          width = 0;
+          height = -height;
+          width = -width;
+          top -= height;
+          left -= width;
         } else if (width < 0) {
           action = ACTION_NORTH_EAST;
-          width = 0;
+          width = -width;
+          left -= width;
         } else if (height < 0) {
           action = ACTION_SOUTH_WEST;
-          height = 0;
+          height = -height;
+          top -= height;
         }
 
         break;
@@ -2222,14 +2314,18 @@ var change = {
 
         if (width < 0 && height < 0) {
           action = ACTION_NORTH_EAST;
-          height = 0;
-          width = 0;
+          height = -height;
+          width = -width;
+          top -= height;
+          left -= width;
         } else if (width < 0) {
           action = ACTION_SOUTH_EAST;
-          width = 0;
+          width = -width;
+          left -= width;
         } else if (height < 0) {
           action = ACTION_NORTH_WEST;
-          height = 0;
+          height = -height;
+          top -= height;
         }
 
         break;
@@ -2269,14 +2365,18 @@ var change = {
 
         if (width < 0 && height < 0) {
           action = ACTION_NORTH_WEST;
-          height = 0;
-          width = 0;
+          height = -height;
+          width = -width;
+          top -= height;
+          left -= width;
         } else if (width < 0) {
           action = ACTION_SOUTH_WEST;
-          width = 0;
+          width = -width;
+          left -= width;
         } else if (height < 0) {
           action = ACTION_NORTH_EAST;
-          height = 0;
+          height = -height;
+          top -= height;
         }
 
         break;
@@ -2591,9 +2691,9 @@ var methods = {
       var newHeight = naturalHeight * ratio;
 
       if (dispatchEvent(this.element, EVENT_ZOOM, {
-        originalEvent: _originalEvent,
+        ratio: ratio,
         oldRatio: width / naturalWidth,
-        ratio: newWidth / naturalWidth
+        originalEvent: _originalEvent
       }) === false) {
         return this;
       }
@@ -2741,9 +2841,20 @@ var methods = {
       var ratio = imageData.width / imageData.naturalWidth;
 
       forEach(data, function (n, i) {
-        n /= ratio;
-        data[i] = rounded ? Math.round(n) : n;
+        data[i] = n / ratio;
       });
+
+      if (rounded) {
+        // In case rounding off leads to extra 1px in right or bottom border
+        // we should round the top-left corner and the dimension (#343).
+        var bottom = Math.round(data.y + data.height);
+        var right = Math.round(data.x + data.width);
+
+        data.x = Math.round(data.x);
+        data.y = Math.round(data.y);
+        data.width = right - data.x;
+        data.height = bottom - data.y;
+      }
     } else {
       data = {
         x: 0,
@@ -3095,8 +3206,6 @@ var methods = {
       dstHeight = srcHeight;
     }
 
-    // All the numerical parameters should be integer for `drawImage`
-    // https://github.com/fengyuanchen/cropper/issues/476
     var params = [srcX, srcY, srcWidth, srcHeight];
 
     // Avoid "IndexSizeError"
@@ -3106,6 +3215,8 @@ var methods = {
       params.push(dstX * scale, dstY * scale, dstWidth * scale, dstHeight * scale);
     }
 
+    // All the numerical parameters should be integer for `drawImage`
+    // https://github.com/fengyuanchen/cropper/issues/476
     context.drawImage.apply(context, [source].concat(toConsumableArray(params.map(function (param) {
       return Math.floor(normalizeDecimalNumber(param));
     }))));
@@ -3253,6 +3364,10 @@ var Cropper = function () {
           options = this.options;
 
 
+      if (!options.rotatable && !options.scalable) {
+        options.checkOrientation = false;
+      }
+
       if (!options.checkOrientation || !window.ArrayBuffer) {
         this.clone();
         return;
@@ -3366,41 +3481,21 @@ var Cropper = function () {
       }
 
       image.src = crossOriginUrl || url;
-
-      var start = this.start.bind(this);
-      var stop = this.stop.bind(this);
-
       this.image = image;
-      this.onStart = start;
-      this.onStop = stop;
-
-      if (this.isImg) {
-        if (element.complete) {
-          this.timeout = setTimeout(start, 0);
-        } else {
-          addListener(element, EVENT_LOAD, start, {
-            once: true
-          });
-        }
-      } else {
-        image.onload = start;
-        image.onerror = stop;
-        addClass(image, CLASS_HIDE);
-        element.parentNode.insertBefore(image, element.nextSibling);
-      }
+      image.onload = this.start.bind(this);
+      image.onerror = this.stop.bind(this);
+      addClass(image, CLASS_HIDE);
+      element.parentNode.insertBefore(image, element.nextSibling);
     }
   }, {
     key: 'start',
-    value: function start(event) {
+    value: function start() {
       var _this2 = this;
 
       var image = this.isImg ? this.element : this.image;
 
-      if (event) {
-        image.onload = null;
-        image.onerror = null;
-      }
-
+      image.onload = null;
+      image.onerror = null;
       this.sizing = true;
 
       var IS_SAFARI = WINDOW.navigator && /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i.test(WINDOW.navigator.userAgent);
@@ -3502,6 +3597,7 @@ var Cropper = function () {
       this.initPreview();
       this.bind();
 
+      options.initialAspectRatio = Math.max(0, options.initialAspectRatio) || NaN;
       options.aspectRatio = Math.max(0, options.aspectRatio) || NaN;
       options.viewMode = Math.max(0, Math.min(3, Math.round(options.viewMode))) || 0;
 
@@ -3567,9 +3663,6 @@ var Cropper = function () {
   }, {
     key: 'uncreate',
     value: function uncreate() {
-      var element = this.element;
-
-
       if (this.ready) {
         this.unbuild();
         this.ready = false;
@@ -3580,12 +3673,6 @@ var Cropper = function () {
         this.sized = false;
       } else if (this.reloading) {
         this.xhr.abort();
-      } else if (this.isImg) {
-        if (element.complete) {
-          clearTimeout(this.timeout);
-        } else {
-          removeListener(element, EVENT_LOAD, this.onStart);
-        }
       } else if (this.image) {
         this.stop();
       }

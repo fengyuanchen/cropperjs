@@ -8,6 +8,11 @@ module.exports = (config) => {
     autoWatch: false,
     basePath: '..',
     browsers: ['ChromeHeadlessWithoutSandbox'],
+    client: {
+      mocha: {
+        timeout: 10000,
+      },
+    },
     customLaunchers: {
       ChromeHeadlessWithoutSandbox: {
         base: 'ChromeHeadless',
@@ -26,7 +31,7 @@ module.exports = (config) => {
     ],
     frameworks: ['mocha', 'chai'],
     preprocessors: {
-      'test/helper.js': ['rollup'],
+      'test/helpers.js': ['rollup'],
       'test/specs/**/*.spec.js': ['rollup'],
     },
     reporters: ['mocha'],
@@ -34,8 +39,6 @@ module.exports = (config) => {
       plugins: rollupConfig.plugins,
       output: {
         format: 'iife',
-        name: 'Cropper',
-        sourcemap: 'inline',
       },
     },
     singleRun: true,

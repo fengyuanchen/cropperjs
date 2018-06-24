@@ -7,10 +7,10 @@ describe('toggleDragModeOnDblclick (option)', () => {
         const { dragBox } = cropper;
 
         expect(dragBox.className).include('cropper-crop');
-        expect(dragBox.dataset.action).to.equal('crop');
+        expect(dragBox.dataset.cropperAction).to.equal('crop');
         dragBox.dispatchEvent(window.createEvent('dblclick'));
         expect(dragBox.className).include('cropper-move');
-        expect(dragBox.dataset.action).to.equal('move');
+        expect(dragBox.dataset.cropperAction).to.equal('move');
         done();
       },
     });
@@ -27,10 +27,10 @@ describe('toggleDragModeOnDblclick (option)', () => {
         const { dragBox } = cropper;
 
         expect(dragBox.className).include('cropper-crop');
-        expect(dragBox.dataset.action).to.equal('crop');
+        expect(dragBox.dataset.cropperAction).to.equal('crop');
         dragBox.dispatchEvent(window.createEvent('dblclick'));
         expect(dragBox.className).include('cropper-crop');
-        expect(dragBox.dataset.action).to.equal('crop');
+        expect(dragBox.dataset.cropperAction).to.equal('crop');
         done();
       },
     });

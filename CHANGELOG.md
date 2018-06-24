@@ -1,5 +1,29 @@
 # Changelog
 
+## 1.4.0 (Jun 1, 2018)
+
+- Added 1 new option: `initialAspectRatio`.
+- Improve the smoothness of crop box resizing.
+
+## 1.3.6 (May 20, 2018)
+
+- Check orientation only when both the `rotatable` and `scalable` options are set to `true`.
+- In case rounding off leads to extra 1px in right or bottom border we should round the top-left corner and the dimension (#343).
+
+## 1.3.5 (Apr 15, 2018)
+
+- Ensure the cloned image loads completely before trigger the `ready` event to avoid side effect (#303).
+- Add namespace to data attribute names (from `data-*` to `data-cropper-*`) to avoid side effect (#319).
+
+## 1.3.4 (Mar 31, 2018)
+
+- Compute destination sizes with image's aspect ratio when draw image (#326).
+
+## 1.3.3 (Mar 18, 2018)
+
+- Improve event binding.
+- Add missing `pivot` definition to `zoomTo` method (#320)
+
 ## 1.3.2 (Mar 3, 2018)
 
 - Fix the bug of cropping image with orientation (#313).

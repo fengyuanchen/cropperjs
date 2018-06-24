@@ -62,4 +62,30 @@ describe('getData (method)', () => {
       },
     });
   });
+
+  it('should not exceed the natural width/height after rounded', (done) => {
+    const image = window.createImage();
+    const cropper = new Cropper(image, {
+      viewMode: 1,
+
+      ready() {
+        const imageData = cropper.getImageData();
+        const left = 155.5;
+        const top = 155.5;
+
+        cropper.setData({
+          left,
+          top,
+          width: imageData.naturalWidth - left,
+          height: imageData.naturalHeight - top,
+        });
+
+        const roundedData = cropper.getData(true);
+
+        expect(roundedData.x + roundedData.width).to.be.at.most(imageData.naturalWidth);
+        expect(roundedData.y + roundedData.height).to.be.at.most(imageData.naturalHeight);
+        done();
+      },
+    });
+  });
 });

@@ -5,7 +5,7 @@ describe('cropBoxMovable (option)', () => {
       ready() {
         const face = cropper.cropper.querySelector('.cropper-face');
 
-        expect(face.dataset.action).to.equal('all');
+        expect(face.dataset.cropperAction).to.equal('all');
         done();
       },
     });
@@ -21,7 +21,7 @@ describe('cropBoxMovable (option)', () => {
       ready() {
         const face = cropper.cropper.querySelector('.cropper-face');
 
-        expect(face.dataset.action).to.not.equal('all');
+        expect(face.dataset.cropperAction).to.not.equal('all');
         done();
       },
     });

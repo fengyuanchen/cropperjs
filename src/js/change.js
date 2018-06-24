@@ -113,8 +113,8 @@ export default {
 
       // Resize crop box
       case ACTION_EAST:
-        if (range.x >= 0 && (right >= maxWidth || (aspectRatio &&
-          (top <= minTop || bottom >= maxHeight)))) {
+        if (range.x >= 0 && (right >= maxWidth || (aspectRatio
+          && (top <= minTop || bottom >= maxHeight)))) {
           renderable = false;
           break;
         }
@@ -122,21 +122,22 @@ export default {
         check(ACTION_EAST);
         width += range.x;
 
-        if (aspectRatio) {
-          height = width / aspectRatio;
-          top -= (range.x / aspectRatio) / 2;
-        }
-
         if (width < 0) {
           action = ACTION_WEST;
-          width = 0;
+          width = -width;
+          left -= width;
+        }
+
+        if (aspectRatio) {
+          height = width / aspectRatio;
+          top += (cropBoxData.height - height) / 2;
         }
 
         break;
 
       case ACTION_NORTH:
-        if (range.y <= 0 && (top <= minTop || (aspectRatio &&
-          (left <= minLeft || right >= maxWidth)))) {
+        if (range.y <= 0 && (top <= minTop || (aspectRatio
+          && (left <= minLeft || right >= maxWidth)))) {
           renderable = false;
           break;
         }
@@ -145,21 +146,22 @@ export default {
         height -= range.y;
         top += range.y;
 
-        if (aspectRatio) {
-          width = height * aspectRatio;
-          left += (range.y * aspectRatio) / 2;
-        }
-
         if (height < 0) {
           action = ACTION_SOUTH;
-          height = 0;
+          height = -height;
+          top -= height;
+        }
+
+        if (aspectRatio) {
+          width = height * aspectRatio;
+          left += (cropBoxData.width - width) / 2;
         }
 
         break;
 
       case ACTION_WEST:
-        if (range.x <= 0 && (left <= minLeft || (aspectRatio &&
-          (top <= minTop || bottom >= maxHeight)))) {
+        if (range.x <= 0 && (left <= minLeft || (aspectRatio
+          && (top <= minTop || bottom >= maxHeight)))) {
           renderable = false;
           break;
         }
@@ -168,21 +170,22 @@ export default {
         width -= range.x;
         left += range.x;
 
-        if (aspectRatio) {
-          height = width / aspectRatio;
-          top += (range.x / aspectRatio) / 2;
-        }
-
         if (width < 0) {
           action = ACTION_EAST;
-          width = 0;
+          width = -width;
+          left -= width;
+        }
+
+        if (aspectRatio) {
+          height = width / aspectRatio;
+          top += (cropBoxData.height - height) / 2;
         }
 
         break;
 
       case ACTION_SOUTH:
-        if (range.y >= 0 && (bottom >= maxHeight || (aspectRatio &&
-          (left <= minLeft || right >= maxWidth)))) {
+        if (range.y >= 0 && (bottom >= maxHeight || (aspectRatio
+          && (left <= minLeft || right >= maxWidth)))) {
           renderable = false;
           break;
         }
@@ -190,14 +193,15 @@ export default {
         check(ACTION_SOUTH);
         height += range.y;
 
-        if (aspectRatio) {
-          width = height * aspectRatio;
-          left -= (range.y * aspectRatio) / 2;
-        }
-
         if (height < 0) {
           action = ACTION_NORTH;
-          height = 0;
+          height = -height;
+          top -= height;
+        }
+
+        if (aspectRatio) {
+          width = height * aspectRatio;
+          left += (cropBoxData.width - width) / 2;
         }
 
         break;
@@ -240,14 +244,18 @@ export default {
 
         if (width < 0 && height < 0) {
           action = ACTION_SOUTH_WEST;
-          height = 0;
-          width = 0;
+          height = -height;
+          width = -width;
+          top -= height;
+          left -= width;
         } else if (width < 0) {
           action = ACTION_NORTH_WEST;
-          width = 0;
+          width = -width;
+          left -= width;
         } else if (height < 0) {
           action = ACTION_SOUTH_EAST;
-          height = 0;
+          height = -height;
+          top -= height;
         }
 
         break;
@@ -263,7 +271,7 @@ export default {
           height -= range.y;
           top += range.y;
           width = height * aspectRatio;
-          left += range.y * aspectRatio;
+          left += cropBoxData.width - width;
         } else {
           check(ACTION_NORTH);
           check(ACTION_WEST);
@@ -293,14 +301,18 @@ export default {
 
         if (width < 0 && height < 0) {
           action = ACTION_SOUTH_EAST;
-          height = 0;
-          width = 0;
+          height = -height;
+          width = -width;
+          top -= height;
+          left -= width;
         } else if (width < 0) {
           action = ACTION_NORTH_EAST;
-          width = 0;
+          width = -width;
+          left -= width;
         } else if (height < 0) {
           action = ACTION_SOUTH_WEST;
-          height = 0;
+          height = -height;
+          top -= height;
         }
 
         break;
@@ -343,14 +355,18 @@ export default {
 
         if (width < 0 && height < 0) {
           action = ACTION_NORTH_EAST;
-          height = 0;
-          width = 0;
+          height = -height;
+          width = -width;
+          top -= height;
+          left -= width;
         } else if (width < 0) {
           action = ACTION_SOUTH_EAST;
-          width = 0;
+          width = -width;
+          left -= width;
         } else if (height < 0) {
           action = ACTION_NORTH_WEST;
-          height = 0;
+          height = -height;
+          top -= height;
         }
 
         break;
@@ -390,14 +406,18 @@ export default {
 
         if (width < 0 && height < 0) {
           action = ACTION_NORTH_WEST;
-          height = 0;
-          width = 0;
+          height = -height;
+          width = -width;
+          top -= height;
+          left -= width;
         } else if (width < 0) {
           action = ACTION_SOUTH_WEST;
-          width = 0;
+          width = -width;
+          left -= width;
         } else if (height < 0) {
           action = ACTION_NORTH_EAST;
-          height = 0;
+          height = -height;
+          top -= height;
         }
 
         break;

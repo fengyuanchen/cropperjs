@@ -1,4 +1,4 @@
-import { WINDOW } from './constants';
+import { IN_BROWSER, WINDOW } from './constants';
 
 /**
  * Check if the given value is not a number.
@@ -114,7 +114,7 @@ const REGEXP_DECIMALS = /\.\d*(?:0|9){12}\d*$/i;
 
 /**
  * Normalize decimal number.
- * Check out {@link http://0.30000000000000004.com/ }
+ * Check out {@link http://0.30000000000000004.com/}
  * @param {number} value - The value to normalize.
  * @param {number} [times=100000000000] - The times for normalizing.
  * @returns {number} Returns the normalized number.
@@ -149,9 +149,9 @@ export function setStyle(element, styles) {
  * @returns {boolean} Returns `true` if the special class was found.
  */
 export function hasClass(element, value) {
-  return element.classList ?
-    element.classList.contains(value) :
-    element.className.indexOf(value) > -1;
+  return element.classList
+    ? element.classList.contains(value)
+    : element.className.indexOf(value) > -1;
 }
 
 /**
@@ -258,7 +258,9 @@ export function hyphenate(value) {
 export function getData(element, name) {
   if (isObject(element[name])) {
     return element[name];
-  } else if (element.dataset) {
+  }
+
+  if (element.dataset) {
     return element.dataset[name];
   }
 
@@ -308,16 +310,30 @@ export function removeData(element, name) {
 const REGEXP_SPACES = /\s\s*/;
 const onceSupported = (() => {
   let supported = false;
-  const listener = () => {};
-  const options = Object.defineProperty({}, 'once', {
-    get() {
-      supported = true;
-      return true;
-    },
-  });
 
-  WINDOW.addEventListener('test', listener, options);
-  WINDOW.removeEventListener('test', listener, options);
+  if (IN_BROWSER) {
+    let once = false;
+    const listener = () => {};
+    const options = Object.defineProperty({}, 'once', {
+      get() {
+        supported = true;
+        return once;
+      },
+
+      /**
+       * This setter can fix a `TypeError` in strict mode
+       * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Getter_only}
+       * @param {boolean} value - The value to set
+       */
+      set(value) {
+        once = value;
+      },
+    });
+
+    WINDOW.addEventListener('test', listener, options);
+    WINDOW.removeEventListener('test', listener, options);
+  }
+
   return supported;
 })();
 
@@ -440,9 +456,9 @@ export function isCrossOriginURL(url) {
   const parts = url.match(REGEXP_ORIGINS);
 
   return parts && (
-    parts[1] !== location.protocol ||
-    parts[2] !== location.hostname ||
-    parts[3] !== location.port
+    parts[1] !== location.protocol
+    || parts[2] !== location.hostname
+    || parts[3] !== location.port
   );
 }
 
@@ -656,6 +672,7 @@ export function getRotatedSizes({ width, height, degree }) {
 export function getSourceCanvas(
   image,
   {
+    aspectRatio: imageAspectRatio,
     naturalWidth: imageNaturalWidth,
     naturalHeight: imageNaturalHeight,
     rotate = 0,
@@ -694,8 +711,24 @@ export function getSourceCanvas(
 
   // Note: should always use image's natural sizes for drawing as
   // imageData.naturalWidth === canvasData.naturalHeight when rotate % 180 === 90
-  const destWidth = Math.min(maxSizes.width, Math.max(minSizes.width, imageNaturalWidth));
-  const destHeight = Math.min(maxSizes.height, Math.max(minSizes.height, imageNaturalHeight));
+  const destMaxSizes = getAdjustedSizes({
+    aspectRatio: imageAspectRatio,
+    width: maxWidth,
+    height: maxHeight,
+  });
+  const destMinSizes = getAdjustedSizes({
+    aspectRatio: imageAspectRatio,
+    width: minWidth,
+    height: minHeight,
+  }, 'cover');
+  const destWidth = Math.min(
+    destMaxSizes.width,
+    Math.max(destMinSizes.width, imageNaturalWidth),
+  );
+  const destHeight = Math.min(
+    destMaxSizes.height,
+    Math.max(destMinSizes.height, imageNaturalHeight),
+  );
   const params = [
     -destWidth / 2,
     -destHeight / 2,
@@ -770,10 +803,17 @@ export function arrayBufferToDataURL(arrayBuffer, mimeType) {
   const uint8 = new Uint8Array(arrayBuffer);
   let data = '';
 
-  // TypedArray.prototype.forEach is not supported in some browsers.
-  forEach(uint8, (value) => {
-    data += fromCharCode(value);
-  });
+  // TypedArray.prototype.forEach is not supported in some browsers as IE.
+  if (isFunction(uint8.forEach)) {
+    // Use native `forEach` method first for better performance
+    uint8.forEach((value) => {
+      data += fromCharCode(value);
+    });
+  } else {
+    forEach(uint8, (value) => {
+      data += fromCharCode(value);
+    });
+  }
 
   return `data:${mimeType};base64,${btoa(data)}`;
 }

@@ -61,14 +61,14 @@ export default {
        * (Occur only when margin-top <= -height)
        */
       img.style.cssText = (
-        'display:block;' +
-        'width:100%;' +
-        'height:auto;' +
-        'min-width:0!important;' +
-        'min-height:0!important;' +
-        'max-width:none!important;' +
-        'max-height:none!important;' +
-        'image-orientation:0deg!important;"'
+        'display:block;'
+        + 'width:100%;'
+        + 'height:auto;'
+        + 'min-width:0!important;'
+        + 'min-height:0!important;'
+        + 'max-width:none!important;'
+        + 'max-height:none!important;'
+        + 'image-orientation:0deg!important;"'
       );
 
       el.innerHTML = '';

@@ -5,9 +5,9 @@ describe('setDragMode (method)', () => {
       ready() {
         const { dragBox } = cropper;
 
-        expect(dragBox.dataset.action).to.equal('crop');
+        expect(dragBox.dataset.cropperAction).to.equal('crop');
         cropper.setDragMode('move');
-        expect(dragBox.dataset.action).to.equal('move');
+        expect(dragBox.dataset.cropperAction).to.equal('move');
         done();
       },
     });
@@ -19,9 +19,9 @@ describe('setDragMode (method)', () => {
       ready() {
         const { dragBox } = cropper;
 
-        expect(dragBox.dataset.action).to.equal('crop');
+        expect(dragBox.dataset.cropperAction).to.equal('crop');
         cropper.setDragMode('none');
-        expect(dragBox.dataset.action).to.equal('none');
+        expect(dragBox.dataset.cropperAction).to.equal('none');
         done();
       },
     });

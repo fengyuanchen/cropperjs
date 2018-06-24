@@ -29,8 +29,8 @@ export default {
     const minContainerWidth = Number(options.minContainerWidth) || 200;
     const minContainerHeight = Number(options.minContainerHeight) || 100;
 
-    if (this.disabled || containerData.width <= minContainerWidth ||
-      containerData.height <= minContainerHeight) {
+    if (this.disabled || containerData.width <= minContainerWidth
+      || containerData.height <= minContainerHeight) {
       return;
     }
 
@@ -134,6 +134,7 @@ export default {
       return;
     }
 
+    // This line is required for preventing page zooming in iOS browsers
     e.preventDefault();
 
     this.action = action;

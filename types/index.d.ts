@@ -1,18 +1,18 @@
 declare namespace Cropper {
-  export enum DragMode {
+  enum DragMode {
     Crop = 'crop',
     Move = 'move',
     None = 'none',
   }
 
-  export enum ViewMode {
+  enum ViewMode {
     Free = 0,
     CanvasWidthAndHeightShouldNotBeLessThanCropBoxSize = 1,
     CanvasWidthOrHeightShouldNotBeLessThanContainerSize = 2,
     CanvasWidthAndHeightShouldNotBeLessThanContainerSize = 3,
   }
 
-  export enum ImageSmoothingQuality {
+  enum ImageSmoothingQuality {
     Low = 'low',
     Medium = 'medium',
     High = 'high',
@@ -116,6 +116,7 @@ declare namespace Cropper {
     dragMode?: DragMode;
     guides?: boolean;
     highlight?: boolean;
+    initialAspectRatio?: number;
     minCanvasHeight?: number;
     minCanvasWidth?: number;
     minContainerHeight?: number;
@@ -168,7 +169,7 @@ declare class Cropper {
   setData(data: Cropper.SetDataOptions): Cropper;
   setDragMode(dragMode: Cropper.DragMode): Cropper;
   zoom(ratio: number): Cropper;
-  zoomTo(ratio: number): Cropper;
+  zoomTo(ratio: number, pivot?: {x: number; y: number}): Cropper;
 }
 
 declare module 'cropperjs' {

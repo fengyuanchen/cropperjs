@@ -1,7 +1,7 @@
 {
   "name": "cropperjs",
   "description": "JavaScript image cropper.",
-  "version": "1.3.2",
+  "version": "1.4.0",
   "main": "dist/cropper.common.js",
   "module": "dist/cropper.esm.js",
   "unpkg": "dist/cropper.js",
@@ -12,7 +12,7 @@
   "license": "MIT",
   "author": {
     "name": "Chen Fengyuan",
-    "url": "http://chenfengyuan.com"
+    "url": "https://chenfengyuan.com"
   },
   "files": [
     "src",
@@ -34,8 +34,7 @@
     "css",
     "javascript",
     "front-end",
-    "web",
-    "development"
+    "web"
   ],
   "scripts": {
     "build": "npm run build:css && npm run build:js",
@@ -47,7 +46,7 @@
     "compress:css": "postcss dist/cropper.css -u cssnano -o dist/cropper.min.css --no-map",
     "compress:js": "uglifyjs dist/cropper.js -o dist/cropper.min.js -c -m --comments /^!/",
     "copy": "cpy dist/cropper.css docs/css",
-    "lint": "eslint src test --fix",
+    "lint": "eslint src test *.js --fix",
     "release": "npm run clear && npm run lint && npm run build && npm run compress && npm run copy && npm test",
     "start": "npm-run-all --parallel watch:*",
     "test": "karma start test/karma.conf.js",
@@ -55,37 +54,39 @@
     "watch:js": "rollup -c -m -w"
   },
   "devDependencies": {
-    "@commitlint/cli": "^6.1.3",
-    "@commitlint/config-angular": "^6.1.3",
-    "babel-core": "^6.26.0",
+    "@commitlint/cli": "^7.0.0",
+    "@commitlint/config-conventional": "^7.0.1",
+    "babel-core": "^6.26.3",
     "babel-plugin-external-helpers": "^6.22.0",
-    "babel-preset-env": "^1.6.1",
+    "babel-preset-env": "^1.7.0",
     "chai": "^4.1.2",
-    "cpy-cli": "^1.0.1",
+    "change-case": "^3.0.2",
+    "cpy-cli": "^2.0.0",
+    "create-banner": "^1.0.0",
     "cssnano": "^3.10.0",
     "del-cli": "^1.1.0",
-    "eslint": "^4.18.2",
-    "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "^2.9.0",
+    "eslint": "^5.0.0",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-plugin-import": "^2.12.0",
     "husky": "^0.14.3",
-    "karma": "^2.0.0",
+    "karma": "^2.0.4",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^2.2.0",
     "karma-mocha": "^1.3.0",
     "karma-mocha-reporter": "^2.2.5",
-    "karma-rollup-preprocessor": "^5.1.1",
-    "mocha": "^5.0.1",
-    "npm-run-all": "^4.1.2",
-    "postcss-cli": "^5.0.0",
-    "postcss-cssnext": "^3.1.0",
+    "karma-rollup-preprocessor": "^6.0.0",
+    "mocha": "^5.2.0",
+    "npm-run-all": "^4.1.3",
+    "postcss-cli": "^5.0.1",
     "postcss-header": "^1.0.0",
     "postcss-import": "^11.1.0",
-    "postcss-url": "^7.3.1",
-    "puppeteer": "^1.1.1",
-    "rollup": "^0.56.3",
-    "rollup-plugin-babel": "^3.0.3",
+    "postcss-preset-env": "^5.1.0",
+    "postcss-url": "^7.3.2",
+    "puppeteer": "^1.5.0",
+    "rollup": "^0.61.2",
+    "rollup-plugin-babel": "^3.0.5",
     "rollup-watch": "^4.3.1",
     "stylefmt": "^6.0.0",
-    "uglify-js": "^3.3.12"
+    "uglify-js": "^3.4.1"
   }
 }
