@@ -1,7 +1,3 @@
-:root {
-  --blue: #39f;
-}
-
 .cropper-container {
   direction: ltr;
   font-size: 0;
@@ -53,8 +49,8 @@
 .cropper-view-box {
   display: block;
   height: 100%;
-  outline-color: color(var(--blue) alpha(75%));
-  outline: 1px solid var(--blue);
+  outline-color: rgba(51, 153, 255, 0.75);
+  outline: 1px solid #39f;
   overflow: hidden;
   width: 100%;
 }
@@ -133,7 +129,7 @@
 }
 
 .cropper-line {
-  background-color: var(--blue);
+  background-color: #39f;
 
   &.line-e {
     cursor: ew-resize;
@@ -165,7 +161,7 @@
 }
 
 .cropper-point {
-  background-color: var(--blue);
+  background-color: #39f;
   height: 5px;
   opacity: .75;
   width: 5px;
@@ -242,7 +238,7 @@
   }
 
   &.point-se:before {
-    background-color: var(--blue);
+    background-color: #39f;
     bottom: -50%;
     content: ' ';
     display: block;
