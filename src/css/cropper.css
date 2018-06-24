@@ -7,7 +7,6 @@
   user-select: none;
 
   & img {
-    /* Avoid margin top issue (Occur only when margin-top <= -height) */
     display: block;
     height: 100%;
     image-orientation: 0deg;
