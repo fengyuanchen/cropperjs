@@ -31,7 +31,7 @@ module.exports = (config) => {
     ],
     frameworks: ['mocha', 'chai'],
     preprocessors: {
-      'test/helper.js': ['rollup'],
+      'test/helpers.js': ['rollup'],
       'test/specs/**/*.spec.js': ['rollup'],
     },
     reporters: ['mocha'],
