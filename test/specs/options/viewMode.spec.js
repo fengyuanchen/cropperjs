@@ -28,11 +28,55 @@ describe('viewMode (option)', () => {
       viewMode: 1,
 
       ready() {
-        const canvasData = cropper.zoom(-0.5).getCanvasData();
-        const cropBoxData = cropper.getCropBoxData();
+        let canvasData = cropper.zoom(-0.5).getCanvasData();
+        let cropBoxData = cropper.getCropBoxData();
 
         expect(canvasData.width).to.be.least(cropBoxData.width);
         expect(canvasData.height).to.be.least(cropBoxData.height);
+
+        // Move the canvas beyond the top and left container boundaries
+        canvasData = cropper.zoom(0.5).setCropBoxData({
+          left: 0,
+          top: 0,
+          width: 10,
+          height: 10,
+        }).moveTo(-200).getCanvasData();
+
+        expect(canvasData.left).to.be.equal(-200);
+        expect(canvasData.top).to.be.equal(-200);
+
+        cropBoxData = cropper.setCropBoxData({
+          width: canvasData.width,
+          height: canvasData.height,
+        }).getCropBoxData();
+
+        expect(cropBoxData.width).to.be.equal(canvasData.width + canvasData.left);
+        expect(cropBoxData.height).to.be.equal(canvasData.height + canvasData.top);
+
+        // Move the canvas beyond the bottom and right container boundaries
+        canvasData = cropper.setCropBoxData({
+          left: cropBoxData.width,
+          top: cropBoxData.height,
+          width: 10,
+          height: 10,
+        }).move(500).getCanvasData();
+
+        const canvasRight = cropper.getContainerData().width - canvasData.left - canvasData.width;
+        const canvasBottom = cropper.getContainerData().height - canvasData.top - canvasData.height;
+
+        expect(canvasData.left).to.be.least(1);
+        expect(canvasData.top).to.be.least(1);
+        expect(canvasRight).to.be.below(0);
+        expect(canvasBottom).to.be.below(0);
+
+        cropBoxData = cropper.setCropBoxData({
+          width: canvasData.width,
+          height: canvasData.height,
+        }).getCropBoxData();
+
+        expect(cropBoxData.width).to.be.equal(canvasData.width + canvasRight);
+        expect(cropBoxData.height).to.be.equal(canvasData.height + canvasBottom);
+
         done();
       },
     });
