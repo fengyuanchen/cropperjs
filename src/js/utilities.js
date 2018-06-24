@@ -258,7 +258,9 @@ export function hyphenate(value) {
 export function getData(element, name) {
   if (isObject(element[name])) {
     return element[name];
-  } if (element.dataset) {
+  }
+
+  if (element.dataset) {
     return element.dataset[name];
   }
 
@@ -801,10 +803,17 @@ export function arrayBufferToDataURL(arrayBuffer, mimeType) {
   const uint8 = new Uint8Array(arrayBuffer);
   let data = '';
 
-  // TypedArray.prototype.forEach is not supported in some browsers.
-  forEach(uint8, (value) => {
-    data += fromCharCode(value);
-  });
+  // TypedArray.prototype.forEach is not supported in some browsers as IE.
+  if (isFunction(uint8.forEach)) {
+    // Use native `forEach` method first for better performance
+    uint8.forEach((value) => {
+      data += fromCharCode(value);
+    });
+  } else {
+    forEach(uint8, (value) => {
+      data += fromCharCode(value);
+    });
+  }
 
   return `data:${mimeType};base64,${btoa(data)}`;
 }
