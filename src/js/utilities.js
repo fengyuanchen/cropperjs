@@ -149,9 +149,9 @@ export function setStyle(element, styles) {
  * @returns {boolean} Returns `true` if the special class was found.
  */
 export function hasClass(element, value) {
-  return element.classList ?
-    element.classList.contains(value) :
-    element.className.indexOf(value) > -1;
+  return element.classList
+    ? element.classList.contains(value)
+    : element.className.indexOf(value) > -1;
 }
 
 /**
@@ -258,7 +258,7 @@ export function hyphenate(value) {
 export function getData(element, name) {
   if (isObject(element[name])) {
     return element[name];
-  } else if (element.dataset) {
+  } if (element.dataset) {
     return element.dataset[name];
   }
 
@@ -454,9 +454,9 @@ export function isCrossOriginURL(url) {
   const parts = url.match(REGEXP_ORIGINS);
 
   return parts && (
-    parts[1] !== location.protocol ||
-    parts[2] !== location.hostname ||
-    parts[3] !== location.port
+    parts[1] !== location.protocol
+    || parts[2] !== location.hostname
+    || parts[3] !== location.port
   );
 }
 

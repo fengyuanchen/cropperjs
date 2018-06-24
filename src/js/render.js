@@ -231,13 +231,13 @@ export default {
       this.limitCanvas(true, false);
     }
 
-    if (canvasData.width > canvasData.maxWidth ||
-      canvasData.width < canvasData.minWidth) {
+    if (canvasData.width > canvasData.maxWidth
+      || canvasData.width < canvasData.minWidth) {
       canvasData.left = canvasData.oldLeft;
     }
 
-    if (canvasData.height > canvasData.maxHeight ||
-      canvasData.height < canvasData.minHeight) {
+    if (canvasData.height > canvasData.maxHeight
+      || canvasData.height < canvasData.minHeight) {
       canvasData.top = canvasData.oldTop;
     }
 
@@ -430,13 +430,13 @@ export default {
   renderCropBox() {
     const { options, containerData, cropBoxData } = this;
 
-    if (cropBoxData.width > cropBoxData.maxWidth ||
-      cropBoxData.width < cropBoxData.minWidth) {
+    if (cropBoxData.width > cropBoxData.maxWidth
+      || cropBoxData.width < cropBoxData.minWidth) {
       cropBoxData.left = cropBoxData.oldLeft;
     }
 
-    if (cropBoxData.height > cropBoxData.maxHeight ||
-      cropBoxData.height < cropBoxData.minHeight) {
+    if (cropBoxData.height > cropBoxData.maxHeight
+      || cropBoxData.height < cropBoxData.minHeight) {
       cropBoxData.top = cropBoxData.oldTop;
     }
 
@@ -464,8 +464,8 @@ export default {
 
     if (options.movable && options.cropBoxMovable) {
       // Turn to move the canvas when the crop box is equal to the container
-      setData(this.face, DATA_ACTION, cropBoxData.width >= containerData.width &&
-        cropBoxData.height >= containerData.height ? ACTION_MOVE : ACTION_ALL);
+      setData(this.face, DATA_ACTION, cropBoxData.width >= containerData.width
+        && cropBoxData.height >= containerData.height ? ACTION_MOVE : ACTION_ALL);
     }
 
     setStyle(this.cropBox, assign({

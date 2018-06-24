@@ -262,15 +262,15 @@ class Cropper {
     // with its orientation once append it into DOM (#279)
     if (!IS_SAFARI) {
       sizingImage.style.cssText = (
-        'left:0;' +
-        'max-height:none!important;' +
-        'max-width:none!important;' +
-        'min-height:0!important;' +
-        'min-width:0!important;' +
-        'opacity:0;' +
-        'position:absolute;' +
-        'top:0;' +
-        'z-index:-1;'
+        'left:0;'
+        + 'max-height:none!important;'
+        + 'max-width:none!important;'
+        + 'min-height:0!important;'
+        + 'min-width:0!important;'
+        + 'opacity:0;'
+        + 'position:absolute;'
+        + 'top:0;'
+        + 'z-index:-1;'
       );
       body.appendChild(sizingImage);
     }

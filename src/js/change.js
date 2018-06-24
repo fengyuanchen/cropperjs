@@ -113,8 +113,8 @@ export default {
 
       // Resize crop box
       case ACTION_EAST:
-        if (range.x >= 0 && (right >= maxWidth || (aspectRatio &&
-          (top <= minTop || bottom >= maxHeight)))) {
+        if (range.x >= 0 && (right >= maxWidth || (aspectRatio
+          && (top <= minTop || bottom >= maxHeight)))) {
           renderable = false;
           break;
         }
@@ -136,8 +136,8 @@ export default {
         break;
 
       case ACTION_NORTH:
-        if (range.y <= 0 && (top <= minTop || (aspectRatio &&
-          (left <= minLeft || right >= maxWidth)))) {
+        if (range.y <= 0 && (top <= minTop || (aspectRatio
+          && (left <= minLeft || right >= maxWidth)))) {
           renderable = false;
           break;
         }
@@ -160,8 +160,8 @@ export default {
         break;
 
       case ACTION_WEST:
-        if (range.x <= 0 && (left <= minLeft || (aspectRatio &&
-          (top <= minTop || bottom >= maxHeight)))) {
+        if (range.x <= 0 && (left <= minLeft || (aspectRatio
+          && (top <= minTop || bottom >= maxHeight)))) {
           renderable = false;
           break;
         }
@@ -184,8 +184,8 @@ export default {
         break;
 
       case ACTION_SOUTH:
-        if (range.y >= 0 && (bottom >= maxHeight || (aspectRatio &&
-          (left <= minLeft || right >= maxWidth)))) {
+        if (range.y >= 0 && (bottom >= maxHeight || (aspectRatio
+          && (left <= minLeft || right >= maxWidth)))) {
           renderable = false;
           break;
         }
