@@ -99,10 +99,10 @@ img {
 ```
 
 ```js
-var image = document.getElementById('image');
-var cropper = new Cropper(image, {
+let image = document.getElementById('image');
+let cropper = new Cropper(image, {
   aspectRatio: 16 / 9,
-  crop: function(event) {
+  crop(event) {
     console.log(event.detail.x);
     console.log(event.detail.y);
     console.log(event.detail.width);
@@ -474,7 +474,7 @@ As there is an **asynchronous** process when load the image, you **should call m
 
 ```js
 new Cropper(image, {
-  ready: function () {
+  ready() {
     // this.cropper[method](argument1, , argument2, ..., argumentN);
     this.cropper.move(1, -1);
 
@@ -492,7 +492,7 @@ Show the crop box manually.
 new Cropper(image, {
   autoCrop: false,
 
-  ready: function () {
+  ready() {
     // Do something here
     // ...
 
@@ -755,8 +755,8 @@ Output the image position, size and other related data.
 Output the canvas (image wrapper) position and size data.
 
 ```js
-var imageData = cropper.getImageData();
-var canvasData = cropper.getCanvasData();
+let imageData = cropper.getImageData();
+let canvasData = cropper.getCanvasData();
 
 if (imageData.rotate % 180 === 0) {
   console.log(canvasData.naturalWidth === imageData.naturalWidth); // true
@@ -849,8 +849,8 @@ cropper.getCroppedCanvas({
 });
 
 // Upload cropped image to server if the browser supports `HTMLCanvasElement.toBlob`
-cropper.getCroppedCanvas().toBlob(function (blob) {
-  var formData = new FormData();
+cropper.getCroppedCanvas().toBlob((blob) => {
+  let formData = new FormData();
 
   formData.append('croppedImage', blob);
 
@@ -860,10 +860,10 @@ cropper.getCroppedCanvas().toBlob(function (blob) {
     data: formData,
     processData: false,
     contentType: false,
-    success: function () {
+    success() {
       console.log('Upload success');
     },
-    error: function () {
+    error() {
       console.log('Upload error');
     }
   });
@@ -898,7 +898,7 @@ Change the drag mode.
 This event fires when the target image has been loaded and the cropper instance is ready for operating.
 
 ```js
-var cropper;
+let cropper;
 
 image.addEventListener('ready', function () {
   console.log(this.cropper === cropper);
@@ -933,7 +933,7 @@ cropper = new Cropper(image);
 This event fires when the canvas (image wrapper) or the crop box starts to change.
 
 ```js
-image.addEventListener('cropstart', function (event) {
+image.addEventListener('cropstart', (event) => {
   console.log(event.detail.originalEvent);
   console.log(event.detail.action);
 });
@@ -995,7 +995,7 @@ This event fires when the canvas (image wrapper) or the crop box changed.
 This event fires when a cropper instance starts to zoom in or zoom out its canvas (image wrapper).
 
 ```js
-image.addEventListener('zoom', function (event) {
+image.addEventListener('zoom', (event) => {
 
   // Zoom in
   if (event.detail.ratio > event.detail.oldRatio) {
