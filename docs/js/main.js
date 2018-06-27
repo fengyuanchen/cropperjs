@@ -1,5 +1,4 @@
 window.onload = function () {
-
   'use strict';
 
   var Cropper = window.Cropper;

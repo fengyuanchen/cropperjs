@@ -99,8 +99,8 @@ img {
 ```
 
 ```js
-let image = document.getElementById('image');
-let cropper = new Cropper(image, {
+const image = document.getElementById('image');
+const cropper = new Cropper(image, {
   aspectRatio: 16 / 9,
   crop(event) {
     console.log(event.detail.x);
@@ -110,7 +110,7 @@ let cropper = new Cropper(image, {
     console.log(event.detail.rotate);
     console.log(event.detail.scaleX);
     console.log(event.detail.scaleY);
-  }
+  },
 });
 ```
 
@@ -480,7 +480,7 @@ new Cropper(image, {
 
     // Allows chain composition
     this.cropper.move(1, -1).rotate(45).scale(1, -1);
-  }
+  },
 });
 ```
 
@@ -498,7 +498,7 @@ new Cropper(image, {
 
     // And then
     this.cropper.crop();
-  }
+  },
 });
 ```
 
@@ -755,8 +755,8 @@ Output the image position, size and other related data.
 Output the canvas (image wrapper) position and size data.
 
 ```js
-let imageData = cropper.getImageData();
-let canvasData = cropper.getCanvasData();
+const imageData = cropper.getImageData();
+const canvasData = cropper.getCanvasData();
 
 if (imageData.rotate % 180 === 0) {
   console.log(canvasData.naturalWidth === imageData.naturalWidth); // true
@@ -850,7 +850,7 @@ cropper.getCroppedCanvas({
 
 // Upload cropped image to server if the browser supports `HTMLCanvasElement.toBlob`
 cropper.getCroppedCanvas().toBlob((blob) => {
-  let formData = new FormData();
+  const formData = new FormData();
 
   formData.append('croppedImage', blob);
 
@@ -865,7 +865,7 @@ cropper.getCroppedCanvas().toBlob((blob) => {
     },
     error() {
       console.log('Upload error');
-    }
+    },
   });
 });
 ```
@@ -900,7 +900,7 @@ This event fires when the target image has been loaded and the cropper instance 
 ```js
 let cropper;
 
-image.addEventListener('ready', function () {
+image.addEventListener('ready', () => {
   console.log(this.cropper === cropper);
   // -> true
 });
@@ -996,7 +996,6 @@ This event fires when a cropper instance starts to zoom in or zoom out its canva
 
 ```js
 image.addEventListener('zoom', (event) => {
-
   // Zoom in
   if (event.detail.ratio > event.detail.oldRatio) {
     event.preventDefault(); // Prevent zoom in
@@ -1041,7 +1040,7 @@ Maintained under the [Semantic Versioning guidelines](http://semver.org/).
 
 ## License
 
-[MIT](http://opensource.org/licenses/MIT) © [Chen Fengyuan](http://chenfengyuan.com)
+[MIT](https://opensource.org/licenses/MIT) © [Chen Fengyuan](https://chenfengyuan.com)
 
 ## Related projects
 
