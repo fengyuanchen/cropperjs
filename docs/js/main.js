@@ -238,7 +238,7 @@ window.onload = function () {
   document.body.onkeydown = function (event) {
     var e = event || window.event;
 
-    if (!cropper || this.scrollTop > 300) {
+    if (e.target !== this || !cropper || this.scrollTop > 300) {
       return;
     }
 
