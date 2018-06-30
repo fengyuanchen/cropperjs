@@ -167,7 +167,7 @@ export default {
     }
 
     if (positionLimited) {
-      if (viewMode) {
+      if (viewMode > (cropped ? 0 : 1)) {
         const newCanvasLeft = containerData.width - canvasData.width;
         const newCanvasTop = containerData.height - canvasData.height;
 
