@@ -366,14 +366,28 @@ export default {
     if (sizeLimited) {
       let minCropBoxWidth = Number(options.minCropBoxWidth) || 0;
       let minCropBoxHeight = Number(options.minCropBoxHeight) || 0;
-      let maxCropBoxWidth = Math.min(
-        containerData.width,
-        limited ? canvasData.width : containerData.width,
-      );
-      let maxCropBoxHeight = Math.min(
-        containerData.height,
-        limited ? canvasData.height : containerData.height,
-      );
+      let maxCropBoxWidth = containerData.width;
+      let maxCropBoxHeight = containerData.height;
+
+      if (limited) {
+        const canvasRight = containerData.width - canvasData.left - canvasData.width;
+        const canvasBottom = containerData.height - canvasData.top - canvasData.height;
+
+        maxCropBoxWidth = Math.min(
+          containerData.width,
+          Math.min(
+            canvasData.width,
+            canvasData.width + (canvasRight < 0 ? canvasRight : canvasData.left),
+          ),
+        );
+        maxCropBoxHeight = Math.min(
+          containerData.height,
+          Math.min(
+            canvasData.height,
+            canvasData.height + (canvasBottom < 0 ? canvasBottom : canvasData.top),
+          ),
+        );
+      }
 
       // The min/maxCropBoxWidth/Height must be less than container's width/height
       minCropBoxWidth = Math.min(minCropBoxWidth, containerData.width);
