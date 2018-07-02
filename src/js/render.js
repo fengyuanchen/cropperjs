@@ -370,11 +370,13 @@ export default {
         containerData.width,
         canvasData.width,
         canvasData.width + canvasData.left,
+        containerData.width - canvasData.left,
       ) : containerData.width;
       let maxCropBoxHeight = limited ? Math.min(
         containerData.height,
         canvasData.height,
         canvasData.height + canvasData.top,
+        containerData.height - canvasData.top,
       ) : containerData.height;
 
       // The min/maxCropBoxWidth/Height must be less than container's width/height
