@@ -64,9 +64,9 @@
     &.dashed-h {
       border-bottom-width: 1px;
       border-top-width: 1px;
-      height: (100% / 3);
+      height: calc(100% / 3);
       left: 0;
-      top: (100% / 3);
+      top: calc(100% / 3);
       width: 100%;
     }
 
@@ -74,9 +74,9 @@
       border-left-width: 1px;
       border-right-width: 1px;
       height: 100%;
-      left: (100% / 3);
+      left: calc(100% / 3);
       top: 0;
-      width: (100% / 3);
+      width: calc(100% / 3);
     }
   }
 
