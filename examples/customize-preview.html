@@ -43,7 +43,6 @@
   </style>
 </head>
 <body>
-
   <div class="container">
     <h1>Customize preview for Cropper</h1>
     <div class="row">
@@ -82,7 +81,7 @@
           ready: function () {
             var clone = this.cloneNode();
 
-            clone.className = ''
+            clone.className = '';
             clone.style.cssText = (
               'display: block;' +
               'width: 100%;' +
@@ -97,8 +96,8 @@
             });
           },
 
-          crop: function (e) {
-            var data = e.detail;
+          crop: function (event) {
+            var data = event.detail;
             var cropper = this.cropper;
             var imageData = cropper.getImageData();
             var previewAspectRatio = data.width / data.height;
@@ -115,7 +114,7 @@
               previewImage.style.marginLeft = -data.x / imageScaledRatio + 'px';
               previewImage.style.marginTop = -data.y / imageScaledRatio + 'px';
             });
-          }
+          },
         });
     });
   </script>

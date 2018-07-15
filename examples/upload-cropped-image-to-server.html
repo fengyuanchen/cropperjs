@@ -5,7 +5,7 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Cropper.js</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="../dist/cropper.css">
   <style>
     .label {
@@ -59,9 +59,8 @@
       </div>
     </div>
   </div>
-
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.bundle.min.js"></script>
   <script src="../dist/cropper.js"></script>
   <script>
     window.addEventListener('DOMContentLoaded', function () {
@@ -124,7 +123,6 @@
             width: 160,
             height: 160,
           });
-
           initialAvatarURL = avatar.src;
           avatar.src = canvas.toDataURL();
           $progress.show();
@@ -133,7 +131,6 @@
             var formData = new FormData();
 
             formData.append('avatar', blob);
-
             $.ajax('https://jsonplaceholder.typicode.com/posts', {
               method: 'POST',
               data: formData,
