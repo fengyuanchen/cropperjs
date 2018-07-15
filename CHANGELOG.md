@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.1 (Jul 15, 2018)
+
+- Not to restrict the canvas position when it is not cropped.
+- Fix wrong crop box size when view mode 1 and 2 (#381).
+
 ## 1.4.0 (Jun 1, 2018)
 
 - Added 1 new option: `initialAspectRatio`.

@@ -1,7 +1,7 @@
 {
   "name": "cropperjs",
   "description": "JavaScript image cropper.",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "main": "dist/cropper.common.js",
   "module": "dist/cropper.esm.js",
   "unpkg": "dist/cropper.js",
@@ -63,11 +63,11 @@
     "change-case": "^3.0.2",
     "cpy-cli": "^2.0.0",
     "create-banner": "^1.0.0",
-    "cssnano": "^3.10.0",
+    "cssnano": "^4.0.2",
     "del-cli": "^1.1.0",
-    "eslint": "^5.0.0",
+    "eslint": "^5.1.0",
     "eslint-config-airbnb-base": "^13.0.0",
-    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-import": "^2.13.0",
     "husky": "^0.14.3",
     "karma": "^2.0.4",
     "karma-chai": "^0.1.0",
@@ -80,13 +80,13 @@
     "postcss-cli": "^5.0.1",
     "postcss-header": "^1.0.0",
     "postcss-import": "^11.1.0",
-    "postcss-preset-env": "^5.1.0",
+    "postcss-preset-env": "^5.2.2",
     "postcss-url": "^7.3.2",
-    "puppeteer": "^1.5.0",
-    "rollup": "^0.61.2",
-    "rollup-plugin-babel": "^3.0.5",
+    "puppeteer": "^1.6.0",
+    "rollup": "^0.62.0",
+    "rollup-plugin-babel": "^3.0.7",
     "rollup-watch": "^4.3.1",
     "stylefmt": "^6.0.0",
-    "uglify-js": "^3.4.1"
+    "uglify-js": "^3.4.4"
   }
 }

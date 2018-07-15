@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v1.4.0
+ * Cropper.js v1.4.1
  * https://fengyuanchen.github.io/cropperjs
  *
  * Copyright 2015-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2018-06-01T15:18:18.692Z
+ * Date: 2018-07-15T09:55:31.170Z
  */
 
 (function (global, factory) {
@@ -477,7 +477,9 @@
   function getData(element, name) {
     if (isObject(element[name])) {
       return element[name];
-    } else if (element.dataset) {
+    }
+
+    if (element.dataset) {
       return element.dataset[name];
     }
 
@@ -1037,10 +1039,17 @@
     var uint8 = new Uint8Array(arrayBuffer);
     var data = '';
 
-    // TypedArray.prototype.forEach is not supported in some browsers.
-    forEach(uint8, function (value) {
-      data += fromCharCode(value);
-    });
+    // TypedArray.prototype.forEach is not supported in some browsers as IE.
+    if (isFunction(uint8.forEach)) {
+      // Use native `forEach` method first for better performance
+      uint8.forEach(function (value) {
+        data += fromCharCode(value);
+      });
+    } else {
+      forEach(uint8, function (value) {
+        data += fromCharCode(value);
+      });
+    }
 
     return 'data:' + mimeType + ';base64,' + btoa(data);
   }
@@ -1317,7 +1326,7 @@
       }
 
       if (positionLimited) {
-        if (viewMode) {
+        if (viewMode > (cropped ? 0 : 1)) {
           var newCanvasLeft = containerData.width - canvasData.width;
           var newCanvasTop = containerData.height - canvasData.height;
 
@@ -1484,8 +1493,8 @@
       if (sizeLimited) {
         var minCropBoxWidth = Number(options.minCropBoxWidth) || 0;
         var minCropBoxHeight = Number(options.minCropBoxHeight) || 0;
-        var maxCropBoxWidth = Math.min(containerData.width, limited ? canvasData.width : containerData.width);
-        var maxCropBoxHeight = Math.min(containerData.height, limited ? canvasData.height : containerData.height);
+        var maxCropBoxWidth = limited ? Math.min(containerData.width, canvasData.width, canvasData.width + canvasData.left, containerData.width - canvasData.left) : containerData.width;
+        var maxCropBoxHeight = limited ? Math.min(containerData.height, canvasData.height, canvasData.height + canvasData.top, containerData.height - canvasData.top) : containerData.height;
 
         // The min/maxCropBoxWidth/Height must be less than container's width/height
         minCropBoxWidth = Math.min(minCropBoxWidth, containerData.width);

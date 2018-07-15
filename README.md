@@ -376,6 +376,8 @@ Enable to resize the crop box by dragging.
 
 Enable to toggle drag mode between "crop" and "move" when click twice on the cropper.
 
+> Requires [`dblclick`](https://developer.mozilla.org/en-US/docs/Web/Events/dblclick) event support.
+
 ### minContainerWidth
 
 - Type: `Number`
@@ -1036,7 +1038,7 @@ Please read through our [contributing guidelines](.github/CONTRIBUTING.md).
 
 ## Versioning
 
-Maintained under the [Semantic Versioning guidelines](http://semver.org/).
+Maintained under the [Semantic Versioning guidelines](https://semver.org/).
 
 ## License
 
