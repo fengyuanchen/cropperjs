@@ -28,7 +28,6 @@ import {
   assign,
   dataURLToArrayBuffer,
   dispatchEvent,
-  getData,
   getOrientation,
   isCrossOriginURL,
   isFunction,
@@ -69,11 +68,11 @@ class Cropper {
     const tagName = element.tagName.toLowerCase();
     let url;
 
-    if (getData(element, NAMESPACE)) {
+    if (element[NAMESPACE]) {
       return;
     }
 
-    setData(element, NAMESPACE, this);
+    element[NAMESPACE] = this;
 
     if (tagName === 'img') {
       this.isImg = true;

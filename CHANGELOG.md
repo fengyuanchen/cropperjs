@@ -1,5 +1,9 @@
 # Changelog
 
+## next
+
+- Improve cropper instance storage to avoid side effect (#394).
+
 ## 1.4.1 (Jul 15, 2018)
 
 - Not to restrict the canvas position when it is not cropped.

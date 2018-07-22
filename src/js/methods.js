@@ -17,7 +17,6 @@ import {
   dispatchEvent,
   forEach,
   getAdjustedSizes,
-  getData,
   getOffset,
   getPointersCenter,
   getSourceCanvas,
@@ -26,7 +25,6 @@ import {
   isUndefined,
   normalizeDecimalNumber,
   removeClass,
-  removeData,
   setData,
   toggleClass,
 } from './utilities';
@@ -152,17 +150,17 @@ export default {
   destroy() {
     const { element } = this;
 
-    if (!getData(element, NAMESPACE)) {
+    if (!element[NAMESPACE]) {
       return this;
     }
+
+    element[NAMESPACE] = undefined;
 
     if (this.isImg && this.replaced) {
       element.src = this.originalUrl;
     }
 
     this.uncreate();
-    removeData(element, NAMESPACE);
-
     return this;
   },
 
