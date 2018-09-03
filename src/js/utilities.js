@@ -110,7 +110,7 @@ export const assign = Object.assign || function assign(obj, ...args) {
   return obj;
 };
 
-const REGEXP_DECIMALS = /\.\d*(?:0|9){12}\d*$/i;
+const REGEXP_DECIMALS = /\.\d*(?:0|9){12}\d*$/;
 
 /**
  * Normalize decimal number.
