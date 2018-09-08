@@ -19,14 +19,13 @@
 </head>
 <body>
   <div class="container">
-    <h1>One to one crop box</h1>
-    <p>The image displays in its natural size, so the size of the crop box size equals real cropped size.</p>
+    <h1>Minimum and maximum cropped dimensions</h1>
     <h3>Image</h3>
     <div>
       <img id="image" src="../docs/images/picture.jpg" alt="Picture">
     </div>
+    <p>Maximum Width: 640, Maximum Height: 320, Minimum Width: 320, Minimum Height: 160</p>
     <p>Data: <span id="data"></span></p>
-    <p>Crop Box Data: <span id="cropBoxData"></span></p>
     <h3>Result</h3>
     <p>
       <button type="button" id="button">Crop</button>
@@ -38,25 +37,37 @@
     window.addEventListener('DOMContentLoaded', function () {
       var image = document.querySelector('#image');
       var data = document.querySelector('#data');
-      var cropBoxData = document.querySelector('#cropBoxData');
       var button = document.getElementById('button');
       var result = document.getElementById('result');
+      var minCroppedWidth = 320;
+      var minCroppedHeight = 160;
+      var maxCroppedWidth = 640;
+      var maxCroppedHeight = 320;
       var cropper = new Cropper(image, {
-        ready: function (event) {
-          // Zoom the image to its natural size
-          cropper.zoomTo(1);
+        viewMode: 3,
+
+        data: {
+          width: (minCroppedWidth + maxCroppedWidth) / 2,
+          height: (minCroppedHeight + maxCroppedHeight) / 2,
         },
 
         crop: function (event) {
-          data.textContent = JSON.stringify(cropper.getData());
-          cropBoxData.textContent = JSON.stringify(cropper.getCropBoxData());
-        },
+          var width = event.detail.width;
+          var height = event.detail.height;
 
-        zoom: function (event) {
-          // Keep the image in its natural size
-          if (event.detail.oldRatio === 1) {
-            event.preventDefault();
+          if (
+            width < minCroppedWidth
+            || height < minCroppedHeight
+            || width > maxCroppedWidth
+            || height > maxCroppedHeight
+          ) {
+            cropper.setData({
+              width: Math.max(minCroppedWidth, Math.min(maxCroppedWidth, width)),
+              height: Math.max(minCroppedHeight, Math.min(maxCroppedHeight, height)),
+            });
           }
+
+          data.textContent = JSON.stringify(cropper.getData(true));
         },
       });
 
