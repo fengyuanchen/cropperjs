@@ -138,6 +138,10 @@ declare namespace Cropper {
     zoomOnTouch?: boolean;
     zoomOnWheel?: boolean;
     zoomable?: boolean;
+    topMargin?: number;
+    rightMargin?: number;
+    bottomMargin?: number;
+    leftMargin?: number;
   }
 }
 
