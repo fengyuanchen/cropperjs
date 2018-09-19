@@ -56,6 +56,8 @@ export default {
     setStyle(cropper, {
       width: containerData.width,
       height: containerData.height,
+      left: options.leftMargin,
+      top: options.topMargin
     });
 
     addClass(element, CLASS_HIDDEN);
