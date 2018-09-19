@@ -5,7 +5,7 @@
  * Copyright 2015-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2018-09-18T13:40:57.577Z
+ * Date: 2018-09-19T12:46:52.163Z
  */
 
 (function (global, factory) {
@@ -1221,7 +1221,9 @@
 
       setStyle(cropper, {
         width: containerData.width,
-        height: containerData.height
+        height: containerData.height,
+        left: options.leftMargin,
+        top: options.topMargin
       });
 
       addClass(element, CLASS_HIDDEN);

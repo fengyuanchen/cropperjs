@@ -57,7 +57,7 @@ export default {
       width: containerData.width,
       height: containerData.height,
       left: options.leftMargin,
-      top: options.topMargin
+      top: options.topMargin,
     });
 
     addClass(element, CLASS_HIDDEN);
