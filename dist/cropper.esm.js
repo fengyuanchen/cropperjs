@@ -5,7 +5,7 @@
  * Copyright 2015-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2018-09-18T10:06:58.690Z
+ * Date: 2018-09-18T13:40:57.577Z
  */
 
 var IN_BROWSER = typeof window !== 'undefined';
@@ -1207,8 +1207,8 @@ var render = {
     removeClass(element, CLASS_HIDDEN);
 
     var containerData = {
-      width: Math.min(Math.max(container.offsetWidth, Number(options.minContainerWidth) || 200), container.offsetWidth - (options.leftMargin + options.rightMargin)),
-      height: Math.min(Math.max(container.offsetHeight, Number(options.minContainerHeight) || 100), container.offsetHeight - (options.topMargin + options.bottomMargin))
+      width: Math.max(container.offsetWidth - (options.leftMargin + options.rightMargin), Number(options.minContainerWidth) || 200),
+      height: Math.max(container.offsetHeight - (options.topMargin + options.bottomMargin), Number(options.minContainerHeight) || 100)
     };
 
     this.containerData = containerData;

@@ -41,19 +41,13 @@ export default {
     removeClass(element, CLASS_HIDDEN);
 
     const containerData = {
-      width: Math.min(
-        Math.max(
-          container.offsetWidth,
+      width: Math.max(
+          container.offsetWidth - (options.leftMargin + options.rightMargin),
           Number(options.minContainerWidth) || 200,
-        ),
-        container.offsetWidth - (options.leftMargin + options.rightMargin),
       ),
-      height: Math.min(
-        Math.max(
-          container.offsetHeight,
+      height: Math.max(
+          container.offsetHeight - (options.topMargin + options.bottomMargin),
           Number(options.minContainerHeight) || 100,
-        ),
-        container.offsetHeight - (options.topMargin + options.bottomMargin),
       ),
     };
 
