@@ -2,7 +2,9 @@
 
 ## next
 
+- Read orientation only when it is a JPEG image.
 - Improve cropper instance storage to avoid side effect (#394).
+- Avoid to recompute Data URL when it is already known (#422).
 
 ## 1.4.1 (Jul 15, 2018)
 

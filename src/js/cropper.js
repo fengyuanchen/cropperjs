@@ -14,6 +14,7 @@ import {
   CLASS_MOVE,
   DATA_ACTION,
   EVENT_READY,
+  MIME_TYPE_JPEG,
   NAMESPACE,
   REGEXP_DATA_URL,
   REGEXP_DATA_URL_JPEG,
@@ -144,7 +145,12 @@ class Cropper {
 
     xhr.onload = () => {
       done();
-      this.read(xhr.response);
+
+      if (xhr.getResponseHeader('content-type') === MIME_TYPE_JPEG) {
+        this.read(xhr.response);
+      } else {
+        this.clone();
+      }
     };
 
     // Bust cache when there is a "crossOrigin" property
@@ -167,7 +173,7 @@ class Cropper {
 
     if (orientation > 1) {
       if (!isDataURL) {
-        this.url = arrayBufferToDataURL(arrayBuffer, 'image/jpeg');
+        this.url = arrayBufferToDataURL(arrayBuffer, MIME_TYPE_JPEG);
       }
 
       ({ rotate, scaleX, scaleY } = parseOrientation(orientation));
