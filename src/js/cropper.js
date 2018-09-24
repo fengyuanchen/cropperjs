@@ -127,30 +127,27 @@ class Cropper {
     }
 
     const xhr = new XMLHttpRequest();
+    const clone = this.clone.bind(this);
 
     this.reloading = true;
     this.xhr = xhr;
+    xhr.ontimeout = clone;
+    xhr.onabort = clone;
+    xhr.onerror = clone;
 
-    const done = () => {
-      this.reloading = false;
-      this.xhr = null;
-    };
-
-    xhr.ontimeout = done;
-    xhr.onabort = done;
-    xhr.onerror = () => {
-      done();
-      this.clone();
+    xhr.onprogress = () => {
+      if (xhr.getResponseHeader('content-type') !== MIME_TYPE_JPEG) {
+        xhr.abort();
+      }
     };
 
     xhr.onload = () => {
-      done();
+      this.read(xhr.response);
+    };
 
-      if (xhr.getResponseHeader('content-type') === MIME_TYPE_JPEG) {
-        this.read(xhr.response);
-      } else {
-        this.clone();
-      }
+    xhr.onloadend = () => {
+      this.reloading = false;
+      this.xhr = null;
     };
 
     // Bust cache when there is a "crossOrigin" property
