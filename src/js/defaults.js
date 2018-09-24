@@ -97,4 +97,10 @@ export default {
   cropend: null,
   crop: null,
   zoom: null,
+
+  // Margins
+  topMargin: 0,
+  rightMargin: 0,
+  bottomMargin: 0,
+  leftMargin: 0,
 };

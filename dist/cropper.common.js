@@ -5,7 +5,7 @@
  * Copyright 2015-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2018-07-15T09:55:31.170Z
+ * Date: 2018-09-19T12:46:52.163Z
  */
 
 'use strict';
@@ -162,7 +162,13 @@ var DEFAULTS = {
   cropmove: null,
   cropend: null,
   crop: null,
-  zoom: null
+  zoom: null,
+
+  // Margins
+  topMargin: 0,
+  rightMargin: 0,
+  bottomMargin: 0,
+  leftMargin: 0
 };
 
 var TEMPLATE = '<div class="cropper-container" touch-action="none">' + '<div class="cropper-wrap-box">' + '<div class="cropper-canvas"></div>' + '</div>' + '<div class="cropper-drag-box"></div>' + '<div class="cropper-crop-box">' + '<span class="cropper-view-box"></span>' + '<span class="cropper-dashed dashed-h"></span>' + '<span class="cropper-dashed dashed-v"></span>' + '<span class="cropper-center"></span>' + '<span class="cropper-face"></span>' + '<span class="cropper-line line-e" data-cropper-action="e"></span>' + '<span class="cropper-line line-n" data-cropper-action="n"></span>' + '<span class="cropper-line line-w" data-cropper-action="w"></span>' + '<span class="cropper-line line-s" data-cropper-action="s"></span>' + '<span class="cropper-point point-e" data-cropper-action="e"></span>' + '<span class="cropper-point point-n" data-cropper-action="n"></span>' + '<span class="cropper-point point-w" data-cropper-action="w"></span>' + '<span class="cropper-point point-s" data-cropper-action="s"></span>' + '<span class="cropper-point point-ne" data-cropper-action="ne"></span>' + '<span class="cropper-point point-nw" data-cropper-action="nw"></span>' + '<span class="cropper-point point-sw" data-cropper-action="sw"></span>' + '<span class="cropper-point point-se" data-cropper-action="se"></span>' + '</div>' + '</div>';
@@ -324,7 +330,7 @@ var assign = Object.assign || function assign(obj) {
   return obj;
 };
 
-var REGEXP_DECIMALS = /\.\d*(?:0|9){12}\d*$/i;
+var REGEXP_DECIMALS = /\.\d*(?:0|9){12}\d*$/;
 
 /**
  * Normalize decimal number.
@@ -1203,15 +1209,17 @@ var render = {
     removeClass(element, CLASS_HIDDEN);
 
     var containerData = {
-      width: Math.max(container.offsetWidth, Number(options.minContainerWidth) || 200),
-      height: Math.max(container.offsetHeight, Number(options.minContainerHeight) || 100)
+      width: Math.max(container.offsetWidth - (options.leftMargin + options.rightMargin), Number(options.minContainerWidth) || 200),
+      height: Math.max(container.offsetHeight - (options.topMargin + options.bottomMargin), Number(options.minContainerHeight) || 100)
     };
 
     this.containerData = containerData;
 
     setStyle(cropper, {
       width: containerData.width,
-      height: containerData.height
+      height: containerData.height,
+      left: options.leftMargin,
+      top: options.topMargin
     });
 
     addClass(element, CLASS_HIDDEN);
@@ -2588,17 +2596,17 @@ var methods = {
     var element = this.element;
 
 
-    if (!getData(element, NAMESPACE)) {
+    if (!element[NAMESPACE]) {
       return this;
     }
+
+    element[NAMESPACE] = undefined;
 
     if (this.isImg && this.replaced) {
       element.src = this.originalUrl;
     }
 
     this.uncreate();
-    removeData(element, NAMESPACE);
-
     return this;
   },
 
@@ -3331,11 +3339,11 @@ var Cropper = function () {
       var tagName = element.tagName.toLowerCase();
       var url = void 0;
 
-      if (getData(element, NAMESPACE)) {
+      if (element[NAMESPACE]) {
         return;
       }
 
-      setData(element, NAMESPACE, this);
+      element[NAMESPACE] = this;
 
       if (tagName === 'img') {
         this.isImg = true;

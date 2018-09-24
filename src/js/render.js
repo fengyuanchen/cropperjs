@@ -42,11 +42,11 @@ export default {
 
     const containerData = {
       width: Math.max(
-        container.offsetWidth,
+        container.offsetWidth - (options.leftMargin + options.rightMargin),
         Number(options.minContainerWidth) || 200,
       ),
       height: Math.max(
-        container.offsetHeight,
+        container.offsetHeight - (options.topMargin + options.bottomMargin),
         Number(options.minContainerHeight) || 100,
       ),
     };
@@ -56,6 +56,8 @@ export default {
     setStyle(cropper, {
       width: containerData.width,
       height: containerData.height,
+      left: options.leftMargin,
+      top: options.topMargin,
     });
 
     addClass(element, CLASS_HIDDEN);
