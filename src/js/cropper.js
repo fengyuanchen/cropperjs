@@ -118,7 +118,7 @@ class Cropper {
     // XMLHttpRequest disallows to open a Data URL in some browsers like IE11 and Safari
     if (REGEXP_DATA_URL.test(url)) {
       if (REGEXP_DATA_URL_JPEG.test(url)) {
-        this.read(dataURLToArrayBuffer(url), true);
+        this.read(dataURLToArrayBuffer(url));
       } else {
         this.clone();
       }
@@ -161,7 +161,7 @@ class Cropper {
     xhr.send();
   }
 
-  read(arrayBuffer, isDataURL = false) {
+  read(arrayBuffer) {
     const { options, imageData } = this;
     const orientation = getOrientation(arrayBuffer);
     let rotate = 0;
@@ -169,10 +169,9 @@ class Cropper {
     let scaleY = 1;
 
     if (orientation > 1) {
-      if (!isDataURL) {
-        this.url = arrayBufferToDataURL(arrayBuffer, MIME_TYPE_JPEG);
-      }
-
+      // Generate a new Data URL with the orientation value set to 1
+      // as some iOS browsers will render image with its orientation
+      this.url = arrayBufferToDataURL(arrayBuffer, MIME_TYPE_JPEG);
       ({ rotate, scaleX, scaleY } = parseOrientation(orientation));
     }
 
