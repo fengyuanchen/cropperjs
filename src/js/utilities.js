@@ -802,19 +802,12 @@ export function dataURLToArrayBuffer(dataURL) {
 export function arrayBufferToDataURL(arrayBuffer, mimeType) {
   const uint8 = new Uint8Array(arrayBuffer);
   let data = '';
-
-  // TypedArray.prototype.forEach is not supported in some browsers as IE.
-  if (isFunction(uint8.forEach)) {
-    // Use native `forEach` method first for better performance
-    uint8.forEach((value) => {
-      data += fromCharCode(value);
-    });
-  } else {
-    forEach(uint8, (value) => {
-      data += fromCharCode(value);
-    });
-  }
-
+  // Rather than adding characters one-by-one to data, we add them in chunks.
+  // This improves speed.
+  let CHUNK_SIZE = 4096;
+  for (let i = 0; i < uint8.length; i += CHUNK_SIZE) {
+    data += String.fromCharCode.apply(null, uint8.slice(i, i + CHUNK_SIZE));
+  };
   return `data:${mimeType};base64,${btoa(data)}`;
 }
 
