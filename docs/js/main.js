@@ -67,6 +67,7 @@ window.onload = function () {
   // Download
   if (typeof download.download === 'undefined') {
     download.className += ' disabled';
+    download.title = 'Your browser does not support download';
   }
 
   // Options
