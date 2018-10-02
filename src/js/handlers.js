@@ -166,10 +166,11 @@ export default {
 
     if (e.changedTouches) {
       forEach(e.changedTouches, (touch) => {
-        assign(pointers[touch.identifier], getPointer(touch, true));
+        // The first parameter should not be undefined (#432)
+        assign(pointers[touch.identifier] || {}, getPointer(touch, true));
       });
     } else {
-      assign(pointers[e.pointerId || 0], getPointer(e, true));
+      assign(pointers[e.pointerId || 0] || {}, getPointer(e, true));
     }
 
     this.change(e);
