@@ -29,7 +29,7 @@ import {
   assign,
   dataURLToArrayBuffer,
   dispatchEvent,
-  getOrientation,
+  resetAndGetOrientation,
   isCrossOriginURL,
   isFunction,
   isPlainObject,
@@ -110,6 +110,7 @@ class Cropper {
       options.checkOrientation = false;
     }
 
+    // Only IE10+ supports Typed Arrays
     if (!options.checkOrientation || !window.ArrayBuffer) {
       this.clone();
       return;
@@ -163,7 +164,7 @@ class Cropper {
 
   read(arrayBuffer) {
     const { options, imageData } = this;
-    const orientation = getOrientation(arrayBuffer);
+    const orientation = resetAndGetOrientation(arrayBuffer);
     let rotate = 0;
     let scaleX = 1;
     let scaleY = 1;
