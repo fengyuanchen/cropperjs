@@ -800,15 +800,16 @@ export function dataURLToArrayBuffer(dataURL) {
  * @returns {string} The result Data URL.
  */
 export function arrayBufferToDataURL(arrayBuffer, mimeType) {
-  const uint8 = new Uint8Array(arrayBuffer);
-  let data = '';
-  // Rather than adding characters one-by-one to data, we add them in chunks.
-  // This improves speed.
-  let CHUNK_SIZE = 4096;
-  for (let i = 0; i < uint8.length; i += CHUNK_SIZE) {
-    data += String.fromCharCode.apply(null, uint8.slice(i, i + CHUNK_SIZE));
-  };
-  return `data:${mimeType};base64,${btoa(data)}`;
+  const chunks = [];
+  const chunkSize = 8192;
+  let uint8 = new Uint8Array(arrayBuffer);
+
+  while (uint8.length > 0) {
+    chunks.push(fromCharCode(...uint8.subarray(0, chunkSize)));
+    uint8 = uint8.subarray(chunkSize);
+  }
+
+  return `data:${mimeType};base64,${btoa(chunks.join(''))}`;
 }
 
 /**
