@@ -315,6 +315,17 @@ export default {
     degree = Number(degree);
 
     if (isNumber(degree) && this.ready && !this.disabled && this.options.rotatable) {
+      var cbcx = (this.cropBoxData.left + this.cropBoxData.width / 2);
+      var cvcx = (this.canvasData.left + this.canvasData.width / 2);
+      var cbcy = (this.cropBoxData.top + this.cropBoxData.height / 2);
+      var cvcy = (this.canvasData.top + this.canvasData.height / 2);
+      var x = cbcx - cvcx;
+      var y = cbcy - cvcy;
+      var rad = (degree-(this.imageData.rotate || 0)) * Math.PI / 180;
+      var deltaX = x-(x * Math.cos(rad) - y * Math.sin(rad));
+      var deltaY = y-(x * Math.sin(rad) + y * Math.cos(rad));
+      this.canvasData.left += deltaX;
+      this.canvasData.top += deltaY;
       this.imageData.rotate = degree % 360;
       this.renderCanvas(true, true);
     }
