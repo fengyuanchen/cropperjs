@@ -29,12 +29,12 @@ import {
   assign,
   dataURLToArrayBuffer,
   dispatchEvent,
-  resetAndGetOrientation,
   isCrossOriginURL,
   isFunction,
   isPlainObject,
   parseOrientation,
   removeClass,
+  resetAndGetOrientation,
   setData,
 } from './utilities';
 
@@ -156,7 +156,7 @@ class Cropper {
       url = addTimestamp(url);
     }
 
-    xhr.open('get', url);
+    xhr.open('GET', url);
     xhr.responseType = 'arraybuffer';
     xhr.withCredentials = element.crossOrigin === 'use-credentials';
     xhr.send();
