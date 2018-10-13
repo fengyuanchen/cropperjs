@@ -7,16 +7,10 @@ module.exports = (config) => {
   config.set({
     autoWatch: false,
     basePath: '..',
-    browsers: ['ChromeHeadlessWithoutSandbox'],
+    browsers: ['ChromeHeadless'],
     client: {
       mocha: {
         timeout: 10000,
-      },
-    },
-    customLaunchers: {
-      ChromeHeadlessWithoutSandbox: {
-        base: 'ChromeHeadless',
-        flags: ['--no-sandbox'],
       },
     },
     files: [
