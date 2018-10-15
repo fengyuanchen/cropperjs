@@ -170,6 +170,8 @@ declare class Cropper {
   setDragMode(dragMode: Cropper.DragMode): Cropper;
   zoom(ratio: number): Cropper;
   zoomTo(ratio: number, pivot?: {x: number; y: number}): Cropper;
+  static noConflict(): Cropper;
+  static setDefaults(options: Cropper.Options): void;
 }
 
 declare module 'cropperjs' {
