@@ -1,15 +1,16 @@
 # Changelog
 
-## next
+## 1.4.2 (Oct 15, 2018)
 
 - Read orientation only when it is a JPEG image.
 - Improve cropper instance storage to avoid side effect (#394).
-- Avoid to recompute Data URL when it is already known (#422).
+- Fix parameter error of `Object.assign` in iOS devices (#432).
+- Improve typed array loop for better performance (#435).
 
 ## 1.4.1 (Jul 15, 2018)
 
 - Not to restrict the canvas position when it is not cropped.
-- Fix wrong crop box size when view mode 1 and 2 (#381).
+- Fix wrong crop box size in view mode 1 and 2 (#381).
 
 ## 1.4.0 (Jun 1, 2018)
 
