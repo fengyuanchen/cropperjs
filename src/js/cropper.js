@@ -406,6 +406,7 @@ class Cropper {
       this.sizing = false;
       this.sized = false;
     } else if (this.reloading) {
+      this.xhr.onabort = null;
       this.xhr.abort();
     } else if (this.image) {
       this.stop();
