@@ -1,3 +1,4 @@
-node_modules
 *.map
 _*
+coverage
+node_modules
