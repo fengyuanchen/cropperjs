@@ -1,5 +1,9 @@
 # Changelog
 
+## next
+
+- Ignore range error when the image does not have correct Exif information
+
 ## 1.4.2 (Oct 15, 2018)
 
 - Read orientation only when it is a JPEG image.

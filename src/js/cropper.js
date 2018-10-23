@@ -163,8 +163,17 @@ class Cropper {
   }
 
   read(arrayBuffer) {
+    let orientation;
+
+    // Ignores range error when the image does not have correct Exif information
+    try {
+      orientation = resetAndGetOrientation(arrayBuffer);
+    } catch (error) {
+      this.clone();
+      return;
+    }
+
     const { options, imageData } = this;
-    const orientation = resetAndGetOrientation(arrayBuffer);
     let rotate = 0;
     let scaleX = 1;
     let scaleY = 1;
