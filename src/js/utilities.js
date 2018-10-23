@@ -820,66 +820,72 @@ export function arrayBufferToDataURL(arrayBuffer, mimeType) {
 export function resetAndGetOrientation(arrayBuffer) {
   const dataView = new DataView(arrayBuffer);
   let orientation;
-  let littleEndian;
-  let app1Start;
-  let ifdStart;
 
-  // Only handle JPEG image (start by 0xFFD8)
-  if (dataView.getUint8(0) === 0xFF && dataView.getUint8(1) === 0xD8) {
-    const length = dataView.byteLength;
-    let offset = 2;
+  // Ignores range error when the image does not have correct Exif information
+  try {
+    let littleEndian;
+    let app1Start;
+    let ifdStart;
 
-    while (offset + 1 < length) {
-      if (dataView.getUint8(offset) === 0xFF && dataView.getUint8(offset + 1) === 0xE1) {
-        app1Start = offset;
-        break;
+    // Only handle JPEG image (start by 0xFFD8)
+    if (dataView.getUint8(0) === 0xFF && dataView.getUint8(1) === 0xD8) {
+      const length = dataView.byteLength;
+      let offset = 2;
+
+      while (offset + 1 < length) {
+        if (dataView.getUint8(offset) === 0xFF && dataView.getUint8(offset + 1) === 0xE1) {
+          app1Start = offset;
+          break;
+        }
+
+        offset += 1;
       }
-
-      offset += 1;
     }
-  }
 
-  if (app1Start) {
-    const exifIDCode = app1Start + 4;
-    const tiffOffset = app1Start + 10;
+    if (app1Start) {
+      const exifIDCode = app1Start + 4;
+      const tiffOffset = app1Start + 10;
 
-    if (getStringFromCharCode(dataView, exifIDCode, 4) === 'Exif') {
-      const endianness = dataView.getUint16(tiffOffset);
+      if (getStringFromCharCode(dataView, exifIDCode, 4) === 'Exif') {
+        const endianness = dataView.getUint16(tiffOffset);
 
-      littleEndian = endianness === 0x4949;
+        littleEndian = endianness === 0x4949;
 
-      if (littleEndian || endianness === 0x4D4D /* bigEndian */) {
-        if (dataView.getUint16(tiffOffset + 2, littleEndian) === 0x002A) {
-          const firstIFDOffset = dataView.getUint32(tiffOffset + 4, littleEndian);
+        if (littleEndian || endianness === 0x4D4D /* bigEndian */) {
+          if (dataView.getUint16(tiffOffset + 2, littleEndian) === 0x002A) {
+            const firstIFDOffset = dataView.getUint32(tiffOffset + 4, littleEndian);
 
-          if (firstIFDOffset >= 0x00000008) {
-            ifdStart = tiffOffset + firstIFDOffset;
+            if (firstIFDOffset >= 0x00000008) {
+              ifdStart = tiffOffset + firstIFDOffset;
+            }
           }
         }
       }
     }
-  }
 
-  if (ifdStart) {
-    const length = dataView.getUint16(ifdStart, littleEndian);
-    let offset;
-    let i;
+    if (ifdStart) {
+      const length = dataView.getUint16(ifdStart, littleEndian);
+      let offset;
+      let i;
 
-    for (i = 0; i < length; i += 1) {
-      offset = ifdStart + (i * 12) + 2;
+      for (i = 0; i < length; i += 1) {
+        offset = ifdStart + (i * 12) + 2;
 
-      if (dataView.getUint16(offset, littleEndian) === 0x0112 /* Orientation */) {
-        // 8 is the offset of the current tag's value
-        offset += 8;
+        if (dataView.getUint16(offset, littleEndian) === 0x0112 /* Orientation */) {
+          // 8 is the offset of the current tag's value
+          offset += 8;
 
-        // Get the original orientation value
-        orientation = dataView.getUint16(offset, littleEndian);
+          // Get the original orientation value
+          orientation = dataView.getUint16(offset, littleEndian);
 
-        // Override the orientation with its default value
-        dataView.setUint16(offset, 1, littleEndian);
-        break;
+          // Override the orientation with its default value
+          dataView.setUint16(offset, 1, littleEndian);
+          break;
+        }
       }
     }
+  } catch (e) {
+    orientation = 1;
   }
 
   return orientation;
