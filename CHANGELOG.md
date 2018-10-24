@@ -1,6 +1,6 @@
 # Changelog
 
-## next
+## 1.4.3 (Oct 24, 2018)
 
 - Ignore range error when the image does not have correct Exif information
 
