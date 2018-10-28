@@ -57,7 +57,7 @@ dist/
 npm install cropperjs
 ```
 
-Include files:
+In browser:
 
 ```html
 <link  href="/path/to/cropper.css" rel="stylesheet">
@@ -99,6 +99,9 @@ img {
 ```
 
 ```js
+// import 'cropperjs/dist/cropper.css';
+import Cropper from 'cropperjs';
+
 const image = document.getElementById('image');
 const cropper = new Cropper(image, {
   aspectRatio: 16 / 9,
@@ -493,7 +496,6 @@ Show the crop box manually.
 ```js
 new Cropper(image, {
   autoCrop: false,
-
   ready() {
     // Do something here
     // ...
@@ -761,7 +763,8 @@ const imageData = cropper.getImageData();
 const canvasData = cropper.getCanvasData();
 
 if (imageData.rotate % 180 === 0) {
-  console.log(canvasData.naturalWidth === imageData.naturalWidth); // true
+  console.log(canvasData.naturalWidth === imageData.naturalWidth);
+  // > true
 }
 ```
 
@@ -902,9 +905,9 @@ This event fires when the target image has been loaded and the cropper instance 
 ```js
 let cropper;
 
-image.addEventListener('ready', () => {
+image.addEventListener('ready', function () {
   console.log(this.cropper === cropper);
-  // -> true
+  // > true
 });
 
 cropper = new Cropper(image);
