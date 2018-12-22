@@ -117,6 +117,10 @@ declare namespace Cropper {
     guides?: boolean;
     highlight?: boolean;
     initialAspectRatio?: number;
+    maxCanvasHeight?: number;
+    maxCanvasWidth?: number;
+    maxCropBoxHeight?: number;
+    maxCropBoxWidth?: number;
     minCanvasHeight?: number;
     minCanvasWidth?: number;
     minContainerHeight?: number;

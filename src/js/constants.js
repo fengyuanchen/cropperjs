@@ -65,3 +65,11 @@ export const REGEXP_TAG_NAME = /^img|canvas$/i;
 // Inspired by the default width and height of a canvas element.
 export const MIN_CONTAINER_WIDTH = 200;
 export const MIN_CONTAINER_HEIGHT = 100;
+export const EXPORTED_DATA_KEY = [
+  'left',
+  'top',
+  'width',
+  'height',
+  'naturalWidth',
+  'naturalHeight',
+];

@@ -24,7 +24,7 @@
 
 ## Features
 
-- Supports 39 [options](#options)
+- Supports 43 [options](#options)
 - Supports 27 [methods](#methods)
 - Supports 6 [events](#events)
 - Supports touch (mobile)
@@ -409,14 +409,26 @@ The minimum width of the canvas (image wrapper).
 
 The minimum height of the canvas (image wrapper).
 
+### maxCanvasWidth
+
+- Type: `Number`
+- Default: `Infinity`
+
+The maximum width of the canvas (image wrapper).
+
+### maxCanvasHeight
+
+- Type: `Number`
+- Default: `Infinity`
+
+The maximum height of the canvas (image wrapper).
+
 ### minCropBoxWidth
 
 - Type: `Number`
 - Default: `0`
 
 The minimum width of the crop box.
-
-**Note:** This size is relative to the page, not the image.
 
 ### minCropBoxHeight
 
@@ -425,7 +437,19 @@ The minimum width of the crop box.
 
 The minimum height of the crop box.
 
-**Note:** This size is relative to the page, not the image.
+### maxCropBoxWidth
+
+- Type: `Number`
+- Default: `Infinity`
+
+The maximum width of the crop box.
+
+### maxCropBoxHeight
+
+- Type: `Number`
+- Default: `Infinity`
+
+The maximum height of the crop box.
 
 ### ready
 
@@ -571,32 +595,32 @@ cropper.move(0, -1);
 
 Move the canvas (image wrapper) to an absolute point.
 
-### zoom(ratio)
+### zoom(scale)
 
-- **ratio**:
+- **scale**:
   - Type: `Number`
-  - Zoom in: requires a positive number (ratio > 0)
-  - Zoom out: requires a negative number (ratio < 0)
+  - Zoom in: requires a positive number (scale > 0)
+  - Zoom out: requires a negative number (scale < 0)
 
-Zoom the canvas (image wrapper) with a relative ratio.
+Zoom the canvas (image wrapper) with a relative scale.
 
 ```js
 cropper.zoom(0.1);
 cropper.zoom(-0.1);
 ```
 
-### zoomTo(ratio[, pivot])
+### zoomTo(scale[, center])
 
-- **ratio**:
+- **scale**:
   - Type: `Number`
-  - Requires a positive number (ratio > 0)
+  - Requires a positive number (scale > 0)
 
-- **pivot** (optional):
+- **center** (optional):
   - Type: `Object`
   - Schema: `{ x: Number, y: Number }`
-  - The coordinate of the center point for zooming, base on the top left corner of the cropper container.
+  - The center point coordinate, base on the top left corner of the cropper container.
 
-Zoom the canvas (image wrapper) to an absolute ratio.
+Zoom the canvas (image wrapper) to an absolute scale.
 
 ```js
 cropper.zoomTo(1); // 1:1 (canvasData.width === canvasData.naturalWidth)
