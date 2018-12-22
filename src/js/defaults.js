@@ -1,4 +1,8 @@
-import { DRAG_MODE_CROP } from './constants';
+import {
+  DRAG_MODE_CROP,
+  MIN_CONTAINER_WIDTH,
+  MIN_CONTAINER_HEIGHT,
+} from './constants';
 
 export default {
   // Define the view mode of the cropper
@@ -85,10 +89,14 @@ export default {
   // Size limitation
   minCanvasWidth: 0,
   minCanvasHeight: 0,
+  maxCanvasWidth: Infinity,
+  maxCanvasHeight: Infinity,
   minCropBoxWidth: 0,
   minCropBoxHeight: 0,
-  minContainerWidth: 200,
-  minContainerHeight: 100,
+  maxCropBoxWidth: Infinity,
+  maxCropBoxHeight: Infinity,
+  minContainerWidth: MIN_CONTAINER_WIDTH,
+  minContainerHeight: MIN_CONTAINER_HEIGHT,
 
   // Shortcuts of events
   ready: null,

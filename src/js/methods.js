@@ -9,6 +9,7 @@ import {
   DRAG_MODE_MOVE,
   DRAG_MODE_NONE,
   EVENT_ZOOM,
+  EXPORTED_DATA_KEY,
   NAMESPACE,
 } from './constants';
 import {
@@ -186,7 +187,7 @@ export default {
    * @returns {Cropper} this
    */
   moveTo(x, y = x) {
-    const { canvasData } = this;
+    const { canvasData, cropBoxData } = this;
     let changed = false;
 
     x = Number(x);
@@ -194,11 +195,13 @@ export default {
 
     if (this.ready && !this.disabled && this.options.movable) {
       if (isNumber(x)) {
+        cropBoxData.left -= canvasData.left - x;
         canvasData.left = x;
         changed = true;
       }
 
       if (isNumber(y)) {
+        cropBoxData.top -= canvasData.top - y;
         canvasData.top = y;
         changed = true;
       }
@@ -212,50 +215,68 @@ export default {
   },
 
   /**
-   * Zoom the canvas with a relative ratio
-   * @param {number} ratio - The target ratio.
+   * Zoom the canvas with a relative scale
+   * @param {number} scale - The target scale.
    * @param {Event} _originalEvent - The original event if any.
    * @returns {Cropper} this
    */
-  zoom(ratio, _originalEvent) {
+  zoom(scale, _originalEvent = null) {
     const { canvasData } = this;
 
-    ratio = Number(ratio);
+    scale = Number(scale);
 
-    if (ratio < 0) {
-      ratio = 1 / (1 - ratio);
+    if (scale < 0) {
+      scale = 1 / (1 - scale);
     } else {
-      ratio = 1 + ratio;
+      scale = 1 + scale;
     }
 
-    return this.zoomTo((canvasData.width * ratio) / canvasData.naturalWidth, null, _originalEvent);
+    return this.zoomTo((canvasData.width * scale) / canvasData.naturalWidth, null, _originalEvent);
   },
 
   /**
-   * Zoom the canvas to an absolute ratio
-   * @param {number} ratio - The target ratio.
-   * @param {Object} pivot - The zoom pivot point coordinate.
-   * @param {Event} _originalEvent - The original event if any.
+   * Zoom the canvas to an absolute scale
+   * @param {number} scale - The target scale.
+   * @param {Object} [center=null] - The center point coordinate.
+   * @param {Event} _originalEvent - The original event object if any.
    * @returns {Cropper} this
    */
-  zoomTo(ratio, pivot, _originalEvent) {
-    const { options, canvasData } = this;
+  zoomTo(scale, center = null, _originalEvent = null) {
+    const { options, canvasData, cropBoxData } = this;
     const {
-      width,
-      height,
-      naturalWidth,
-      naturalHeight,
+      width: canvasWidth,
+      height: canvasHeight,
     } = canvasData;
+    const {
+      width: cropBoxWidth,
+      height: cropBoxHeight,
+    } = cropBoxData;
 
-    ratio = Number(ratio);
+    scale = Number(scale);
 
-    if (ratio >= 0 && this.ready && !this.disabled && options.zoomable) {
-      const newWidth = naturalWidth * ratio;
-      const newHeight = naturalHeight * ratio;
+    if (scale >= 0 && this.ready && !this.disabled && options.zoomable) {
+      const newCanvasWidth = canvasData.naturalWidth * scale;
+      const newCanvasHeight = canvasData.naturalHeight * scale;
+
+      if (options.viewMode > 1 && (
+        newCanvasWidth < canvasData.minWidth
+        || newCanvasWidth > canvasData.maxWidth
+        || newCanvasHeight < canvasData.minHeight
+        || newCanvasHeight < canvasData.minHeight
+      )) {
+        return this;
+      }
+
+      const offsetCanvasWidth = newCanvasWidth - canvasWidth;
+      const offsetCanvasHeight = newCanvasHeight - canvasHeight;
+      const newCropBoxWidth = cropBoxData.naturalWidth * scale;
+      const newCropBoxHeight = cropBoxData.naturalHeight * scale;
+      const offsetCropBoxWidth = newCropBoxWidth - cropBoxWidth;
+      const offsetCropBoxHeight = newCropBoxHeight - cropBoxHeight;
 
       if (dispatchEvent(this.element, EVENT_ZOOM, {
-        ratio,
-        oldRatio: width / naturalWidth,
+        scale,
+        oldScale: canvasData.scale,
         originalEvent: _originalEvent,
       }) === false) {
         return this;
@@ -264,33 +285,51 @@ export default {
       if (_originalEvent) {
         const { pointers } = this;
         const offset = getOffset(this.cropper);
-        const center = pointers && Object.keys(pointers).length ? getPointersCenter(pointers) : {
+
+        center = pointers && Object.keys(pointers).length ? getPointersCenter(pointers) : {
           pageX: _originalEvent.pageX,
           pageY: _originalEvent.pageY,
         };
 
         // Zoom from the triggering point of the event
-        canvasData.left -= (newWidth - width) * (
-          ((center.pageX - offset.left) - canvasData.left) / width
+        canvasData.left -= offsetCanvasWidth * (
+          ((center.pageX - offset.left) - canvasData.left) / canvasWidth
         );
-        canvasData.top -= (newHeight - height) * (
-          ((center.pageY - offset.top) - canvasData.top) / height
+        canvasData.top -= offsetCanvasHeight * (
+          ((center.pageY - offset.top) - canvasData.top) / canvasHeight
         );
-      } else if (isPlainObject(pivot) && isNumber(pivot.x) && isNumber(pivot.y)) {
-        canvasData.left -= (newWidth - width) * (
-          (pivot.x - canvasData.left) / width
+        cropBoxData.left -= offsetCropBoxWidth * (
+          ((center.pageX - offset.left) - cropBoxData.left) / cropBoxWidth
         );
-        canvasData.top -= (newHeight - height) * (
-          (pivot.y - canvasData.top) / height
+        cropBoxData.top -= offsetCropBoxHeight * (
+          ((center.pageY - offset.top) - cropBoxData.top) / cropBoxHeight
+        );
+      } else if (isPlainObject(center) && isNumber(center.x) && isNumber(center.y)) {
+        // Zoom from the given pointer
+        canvasData.left -= offsetCanvasWidth * (
+          (center.x - canvasData.left) / canvasWidth
+        );
+        canvasData.top -= offsetCanvasHeight * (
+          (center.y - canvasData.top) / canvasHeight
+        );
+        cropBoxData.left -= offsetCropBoxWidth * (
+          (center.x - cropBoxData.left) / cropBoxWidth
+        );
+        cropBoxData.top -= offsetCropBoxHeight * (
+          (center.y - cropBoxData.top) / cropBoxHeight
         );
       } else {
         // Zoom from the center of the canvas
-        canvasData.left -= (newWidth - width) / 2;
-        canvasData.top -= (newHeight - height) / 2;
+        canvasData.left -= offsetCanvasWidth / 2;
+        canvasData.top -= offsetCanvasHeight / 2;
+        cropBoxData.left -= offsetCropBoxWidth / 2;
+        cropBoxData.top -= offsetCropBoxHeight / 2;
       }
 
-      canvasData.width = newWidth;
-      canvasData.height = newHeight;
+      canvasData.width = newCanvasWidth;
+      canvasData.height = newCanvasHeight;
+      cropBoxData.width = newCropBoxWidth;
+      cropBoxData.height = newCropBoxHeight;
       this.renderCanvas(true);
     }
 
@@ -520,14 +559,7 @@ export default {
     const data = {};
 
     if (this.ready) {
-      forEach([
-        'left',
-        'top',
-        'width',
-        'height',
-        'naturalWidth',
-        'naturalHeight',
-      ], (n) => {
+      forEach(EXPORTED_DATA_KEY, (n) => {
         data[n] = canvasData[n];
       });
     }
@@ -573,18 +605,15 @@ export default {
    */
   getCropBoxData() {
     const { cropBoxData } = this;
-    let data;
+    const data = {};
 
     if (this.ready && this.cropped) {
-      data = {
-        left: cropBoxData.left,
-        top: cropBoxData.top,
-        width: cropBoxData.width,
-        height: cropBoxData.height,
-      };
+      forEach(EXPORTED_DATA_KEY, (n) => {
+        data[n] = cropBoxData[n];
+      });
     }
 
-    return data || {};
+    return data;
   },
 
   /**
