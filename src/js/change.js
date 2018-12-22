@@ -51,7 +51,7 @@ export default {
       aspectRatio = width && height ? width / height : 1;
     }
 
-    if (this.limited) {
+    if (options.viewMode > 0) {
       ({ minLeft, minTop } = cropBoxData);
       maxWidth = minLeft + Math.min(
         containerData.width,
@@ -463,7 +463,7 @@ export default {
           removeClass(this.cropBox, CLASS_HIDDEN);
           this.cropped = true;
 
-          if (this.limited) {
+          if (options.viewMode > 0) {
             this.limitCropBox(true, true);
           }
         }

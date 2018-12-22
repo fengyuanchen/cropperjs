@@ -95,7 +95,6 @@ export default {
     canvasData.oldLeft = canvasData.left;
     canvasData.oldTop = canvasData.top;
     this.canvasData = canvasData;
-    this.limited = (viewMode === 1 || viewMode === 2);
     this.limitCanvas(true, true);
     this.initialImageData = assign({}, imageData);
     this.initialCanvasData = assign({}, canvasData);
@@ -435,10 +434,6 @@ export default {
       translateX: cropBoxData.left,
       translateY: cropBoxData.top,
     })));
-
-    if (this.cropped && this.limited) {
-      this.limitCanvas(true, true);
-    }
 
     if (!this.disabled) {
       this.output();
