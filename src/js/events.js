@@ -44,7 +44,10 @@ export default {
     addListener(cropper, EVENT_POINTER_DOWN, (this.onCropStart = this.cropStart.bind(this)));
 
     if (options.zoomable && options.zoomOnWheel) {
-      addListener(cropper, EVENT_WHEEL, (this.onWheel = this.wheel.bind(this)));
+      addListener(cropper, EVENT_WHEEL, (this.onWheel = this.wheel.bind(this)), {
+        passive: false,
+        capture: true,
+      });
     }
 
     if (options.toggleDragModeOnDblclick) {
@@ -93,7 +96,10 @@ export default {
     removeListener(cropper, EVENT_POINTER_DOWN, this.onCropStart);
 
     if (options.zoomable && options.zoomOnWheel) {
-      removeListener(cropper, EVENT_WHEEL, this.onWheel);
+      removeListener(cropper, EVENT_WHEEL, this.onWheel, {
+        passive: false,
+        capture: true,
+      });
     }
 
     if (options.toggleDragModeOnDblclick) {

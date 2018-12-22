@@ -45,7 +45,7 @@ export const EVENT_POINTER_MOVE = WINDOW.PointerEvent ? 'pointermove' : 'touchmo
 export const EVENT_POINTER_UP = WINDOW.PointerEvent ? 'pointerup pointercancel' : 'touchend touchcancel mouseup';
 export const EVENT_READY = 'ready';
 export const EVENT_RESIZE = 'resize';
-export const EVENT_WHEEL = 'wheel mousewheel DOMMouseScroll';
+export const EVENT_WHEEL = 'wheel';
 export const EVENT_ZOOM = 'zoom';
 
 // Mime types
