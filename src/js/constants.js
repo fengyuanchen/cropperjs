@@ -1,5 +1,7 @@
-export const IN_BROWSER = typeof window !== 'undefined';
-export const WINDOW = IN_BROWSER ? window : {};
+export const IS_BROWSER = typeof window !== 'undefined';
+export const WINDOW = IS_BROWSER ? window : {};
+export const IS_TOUCH_DEVICE = IS_BROWSER ? 'ontouchstart' in WINDOW.document.documentElement : false;
+export const HAS_POINTER_EVENT = IS_BROWSER ? 'PointerEvent' in WINDOW : false;
 export const NAMESPACE = 'cropper';
 
 // Actions
@@ -40,9 +42,12 @@ export const EVENT_CROP_END = 'cropend';
 export const EVENT_CROP_MOVE = 'cropmove';
 export const EVENT_CROP_START = 'cropstart';
 export const EVENT_DBLCLICK = 'dblclick';
-export const EVENT_POINTER_DOWN = WINDOW.PointerEvent ? 'pointerdown' : 'touchstart mousedown';
-export const EVENT_POINTER_MOVE = WINDOW.PointerEvent ? 'pointermove' : 'touchmove mousemove';
-export const EVENT_POINTER_UP = WINDOW.PointerEvent ? 'pointerup pointercancel' : 'touchend touchcancel mouseup';
+export const EVENT_TOUCH_START = IS_TOUCH_DEVICE ? 'touchstart' : 'mousedown';
+export const EVENT_TOUCH_MOVE = IS_TOUCH_DEVICE ? 'touchmove' : 'mousemove';
+export const EVENT_TOUCH_END = IS_TOUCH_DEVICE ? 'touchend touchcancel' : 'mouseup';
+export const EVENT_POINTER_DOWN = HAS_POINTER_EVENT ? 'pointerdown' : EVENT_TOUCH_START;
+export const EVENT_POINTER_MOVE = HAS_POINTER_EVENT ? 'pointermove' : EVENT_TOUCH_MOVE;
+export const EVENT_POINTER_UP = HAS_POINTER_EVENT ? 'pointerup pointercancel' : EVENT_TOUCH_END;
 export const EVENT_READY = 'ready';
 export const EVENT_RESIZE = 'resize';
 export const EVENT_WHEEL = 'wheel';
@@ -56,3 +61,8 @@ export const REGEXP_ACTIONS = /^(?:e|w|s|n|se|sw|ne|nw|all|crop|move|zoom)$/;
 export const REGEXP_DATA_URL = /^data:/;
 export const REGEXP_DATA_URL_JPEG = /^data:image\/jpeg;base64,/;
 export const REGEXP_TAG_NAME = /^(?:img|canvas)$/i;
+
+// Misc
+// Inspired by the default width and height of a canvas element.
+export const MIN_CONTAINER_WIDTH = 300;
+export const MIN_CONTAINER_HEIGHT = 150;

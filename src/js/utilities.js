@@ -1,4 +1,4 @@
-import { IN_BROWSER, WINDOW } from './constants';
+import { IS_BROWSER, WINDOW } from './constants';
 
 /**
  * Check if the given value is not a number.
@@ -49,7 +49,7 @@ export function isPlainObject(value) {
     const { prototype } = constructor;
 
     return constructor && prototype && hasOwnProperty.call(prototype, 'isPrototypeOf');
-  } catch (e) {
+  } catch (error) {
     return false;
   }
 }
@@ -146,7 +146,7 @@ export function setStyle(element, styles) {
 
   forEach(styles, (value, property) => {
     if (REGEXP_SUFFIX.test(property) && isNumber(value)) {
-      value += 'px';
+      value = `${value}px`;
     }
 
     style[property] = value;
@@ -303,14 +303,14 @@ export function removeData(element, name) {
   if (isObject(element[name])) {
     try {
       delete element[name];
-    } catch (e) {
+    } catch (error) {
       element[name] = undefined;
     }
   } else if (element.dataset) {
     // #128 Safari not allows to delete dataset property
     try {
       delete element.dataset[name];
-    } catch (e) {
+    } catch (error) {
       element.dataset[name] = undefined;
     }
   } else {
@@ -322,7 +322,7 @@ const REGEXP_SPACES = /\s\s*/;
 const onceSupported = (() => {
   let supported = false;
 
-  if (IN_BROWSER) {
+  if (IS_BROWSER) {
     let once = false;
     const listener = () => {};
     const options = Object.defineProperty({}, 'once', {
@@ -812,6 +812,8 @@ export function dataURLToArrayBuffer(dataURL) {
  */
 export function arrayBufferToDataURL(arrayBuffer, mimeType) {
   const chunks = [];
+
+  // Chunk Typed Array for better performance (#435)
   const chunkSize = 8192;
   let uint8 = new Uint8Array(arrayBuffer);
 
@@ -897,7 +899,7 @@ export function resetAndGetOrientation(arrayBuffer) {
         }
       }
     }
-  } catch (e) {
+  } catch (error) {
     orientation = 1;
   }
 

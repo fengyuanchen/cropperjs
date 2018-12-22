@@ -21,7 +21,7 @@ import {
 } from './utilities';
 
 export default {
-  change(e) {
+  change(event) {
     const {
       options,
       canvasData,
@@ -47,7 +47,7 @@ export default {
     let offset;
 
     // Locking aspect ratio in "free mode" by holding shift key
-    if (!aspectRatio && e.shiftKey) {
+    if (!aspectRatio && event.shiftKey) {
       aspectRatio = width && height ? width / height : 1;
     }
 
@@ -430,7 +430,7 @@ export default {
 
       // Zoom canvas
       case ACTION_ZOOM:
-        this.zoom(getMaxZoomRatio(pointers), e);
+        this.zoom(getMaxZoomRatio(pointers), event);
         renderable = false;
         break;
 
