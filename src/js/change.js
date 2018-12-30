@@ -44,7 +44,6 @@ export default {
     let maxWidth = containerData.width;
     let maxHeight = containerData.height;
     let renderable = true;
-    let offset;
 
     // Locking aspect ratio in "free mode" by holding shift key
     if (!aspectRatio && event.shiftKey) {
@@ -435,23 +434,37 @@ export default {
         break;
 
       // Create crop box
-      case ACTION_CROP:
-        if (!range.x || !range.y) {
+      case ACTION_CROP: {
+        if (range.x && range.y) {
+          const degreesX = (Math.atan(Math.abs(range.x) / Math.abs(range.y)) * 180) / Math.PI;
+
+          if (degreesX < 5) {
+            action = range.y > 0 ? ACTION_SOUTH : ACTION_NORTH;
+          } else if (degreesX > 85) {
+            action = range.y > 0 ? ACTION_EAST : ACTION_WEST;
+          } else if (range.x > 0) {
+            action = range.y > 0 ? ACTION_SOUTH_EAST : ACTION_NORTH_EAST;
+          } else {
+            action = range.y > 0 ? ACTION_SOUTH_WEST : ACTION_NORTH_WEST;
+          }
+        } else if (Math.abs(range.x) > 1) {
+          action = range.x > 0 ? ACTION_EAST : ACTION_WEST;
+        } else if (Math.abs(range.y) > 1) {
+          action = range.y > 0 ? ACTION_SOUTH : ACTION_NORTH;
+        } else {
           renderable = false;
           break;
         }
 
-        offset = getOffset(this.cropper);
+        const offset = getOffset(this.cropper);
+
         left = pointer.startX - offset.left;
         top = pointer.startY - offset.top;
         width = cropBoxData.minWidth;
         height = cropBoxData.minHeight;
 
-        if (range.x > 0) {
-          action = range.y > 0 ? ACTION_SOUTH_EAST : ACTION_NORTH_EAST;
-        } else if (range.x < 0) {
+        if (range.x < 0) {
           left -= width;
-          action = range.y > 0 ? ACTION_SOUTH_WEST : ACTION_NORTH_WEST;
         }
 
         if (range.y < 0) {
@@ -469,6 +482,7 @@ export default {
         }
 
         break;
+      }
 
       default:
     }
