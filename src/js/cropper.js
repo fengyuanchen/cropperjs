@@ -16,7 +16,6 @@ import {
   EVENT_READY,
   MIME_TYPE_JPEG,
   NAMESPACE,
-  REGEXP_DATA_URL,
   REGEXP_DATA_URL_JPEG,
   REGEXP_TAG_NAME,
   WINDOW,
@@ -116,14 +115,9 @@ class Cropper {
       return;
     }
 
-    // XMLHttpRequest disallows to open a Data URL in some browsers like IE11 and Safari
-    if (REGEXP_DATA_URL.test(url)) {
-      if (REGEXP_DATA_URL_JPEG.test(url)) {
-        this.read(dataURLToArrayBuffer(url));
-      } else {
-        this.clone();
-      }
-
+    // Read ArrayBuffer from Data URL of JPEG images directly for better performance.
+    if (REGEXP_DATA_URL_JPEG.test(url)) {
+      this.read(dataURLToArrayBuffer(url));
       return;
     }
 
@@ -132,9 +126,14 @@ class Cropper {
 
     this.reloading = true;
     this.xhr = xhr;
-    xhr.ontimeout = clone;
+
+    // 1. Cross origin requests are only supported for protocol schemes:
+    // http, https, data, chrome, chrome-extension.
+    // 2. Access to XMLHttpRequest from a Data URL will be blocked by CORS policy
+    // in some browsers as IE11 and Safari.
     xhr.onabort = clone;
     xhr.onerror = clone;
+    xhr.ontimeout = clone;
 
     xhr.onprogress = () => {
       if (xhr.getResponseHeader('content-type') !== MIME_TYPE_JPEG) {
