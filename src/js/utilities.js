@@ -15,6 +15,13 @@ export function isNumber(value) {
 }
 
 /**
+ * Check if the given value is a positive number.
+ * @param {*} value - The value to check.
+ * @returns {boolean} Returns `true` if the given value is a positive number, else `false`.
+ */
+export const isPositiveNumber = value => value > 0 && value < Infinity;
+
+/**
  * Check if the given value is undefined.
  * @param {*} value - The value to check.
  * @returns {boolean} Returns `true` if the given value is undefined, else `false`.
@@ -63,6 +70,17 @@ export function isFunction(value) {
   return typeof value === 'function';
 }
 
+const { slice } = Array.prototype;
+
+/**
+ * Convert array-like or iterable object to an array.
+ * @param {*} value - The value to convert.
+ * @returns {Array} Returns a new array.
+ */
+export function toArray(value) {
+  return Array.from ? Array.from(value) : slice.call(value);
+}
+
 /**
  * Iterate the given data.
  * @param {*} data - The data to iterate.
@@ -72,14 +90,9 @@ export function isFunction(value) {
 export function forEach(data, callback) {
   if (data && isFunction(callback)) {
     if (Array.isArray(data) || isNumber(data.length)/* array-like */) {
-      const { length } = data;
-      let i;
-
-      for (i = 0; i < length; i += 1) {
-        if (callback.call(data, data[i], i, data) === false) {
-          break;
-        }
-      }
+      toArray(data).forEach((value, key) => {
+        callback.call(data, value, key, data);
+      });
     } else if (isObject(data)) {
       Object.keys(data).forEach((key) => {
         callback.call(data, data[key], key, data);
@@ -92,34 +105,23 @@ export function forEach(data, callback) {
 
 /**
  * Extend the given object.
- * @param {*} obj - The object to be extended.
- * @param {*} args - The rest objects which will be merged to the first object.
+ * @param {*} target - The target object to extend.
+ * @param {*} args - The rest objects for merging to the target object.
  * @returns {Object} The extended object.
  */
-export const assign = Object.assign || function assign(obj, ...args) {
-  if (isObject(obj) && args.length > 0) {
+export const assign = Object.assign || function assign(target, ...args) {
+  if (isObject(target) && args.length > 0) {
     args.forEach((arg) => {
       if (isObject(arg)) {
         Object.keys(arg).forEach((key) => {
-          obj[key] = arg[key];
+          target[key] = arg[key];
         });
       }
     });
   }
 
-  return obj;
+  return target;
 };
-
-const { slice } = Array.prototype;
-
-/**
- * Convert array-like or iterable object to an array.
- * @param {*} value - The value to convert.
- * @returns {Array} Returns a new array.
- */
-export function toArray(value) {
-  return Array.from ? Array.from(value) : slice.call(value);
-}
 
 const REGEXP_DECIMALS = /\.\d*(?:0|9){12}\d*$/;
 
@@ -134,7 +136,7 @@ export function normalizeDecimalNumber(value, times = 100000000000) {
   return REGEXP_DECIMALS.test(value) ? (Math.round(value * times) / times) : value;
 }
 
-const REGEXP_SUFFIX = /^(?:width|height|left|top|marginLeft|marginTop)$/;
+const REGEXP_SUFFIX = /^width|height|left|top|marginLeft|marginTop$/;
 
 /**
  * Apply styles to the given element.
@@ -249,15 +251,15 @@ export function toggleClass(element, value, added) {
   }
 }
 
-const REGEXP_HYPHENATE = /([a-z\d])([A-Z])/g;
+const REGEXP_CAMEL_CASE = /([a-z\d])([A-Z])/g;
 
 /**
  * Transform the given string from camelCase to kebab-case
  * @param {string} value - The value to transform.
  * @returns {string} The transformed value.
  */
-export function hyphenate(value) {
-  return value.replace(REGEXP_HYPHENATE, '$1-$2').toLowerCase();
+export function toParamCase(value) {
+  return value.replace(REGEXP_CAMEL_CASE, '$1-$2').toLowerCase();
 }
 
 /**
@@ -275,7 +277,7 @@ export function getData(element, name) {
     return element.dataset[name];
   }
 
-  return element.getAttribute(`data-${hyphenate(name)}`);
+  return element.getAttribute(`data-${toParamCase(name)}`);
 }
 
 /**
@@ -290,7 +292,7 @@ export function setData(element, name, data) {
   } else if (element.dataset) {
     element.dataset[name] = data;
   } else {
-    element.setAttribute(`data-${hyphenate(name)}`, data);
+    element.setAttribute(`data-${toParamCase(name)}`, data);
   }
 }
 
@@ -314,7 +316,7 @@ export function removeData(element, name) {
       element.dataset[name] = undefined;
     }
   } else {
-    element.removeAttribute(`data-${hyphenate(name)}`);
+    element.removeAttribute(`data-${toParamCase(name)}`);
   }
 }
 
@@ -456,7 +458,7 @@ export function getOffset(element) {
 }
 
 const { location } = WINDOW;
-const REGEXP_ORIGINS = /^(https?:)\/\/([^:/?#]+):?(\d*)/i;
+const REGEXP_ORIGINS = /^(\w+:)\/\/([^:/?#]*):?(\d*)/i;
 
 /**
  * Check if the given URL is a cross origin URL.
@@ -466,7 +468,7 @@ const REGEXP_ORIGINS = /^(https?:)\/\/([^:/?#]+):?(\d*)/i;
 export function isCrossOriginURL(url) {
   const parts = url.match(REGEXP_ORIGINS);
 
-  return parts && (
+  return parts !== null && (
     parts[1] !== location.protocol
     || parts[2] !== location.hostname
     || parts[3] !== location.port
@@ -602,11 +604,6 @@ export function getPointersCenter(pointers) {
 }
 
 /**
- * Check if the given value is a finite number.
- */
-export const isFinite = Number.isFinite || WINDOW.isFinite;
-
-/**
  * Get the max sizes in a rectangle under the given aspect ratio.
  * @param {Object} data - The original sizes.
  * @param {string} [type='contain'] - The adjust type.
@@ -620,9 +617,10 @@ export function getAdjustedSizes(
   },
   type = 'contain', // or 'cover'
 ) {
-  const isValidNumber = value => isFinite(value) && value > 0;
+  const isValidWidth = isPositiveNumber(width);
+  const isValidHeight = isPositiveNumber(height);
 
-  if (isValidNumber(width) && isValidNumber(height)) {
+  if (isValidWidth && isValidHeight) {
     const adjustedWidth = height * aspectRatio;
 
     if ((type === 'contain' && adjustedWidth > width) || (type === 'cover' && adjustedWidth < width)) {
@@ -630,9 +628,9 @@ export function getAdjustedSizes(
     } else {
       width = height * aspectRatio;
     }
-  } else if (isValidNumber(width)) {
+  } else if (isValidWidth) {
     height = width / aspectRatio;
-  } else if (isValidNumber(height)) {
+  } else if (isValidHeight) {
     width = height * aspectRatio;
   }
 
@@ -773,11 +771,10 @@ const { fromCharCode } = String;
  */
 export function getStringFromCharCode(dataView, start, length) {
   let str = '';
-  let i;
 
   length += start;
 
-  for (i = start; i < length; i += 1) {
+  for (let i = start; i < length; i += 1) {
     str += fromCharCode(dataView.getUint8(i));
   }
 
