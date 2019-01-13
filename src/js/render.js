@@ -24,6 +24,9 @@ export default {
     this.initContainer();
     this.initCanvas();
     this.initCropBox();
+    this.initialImageData = assign({}, this.imageData);
+    this.initialCanvasData = assign({}, this.canvasData);
+    this.initialCropBoxData = assign({}, this.cropBoxData);
     this.renderCanvas();
 
     if (this.cropped) {
@@ -96,8 +99,6 @@ export default {
     canvasData.oldTop = canvasData.top;
     this.canvasData = canvasData;
     this.limitCanvas(true, true);
-    this.initialImageData = assign({}, imageData);
-    this.initialCanvasData = assign({}, canvasData);
   },
 
   limitCanvas(sizeLimited = false, positionLimited = false) {
@@ -166,7 +167,7 @@ export default {
   },
 
   renderCanvas(changed = false, transformed = false) {
-    const { options, canvasData, imageData } = this;
+    const { imageData, canvasData, cropBoxData } = this;
 
     if (transformed) {
       const { width: naturalWidth, height: naturalHeight } = getRotatedSizes({
@@ -215,6 +216,15 @@ export default {
       Math.max(canvasData.top, canvasData.minTop),
       canvasData.maxTop,
     );
+
+    if (canvasData.left === canvasData.oldLeft) {
+      cropBoxData.left = cropBoxData.oldLeft;
+    }
+
+    if (canvasData.top === canvasData.oldTop) {
+      cropBoxData.top = cropBoxData.oldTop;
+    }
+
     canvasData.oldLeft = canvasData.left;
     canvasData.oldTop = canvasData.top;
 
@@ -230,7 +240,10 @@ export default {
 
     if (changed) {
       if (this.cropped) {
-        if (options.viewMode > 0) {
+        // Reinitialize the crop box when the canvas rotated or scaled.
+        if (transformed) {
+          this.initCropBox();
+        } else {
           this.limitCropBox(true, true);
         }
 
@@ -242,7 +255,7 @@ export default {
   },
 
   renderImage() {
-    const { canvasData, imageData } = this;
+    const { imageData, canvasData } = this;
     const width = imageData.naturalWidth * (canvasData.width / canvasData.naturalWidth);
     const height = imageData.naturalHeight * (canvasData.height / canvasData.naturalHeight);
 
@@ -313,7 +326,6 @@ export default {
     cropBoxData.oldTop = cropBoxData.top;
     cropBoxData.naturalWidth = cropBoxData.width / canvasData.scale;
     cropBoxData.naturalHeight = cropBoxData.height / canvasData.scale;
-    this.initialCropBoxData = assign({}, cropBoxData);
   },
 
   limitCropBox(sizeLimited = false, positionLimited = false) {
@@ -422,7 +434,7 @@ export default {
     cropBoxData.naturalHeight = cropBoxData.height / canvasData.scale;
 
     if (options.movable && options.cropBoxMovable) {
-      // Turn to move the canvas when the crop box is equal to the container
+      // Turn to move the canvas when the crop box is not less than the container
       setData(this.face, DATA_ACTION, cropBoxData.width >= containerData.width
         && cropBoxData.height >= containerData.height ? ACTION_MOVE : ACTION_ALL);
     }
