@@ -47,6 +47,7 @@ export const EVENT_READY = 'ready';
 export const EVENT_RESIZE = 'resize';
 export const EVENT_WHEEL = 'wheel mousewheel DOMMouseScroll';
 export const EVENT_ZOOM = 'zoom';
+export const EVENT_RIGHT_CLICK = 'contextmenu';
 
 // Mime types
 export const MIME_TYPE_JPEG = 'image/jpeg';

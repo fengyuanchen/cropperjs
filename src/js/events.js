@@ -10,6 +10,7 @@ import {
   EVENT_RESIZE,
   EVENT_WHEEL,
   EVENT_ZOOM,
+  EVENT_RIGHT_CLICK
 } from './constants';
 import {
   addListener,
@@ -23,6 +24,10 @@ export default {
 
     if (isFunction(options.cropstart)) {
       addListener(element, EVENT_CROP_START, options.cropstart);
+    }
+
+    if (isFunction(options.rightClick)) {
+      addListener(element.ownerDocument, EVENT_RIGHT_CLICK, options.rightClick);
     }
 
     if (isFunction(options.cropmove)) {
@@ -72,6 +77,10 @@ export default {
 
     if (isFunction(options.cropstart)) {
       removeListener(element, EVENT_CROP_START, options.cropstart);
+    }
+
+    if (isFunction(options.rightClick)) {
+      removeListener(element, EVENT_RIGHT_CLICK, options.rightClick);
     }
 
     if (isFunction(options.cropmove)) {
