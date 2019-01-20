@@ -22,6 +22,7 @@ import {
   getData,
   getPointer,
   hasClass,
+  isNumber,
   toggleClass,
 } from './utilities';
 
@@ -102,7 +103,19 @@ export default {
   },
 
   cropStart(event) {
-    if (this.disabled) {
+    const { buttons, button } = event;
+
+    if (
+      this.disabled
+
+      // No primary button (Usually the left button)
+      // Note that touch events have no `buttons` or `button` property
+      || (isNumber(buttons) && buttons !== 1)
+      || (isNumber(button) && button !== 0)
+
+      // Open context menu
+      || event.ctrlKey
+    ) {
       return;
     }
 

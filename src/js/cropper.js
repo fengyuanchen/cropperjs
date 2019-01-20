@@ -163,14 +163,16 @@ class Cropper {
 
   read(arrayBuffer) {
     const { options, imageData } = this;
+
+    // Reset the orientation value to its default value 1
+    // as some iOS browsers will render image with its orientation
     const orientation = resetAndGetOrientation(arrayBuffer);
     let rotate = 0;
     let scaleX = 1;
     let scaleY = 1;
 
     if (orientation > 1) {
-      // Generate a new Data URL with the orientation value set to 1
-      // as some iOS browsers will render image with its orientation
+      // Generate a new URL which has the default orientation value
       this.url = arrayBufferToDataURL(arrayBuffer, MIME_TYPE_JPEG);
       ({ rotate, scaleX, scaleY } = parseOrientation(orientation));
     }
