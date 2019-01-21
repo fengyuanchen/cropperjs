@@ -441,6 +441,13 @@ A shortcut of the "ready" event.
 
 A shortcut of the "cropstart" event.
 
+### righttap
+
+- Type: `Function`
+- Default: `null`
+
+Handle "contextmenu" event.
+
 ### cropmove
 
 - Type: `Function`

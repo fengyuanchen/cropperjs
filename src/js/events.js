@@ -26,8 +26,8 @@ export default {
       addListener(element, EVENT_CROP_START, options.cropstart);
     }
 
-    if (isFunction(options.rightClick)) {
-      addListener(element.ownerDocument, EVENT_RIGHT_CLICK, options.rightClick);
+    if (isFunction(options.righttap)) {
+      addListener(element.ownerDocument, EVENT_RIGHT_CLICK, options.righttap);
     }
 
     if (isFunction(options.cropmove)) {
@@ -79,8 +79,8 @@ export default {
       removeListener(element, EVENT_CROP_START, options.cropstart);
     }
 
-    if (isFunction(options.rightClick)) {
-      removeListener(element, EVENT_RIGHT_CLICK, options.rightClick);
+    if (isFunction(options.righttap)) {
+      removeListener(element, EVENT_RIGHT_CLICK, options.righttap);
     }
 
     if (isFunction(options.cropmove)) {
