@@ -1,14 +1,7 @@
-describe('cropend (option)', () => {
+describe('righttap (option)', () => {
   const CONTEXT_MENU = 'contextmenu';
 
-  it('should be `null` be default', () => {
-    const image = window.createImage();
-    const cropper = new Cropper(image);
-
-    expect(cropper.options.righttap).to.be.null;
-  });
-
-  it('should execute the `cropend` hook function', (done) => {
+  it('should execute the `righttap` hook function', (done) => {
     const image = window.createImage();
     const cropper = new Cropper(image, {
       ready() {
@@ -18,7 +11,7 @@ describe('cropend (option)', () => {
       },
 
       righttap(event) {
-        expect(event.type).to.equal('righttap');
+        expect(event.type).to.equal('contextmenu');
         done();
       },
     });
