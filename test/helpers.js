@@ -16,6 +16,25 @@ window.createImage = (attrs = {}) => {
   return image;
 };
 
+window.generateImage = (attrs = {}) => {
+  const container = document.createElement('div');
+  const canvas = document.createElement('canvas');
+
+  Object.keys(attrs).forEach((attr) => {
+    canvas[attr] = attrs[attr];
+  });
+
+  const image = window.createImage({
+    ...attrs,
+    src: canvas.toDataURL('image/jpeg', 1.0),
+  });
+
+  container.appendChild(image);
+  document.body.appendChild(container);
+
+  return image;
+};
+
 window.createEvent = (type, data) => {
   let event;
 

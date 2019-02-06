@@ -68,4 +68,24 @@ describe('setData (method)', () => {
       },
     });
   });
+
+  it('should expect ratio to not overflow when changing x position using viewMode 1', (done) => {
+    const image = window.generateImage({ width: 600, height: 314 });
+    const container = image.parentNode;
+    container.style.height = '290px';
+    container.style.width = '290px';
+    const crop = { x: 0, width: 314 };
+
+    const cropper = new Cropper(image, {
+      aspectRatio: 1,
+      viewMode: 1,
+      ready() {
+        cropper.setData(crop);
+        const cropBoxData = cropper.getCropBoxData();
+
+        expect(cropBoxData.left).to.equal(0);
+        done();
+      },
+    });
+  });
 });

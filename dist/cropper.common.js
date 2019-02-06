@@ -5,7 +5,7 @@
  * Copyright 2015-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2018-10-24T13:07:15.032Z
+ * Date: 2019-02-06T09:29:35.248Z
  */
 
 'use strict';
@@ -2696,7 +2696,7 @@ var methods = {
         width: cropBoxData.width,
         height: cropBoxData.height
       };
-      var ratio = imageData.width / imageData.naturalWidth;
+      var ratio = parseFloat((imageData.width / imageData.naturalWidth).toFixed(15));
       forEach(data, function (n, i) {
         data[i] = n / ratio;
       });
@@ -2769,7 +2769,7 @@ var methods = {
         this.renderCanvas(true, true);
       }
 
-      var ratio = imageData.width / imageData.naturalWidth;
+      var ratio = parseFloat((imageData.width / imageData.naturalWidth).toFixed(15));
 
       if (isNumber(data.x)) {
         cropBoxData.left = data.x * ratio + canvasData.left;

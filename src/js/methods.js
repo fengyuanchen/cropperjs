@@ -398,7 +398,7 @@ export default {
         height: cropBoxData.height,
       };
 
-      const ratio = imageData.width / imageData.naturalWidth;
+      const ratio = parseFloat((imageData.width / imageData.naturalWidth).toFixed(15));
 
       forEach(data, (n, i) => {
         data[i] = n / ratio;
@@ -471,7 +471,7 @@ export default {
         this.renderCanvas(true, true);
       }
 
-      const ratio = imageData.width / imageData.naturalWidth;
+      const ratio = parseFloat((imageData.width / imageData.naturalWidth).toFixed(15));
 
       if (isNumber(data.x)) {
         cropBoxData.left = (data.x * ratio) + canvasData.left;
