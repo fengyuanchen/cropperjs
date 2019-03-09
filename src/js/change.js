@@ -435,23 +435,33 @@ export default {
 
       // Create crop box
       case ACTION_CROP: {
+        action = '';
+
         if (range.x && range.y) {
           const degreesX = (Math.atan(Math.abs(range.x) / Math.abs(range.y)) * 180) / Math.PI;
 
           if (degreesX < 5) {
-            action = range.y > 0 ? ACTION_SOUTH : ACTION_NORTH;
+            if (aspectRatio) {
+              action = range.y > 0 ? ACTION_SOUTH : ACTION_NORTH;
+            }
           } else if (degreesX > 85) {
-            action = range.y > 0 ? ACTION_EAST : ACTION_WEST;
+            if (aspectRatio) {
+              action = range.y > 0 ? ACTION_EAST : ACTION_WEST;
+            }
           } else if (range.x > 0) {
             action = range.y > 0 ? ACTION_SOUTH_EAST : ACTION_NORTH_EAST;
           } else {
             action = range.y > 0 ? ACTION_SOUTH_WEST : ACTION_NORTH_WEST;
           }
-        } else if (Math.abs(range.x) > 1) {
-          action = range.x > 0 ? ACTION_EAST : ACTION_WEST;
-        } else if (Math.abs(range.y) > 1) {
-          action = range.y > 0 ? ACTION_SOUTH : ACTION_NORTH;
-        } else {
+        } else if (aspectRatio) {
+          if (Math.abs(range.x) > 1) {
+            action = range.x > 0 ? ACTION_EAST : ACTION_WEST;
+          } else if (Math.abs(range.y) > 1) {
+            action = range.y > 0 ? ACTION_SOUTH : ACTION_NORTH;
+          }
+        }
+
+        if (!action) {
           renderable = false;
           break;
         }
