@@ -23,7 +23,10 @@ describe('restore (option)', () => {
       restore: false,
 
       ready() {
-        const data = cropper.zoomTo(1).getData(true);
+        const data = cropper.setCropBoxData({
+          left: 0,
+          top: 0,
+        }).getData(true);
         const containerData = cropper.getContainerData();
 
         image.parentElement.style.width = `${containerData.width / 2}px`;
