@@ -40,8 +40,8 @@ describe('viewMode (option)', () => {
           height: canvasData.naturalHeight,
         }).getCropBoxData();
 
-        expect(canvasData.width).to.be.above(cropBoxData.width);
-        expect(canvasData.height).to.be.above(cropBoxData.height);
+        expect(canvasData.width).to.be.least(cropBoxData.width);
+        expect(canvasData.height).to.be.least(cropBoxData.height);
         done();
       },
     });

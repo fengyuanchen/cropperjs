@@ -15,12 +15,12 @@ describe('zoom (option)', () => {
 
       zoom(event) {
         expect(event.type).to.equal('zoom');
-        expect(event.detail).to.be.an('object').that.has.all.keys(['ratio', 'oldRatio', 'originalEvent']);
-        expect(event.detail.ratio).to.be.a('number');
-        expect(event.detail.oldRatio).to.be.a('number');
-        expect(event.detail.ratio).to.be.above(0);
-        expect(event.detail.oldRatio).to.be.above(0);
-        expect(event.detail.ratio).to.be.above(event.detail.oldRatio);
+        expect(event.detail).to.be.an('object').that.has.all.keys(['scale', 'oldScale', 'originalEvent']);
+        expect(event.detail.scale).to.be.a('number');
+        expect(event.detail.oldScale).to.be.a('number');
+        expect(event.detail.scale).to.be.above(0);
+        expect(event.detail.oldScale).to.be.above(0);
+        expect(event.detail.scale).to.be.above(event.detail.oldScale);
         done();
       },
     });

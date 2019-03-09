@@ -179,7 +179,7 @@ describe('getCroppedCanvas (method)', () => {
     const image = window.createImage();
     const cropper = new Cropper(image, {
       ready() {
-        const canvas = cropper.zoomTo(0.1).getCroppedCanvas({
+        const canvas = cropper.clear().zoomTo(0.1).crop().getCroppedCanvas({
           fillColor: '#010101',
         });
         const pixelData = canvas.getContext('2d').getImageData(0, 0, 1, 1).data;

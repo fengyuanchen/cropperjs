@@ -13,11 +13,13 @@ describe('getCropBoxData (method)', () => {
       ready() {
         const cropBoxData = cropper.getCropBoxData();
 
-        expect(cropBoxData).to.be.an('object').that.has.all.keys(['left', 'top', 'width', 'height']);
+        expect(cropBoxData).to.be.an('object').that.has.all.keys(['left', 'top', 'width', 'height', 'naturalWidth', 'naturalHeight']);
         expect(cropBoxData.left).to.be.a('number');
         expect(cropBoxData.top).to.be.a('number');
         expect(cropBoxData.width).to.be.a('number');
         expect(cropBoxData.height).to.be.a('number');
+        expect(cropBoxData.naturalWidth).to.be.a('number');
+        expect(cropBoxData.naturalHeight).to.be.a('number');
         done();
       },
     });
