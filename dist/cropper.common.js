@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v1.4.3
+ * Cropper.js v1.5.0
  * https://fengyuanchen.github.io/cropperjs
  *
  * Copyright 2015-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2018-10-24T13:07:15.032Z
+ * Date: 2019-03-10T09:05:11.521Z
  */
 
 'use strict';
@@ -66,8 +66,10 @@ function _nonIterableSpread() {
   throw new TypeError("Invalid attempt to spread non-iterable instance");
 }
 
-var IN_BROWSER = typeof window !== 'undefined';
-var WINDOW = IN_BROWSER ? window : {};
+var IS_BROWSER = typeof window !== 'undefined';
+var WINDOW = IS_BROWSER ? window : {};
+var IS_TOUCH_DEVICE = IS_BROWSER ? 'ontouchstart' in WINDOW.document.documentElement : false;
+var HAS_POINTER_EVENT = IS_BROWSER ? 'PointerEvent' in WINDOW : false;
 var NAMESPACE = 'cropper'; // Actions
 
 var ACTION_ALL = 'all';
@@ -103,20 +105,26 @@ var EVENT_CROP_END = 'cropend';
 var EVENT_CROP_MOVE = 'cropmove';
 var EVENT_CROP_START = 'cropstart';
 var EVENT_DBLCLICK = 'dblclick';
-var EVENT_POINTER_DOWN = WINDOW.PointerEvent ? 'pointerdown' : 'touchstart mousedown';
-var EVENT_POINTER_MOVE = WINDOW.PointerEvent ? 'pointermove' : 'touchmove mousemove';
-var EVENT_POINTER_UP = WINDOW.PointerEvent ? 'pointerup pointercancel' : 'touchend touchcancel mouseup';
+var EVENT_TOUCH_START = IS_TOUCH_DEVICE ? 'touchstart' : 'mousedown';
+var EVENT_TOUCH_MOVE = IS_TOUCH_DEVICE ? 'touchmove' : 'mousemove';
+var EVENT_TOUCH_END = IS_TOUCH_DEVICE ? 'touchend touchcancel' : 'mouseup';
+var EVENT_POINTER_DOWN = HAS_POINTER_EVENT ? 'pointerdown' : EVENT_TOUCH_START;
+var EVENT_POINTER_MOVE = HAS_POINTER_EVENT ? 'pointermove' : EVENT_TOUCH_MOVE;
+var EVENT_POINTER_UP = HAS_POINTER_EVENT ? 'pointerup pointercancel' : EVENT_TOUCH_END;
 var EVENT_READY = 'ready';
 var EVENT_RESIZE = 'resize';
-var EVENT_WHEEL = 'wheel mousewheel DOMMouseScroll';
+var EVENT_WHEEL = 'wheel';
 var EVENT_ZOOM = 'zoom'; // Mime types
 
 var MIME_TYPE_JPEG = 'image/jpeg'; // RegExps
 
-var REGEXP_ACTIONS = /^(?:e|w|s|n|se|sw|ne|nw|all|crop|move|zoom)$/;
-var REGEXP_DATA_URL = /^data:/;
+var REGEXP_ACTIONS = /^e|w|s|n|se|sw|ne|nw|all|crop|move|zoom$/;
 var REGEXP_DATA_URL_JPEG = /^data:image\/jpeg;base64,/;
-var REGEXP_TAG_NAME = /^(?:img|canvas)$/i;
+var REGEXP_TAG_NAME = /^img|canvas$/i; // Misc
+// Inspired by the default width and height of a canvas element.
+
+var MIN_CONTAINER_WIDTH = 300;
+var MIN_CONTAINER_HEIGHT = 150;
 
 var DEFAULTS = {
   // Define the view mode of the cropper
@@ -208,6 +216,15 @@ function isNumber(value) {
   return typeof value === 'number' && !isNaN(value);
 }
 /**
+ * Check if the given value is a positive number.
+ * @param {*} value - The value to check.
+ * @returns {boolean} Returns `true` if the given value is a positive number, else `false`.
+ */
+
+var isPositiveNumber = function isPositiveNumber(value) {
+  return value > 0 && value < Infinity;
+};
+/**
  * Check if the given value is undefined.
  * @param {*} value - The value to check.
  * @returns {boolean} Returns `true` if the given value is undefined, else `false`.
@@ -241,7 +258,7 @@ function isPlainObject(value) {
     var _constructor = value.constructor;
     var prototype = _constructor.prototype;
     return _constructor && prototype && hasOwnProperty.call(prototype, 'isPrototypeOf');
-  } catch (e) {
+  } catch (error) {
     return false;
   }
 }
@@ -253,6 +270,16 @@ function isPlainObject(value) {
 
 function isFunction(value) {
   return typeof value === 'function';
+}
+var slice = Array.prototype.slice;
+/**
+ * Convert array-like or iterable object to an array.
+ * @param {*} value - The value to convert.
+ * @returns {Array} Returns a new array.
+ */
+
+function toArray(value) {
+  return Array.from ? Array.from(value) : slice.call(value);
 }
 /**
  * Iterate the given data.
@@ -266,14 +293,9 @@ function forEach(data, callback) {
     if (Array.isArray(data) || isNumber(data.length)
     /* array-like */
     ) {
-        var length = data.length;
-        var i;
-
-        for (i = 0; i < length; i += 1) {
-          if (callback.call(data, data[i], i, data) === false) {
-            break;
-          }
-        }
+        toArray(data).forEach(function (value, key) {
+          callback.call(data, value, key, data);
+        });
       } else if (isObject(data)) {
       Object.keys(data).forEach(function (key) {
         callback.call(data, data[key], key, data);
@@ -285,27 +307,27 @@ function forEach(data, callback) {
 }
 /**
  * Extend the given object.
- * @param {*} obj - The object to be extended.
- * @param {*} args - The rest objects which will be merged to the first object.
+ * @param {*} target - The target object to extend.
+ * @param {*} args - The rest objects for merging to the target object.
  * @returns {Object} The extended object.
  */
 
-var assign = Object.assign || function assign(obj) {
+var assign = Object.assign || function assign(target) {
   for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
     args[_key - 1] = arguments[_key];
   }
 
-  if (isObject(obj) && args.length > 0) {
+  if (isObject(target) && args.length > 0) {
     args.forEach(function (arg) {
       if (isObject(arg)) {
         Object.keys(arg).forEach(function (key) {
-          obj[key] = arg[key];
+          target[key] = arg[key];
         });
       }
     });
   }
 
-  return obj;
+  return target;
 };
 var REGEXP_DECIMALS = /\.\d*(?:0|9){12}\d*$/;
 /**
@@ -320,7 +342,7 @@ function normalizeDecimalNumber(value) {
   var times = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 100000000000;
   return REGEXP_DECIMALS.test(value) ? Math.round(value * times) / times : value;
 }
-var REGEXP_SUFFIX = /^(?:width|height|left|top|marginLeft|marginTop)$/;
+var REGEXP_SUFFIX = /^width|height|left|top|marginLeft|marginTop$/;
 /**
  * Apply styles to the given element.
  * @param {Element} element - The target element.
@@ -331,7 +353,7 @@ function setStyle(element, styles) {
   var style = element.style;
   forEach(styles, function (value, property) {
     if (REGEXP_SUFFIX.test(property) && isNumber(value)) {
-      value += 'px';
+      value = "".concat(value, "px");
     }
 
     style[property] = value;
@@ -431,15 +453,15 @@ function toggleClass(element, value, added) {
     removeClass(element, value);
   }
 }
-var REGEXP_HYPHENATE = /([a-z\d])([A-Z])/g;
+var REGEXP_CAMEL_CASE = /([a-z\d])([A-Z])/g;
 /**
  * Transform the given string from camelCase to kebab-case
  * @param {string} value - The value to transform.
  * @returns {string} The transformed value.
  */
 
-function hyphenate(value) {
-  return value.replace(REGEXP_HYPHENATE, '$1-$2').toLowerCase();
+function toParamCase(value) {
+  return value.replace(REGEXP_CAMEL_CASE, '$1-$2').toLowerCase();
 }
 /**
  * Get data from the given element.
@@ -457,7 +479,7 @@ function getData(element, name) {
     return element.dataset[name];
   }
 
-  return element.getAttribute("data-".concat(hyphenate(name)));
+  return element.getAttribute("data-".concat(toParamCase(name)));
 }
 /**
  * Set data to the given element.
@@ -472,7 +494,7 @@ function setData(element, name, data) {
   } else if (element.dataset) {
     element.dataset[name] = data;
   } else {
-    element.setAttribute("data-".concat(hyphenate(name)), data);
+    element.setAttribute("data-".concat(toParamCase(name)), data);
   }
 }
 /**
@@ -485,18 +507,18 @@ function removeData(element, name) {
   if (isObject(element[name])) {
     try {
       delete element[name];
-    } catch (e) {
+    } catch (error) {
       element[name] = undefined;
     }
   } else if (element.dataset) {
     // #128 Safari not allows to delete dataset property
     try {
       delete element.dataset[name];
-    } catch (e) {
+    } catch (error) {
       element.dataset[name] = undefined;
     }
   } else {
-    element.removeAttribute("data-".concat(hyphenate(name)));
+    element.removeAttribute("data-".concat(toParamCase(name)));
   }
 }
 var REGEXP_SPACES = /\s\s*/;
@@ -504,7 +526,7 @@ var REGEXP_SPACES = /\s\s*/;
 var onceSupported = function () {
   var supported = false;
 
-  if (IN_BROWSER) {
+  if (IS_BROWSER) {
     var once = false;
 
     var listener = function listener() {};
@@ -643,7 +665,7 @@ function getOffset(element) {
   };
 }
 var location = WINDOW.location;
-var REGEXP_ORIGINS = /^(https?:)\/\/([^:/?#]+):?(\d*)/i;
+var REGEXP_ORIGINS = /^(\w+:)\/\/([^:/?#]*):?(\d*)/i;
 /**
  * Check if the given URL is a cross origin URL.
  * @param {string} url - The target URL.
@@ -652,7 +674,7 @@ var REGEXP_ORIGINS = /^(https?:)\/\/([^:/?#]+):?(\d*)/i;
 
 function isCrossOriginURL(url) {
   var parts = url.match(REGEXP_ORIGINS);
-  return parts && (parts[1] !== location.protocol || parts[2] !== location.hostname || parts[3] !== location.port);
+  return parts !== null && (parts[1] !== location.protocol || parts[2] !== location.hostname || parts[3] !== location.port);
 }
 /**
  * Add timestamp to the given URL.
@@ -777,11 +799,6 @@ function getPointersCenter(pointers) {
   };
 }
 /**
- * Check if the given value is a finite number.
- */
-
-var isFinite = Number.isFinite || WINDOW.isFinite;
-/**
  * Get the max sizes in a rectangle under the given aspect ratio.
  * @param {Object} data - The original sizes.
  * @param {string} [type='contain'] - The adjust type.
@@ -794,12 +811,10 @@ function getAdjustedSizes(_ref4) // or 'cover'
       height = _ref4.height,
       width = _ref4.width;
   var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'contain';
+  var isValidWidth = isPositiveNumber(width);
+  var isValidHeight = isPositiveNumber(height);
 
-  var isValidNumber = function isValidNumber(value) {
-    return isFinite(value) && value > 0;
-  };
-
-  if (isValidNumber(width) && isValidNumber(height)) {
+  if (isValidWidth && isValidHeight) {
     var adjustedWidth = height * aspectRatio;
 
     if (type === 'contain' && adjustedWidth > width || type === 'cover' && adjustedWidth < width) {
@@ -807,9 +822,9 @@ function getAdjustedSizes(_ref4) // or 'cover'
     } else {
       width = height * aspectRatio;
     }
-  } else if (isValidNumber(width)) {
+  } else if (isValidWidth) {
     height = width / aspectRatio;
-  } else if (isValidNumber(height)) {
+  } else if (isValidHeight) {
     width = height * aspectRatio;
   }
 
@@ -942,10 +957,9 @@ var fromCharCode = String.fromCharCode;
 
 function getStringFromCharCode(dataView, start, length) {
   var str = '';
-  var i;
   length += start;
 
-  for (i = start; i < length; i += 1) {
+  for (var i = start; i < length; i += 1) {
     str += fromCharCode(dataView.getUint8(i));
   }
 
@@ -976,12 +990,15 @@ function dataURLToArrayBuffer(dataURL) {
  */
 
 function arrayBufferToDataURL(arrayBuffer, mimeType) {
-  var chunks = [];
+  var chunks = []; // Chunk Typed Array for better performance (#435)
+
   var chunkSize = 8192;
   var uint8 = new Uint8Array(arrayBuffer);
 
   while (uint8.length > 0) {
-    chunks.push(fromCharCode.apply(void 0, _toConsumableArray(uint8.subarray(0, chunkSize))));
+    // XXX: Babel's `toConsumableArray` helper will throw error in IE or Safari 9
+    // eslint-disable-next-line prefer-spread
+    chunks.push(fromCharCode.apply(null, toArray(uint8.subarray(0, chunkSize))));
     uint8 = uint8.subarray(chunkSize);
   }
 
@@ -1061,7 +1078,7 @@ function resetAndGetOrientation(arrayBuffer) {
           }
       }
     }
-  } catch (e) {
+  } catch (error) {
     orientation = 1;
   }
 
@@ -1651,7 +1668,10 @@ var events = {
     addListener(cropper, EVENT_POINTER_DOWN, this.onCropStart = this.cropStart.bind(this));
 
     if (options.zoomable && options.zoomOnWheel) {
-      addListener(cropper, EVENT_WHEEL, this.onWheel = this.wheel.bind(this));
+      addListener(cropper, EVENT_WHEEL, this.onWheel = this.wheel.bind(this), {
+        passive: false,
+        capture: true
+      });
     }
 
     if (options.toggleDragModeOnDblclick) {
@@ -1693,7 +1713,10 @@ var events = {
     removeListener(cropper, EVENT_POINTER_DOWN, this.onCropStart);
 
     if (options.zoomable && options.zoomOnWheel) {
-      removeListener(cropper, EVENT_WHEEL, this.onWheel);
+      removeListener(cropper, EVENT_WHEEL, this.onWheel, {
+        passive: false,
+        capture: true
+      });
     }
 
     if (options.toggleDragModeOnDblclick) {
@@ -1714,8 +1737,8 @@ var handlers = {
     var options = this.options,
         container = this.container,
         containerData = this.containerData;
-    var minContainerWidth = Number(options.minContainerWidth) || 200;
-    var minContainerHeight = Number(options.minContainerHeight) || 100;
+    var minContainerWidth = Number(options.minContainerWidth) || MIN_CONTAINER_WIDTH;
+    var minContainerHeight = Number(options.minContainerHeight) || MIN_CONTAINER_HEIGHT;
 
     if (this.disabled || containerData.width <= minContainerWidth || containerData.height <= minContainerHeight) {
       return;
@@ -1751,7 +1774,7 @@ var handlers = {
 
     this.setDragMode(hasClass(this.dragBox, CLASS_CROP) ? DRAG_MODE_MOVE : DRAG_MODE_CROP);
   },
-  wheel: function wheel(e) {
+  wheel: function wheel(event) {
     var _this = this;
 
     var ratio = Number(this.options.wheelZoomRatio) || 0.1;
@@ -1761,7 +1784,7 @@ var handlers = {
       return;
     }
 
-    e.preventDefault(); // Limit wheel speed to prevent zoom too fast (#21)
+    event.preventDefault(); // Limit wheel speed to prevent zoom too fast (#21)
 
     if (this.wheeling) {
       return;
@@ -1772,18 +1795,24 @@ var handlers = {
       _this.wheeling = false;
     }, 50);
 
-    if (e.deltaY) {
-      delta = e.deltaY > 0 ? 1 : -1;
-    } else if (e.wheelDelta) {
-      delta = -e.wheelDelta / 120;
-    } else if (e.detail) {
-      delta = e.detail > 0 ? 1 : -1;
+    if (event.deltaY) {
+      delta = event.deltaY > 0 ? 1 : -1;
+    } else if (event.wheelDelta) {
+      delta = -event.wheelDelta / 120;
+    } else if (event.detail) {
+      delta = event.detail > 0 ? 1 : -1;
     }
 
-    this.zoom(-delta * ratio, e);
+    this.zoom(-delta * ratio, event);
   },
-  cropStart: function cropStart(e) {
-    if (this.disabled) {
+  cropStart: function cropStart(event) {
+    var buttons = event.buttons,
+        button = event.button;
+
+    if (this.disabled // No primary button (Usually the left button)
+    // Note that touch events have no `buttons` or `button` property
+    || isNumber(buttons) && buttons !== 1 || isNumber(button) && button !== 0 // Open context menu
+    || event.ctrlKey) {
       return;
     }
 
@@ -1791,20 +1820,20 @@ var handlers = {
         pointers = this.pointers;
     var action;
 
-    if (e.changedTouches) {
+    if (event.changedTouches) {
       // Handle touch event
-      forEach(e.changedTouches, function (touch) {
+      forEach(event.changedTouches, function (touch) {
         pointers[touch.identifier] = getPointer(touch);
       });
     } else {
       // Handle mouse event and pointer event
-      pointers[e.pointerId || 0] = getPointer(e);
+      pointers[event.pointerId || 0] = getPointer(event);
     }
 
     if (Object.keys(pointers).length > 1 && options.zoomable && options.zoomOnTouch) {
       action = ACTION_ZOOM;
     } else {
-      action = getData(e.target, DATA_ACTION);
+      action = getData(event.target, DATA_ACTION);
     }
 
     if (!REGEXP_ACTIONS.test(action)) {
@@ -1812,14 +1841,14 @@ var handlers = {
     }
 
     if (dispatchEvent(this.element, EVENT_CROP_START, {
-      originalEvent: e,
+      originalEvent: event,
       action: action
     }) === false) {
       return;
     } // This line is required for preventing page zooming in iOS browsers
 
 
-    e.preventDefault();
+    event.preventDefault();
     this.action = action;
     this.cropping = false;
 
@@ -1828,7 +1857,7 @@ var handlers = {
       addClass(this.dragBox, CLASS_MODAL);
     }
   },
-  cropMove: function cropMove(e) {
+  cropMove: function cropMove(event) {
     var action = this.action;
 
     if (this.disabled || !action) {
@@ -1836,27 +1865,27 @@ var handlers = {
     }
 
     var pointers = this.pointers;
-    e.preventDefault();
+    event.preventDefault();
 
     if (dispatchEvent(this.element, EVENT_CROP_MOVE, {
-      originalEvent: e,
+      originalEvent: event,
       action: action
     }) === false) {
       return;
     }
 
-    if (e.changedTouches) {
-      forEach(e.changedTouches, function (touch) {
+    if (event.changedTouches) {
+      forEach(event.changedTouches, function (touch) {
         // The first parameter should not be undefined (#432)
         assign(pointers[touch.identifier] || {}, getPointer(touch, true));
       });
     } else {
-      assign(pointers[e.pointerId || 0] || {}, getPointer(e, true));
+      assign(pointers[event.pointerId || 0] || {}, getPointer(event, true));
     }
 
-    this.change(e);
+    this.change(event);
   },
-  cropEnd: function cropEnd(e) {
+  cropEnd: function cropEnd(event) {
     if (this.disabled) {
       return;
     }
@@ -1864,19 +1893,19 @@ var handlers = {
     var action = this.action,
         pointers = this.pointers;
 
-    if (e.changedTouches) {
-      forEach(e.changedTouches, function (touch) {
+    if (event.changedTouches) {
+      forEach(event.changedTouches, function (touch) {
         delete pointers[touch.identifier];
       });
     } else {
-      delete pointers[e.pointerId || 0];
+      delete pointers[event.pointerId || 0];
     }
 
     if (!action) {
       return;
     }
 
-    e.preventDefault();
+    event.preventDefault();
 
     if (!Object.keys(pointers).length) {
       this.action = '';
@@ -1888,14 +1917,14 @@ var handlers = {
     }
 
     dispatchEvent(this.element, EVENT_CROP_END, {
-      originalEvent: e,
+      originalEvent: event,
       action: action
     });
   }
 };
 
 var change = {
-  change: function change(e) {
+  change: function change(event) {
     var options = this.options,
         canvasData = this.canvasData,
         containerData = this.containerData,
@@ -1916,7 +1945,7 @@ var change = {
     var renderable = true;
     var offset; // Locking aspect ratio in "free mode" by holding shift key
 
-    if (!aspectRatio && e.shiftKey) {
+    if (!aspectRatio && event.shiftKey) {
       aspectRatio = width && height ? width / height : 1;
     }
 
@@ -2289,7 +2318,7 @@ var change = {
       // Zoom canvas
 
       case ACTION_ZOOM:
-        this.zoom(getMaxZoomRatio(pointers), e);
+        this.zoom(getMaxZoomRatio(pointers), event);
         renderable = false;
         break;
       // Create crop box
@@ -2681,7 +2710,7 @@ var methods = {
    * @param {boolean} [rounded=false] - Indicate if round the data values or not.
    * @returns {Object} The result cropped data.
    */
-  getData: function getData$$1() {
+  getData: function getData() {
     var rounded = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
     var options = this.options,
         imageData = this.imageData,
@@ -2737,7 +2766,7 @@ var methods = {
    * @param {Object} data - The new data.
    * @returns {Cropper} this
    */
-  setData: function setData$$1(data) {
+  setData: function setData(data) {
     var options = this.options,
         imageData = this.imageData,
         canvasData = this.canvasData;
@@ -3194,26 +3223,25 @@ function () {
       if (!options.checkOrientation || !window.ArrayBuffer) {
         this.clone();
         return;
-      } // XMLHttpRequest disallows to open a Data URL in some browsers like IE11 and Safari
+      } // Read ArrayBuffer from Data URL of JPEG images directly for better performance.
 
 
-      if (REGEXP_DATA_URL.test(url)) {
-        if (REGEXP_DATA_URL_JPEG.test(url)) {
-          this.read(dataURLToArrayBuffer(url));
-        } else {
-          this.clone();
-        }
-
+      if (REGEXP_DATA_URL_JPEG.test(url)) {
+        this.read(dataURLToArrayBuffer(url));
         return;
       }
 
       var xhr = new XMLHttpRequest();
       var clone = this.clone.bind(this);
       this.reloading = true;
-      this.xhr = xhr;
-      xhr.ontimeout = clone;
+      this.xhr = xhr; // 1. Cross origin requests are only supported for protocol schemes:
+      // http, https, data, chrome, chrome-extension.
+      // 2. Access to XMLHttpRequest from a Data URL will be blocked by CORS policy
+      // in some browsers as IE11 and Safari.
+
       xhr.onabort = clone;
       xhr.onerror = clone;
+      xhr.ontimeout = clone;
 
       xhr.onprogress = function () {
         if (xhr.getResponseHeader('content-type') !== MIME_TYPE_JPEG) {
@@ -3244,15 +3272,16 @@ function () {
     key: "read",
     value: function read(arrayBuffer) {
       var options = this.options,
-          imageData = this.imageData;
+          imageData = this.imageData; // Reset the orientation value to its default value 1
+      // as some iOS browsers will render image with its orientation
+
       var orientation = resetAndGetOrientation(arrayBuffer);
       var rotate = 0;
       var scaleX = 1;
       var scaleY = 1;
 
       if (orientation > 1) {
-        // Generate a new Data URL with the orientation value set to 1
-        // as some iOS browsers will render image with its orientation
+        // Generate a new URL which has the default orientation value
         this.url = arrayBufferToDataURL(arrayBuffer, MIME_TYPE_JPEG);
 
         var _parseOrientation = parseOrientation(orientation);
@@ -3317,7 +3346,7 @@ function () {
       image.onload = null;
       image.onerror = null;
       this.sizing = true;
-      var IS_SAFARI = WINDOW.navigator && /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i.test(WINDOW.navigator.userAgent);
+      var IS_SAFARI = WINDOW.navigator && /^(?:.(?!chrome|android))*safari/i.test(WINDOW.navigator.userAgent);
 
       var done = function done(naturalWidth, naturalHeight) {
         assign(_this2.imageData, {
