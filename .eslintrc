@@ -10,5 +10,21 @@
     "valid-jsdoc": ["error", {
       "requireReturn": false
     }]
-  }
+  },
+  "overrides": [
+    {
+      "files": "test/**/*.spec.js",
+      "env": {
+        "mocha": true
+      },
+      "globals": {
+        "Cropper": true,
+        "expect": true
+      },
+      "rules": {
+        "no-new": "off",
+        "no-unused-expressions": "off"
+      }
+    }
+  ]
 }
