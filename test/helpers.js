@@ -40,5 +40,7 @@ window.createEvent = (type, data) => {
     event.initCustomEvent(type, true, true, data);
   }
 
+  event.buttons = 1;
+
   return event;
 };
