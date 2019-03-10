@@ -4,21 +4,37 @@
   "version": "1.4.3",
   "main": "dist/cropper.common.js",
   "module": "dist/cropper.esm.js",
-  "unpkg": "dist/cropper.js",
+  "browser": "dist/cropper.js",
   "types": "types/index.d.ts",
   "style": "dist/cropper.css",
-  "repository": "fengyuanchen/cropperjs",
-  "homepage": "https://fengyuanchen.github.io/cropperjs",
-  "license": "MIT",
-  "author": {
-    "name": "Chen Fengyuan",
-    "url": "https://chenfengyuan.com"
-  },
   "files": [
     "src",
     "dist",
     "types"
   ],
+  "scripts": {
+    "build": "npm run build:css && npm run build:js",
+    "build:css": "postcss src/index.css -o dist/cropper.css --no-map",
+    "build:js": "rollup -c",
+    "clear": "del-cli dist",
+    "codecov": "cat coverage/lcov.info | codecov",
+    "compress": "npm run compress:css && npm run compress:js",
+    "compress:css": "postcss dist/cropper.css -u cssnano -o dist/cropper.min.css --no-map",
+    "compress:js": "uglifyjs dist/cropper.js -o dist/cropper.min.js -c -m --comments /^!/",
+    "copy": "cpy dist/cropper.css docs/css",
+    "lint": "npm run lint:js && npm run lint:css",
+    "lint:css": "stylelint {src,docs,examples}/**/*.{css,scss,html} --fix",
+    "lint:js": "eslint src test *.js --fix",
+    "release": "npm run clear && npm run lint && npm run build && npm run compress && npm run copy && npm test",
+    "start": "npm-run-all --parallel watch:*",
+    "test": "cross-env NODE_ENV=test karma start test/karma.conf.js",
+    "watch:css": "postcss src/index.css -o docs/css/cropper.css -m -w",
+    "watch:js": "rollup -c -m -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fengyuanchen/cropperjs.git"
+  },
   "keywords": [
     "image",
     "crop",
@@ -36,61 +52,87 @@
     "front-end",
     "web"
   ],
-  "scripts": {
-    "build": "npm run build:css && npm run build:js",
-    "build:css": "postcss src/index.css -o dist/cropper.css --no-map",
-    "build:js": "rollup -c",
-    "clear": "del-cli dist",
-    "codecov": "cat coverage/lcov.info | codecov",
-    "commitmsg": "npm run lint && commitlint -e",
-    "compress": "npm run compress:css && npm run compress:js",
-    "compress:css": "postcss dist/cropper.css -u cssnano -o dist/cropper.min.css --no-map",
-    "compress:js": "uglifyjs dist/cropper.js -o dist/cropper.min.js -c -m --comments /^!/",
-    "copy": "cpy dist/cropper.css docs/css",
-    "lint": "eslint src test *.js --fix",
-    "release": "npm run clear && npm run lint && npm run build && npm run compress && npm run copy && npm test",
-    "start": "npm-run-all --parallel watch:*",
-    "test": "cross-env NODE_ENV=test karma start test/karma.conf.js",
-    "watch:css": "postcss src/index.css -o docs/css/cropper.css -m -w",
-    "watch:js": "rollup -c -m -w"
+  "author": {
+    "name": "Chen Fengyuan",
+    "url": "https://chenfengyuan.com"
   },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fengyuanchen/cropperjs/issues"
+  },
+  "homepage": "https://fengyuanchen.github.io/cropperjs",
   "devDependencies": {
-    "@babel/core": "^7.1.2",
-    "@babel/preset-env": "^7.1.0",
-    "@commitlint/cli": "^7.2.1",
-    "@commitlint/config-conventional": "^7.1.2",
-    "babel-plugin-istanbul": "^5.1.0",
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "@commitlint/cli": "^7.5.2",
+    "@commitlint/config-conventional": "^7.5.0",
+    "babel-plugin-istanbul": "^5.1.1",
     "chai": "^4.2.0",
-    "change-case": "^3.0.2",
-    "codecov": "^3.1.0",
+    "change-case": "^3.1.0",
+    "codecov": "^3.2.0",
     "cpy-cli": "^2.0.0",
     "create-banner": "^1.0.0",
     "cross-env": "^5.2.0",
-    "cssnano": "^4.1.7",
+    "cssnano": "^4.1.10",
     "del-cli": "^1.1.0",
-    "eslint": "^5.7.0",
+    "eslint": "^5.15.1",
     "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.14.0",
-    "husky": "^1.1.2",
-    "karma": "^3.1.1",
+    "eslint-plugin-import": "^2.16.0",
+    "husky": "^1.3.1",
+    "karma": "^4.0.1",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^2.2.0",
-    "karma-coverage-istanbul-reporter": "^2.0.4",
+    "karma-coverage-istanbul-reporter": "^2.0.5",
     "karma-mocha": "^1.3.0",
     "karma-mocha-reporter": "^2.2.5",
-    "karma-rollup-preprocessor": "^6.1.0",
-    "mocha": "^5.2.0",
-    "npm-run-all": "^4.1.3",
-    "postcss-cli": "^6.0.1",
+    "karma-rollup-preprocessor": "^7.0.0",
+    "lint-staged": "^8.1.5",
+    "mocha": "^6.0.2",
+    "npm-run-all": "^4.1.5",
+    "postcss-cli": "^6.1.2",
     "postcss-header": "^1.0.0",
     "postcss-import": "^12.0.1",
-    "postcss-preset-env": "^6.2.0",
+    "postcss-preset-env": "^6.6.0",
     "postcss-url": "^8.0.0",
-    "puppeteer": "^1.9.0",
-    "rollup": "^0.66.6",
-    "rollup-plugin-babel": "^4.0.3",
+    "puppeteer": "^1.13.0",
+    "rollup": "^1.6.0",
+    "rollup-plugin-babel": "^4.3.2",
     "rollup-watch": "^4.3.1",
-    "stylefmt": "^6.0.3",
+    "stylelint": "^9.10.1",
+    "stylelint-config-standard": "^18.2.0",
+    "stylelint-order": "^2.1.0",
     "uglify-js": "^3.4.9"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "> 1%",
+    "not ie <= 8"
+  ],
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "linters": {
+      "*.js": [
+        "eslint --fix",
+        "git add"
+      ],
+      "*.{css,scss,html}": [
+        "stylelint --fix",
+        "git add"
+      ]
+    },
+    "ignore": [
+      "{dist,docs}/**/*.js",
+      "*.min.*"
+    ]
   }
 }
