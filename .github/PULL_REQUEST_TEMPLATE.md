@@ -1,40 +1,47 @@
-## PR Checklist
+<!-- Please don't delete this template -->
 
-Please check if your PR fulfills the following requirements:
+<!-- PULL REQUEST TEMPLATE -->
+<!-- (Update "[ ]" to "[x]" to check a box) -->
 
-- [ ] The commit message follows our [guidelines](https://github.com/fengyuanchen/cropperjs/blob/master/.github/CONTRIBUTING.md#commit-message-guidelines).
-- [ ] Tests for the changes have been added (for bug fixes / features)
-- [ ] Docs have been added / updated (for bug fixes / features)
+**Summary**
 
-## PR Type
-
-What kind of change does this PR introduce?
-
-<!-- Please check the one that applies to this PR using "x". -->
+**What kind of change does this PR introduce?** (check at least one)
 
 - [ ] Bugfix
 - [ ] Feature
 - [ ] Code style update
 - [ ] Refactor
-- [ ] Build related changes
-- [ ] Documentation content changes
-- [ ] Other, Please describe:
+- [ ] Docs
+- [ ] Build-related changes
+- [ ] Other, please describe:
 
-## What is the current behavior?
+If changing the UI of default theme, please provide the **before/after** screenshot:
 
-<!-- Please describe the current behavior that you are modifying, or link to a relevant issue. -->
-
-Issue Number: N/A
-
-## What is the new behavior?
-
-<!-- Describe what the new behavior would be. -->
-
-## Does this PR introduce a breaking change?
+**Does this PR introduce a breaking change?** (check one)
 
 - [ ] Yes
 - [ ] No
 
-<!-- If this PR contains a breaking change, please describe the impact and migration path for existing applications below. -->
+If yes, please describe the impact and migration path for existing applications:
 
-## Other information
+**The PR fulfills these requirements:**
+
+- [ ] When resolving a specific issue, it's referenced in the PR's title (e.g. `fix #xxx[,#xxx]`, where "xxx" is the issue number)
+
+You have tested in the following browsers: (Providing a detailed version will be better.)
+
+- [ ] Chrome
+- [ ] Firefox
+- [ ] Safari
+- [ ] Edge
+- [ ] IE
+
+If adding a **new feature**, the PR's description includes:
+
+- [ ] A convincing reason for adding this feature
+- [ ] Related documents have been updated
+- [ ] Related tests have been updated
+
+To avoid wasting your time, it's best to open a **feature request issue** first and wait for approval before working on it.
+
+**Other information:**
