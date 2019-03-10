@@ -1,6 +1,6 @@
 .btn {
-  padding-left: .75rem;
-  padding-right: .75rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
 }
 
 label.btn {
@@ -12,9 +12,9 @@ label.btn {
 }
 
 .carbonads {
-  border-radius: .25rem;
   border: 1px solid #ccc;
-  font-size: .875rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
   overflow: hidden;
   padding: 1rem;
 }
@@ -59,7 +59,7 @@ label.btn {
 }
 
 .footer {
-  font-size: .875rem;
+  font-size: 0.875rem;
 }
 
 .heart {
@@ -92,8 +92,8 @@ label.btn {
 .heart::after {
   background-color: #fff;
   content: "♥";
-  padding-left: .5rem;
-  padding-right: .5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
   position: relative;
   z-index: 1;
 }
@@ -127,8 +127,8 @@ label.btn {
 
 .img-preview {
   float: left;
-  margin-bottom: .5rem;
-  margin-right: .5rem;
+  margin-bottom: 0.5rem;
+  margin-right: 0.5rem;
   overflow: hidden;
 }
 
@@ -158,7 +158,7 @@ label.btn {
 }
 
 .docs-data > .input-group {
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
 .docs-data .input-group-prepend .input-group-text {
@@ -172,24 +172,24 @@ label.btn {
 .docs-buttons > .btn,
 .docs-buttons > .btn-group,
 .docs-buttons > .form-control {
-  margin-bottom: .5rem;
-  margin-right: .25rem;
+  margin-bottom: 0.5rem;
+  margin-right: 0.25rem;
 }
 
 .docs-toggles > .btn,
 .docs-toggles > .btn-group,
 .docs-toggles > .dropdown {
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
 .docs-tooltip {
   display: block;
-  margin: -.5rem -.75rem;
-  padding: .5rem .75rem;
+  margin: -0.5rem -0.75rem;
+  padding: 0.5rem 0.75rem;
 }
 
 .docs-tooltip > .icon {
-  margin: 0 -.25rem;
+  margin: 0 -0.25rem;
   vertical-align: top;
 }
 
@@ -203,29 +203,29 @@ label.btn {
 }
 
 .btn-toggle {
-  padding: .5rem;
+  padding: 0.5rem;
 }
 
 .btn-toggle > .docs-tooltip {
-  margin: -.5rem;
-  padding: .5rem;
+  margin: -0.5rem;
+  padding: 0.5rem;
 }
 
 @media (max-width: 400px) {
   .btn-group-crop {
-    margin-right: -1rem!important;
+    margin-right: -1rem !important;
   }
 
   .btn-group-crop > .btn {
-    padding-left: .5rem;
-    padding-right: .5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
 
   .btn-group-crop .docs-tooltip {
-    margin-left: -.5rem;
-    margin-right: -.5rem;
-    padding-left: .5rem;
-    padding-right: .5rem;
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
 }
 
@@ -234,8 +234,8 @@ label.btn {
 }
 
 .docs-options .dropdown-menu > li {
-  font-size: .875rem;
-  padding: .125rem 1rem;
+  font-size: 0.875rem;
+  padding: 0.125rem 1rem;
 }
 
 .docs-options .dropdown-menu .form-check-label {
