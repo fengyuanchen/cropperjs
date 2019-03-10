@@ -42,7 +42,7 @@ window.onload = function () {
       dataScaleY.value = typeof data.scaleY !== 'undefined' ? data.scaleY : '';
     },
     zoom: function (e) {
-      console.log(e.type, e.detail.ratio);
+      console.log(e.type, e.detail.scale);
     }
   };
   var cropper = new Cropper(image, options);
@@ -161,13 +161,6 @@ window.onload = function () {
       }
 
       switch (data.method) {
-        case 'rotate':
-          if (cropped && options.viewMode > 0) {
-            cropper.clear();
-          }
-
-          break;
-
         case 'getCroppedCanvas':
           try {
             data.option = JSON.parse(data.option);
@@ -184,18 +177,13 @@ window.onload = function () {
           }
 
           break;
+
+        default:
       }
 
       result = cropper[data.method](data.option, data.secondOption);
 
       switch (data.method) {
-        case 'rotate':
-          if (cropped && options.viewMode > 0) {
-            cropper.crop();
-          }
-
-          break;
-
         case 'scaleX':
         case 'scaleY':
           target.setAttribute('data-option', -data.option);
@@ -224,6 +212,8 @@ window.onload = function () {
           }
 
           break;
+
+        default:
       }
 
       if (typeof result === 'object' && result !== cropper && input) {

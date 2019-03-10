@@ -814,6 +814,8 @@ Change the canvas (image wrapper) position and size with new data.
     - `top`: the offset top of the crop box
     - `width`: the width of the crop box
     - `height`: the height of the crop box
+    - `naturalWidth`: the natural width of the crop box (read only)
+    - `naturalHeight`: the natural height of the crop box (read only)
 
 Output the crop box position and size data.
 
