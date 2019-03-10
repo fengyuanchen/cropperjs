@@ -1,5 +1,20 @@
 # Changelog
 
+## 2.0.0-alpha (Mar 10, 2018)
+
+### Breaking changes
+
+- Integrate the canvas and the crop box for better user experience.
+- Change the properties of the `zoom` event:
+  - `event.detail.ratio` => `event.detail.scale`
+  - `event.detail.oldRatio` => `event.detail.oldScale`
+
+### Features
+
+- Support to create crop box by dragging from left to right, right to left, top to bottom and bottom to top.
+- Add 4 new options: `maxCanvasWidth`, `maxCanvasHeight`, `maxCropBoxWidth` and `maxCropBoxHeight`.
+- Add 2 new properties to the `getCropBoxData` method: `naturalWidth` and `naturalHeight`.
+
 ## 1.5.0 (Mar 10, 2018)
 
 - Add `passive: false` and `capture: true` to wheel event for better performance.
