@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.5.1 (Mar 10, 2018)
+
+- Revert the minimum container width from `300` to `200`.
+- Revert the minimum container height from `150` to `100`.
+
 ## 1.5.0 (Mar 10, 2018)
 
 - Add `passive: false` and `capture: true` to wheel event for better performance.

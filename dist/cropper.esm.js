@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v1.5.0
+ * Cropper.js v1.5.1
  * https://fengyuanchen.github.io/cropperjs
  *
  * Copyright 2015-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2019-03-10T09:05:11.521Z
+ * Date: 2019-03-10T09:55:53.729Z
  */
 
 function _typeof(obj) {
@@ -121,8 +121,8 @@ var REGEXP_DATA_URL_JPEG = /^data:image\/jpeg;base64,/;
 var REGEXP_TAG_NAME = /^img|canvas$/i; // Misc
 // Inspired by the default width and height of a canvas element.
 
-var MIN_CONTAINER_WIDTH = 300;
-var MIN_CONTAINER_HEIGHT = 150;
+var MIN_CONTAINER_WIDTH = 200;
+var MIN_CONTAINER_HEIGHT = 100;
 
 var DEFAULTS = {
   // Define the view mode of the cropper
