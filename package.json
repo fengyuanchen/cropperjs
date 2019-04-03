@@ -1,5 +1,5 @@
 {
-  "name": "cropperjs",
+  "name": "@adgorithmics/cropperjs",
   "description": "JavaScript image cropper.",
   "version": "1.4.3",
   "main": "dist/cropper.common.js",
@@ -7,7 +7,13 @@
   "unpkg": "dist/cropper.js",
   "types": "types/index.d.ts",
   "style": "dist/cropper.css",
-  "repository": "fengyuanchen/cropperjs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adgorithmics-inc/cropperjs"
+  },
+  "bugs": {
+    "url": "https://github.com/adgorithmics-inc/cropperjs/issues"
+  },
   "homepage": "https://fengyuanchen.github.io/cropperjs",
   "license": "MIT",
   "author": {

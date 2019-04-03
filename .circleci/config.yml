@@ -1,0 +1,86 @@
+version: 2
+
+references:
+    pin-npm-version: &pin-npm-version
+        run:
+            name: Pin NPM to specified version
+            command: sudo npm install -g npm@6.4.1
+
+jobs:
+    test:
+        docker:
+            - image: circleci/node:10.13.0
+
+        steps:
+            - *pin-npm-version
+            - checkout
+
+            - restore_cache:
+                  keys:
+                      - jscache-{{ checksum "package.json" }}
+                      - jscache-
+
+            - run: npm ci
+
+            - save_cache:
+                  paths:
+                      - node_modules
+                  key: jscache-{{ checksum "package.json" }}
+
+            - run: npm run test
+            - run: npm run codecov
+
+    publish:
+        docker:
+            - image: circleci/node:10.13.0
+
+        steps:
+            - *pin-npm-version
+            - checkout
+            - add_ssh_keys:
+                  fingerprints:
+                      - '8e:ff:a1:31:90:fc:fc:8e:bb:fb:e0:ac:a7:f6:49:d2'
+
+            - run: npm version --no-git-tag-version ${CIRCLE_TAG}
+            - run: git add package.json package-lock.json
+            - run: git commit -m "Automatic NPM version bump ${CIRCLE_TAG}"
+            - run: git checkout -b temp
+            - run: git push origin temp:master
+            - run: npm publish
+
+    publish-hot:
+        docker:
+            - image: circleci/node:10.13.0
+
+        steps:
+            - *pin-npm-version
+            - checkout
+            - run: npm version --no-git-tag-version ${CIRCLE_TAG}
+            - run: npm publish
+
+workflows:
+    version: 2
+    test-and-publish:
+        jobs:
+            - test:
+                  filters:
+                      tags:
+                          only: /.*/
+            - publish:
+                  requires:
+                      - test
+                  context: npm-publish
+                  filters:
+                      tags:
+                          only: /^v[0-9]+(\.[0-9]+)*(-rc[0-9]*)*/
+                      branches:
+                          ignore: /.*/
+            - publish-hot:
+                  requires:
+                      - test
+                  context: npm-publish
+                  filters:
+                      tags:
+                          only: /^v[0-9]+(\.[0-9]+)*-hot/
+                      branches:
+                          ignore: /.*/
