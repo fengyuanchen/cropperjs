@@ -46,6 +46,7 @@ window.onload = function () {
     }
   };
   var cropper = new Cropper(image, options);
+  window.cropper = cropper;
   var originalImageURL = image.src;
   var uploadedImageType = 'image/jpeg';
   var uploadedImageName = 'cropped.jpg';
