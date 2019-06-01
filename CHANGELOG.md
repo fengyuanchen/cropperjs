@@ -1,5 +1,9 @@
 # Changelog
 
+## next
+
+- Alway add a timestamp to the url of a cross origin image (#519).
+
 ## 1.5.1 (Mar 10, 2019)
 
 - Revert the minimum container width from `300` to `200`.

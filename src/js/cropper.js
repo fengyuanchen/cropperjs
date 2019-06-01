@@ -197,14 +197,12 @@ class Cropper {
     if (this.options.checkCrossOrigin && isCrossOriginURL(url)) {
       ({ crossOrigin } = element);
 
-      if (crossOrigin) {
-        crossOriginUrl = url;
-      } else {
+      if (!crossOrigin) {
         crossOrigin = 'anonymous';
-
-        // Bust cache when there is not a "crossOrigin" property
-        crossOriginUrl = addTimestamp(url);
       }
+
+      // Bust cache when there is not a "crossOrigin" property (#519)
+      crossOriginUrl = addTimestamp(url);
     }
 
     this.crossOrigin = crossOrigin;
