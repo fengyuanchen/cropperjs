@@ -33,7 +33,7 @@ describe('checkCrossOrigin (option)', () => {
     expect(cropper.options.checkCrossOrigin).to.be.false;
   });
 
-  it('should not add timestamp when the image has `crossOrigin` attribute', (done) => {
+  it('should add timestamp even though the image has the `crossOrigin` attribute', (done) => {
     const image = window.createImage({
       src: crossOriginImageURL,
       crossOrigin: 'anonymous',
@@ -41,7 +41,7 @@ describe('checkCrossOrigin (option)', () => {
     const cropper = new Cropper(image, {
       ready() {
         expect(cropper.image.crossOrigin).to.equal('anonymous');
-        expect(cropper.image.src).to.not.include('timestamp');
+        expect(cropper.image.src).to.include('timestamp');
         done();
       },
     });
