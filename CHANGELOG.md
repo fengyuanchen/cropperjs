@@ -1,6 +1,6 @@
 # Changelog
 
-## next
+## 1.5.2 (Jun 30, 2019)
 
 - Alway add a timestamp to the url of a cross origin image (#519).
 
