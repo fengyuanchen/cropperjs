@@ -229,7 +229,9 @@ class Cropper {
     image.onerror = null;
     this.sizing = true;
 
-    const IS_SAFARI = WINDOW.navigator && /^(?:.(?!chrome|android))*safari/i.test(WINDOW.navigator.userAgent);
+    // Match all browsers that use WebKit as the layout engine in iOS devices,
+    // such as Safari and in-app browsers
+    const isIOSWebKit = WINDOW.navigator && /(?:iPad|iPhone|iPod).*?AppleWebKit/i.test(WINDOW.navigator.userAgent);
     const done = (naturalWidth, naturalHeight) => {
       assign(this.imageData, {
         naturalWidth,
@@ -241,8 +243,8 @@ class Cropper {
       this.build();
     };
 
-    // Modern browsers (except Safari)
-    if (image.naturalWidth && !IS_SAFARI) {
+    // Most modern browsers (excepts iOS WebKit)
+    if (image.naturalWidth && !isIOSWebKit) {
       done(image.naturalWidth, image.naturalHeight);
       return;
     }
@@ -255,16 +257,16 @@ class Cropper {
     sizingImage.onload = () => {
       done(sizingImage.width, sizingImage.height);
 
-      if (!IS_SAFARI) {
+      if (!isIOSWebKit) {
         body.removeChild(sizingImage);
       }
     };
 
     sizingImage.src = image.src;
 
-    // iOS Safari will convert the image automatically
+    // iOS WebKit will convert the image automatically
     // with its orientation once append it into DOM (#279)
-    if (!IS_SAFARI) {
+    if (!isIOSWebKit) {
       sizingImage.style.cssText = (
         'left:0;'
         + 'max-height:none!important;'

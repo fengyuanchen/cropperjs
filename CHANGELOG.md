@@ -1,5 +1,9 @@
 # Changelog
 
+## next
+
+- Compute the size of image specially for all browsers that use WebKit as the layout engine in iOS devices, such as Safari and in-app browsers (#544).
+
 ## 1.5.2 (Jun 30, 2019)
 
 - Alway add a timestamp to the URL of a cross-origin image (#519).
