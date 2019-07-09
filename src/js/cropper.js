@@ -229,11 +229,11 @@ class Cropper {
     image.onerror = null;
     this.sizing = true;
 
-    const IS_IOS_WEIXIN = WINDOW.navigator.userAgent.toLowerCase().indexOf('micromessenger') > -1 && 
-      /(iPhone|iPad|iPod|iOS)/i.test(WINDOW.navigator.userAgent);
-    const IS_SAFARI = WINDOW.navigator && (/^(?:.(?!chrome|android))*safari/i.test(WINDOW.navigator.userAgent) 
-      || IS_IOS_WEIXIN);
-    // const IS_SAFARI = WINDOW.navigator && /^(?:.(?!chrome|android))*safari/i.test(WINDOW.navigator.userAgent);
+    const IS_IOS_WEIXIN = WINDOW.navigator.userAgent.toLowerCase().indexOf('micromessenger') > -1
+      && /(iPhone|iPad|iPod|iOS)/i.test(WINDOW.navigator.userAgent);
+    const IS_SAFARI = WINDOW.navigator && (/^(?:.(?!chrome|android))*safari/i
+      .test(WINDOW.navigator.userAgent) || IS_IOS_WEIXIN);
+
     const done = (naturalWidth, naturalHeight) => {
       assign(this.imageData, {
         naturalWidth,
