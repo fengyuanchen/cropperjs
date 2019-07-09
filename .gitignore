@@ -1,4 +1,4 @@
+*.local
 *.map
-_*
 coverage
 node_modules
