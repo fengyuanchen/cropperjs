@@ -230,7 +230,7 @@ class Cropper {
     this.sizing = true;
 
     // Match all browsers that use WebKit as the layout engine in iOS devices,
-    // such as Safari and in-app browsers
+    // such as Safari for iOS, Chrome for iOS, and in-app browsers.
     const isIOSWebKit = WINDOW.navigator && /(?:iPad|iPhone|iPod).*?AppleWebKit/i.test(WINDOW.navigator.userAgent);
     const done = (naturalWidth, naturalHeight) => {
       assign(this.imageData, {
