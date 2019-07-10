@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v1.5.2
+ * Cropper.js v1.5.3
  * https://fengyuanchen.github.io/cropperjs
  *
  * Copyright 2015-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2019-06-30T06:01:05.296Z
+ * Date: 2019-07-10T12:07:44.557Z
  */
 
 (function (global, factory) {
@@ -3348,8 +3348,10 @@
         var image = this.isImg ? this.element : this.image;
         image.onload = null;
         image.onerror = null;
-        this.sizing = true;
-        var IS_SAFARI = WINDOW.navigator && /^(?:.(?!chrome|android))*safari/i.test(WINDOW.navigator.userAgent);
+        this.sizing = true; // Match all browsers that use WebKit as the layout engine in iOS devices,
+        // such as Safari for iOS, Chrome for iOS, and in-app browsers.
+
+        var isIOSWebKit = WINDOW.navigator && /(?:iPad|iPhone|iPod).*?AppleWebKit/i.test(WINDOW.navigator.userAgent);
 
         var done = function done(naturalWidth, naturalHeight) {
           assign(_this2.imageData, {
@@ -3361,10 +3363,10 @@
           _this2.sized = true;
 
           _this2.build();
-        }; // Modern browsers (except Safari)
+        }; // Most modern browsers (excepts iOS WebKit)
 
 
-        if (image.naturalWidth && !IS_SAFARI) {
+        if (image.naturalWidth && !isIOSWebKit) {
           done(image.naturalWidth, image.naturalHeight);
           return;
         }
@@ -3376,15 +3378,15 @@
         sizingImage.onload = function () {
           done(sizingImage.width, sizingImage.height);
 
-          if (!IS_SAFARI) {
+          if (!isIOSWebKit) {
             body.removeChild(sizingImage);
           }
         };
 
-        sizingImage.src = image.src; // iOS Safari will convert the image automatically
+        sizingImage.src = image.src; // iOS WebKit will convert the image automatically
         // with its orientation once append it into DOM (#279)
 
-        if (!IS_SAFARI) {
+        if (!isIOSWebKit) {
           sizingImage.style.cssText = 'left:0;' + 'max-height:none!important;' + 'max-width:none!important;' + 'min-height:0!important;' + 'min-width:0!important;' + 'opacity:0;' + 'position:absolute;' + 'top:0;' + 'z-index:-1;';
           body.appendChild(sizingImage);
         }
