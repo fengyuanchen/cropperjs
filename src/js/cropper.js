@@ -318,6 +318,9 @@ class Cropper {
     this.viewBox = cropper.querySelector(`.${NAMESPACE}-view-box`);
     this.face = face;
 
+    image.alt= (this.element.alt ==="" ? "photo to crop" : this.element.alt);
+	  image.setAttribute("tabindex","0");
+    
     canvas.appendChild(image);
 
     // Hide the original image
