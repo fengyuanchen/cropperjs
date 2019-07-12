@@ -16,6 +16,7 @@ import {
   EVENT_READY,
   MIME_TYPE_JPEG,
   NAMESPACE,
+  REGEXP_DATA_URL,
   REGEXP_DATA_URL_JPEG,
   REGEXP_TAG_NAME,
   WINDOW,
@@ -115,12 +116,22 @@ class Cropper {
       return;
     }
 
-    // Read ArrayBuffer from Data URL of JPEG images directly for better performance.
-    if (REGEXP_DATA_URL_JPEG.test(url)) {
-      this.read(dataURLToArrayBuffer(url));
+    // Detect the mime type of the image directly if it is a Data URL
+    if (REGEXP_DATA_URL.test(url)) {
+      // Read ArrayBuffer from Data URL of JPEG images directly for better performance
+      if (REGEXP_DATA_URL_JPEG.test(url)) {
+        this.read(dataURLToArrayBuffer(url));
+      } else {
+        // Only a JPEG image may contains Exif Orientation information,
+        // the rest types of Data URLs are not necessary to check orientation at all.
+        this.clone();
+      }
+
       return;
     }
 
+    // 1. Detect the mime type of the image by a XMLHttpRequest.
+    // 2. Load the image as ArrayBuffer for reading orientation if its a JPEG image.
     const xhr = new XMLHttpRequest();
     const clone = this.clone.bind(this);
 
@@ -136,6 +147,7 @@ class Cropper {
     xhr.ontimeout = clone;
 
     xhr.onprogress = () => {
+      // Abort the request directly if it not a JPEG image for better performance
       if (xhr.getResponseHeader('content-type') !== MIME_TYPE_JPEG) {
         xhr.abort();
       }

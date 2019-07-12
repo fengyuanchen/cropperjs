@@ -250,7 +250,7 @@ If the value of the image's `crossOrigin` attribute is `"use-credentials"`, then
 - Type: `Boolean`
 - Default: `true`
 
-Check the current image's Exif Orientation information.
+Check the current image's Exif Orientation information. Note that only a JPEG image may contains Exif Orientation information.
 
 More exactly, read the Orientation value for rotating or flipping the image, and then override the Orientation value with `1` (the default value) to avoid some issues ([1](https://github.com/fengyuanchen/cropper/issues/120), [2](https://github.com/fengyuanchen/cropper/issues/509)) on iOS devices.
 

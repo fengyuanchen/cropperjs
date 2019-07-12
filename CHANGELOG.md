@@ -3,6 +3,7 @@
 ## next
 
 - Avoid removing the events of the original image.
+- Avoid requesting any Data URLs by XMLHttpRequest for better performance (#526).
 - Add an `alt` attribute to all internal images for better accessibility (#548).
 
 ## 1.5.3 (Jul 10, 2019)
