@@ -223,7 +223,7 @@ class Cropper {
   }
 
   start() {
-    const image = this.isImg ? this.element : this.image;
+    const { image } = this;
 
     image.onload = null;
     image.onerror = null;
