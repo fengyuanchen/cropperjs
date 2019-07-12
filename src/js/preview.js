@@ -11,9 +11,10 @@ import {
 
 export default {
   initPreview() {
-    const { crossOrigin } = this;
+    const { element, crossOrigin } = this;
     const { preview } = this.options;
     const url = crossOrigin ? this.crossOriginUrl : this.url;
+    const alt = element.alt || 'The image to preview';
     const image = document.createElement('img');
 
     if (crossOrigin) {
@@ -21,6 +22,7 @@ export default {
     }
 
     image.src = url;
+    image.alt = alt;
     this.viewBox.appendChild(image);
     this.viewBoxImage = image;
 
@@ -31,7 +33,7 @@ export default {
     let previews = preview;
 
     if (typeof preview === 'string') {
-      previews = this.element.ownerDocument.querySelectorAll(preview);
+      previews = element.ownerDocument.querySelectorAll(preview);
     } else if (preview.querySelector) {
       previews = [preview];
     }
@@ -53,6 +55,7 @@ export default {
       }
 
       img.src = url;
+      img.alt = alt;
 
       /**
        * Override img element styles

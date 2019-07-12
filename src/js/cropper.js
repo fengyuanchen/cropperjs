@@ -215,6 +215,7 @@ class Cropper {
     }
 
     image.src = crossOriginUrl || url;
+    image.alt = element.alt || 'The image to crop';
     this.image = image;
     image.onload = this.start.bind(this);
     image.onerror = this.stop.bind(this);
