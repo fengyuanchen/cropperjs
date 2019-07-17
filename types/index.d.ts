@@ -1,22 +1,14 @@
 declare namespace Cropper {
-  enum DragMode {
-    Crop = 'crop',
-    Move = 'move',
-    None = 'none',
-  }
+  type DragMode = 'crop' | 'move' | 'none';
 
-  enum ViewMode {
+  const enum ViewMode {
     Free = 0,
     CanvasWidthAndHeightShouldNotBeLessThanCropBoxSize = 1,
     CanvasWidthOrHeightShouldNotBeLessThanContainerSize = 2,
     CanvasWidthAndHeightShouldNotBeLessThanContainerSize = 3,
   }
 
-  enum ImageSmoothingQuality {
-    Low = 'low',
-    Medium = 'medium',
-    High = 'high',
-  }
+  type ImageSmoothingQuality = 'low' | 'medium' | 'high';
 
   export interface Data {
     x: number;
