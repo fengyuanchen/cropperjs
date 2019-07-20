@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v1.5.3
+ * Cropper.js v1.5.4
  * https://fengyuanchen.github.io/cropperjs
  *
  * Copyright 2015-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2019-07-10T12:07:44.557Z
+ * Date: 2019-07-20T02:37:47.411Z
  */
 
 function _typeof(obj) {
@@ -117,6 +117,7 @@ var EVENT_ZOOM = 'zoom'; // Mime types
 var MIME_TYPE_JPEG = 'image/jpeg'; // RegExps
 
 var REGEXP_ACTIONS = /^e|w|s|n|se|sw|ne|nw|all|crop|move|zoom$/;
+var REGEXP_DATA_URL = /^data:/;
 var REGEXP_DATA_URL_JPEG = /^data:image\/jpeg;base64,/;
 var REGEXP_TAG_NAME = /^img|canvas$/i; // Misc
 // Inspired by the default width and height of a canvas element.
@@ -1518,9 +1519,11 @@ var render = {
 
 var preview = {
   initPreview: function initPreview() {
-    var crossOrigin = this.crossOrigin;
+    var element = this.element,
+        crossOrigin = this.crossOrigin;
     var preview = this.options.preview;
     var url = crossOrigin ? this.crossOriginUrl : this.url;
+    var alt = element.alt || 'The image to preview';
     var image = document.createElement('img');
 
     if (crossOrigin) {
@@ -1528,6 +1531,7 @@ var preview = {
     }
 
     image.src = url;
+    image.alt = alt;
     this.viewBox.appendChild(image);
     this.viewBoxImage = image;
 
@@ -1538,7 +1542,7 @@ var preview = {
     var previews = preview;
 
     if (typeof preview === 'string') {
-      previews = this.element.ownerDocument.querySelectorAll(preview);
+      previews = element.ownerDocument.querySelectorAll(preview);
     } else if (preview.querySelector) {
       previews = [preview];
     }
@@ -1558,6 +1562,7 @@ var preview = {
       }
 
       img.src = url;
+      img.alt = alt;
       /**
        * Override img element styles
        * Add `display:block` to avoid margin top issue
@@ -3221,13 +3226,23 @@ function () {
       if (!options.checkOrientation || !window.ArrayBuffer) {
         this.clone();
         return;
-      } // Read ArrayBuffer from Data URL of JPEG images directly for better performance.
+      } // Detect the mime type of the image directly if it is a Data URL
 
 
-      if (REGEXP_DATA_URL_JPEG.test(url)) {
-        this.read(dataURLToArrayBuffer(url));
+      if (REGEXP_DATA_URL.test(url)) {
+        // Read ArrayBuffer from Data URL of JPEG images directly for better performance
+        if (REGEXP_DATA_URL_JPEG.test(url)) {
+          this.read(dataURLToArrayBuffer(url));
+        } else {
+          // Only a JPEG image may contains Exif Orientation information,
+          // the rest types of Data URLs are not necessary to check orientation at all.
+          this.clone();
+        }
+
         return;
-      }
+      } // 1. Detect the mime type of the image by a XMLHttpRequest.
+      // 2. Load the image as ArrayBuffer for reading orientation if its a JPEG image.
+
 
       var xhr = new XMLHttpRequest();
       var clone = this.clone.bind(this);
@@ -3242,6 +3257,7 @@ function () {
       xhr.ontimeout = clone;
 
       xhr.onprogress = function () {
+        // Abort the request directly if it not a JPEG image for better performance
         if (xhr.getResponseHeader('content-type') !== MIME_TYPE_JPEG) {
           xhr.abort();
         }
@@ -3328,6 +3344,7 @@ function () {
       }
 
       image.src = crossOriginUrl || url;
+      image.alt = element.alt || 'The image to crop';
       this.image = image;
       image.onload = this.start.bind(this);
       image.onerror = this.stop.bind(this);
@@ -3339,7 +3356,7 @@ function () {
     value: function start() {
       var _this2 = this;
 
-      var image = this.isImg ? this.element : this.image;
+      var image = this.image;
       image.onload = null;
       image.onerror = null;
       this.sizing = true; // Match all browsers that use WebKit as the layout engine in iOS devices,
