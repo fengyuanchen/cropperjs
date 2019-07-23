@@ -90,6 +90,7 @@ declare namespace Cropper {
     background?: boolean;
     center?: boolean;
     checkCrossOrigin?: boolean;
+    shouldBustCache?: boolean;
     checkOrientation?: boolean;
     crop?(event: CustomEvent): void;
     cropBoxMovable?: boolean;
