@@ -28,6 +28,9 @@ export default {
   // Check if the current image is a cross-origin image
   checkCrossOrigin: true,
 
+  // Prevent cache busting to happen
+  shouldBustCache: true,
+
   // Check the current image's Exif Orientation information
   checkOrientation: true,
 
@@ -89,7 +92,7 @@ export default {
   minCropBoxHeight: 0,
   minContainerWidth: 200,
   minContainerHeight: 100,
-
+  
   // Shortcuts of events
   ready: null,
   cropstart: null,

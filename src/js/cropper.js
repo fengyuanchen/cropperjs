@@ -163,7 +163,7 @@ class Cropper {
     };
 
     // Bust cache when there is a "crossOrigin" property to avoid browser cache error
-    if (options.checkCrossOrigin && isCrossOriginURL(url) && element.crossOrigin) {
+    if (options.checkCrossOrigin && isCrossOriginURL(url) && element.crossOrigin && options.shouldBustCache) {
       url = addTimestamp(url);
     }
 
@@ -214,7 +214,9 @@ class Cropper {
       }
 
       // Bust cache when there is not a "crossOrigin" property (#519)
-      crossOriginUrl = addTimestamp(url);
+      if (this.options.shouldBustCache) {
+        crossOriginUrl = addTimestamp(url);
+      }
     }
 
     this.crossOrigin = crossOrigin;
