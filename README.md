@@ -239,11 +239,15 @@ Restore the cropped area after resizing the window.
 
 Check if the current image is a cross-origin image.
 
-If it is, when clone the image, a `crossOrigin` attribute will be added to the cloned image element and a timestamp will be added to the `src` attribute to reload the source image to avoid browser cache error.
+If it is, when clone the image, a `crossOrigin` attribute will be added to the cloned image element and a timestamp will be added to the `src` attribute to reload the source image to avoid browser cache error. (Sending the timestamp parameter can be supressed if needed, see the shouldBustCache option)
 
-By adding `crossOrigin` attribute to image element will stop adding timestamp to image URL and stop reload of image, but the request (XMLHttpRequest) to read the image data for orientation checking will require a timestamp to bust cache to avoid browser cache error now, you can set the `checkOrientation` option to `false` to cancel this request.
+By adding `crossOrigin` attribute to image element will stop adding timestamp to image URL and stop reload of image, but the request (XMLHttpRequest) to read the image data for orientation checking will require a timestamp to bust cache to avoid browser cache error now, you can set the `checkOrientation` option to `false` to cancel this request. (Sending the timestamp parameter can be supressed if needed, see the shouldBustCache option)
 
 If the value of the image's `crossOrigin` attribute is `"use-credentials"`, then the `withCredentials` attribute will set to `true` when read the image data by XMLHttpRequest.
+
+### shouldBustCache
+
+If for some reason the extra timestamp query parameter should not be sent to the server you can suppress this behavior by setting the shouldBustCache option to false. This can be the case when for example the urls used are signed for example for use with AWS CloudFront or AWS S3. This could result in the cache not being busted though for some browser.
 
 ### checkOrientation
 
