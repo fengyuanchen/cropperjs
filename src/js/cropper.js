@@ -203,12 +203,10 @@ class Cropper {
 
   clone() {
     const { element, url } = this;
-    let crossOrigin;
-    let crossOriginUrl;
+    let { crossOrigin } = element;
+    let crossOriginUrl = url;
 
     if (this.options.checkCrossOrigin && isCrossOriginURL(url)) {
-      ({ crossOrigin } = element);
-
       if (!crossOrigin) {
         crossOrigin = 'anonymous';
       }

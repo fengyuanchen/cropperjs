@@ -1,5 +1,10 @@
 # Changelog
 
+## next
+
+- Clone the image's `crossOrigin` attribute always even though the `checkCrossOrigin` is set to `false` (#535).
+- Improve browser environment detecting (#554).
+
 ## 1.5.4 (Jul 20, 2019)
 
 - Avoid removing the events of the original image.
