@@ -1,6 +1,6 @@
 # Changelog
 
-## next
+## 1.5.5 (Aug 3, 2019)
 
 - Clone the image's `crossOrigin` attribute always even though the `checkCrossOrigin` is set to `false` (#535).
 - Improve browser environment detecting (#554).

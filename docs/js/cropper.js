@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v1.5.4
+ * Cropper.js v1.5.5
  * https://fengyuanchen.github.io/cropperjs
  *
  * Copyright 2015-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2019-07-20T02:37:47.411Z
+ * Date: 2019-08-04T02:26:31.160Z
  */
 
 (function (global, factory) {
@@ -70,7 +70,7 @@
     throw new TypeError("Invalid attempt to spread non-iterable instance");
   }
 
-  var IS_BROWSER = typeof window !== 'undefined';
+  var IS_BROWSER = typeof window !== 'undefined' && typeof window.document !== 'undefined';
   var WINDOW = IS_BROWSER ? window : {};
   var IS_TOUCH_DEVICE = IS_BROWSER ? 'ontouchstart' in WINDOW.document.documentElement : false;
   var HAS_POINTER_EVENT = IS_BROWSER ? 'PointerEvent' in WINDOW : false;
@@ -3327,12 +3327,10 @@
       value: function clone() {
         var element = this.element,
             url = this.url;
-        var crossOrigin;
-        var crossOriginUrl;
+        var crossOrigin = element.crossOrigin;
+        var crossOriginUrl = url;
 
         if (this.options.checkCrossOrigin && isCrossOriginURL(url)) {
-          crossOrigin = element.crossOrigin;
-
           if (!crossOrigin) {
             crossOrigin = 'anonymous';
           } // Bust cache when there is not a "crossOrigin" property (#519)
