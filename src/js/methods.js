@@ -285,13 +285,11 @@ export default {
       canvasData.height = newHeight;
       this.renderCanvas(true);
 	  
-      if (dispatchEvent(this.element, EVENT_ZOOM, {
+      dispatchEvent(this.element, EVENT_ZOOM, {
         ratio,
         oldRatio: width / naturalWidth,
         originalEvent: _originalEvent,
-      }) === false) {
-        return this;
-      }
+      });
     }
 
     return this;
