@@ -253,14 +253,6 @@ export default {
       const newWidth = naturalWidth * ratio;
       const newHeight = naturalHeight * ratio;
 
-      if (dispatchEvent(this.element, EVENT_ZOOM, {
-        ratio,
-        oldRatio: width / naturalWidth,
-        originalEvent: _originalEvent,
-      }) === false) {
-        return this;
-      }
-
       if (_originalEvent) {
         const { pointers } = this;
         const offset = getOffset(this.cropper);
@@ -292,6 +284,14 @@ export default {
       canvasData.width = newWidth;
       canvasData.height = newHeight;
       this.renderCanvas(true);
+	  
+      if (dispatchEvent(this.element, EVENT_ZOOM, {
+        ratio,
+        oldRatio: width / naturalWidth,
+        originalEvent: _originalEvent,
+      }) === false) {
+        return this;
+      }
     }
 
     return this;
