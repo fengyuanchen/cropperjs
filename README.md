@@ -855,13 +855,15 @@ cropper.getCroppedCanvas({
   imageSmoothingQuality: 'high',
 });
 
-// Upload cropped image to server if the browser supports `HTMLCanvasElement.toBlob`
+// Upload cropped image to server if the browser supports `HTMLCanvasElement.toBlob`.
+// The default value for the second parameter of `toBlob` is 'image/png', change it if necessary.
 cropper.getCroppedCanvas().toBlob((blob) => {
   const formData = new FormData();
 
-  formData.append('croppedImage', blob);
+  // Pass the image file name as the third parameter if necessary.
+  formData.append('croppedImage', blob/*, 'example.png' */);
 
-  // Use `jQuery.ajax` method
+  // Use `jQuery.ajax` method for example
   $.ajax('/path/to/upload', {
     method: "POST",
     data: formData,
@@ -874,7 +876,7 @@ cropper.getCroppedCanvas().toBlob((blob) => {
       console.log('Upload error');
     },
   });
-});
+}/*, 'image/png' */);
 ```
 
 ### setAspectRatio(aspectRatio)
