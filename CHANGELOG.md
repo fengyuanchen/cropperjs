@@ -1,5 +1,9 @@
 # Changelog
 
+## next
+
+- Improve event type determining for iOS 13+ (#571).
+
 ## 1.5.5 (Aug 3, 2019)
 
 - Clone the image's `crossOrigin` attribute always even though the `checkCrossOrigin` is set to `false` (#535).
