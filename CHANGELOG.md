@@ -1,6 +1,6 @@
 # Changelog
 
-## next
+## 1.5.6 (Oct 4, 2019)
 
 - Improve event type determining for iOS 13+ (#571).
 
