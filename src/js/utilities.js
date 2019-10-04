@@ -19,7 +19,7 @@ export function isNumber(value) {
  * @param {*} value - The value to check.
  * @returns {boolean} Returns `true` if the given value is a positive number, else `false`.
  */
-export const isPositiveNumber = value => value > 0 && value < Infinity;
+export const isPositiveNumber = (value) => value > 0 && value < Infinity;
 
 /**
  * Check if the given value is undefined.
@@ -536,7 +536,7 @@ export function getTransforms({
  * @returns {number} The result ratio.
  */
 export function getMaxZoomRatio(pointers) {
-  const pointers2 = assign({}, pointers);
+  const pointers2 = { ...pointers };
   const ratios = [];
 
   forEach(pointers, (pointer, pointerId) => {
@@ -572,10 +572,11 @@ export function getPointer({ pageX, pageY }, endOnly) {
     endY: pageY,
   };
 
-  return endOnly ? end : assign({
+  return endOnly ? end : ({
     startX: pageX,
     startY: pageY,
-  }, end);
+    ...end,
+  });
 }
 
 /**
@@ -755,7 +756,7 @@ export function getSourceCanvas(
   context.scale(scaleX, scaleY);
   context.imageSmoothingEnabled = imageSmoothingEnabled;
   context.imageSmoothingQuality = imageSmoothingQuality;
-  context.drawImage(image, ...params.map(param => Math.floor(normalizeDecimalNumber(param))));
+  context.drawImage(image, ...params.map((param) => Math.floor(normalizeDecimalNumber(param))));
   context.restore();
   return canvas;
 }

@@ -773,7 +773,7 @@ export default {
 
     // All the numerical parameters should be integer for `drawImage`
     // https://github.com/fengyuanchen/cropper/issues/476
-    context.drawImage(source, ...params.map(param => Math.floor(normalizeDecimalNumber(param))));
+    context.drawImage(source, ...params.map((param) => Math.floor(normalizeDecimalNumber(param))));
 
     return canvas;
   },
