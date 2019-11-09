@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.0-alpha.1 (Nov 9, 2019)
+
+- Merge improvements from v1.
+
 ## 1.5.6 (Oct 4, 2019)
 
 - Improve event type determining for iOS 13+ (#571).
@@ -24,7 +28,7 @@
 
 - Alway add a timestamp to the URL of a cross-origin image (#519).
 
-## 2.0.0-alpha (Mar 10, 2018)
+## 2.0.0-alpha (Mar 10, 2019)
 
 ### Breaking changes
 

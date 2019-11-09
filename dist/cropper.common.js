@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v2.0.0-alpha
+ * Cropper.js v2.0.0-alpha.1
  * https://fengyuanchen.github.io/cropperjs
  *
  * Copyright 2015-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2019-03-10T09:50:44.437Z
+ * Date: 2019-11-09T12:02:24.890Z
  */
 
 'use strict';
@@ -1188,8 +1188,6 @@ function parseOrientation(orientation) {
     case 8:
       rotate = -90;
       break;
-
-    default:
   }
 
   return {
@@ -2070,8 +2068,6 @@ var change = {
           }
 
           break;
-
-        default:
       }
     };
 
@@ -2461,8 +2457,6 @@ var change = {
 
           break;
         }
-
-      default:
     }
 
     if (renderable) {
