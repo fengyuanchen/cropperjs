@@ -864,7 +864,7 @@ Get a canvas drawn the cropped image (lossy compression). If it is not cropped, 
 
 > After then, you can display the canvas as an image directly, or use [HTMLCanvasElement.toDataURL](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL) to get a Data URL, or use [HTMLCanvasElement.toBlob](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) to get a blob and upload it to server with [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) if the browser supports these APIs.
 
-Avoid to get a blank (or black) output image, you might need to set the `maxWidth` and `maxHeight` properties to limited numbers, because of [the size limits of a canvas element](https://stackoverflow.com/questions/6081483/maximum-size-of-a-canvas-element). Also, you should limit them maximum zoom ratio (in the `zoom` event) as the same reason.
+Avoid to get a blank (or black) output image, you might need to set the `maxWidth` and `maxHeight` properties to limited numbers, because of [the size limits of a canvas element](https://stackoverflow.com/questions/6081483/maximum-size-of-a-canvas-element). Also, you should limit them maximum zoom scale (in the `zoom` event) as the same reason.
 
 ```js
 cropper.getCroppedCanvas();
@@ -1019,20 +1019,20 @@ This event fires when the canvas (image wrapper) or the crop box changed.
   - Type: `Event`
   - Options: `wheel`, `touchmove`.
 
-- **event.detail.oldRatio**:
+- **event.detail.oldScale**:
   - Type: `Number`
-  - The old (current) ratio of the canvas
+  - The old (current) scale of the canvas
 
-- **event.detail.ratio**:
+- **event.detail.scale**:
   - Type: `Number`
-  - The new (next) ratio of the canvas (`canvasData.width / canvasData.naturalWidth`)
+  - The new (next) scale of the canvas (`canvasData.width / canvasData.naturalWidth`)
 
 This event fires when a cropper instance starts to zoom in or zoom out its canvas (image wrapper).
 
 ```js
 image.addEventListener('zoom', (event) => {
   // Zoom in
-  if (event.detail.ratio > event.detail.oldRatio) {
+  if (event.detail.scale > event.detail.oldScale) {
     event.preventDefault(); // Prevent zoom in
   }
 
