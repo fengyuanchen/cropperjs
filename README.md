@@ -92,9 +92,12 @@ new Cropper(element[, options])
 ```
 
 ```css
-/* Limit image width to avoid overflow the container */
+/* Ensure the size of the image fit the container perfectly */
 img {
-  max-width: 100%; /* This rule is very important, please do not ignore this! */
+  display: block;
+
+  /* This rule is very important, please don't ignore this */
+  max-width: 100%;
 }
 ```
 
