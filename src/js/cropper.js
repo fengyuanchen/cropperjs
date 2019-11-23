@@ -87,7 +87,7 @@ class Cropper {
         return;
       }
 
-      // e.g.: "http://example.com/img/picture.jpg"
+      // e.g.: "https://example.com/img/picture.jpg"
       url = element.src;
     } else if (tagName === 'canvas' && window.HTMLCanvasElement) {
       url = element.toDataURL();
