@@ -868,7 +868,7 @@ cropper.getCroppedCanvas().toBlob((blob) => {
 
   // Use `jQuery.ajax` method for example
   $.ajax('/path/to/upload', {
-    method: "POST",
+    method: 'POST',
     data: formData,
     processData: false,
     contentType: false,
