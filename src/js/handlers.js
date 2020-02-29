@@ -10,8 +10,6 @@ import {
   EVENT_CROP_END,
   EVENT_CROP_MOVE,
   EVENT_CROP_START,
-  MIN_CONTAINER_WIDTH,
-  MIN_CONTAINER_HEIGHT,
   REGEXP_ACTIONS,
 } from './constants';
 import {
@@ -28,15 +26,11 @@ import {
 
 export default {
   resize() {
-    const { options, container, containerData } = this;
-    const minContainerWidth = Number(options.minContainerWidth) || MIN_CONTAINER_WIDTH;
-    const minContainerHeight = Number(options.minContainerHeight) || MIN_CONTAINER_HEIGHT;
-
-    if (this.disabled || containerData.width <= minContainerWidth
-      || containerData.height <= minContainerHeight) {
+    if (this.disabled) {
       return;
     }
 
+    const { options, container, containerData } = this;
     const ratio = container.offsetWidth / containerData.width;
 
     // Resize when width changed or height changed
