@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.5.7 (May 23, 2020)
+
+- Improve container resizing (#636).
+- Improve touch device detection (#614).
+
 ## 1.5.6 (Oct 4, 2019)
 
 - Improve event type determining for iOS 13+ (#571).
