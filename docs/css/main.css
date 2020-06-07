@@ -98,6 +98,12 @@ label.btn {
   z-index: 1;
 }
 
+.docs-demo {
+  margin-bottom: 1rem;
+  overflow: hidden;
+  padding: 2px;
+}
+
 .img-container,
 .img-preview {
   background-color: #f7f7f7;
@@ -106,7 +112,6 @@ label.btn {
 }
 
 .img-container {
-  margin-bottom: 1rem;
   max-height: 497px;
   min-height: 200px;
 }
