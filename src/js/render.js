@@ -105,7 +105,6 @@ export default {
     this.canvasData = canvasData;
     this.limited = (viewMode === 1 || viewMode === 2);
     this.limitCanvas(true, true);
-    this.initialImageData = assign({}, imageData);
     this.initialCanvasData = assign({}, canvasData);
   },
 
