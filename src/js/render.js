@@ -41,6 +41,8 @@ export default {
       container,
       cropper,
     } = this;
+    const minWidth = Number(options.minContainerWidth);
+    const minHeight = Number(options.minContainerHeight);
 
     addClass(cropper, CLASS_HIDDEN);
     removeClass(element, CLASS_HIDDEN);
@@ -48,11 +50,11 @@ export default {
     const containerData = {
       width: Math.max(
         container.offsetWidth,
-        Number(options.minContainerWidth) || MIN_CONTAINER_WIDTH,
+        minWidth >= 0 ? minWidth : MIN_CONTAINER_WIDTH,
       ),
       height: Math.max(
         container.offsetHeight,
-        Number(options.minContainerHeight) || MIN_CONTAINER_HEIGHT,
+        minHeight >= 0 ? minHeight : MIN_CONTAINER_HEIGHT,
       ),
     };
 
