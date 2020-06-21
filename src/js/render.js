@@ -24,7 +24,6 @@ export default {
     this.initContainer();
     this.initCanvas();
     this.initCropBox();
-    this.initialImageData = assign({}, this.imageData);
     this.initialCanvasData = assign({}, this.canvasData);
     this.initialCropBoxData = assign({}, this.cropBoxData);
     this.renderCanvas();

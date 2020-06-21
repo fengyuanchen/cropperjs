@@ -1,8 +1,15 @@
 # Changelog
 
+## 1.5.7 (May 23, 2020)
+
+- Improve container resizing (#636).
+- Improve touch device detection (#614).
+
 ## 2.0.0-alpha.1 (Nov 9, 2019)
 
 - Merge improvements from v1.
+- Store the initial image data in the right place for avoiding [side-effect](https://github.com/fengyuanchen/jquery-cropper/issues/19).
+- Fix the issue when the value of the `minContainerWidth/Height` options is `0` (#683).
 
 ## 1.5.6 (Oct 4, 2019)
 

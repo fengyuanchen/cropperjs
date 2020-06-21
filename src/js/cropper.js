@@ -249,6 +249,7 @@ class Cropper {
         naturalHeight,
         aspectRatio: naturalWidth / naturalHeight,
       });
+      this.initialImageData = assign({}, this.imageData);
       this.sizing = false;
       this.sized = true;
       this.build();
