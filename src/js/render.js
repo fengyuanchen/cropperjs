@@ -4,6 +4,8 @@ import {
   CLASS_HIDDEN,
   DATA_ACTION,
   EVENT_CROP,
+  MIN_CONTAINER_HEIGHT,
+  MIN_CONTAINER_WIDTH,
 } from './constants';
 import {
   addClass,
@@ -36,6 +38,8 @@ export default {
       container,
       cropper,
     } = this;
+    const minWidth = Number(options.minContainerWidth);
+    const minHeight = Number(options.minContainerHeight);
 
     addClass(cropper, CLASS_HIDDEN);
     removeClass(element, CLASS_HIDDEN);
@@ -43,11 +47,11 @@ export default {
     const containerData = {
       width: Math.max(
         container.offsetWidth,
-        Number(options.minContainerWidth) || 200,
+        minWidth >= 0 ? minWidth : MIN_CONTAINER_WIDTH,
       ),
       height: Math.max(
         container.offsetHeight,
-        Number(options.minContainerHeight) || 100,
+        minHeight >= 0 ? minHeight : MIN_CONTAINER_HEIGHT,
       ),
     };
 

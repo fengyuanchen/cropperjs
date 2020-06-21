@@ -23,4 +23,22 @@ describe('minContainerHeight (option)', () => {
 
     expect(cropper.options.minContainerHeight).to.equal(minContainerHeight);
   });
+
+  it('should support `0` as the value', (done) => {
+    const image = window.createImage();
+
+    image.parentElement.style.height = '0';
+
+    const minContainerHeight = 0;
+    const cropper = new Cropper(image, {
+      minContainerHeight,
+
+      ready() {
+        expect(cropper.getContainerData().height).to.equal(minContainerHeight);
+        done();
+      },
+    });
+
+    expect(cropper.options.minContainerHeight).to.equal(minContainerHeight);
+  });
 });

@@ -1,5 +1,9 @@
 # Changelog
 
+## next
+
+- Fix the issue when the value of the `minContainerWidth/Height` options is `0` (#683).
+
 ## 1.5.7 (May 23, 2020)
 
 - Improve container resizing (#636).

@@ -23,4 +23,22 @@ describe('minContainerWidth (option)', () => {
 
     expect(cropper.options.minContainerWidth).to.equal(minContainerWidth);
   });
+
+  it('should support `0` as the value', (done) => {
+    const image = window.createImage();
+
+    image.parentElement.style.width = '0';
+
+    const minContainerWidth = 0;
+    const cropper = new Cropper(image, {
+      minContainerWidth,
+
+      ready() {
+        expect(cropper.getContainerData().width).to.equal(minContainerWidth);
+        done();
+      },
+    });
+
+    expect(cropper.options.minContainerWidth).to.equal(minContainerWidth);
+  });
 });
