@@ -1085,7 +1085,7 @@ Maintained under the [Semantic Versioning guidelines](https://semver.org/).
 - [angular-cropperjs](https://github.com/matheusdavidson/angular-cropperjs) by @matheusdavidson
 - [ember-cropperjs](https://github.com/danielthall/ember-cropperjs) by @danielthall
 - [iron-cropper](https://github.com/safetychanger/iron-cropper) by @safetychanger
-- [react-cropper](https://github.com/roadmanfong/react-cropper) by @roadmanfong
+- [react-cropper](https://github.com/react-cropper/react-cropper) by @roadmanfong
 - [vue-cropperjs](https://github.com/Agontuk/vue-cropperjs) by @Agontuk
 
 [⬆ back to top](#table-of-contents)
