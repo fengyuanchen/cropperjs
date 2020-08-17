@@ -5,7 +5,7 @@
  * Copyright 2015-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2018-10-24T13:07:11.429Z
+ * Date: 2020-08-17T04:10:44.797Z
  */
 
 .cropper-container {
@@ -66,6 +66,7 @@
   outline: 1px solid #39f;
   overflow: hidden;
   width: 100%;
+  border: 1px solid #ffffff;
 }
 
 .cropper-dashed {

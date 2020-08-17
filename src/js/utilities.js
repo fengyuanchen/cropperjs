@@ -523,7 +523,7 @@ export function getTransforms({
  * @returns {number} The result ratio.
  */
 export function getMaxZoomRatio(pointers) {
-  const pointers2 = assign({}, pointers);
+  const pointers2 = { ...pointers };
   const ratios = [];
 
   forEach(pointers, (pointer, pointerId) => {
@@ -559,10 +559,11 @@ export function getPointer({ pageX, pageY }, endOnly) {
     endY: pageY,
   };
 
-  return endOnly ? end : assign({
+  return endOnly ? end : ({
     startX: pageX,
     startY: pageY,
-  }, end);
+    ...end,
+  });
 }
 
 /**
@@ -609,7 +610,7 @@ export function getAdjustedSizes(
   },
   type = 'contain', // or 'cover'
 ) {
-  const isValidNumber = value => isFinite(value) && value > 0;
+  const isValidNumber = (value) => isFinite(value) && value > 0;
 
   if (isValidNumber(width) && isValidNumber(height)) {
     const adjustedWidth = height * aspectRatio;
@@ -746,7 +747,7 @@ export function getSourceCanvas(
   context.scale(scaleX, scaleY);
   context.imageSmoothingEnabled = imageSmoothingEnabled;
   context.imageSmoothingQuality = imageSmoothingQuality;
-  context.drawImage(image, ...params.map(param => Math.floor(normalizeDecimalNumber(param))));
+  context.drawImage(image, ...params.map((param) => Math.floor(normalizeDecimalNumber(param))));
   context.restore();
   return canvas;
 }
