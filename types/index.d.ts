@@ -1,7 +1,7 @@
 declare namespace Cropper {
-  type DragMode = 'crop' | 'move' | 'none';
-  type ViewMode = 0 | 1 | 2 | 3;
-  type ImageSmoothingQuality = 'low' | 'medium' | 'high';
+  export type DragMode = 'crop' | 'move' | 'none';
+  export type ViewMode = 0 | 1 | 2 | 3;
+  export type ImageSmoothingQuality = 'low' | 'medium' | 'high';
 
   export interface Data {
     x: number;
