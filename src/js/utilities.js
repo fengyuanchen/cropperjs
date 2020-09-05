@@ -537,7 +537,6 @@ export function getTransforms({
  */
 export function getMaxZoomRatio(pointers) {
   const pointers2 = { ...pointers };
-  const ratios = [];
   let maxRatio = 0;
 
   forEach(pointers, (pointer, pointerId) => {
