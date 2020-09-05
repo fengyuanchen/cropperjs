@@ -97,14 +97,21 @@ export default {
       height: canvasHeight,
     };
 
-    canvasData.left = (containerData.width - canvasWidth) / 2;
-    canvasData.top = (containerData.height - canvasHeight) / 2;
-    canvasData.oldLeft = canvasData.left;
-    canvasData.oldTop = canvasData.top;
-
     this.canvasData = canvasData;
     this.limited = (viewMode === 1 || viewMode === 2);
     this.limitCanvas(true, true);
+    canvasData.width = Math.min(
+      Math.max(canvasData.width, canvasData.minWidth),
+      canvasData.maxWidth,
+    );
+    canvasData.height = Math.min(
+      Math.max(canvasData.height, canvasData.minHeight),
+      canvasData.maxHeight,
+    );
+    canvasData.left = (containerData.width - canvasData.width) / 2;
+    canvasData.top = (containerData.height - canvasData.height) / 2;
+    canvasData.oldLeft = canvasData.left;
+    canvasData.oldTop = canvasData.top;
     this.initialCanvasData = assign({}, canvasData);
   },
 
