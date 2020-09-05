@@ -538,6 +538,7 @@ export function getTransforms({
 export function getMaxZoomRatio(pointers) {
   const pointers2 = { ...pointers };
   const ratios = [];
+  let maxRatio = 0;
 
   forEach(pointers, (pointer, pointerId) => {
     delete pointers2[pointerId];
@@ -551,13 +552,13 @@ export function getMaxZoomRatio(pointers) {
       const z2 = Math.sqrt((x2 * x2) + (y2 * y2));
       const ratio = (z2 - z1) / z1;
 
-      ratios.push(ratio);
+      if (ratio > maxRatio) {
+        maxRatio = ratio;
+      }
     });
   });
 
-  ratios.sort((a, b) => Math.abs(a) < Math.abs(b));
-
-  return ratios[0];
+  return maxRatio;
 }
 
 /**
