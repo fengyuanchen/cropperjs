@@ -1,7 +1,7 @@
 import {
   DRAG_MODE_CROP,
-  MIN_CONTAINER_WIDTH,
   MIN_CONTAINER_HEIGHT,
+  MIN_CONTAINER_WIDTH,
 } from './constants';
 
 export default {

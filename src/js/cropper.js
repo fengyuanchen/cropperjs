@@ -249,6 +249,8 @@ class Cropper {
         naturalHeight,
         aspectRatio: naturalWidth / naturalHeight,
       });
+
+      // Store the `initialImageData` here for avoiding side effect (jquery-cropper#19)
       this.initialImageData = assign({}, this.imageData);
       this.sizing = false;
       this.sized = true;

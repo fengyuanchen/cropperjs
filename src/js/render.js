@@ -23,8 +23,11 @@ export default {
   render() {
     this.initContainer();
     this.initCanvas();
-    this.initCropBox();
     this.initialCanvasData = assign({}, this.canvasData);
+    this.initCropBox();
+
+    // Store the `initialCropBoxData` outside of the `initCropBox` method,
+    // just because the `initCropBox` method will be called more then once.
     this.initialCropBoxData = assign({}, this.cropBoxData);
     this.renderCanvas();
 
