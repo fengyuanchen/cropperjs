@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v1.5.7
+ * Cropper.js v1.5.8
  * https://fengyuanchen.github.io/cropperjs
  *
  * Copyright 2015-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2020-05-23T05:23:00.081Z
+ * Date: 2020-09-05T09:47:28.489Z
  */
 
 'use strict';
@@ -186,6 +186,10 @@ var REGEXP_ACTIONS = /^e|w|s|n|se|sw|ne|nw|all|crop|move|zoom$/;
 var REGEXP_DATA_URL = /^data:/;
 var REGEXP_DATA_URL_JPEG = /^data:image\/jpeg;base64,/;
 var REGEXP_TAG_NAME = /^img|canvas$/i; // Misc
+// Inspired by the default width and height of a canvas element.
+
+var MIN_CONTAINER_WIDTH = 200;
+var MIN_CONTAINER_HEIGHT = 100;
 
 var DEFAULTS = {
   // Define the view mode of the cropper
@@ -249,8 +253,8 @@ var DEFAULTS = {
   minCanvasHeight: 0,
   minCropBoxWidth: 0,
   minCropBoxHeight: 0,
-  minContainerWidth: 200,
-  minContainerHeight: 100,
+  minContainerWidth: MIN_CONTAINER_WIDTH,
+  minContainerHeight: MIN_CONTAINER_HEIGHT,
   // Shortcuts of events
   ready: null,
   cropstart: null,
@@ -798,7 +802,7 @@ function getTransforms(_ref) {
 function getMaxZoomRatio(pointers) {
   var pointers2 = _objectSpread2({}, pointers);
 
-  var ratios = [];
+  var maxRatio = 0;
   forEach(pointers, function (pointer, pointerId) {
     delete pointers2[pointerId];
     forEach(pointers2, function (pointer2) {
@@ -809,13 +813,13 @@ function getMaxZoomRatio(pointers) {
       var z1 = Math.sqrt(x1 * x1 + y1 * y1);
       var z2 = Math.sqrt(x2 * x2 + y2 * y2);
       var ratio = (z2 - z1) / z1;
-      ratios.push(ratio);
+
+      if (ratio > maxRatio) {
+        maxRatio = ratio;
+      }
     });
   });
-  ratios.sort(function (a, b) {
-    return Math.abs(a) < Math.abs(b);
-  });
-  return ratios[0];
+  return maxRatio;
 }
 /**
  * Get a pointer from an event object.
@@ -1219,11 +1223,13 @@ var render = {
         options = this.options,
         container = this.container,
         cropper = this.cropper;
+    var minWidth = Number(options.minContainerWidth);
+    var minHeight = Number(options.minContainerHeight);
     addClass(cropper, CLASS_HIDDEN);
     removeClass(element, CLASS_HIDDEN);
     var containerData = {
-      width: Math.max(container.offsetWidth, Number(options.minContainerWidth) || 200),
-      height: Math.max(container.offsetHeight, Number(options.minContainerHeight) || 100)
+      width: Math.max(container.offsetWidth, minWidth >= 0 ? minWidth : MIN_CONTAINER_WIDTH),
+      height: Math.max(container.offsetHeight, minHeight >= 0 ? minHeight : MIN_CONTAINER_HEIGHT)
     };
     this.containerData = containerData;
     setStyle(cropper, {
@@ -1264,14 +1270,15 @@ var render = {
       width: canvasWidth,
       height: canvasHeight
     };
-    canvasData.left = (containerData.width - canvasWidth) / 2;
-    canvasData.top = (containerData.height - canvasHeight) / 2;
-    canvasData.oldLeft = canvasData.left;
-    canvasData.oldTop = canvasData.top;
     this.canvasData = canvasData;
     this.limited = viewMode === 1 || viewMode === 2;
     this.limitCanvas(true, true);
-    this.initialImageData = assign({}, imageData);
+    canvasData.width = Math.min(Math.max(canvasData.width, canvasData.minWidth), canvasData.maxWidth);
+    canvasData.height = Math.min(Math.max(canvasData.height, canvasData.minHeight), canvasData.maxHeight);
+    canvasData.left = (containerData.width - canvasData.width) / 2;
+    canvasData.top = (containerData.height - canvasData.height) / 2;
+    canvasData.oldLeft = canvasData.left;
+    canvasData.oldTop = canvasData.top;
     this.initialCanvasData = assign({}, canvasData);
   },
   limitCanvas: function limitCanvas(sizeLimited, positionLimited) {
@@ -3420,6 +3427,7 @@ var Cropper = /*#__PURE__*/function () {
           naturalHeight: naturalHeight,
           aspectRatio: naturalWidth / naturalHeight
         });
+        _this2.initialImageData = assign({}, _this2.imageData);
         _this2.sizing = false;
         _this2.sized = true;
 
