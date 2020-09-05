@@ -274,7 +274,7 @@ window.onload = function () {
       var files = this.files;
       var file;
 
-      if (cropper && files && files.length) {
+      if (files && files.length) {
         file = files[0];
 
         if (/^image\/\w+/.test(file.type)) {
@@ -286,7 +286,11 @@ window.onload = function () {
           }
 
           image.src = uploadedImageURL = URL.createObjectURL(file);
-          cropper.destroy();
+
+          if (cropper) {
+            cropper.destroy();
+          }
+
           cropper = new Cropper(image, options);
           inputImage.value = null;
         } else {
