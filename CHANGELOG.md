@@ -1,6 +1,6 @@
 # Changelog
 
-## next
+## 1.5.9 (Sep 10, 2020)
 
 - Fix the issue of fail to zoom out on touch device (#726).
 - Add TypeScript declarations for the events.

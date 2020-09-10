@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v1.5.8
+ * Cropper.js v1.5.9
  * https://fengyuanchen.github.io/cropperjs
  *
  * Copyright 2015-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2020-09-05T09:47:28.489Z
+ * Date: 2020-09-10T13:16:26.743Z
  */
 
 'use strict';
@@ -814,7 +814,7 @@ function getMaxZoomRatio(pointers) {
       var z2 = Math.sqrt(x2 * x2 + y2 * y2);
       var ratio = (z2 - z1) / z1;
 
-      if (ratio > maxRatio) {
+      if (Math.abs(ratio) > Math.abs(maxRatio)) {
         maxRatio = ratio;
       }
     });
