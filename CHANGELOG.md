@@ -1,5 +1,9 @@
 # Changelog
 
+## next
+
+- Fix the issue of fail to zoom out on touch device (#726).
+
 ## 1.5.8 (Sep 5, 2020)
 
 - Fix the issue when the value of the `minContainerWidth/Height` options is `0` (#683).
