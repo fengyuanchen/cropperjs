@@ -1,3 +1,5 @@
+$cropper-image-path: '../images' !default;
+
 .cropper-container {
   direction: ltr;
   font-size: 0;
@@ -243,7 +245,7 @@
 }
 
 .cropper-bg {
-  background-image: url('../images/bg.png');
+  background-image: url('#{$cropper-image-path}/bg.png');
 }
 
 .cropper-hide {
