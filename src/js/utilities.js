@@ -551,7 +551,7 @@ export function getMaxZoomRatio(pointers) {
       const z2 = Math.sqrt((x2 * x2) + (y2 * y2));
       const ratio = (z2 - z1) / z1;
 
-      if (ratio > maxRatio) {
+      if (Math.abs(ratio) > Math.abs(maxRatio)) {
         maxRatio = ratio;
       }
     });

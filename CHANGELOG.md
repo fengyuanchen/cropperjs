@@ -1,5 +1,15 @@
 # Changelog
 
+## next
+
+- Fix the issue of failing to zoom out on the touch device (#726).
+
+## 1.5.8 (Sep 5, 2020)
+
+- Fix the issue when the value of the `minContainerWidth/Height` options is `0` (#683).
+- Reset the initial canvas size when the `minCanvasWidth/Height` options is set (#725).
+- Store the initial image data in the right place for avoiding [side-effect](https://github.com/fengyuanchen/jquery-cropper/issues/19).
+
 ## 1.5.7 (May 23, 2020)
 
 - Improve container resizing (#636).
