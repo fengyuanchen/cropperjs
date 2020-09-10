@@ -3,6 +3,7 @@
 ## next
 
 - Fix the issue of failing to zoom out on the touch device (#726).
+- Add TypeScript declarations for the events.
 
 ## 1.5.8 (Sep 5, 2020)
 
