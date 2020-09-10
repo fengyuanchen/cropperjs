@@ -1020,7 +1020,7 @@ This event fires when the canvas (image wrapper) or the crop box changed.
 
 - **event.detail.originalEvent**:
   - Type: `Event`
-  - Options: `wheel`, `touchmove`.
+  - Options: `wheel`, `pointermove`, `touchmove`.
 
 - **event.detail.oldScale**:
   - Type: `Number`
