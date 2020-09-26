@@ -950,7 +950,7 @@ cropper = new Cropper(image);
 
 - **event.detail.originalEvent**:
   - Type: `Event`
-  - Options: `mousedown`, `touchstart` and `pointerdown`
+  - Options: `pointerdown`, `touchstart`, and `mousedown`
 
 - **event.detail.action**:
   - Type: `String`
@@ -981,7 +981,7 @@ image.addEventListener('cropstart', (event) => {
 
 - **event.detail.originalEvent**:
   - Type: `Event`
-  - Options: `mousemove`, `touchmove` and `pointermove`.
+  - Options: `pointermove`, `touchmove`, and `mousemove`.
 
 - **event.detail.action**: the same as "cropstart".
 
@@ -991,7 +991,7 @@ This event fires when the canvas (image wrapper) or the crop box is changing.
 
 - **event.detail.originalEvent**:
   - Type: `Event`
-  - Options: `mouseup`, `touchend`, `touchcancel`, `pointerup` and `pointercancel`.
+  - Options: `pointerup`, `pointercancel`, `touchend`, `touchcancel`, and `mouseup`.
 
 - **event.detail.action**: the same as "cropstart".
 
@@ -1020,7 +1020,7 @@ This event fires when the canvas (image wrapper) or the crop box changed.
 
 - **event.detail.originalEvent**:
   - Type: `Event`
-  - Options: `wheel`, `pointermove`, `touchmove`.
+  - Options: `wheel`, `pointermove`, `touchmove`, and `mousemove`.
 
 - **event.detail.oldScale**:
   - Type: `Number`
