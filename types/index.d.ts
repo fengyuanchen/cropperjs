@@ -144,7 +144,7 @@ declare namespace Cropper {
     minCropBoxWidth?: number;
     modal?: boolean;
     movable?: boolean;
-    preview?: Element | Element[] | NodeList | string;
+    preview?: HTMLElement | HTMLElement[] | NodeListOf<HTMLElement> | string;
     responsive?: boolean;
     restore?: boolean;
     rotatable?: boolean;
