@@ -91,7 +91,7 @@ declare namespace Cropper {
   }
 
   export interface CropEventData {
-    originalEvent: PointerEvent | MouseEvent | TouchEvent;
+    originalEvent: PointerEvent | TouchEvent | MouseEvent;
     action: Action;
   }
 
@@ -108,7 +108,7 @@ declare namespace Cropper {
   }
 
   export interface ZoomEventData {
-    originalEvent: WheelEvent | PointerEvent | TouchEvent;
+    originalEvent: WheelEvent | PointerEvent | TouchEvent | MouseEvent;
     oldRatio: number;
     ratio: number;
   }
