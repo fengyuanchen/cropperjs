@@ -199,6 +199,13 @@ Define the initial aspect ratio of the crop box. By default, it is the same as t
 
 Define the fixed aspect ratio of the crop box. By default, the crop box is free ratio.
 
+### containerHeightAspectRatio
+
+- Type: `Number`
+- Default: `NaN`
+
+Define a ratio between the width of the container for cropper and the height. If you set `auto`, `aspectRatio` is used.
+
 ### data
 
 - Type: `Object`
