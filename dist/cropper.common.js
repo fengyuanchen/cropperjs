@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v1.5.9
+ * Cropper.js v1.5.10
  * https://fengyuanchen.github.io/cropperjs
  *
  * Copyright 2015-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2020-09-10T13:16:26.743Z
+ * Date: 2020-10-19T21:08:46.621Z
  */
 
 'use strict';
@@ -1223,13 +1223,17 @@ var render = {
         options = this.options,
         container = this.container,
         cropper = this.cropper;
+    var aspectRatio = options.aspectRatio,
+        containerHeightAspectRatio = options.containerHeightAspectRatio;
     var minWidth = Number(options.minContainerWidth);
     var minHeight = Number(options.minContainerHeight);
+    var heightAspectRatio = containerHeightAspectRatio === 'auto' ? aspectRatio : containerHeightAspectRatio;
     addClass(cropper, CLASS_HIDDEN);
     removeClass(element, CLASS_HIDDEN);
+    var containerWidth = Math.max(container.offsetWidth, minWidth >= 0 ? minWidth : MIN_CONTAINER_WIDTH);
     var containerData = {
-      width: Math.max(container.offsetWidth, minWidth >= 0 ? minWidth : MIN_CONTAINER_WIDTH),
-      height: Math.max(container.offsetHeight, minHeight >= 0 ? minHeight : MIN_CONTAINER_HEIGHT)
+      width: containerWidth,
+      height: Math.max(heightAspectRatio ? containerWidth / heightAspectRatio : container.offsetHeight, minHeight >= 0 ? minHeight : MIN_CONTAINER_HEIGHT)
     };
     this.containerData = containerData;
     setStyle(cropper, {
@@ -3334,9 +3338,10 @@ var Cropper = /*#__PURE__*/function () {
 
       if (options.checkCrossOrigin && isCrossOriginURL(url) && element.crossOrigin) {
         url = addTimestamp(url);
-      }
+      } // The third parameter is required for avoiding side-effect (#682)
 
-      xhr.open('GET', url);
+
+      xhr.open('GET', url, true);
       xhr.responseType = 'arraybuffer';
       xhr.withCredentials = element.crossOrigin === 'use-credentials';
       xhr.send();

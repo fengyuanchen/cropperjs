@@ -125,6 +125,7 @@ declare namespace Cropper {
     center?: boolean;
     checkCrossOrigin?: boolean;
     checkOrientation?: boolean;
+    containerHeightAspectRatio?: number | 'auto';
     cropBoxMovable?: boolean;
     cropBoxResizable?: boolean;
     data?: Data;
