@@ -11,8 +11,13 @@ import {
 
 export default {
   initPreview() {
-    const { element, crossOrigin } = this;
     const { preview } = this.options;
+
+    if (!preview) {
+      return;
+    }
+
+    const { element, crossOrigin } = this;
     const url = crossOrigin ? this.crossOriginUrl : this.url;
     const alt = element.alt || 'The image to preview';
     const image = document.createElement('img');
@@ -25,10 +30,6 @@ export default {
     image.alt = alt;
     this.viewBox.appendChild(image);
     this.viewBoxImage = image;
-
-    if (!preview) {
-      return;
-    }
 
     let previews = preview;
 
