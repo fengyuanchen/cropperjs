@@ -1,4 +1,4 @@
-const babel = require('rollup-plugin-babel');
+const { babel } = require('@rollup/plugin-babel');
 const changeCase = require('change-case');
 const createBanner = require('create-banner');
 const pkg = require('./package');
@@ -26,7 +26,7 @@ module.exports = {
       banner,
       file: `dist/${pkg.name}.common.js`,
       format: 'cjs',
-      exports: 'default',
+      exports: 'auto',
     },
     {
       banner,
@@ -41,6 +41,8 @@ module.exports = {
     },
   ],
   plugins: [
-    babel(),
+    babel({
+      babelHelpers: 'bundled',
+    }),
   ],
 };
