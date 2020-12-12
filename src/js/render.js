@@ -38,19 +38,22 @@ export default {
       container,
       cropper,
     } = this;
+    const { aspectRatio, containerHeightAspectRatio } = options;
     const minWidth = Number(options.minContainerWidth);
     const minHeight = Number(options.minContainerHeight);
+    const heightAspectRatio = containerHeightAspectRatio === 'auto' ? aspectRatio : containerHeightAspectRatio;
 
     addClass(cropper, CLASS_HIDDEN);
     removeClass(element, CLASS_HIDDEN);
 
+    const containerWidth = Math.max(
+      container.offsetWidth,
+      minWidth >= 0 ? minWidth : MIN_CONTAINER_WIDTH,
+    );
     const containerData = {
-      width: Math.max(
-        container.offsetWidth,
-        minWidth >= 0 ? minWidth : MIN_CONTAINER_WIDTH,
-      ),
+      width: containerWidth,
       height: Math.max(
-        container.offsetHeight,
+        heightAspectRatio ? (containerWidth / heightAspectRatio) : container.offsetHeight,
         minHeight >= 0 ? minHeight : MIN_CONTAINER_HEIGHT,
       ),
     };
