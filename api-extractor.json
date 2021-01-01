@@ -1,0 +1,14 @@
+{
+  "apiReport": {
+    "enabled": false
+  },
+  "docModel": {
+    "enabled": false
+  },
+  "dtsRollup": {
+    "enabled": true,
+  },
+  "tsdocMetadata": {
+    "enabled": false
+  }
+}

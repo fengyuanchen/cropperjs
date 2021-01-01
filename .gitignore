@@ -1,0 +1,6 @@
+*.local*
+*.map
+coverage
+dist
+node_modules
+temp

@@ -1,0 +1,75 @@
+{
+  "name": "cropperjs",
+  "version": "2.0.0-beta",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "build": "npm run bootstrap && npm run build:docs",
+    "build:docs": "vuepress build docs",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
+    "lint": "npm run lint:js && npm run lint:css",
+    "lint:css": "stylelint **/*.{css,styl,html,md} --fix",
+    "lint:js": "eslint . --ext .js,.ts --fix",
+    "release": "lerna run release && npm run lint && npm test && npm run build && npm run changelog",
+    "serve": "vuepress dev docs",
+    "start": "npm run bootstrap && npm run serve",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
+    "@microsoft/api-extractor": "^7.12.1",
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-node-resolve": "^11.0.1",
+    "@rollup/plugin-typescript": "^8.1.0",
+    "@types/jest": "^26.0.19",
+    "@typescript-eslint/eslint-plugin": "^4.11.1",
+    "@typescript-eslint/parser": "^4.11.1",
+    "@vuepress/plugin-back-to-top": "^1.7.1",
+    "canvas": "^2.6.1",
+    "change-case": "^4.1.2",
+    "conventional-changelog-cli": "^2.1.1",
+    "create-banner": "^1.0.0",
+    "cssnano": "^4.1.10",
+    "del-cli": "^3.0.1",
+    "eslint": "^7.16.0",
+    "eslint-config-airbnb-typescript": "^12.0.0",
+    "eslint-plugin-import": "^2.22.1",
+    "husky": "^4.3.6",
+    "jest": "^26.6.3",
+    "lerna": "^3.22.1",
+    "lint-staged": "^10.5.3",
+    "postcss": "^8.2.1",
+    "postcss-cli": "^8.3.1",
+    "postcss-header": "^3.0.1",
+    "rollup": "^2.35.1",
+    "rollup-plugin-terser": "^7.0.2",
+    "stylelint": "^13.8.0",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-order": "^4.1.0",
+    "ts-jest": "^26.4.4",
+    "ts-loader": "^8.0.12",
+    "tslib": "^2.0.3",
+    "typescript": "^4.1.3",
+    "uglify-js": "^3.12.3",
+    "vuepress": "^1.7.1"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "> 1%",
+    "not ie < 11",
+    "not dead"
+  ],
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "lint-staged": {
+    "*.js": "eslint --fix",
+    "*.{css,styl,html,md}": "stylelint --fix"
+  }
+}

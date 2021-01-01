@@ -1,0 +1,37 @@
+{
+  "name": "@cropper/constants",
+  "description": "A series of common constants.",
+  "version": "2.0.0-beta",
+  "main": "dist/cropper-constants.js",
+  "module": "dist/cropper-constants.esm.js",
+  "types": "dist/cropper-constants.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "api-extractor": "api-extractor run --local --verbose",
+    "build": "npm run tsc && npm run rollup && npm run api-extractor",
+    "clean": "del-cli dist temp",
+    "release": "npm run clean && npm run build",
+    "rollup": "rollup -c ../../rollup.config.js",
+    "tsc": "tsc --outDir ./temp --emitDeclarationOnly"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fengyuanchen/cropperjs.git",
+    "directory": "packages/constants"
+  },
+  "keywords": [
+    "constants",
+    "cropper",
+    "cropper.js"
+  ],
+  "author": "Chen Fengyuan (https://chenfengyuan.com/)",
+  "license": "MIT",
+  "bugs": "https://github.com/fengyuanchen/cropperjs/issues",
+  "homepage": "https://github.com/fengyuanchen/cropperjs/tree/next/packages/constants/#readme",
+  "publishConfig": {
+    "access": "public",
+    "tag": "next"
+  }
+}

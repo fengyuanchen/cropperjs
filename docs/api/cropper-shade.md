@@ -1,0 +1,161 @@
+# CropperShade
+
+The `CropperShade` interface provides properties and methods for manipulating the layout and presentation of `<cropper-shade>` elements.
+
+## Examples
+
+### Basic
+
+:::live-demo
+
+```html
+<cropper-shade></cropper-shade>
+```
+
+:::
+
+:::tip
+The default width and height of this element is `0`.
+:::
+
+### Specify position and size
+
+:::live-demo
+
+```html
+<cropper-canvas background>
+  <cropper-shade x="265" y="5" width="160" height="90"></cropper-shade>
+</cropper-canvas>
+```
+
+:::
+
+### Customize the color
+
+:::live-demo
+
+```html
+<cropper-canvas background>
+  <cropper-shade x="265" y="5" width="160" height="90" theme-color="rgba(0, 0, 0, 0.35)"></cropper-shade>
+</cropper-canvas>
+```
+
+:::
+
+### Toggle visibility on pointer down/up dynamically
+
+:::live-demo
+
+```html
+<cropper-canvas background>
+  <cropper-image src="/picture.jpg" alt="Cropper logo"></cropper-image>
+  <cropper-shade hidden></cropper-shade>
+  <cropper-handle action="select" plain></cropper-handle>
+  <cropper-selection hidden>
+    <cropper-handle action="move" plain></cropper-handle>
+  </cropper-selection>
+</cropper-canvas>
+```
+
+:::
+
+:::tip
+The `<cropper-shade>` element will synchronize the position and size of the visible `<cropper-selection>` element automatically.
+:::
+
+:::tip
+The [`hidden`](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden) attribute is a native global attribute.
+:::
+
+## Constructor
+
+### `CropperShade`
+
+- **Syntax**:
+  - `new CropperShade()`
+  - `document.createElement("cropper-shade")`
+- **Returns**:
+  - Type: `CropperShade`
+  - The element instance.
+- Example:
+
+  ```js
+  const cropperShade = new CropperShade();
+
+  cropperShade.x = 10;
+  cropperShade.y = 5;
+  cropperShade.width = 160;
+  cropperShade.height = 90;
+  document.body.appendChild(cropperShade);
+  ```
+
+The `CropperShade()` constructor creates and returns a new `CropperShade` object representing a `<cropper-shade>` element which is not attached to any DOM tree.
+
+## Properties
+
+Inherits properties from its parent, [`CropperElement`](cropper-element.html), and implements the following properties:
+
+| Name | Type | Default | Options | Description |
+| --- | --- | --- | --- | --- |
+| x | `number` | `0` | - | Indicate the x-axis coordinate of the element. |
+| y | `number` | `0` | - | Indicate the y-axis coordinate of the element. |
+| width | `number` | `0` | - | Indicate the width of the element. |
+| height | `number` | `0` | - | Indicate the height of the element. |
+| slottable | `boolean` | `false` | - | Indicate whether this element is slottable. |
+| themeColor | `string` | `"rgba(0, 0, 0, 0.65)"` | - | Indicate the color of the shade. |
+
+## Methods
+
+### $change
+
+- **Syntax**:
+  - `$change(x, y)`
+  - `$change(x, y, width, height)`
+- **Arguments**:
+  - `x`:
+    - Type: `number`
+    - The new position in the horizontal direction.
+  - `y`:
+    - Type: `number`
+    - The new position in the vertical direction.
+  - `width`:
+    - Type: `number`
+    - Default: `this.width`
+    - The new width.
+  - `height`:
+    - Type: `number`
+    - Default: `this.height`
+    - The new height.
+- **Returns**:
+  - Type: `CropperShade`
+  - The element instance for chaining.
+
+Changes the position and/or size of the shade.
+
+### $reset
+
+- **Syntax**: `$reset()`
+- **Returns**:
+  - Type: `CropperShade`
+  - The element instance for chaining.
+
+Resets the shade to its initial position and size.
+
+### $render
+
+- **Syntax**: `$render()`
+- **Returns**:
+  - Type: `CropperShade`
+  - The element instance for chaining.
+
+Refreshes the position or size of the shade.
+
+## Slots
+
+There is only one default slot in this element.
+
+> You can disable it by setting the `slottable` property to `false`:
+>
+> ```html
+> <cropper-shade slottable="false"></cropper-shade>
+> ```

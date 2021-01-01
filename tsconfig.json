@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "rootDir": ".",
+    "outDir": "dist",
+    "sourceMap": false,
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "declaration": true,
+    "allowJs": false,
+    "strict": true,
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "removeComments": false,
+    "lib": [
+      "dom",
+      "esnext"
+    ],
+    "types": [
+      "jest"
+    ],
+    "paths": {
+      "@cropper/*": [
+        "packages/*/src"
+      ],
+      "cropperjs": [
+        "packages/cropperjs/src"
+      ]
+    }
+  },
+  "include": [
+    "packages/*/src",
+    "packages/*/tests",
+    "types/*"
+  ]
+}

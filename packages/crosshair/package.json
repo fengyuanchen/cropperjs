@@ -1,0 +1,45 @@
+{
+  "name": "@cropper/crosshair",
+  "description": "A custom crosshair element for the Cropper.",
+  "version": "2.0.0-beta",
+  "main": "dist/cropper-crosshair.js",
+  "module": "dist/cropper-crosshair.esm.js",
+  "types": "dist/cropper-crosshair.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "api-extractor": "api-extractor run --local --verbose",
+    "build": "npm run tsc && npm run rollup && npm run api-extractor",
+    "clean": "del-cli dist temp",
+    "release": "npm run clean && npm run build",
+    "rollup": "rollup -c ../../rollup.config.js",
+    "tsc": "tsc --outDir ./temp --emitDeclarationOnly"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fengyuanchen/cropperjs.git",
+    "directory": "packages/crosshair"
+  },
+  "keywords": [
+    "crosshair",
+    "cropper",
+    "cropper.js",
+    "cropper-element",
+    "custom-element",
+    "web-component"
+  ],
+  "author": "Chen Fengyuan (https://chenfengyuan.com/)",
+  "license": "MIT",
+  "bugs": "https://github.com/fengyuanchen/cropperjs/issues",
+  "homepage": "https://github.com/fengyuanchen/cropperjs/tree/next/packages/crosshair/#readme",
+  "dependencies": {
+    "@cropper/constants": "^2.0.0-beta",
+    "@cropper/element": "^2.0.0-beta",
+    "@cropper/utils": "^2.0.0-beta"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "next"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig",
+  "include": [
+    "*.js",
+    ".*.js",
+    "docs/.vuepress/**/*.js",
+    "packages/*/src",
+    "packages/*/tests",
+    "types/*",
+  ]
+}
