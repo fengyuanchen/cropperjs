@@ -16,9 +16,11 @@ const REGEXP_SUFFIX = /left|top|width|height/i;
 const DEFAULT_SHADOW_ROOT_MODE = 'open';
 const shadowRoots = new WeakMap();
 const styleSheets = new WeakMap();
-const supportsAdoptedStyleSheets = document && Array.isArray(WINDOW.document.adoptedStyleSheets) && 'replaceSync' in WINDOW.CSSStyleSheet.prototype;
+const supportsAdoptedStyleSheets = WINDOW.document && Array.isArray(WINDOW.document.adoptedStyleSheets) && 'replaceSync' in WINDOW.CSSStyleSheet.prototype;
 
 export default class CropperElement extends HTMLElement {
+  static $version: string = '__VERSION__';
+
   protected $style?: string;
 
   protected $template?: string;
@@ -88,8 +90,7 @@ export default class CropperElement extends HTMLElement {
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  protected get $observedProperties() {
+  protected static get $observedProperties() {
     return [
       'static',
     ];
@@ -137,7 +138,7 @@ export default class CropperElement extends HTMLElement {
 
   protected connectedCallback() {
     // Observe properties after observed attributes
-    this.$observedProperties.forEach((attribute: string) => {
+    Object.getPrototypeOf(this).constructor.$observedProperties.forEach((attribute: string) => {
       const property = toCamelCase(attribute);
       let value = (this as any)[property];
 

@@ -50,6 +50,8 @@ export {
 };
 
 export default class Cropper {
+  static version: string = '__VERSION__';
+
   element?: HTMLImageElement | HTMLCanvasElement | string | null;
 
   options: CropperOptions = DEFAULT_OPTIONS;

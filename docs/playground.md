@@ -3,4 +3,6 @@ sidebar: false
 pageClass: playground-container
 ---
 
-<Playground />
+<ClientOnly>
+  <Playground />
+</ClientOnly>

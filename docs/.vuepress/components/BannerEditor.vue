@@ -17,7 +17,9 @@ export default {
   methods: {
     crop() {
       this.$refs.target.innerHTML = '';
-      this.$refs.target.appendChild(this.$refs.source.$toCanvas());
+      this.$refs.source.$toCanvas().then((canvas) => {
+        this.$refs.target.appendChild(canvas);
+      });
     },
   },
 };

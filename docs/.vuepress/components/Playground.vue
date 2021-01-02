@@ -247,11 +247,23 @@
           </li>
           <li>
             <label for="selectionInitialAspectRatio">initial-aspect-ratio</label>
-            <input type="number" class="form-control form-control-sm" id="selectionInitialAspectRatio" v-model.number="canvas.selection.initialAspectRatio" min="0" max="10">
+            <input type="number" class="form-control form-control-sm" id="selectionInitialAspectRatio" name="initialAspectRatio" v-model.number="canvas.selection.initialAspectRatio" min="0" max="10">
           </li>
           <li>
             <label for="selectionAutoSelectArea">auto-select-area</label>
-            <input type="range" class="form-range form-control-sm" id="selectionAutoSelectArea" v-model.number="canvas.selection.autoSelectArea" min="0" max="1" step="0.1">
+            <input type="range" class="form-range form-control-sm" id="selectionAutoSelectArea" name="autoSelectArea" v-model.number="canvas.selection.autoSelectArea" min="0" max="1" step="0.1">
+          </li>
+          <li>
+            <label for="selectionMovable">movable</label>
+            <input type="checkbox" id="selectionMovable" name="movable" v-model="canvas.selection.movable">
+          </li>
+          <li>
+            <label for="selectionResizable">resizable</label>
+            <input type="checkbox" id="selectionResizable" name="resizable" v-model="canvas.selection.resizable">
+          </li>
+          <li>
+            <label for="selectionZoomable">zoomable</label>
+            <input type="checkbox" id="selectionZoomable" name="zoomable" v-model="canvas.selection.zoomable">
           </li>
           <li>
             <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="tooltip" data-placement="top" title="selection.$select(0, 0, 160, 90)" @click="$refs.cropperSelection.$select(0, 0, 160, 90)">$select(0, 0, 160, 90)</button>
@@ -452,23 +464,6 @@
         </ul>
       </section>
       <section>
-        <h6>&lt;cropper-viewer&gt;</h6>
-        <ul>
-          <li>
-            <label for="selectionViewerHidden">hidden</label>
-            <input type="checkbox" id="selectionViewerHidden" name="hidden" v-model="canvas.selection.viewer.hidden">
-          </li>
-          <li>
-            <label for="selectionViewerOutlined">outlined</label>
-            <input type="checkbox" id="selectionViewerOutlinedd" name="outlined" v-model="canvas.selection.viewer.outlined">
-          </li>
-          <li>
-            <label for="selectionViewerResizable">resizable</label>
-            <input type="checkbox" id="selectionViewerResizable" name="resizable" v-model="canvas.selection.viewer.resizable">
-          </li>
-        </ul>
-      </section>
-      <section>
         <h6>&lt;cropper-grid&gt;</h6>
         <ul>
           <li>
@@ -494,7 +489,7 @@
           </li>
           <li>
             <label for="selectionCrosshairThemeColor">theme-color</label>
-            <input type="color" class="form-control form-control-color form-control-sm" id="selectionCrosshairThemeColor" v-model="canvas.selection.crosshair.themeColor">
+            <input type="color" class="form-control form-control-color form-control-sm" id="selectionCrosshairThemeColor" name="themeColor" v-model="canvas.selection.crosshair.themeColor">
           </li>
         </ul>
       </section>
@@ -524,7 +519,7 @@
           </li>
           <li>
             <label :for="`selectionHandleThemeColor${index}`">theme-color</label>
-            <input type="color" class="form-control form-control-color form-control-sm" :id="`selectionHandleThemeColor${index}`" v-model="handle.themeColor">
+            <input type="color" class="form-control form-control-color form-control-sm" :id="`selectionHandleThemeColor${index}`" name="themeColor" v-model="handle.themeColor">
           </li>
         </ul>
       </section>
@@ -556,6 +551,7 @@
         ></cropper-handle>
         <cropper-selection
           ref="cropperSelection"
+          id="cropperSelection"
           :aspect-ratio="canvas.selection.aspectRatio"
           :auto-select-area="canvas.selection.autoSelectArea"
           :auto-select="canvas.selection.autoSelect"
@@ -581,10 +577,10 @@
     <aside>
       <section class="previews clearfix">
         <h6>Preview</h6>
-        <cropper-viewer v-if="ready" class="preview preview-lg" outlined resizable></cropper-viewer>
-        <cropper-viewer v-if="ready" class="preview preview-md" outlined resizable></cropper-viewer>
-        <cropper-viewer v-if="ready" class="preview preview-sm" outlined resizable></cropper-viewer>
-        <cropper-viewer v-if="ready" class="preview preview-xs" outlined resizable></cropper-viewer>
+        <cropper-viewer v-if="ready" class="preview preview-lg"  selection="#cropperSelection"></cropper-viewer>
+        <cropper-viewer v-if="ready" class="preview preview-md"  selection="#cropperSelection"></cropper-viewer>
+        <cropper-viewer v-if="ready" class="preview preview-sm"  selection="#cropperSelection"></cropper-viewer>
+        <cropper-viewer v-if="ready" class="preview preview-xs"  selection="#cropperSelection"></cropper-viewer>
       </section>
       <section>
         <h6>Image Data</h6>
@@ -692,11 +688,9 @@ export default {
           aspectRatio: NaN,
           autoSelect: true,
           autoSelectArea: 0.8,
-          viewer: {
-            hidden: false,
-            outlined: false,
-            resizable: false,
-          },
+          movable: false,
+          resizable: false,
+          zoomable: false,
           grid: {
             hidden: false,
             columns: 3,

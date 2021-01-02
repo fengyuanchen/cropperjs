@@ -20,6 +20,8 @@ export const RESIZE_HORIZONTAL = 'horizontal';
 export const RESIZE_VERTICAL = 'vertical';
 export const RESIZE_NONE = 'none';
 export default class CropperViewer extends CropperElement {
+  static $version: string = '__VERSION__';
+
   protected $image: any = null;
 
   protected $mounted: boolean = false;
@@ -68,7 +70,7 @@ export default class CropperViewer extends CropperElement {
     ]);
   }
 
-  protected get $observedProperties() {
+  protected static get $observedProperties() {
     return super.$observedProperties.concat([
       'bordered',
     ]);

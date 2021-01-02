@@ -2,6 +2,8 @@ import CropperElement from '@cropper/element';
 import style from './style';
 
 export default class CropperGrid extends CropperElement {
+  static $version: string = '__VERSION__';
+
   protected $style: string = style;
 
   bordered: boolean = false;
@@ -25,7 +27,7 @@ export default class CropperGrid extends CropperElement {
     ]);
   }
 
-  protected get $observedProperties() {
+  protected static get $observedProperties() {
     return super.$observedProperties.concat([
       'bordered',
       'covered',

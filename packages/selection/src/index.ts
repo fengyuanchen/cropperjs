@@ -34,6 +34,8 @@ import style from './style';
 const canvasCache = new WeakMap();
 
 export default class CropperSelection extends CropperElement {
+  static $version: string = '__VERSION__';
+
   protected $onCanvasAction: EventListener | null = null;
 
   protected $onCanvasCropEnd: EventListener | null = null;
@@ -256,7 +258,7 @@ export default class CropperSelection extends CropperElement {
     const x = (parentElement.offsetWidth - this.width) / 2;
     const y = (parentElement.offsetHeight - this.height) / 2;
 
-    return this.$moveTo(x, y);
+    return this.$change(x, y);
   }
 
   /**

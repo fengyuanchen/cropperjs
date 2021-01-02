@@ -287,7 +287,10 @@ Refreshes the position or size of the selection.
 - **Returns**:
   - Type: `Promise`
   - A promise that resolves to the generated canvas element.
-- **Example**: <CropperSelectionToNativeCanvas />
+- **Example**:
+  <ClientOnly>
+    <CropperSelectionToNativeCanvas />
+  </ClientOnly>
 
 Generates a real canvas element, with the image (selected area only) draw into if there is one.
 

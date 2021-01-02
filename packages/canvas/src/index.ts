@@ -36,6 +36,8 @@ interface ActionEventData {
 }
 
 export default class CropperCanvas extends CropperElement {
+  static $version: string = '__VERSION__';
+
   protected $onPointerDown: EventListener | null = null;
 
   protected $onPointerMove: EventListener | null = null;
@@ -67,7 +69,7 @@ export default class CropperCanvas extends CropperElement {
     ]);
   }
 
-  protected get $observedProperties() {
+  protected static get $observedProperties() {
     return super.$observedProperties.concat([
       'background',
       'disabled',

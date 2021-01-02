@@ -12,14 +12,14 @@ Cropper.js is a series of web components for image cropping.
 
 | Type | Cropper.js 1.0 | Cropper.js 2.0 |
 | --- | --- | --- | --- | --- | --- |
-| Funded | 2015 | 2020 |
+| Funded | 2015 | 2021 |
 | Status | Maintaining | Active |
 | Package Number | Single | Multiple (12+) |
 | Construction | All in one | Separated |
 | Extensible | No | Yes |
 | Customizable | No | Yes |
 | Import on demand | No | Yes |
-| Browser Compatibility | Modern browsers / IE 9+ | Modern browsers / IE 11+ |
+| Browser Compatibility | Modern browsers / IE 9+ | Modern browsers |
 
 - **What is the different between Cropper, Cropper.js and jQuery Cropper?**
 
@@ -38,13 +38,13 @@ Cropper.js is a series of web components for image cropping.
 npm is the recommended installation method when building large scale applications with Cropper.js.
 
 ```sh
-$ npm install cropperjs@next
+npm install cropperjs@next
 ```
 
 For a specific package:
 
 ```sh
-$ npm install @cropper/canvas
+npm install @cropper/canvas
 ```
 
 #### CDN
@@ -54,7 +54,7 @@ For prototyping or learning purposes, you can use the latest version with:
 ```html
 <script src="https://unpkg.com/cropperjs@next"></script>
 
-<!-- Or for ECMAScript Module -->
+<!-- ECMAScript Module -->
 <script src="https://unpkg.com/cropperjs@next/dist/cropper.esm.js" type="module"></script>
 ```
 

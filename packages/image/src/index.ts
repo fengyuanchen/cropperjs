@@ -30,6 +30,8 @@ const NATIVE_ATTRIBUTES = [
 ];
 
 export default class CropperImage extends CropperElement {
+  static $version: string = '__VERSION__';
+
   protected $matrix: number[] = [1, 0, 0, 1, 0, 0];
 
   protected $onCanvasAction: EventListener | null = null;

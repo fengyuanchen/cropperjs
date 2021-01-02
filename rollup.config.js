@@ -1,11 +1,13 @@
 import typescript from '@rollup/plugin-typescript';
-// import nodeResolve from '@rollup/plugin-node-resolve';
-// import commonjs from '@rollup/plugin-commonjs';
+import nodeResolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+import replace from '@rollup/plugin-replace';
 import { terser } from 'rollup-plugin-terser';
 
 const fs = require('fs');
 const changeCase = require('change-case');
 const createBanner = require('create-banner');
+const config = require('./tsconfig.json');
 
 const pkg = JSON.parse(fs.readFileSync(`${process.cwd()}/package.json`));
 
@@ -32,13 +34,11 @@ module.exports = formats.map((format) => ({
     plugins: mode === 'production' ? [terser()] : [],
   })),
   plugins: [
-    typescript(),
-    // nodeResolve({
-    //   extensions: ['.mjs', '.js', '.json', '.node', '.ts'],
-    //   moduleDirectories: ['node_modules', 'packages'],
-    // }),
-    // commonjs({
-    //   extensions: ['.mjs', '.js', '.json', '.node', '.ts'],
-    // }),
+    nodeResolve(),
+    commonjs(),
+    typescript(config.compilerOptions),
+    replace({
+      __VERSION__: pkg.version,
+    }),
   ],
 }));

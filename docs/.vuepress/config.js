@@ -1,16 +1,21 @@
+const fs = require('fs');
 const path = require('path');
+const packages = path.resolve(__dirname, '../../packages');
 
 module.exports = {
   title: 'Cropper',
   description: 'JavaScript image cropper.',
   themeConfig: {
+    repo: 'fengyuanchen/cropperjs-next',
+    docsDir: 'docs',
+    editLinks: true,
     nav: [
       {
         text: 'Guide',
         link: '/guide/',
       },
       {
-        text: 'API',
+        text: 'API Reference',
         link: '/api/',
       },
       {
@@ -61,7 +66,7 @@ module.exports = {
     extendMarkdown: (md) => {
       md.use(require('markdown-it-container'), 'live-demo', {
         render(tokens, index) {
-          return tokens[index].nesting === 1 ? '<LiveDemo>' : '</LiveDemo>';
+          return tokens[index].nesting === 1 ? '<ClientOnly><LiveDemo>' : '</LiveDemo></ClientOnly>';
         },
       });
     },
@@ -91,10 +96,10 @@ module.exports = {
       ],
     },
     resolve: {
-      alias: {
-        '@cropper': path.resolve(__dirname, '../../packages/'),
-        cropperjs: path.resolve(__dirname, '../../packages/cropperjs/src'),
-      },
+      alias: fs.readdirSync(packages).reduce((alias, name) => {
+        alias[name === 'cropperjs' ? name : `@cropper/${name}`] = path.resolve(packages, name, 'src');
+        return alias;
+      }, {}),
       extensions: ['.wasm', '.mjs', '.js', '.json', '.ts'],
     },
   },

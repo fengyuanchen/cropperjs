@@ -1,3 +1,5 @@
 # Banner Editor
 
-<BannerEditor />
+<ClientOnly>
+  <BannerEditor />
+</ClientOnly>

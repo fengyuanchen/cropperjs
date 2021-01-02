@@ -617,8 +617,8 @@ describe('CropperSelection', () => {
         const element = new CropperSelection();
 
         element.$change(0, 0, 1, 2, 1);
-        expect(element.width).toBe(1);
-        expect(element.height).toBe(1);
+        expect(element.width).toBe(2);
+        expect(element.height).toBe(2);
       });
     });
 

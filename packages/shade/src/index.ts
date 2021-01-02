@@ -15,6 +15,8 @@ import {
 import style from './style';
 
 export default class CropperShade extends CropperElement {
+  static $version: string = '__VERSION__';
+
   protected $onChange: EventListener | null = null;
 
   protected $onCropEnd: EventListener | null = null;

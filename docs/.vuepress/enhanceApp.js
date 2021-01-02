@@ -1,5 +1,7 @@
-import 'cropperjs';
+export default ({ Vue, isServer }) => {
+  if (!isServer) {
+    import('cropperjs');
+  }
 
-export default ({ Vue }) => {
   Vue.ignoredElements = [/^cropper-/];
 };

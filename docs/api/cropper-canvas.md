@@ -106,7 +106,10 @@ Changes the current action to a new one.
 - **Returns**:
   - Type: `Promise`
   - A promise that resolves to the generated canvas element.
-- **Example**: <CropperCanvasToNativeCanvas />
+- **Example**:
+  <ClientOnly>
+    <CropperCanvasToNativeCanvas />
+  </ClientOnly>
 
 Generates a real canvas element, with the image draw into if there is one.
 

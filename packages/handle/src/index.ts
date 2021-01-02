@@ -3,6 +3,8 @@ import { ACTION_NONE } from '@cropper/constants';
 import style from './style';
 
 export default class CropperHandle extends CropperElement {
+  static $version: string = '__VERSION__';
+
   protected $onCanvasCropEnd: EventListener | null = null;
 
   protected $onCanvasCropStart: EventListener | null = null;
@@ -24,7 +26,7 @@ export default class CropperHandle extends CropperElement {
     ]);
   }
 
-  protected get $observedProperties() {
+  protected static get $observedProperties() {
     return super.$observedProperties.concat([
       'plain',
     ]);

@@ -34,7 +34,6 @@
     "@cropper/constants": "^2.0.0-beta"
   },
   "publishConfig": {
-    "access": "public",
-    "tag": "next"
+    "access": "public"
   }
 }

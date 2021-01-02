@@ -42,7 +42,7 @@ class MyCropperElement extends CropperElement {
     ]);
   }
 
-   get $observedProperties() {
+  static get $observedProperties() {
     return super.$observedProperties.concat([
       'myBooleanProperty',
       'myNumberProperty',

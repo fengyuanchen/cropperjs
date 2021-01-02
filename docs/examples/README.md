@@ -1,3 +1,5 @@
 # Avatar Editor
 
-<AvatarEditor />
+<ClientOnly>
+  <AvatarEditor />
+</ClientOnly>
