@@ -3,7 +3,7 @@ const path = require('path');
 const packages = path.resolve(__dirname, '../../packages');
 
 module.exports = {
-  title: 'Cropper',
+  title: 'Cropper.js',
   description: 'JavaScript image cropper.',
   themeConfig: {
     repo: 'fengyuanchen/cropperjs-next',
@@ -26,6 +26,10 @@ module.exports = {
         text: 'Playground',
         link: '/playground.html',
       },
+      {
+        text: '1.x',
+        link: 'https://fengyuanchen.github.io/cropperjs',
+      },
     ],
     sidebar: {
       '/api/': [
@@ -35,14 +39,20 @@ module.exports = {
           children: [
             '',
             'cropper-element',
-            'cropper-canvas',
-            'cropper-image',
-            'cropper-selection',
-            'cropper-handle',
-            'cropper-shade',
-            'cropper-grid',
-            'cropper-crosshair',
-            'cropper-viewer',
+            {
+              title: 'Elements',
+              collapsable: false,
+              children: [
+                'cropper-canvas',
+                'cropper-image',
+                'cropper-selection',
+                'cropper-handle',
+                'cropper-shade',
+                'cropper-grid',
+                'cropper-crosshair',
+                'cropper-viewer',
+              ],
+            },
           ],
         },
       ],

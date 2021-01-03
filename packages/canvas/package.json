@@ -14,7 +14,7 @@
     "clean": "del-cli dist temp",
     "release": "npm run clean && npm run build",
     "rollup": "rollup -c ../../rollup.config.js",
-    "tsc": "tsc --outDir ./temp --emitDeclarationOnly"
+    "tsc": "tsc --outDir ./temp --declaration --emitDeclarationOnly"
   },
   "repository": {
     "type": "git",

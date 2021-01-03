@@ -14,7 +14,7 @@ Cropper.js is a series of web components for image cropping.
 | --- | --- | --- | --- | --- | --- |
 | Funded | 2015 | 2021 |
 | Status | Maintaining | Active |
-| Package Number | Single | Multiple (12+) |
+| Package Number | 1 | 12+ |
 | Construction | All in one | Separated |
 | Extensible | No | Yes |
 | Customizable | No | Yes |
@@ -167,3 +167,17 @@ Cropper.js contains a series of [npm](https://www.npmjs.com/) packages:
 | `CropperGrid` | `CropperElement` | The `CropperGrid` interface provides properties and methods for manipulating the layout and presentation of `<cropper-grid>` elements. |
 | `CropperCrosshair` | `CropperElement` | The `CropperCrosshair` interface provides properties and methods for manipulating the layout and presentation of `<cropper-crosshair>` elements. |
 | `CropperViewer` | `CropperElement` | The `CropperViewer` interface provides properties and methods for manipulating the layout and presentation of `<cropper-viewer>` elements. |
+
+## Browser support
+
+- Microsoft Edge 79+
+- Mozilla Firefox 63+
+- Google Chrome 54+
+- Apple Safari 10.1+
+- Opera 41+
+- iOS Safari 10.3+
+- Android Browser 81+
+- Opera Mobile 46+
+- Chrome for Android 81+
+- Firefox for Android 68+
+- Samsung Internet 6.2+

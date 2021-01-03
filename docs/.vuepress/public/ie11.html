@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Cropper.js</title>
+  <style>
+    .container {
+      margin: 20px auto;
+      max-width: 640px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>A Cropper.js example for IE 11</h1>
+    <p>Requires <a href="https://github.com/webcomponents/polyfills">Web Components Polyfills.</a></p>
+    <h3>Image</h3>
+    <div>
+      <img id="image" src="../picture.jpg" alt="Picture">
+    </div>
+    <h3>Result</h3>
+    <p>
+      <button type="button" id="button">Crop</button>
+    </p>
+    <div id="result"></div>
+  </div>
+  <script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.5.0/webcomponents-loader.js"></script>
+  <script src="https://unpkg.com/cropperjs@next/dist/cropper.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      const cropper = new Cropper.default('#image');
+
+      document.querySelector('#button').onclick = function () {
+        document.querySelector('cropper-selection').$toCanvas().then(function (canvas) {
+          document.querySelector('#result').appendChild(canvas);
+        });
+      };
+    });
+  </script>
+</body>
+</html>

@@ -1,5 +1,7 @@
 *.local*
+*.log
 *.map
+.DS_Store
 coverage
 dist
 node_modules

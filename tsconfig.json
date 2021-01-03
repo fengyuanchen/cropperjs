@@ -2,12 +2,10 @@
   "compilerOptions": {
     "baseUrl": ".",
     "rootDir": ".",
-    "outDir": "dist",
     "sourceMap": false,
     "target": "esnext",
     "module": "esnext",
     "moduleResolution": "node",
-    "declaration": true,
     "allowJs": false,
     "strict": true,
     "experimentalDecorators": true,
@@ -30,8 +28,6 @@
     }
   },
   "include": [
-    "packages/*/src",
-    "packages/*/tests",
-    "types/*"
+    "packages/*/src"
   ]
 }

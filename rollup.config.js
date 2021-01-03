@@ -1,7 +1,7 @@
-import typescript from '@rollup/plugin-typescript';
-import nodeResolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
+import nodeResolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
+import typescript from '@rollup/plugin-typescript';
 import { terser } from 'rollup-plugin-terser';
 
 const fs = require('fs');
@@ -27,12 +27,13 @@ const modes = ['development', 'production'];
 module.exports = formats.map((format) => ({
   input: 'src/index.ts',
   output: modes.map((mode) => ({
-    banner,
     name,
     format,
+    banner: pkg.name === 'cropper' ? banner : undefined,
     file: `dist/${pkg.name}${format === 'umd' ? '' : `.${format}`}${mode === 'production' ? '.min' : ''}.js`,
     plugins: mode === 'production' ? [terser()] : [],
   })),
+  external: pkg.name === 'cropper' ? [] : Object.keys(pkg.dependencies || {}),
   plugins: [
     nodeResolve(),
     commonjs(),

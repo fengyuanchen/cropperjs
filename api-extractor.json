@@ -6,7 +6,7 @@
     "enabled": false
   },
   "dtsRollup": {
-    "enabled": true,
+    "enabled": true
   },
   "tsdocMetadata": {
     "enabled": false
