@@ -1,22 +1,13 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "rootDir": ".",
-    "sourceMap": false,
     "target": "esnext",
     "module": "esnext",
     "moduleResolution": "node",
-    "allowJs": false,
     "strict": true,
-    "experimentalDecorators": true,
-    "esModuleInterop": true,
-    "removeComments": false,
     "lib": [
       "dom",
       "esnext"
-    ],
-    "types": [
-      "jest"
     ],
     "paths": {
       "@cropper/*": [

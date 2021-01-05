@@ -1,13 +1,12 @@
+import fs from 'fs';
+import changeCase from 'change-case';
+import createBanner from 'create-banner';
 import commonjs from '@rollup/plugin-commonjs';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import typescript from '@rollup/plugin-typescript';
 import { terser } from 'rollup-plugin-terser';
-
-const fs = require('fs');
-const changeCase = require('change-case');
-const createBanner = require('create-banner');
-const config = require('./tsconfig.json');
+import config from './tsconfig.json';
 
 const pkg = JSON.parse(fs.readFileSync(`${process.cwd()}/package.json`));
 
@@ -24,7 +23,7 @@ const banner = createBanner({
 const formats = ['esm', 'umd'];
 const modes = ['development', 'production'];
 
-module.exports = formats.map((format) => ({
+export default formats.map((format) => ({
   input: 'src/index.ts',
   output: modes.map((mode) => ({
     name,
