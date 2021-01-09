@@ -10,7 +10,5 @@ module.exports = {
   testEnvironmentOptions: {
     resources: 'usable',
   },
-  testMatch: [
-    '**/packages/*/tests/**/*.spec.ts',
-  ],
+  testMatch: ['**/packages/*/tests/**/*.spec.ts'],
 };

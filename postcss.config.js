@@ -1,6 +1,6 @@
 module.exports = {
   plugins: {
-    autoprefixer: true,
+    autoprefixer: {},
     stylelint: {
       fix: true,
     },
