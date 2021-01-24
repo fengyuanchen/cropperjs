@@ -10,7 +10,7 @@ import config from './tsconfig.json';
 
 const pkg = JSON.parse(fs.readFileSync(`${process.cwd()}/package.json`));
 
-pkg.name = pkg.name.replace('@', '').replace('/', '-').replace('js', '');
+pkg.name = pkg.name.replace('@cropper/', '').replace('js', '');
 
 const name = changeCase.pascalCase(pkg.name);
 const banner = createBanner({

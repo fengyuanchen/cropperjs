@@ -36,7 +36,7 @@ interface ActionEventData {
 }
 
 export default class CropperCanvas extends CropperElement {
-  static $version: string = '__VERSION__';
+  static $version = '__VERSION__';
 
   protected $onPointerDown: EventListener | null = null;
 
@@ -46,37 +46,37 @@ export default class CropperCanvas extends CropperElement {
 
   protected $onWheel: EventListener | null = null;
 
-  protected $wheeling: boolean = false;
+  protected $wheeling = false;
 
   protected readonly $pointers: Map<number, any> = new Map();
 
   protected $style = style;
 
-  protected $action: string = '';
+  protected $action = '';
 
-  background: boolean = false;
+  background = false;
 
-  disabled: boolean = false;
+  disabled = false;
 
-  scale: number = 0.1;
+  scale = 0.1;
 
-  themeColor: string = '#39f';
+  themeColor = '#39f';
 
-  protected static get observedAttributes() {
+  protected static get observedAttributes(): string[] {
     return super.observedAttributes.concat([
       'background',
       'disabled',
     ]);
   }
 
-  protected static get $observedProperties() {
+  protected static get $observedProperties(): string[] {
     return super.$observedProperties.concat([
       'background',
       'disabled',
     ]);
   }
 
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     super.connectedCallback();
     on(
       this,
@@ -104,7 +104,7 @@ export default class CropperCanvas extends CropperElement {
     );
   }
 
-  protected disconnectedCallback() {
+  protected disconnectedCallback(): void {
     if (this.$onPointerDown) {
       off(this, EVENT_POINTER_DOWN, this.$onPointerDown);
     }
@@ -126,7 +126,7 @@ export default class CropperCanvas extends CropperElement {
     super.disconnectedCallback();
   }
 
-  protected $handlePointerDown(event: Event) {
+  protected $handlePointerDown(event: Event): void {
     const { buttons, button, type } = event as PointerEvent;
 
     if (this.disabled || (
@@ -187,7 +187,7 @@ export default class CropperCanvas extends CropperElement {
     this.$action = action;
   }
 
-  protected $handlePointerMove(event: Event) {
+  protected $handlePointerMove(event: Event): void {
     const { $action, $pointers } = this;
 
     if (this.disabled || !$action || $pointers.size === 0) {
@@ -274,7 +274,7 @@ export default class CropperCanvas extends CropperElement {
     });
   }
 
-  protected $handlePointerUp(event: Event) {
+  protected $handlePointerUp(event: Event): void {
     const { $action, $pointers } = this;
 
     if (this.disabled || !$action) {
@@ -307,7 +307,7 @@ export default class CropperCanvas extends CropperElement {
     }
   }
 
-  protected $handleWheel(event: Event) {
+  protected $handleWheel(event: Event): void {
     if (this.disabled) {
       return;
     }
@@ -343,7 +343,7 @@ export default class CropperCanvas extends CropperElement {
    * @param {string} action The new action.
    * @returns {CropperCanvas} Returns `this` for chaining.
    */
-  $setAction(action: string) {
+  $setAction(action: string): this {
     if (isString(action)) {
       this.$action = action;
     }
@@ -359,7 +359,7 @@ export default class CropperCanvas extends CropperElement {
    */
   $toCanvas(options: {
     beforeDraw?: (context: CanvasRenderingContext2D, canvas: HTMLCanvasElement) => void;
-  } = {}) {
+  } = {}): Promise<HTMLCanvasElement> {
     return new Promise((resolve, reject) => {
       if (!this.isConnected) {
         reject(new Error('The current element is not connected to the DOM.'));

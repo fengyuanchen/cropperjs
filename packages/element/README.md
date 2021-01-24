@@ -23,7 +23,6 @@ npm install @cropper/element
 
 ### Usage
 
-
 ```js
 import { CropperElement } from 'cropperjs';
 // Or
@@ -34,7 +33,7 @@ class MyCropperElement extends CropperElement {
   myNumberProperty = NaN;
   myBooleanProperty = false;
 
-  static get observedAttributes() {
+  static get observedAttributes(): string[] {
     return super.observedAttributes.concat([
       'my-boolean-property',
       'my-number-property',
@@ -42,7 +41,7 @@ class MyCropperElement extends CropperElement {
     ]);
   }
 
-  static get $observedProperties() {
+  static get $observedProperties(): string[] {
     return super.$observedProperties.concat([
       'myBooleanProperty',
       'myNumberProperty',

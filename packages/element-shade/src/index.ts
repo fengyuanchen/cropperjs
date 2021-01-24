@@ -15,7 +15,7 @@ import {
 import style from './style';
 
 export default class CropperShade extends CropperElement {
-  static $version: string = '__VERSION__';
+  static $version = '__VERSION__';
 
   protected $onChange: EventListener | null = null;
 
@@ -25,19 +25,19 @@ export default class CropperShade extends CropperElement {
 
   protected $style: string = style;
 
-  x: number = 0;
+  x = 0;
 
-  y: number = 0;
+  y = 0;
 
-  width: number = 0;
+  width = 0;
 
-  height: number = 0;
+  height = 0;
 
-  slottable: boolean = false;
+  slottable = false;
 
-  themeColor: string = 'rgba(0, 0, 0, 0.65)';
+  themeColor = 'rgba(0, 0, 0, 0.65)';
 
-  protected static get observedAttributes() {
+  protected static get observedAttributes(): string[] {
     return super.observedAttributes.concat([
       'x',
       'y',
@@ -46,7 +46,7 @@ export default class CropperShade extends CropperElement {
     ]);
   }
 
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     super.connectedCallback();
 
     const canvas: HTMLElement | null = this.closest(CROPPER_CANVAS);
@@ -74,7 +74,7 @@ export default class CropperShade extends CropperElement {
     this.$render();
   }
 
-  protected disconnectedCallback() {
+  protected disconnectedCallback(): void {
     super.disconnectedCallback();
 
     const canvas: HTMLElement | null = this.closest(CROPPER_CANVAS);
@@ -102,7 +102,7 @@ export default class CropperShade extends CropperElement {
    * @param {number} [height=this.height] The new height.
    * @returns {CropperShade} Returns `this` for chaining.
    */
-  $change(x: number, y: number, width: number = this.width, height: number = this.height) {
+  $change(x: number, y: number, width: number = this.width, height: number = this.height): this {
     if (
       !isNumber(x)
       || !isNumber(y)
@@ -129,7 +129,7 @@ export default class CropperShade extends CropperElement {
    * Resets the shade to its initial position and size.
    * @returns {CropperShade} Returns `this` for chaining.
    */
-  $reset() {
+  $reset(): this {
     return this.$change(0, 0, 0, 0);
   }
 
@@ -137,7 +137,7 @@ export default class CropperShade extends CropperElement {
    * Refreshes the position or size of the shade.
    * @returns {CropperShade} Returns `this` for chaining.
    */
-  $render() {
+  $render(): this {
     return this.$setStyles({
       outlineWidth: WINDOW.innerWidth,
       left: this.x,

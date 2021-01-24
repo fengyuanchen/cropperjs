@@ -17,7 +17,7 @@ import CropperViewer from '@cropper/element-viewer';
 import DEFAULT_TEMPLATE from './template';
 
 interface CropperOptions {
-  container?: Element | string | null;
+  container?: Element | string;
   template?: string;
 }
 
@@ -50,18 +50,18 @@ export {
 };
 
 export default class Cropper {
-  static version: string = '__VERSION__';
+  static version = '__VERSION__';
 
-  element?: HTMLImageElement | HTMLCanvasElement | string | null;
+  element?: HTMLImageElement | HTMLCanvasElement | string;
 
   options: CropperOptions = DEFAULT_OPTIONS;
 
   constructor(
-    element: HTMLImageElement | HTMLCanvasElement | string | null,
+    element: HTMLImageElement | HTMLCanvasElement | string,
     options?: CropperOptions,
   ) {
     if (isString(element)) {
-      element = document.querySelector(element) as null;
+      element = document.querySelector(element) as HTMLImageElement;
     }
 
     if (!isElement(element) || !ALLOWED_ELEMENTS.test(element.localName)) {
@@ -105,7 +105,7 @@ export default class Cropper {
 
       if (container) {
         if (isString(container)) {
-          container = ownerDocument.querySelector(container);
+          container = ownerDocument.querySelector(container) as Element;
         }
 
         if (!isElement(container)) {

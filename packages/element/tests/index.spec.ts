@@ -106,7 +106,7 @@ describe('CropperElement', () => {
 
       boolean = false;
 
-      protected static get observedAttributes() {
+      protected static get observedAttributes(): string[] {
         return super.observedAttributes.concat([
           'string',
           'number',
@@ -114,7 +114,7 @@ describe('CropperElement', () => {
         ]);
       }
 
-      protected static get $observedProperties() {
+      protected static get $observedProperties(): string[] {
         return super.$observedProperties.concat([
           'string',
           'number',

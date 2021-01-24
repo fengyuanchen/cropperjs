@@ -44,7 +44,7 @@ export function isUndefined(value: unknown): value is undefined {
  * @param {*} value - The value to check.
  * @returns {boolean} Returns `true` if the given value is an object, else `false`.
  */
-export function isObject(value: unknown): value is object {
+export function isObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null;
 }
 
@@ -55,7 +55,7 @@ const { hasOwnProperty } = Object.prototype;
  * @param {*} value - The value to check.
  * @returns {boolean} Returns `true` if the given value is a plain object, else `false`.
  */
-export function isPlainObject(value: unknown): value is object {
+export function isPlainObject(value: unknown): value is Record<string, unknown> {
   if (!isObject(value)) {
     return false;
   }
@@ -75,7 +75,7 @@ export function isPlainObject(value: unknown): value is object {
  * @param {*} value The value to check.
  * @returns {boolean} Returns `true` if the given value is a function, else `false`.
  */
-export function isFunction(value: unknown): value is Function {
+export function isFunction(value: unknown): value is (...args: unknown[]) => unknown {
   return typeof value === 'function';
 }
 
@@ -125,7 +125,7 @@ export function off(
   types: string,
   listener: EventListenerOrEventListenerObject,
   options?: EventListenerOptions,
-) {
+): void {
   types.trim().split(REGEXP_SPACES).forEach((type) => {
     target.removeEventListener(type, listener, options);
   });
@@ -144,7 +144,7 @@ export function on(
   types: string,
   listener: EventListenerOrEventListenerObject,
   options?: AddEventListenerOptions,
-) {
+): void {
   types.trim().split(REGEXP_SPACES).forEach((type) => {
     target.addEventListener(type, listener, options);
   });
@@ -162,7 +162,7 @@ export function once(
   types: string,
   listener: EventListenerOrEventListenerObject,
   options?: AddEventListenerOptions,
-) {
+): void {
   on(target, types, listener, {
     ...options,
     once: true,
@@ -184,7 +184,12 @@ const defaultEventOptions: CustomEventInit = {
  * @param {CustomEventInit} [options] The other event options.
  * @returns {boolean} Returns the result value.
  */
-export function emit(target: EventTarget, type: string, detail?: any, options?: CustomEventInit) {
+export function emit(
+  target: EventTarget,
+  type: string,
+  detail?: unknown,
+  options?: CustomEventInit,
+): boolean {
   return target.dispatchEvent(new CustomEvent(type, {
     ...defaultEventOptions,
     detail,
@@ -197,7 +202,10 @@ export function emit(target: EventTarget, type: string, detail?: any, options?: 
  * @param {Element} element The target element.
  * @returns {Object} The offset data.
  */
-export function getOffset(element: Element) {
+export function getOffset(element: Element): {
+  left: number;
+  top: number;
+} {
   const { documentElement } = element.ownerDocument;
   const box = element.getBoundingClientRect();
 
@@ -250,9 +258,16 @@ export function getAdjustedSizes(
     aspectRatio,
     height,
     width,
-  }: any,
+  }: {
+    aspectRatio: number;
+    height: number;
+    width: number;
+  },
   type = 'contain', // or 'cover'
-) {
+): {
+    width: number;
+    height: number;
+  } {
   const isValidWidth = isPositiveNumber(width);
   const isValidHeight = isPositiveNumber(height);
 

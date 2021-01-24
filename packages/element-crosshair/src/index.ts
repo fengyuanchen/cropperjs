@@ -2,23 +2,23 @@ import CropperElement from '@cropper/element';
 import style from './style';
 
 export default class CropperCrosshair extends CropperElement {
-  static $version: string = '__VERSION__';
+  static $version = '__VERSION__';
 
   protected $style = style;
 
-  centered: boolean = false;
+  centered = false;
 
-  slottable: boolean = false;
+  slottable = false;
 
-  themeColor: string = 'rgba(238, 238, 238, 0.5)';
+  themeColor = 'rgba(238, 238, 238, 0.5)';
 
-  protected static get observedAttributes() {
+  protected static get observedAttributes(): string[] {
     return super.observedAttributes.concat([
       'centered',
     ]);
   }
 
-  protected static get $observedProperties() {
+  protected static get $observedProperties(): string[] {
     return super.$observedProperties.concat([
       'centered',
     ]);

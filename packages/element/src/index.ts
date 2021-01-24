@@ -19,25 +19,25 @@ const styleSheets = new WeakMap();
 const supportsAdoptedStyleSheets = WINDOW.document && Array.isArray(WINDOW.document.adoptedStyleSheets) && 'replaceSync' in WINDOW.CSSStyleSheet.prototype;
 
 export default class CropperElement extends HTMLElement {
-  static $version: string = '__VERSION__';
+  static $version = '__VERSION__';
 
   protected $style?: string;
 
   protected $template?: string;
 
-  protected get $sharedStyle() {
+  protected get $sharedStyle(): string {
     return `${this.themeColor ? `:host{--theme-color: ${this.themeColor};}` : ''}${style}`;
   }
 
   shadowRootMode: ShadowRootMode = DEFAULT_SHADOW_ROOT_MODE;
 
-  slottable: boolean = true;
+  slottable = true;
 
-  static: boolean = false;
+  static = false;
 
   themeColor?: string;
 
-  protected static get observedAttributes() {
+  protected static get observedAttributes(): string[] {
     return [
       'shadow-root-mode',
       'slottable',
@@ -47,7 +47,7 @@ export default class CropperElement extends HTMLElement {
   }
 
   // Convert attribute to property
-  protected attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+  protected attributeChangedCallback(name: string, oldValue: string, newValue: string): void {
     if (newValue === oldValue) {
       return;
     }
@@ -57,12 +57,12 @@ export default class CropperElement extends HTMLElement {
     let newPropertyValue: any = newValue;
 
     switch (typeof oldPropertyValue) {
-      case 'number':
-        newPropertyValue = Number(newValue);
-        break;
-
       case 'boolean':
         newPropertyValue = newValue !== null && newValue !== 'false';
+        break;
+
+      case 'number':
+        newPropertyValue = Number(newValue);
         break;
 
       default:
@@ -90,14 +90,14 @@ export default class CropperElement extends HTMLElement {
     }
   }
 
-  protected static get $observedProperties() {
+  protected static get $observedProperties(): string[] {
     return [
       'static',
     ];
   }
 
   // Convert property to attribute
-  protected $propertyChangedCallback(name: string, oldValue: any, newValue: any) {
+  protected $propertyChangedCallback(name: string, oldValue: unknown, newValue: unknown): void {
     if (newValue === oldValue) {
       return;
     }
@@ -128,7 +128,7 @@ export default class CropperElement extends HTMLElement {
       default:
         if (newValue) {
           if (this.getAttribute(name) !== newValue) {
-            this.setAttribute(name, newValue);
+            this.setAttribute(name, newValue as string);
           }
         } else {
           this.removeAttribute(name);
@@ -136,7 +136,7 @@ export default class CropperElement extends HTMLElement {
     }
   }
 
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     // Observe properties after observed attributes
     Object.getPrototypeOf(this).constructor.$observedProperties.forEach((attribute: string) => {
       const property = toCamelCase(attribute);
@@ -170,7 +170,10 @@ export default class CropperElement extends HTMLElement {
     }
 
     styleSheets.set(this, this.$addStyles(this.$sharedStyle));
-    this.$addStyles(this.$style);
+
+    if (this.$style) {
+      this.$addStyles(this.$style);
+    }
 
     if (this.$template) {
       const template = document.createElement('template');
@@ -186,7 +189,7 @@ export default class CropperElement extends HTMLElement {
     }
   }
 
-  protected disconnectedCallback() {
+  protected disconnectedCallback(): void {
     if (styleSheets.has(this)) {
       styleSheets.delete(this);
     }
@@ -196,7 +199,7 @@ export default class CropperElement extends HTMLElement {
     }
   }
 
-  protected $setStyles(properties: any) {
+  protected $setStyles(properties: Record<string, any>): this {
     Object.keys(properties).forEach((property: any) => {
       let value = properties[property];
 
@@ -216,34 +219,30 @@ export default class CropperElement extends HTMLElement {
 
   /**
    * Outputs the shadow root of the element.
-   * @returns {ShadowRoot|null} Returns the shadow root if any.
+   * @returns {ShadowRoot} Returns the shadow root.
    */
-  $getShadowRoot() {
-    return this.shadowRoot || shadowRoots.get(this) || null;
+  $getShadowRoot(): ShadowRoot {
+    return this.shadowRoot || shadowRoots.get(this);
   }
 
   /**
    * Adds styles to the shadow root.
    * @param {string} styles The styles to add.
-   * @returns {CSSStyleSheet|HTMLStyleElement|null} Returns the generated style sheet.
+   * @returns {CSSStyleSheet|HTMLStyleElement} Returns the generated style sheet.
    */
-  $addStyles(styles?: string) {
-    let styleSheet = null;
+  $addStyles(styles: string): CSSStyleSheet | HTMLStyleElement {
+    let styleSheet;
 
-    if (styles) {
-      const shadow = this.$getShadowRoot();
+    const shadow = this.$getShadowRoot();
 
-      if (supportsAdoptedStyleSheets) {
-        styleSheet = new CSSStyleSheet();
-
-        (styleSheet as any).replaceSync(styles);
-        shadow.adoptedStyleSheets = shadow.adoptedStyleSheets.concat(styleSheet);
-      } else {
-        styleSheet = document.createElement('style');
-
-        styleSheet.textContent = styles;
-        shadow.appendChild(styleSheet);
-      }
+    if (supportsAdoptedStyleSheets) {
+      styleSheet = new CSSStyleSheet();
+      (styleSheet as any).replaceSync(styles);
+      (shadow as any).adoptedStyleSheets = (shadow as any).adoptedStyleSheets.concat(styleSheet);
+    } else {
+      styleSheet = document.createElement('style');
+      styleSheet.textContent = styles;
+      shadow.appendChild(styleSheet);
     }
 
     return styleSheet;
@@ -256,7 +255,7 @@ export default class CropperElement extends HTMLElement {
    * @param {CustomEventInit} [options] The other event options.
    * @returns {boolean} Returns the result value.
    */
-  $emit(type: string, detail?: any, options?: CustomEventInit): boolean {
+  $emit(type: string, detail?: unknown, options?: CustomEventInit): boolean {
     return emit(this, type, detail, options);
   }
 
@@ -265,7 +264,7 @@ export default class CropperElement extends HTMLElement {
    * {@link https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/define}
    * @param options
    */
-  static $define(options?: ElementDefinitionOptions) {
+  static $define(options?: ElementDefinitionOptions): void {
     const name = toKebabCase(this.name);
     const { customElements } = WINDOW;
 

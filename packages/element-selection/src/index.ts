@@ -34,7 +34,7 @@ import style from './style';
 const canvasCache = new WeakMap();
 
 export default class CropperSelection extends CropperElement {
-  static $version: string = '__VERSION__';
+  static $version = '__VERSION__';
 
   protected $onCanvasAction: EventListener | null = null;
 
@@ -44,31 +44,31 @@ export default class CropperSelection extends CropperElement {
 
   protected $style = style;
 
-  x: number = 0;
+  x = 0;
 
-  y: number = 0;
+  y = 0;
 
-  width: number = 0;
+  width = 0;
 
-  height: number = 0;
+  height = 0;
 
-  aspectRatio: number = NaN;
+  aspectRatio = NaN;
 
-  initialAspectRatio: number = NaN;
+  initialAspectRatio = NaN;
 
-  autoSelect: boolean = false;
+  autoSelect = false;
 
-  autoSelectArea: number = 1;
+  autoSelectArea = 1;
 
-  movable: boolean = false;
+  movable = false;
 
-  resizable: boolean = false;
+  resizable = false;
 
-  zoomable: boolean = false;
+  zoomable = false;
 
-  outlined: boolean = false;
+  outlined = false;
 
-  protected set $canvas(element: Element | null) {
+  protected set $canvas(element: Element) {
     if (isElement(element)) {
       canvasCache.set(this, element);
     } else {
@@ -76,11 +76,11 @@ export default class CropperSelection extends CropperElement {
     }
   }
 
-  protected get $canvas(): Element | null {
-    return canvasCache.get(this) || null;
+  protected get $canvas(): Element {
+    return canvasCache.get(this);
   }
 
-  protected static get observedAttributes() {
+  protected static get observedAttributes(): string[] {
     return super.observedAttributes.concat([
       'x',
       'y',
@@ -97,7 +97,7 @@ export default class CropperSelection extends CropperElement {
     ]);
   }
 
-  protected attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+  protected attributeChangedCallback(name: string, oldValue: string, newValue: string): void {
     if (newValue === oldValue) {
       return;
     }
@@ -127,7 +127,7 @@ export default class CropperSelection extends CropperElement {
     }
   }
 
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     super.connectedCallback();
 
     const $canvas = this.closest(CROPPER_CANVAS);
@@ -168,7 +168,7 @@ export default class CropperSelection extends CropperElement {
     }
   }
 
-  protected disconnectedCallback() {
+  protected disconnectedCallback(): void {
     const { $canvas } = this;
 
     if ($canvas) {
@@ -180,7 +180,7 @@ export default class CropperSelection extends CropperElement {
     super.disconnectedCallback();
   }
 
-  protected $handleAction(event: Event) {
+  protected $handleAction(event: Event): void {
     if (this.hidden) {
       return;
     }
@@ -248,7 +248,7 @@ export default class CropperSelection extends CropperElement {
    * Aligns the selection to the center of its parent element.
    * @returns {CropperSelection} Returns `this` for chaining.
    */
-  $center() {
+  $center(): this {
     const { parentElement } = this;
 
     if (!parentElement) {
@@ -267,7 +267,7 @@ export default class CropperSelection extends CropperElement {
    * @param {number} [y=x] The moving distance in the vertical direction.
    * @returns {CropperSelection} Returns `this` for chaining.
    */
-  $move(x: number, y: number = x) {
+  $move(x: number, y: number = x): this {
     return this.$moveTo(this.x + x, this.y + y);
   }
 
@@ -277,7 +277,7 @@ export default class CropperSelection extends CropperElement {
    * @param {number} [y=x] The new position in the vertical direction.
    * @returns {CropperSelection} Returns `this` for chaining.
    */
-  $moveTo(x: number, y: number = x) {
+  $moveTo(x: number, y: number = x): this {
     if (!this.movable) {
       return this;
     }
@@ -295,10 +295,10 @@ export default class CropperSelection extends CropperElement {
    */
   $resize(
     action: string,
-    offsetX: number = 0,
-    offsetY: number = 0,
+    offsetX = 0,
+    offsetY = 0,
     aspectRatio: number = this.aspectRatio,
-  ) {
+  ): this {
     if (!this.resizable) {
       return this;
     }
@@ -523,7 +523,7 @@ export default class CropperSelection extends CropperElement {
    * @param {number} scale The zoom factor.
    * @returns {CropperSelection} Returns `this` for chaining.
    */
-  $zoom(scale: number) {
+  $zoom(scale: number): this {
     scale = Number(scale);
 
     if (scale < 0) {
@@ -542,7 +542,7 @@ export default class CropperSelection extends CropperElement {
    * @param {number} [y] The zoom origin in the vertical, defaults to the center of the selection.
    * @returns {CropperSelection} Returns `this` for chaining.
    */
-  $zoomTo(scale: number, x?: number, y?: number) {
+  $zoomTo(scale: number, x?: number, y?: number): this {
     if (!this.zoomable || scale < 0) {
       return this;
     }
@@ -580,7 +580,7 @@ export default class CropperSelection extends CropperElement {
     width: number = this.width,
     height: number = this.height,
     aspectRatio: number = this.aspectRatio,
-  ) {
+  ): this {
     if (
       !isNumber(x)
       || !isNumber(y)
@@ -620,7 +620,7 @@ export default class CropperSelection extends CropperElement {
    * Resets the selection to its initial position and size.
    * @returns {CropperSelection} Returns `this` for chaining.
    */
-  $reset() {
+  $reset(): this {
     return this.$change(0, 0, 0, 0);
   }
 
@@ -628,7 +628,7 @@ export default class CropperSelection extends CropperElement {
    * Refreshes the position or size of the selection.
    * @returns {CropperSelection} Returns `this` for chaining.
    */
-  $render() {
+  $render(): this {
     return this.$setStyles({
       left: this.x,
       top: this.y,
@@ -645,7 +645,7 @@ export default class CropperSelection extends CropperElement {
    */
   $toCanvas(options: {
     beforeDraw?: (context: CanvasRenderingContext2D, canvas: HTMLCanvasElement) => void;
-  } = {}) {
+  } = {}): Promise<HTMLCanvasElement> {
     return new Promise((resolve, reject) => {
       if (!this.isConnected) {
         reject(new Error('The current element is not connected to the DOM.'));

@@ -30,7 +30,7 @@ const NATIVE_ATTRIBUTES = [
 ];
 
 export default class CropperImage extends CropperElement {
-  static $version: string = '__VERSION__';
+  static $version = '__VERSION__';
 
   protected $matrix: number[] = [1, 0, 0, 1, 0, 0];
 
@@ -40,17 +40,17 @@ export default class CropperImage extends CropperElement {
 
   readonly $image: HTMLImageElement = new Image();
 
-  rotatable: boolean = true;
+  rotatable = true;
 
-  scalable: boolean = true;
+  scalable = true;
 
-  skewable: boolean = true;
+  skewable = true;
 
-  slottable: boolean = false;
+  slottable = false;
 
-  translatable: boolean = true;
+  translatable = true;
 
-  protected static get observedAttributes() {
+  protected static get observedAttributes(): string[] {
     return super.observedAttributes.concat(NATIVE_ATTRIBUTES, [
       'rotatable',
       'scalable',
@@ -59,7 +59,7 @@ export default class CropperImage extends CropperElement {
     ]);
   }
 
-  protected attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+  protected attributeChangedCallback(name: string, oldValue: string, newValue: string): void {
     if (newValue === oldValue) {
       return;
     }
@@ -72,7 +72,7 @@ export default class CropperImage extends CropperElement {
     }
   }
 
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     super.connectedCallback();
 
     const { $image } = this;
@@ -112,7 +112,7 @@ export default class CropperImage extends CropperElement {
     this.$getShadowRoot().appendChild($image);
   }
 
-  protected disconnectedCallback() {
+  protected disconnectedCallback(): void {
     const canvas = this.closest(CROPPER_CANVAS);
 
     if (canvas && this.$onCanvasAction) {
@@ -123,7 +123,7 @@ export default class CropperImage extends CropperElement {
     super.disconnectedCallback();
   }
 
-  protected $handleAction(event: Event | CustomEvent) {
+  protected $handleAction(event: Event | CustomEvent): void {
     if (this.hidden) {
       return;
     }
@@ -151,7 +151,7 @@ export default class CropperImage extends CropperElement {
    * Aligns the image to the center of its parent element.
    * @returns {CropperImage} Returns `this` for chaining.
    */
-  $center() {
+  $center(): this {
     const { parentElement } = this;
 
     if (!parentElement) {
@@ -172,7 +172,7 @@ export default class CropperImage extends CropperElement {
    * Fits the image to its parent element.
    * @returns {CropperImage} Returns `this` for chaining.
    */
-  $fit() {
+  $fit(): this {
     const { parentElement } = this;
 
     if (!parentElement) {
@@ -200,7 +200,7 @@ export default class CropperImage extends CropperElement {
    * @param {number} [y=x] The moving distance in the vertical direction.
    * @returns {CropperImage} Returns `this` for chaining.
    */
-  $move(x: number, y: number = x) {
+  $move(x: number, y: number = x): this {
     if (this.translatable && isNumber(x) && isNumber(y)) {
       const [a, b, c, d] = this.$matrix;
       const e = ((x * d) - (c * y)) / ((a * d) - (c * b));
@@ -218,7 +218,7 @@ export default class CropperImage extends CropperElement {
    * @param {number} [y=x] The new position in the vertical direction.
    * @returns {CropperImage} Returns `this` for chaining.
    */
-  $moveTo(x: number, y: number = x) {
+  $moveTo(x: number, y: number = x): this {
     if (this.translatable && isNumber(x) && isNumber(y)) {
       const [a, b, c, d] = this.$matrix;
       const e = ((x * d) - (c * y)) / ((a * d) - (c * b));
@@ -237,7 +237,7 @@ export default class CropperImage extends CropperElement {
    * @param {number|string} angle The rotation angle (in radians).
    * @returns {CropperImage} Returns `this` for chaining.
    */
-  $rotate(angle: number | string) {
+  $rotate(angle: number | string): this {
     if (this.rotatable) {
       const radian = toAngleInRadian(angle);
 
@@ -262,7 +262,7 @@ export default class CropperImage extends CropperElement {
    * @param {number} [y=x] The scaling factor in the vertical direction.
    * @returns {CropperImage} Returns `this` for chaining.
    */
-  $scale(x: number, y: number = x) {
+  $scale(x: number, y: number = x): this {
     if (this.scalable) {
       this.$transform(x, 0, 0, y, 0, 0);
     }
@@ -278,7 +278,7 @@ export default class CropperImage extends CropperElement {
    * @param {number|string} [y=0] The skewing angle in the vertical direction.
    * @returns {CropperImage} Returns `this` for chaining.
    */
-  $skew(x: number | string, y: number | string = 0) {
+  $skew(x: number | string, y: number | string = 0): this {
     if (this.skewable) {
       const radianX = toAngleInRadian(x);
       const radianY = toAngleInRadian(y);
@@ -297,7 +297,7 @@ export default class CropperImage extends CropperElement {
    * @param {number} [y=x] The translating distance in the vertical direction.
    * @returns {CropperImage} Returns `this` for chaining.
    */
-  $translate(x: number, y: number = x) {
+  $translate(x: number, y: number = x): this {
     if (this.translatable && isNumber(x) && isNumber(y)) {
       this.$transform(1, 0, 0, 1, x, y);
     }
@@ -317,7 +317,7 @@ export default class CropperImage extends CropperElement {
    * @param {number} f The translating distance in the vertical direction.
    * @returns {CropperImage} Returns `this` for chaining.
    */
-  $transform(a: number, b: number, c: number, d: number, e: number, f: number) {
+  $transform(a: number, b: number, c: number, d: number, e: number, f: number): this {
     if (
       isNumber(a)
       && isNumber(b)
@@ -348,7 +348,7 @@ export default class CropperImage extends CropperElement {
   /**
    * Resets (overrides) the current transform to the specific identity matrix.
    * {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/setTransform}
-   * @param {number|number[]} a The scaling factor in the horizontal direction.
+   * @param {number|Array} a The scaling factor in the horizontal direction.
    * @param {number} b The skewing angle in the vertical direction.
    * @param {number} c The skewing angle in the horizontal direction.
    * @param {number} d The scaling factor in the vertical direction.
@@ -356,7 +356,14 @@ export default class CropperImage extends CropperElement {
    * @param {number} f The translating distance in the vertical direction.
    * @returns {CropperImage} Returns `this` for chaining.
    */
-  $setTransform(a: number | number[], b?: number, c?: number, d?: number, e?: number, f?: number) {
+  $setTransform(
+    a: number | number[],
+    b?: number,
+    c?: number,
+    d?: number,
+    e?: number,
+    f?: number,
+  ): this {
     if (this.rotatable || this.scalable || this.skewable || this.translatable) {
       if (Array.isArray(a)) {
         [a, b, c, d, e, f] = a;
@@ -389,12 +396,12 @@ export default class CropperImage extends CropperElement {
 
   /**
    * Resets (overrides) the current transform to the specific identity matrix by a certain offset.
-   * @param {number[]} matrix The transformation matrix.
+   * @param {Array} matrix The transformation matrix.
    * @param {number} [x=0] The horizontal offset of the transformation origin.
    * @param {number} [y=0] The vertical offset of the transformation origin.
    * @returns {CropperImage} Returns `this` for chaining.
    */
-  $setTransformByOffset(matrix: number[], x: number = 0, y: number = 0) {
+  $setTransformByOffset(matrix: number[], x = 0, y = 0): this {
     if (Array.isArray(matrix) && isNumber(x) && isNumber(y)) {
       const [a, b, c, d] = matrix;
       const e = ((x * d) - (c * y)) / ((a * d) - (c * b));
@@ -418,9 +425,9 @@ export default class CropperImage extends CropperElement {
   /**
    * Retrieves the current transformation matrix being applied to the element.
    * {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/getTransform}
-   * @returns {number[]} Returns the readonly transformation matrix.
+   * @returns {Array} Returns the readonly transformation matrix.
    */
-  $getTransform() {
+  $getTransform(): number[] {
     return this.$matrix.slice();
   }
 
@@ -429,7 +436,7 @@ export default class CropperImage extends CropperElement {
    * {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/resetTransform}
    * @returns {CropperImage} Returns `this` for chaining.
    */
-  $resetTransform() {
+  $resetTransform(): this {
     return this.$setTransform([1, 0, 0, 1, 0, 0]);
   }
 }

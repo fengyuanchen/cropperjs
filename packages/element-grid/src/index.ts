@@ -2,23 +2,23 @@ import CropperElement from '@cropper/element';
 import style from './style';
 
 export default class CropperGrid extends CropperElement {
-  static $version: string = '__VERSION__';
+  static $version = '__VERSION__';
 
   protected $style: string = style;
 
-  bordered: boolean = false;
+  bordered = false;
 
-  columns: number = 3;
+  columns = 3;
 
-  covered: boolean = false;
+  covered = false;
 
-  rows: number = 3;
+  rows = 3;
 
-  slottable: boolean = false;
+  slottable = false;
 
-  themeColor: string = 'rgba(238, 238, 238, 0.5)';
+  themeColor = 'rgba(238, 238, 238, 0.5)';
 
-  protected static get observedAttributes() {
+  protected static get observedAttributes(): string[] {
     return super.observedAttributes.concat([
       'bordered',
       'columns',
@@ -27,14 +27,14 @@ export default class CropperGrid extends CropperElement {
     ]);
   }
 
-  protected static get $observedProperties() {
+  protected static get $observedProperties(): string[] {
     return super.$observedProperties.concat([
       'bordered',
       'covered',
     ]);
   }
 
-  protected attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+  protected attributeChangedCallback(name: string, oldValue: string, newValue: string): void {
     if (newValue === oldValue) {
       return;
     }
@@ -46,12 +46,12 @@ export default class CropperGrid extends CropperElement {
     }
   }
 
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     super.connectedCallback();
     this.$render();
   }
 
-  protected $render() {
+  protected $render(): void {
     const shadow = this.$getShadowRoot();
     const fragment = document.createDocumentFragment();
 

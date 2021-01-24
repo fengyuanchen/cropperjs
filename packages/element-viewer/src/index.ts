@@ -20,25 +20,25 @@ export const RESIZE_HORIZONTAL = 'horizontal';
 export const RESIZE_VERTICAL = 'vertical';
 export const RESIZE_NONE = 'none';
 export default class CropperViewer extends CropperElement {
-  static $version: string = '__VERSION__';
+  static $version = '__VERSION__';
 
   protected $image: any = null;
 
-  protected $mounted: boolean = false;
+  protected $mounted = false;
 
   protected $onSelectionChanged: EventListener | null = null;
 
   protected $style = style;
 
-  bordered: boolean = false;
+  bordered = false;
 
   resize: string = RESIZE_VERTICAL;
 
-  selection: string = '';
+  selection = '';
 
-  slottable: boolean = false;
+  slottable = false;
 
-  protected set $sourceImage(element: any) {
+  protected set $sourceImage(element: Element) {
     if (isElement(element)) {
       sourceImageCache.set(this, element);
     } else {
@@ -46,11 +46,11 @@ export default class CropperViewer extends CropperElement {
     }
   }
 
-  protected get $sourceImage(): any {
-    return sourceImageCache.get(this) || null;
+  protected get $sourceImage(): Element {
+    return sourceImageCache.get(this);
   }
 
-  set $selection(element: any) {
+  set $selection(element: Element) {
     if (isElement(element)) {
       selectionCache.set(this, element);
     } else {
@@ -58,11 +58,11 @@ export default class CropperViewer extends CropperElement {
     }
   }
 
-  get $selection(): any {
-    return selectionCache.get(this) || null;
+  get $selection(): Element {
+    return selectionCache.get(this);
   }
 
-  protected static get observedAttributes() {
+  protected static get observedAttributes(): string[] {
     return super.observedAttributes.concat([
       'bordered',
       'resize',
@@ -70,13 +70,13 @@ export default class CropperViewer extends CropperElement {
     ]);
   }
 
-  protected static get $observedProperties() {
+  protected static get $observedProperties(): string[] {
     return super.$observedProperties.concat([
       'bordered',
     ]);
   }
 
-  protected attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+  protected attributeChangedCallback(name: string, oldValue: string, newValue: string): void {
     if (newValue === oldValue) {
       return;
     }
@@ -89,17 +89,17 @@ export default class CropperViewer extends CropperElement {
     }
   }
 
-  protected connectedCallback() {
+  protected connectedCallback(): void {
     super.connectedCallback();
     this.$mount();
   }
 
-  protected disconnectedCallback() {
+  protected disconnectedCallback(): void {
     this.$unmount();
     super.disconnectedCallback();
   }
 
-  protected $mount() {
+  protected $mount(): void {
     if (this.$mounted) {
       return;
     }
@@ -129,7 +129,7 @@ export default class CropperViewer extends CropperElement {
     }
   }
 
-  protected $unmount() {
+  protected $unmount(): void {
     if (!this.$mounted) {
       return;
     }
@@ -143,19 +143,19 @@ export default class CropperViewer extends CropperElement {
     }
   }
 
-  protected $render() {
+  protected $render(): void {
     const { $image, $sourceImage, $selection } = this;
 
     if (
       $image
       && $selection
-      && !$selection.hidden
-      && $selection.width > 0
-      && $selection.height > 0
+      && !($selection as any).hidden
+      && ($selection as any).width > 0
+      && ($selection as any).height > 0
     ) {
       const styles: any = {};
       const { clientWidth, clientHeight } = this;
-      const { width, height } = $selection;
+      const { width, height } = $selection as any;
       let newWidth = clientWidth;
       let newHeight = clientHeight;
       let scale = NaN;
@@ -197,12 +197,12 @@ export default class CropperViewer extends CropperElement {
       if (scale > 0 && $sourceImage) {
         this.dataset.scale = String(scale);
 
-        const sourceMatrix = $sourceImage.$getTransform();
+        const sourceMatrix = ($sourceImage as any).$getTransform();
         const {
           a, b, c, d,
         } = sourceMatrix;
-        const x = ((newWidth - width) / 2) - $selection.x;
-        const y = ((newHeight - height) / 2) - $selection.y;
+        const x = ((newWidth - width) / 2) - ($selection as any).x;
+        const y = ((newHeight - height) / 2) - ($selection as any).y;
         const e = ((x * d) - (c * y)) / ((a * d) - (c * b));
         const f = (y - (b * e)) / d;
         const {

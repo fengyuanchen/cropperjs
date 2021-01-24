@@ -14,7 +14,7 @@ class MyCropperElement extends CropperElement {
   myNumberProperty = NaN;
   myBooleanProperty = false;
 
-  static get observedAttributes() {
+  static get observedAttributes(): string[] {
     return super.observedAttributes.concat([
       'my-boolean-property',
       'my-number-property',
@@ -22,7 +22,7 @@ class MyCropperElement extends CropperElement {
     ]);
   }
 
-  static get $observedProperties() {
+  static get $observedProperties(): string[] {
     return super.$observedProperties.concat([
       'myBooleanProperty',
       'myNumberProperty',
@@ -56,8 +56,8 @@ Inherits properties from its parent, [`HTMLElement`](https://developer.mozilla.o
 
 - **Syntax**: `$getShadowRoot()`
 - **Returns**:
-  - Type: `ShadowRoot | null`
-  - The shadow root if any.
+  - Type: `ShadowRoot`
+  - The shadow root.
 
 Outputs the shadow root of the element, even if its mode is `"closed"`.
 
@@ -69,7 +69,7 @@ Outputs the shadow root of the element, even if its mode is `"closed"`.
     - Type: `string`
     - The styles to add.
 - **Returns**:
-  - Type: `CSSStyleSheet | HTMLStyleElement | null`
+  - Type: `CSSStyleSheet | HTMLStyleElement`
   - The generated style sheet.
 - **Example**:
 

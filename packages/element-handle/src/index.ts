@@ -3,7 +3,7 @@ import { ACTION_NONE } from '@cropper/helper-constants';
 import style from './style';
 
 export default class CropperHandle extends CropperElement {
-  static $version: string = '__VERSION__';
+  static $version = '__VERSION__';
 
   protected $onCanvasCropEnd: EventListener | null = null;
 
@@ -13,20 +13,20 @@ export default class CropperHandle extends CropperElement {
 
   action: string = ACTION_NONE;
 
-  plain: boolean = false;
+  plain = false;
 
-  slottable: boolean = false;
+  slottable = false;
 
-  themeColor: string = 'rgba(51, 153, 255, 0.5)';
+  themeColor = 'rgba(51, 153, 255, 0.5)';
 
-  protected static get observedAttributes() {
+  protected static get observedAttributes(): string[] {
     return super.observedAttributes.concat([
       'action',
       'plain',
     ]);
   }
 
-  protected static get $observedProperties() {
+  protected static get $observedProperties(): string[] {
     return super.$observedProperties.concat([
       'plain',
     ]);
