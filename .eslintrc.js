@@ -3,7 +3,10 @@ module.exports = {
     browser: true,
     node: true,
   },
-  extends: 'airbnb-typescript/base',
+  extends: [
+    'airbnb-typescript/base',
+    'plugin:@typescript-eslint/recommended',
+  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     sourceType: 'module',
@@ -13,6 +16,7 @@ module.exports = {
     '@typescript-eslint',
   ],
   rules: {
+    '@typescript-eslint/no-explicit-any': 'off',
     'import/no-extraneous-dependencies': 'off',
     'max-len': ['error', 100, 2, {
       ignoreUrls: true,
