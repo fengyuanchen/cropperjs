@@ -44,7 +44,7 @@ npm install cropperjs@next
 For a specific package:
 
 ```sh
-npm install @cropper/canvas
+npm install @cropper/element-canvas
 ```
 
 #### CDN
@@ -114,9 +114,9 @@ import 'cropperjs';
 Import the required Cropper elements only and [define](https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/define) them as custom elements manually.
 
 ```js
-import CropperCanvas from '@cropper/canvas';
-import CropperImage from '@cropper/image';
-import CropperHandle from '@cropper/handle';
+import CropperCanvas from '@cropper/element-canvas';
+import CropperImage from '@cropper/element-image';
+import CropperHandle from '@cropper/element-handle';
 
 CropperCanvas.$define();
 CropperImage.$define();
@@ -141,17 +141,17 @@ Cropper.js contains a series of [npm](https://www.npmjs.com/) packages:
 | Package | Version | Description |
 | --- | --- | --- |
 | `cropperjs` | [![Version](https://img.shields.io/npm/v/cropperjs/next)](https://www.npmjs.com/package/cropperjs/v/next) | The all-in-one package. |
-| `@cropper/constants` | [![Version](https://img.shields.io/npm/v/@cropper/constants)](https://www.npmjs.com/package/@cropper/constants) | A series of common constants. |
-| `@cropper/utils` | [![Version](https://img.shields.io/npm/v/@cropper/utils)](https://www.npmjs.com/package/@cropper/utils) | A series of common utility functions. |
+| `@cropper/helper-constants` | [![Version](https://img.shields.io/npm/v/@cropper/helper-constants)](https://www.npmjs.com/package/@cropper/helper-constants) | A series of common constants. |
+| `@cropper/helper-utils` | [![Version](https://img.shields.io/npm/v/@cropper/helper-utils)](https://www.npmjs.com/package/@cropper/helper-utils) | A series of common utility functions. |
 | `@cropper/element` | [![Version](https://img.shields.io/npm/v/@cropper/element)](https://www.npmjs.com/package/@cropper/element) | An abstract class for constructing Cropper elements. |
-| `@cropper/canvas` | [![Version](https://img.shields.io/npm/v/@cropper/canvas)](https://www.npmjs.com/package/@cropper/canvas) | A custom canvas element for the Cropper. |
-| `@cropper/image` | [![Version](https://img.shields.io/npm/v/@cropper/image)](https://www.npmjs.com/package/@cropper/image) | A custom image element for the Cropper. |
-| `@cropper/selection` | [![Version](https://img.shields.io/npm/v/@cropper/selection)](https://www.npmjs.com/package/@cropper/selection) | A custom selection element for the Cropper. |
-| `@cropper/handle` | [![Version](https://img.shields.io/npm/v/@cropper/handle)](https://www.npmjs.com/package/@cropper/handle) | A custom handle element for the Cropper. |
-| `@cropper/shade` | [![Version](https://img.shields.io/npm/v/@cropper/shade)](https://www.npmjs.com/package/@cropper/shade) | A custom shade element for the Cropper. |
-| `@cropper/grid` | [![Version](https://img.shields.io/npm/v/@cropper/grid)](https://www.npmjs.com/package/@cropper/grid) | A custom grid element for the Cropper. |
-| `@cropper/crosshair` | [![Version](https://img.shields.io/npm/v/@cropper/crosshair)](https://www.npmjs.com/package/@cropper/crosshair) | A custom crosshair element for the Cropper.|
-| `@cropper/viewer` | [![Version](https://img.shields.io/npm/v/@cropper/viewer)](https://www.npmjs.com/package/@cropper/viewer) | A custom viewer element for the Cropper. |
+| `@cropper/element-canvas` | [![Version](https://img.shields.io/npm/v/@cropper/element-canvas)](https://www.npmjs.com/package/@cropper/element-canvas) | A custom canvas element for the Cropper. |
+| `@cropper/element-image` | [![Version](https://img.shields.io/npm/v/@cropper/element-image)](https://www.npmjs.com/package/@cropper/element-image) | A custom image element for the Cropper. |
+| `@cropper/element-selection` | [![Version](https://img.shields.io/npm/v/@cropper/element-selection)](https://www.npmjs.com/package/@cropper/element-selection) | A custom selection element for the Cropper. |
+| `@cropper/element-handle` | [![Version](https://img.shields.io/npm/v/@cropper/element-handle)](https://www.npmjs.com/package/@cropper/element-handle) | A custom handle element for the Cropper. |
+| `@cropper/element-shade` | [![Version](https://img.shields.io/npm/v/@cropper/element-shade)](https://www.npmjs.com/package/@cropper/element-shade) | A custom shade element for the Cropper. |
+| `@cropper/element-grid` | [![Version](https://img.shields.io/npm/v/@cropper/element-grid)](https://www.npmjs.com/package/@cropper/element-grid) | A custom grid element for the Cropper. |
+| `@cropper/element-crosshair` | [![Version](https://img.shields.io/npm/v/@cropper/element-crosshair)](https://www.npmjs.com/package/@cropper/element-crosshair) | A custom crosshair element for the Cropper.|
+| `@cropper/element-viewer` | [![Version](https://img.shields.io/npm/v/@cropper/element-viewer)](https://www.npmjs.com/package/@cropper/element-viewer) | A custom viewer element for the Cropper. |
 
 ## Interfaces
 

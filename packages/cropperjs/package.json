@@ -47,17 +47,17 @@
   "bugs": "https://github.com/fengyuanchen/cropperjs/issues",
   "homepage": "https://github.com/fengyuanchen/cropperjs/tree/next/packages/cropperjs/#readme",
   "dependencies": {
-    "@cropper/canvas": "^2.0.0-beta",
-    "@cropper/constants": "^2.0.0-beta",
-    "@cropper/crosshair": "^2.0.0-beta",
     "@cropper/element": "^2.0.0-beta",
-    "@cropper/grid": "^2.0.0-beta",
-    "@cropper/handle": "^2.0.0-beta",
-    "@cropper/image": "^2.0.0-beta",
-    "@cropper/selection": "^2.0.0-beta",
-    "@cropper/shade": "^2.0.0-beta",
-    "@cropper/utils": "^2.0.0-beta",
-    "@cropper/viewer": "^2.0.0-beta"
+    "@cropper/element-canvas": "^2.0.0-beta",
+    "@cropper/element-crosshair": "^2.0.0-beta",
+    "@cropper/element-grid": "^2.0.0-beta",
+    "@cropper/element-handle": "^2.0.0-beta",
+    "@cropper/element-image": "^2.0.0-beta",
+    "@cropper/element-selection": "^2.0.0-beta",
+    "@cropper/element-shade": "^2.0.0-beta",
+    "@cropper/element-viewer": "^2.0.0-beta",
+    "@cropper/helper-constants": "^2.0.0-beta",
+    "@cropper/helper-utils": "^2.0.0-beta"
   },
   "publishConfig": {
     "tag": "next"

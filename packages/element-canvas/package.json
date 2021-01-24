@@ -1,10 +1,10 @@
 {
-  "name": "@cropper/element",
-  "description": "An abstract class for constructing Cropper elements.",
+  "name": "@cropper/element-canvas",
+  "description": "A custom canvas element for the Cropper.",
   "version": "2.0.0-beta",
-  "main": "dist/element.js",
-  "module": "dist/element.esm.js",
-  "types": "dist/element.d.ts",
+  "main": "dist/element-canvas.js",
+  "module": "dist/element-canvas.esm.js",
+  "types": "dist/element-canvas.d.ts",
   "files": [
     "dist"
   ],
@@ -19,10 +19,10 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/fengyuanchen/cropperjs.git",
-    "directory": "packages/element"
+    "directory": "packages/element-canvas"
   },
   "keywords": [
-    "element",
+    "canvas",
     "cropper",
     "cropper.js",
     "cropper-element",
@@ -32,8 +32,9 @@
   "author": "Chen Fengyuan (https://chenfengyuan.com/)",
   "license": "MIT",
   "bugs": "https://github.com/fengyuanchen/cropperjs/issues",
-  "homepage": "https://github.com/fengyuanchen/cropperjs/tree/next/packages/element/#readme",
+  "homepage": "https://github.com/fengyuanchen/cropperjs/tree/next/packages/canvas/#readme",
   "dependencies": {
+    "@cropper/element": "^2.0.0-beta",
     "@cropper/helper-constants": "^2.0.0-beta",
     "@cropper/helper-utils": "^2.0.0-beta"
   },

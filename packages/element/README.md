@@ -6,11 +6,11 @@
 
 ```text
 dist/
-├── cropper-element.js         (UMD, default)
-├── cropper-element.min.js     (UMD, compressed)
-├── cropper-element.esm.js     (ECMAScript Module)
-├── cropper-element.esm.min.js (ECMAScript Module, compressed)
-└── cropper-element.d.ts       (TypeScript Declaration File)
+├── element.js         (UMD, default)
+├── element.min.js     (UMD, compressed)
+├── element.esm.js     (ECMAScript Module)
+├── element.esm.min.js (ECMAScript Module, compressed)
+└── element.d.ts       (TypeScript Declaration File)
 ```
 
 ## Getting started

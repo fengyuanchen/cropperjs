@@ -1,10 +1,10 @@
 {
-  "name": "@cropper/element",
-  "description": "An abstract class for constructing Cropper elements.",
+  "name": "@cropper/helper-constants",
+  "description": "A series of common constants.",
   "version": "2.0.0-beta",
-  "main": "dist/element.js",
-  "module": "dist/element.esm.js",
-  "types": "dist/element.d.ts",
+  "main": "dist/helper-constants.js",
+  "module": "dist/helper-constants.esm.js",
+  "types": "dist/helper-constants.d.ts",
   "files": [
     "dist"
   ],
@@ -19,24 +19,17 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/fengyuanchen/cropperjs.git",
-    "directory": "packages/element"
+    "directory": "packages/helper-constants"
   },
   "keywords": [
-    "element",
+    "constants",
     "cropper",
-    "cropper.js",
-    "cropper-element",
-    "custom-element",
-    "web-component"
+    "cropper.js"
   ],
   "author": "Chen Fengyuan (https://chenfengyuan.com/)",
   "license": "MIT",
   "bugs": "https://github.com/fengyuanchen/cropperjs/issues",
-  "homepage": "https://github.com/fengyuanchen/cropperjs/tree/next/packages/element/#readme",
-  "dependencies": {
-    "@cropper/helper-constants": "^2.0.0-beta",
-    "@cropper/helper-utils": "^2.0.0-beta"
-  },
+  "homepage": "https://github.com/fengyuanchen/cropperjs/tree/next/packages/constants/#readme",
   "publishConfig": {
     "access": "public"
   }
