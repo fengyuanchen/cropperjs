@@ -11,16 +11,26 @@ module.exports = {
     editLinks: true,
     nav: [
       {
-        text: 'Guide',
-        link: '/guide/',
+        text: 'Docs',
+        ariaLabel: 'Documentation Menu',
+        items: [
+          {
+            text: 'Guide',
+            link: '/guide/',
+          },
+          {
+            text: 'Examples',
+            link: '/examples/',
+          },
+          {
+            text: 'Migration from Cropper.js 1',
+            link: '/migration/',
+          },
+        ]
       },
       {
         text: 'API Reference',
         link: '/api/',
-      },
-      {
-        text: 'Examples',
-        link: '/examples/',
       },
       {
         text: 'Playground',

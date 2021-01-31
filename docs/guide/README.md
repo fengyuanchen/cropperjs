@@ -11,7 +11,7 @@ Cropper.js is a series of web components for image cropping.
 - **What is the different between Cropper.js 1.0 and Cropper.js 2.0?**
 
 | Type | Cropper.js 1.0 | Cropper.js 2.0 |
-| --- | --- | --- | --- | --- | --- |
+| --- | --- | --- |
 | Funded | 2015 | 2021 |
 | Status | Maintaining | Active |
 | Package Number | 1 | 12+ |

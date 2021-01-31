@@ -193,6 +193,21 @@ describe('CropperSelection', () => {
         expect(element.outlined).toBe(true);
       });
     });
+
+    describe('precision', () => {
+      it('should be `false` by default', () => {
+        const element = new CropperSelection();
+
+        expect(element.precision).toBe(false);
+      });
+
+      it('should be `true`', () => {
+        const element = new CropperSelection();
+
+        element.setAttribute('precision', '');
+        expect(element.precision).toBe(true);
+      });
+    });
   });
 
   describe('methods', () => {

@@ -266,7 +266,15 @@
             <input type="checkbox" id="selectionZoomable" name="zoomable" v-model="canvas.selection.zoomable">
           </li>
           <li>
-            <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="tooltip" data-placement="top" title="selection.$select(0, 0, 160, 90)" @click="$refs.cropperSelection.$select(0, 0, 160, 90)">$select(0, 0, 160, 90)</button>
+            <label for="selectionOutlined">outlined</label>
+            <input type="checkbox" id="selectionOutlined" name="outlined" v-model="canvas.selection.outlined">
+          </li>
+          <li>
+            <label for="selectionPrecision">precision</label>
+            <input type="checkbox" id="selectionPrecision" name="precision" v-model="canvas.selection.precision">
+          </li>
+          <li>
+            <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="tooltip" data-placement="top" title="selection.$change(0, 0, 160, 90)" @click="$refs.cropperSelection.$change(0, 0, 160, 90)">$change(0, 0, 160, 90)</button>
           </li>
           <li>
             <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="tooltip" data-placement="top" title="selection.$reset()" @click="$refs.cropperSelection.$reset()">$reset()</button>
@@ -359,7 +367,7 @@
                     <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"/>
                   </svg>
                 </button>
-                <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="tooltip" data-placement="top" title="selection.$scale(1.01)" @click="$refs.cropperSelection.$scale(1.01)">
+                <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="tooltip" data-placement="top" title="selection.$zoom(0.01)" @click="$refs.cropperSelection.$zoom(0.01)">
                   <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-zoom-in" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
                     <path d="M10.344 11.742c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1 6.538 6.538 0 0 1-1.398 1.4z"/>
@@ -422,7 +430,7 @@
                     <path fill-rule="evenodd" d="M4 8a.5.5 0 0 0 .5.5h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5A.5.5 0 0 0 4 8z"/>
                   </svg>
                 </button>
-                <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="tooltip" data-placement="top" title="selection.$scale(0.99)" @click="$refs.cropperSelection.$scale(0.99)">
+                <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="tooltip" data-placement="top" title="selection.$zoom(-0.01)" @click="$refs.cropperSelection.$zoom(-0.01)">
                   <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-zoom-out" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
                     <path d="M10.344 11.742c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1 6.538 6.538 0 0 1-1.398 1.4z"/>
@@ -557,12 +565,18 @@
           :auto-select="canvas.selection.autoSelect"
           :hidden="canvas.selection.hidden"
           :initial-aspect-ratio="canvas.selection.initialAspectRatio"
+          :movable="canvas.selection.movable"
+          :resizable="canvas.selection.resizable"
+          :zoomable="canvas.selection.zoomable"
+          :outlined="canvas.selection.outlined"
+          :precision="canvas.selection.precision"
           @change="onSelectionChange"
         >
           <!-- <cropper-viewer v-bind="canvas.selection.viewer"></cropper-viewer> -->
           <cropper-grid v-bind="canvas.selection.grid"></cropper-grid>
           <cropper-crosshair
             :hidden="canvas.selection.crosshair.hidden"
+            :centered="canvas.selection.crosshair.centered"
             :theme-color="canvas.selection.crosshair.themeColor"
           ></cropper-crosshair>
           <cropper-handle
@@ -688,16 +702,20 @@ export default {
           aspectRatio: NaN,
           autoSelect: true,
           autoSelectArea: 0.8,
-          movable: false,
-          resizable: false,
-          zoomable: false,
+          movable: true,
+          resizable: true,
+          zoomable: true,
+          outlined: false,
+          precision: false,
           grid: {
             hidden: false,
+            covered: true,
             columns: 3,
             rows: 3,
           },
           crosshair: {
             hidden: false,
+            centered: true,
             themeColor: '#eeeeee',
           },
           handles: [
@@ -812,11 +830,15 @@ export default {
     },
     cropperCanvasToCanvas() {
       this.$refs.canvasViewer.innerHTML = '';
-      this.$refs.canvasViewer.appendChild(this.$refs.cropperCanvas.$toCanvas());
+      this.$refs.cropperCanvas.$toCanvas().then((canvas) => {
+        this.$refs.canvasViewer.appendChild(canvas);
+      });
     },
     cropperSelectionToCanvas() {
       this.$refs.canvasViewer.innerHTML = '';
-      this.$refs.canvasViewer.appendChild(this.$refs.cropperSelection.$toCanvas());
+      this.$refs.cropperSelection.$toCanvas().then((canvas) => {
+        this.$refs.canvasViewer.appendChild(canvas);
+      });
     },
   },
 };

@@ -68,6 +68,8 @@ export default class CropperSelection extends CropperElement {
 
   outlined = false;
 
+  precision = false;
+
   protected set $canvas(element: Element) {
     if (isElement(element)) {
       canvasCache.set(this, element);
@@ -94,6 +96,7 @@ export default class CropperSelection extends CropperElement {
       'resizable',
       'zoomable',
       'outlined',
+      'precision',
     ]);
   }
 
@@ -235,7 +238,7 @@ export default class CropperSelection extends CropperElement {
           break;
 
         case ACTION_SCALE:
-          this.$zoom(detail.scale);
+          this.$zoomTo(detail.scale);
           break;
 
         default:
@@ -581,13 +584,18 @@ export default class CropperSelection extends CropperElement {
     height: number = this.height,
     aspectRatio: number = this.aspectRatio,
   ): this {
-    if (
-      !isNumber(x)
-      || !isNumber(y)
-      || !isNumber(width)
-      || !isNumber(height)
-      || (x === this.x && y === this.y && width === this.width && height === this.height)
-    ) {
+    if (!isNumber(x) || !isNumber(y) || !isNumber(width) || !isNumber(height)) {
+      return this;
+    }
+
+    if (!this.precision) {
+      x = Math.round(x);
+      y = Math.round(y);
+      width = Math.round(width);
+      height = Math.round(height);
+    }
+
+    if (x === this.x && y === this.y && width === this.width && height === this.height) {
       return this;
     }
 
@@ -653,8 +661,7 @@ export default class CropperSelection extends CropperElement {
       }
 
       const canvas = document.createElement('canvas');
-      const width = this.offsetWidth;
-      const height = this.offsetHeight;
+      const { width, height } = this;
 
       canvas.width = width;
       canvas.height = height;
@@ -691,9 +698,15 @@ export default class CropperSelection extends CropperElement {
         const context = canvas.getContext('2d');
 
         if (context) {
-          const matrix = cropperImage.$getTransform();
           const centerX = cropperImage.offsetWidth / 2;
           const centerY = cropperImage.offsetHeight / 2;
+          const [a, b, c, d, e, f] = cropperImage.$getTransform();
+          const offsetX = -this.x;
+          const offsetY = -this.y;
+          const translateX = ((offsetX * d) - (c * offsetY)) / ((a * d) - (c * b));
+          const translateY = (offsetY - (b * e)) / d;
+          const newE = a * translateX + c * translateY + e;
+          const newF = b * translateX + d * translateY + f;
 
           context.fillStyle = 'transparent';
           context.fillRect(0, 0, width, height);
@@ -707,7 +720,7 @@ export default class CropperSelection extends CropperElement {
           // Move the transform origin to the center of the image.
           // https://developer.mozilla.org/en-US/docs/Web/CSS/transform-origin
           context.translate(centerX, centerY);
-          context.transform(matrix[0], matrix[1], matrix[2], matrix[3], matrix[4], matrix[5]);
+          context.transform(a, b, c, d, newE, newF);
 
           // Move the transform origin to the top-left of the image.
           context.translate(-centerX, -centerY);

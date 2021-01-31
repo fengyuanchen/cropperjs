@@ -5,7 +5,7 @@
         <cropper-image src="/picture.jpg" alt="Logo"></cropper-image>
         <cropper-shade hidden></cropper-shade>
         <cropper-handle action="move" plain></cropper-handle>
-        <cropper-selection ref="source" auto-select auto-select-area="0.5">
+        <cropper-selection ref="source" auto-select auto-select-area="0.5" movable zoomable>
           <cropper-handle action="move" plain></cropper-handle>
         </cropper-selection>
       </cropper-canvas>
@@ -21,7 +21,9 @@ export default {
   methods: {
     convertToCanvas() {
       this.$refs.target.innerHTML = '';
-      this.$refs.target.appendChild(this.$refs.source.$toCanvas());
+      this.$refs.source.$toCanvas().then((canvas) => {
+        this.$refs.target.appendChild(canvas);
+      });
     },
   },
 };
