@@ -1,8 +1,9 @@
 # Changelog
 
-## next
+## 1.5.10 (Feb 12, 2021)
 
 - Explicitly set the XMLHttpRequest request to be asynchronous (#682).
+- Improve TypeScript declarations (#791).
 
 ## 1.5.9 (Sep 10, 2020)
 

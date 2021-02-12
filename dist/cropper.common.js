@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v1.5.9
+ * Cropper.js v1.5.10
  * https://fengyuanchen.github.io/cropperjs
  *
  * Copyright 2015-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2020-09-10T13:16:26.743Z
+ * Date: 2021-02-12T06:37:49.781Z
  */
 
 'use strict';
@@ -3334,9 +3334,10 @@ var Cropper = /*#__PURE__*/function () {
 
       if (options.checkCrossOrigin && isCrossOriginURL(url) && element.crossOrigin) {
         url = addTimestamp(url);
-      }
+      } // The third parameter is required for avoiding side-effect (#682)
 
-      xhr.open('GET', url);
+
+      xhr.open('GET', url, true);
       xhr.responseType = 'arraybuffer';
       xhr.withCredentials = element.crossOrigin === 'use-credentials';
       xhr.send();
