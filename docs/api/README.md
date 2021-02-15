@@ -41,7 +41,7 @@ The default template for the Cropper:
 
 ```html
 <cropper-canvas background>
-  <cropper-image src="/picture.jpg" alt="Cropper logo"></cropper-image>
+  <cropper-image src="/picture.jpg" alt="Picture"></cropper-image>
   <cropper-shade hidden></cropper-shade>
   <cropper-handle action="select" plain></cropper-handle>
   <cropper-selection auto-select auto-select-area="0.5">

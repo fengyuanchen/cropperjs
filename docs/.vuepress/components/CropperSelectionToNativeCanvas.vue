@@ -2,7 +2,7 @@
   <div class="to-canvas-demo">
     <div>
       <cropper-canvas background>
-        <cropper-image src="/picture.jpg" alt="Logo"></cropper-image>
+        <cropper-image src="/picture.jpg" alt="Picture"></cropper-image>
         <cropper-shade hidden></cropper-shade>
         <cropper-handle action="move" plain></cropper-handle>
         <cropper-selection ref="source" auto-select auto-select-area="0.5" movable zoomable>

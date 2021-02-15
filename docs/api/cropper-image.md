@@ -23,7 +23,7 @@ The default width and height of this element is `0`.
 :::live-demo
 
 ```html
-<cropper-image src="/picture.jpg" alt="Cropper logo"></cropper-image>
+<cropper-image src="/picture.jpg" alt="Picture"></cropper-image>
 ```
 
 :::

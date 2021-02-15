@@ -24,7 +24,7 @@ The default width and height of this element is `0`.
 
 ```html
 <cropper-canvas background>
-  <cropper-image src="/picture.jpg" alt="Cropper logo"></cropper-image>
+  <cropper-image src="/picture.jpg" alt="Picture"></cropper-image>
   <cropper-handle action="move"></cropper-handle>
 </cropper-canvas>
 ```
@@ -38,7 +38,7 @@ The default width and height of this element is `0`.
 ```html
 
 <cropper-canvas background>
-  <cropper-image src="/picture.jpg" alt="Cropper logo"></cropper-image>
+  <cropper-image src="/picture.jpg" alt="Picture"></cropper-image>
   <cropper-selection width="100" height="100">
     <cropper-handle action="move"></cropper-handle>
   </cropper-selection>

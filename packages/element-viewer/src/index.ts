@@ -181,7 +181,7 @@ export default class CropperViewer extends CropperElement {
           styles.height = newHeight;
           break;
 
-        // case RESIZE_NONE:
+        case RESIZE_NONE:
         default:
           if (clientWidth > 0) {
             scale = clientWidth / width;
@@ -198,16 +198,12 @@ export default class CropperViewer extends CropperElement {
         this.dataset.scale = String(scale);
 
         const sourceMatrix = ($sourceImage as any).$getTransform();
-        const {
-          a, b, c, d,
-        } = sourceMatrix;
+        const [a, b, c, d] = sourceMatrix;
         const x = ((newWidth - width) / 2) - ($selection as any).x;
         const y = ((newHeight - height) / 2) - ($selection as any).y;
         const e = ((x * d) - (c * y)) / ((a * d) - (c * b));
         const f = (y - (b * e)) / d;
-        const {
-          a: a1, b: b1, c: c1, d: d1, e: e1, f: f1,
-        } = sourceMatrix;
+        const [a1, b1, c1, d1, e1, f1] = sourceMatrix;
         const [a2, b2, c2, d2, e2, f2] = [scale, 0, 0, scale, e, f];
 
         $image.$setTransform(

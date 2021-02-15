@@ -34,7 +34,7 @@ The default minium width and minium height of this element are `200px` and `100p
 
 ```html
 <cropper-canvas background>
-  <cropper-image src="/picture.jpg" alt="Logo"></cropper-image>
+  <cropper-image src="/picture.jpg" alt="Picture"></cropper-image>
   <cropper-handle action="move" plain></cropper-handle>
 </cropper-canvas>
 ```
@@ -49,7 +49,7 @@ All pointer events are disabled.
 
 ```html
 <cropper-canvas background disabled>
-  <cropper-image src="/picture.jpg" alt="Logo"></cropper-image>
+  <cropper-image src="/picture.jpg" alt="Picture"></cropper-image>
   <cropper-handle action="move" plain></cropper-handle>
 </cropper-canvas>
 ```

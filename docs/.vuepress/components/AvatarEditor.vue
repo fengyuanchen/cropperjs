@@ -1,7 +1,7 @@
 <template>
   <div class="avatar-editor">
     <cropper-canvas ref="source" background>
-      <cropper-image src="/picture.jpg" alt="Logo"></cropper-image>
+      <cropper-image src="/picture.jpg" alt="Picture"></cropper-image>
       <cropper-handle action="move" plain></cropper-handle>
     </cropper-canvas>
     <p>

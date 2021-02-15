@@ -2,7 +2,7 @@
   <div class="to-canvas-demo">
     <div>
       <cropper-canvas ref="source" background>
-        <cropper-image src="/picture.jpg" alt="Logo"></cropper-image>
+        <cropper-image src="/picture.jpg" alt="Picture"></cropper-image>
         <cropper-handle action="move" plain></cropper-handle>
       </cropper-canvas>
     </div>

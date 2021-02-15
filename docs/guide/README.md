@@ -73,7 +73,7 @@ const cropper = new Cropper(document.getElementById('image'));
 ```
 
 ```html
-<img id="image" src="/picture.jpg" alt="Cropper logo">
+<img id="image" src="/picture.jpg" alt="Picture">
 ```
 
 #### Use in DOM
@@ -88,7 +88,7 @@ import 'cropperjs';
 
 ```html
 <cropper-canvas background>
-  <cropper-image src="/picture.jpg" alt="Cropper logo"></cropper-image>
+  <cropper-image src="/picture.jpg" alt="Picture"></cropper-image>
   <cropper-shade hidden></cropper-shade>
   <cropper-handle action="select" plain></cropper-handle>
   <cropper-selection auto-select auto-select-area="0.5">
@@ -127,7 +127,7 @@ CropperHandle.$define();
 
 ```html
 <cropper-canvas background>
-  <cropper-image src="/picture.jpg" alt="Logo"></cropper-image>
+  <cropper-image src="/picture.jpg" alt="Picture"></cropper-image>
   <cropper-handle action="move" plain></cropper-handle>
 </cropper-canvas>
 ```
