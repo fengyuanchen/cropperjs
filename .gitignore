@@ -5,4 +5,5 @@
 coverage
 dist
 node_modules
+packages/*/src/index.d.ts
 temp

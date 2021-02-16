@@ -6,33 +6,39 @@ import nodeResolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import typescript from '@rollup/plugin-typescript';
 import { terser } from 'rollup-plugin-terser';
+import copy from 'rollup-plugin-copy';
 import config from './tsconfig.json';
 
 const pkg = JSON.parse(fs.readFileSync(`${process.cwd()}/package.json`));
-
-pkg.name = pkg.name.replace('@cropper/', '').replace('js', '');
-
-const name = changeCase.pascalCase(pkg.name);
+const isCropperJS = pkg.name === 'cropperjs';
+const normalizeGlobalName = (name) => changeCase.pascalCase(name.replace(/(?:element|helper)-/, ''));
+const name = isCropperJS ? 'Cropper' : normalizeGlobalName(pkg.name);
 const banner = createBanner({
   data: {
-    name,
+    name: isCropperJS ? 'Cropper.js' : name,
     year: '2015-present',
   },
   template: 'inline',
 });
 const formats = ['esm', 'umd'];
 const modes = ['development', 'production'];
+const external = isCropperJS ? [] : Object.keys(pkg.dependencies || {});
+const globals = isCropperJS ? [] : external.reduce((map, key) => {
+  map[key] = normalizeGlobalName(key);
+  return map;
+}, {});
 
 export default formats.map((format) => ({
+  external,
   input: 'src/index.ts',
   output: modes.map((mode) => ({
     name,
     format,
-    banner: pkg.name === 'cropper' ? banner : undefined,
-    file: `dist/${pkg.name}${format === 'umd' ? '' : `.${format}`}${mode === 'production' ? '.min' : ''}.js`,
+    globals,
+    banner: isCropperJS ? banner : undefined,
+    file: (format === 'esm' ? pkg.module : pkg.main).replace('.js', `${mode === 'production' ? '.min' : ''}.js`),
     plugins: mode === 'production' ? [terser()] : [],
   })),
-  external: pkg.name === 'cropper' ? [] : Object.keys(pkg.dependencies || {}),
   plugins: [
     nodeResolve(),
     commonjs(),
@@ -40,5 +46,14 @@ export default formats.map((format) => ({
     replace({
       __VERSION__: pkg.version,
     }),
-  ],
+  ].concat(format === 'umd' ? [] : copy({
+    copyOnce: true,
+    targets: [
+      {
+        src: 'src/index.d.ts',
+        dest: 'dist',
+        rename: pkg.types.replace('dist/', ''),
+      },
+    ],
+  })),
 }));
