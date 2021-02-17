@@ -84,13 +84,13 @@ declare namespace Cropper {
     height?: number;
   }
 
-  interface CropperEvent<T extends EventTarget> extends CustomEvent {
+  interface CropperEvent<T extends EventTarget = EventTarget> extends CustomEvent {
     currentTarget: T & { cropper: Cropper };
   }
 
   export type ReadyEvent<T extends EventTarget> = CropperEvent<T>
 
-  export interface CropEvent<T extends EventTarget> extends CropperEvent<T> {
+  export interface CropEvent<T extends EventTarget = EventTarget> extends CropperEvent<T> {
     detail: Data;
   }
 
@@ -99,15 +99,15 @@ declare namespace Cropper {
     action: Action;
   }
 
-  export interface CropStartEvent<T extends EventTarget> extends CropperEvent<T> {
+  export interface CropStartEvent<T extends EventTarget = EventTarget> extends CropperEvent<T> {
     detail: CropEventData;
   }
 
-  export interface CropMoveEvent<T extends EventTarget> extends CropperEvent<T> {
+  export interface CropMoveEvent<T extends EventTarget = EventTarget> extends CropperEvent<T> {
     detail: CropEventData;
   }
 
-  export interface CropEndEvent<T extends EventTarget> extends CropperEvent<T> {
+  export interface CropEndEvent<T extends EventTarget = EventTarget> extends CropperEvent<T> {
     detail: CropEventData;
   }
 
@@ -117,11 +117,11 @@ declare namespace Cropper {
     ratio: number;
   }
 
-  export interface ZoomEvent<T extends EventTarget> extends CropperEvent<T> {
+  export interface ZoomEvent<T extends EventTarget = EventTarget> extends CropperEvent<T> {
     detail: ZoomEventData;
   }
 
-  export interface Options<T extends EventTarget> {
+  export interface Options<T extends EventTarget = EventTarget> {
     aspectRatio?: number;
     autoCrop?: boolean;
     autoCropArea?: number;
