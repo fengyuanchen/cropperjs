@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.11 (Feb 17, 2021)
+
+- Fix TypeScript declarations compatibility (#799).
+
 ## 1.5.10 (Feb 12, 2021)
 
 - Explicitly set the XMLHttpRequest request to be asynchronous (#682).
