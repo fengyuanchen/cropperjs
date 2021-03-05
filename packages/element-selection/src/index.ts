@@ -188,11 +188,14 @@ export default class CropperSelection extends CropperElement {
         }
       }
 
-      on(
-        $canvas,
-        EVENT_ACTION_START,
-        (this.$onCanvasActionStart = this.$handleActionStart.bind(this)),
-      );
+      if (this.multiple) {
+        on(
+          $canvas,
+          EVENT_ACTION_START,
+          (this.$onCanvasActionStart = this.$handleActionStart.bind(this)),
+        );
+      }
+
       on(
         $canvas,
         EVENT_ACTION,
@@ -215,7 +218,7 @@ export default class CropperSelection extends CropperElement {
     const { $canvas } = this;
 
     if ($canvas) {
-      if (this.$onCanvasActionStart) {
+      if (this.multiple && this.$onCanvasActionStart) {
         off($canvas, EVENT_ACTION, this.$onCanvasActionStart);
       }
 
@@ -242,7 +245,7 @@ export default class CropperSelection extends CropperElement {
   }
 
   protected $handleActionStart(event: Event): void {
-    if (this.hidden || this.active) {
+    if (this.hidden || !this.multiple || this.active) {
       return;
     }
 
@@ -265,7 +268,7 @@ export default class CropperSelection extends CropperElement {
   }
 
   protected $handleAction(event: Event): void {
-    if (this.hidden || !this.active) {
+    if (this.hidden || (this.multiple && !this.active)) {
       return;
     }
 

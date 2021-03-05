@@ -17,7 +17,7 @@ sidebar: auto
 | `responsive` | Deprecated. |
 | `restore` | Deprecated. |
 | `checkCrossOrigin` | Deprecated. |
-| `checkOrientation` | Deprecated. |
+| `checkOrientation` | Deprecated for performance reasons. As an alternative, it is recommended to use a third-party library, such as [JavaScript-Load-Image](https://github.com/blueimp/JavaScript-Load-Image). |
 | `modal` | Uses the `<cropper-shade>` element. |
 | `guides` | Uses the `<cropper-grid>` element. |
 | `center` | Uses the `<cropper-crosshair>` element. |

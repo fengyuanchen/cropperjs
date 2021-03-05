@@ -1,11 +1,6 @@
----
-navbar: false
-sidebar: false
----
-
 # CropperSelection
 
-<!-- The `CropperSelection` interface provides properties and methods for manipulating the layout and presentation of `<cropper-selection>` elements.
+The `CropperSelection` interface provides properties and methods for manipulating the layout and presentation of `<cropper-selection>` elements.
 
 ## Examples
 
@@ -79,9 +74,11 @@ The default width and height of this element is `0`.
 </cropper-canvas>
 ```
 
-::: -->
+:::
 
 ### Multiple
+
+Set the `multiple` property to `true` to support multiple selections on the same image.
 
 :::live-demo
 
