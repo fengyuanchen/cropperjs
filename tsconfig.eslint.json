@@ -6,6 +6,6 @@
     "docs/.vuepress/**/*.js",
     "packages/*/src",
     "packages/*/tests",
-    "types/*",
+    "types/*"
   ]
 }

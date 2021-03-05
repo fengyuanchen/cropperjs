@@ -17,11 +17,11 @@ import style from './style';
 export default class CropperShade extends CropperElement {
   static $version = '__VERSION__';
 
-  protected $onChange: EventListener | null = null;
+  protected $onCanvasChange: EventListener | null = null;
 
-  protected $onCropEnd: EventListener | null = null;
+  protected $onCanvasActionEnd: EventListener | null = null;
 
-  protected $onCropStart: EventListener | null = null;
+  protected $onCanvasActionStart: EventListener | null = null;
 
   protected $style: string = style;
 
@@ -54,17 +54,17 @@ export default class CropperShade extends CropperElement {
     if (canvas) {
       const selection: HTMLElement | null = canvas.querySelector(CROPPER_SELECTION);
 
-      on(canvas, EVENT_ACTION_START, (this.$onCropStart = () => {
+      on(canvas, EVENT_ACTION_START, (this.$onCanvasActionStart = () => {
         if (!selection || selection.hidden) {
           this.hidden = false;
         }
       }));
-      on(canvas, EVENT_ACTION_END, (this.$onCropEnd = () => {
+      on(canvas, EVENT_ACTION_END, (this.$onCanvasActionEnd = () => {
         if (!selection || selection.hidden) {
           this.hidden = true;
         }
       }));
-      on(canvas, EVENT_CHANGE, (this.$onChange = (event) => {
+      on(canvas, EVENT_CHANGE, (this.$onCanvasChange = (event) => {
         const { detail } = event as CustomEvent;
 
         this.$change(detail.x, detail.y, detail.width, detail.height);
@@ -80,16 +80,16 @@ export default class CropperShade extends CropperElement {
     const canvas: HTMLElement | null = this.closest(CROPPER_CANVAS);
 
     if (canvas) {
-      if (this.$onCropStart) {
-        off(canvas, EVENT_ACTION_START, this.$onCropStart);
+      if (this.$onCanvasActionStart) {
+        off(canvas, EVENT_ACTION_START, this.$onCanvasActionStart);
       }
 
-      if (this.$onCropEnd) {
-        off(canvas, EVENT_ACTION_END, this.$onCropEnd);
+      if (this.$onCanvasActionEnd) {
+        off(canvas, EVENT_ACTION_END, this.$onCanvasActionEnd);
       }
 
-      if (this.$onChange) {
-        off(canvas, EVENT_CHANGE, this.$onChange);
+      if (this.$onCanvasChange) {
+        off(canvas, EVENT_CHANGE, this.$onCanvasChange);
       }
     }
   }

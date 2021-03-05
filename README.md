@@ -8,10 +8,10 @@
 
 ## Browser support
 
-- Microsoft Edge 79+
-- Mozilla Firefox 63+
-- Google Chrome 54+
-- Apple Safari 10.1+
+- Edge 79+
+- Firefox 63+
+- Chrome 54+
+- Safari 10.1+
 - Opera 41+
 - iOS Safari 10.3+
 - Android Browser 81+

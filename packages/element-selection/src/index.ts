@@ -13,9 +13,12 @@ import {
   ACTION_SELECT,
   CROPPER_CANVAS,
   CROPPER_IMAGE,
+  CROPPER_SELECTION,
   EVENT_ACTION,
+  EVENT_ACTION_START,
   EVENT_CHANGE,
   EVENT_ERROR,
+  EVENT_KEYDOWN,
   EVENT_LOAD,
 } from '@cropper/helper-constants';
 import {
@@ -38,9 +41,9 @@ export default class CropperSelection extends CropperElement {
 
   protected $onCanvasAction: EventListener | null = null;
 
-  protected $onCanvasCropEnd: EventListener | null = null;
+  protected $onCanvasActionStart: EventListener | null = null;
 
-  protected $onCanvasCropStart: EventListener | null = null;
+  protected $onDocumentKeyDown: EventListener | null = null;
 
   protected $style = style;
 
@@ -56,6 +59,8 @@ export default class CropperSelection extends CropperElement {
 
   initialAspectRatio = NaN;
 
+  active = false;
+
   autoSelect = false;
 
   autoSelectArea = 1;
@@ -65,6 +70,10 @@ export default class CropperSelection extends CropperElement {
   resizable = false;
 
   zoomable = false;
+
+  multiple = false;
+
+  keyboard = false;
 
   outlined = false;
 
@@ -84,19 +93,29 @@ export default class CropperSelection extends CropperElement {
 
   protected static get observedAttributes(): string[] {
     return super.observedAttributes.concat([
-      'x',
-      'y',
-      'width',
-      'height',
+      'active',
       'aspect-ratio',
-      'initial-aspect-ratio',
       'auto-select',
       'auto-select-area',
+      'height',
+      'initial-aspect-ratio',
+      'keyboard',
       'movable',
-      'resizable',
-      'zoomable',
+      'multiple',
       'outlined',
       'precision',
+      'resizable',
+      'width',
+      'x',
+      'y',
+      'zoomable',
+    ]);
+  }
+
+  protected static get $observedProperties(): string[] {
+    return super.$observedProperties.concat([
+      'active',
+      'multiple',
     ]);
   }
 
@@ -133,6 +152,10 @@ export default class CropperSelection extends CropperElement {
   protected connectedCallback(): void {
     super.connectedCallback();
 
+    if (this.multiple && !this.active) {
+      this.active = true;
+    }
+
     const $canvas = this.closest(CROPPER_CANVAS);
 
     if ($canvas) {
@@ -165,7 +188,24 @@ export default class CropperSelection extends CropperElement {
         }
       }
 
-      on($canvas, EVENT_ACTION, (this.$onCanvasAction = this.$handleAction.bind(this)));
+      on(
+        $canvas,
+        EVENT_ACTION_START,
+        (this.$onCanvasActionStart = this.$handleActionStart.bind(this)),
+      );
+      on(
+        $canvas,
+        EVENT_ACTION,
+        (this.$onCanvasAction = this.$handleAction.bind(this)),
+      );
+
+      if (this.keyboard) {
+        on(
+          this.ownerDocument,
+          EVENT_KEYDOWN,
+          (this.$onDocumentKeyDown = this.$handleKeyDown.bind(this)),
+        );
+      }
     } else {
       this.$render();
     }
@@ -175,16 +215,57 @@ export default class CropperSelection extends CropperElement {
     const { $canvas } = this;
 
     if ($canvas) {
+      if (this.$onCanvasActionStart) {
+        off($canvas, EVENT_ACTION, this.$onCanvasActionStart);
+      }
+
       if (this.$onCanvasAction) {
         off($canvas, EVENT_ACTION, this.$onCanvasAction);
+      }
+
+      if (this.keyboard && this.$onDocumentKeyDown) {
+        off(this.ownerDocument, EVENT_KEYDOWN, this.$onDocumentKeyDown);
       }
     }
 
     super.disconnectedCallback();
   }
 
+  protected $getSelections(): CropperSelection[] {
+    let selections: CropperSelection[] = [];
+
+    if (this.parentElement) {
+      selections = Array.from(this.parentElement.querySelectorAll(CROPPER_SELECTION));
+    }
+
+    return selections;
+  }
+
+  protected $handleActionStart(event: Event): void {
+    if (this.hidden || this.active) {
+      return;
+    }
+
+    const { detail } = event as CustomEvent;
+    const { relatedEvent } = detail;
+    const relatedTarget = relatedEvent.target;
+
+    if (relatedTarget === this && this.parentElement) {
+      this.$getSelections().forEach((selection) => {
+        (selection as CropperSelection).active = false;
+      });
+      this.active = true;
+      this.$emit(EVENT_CHANGE, {
+        x: this.x,
+        y: this.y,
+        width: this.width,
+        height: this.height,
+      });
+    }
+  }
+
   protected $handleAction(event: Event): void {
-    if (this.hidden) {
+    if (this.hidden || !this.active) {
       return;
     }
 
@@ -205,14 +286,30 @@ export default class CropperSelection extends CropperElement {
       switch (action) {
         case ACTION_SELECT: {
           const offset = getOffset(currentTarget as Element);
+          const createSelection = () => {
+            const newSelection = this.cloneNode(true) as CropperSelection;
 
-          this.$change(
+            if (this.hasAttribute('id')) {
+              newSelection.removeAttribute('id');
+            }
+
+            this.active = false;
+
+            if (this.parentElement) {
+              this.parentElement.insertBefore(newSelection, this.nextSibling);
+            }
+
+            return newSelection;
+          };
+
+          (this.multiple ? createSelection() : this).$change(
             detail.startX - offset.left,
             detail.startY - offset.top,
             moveX,
             moveY,
             aspectRatio,
           );
+
           action = ACTION_RESIZE_SOUTHEAST;
 
           if (moveX < 0) {
@@ -244,6 +341,53 @@ export default class CropperSelection extends CropperElement {
         default:
           this.$resize(action, moveX, moveY, aspectRatio);
       }
+    }
+  }
+
+  protected $handleKeyDown(event: Event): void {
+    if (this.hidden || !this.active) {
+      return;
+    }
+
+    switch ((event as KeyboardEvent).key) {
+      case 'Delete':
+        if (this.parentElement) {
+          const selections = this.$getSelections();
+
+          if (selections.length > 1) {
+            let previous;
+
+            selections.some((selection) => {
+              if (selection === this) {
+                return true;
+              }
+
+              previous = selection;
+
+              return false;
+            });
+
+            if (previous) {
+              const activeSelection = previous as CropperSelection;
+
+              this.parentElement.removeChild(this);
+              activeSelection.active = true;
+              activeSelection.$emit(EVENT_CHANGE, {
+                x: activeSelection.x,
+                y: activeSelection.y,
+                width: activeSelection.width,
+                height: activeSelection.height,
+              });
+            }
+          } else {
+            this.$reset();
+            this.hidden = true;
+          }
+        }
+
+        break;
+
+      default:
     }
   }
 

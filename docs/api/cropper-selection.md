@@ -1,6 +1,11 @@
+---
+navbar: false
+sidebar: false
+---
+
 # CropperSelection
 
-The `CropperSelection` interface provides properties and methods for manipulating the layout and presentation of `<cropper-selection>` elements.
+<!-- The `CropperSelection` interface provides properties and methods for manipulating the layout and presentation of `<cropper-selection>` elements.
 
 ## Examples
 
@@ -61,6 +66,33 @@ The default width and height of this element is `0`.
 ```html
 <cropper-canvas background>
   <cropper-selection auto-select auto-select-area="0.8" outlined>
+    <cropper-handle action="move" theme-color="rgba(255, 255, 255, 0.35)"></cropper-handle>
+    <cropper-handle action="n-resize"></cropper-handle>
+    <cropper-handle action="e-resize"></cropper-handle>
+    <cropper-handle action="s-resize"></cropper-handle>
+    <cropper-handle action="w-resize"></cropper-handle>
+    <cropper-handle action="ne-resize"></cropper-handle>
+    <cropper-handle action="nw-resize"></cropper-handle>
+    <cropper-handle action="se-resize"></cropper-handle>
+    <cropper-handle action="sw-resize"></cropper-handle>
+  </cropper-selection>
+</cropper-canvas>
+```
+
+::: -->
+
+### Multiple
+
+:::live-demo
+
+```html
+<cropper-canvas style="height: 300px" background>
+  <cropper-image src="/picture.jpg" alt="Picture"></cropper-image>
+  <cropper-shade hidden></cropper-shade>
+  <cropper-handle action="select" plain></cropper-handle>
+  <cropper-selection id="cropperSelection" auto-select auto-select-area="0.5" movable resizable zoomable multiple keyboard>
+    <cropper-grid role="grid" covered></cropper-grid>
+    <cropper-crosshair centered></cropper-crosshair>
     <cropper-handle action="move" theme-color="rgba(255, 255, 255, 0.35)"></cropper-handle>
     <cropper-handle action="n-resize"></cropper-handle>
     <cropper-handle action="e-resize"></cropper-handle>

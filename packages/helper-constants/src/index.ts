@@ -4,8 +4,23 @@ export const IS_TOUCH_DEVICE = IS_BROWSER ? 'ontouchstart' in WINDOW.document.do
 export const HAS_POINTER_EVENT = IS_BROWSER ? 'PointerEvent' in WINDOW : false;
 export const NAMESPACE = 'cropper';
 export const CROPPER_CANVAS = `${NAMESPACE}-canvas`;
-export const CROPPER_SELECTION = `${NAMESPACE}-selection`;
+export const CROPPER_CROSSHAIR = `${NAMESPACE}-crosshair`;
+export const CROPPER_GIRD = `${NAMESPACE}-grid`;
+export const CROPPER_HANDLE = `${NAMESPACE}-handle`;
 export const CROPPER_IMAGE = `${NAMESPACE}-image`;
+export const CROPPER_SELECTION = `${NAMESPACE}-selection`;
+export const CROPPER_SHADE = `${NAMESPACE}-shade`;
+export const CROPPER_VIEWER = `${NAMESPACE}-viewer`;
+export const CROPPER_ELEMENTS = [
+  CROPPER_CANVAS,
+  CROPPER_CROSSHAIR,
+  CROPPER_GIRD,
+  CROPPER_HANDLE,
+  CROPPER_IMAGE,
+  CROPPER_SELECTION,
+  CROPPER_SHADE,
+  CROPPER_VIEWER,
+];
 
 // Actions
 export const ACTION_SELECT = 'select';
@@ -32,6 +47,7 @@ export const EVENT_POINTER_DOWN = HAS_POINTER_EVENT ? 'pointerdown' : EVENT_TOUC
 export const EVENT_POINTER_MOVE = HAS_POINTER_EVENT ? 'pointermove' : EVENT_TOUCH_MOVE;
 export const EVENT_POINTER_UP = HAS_POINTER_EVENT ? 'pointerup pointercancel' : EVENT_TOUCH_END;
 export const EVENT_ERROR = 'error';
+export const EVENT_KEYDOWN = 'keydown';
 export const EVENT_LOAD = 'load';
 export const EVENT_RESIZE = 'resize';
 export const EVENT_WHEEL = 'wheel';
