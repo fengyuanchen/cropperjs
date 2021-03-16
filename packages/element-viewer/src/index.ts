@@ -7,12 +7,14 @@ import {
   CROPPER_IMAGE,
   CROPPER_SELECTION,
   EVENT_CHANGE,
+  EVENT_LOAD,
   EVENT_TRANSFORM,
 } from '@cropper/helper-constants';
 import {
   isElement,
-  on,
   off,
+  on,
+  once,
 } from '@cropper/helper-utils';
 import style from './style';
 
@@ -143,14 +145,9 @@ export default class CropperViewer extends CropperElement {
   }
 
   protected $handleSourceImageTransform(event: Event): void {
-    const {
-      x,
-      y,
-      width,
-      height,
-    } = this.$selection;
+    const { x, y } = this.$selection;
 
-    this.$transformImageByOffset((event as CustomEvent).detail.matrix, x, y, width, height);
+    this.$transformImageByOffset((event as CustomEvent).detail.matrix, -x, -y);
   }
 
   protected $render(selection?: {
@@ -205,17 +202,11 @@ export default class CropperViewer extends CropperElement {
     this.$setStyles(styles);
 
     if (this.$sourceImage) {
-      this.$transformImageByOffset(this.$sourceImage.$getTransform(), x, y, width, height);
+      this.$transformImageByOffset(this.$sourceImage.$getTransform(), -x, -y);
     }
   }
 
-  protected $transformImageByOffset(
-    matrix: number[],
-    x: number,
-    y: number,
-    width: number,
-    height: number,
-  ): void {
+  protected $transformImageByOffset(matrix: number[], x: number, y: number): void {
     const {
       $image,
       $scale,
@@ -224,25 +215,24 @@ export default class CropperViewer extends CropperElement {
 
     if ($sourceImage && $image && $scale > 0) {
       const [a, b, c, d, e, f] = matrix;
-      const newWidth = this.clientWidth;
-      const newHeight = this.clientHeight;
-      const offsetX = -x + ((newWidth - width) / 2);
-      const offsetY = -y + ((newHeight - height) / 2);
-      const translateX = ((offsetX * d) - (c * offsetY)) / ((a * d) - (c * b));
-      const translateY = (offsetY - (b * e)) / d;
+      const translateX = ((x * d) - (c * y)) / ((a * d) - (c * b));
+      const translateY = (y - (b * translateX)) / d;
       const newE = a * translateX + c * translateY + e;
       const newF = b * translateX + d * translateY + f;
-      const [a1, b1, c1, d1, e1, f1] = [a, b, c, d, newE, newF];
-      const [a2, b2, c2, d2, e2, f2] = [$scale, 0, 0, $scale, 0, 0];
+      const onImageLoad = () => {
+        this.$setStyles.call($image, {
+          width: $image.$image.naturalWidth * $scale,
+          height: $image.$image.naturalHeight * $scale,
+        });
+      };
 
-      $image.$setTransform(
-        a1 * a2 + c1 * b2/* + e1 * 0 */,
-        b1 * a2 + d1 * b2/* + f1 * 0 */,
-        a1 * c2 + c1 * d2/* + e1 * 0 */,
-        b1 * c2 + d1 * d2/* + f1 * 0 */,
-        a1 * e2 + c1 * f2 + e1/* * 1 */,
-        b1 * e2 + d1 * f2 + f1/* * 1 */,
-      );
+      if ($image.$image.complete) {
+        onImageLoad();
+      } else {
+        once($image.$image, EVENT_LOAD, onImageLoad);
+      }
+
+      $image.$setTransform(a, b, c, d, newE * $scale, newF * $scale);
     }
   }
 }
