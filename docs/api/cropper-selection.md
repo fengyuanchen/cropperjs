@@ -83,7 +83,7 @@ Set the `multiple` property to `true` to support multiple selections on the same
 :::live-demo
 
 ```html
-<cropper-canvas style="height: 300px" background>
+<cropper-canvas style="height: 300px;" background>
   <cropper-image src="/picture.jpg" alt="Picture"></cropper-image>
   <cropper-shade hidden></cropper-shade>
   <cropper-handle action="select" plain></cropper-handle>

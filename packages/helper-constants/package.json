@@ -29,7 +29,7 @@
   "author": "Chen Fengyuan (https://chenfengyuan.com/)",
   "license": "MIT",
   "bugs": "https://github.com/fengyuanchen/cropperjs/issues",
-  "homepage": "https://github.com/fengyuanchen/cropperjs/tree/next/packages/constants/#readme",
+  "homepage": "https://github.com/fengyuanchen/cropperjs/tree/next/packages/helper-constants/#readme",
   "publishConfig": {
     "access": "public"
   }

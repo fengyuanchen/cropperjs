@@ -32,11 +32,10 @@
   "author": "Chen Fengyuan (https://chenfengyuan.com/)",
   "license": "MIT",
   "bugs": "https://github.com/fengyuanchen/cropperjs/issues",
-  "homepage": "https://github.com/fengyuanchen/cropperjs/tree/next/packages/handle/#readme",
+  "homepage": "https://github.com/fengyuanchen/cropperjs/tree/next/packages/element-handle/#readme",
   "dependencies": {
     "@cropper/element": "^2.0.0-beta",
-    "@cropper/helper-constants": "^2.0.0-beta",
-    "@cropper/helper-utils": "^2.0.0-beta"
+    "@cropper/helpers": "^2.0.0-beta"
   },
   "publishConfig": {
     "access": "public"

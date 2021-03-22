@@ -7,5 +7,6 @@ module.exports = {
     'no-descending-specificity': null,
     'no-empty-source': null,
     'order/properties-alphabetical-order': true,
+    'selector-type-no-unknown': null,
   },
 };

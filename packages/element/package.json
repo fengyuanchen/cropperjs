@@ -34,8 +34,7 @@
   "bugs": "https://github.com/fengyuanchen/cropperjs/issues",
   "homepage": "https://github.com/fengyuanchen/cropperjs/tree/next/packages/element/#readme",
   "dependencies": {
-    "@cropper/helper-constants": "^2.0.0-beta",
-    "@cropper/helper-utils": "^2.0.0-beta"
+    "@cropper/helpers": "^2.0.0-beta"
   },
   "publishConfig": {
     "access": "public"

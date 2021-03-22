@@ -1,19 +1,18 @@
 import {
   CROPPER_IMAGE,
-} from '@cropper/helper-constants';
-import {
   isElement,
   isString,
-} from '@cropper/helper-utils';
-import CropperElement from '@cropper/element';
-import CropperCanvas from '@cropper/element-canvas';
-import CropperCrosshair from '@cropper/element-crosshair';
-import CropperGrid from '@cropper/element-grid';
-import CropperHandle from '@cropper/element-handle';
-import CropperImage from '@cropper/element-image';
-import CropperSelection from '@cropper/element-selection';
-import CropperShade from '@cropper/element-shade';
-import CropperViewer from '@cropper/element-viewer';
+} from '@cropper/helpers';
+import {
+  CropperCanvas,
+  CropperCrosshair,
+  CropperGrid,
+  CropperHandle,
+  CropperImage,
+  CropperSelection,
+  CropperShade,
+  CropperViewer,
+} from '@cropper/elements';
 import DEFAULT_TEMPLATE from './template';
 
 interface CropperOptions {
@@ -35,20 +34,8 @@ CropperSelection.$define();
 CropperShade.$define();
 CropperViewer.$define();
 
-export * from '@cropper/helper-constants';
-export * from '@cropper/helper-utils';
-export {
-  CropperElement,
-  CropperCanvas,
-  CropperCrosshair,
-  CropperGrid,
-  CropperHandle,
-  CropperImage,
-  CropperSelection,
-  CropperShade,
-  CropperViewer,
-};
-
+export * from '@cropper/helpers';
+export * from '@cropper/elements';
 export default class Cropper {
   static version = '__VERSION__';
 
