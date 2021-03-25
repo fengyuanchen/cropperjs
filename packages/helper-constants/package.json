@@ -2,8 +2,8 @@
   "name": "@cropper/helper-constants",
   "description": "A series of common constants.",
   "version": "2.0.0-beta",
-  "main": "dist/helper-constants.js",
-  "module": "dist/helper-constants.esm.js",
+  "main": "dist/helper-constants.raw.js",
+  "module": "dist/helper-constants.esm.raw.js",
   "types": "dist/helper-constants.d.ts",
   "files": [
     "dist"

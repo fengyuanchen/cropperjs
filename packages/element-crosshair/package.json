@@ -2,8 +2,8 @@
   "name": "@cropper/element-crosshair",
   "description": "A custom crosshair element for the Cropper.",
   "version": "2.0.0-beta",
-  "main": "dist/element-crosshair.js",
-  "module": "dist/element-crosshair.esm.js",
+  "main": "dist/element-crosshair.raw.js",
+  "module": "dist/element-crosshair.esm.raw.js",
   "types": "dist/element-crosshair.d.ts",
   "files": [
     "dist"

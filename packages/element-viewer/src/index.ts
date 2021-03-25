@@ -1,7 +1,3 @@
-import CropperElement from '@cropper/element';
-import CropperCanvas from '@cropper/element-canvas';
-import CropperImage from '@cropper/element-image';
-import CropperSelection from '@cropper/element-selection';
 import {
   CROPPER_CANVAS,
   CROPPER_IMAGE,
@@ -9,13 +5,15 @@ import {
   EVENT_CHANGE,
   EVENT_LOAD,
   EVENT_TRANSFORM,
-} from '@cropper/helper-constants';
-import {
   isElement,
   off,
   on,
   once,
-} from '@cropper/helper-utils';
+} from '@cropper/helpers';
+import CropperElement from '@cropper/element';
+import CropperCanvas from '@cropper/element-canvas';
+import CropperImage from '@cropper/element-image';
+import CropperSelection from '@cropper/element-selection';
 import style from './style';
 
 const imageCache = new WeakMap();

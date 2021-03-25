@@ -6,10 +6,12 @@
 
 ```text
 dist/
-├── element-crosshair.js         (UMD, default)
-├── element-crosshair.min.js     (UMD, compressed)
-├── element-crosshair.esm.js     (ECMAScript Module)
-├── element-crosshair.esm.min.js (ECMAScript Module, compressed)
+├── element-crosshair.js         (UMD, bundled)
+├── element-crosshair.min.js     (UMD, bundled, compressed)
+├── element-crosshair.raw.js     (UMD, unbundled, default)
+├── element-crosshair.esm.js     (ECMAScript Module, bundled)
+├── element-crosshair.esm.min.js (ECMAScript Module, bundled, compressed)
+├── element-crosshair.esm.raw.js (ECMAScript Module, unbundled)
 └── element-crosshair.d.ts       (TypeScript Declaration File)
 ```
 

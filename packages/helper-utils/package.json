@@ -2,8 +2,8 @@
   "name": "@cropper/helper-utils",
   "description": "A series of common utility functions.",
   "version": "2.0.0-beta",
-  "main": "dist/helper-utils.js",
-  "module": "dist/helper-utils.esm.js",
+  "main": "dist/helper-utils.raw.js",
+  "module": "dist/helper-utils.esm.raw.js",
   "types": "dist/helper-utils.d.ts",
   "files": [
     "dist"

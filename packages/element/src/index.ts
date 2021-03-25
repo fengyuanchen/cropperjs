@@ -1,15 +1,13 @@
 import {
   IS_BROWSER,
   WINDOW,
-} from '@cropper/helper-constants';
-import {
   emit,
   isNaN,
   isNumber,
   isUndefined,
   toCamelCase,
   toKebabCase,
-} from '@cropper/helper-utils';
+} from '@cropper/helpers';
 import style from './style';
 
 const REGEXP_SUFFIX = /left|top|width|height/i;

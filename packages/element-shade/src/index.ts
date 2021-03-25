@@ -1,4 +1,3 @@
-import CropperElement from '@cropper/element';
 import {
   CROPPER_CANVAS,
   CROPPER_SELECTION,
@@ -6,12 +5,11 @@ import {
   EVENT_ACTION_START,
   EVENT_CHANGE,
   WINDOW,
-} from '@cropper/helper-constants';
-import {
   isNumber,
   off,
   on,
-} from '@cropper/helper-utils';
+} from '@cropper/helpers';
+import CropperElement from '@cropper/element';
 import style from './style';
 
 export default class CropperShade extends CropperElement {

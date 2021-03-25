@@ -2,8 +2,8 @@
   "name": "@cropper/element-shade",
   "description": "A custom shade element for the Cropper.",
   "version": "2.0.0-beta",
-  "main": "dist/element-shade.js",
-  "module": "dist/element-shade.esm.js",
+  "main": "dist/element-shade.raw.js",
+  "module": "dist/element-shade.esm.raw.js",
   "types": "dist/element-shade.d.ts",
   "files": [
     "dist"

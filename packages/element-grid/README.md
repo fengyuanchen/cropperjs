@@ -6,10 +6,12 @@
 
 ```text
 dist/
-├── element-gird.js         (UMD, default)
-├── element-gird.min.js     (UMD, compressed)
-├── element-gird.esm.js     (ECMAScript Module)
-├── element-gird.esm.min.js (ECMAScript Module, compressed)
+├── element-gird.js         (UMD, bundled)
+├── element-gird.min.js     (UMD, bundled, compressed)
+├── element-gird.raw.js     (UMD, unbundled, default)
+├── element-gird.esm.js     (ECMAScript Module, bundled)
+├── element-gird.esm.min.js (ECMAScript Module, bundled, compressed)
+├── element-gird.esm.raw.js (ECMAScript Module, unbundled)
 └── element-gird.d.ts       (TypeScript Declaration File)
 ```
 

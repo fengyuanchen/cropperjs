@@ -1,4 +1,3 @@
-import CropperElement from '@cropper/element';
 import {
   ACTION_SCALE,
   ATTRIBUTE_ACTION,
@@ -13,8 +12,6 @@ import {
   EVENT_POINTER_MOVE,
   EVENT_POINTER_UP,
   EVENT_WHEEL,
-} from '@cropper/helper-constants';
-import {
   isElement,
   isFunction,
   isNumber,
@@ -22,7 +19,8 @@ import {
   off,
   on,
   once,
-} from '@cropper/helper-utils';
+} from '@cropper/helpers';
+import CropperElement from '@cropper/element';
 import style from './style';
 
 interface ActionEventData {

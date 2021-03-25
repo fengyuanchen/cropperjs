@@ -1,4 +1,3 @@
-import CropperElement from '@cropper/element';
 import {
   ACTION_MOVE,
   ACTION_RESIZE_EAST,
@@ -20,8 +19,6 @@ import {
   EVENT_ERROR,
   EVENT_KEYDOWN,
   EVENT_LOAD,
-} from '@cropper/helper-constants';
-import {
   getAdjustedSizes,
   getOffset,
   isElement,
@@ -31,7 +28,8 @@ import {
   off,
   on,
   once,
-} from '@cropper/helper-utils';
+} from '@cropper/helpers';
+import CropperElement from '@cropper/element';
 import style from './style';
 
 const canvasCache = new WeakMap();

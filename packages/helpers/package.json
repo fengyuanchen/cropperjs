@@ -2,8 +2,8 @@
   "name": "@cropper/helpers",
   "description": "A series of common helpers.",
   "version": "2.0.0-beta",
-  "main": "dist/helpers.js",
-  "module": "dist/helpers.esm.js",
+  "main": "dist/helpers.raw.js",
+  "module": "dist/helpers.esm.raw.js",
   "types": "dist/helpers.d.ts",
   "files": [
     "dist"

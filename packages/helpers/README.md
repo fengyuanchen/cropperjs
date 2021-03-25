@@ -6,10 +6,12 @@
 
 ```text
 dist/
-├── helpers.js         (UMD, default)
-├── helpers.min.js     (UMD, compressed)
-├── helpers.esm.js     (ECMAScript Module)
-├── helpers.esm.min.js (ECMAScript Module, compressed)
+├── helpers.js         (UMD, bundled)
+├── helpers.min.js     (UMD, bundled, compressed)
+├── helpers.raw.js     (UMD, unbundled, default)
+├── helpers.esm.js     (ECMAScript Module, bundled)
+├── helpers.esm.min.js (ECMAScript Module, bundled, compressed)
+├── helpers.esm.raw.js (ECMAScript Module, unbundled)
 └── helpers.d.ts       (TypeScript Declaration File)
 ```
 

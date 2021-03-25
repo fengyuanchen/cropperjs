@@ -6,10 +6,12 @@
 
 ```text
 dist/
-├── element-selection.js         (UMD, default)
-├── element-selection.min.js     (UMD, compressed)
-├── element-selection.esm.js     (ECMAScript Module)
-├── element-selection.esm.min.js (ECMAScript Module, compressed)
+├── element-selection.js         (UMD, bundled)
+├── element-selection.min.js     (UMD, bundled, compressed)
+├── element-selection.raw.js     (UMD, unbundled, default)
+├── element-selection.esm.js     (ECMAScript Module, bundled)
+├── element-selection.esm.min.js (ECMAScript Module, bundled, compressed)
+├── element-selection.esm.raw.js (ECMAScript Module, unbundled)
 └── element-selection.d.ts       (TypeScript Declaration File)
 ```
 

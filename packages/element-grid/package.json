@@ -2,8 +2,8 @@
   "name": "@cropper/element-grid",
   "description": "A custom grid element for the Cropper.",
   "version": "2.0.0-beta",
-  "main": "dist/element-grid.js",
-  "module": "dist/element-grid.esm.js",
+  "main": "dist/element-grid.raw.js",
+  "module": "dist/element-grid.esm.raw.js",
   "types": "dist/element-grid.d.ts",
   "files": [
     "dist"

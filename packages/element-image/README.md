@@ -6,10 +6,12 @@
 
 ```text
 dist/
-├── element-image.js         (UMD, default)
-├── element-image.min.js     (UMD, compressed)
-├── element-image.esm.js     (ECMAScript Module)
-├── element-image.esm.min.js (ECMAScript Module, compressed)
+├── element-image.js         (UMD, bundled)
+├── element-image.min.js     (UMD, bundled, compressed)
+├── element-image.raw.js     (UMD, unbundled, default)
+├── element-image.esm.js     (ECMAScript Module, bundled)
+├── element-image.esm.min.js (ECMAScript Module, bundled, compressed)
+├── element-image.esm.raw.js (ECMAScript Module, unbundled)
 └── element-image.d.ts       (TypeScript Declaration File)
 ```
 

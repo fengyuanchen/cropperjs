@@ -1,4 +1,3 @@
-import CropperElement from '@cropper/element';
 import {
   ACTION_MOVE,
   ACTION_SCALE,
@@ -7,14 +6,13 @@ import {
   EVENT_ACTION,
   EVENT_LOAD,
   EVENT_TRANSFORM,
-} from '@cropper/helper-constants';
-import {
   isNumber,
   off,
   on,
   once,
   toAngleInRadian,
-} from '@cropper/helper-utils';
+} from '@cropper/helpers';
+import CropperElement from '@cropper/element';
 import style from './style';
 
 const NATIVE_ATTRIBUTES = [

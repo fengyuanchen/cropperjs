@@ -6,10 +6,12 @@
 
 ```text
 dist/
-├── helper-constants.js         (UMD, default)
-├── helper-constants.min.js     (UMD, compressed)
-├── helper-constants.esm.js     (ECMAScript Module)
-├── helper-constants.esm.min.js (ECMAScript Module, compressed)
+├── helper-constants.js         (UMD, bundled)
+├── helper-constants.min.js     (UMD, bundled, compressed)
+├── helper-constants.raw.js     (UMD, unbundled, default)
+├── helper-constants.esm.js     (ECMAScript Module, bundled)
+├── helper-constants.esm.min.js (ECMAScript Module, bundled, compressed)
+├── helper-constants.esm.raw.js (ECMAScript Module, unbundled)
 └── helper-constants.d.ts       (TypeScript Declaration File)
 ```
 

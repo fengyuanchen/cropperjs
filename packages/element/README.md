@@ -6,10 +6,12 @@
 
 ```text
 dist/
-├── element.js         (UMD, default)
-├── element.min.js     (UMD, compressed)
-├── element.esm.js     (ECMAScript Module)
-├── element.esm.min.js (ECMAScript Module, compressed)
+├── element.js         (UMD, bundled)
+├── element.min.js     (UMD, bundled, compressed)
+├── element.raw.js     (UMD, unbundled, default)
+├── element.esm.js     (ECMAScript Module, bundled)
+├── element.esm.min.js (ECMAScript Module, bundled, compressed)
+├── element.esm.raw.js (ECMAScript Module, unbundled)
 └── element.d.ts       (TypeScript Declaration File)
 ```
 

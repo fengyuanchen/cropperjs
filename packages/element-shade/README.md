@@ -6,11 +6,13 @@
 
 ```text
 dist/
-├── element-shade.js         (UMD, default)
-├── element-shade.min.js     (UMD, compressed)
-├── element-shade.esm.js     (ECMAScript Module)
-├── element-shade.esm.min.js (ECMAScript Module, compressed)
-└── element-shade.d.ts       (TypeScript Declaration File)
+├── element-shade.js         (UMD, bundled)
+├── element-shade.min.js     (UMD, bundled, compressed)
+├── element-shade.raw.js     (UMD, unbundled, default)
+├── element-shade.esm.js     (ECMAScript Module, bundled)
+├── element-shade.esm.min.js (ECMAScript Module, bundled, compressed)
+├── element-shade.esm.raw.js (ECMAScript Module, unbundled)
+└── element-shade-shade.d.ts       (TypeScript Declaration File)
 ```
 
 ## Getting started

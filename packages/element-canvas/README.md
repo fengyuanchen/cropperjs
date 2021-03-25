@@ -6,10 +6,12 @@
 
 ```text
 dist/
-├── element-canvas.js         (UMD, default)
-├── element-canvas.min.js     (UMD, compressed)
-├── element-canvas.esm.js     (ECMAScript Module)
-├── element-canvas.esm.min.js (ECMAScript Module, compressed)
+├── element-canvas.js         (UMD, bundled)
+├── element-canvas.min.js     (UMD, bundled, compressed)
+├── element-canvas.raw.js     (UMD, unbundled, default)
+├── element-canvas.esm.js     (ECMAScript Module, bundled)
+├── element-canvas.esm.min.js (ECMAScript Module, bundled, compressed)
+├── element-canvas.esm.raw.js (ECMAScript Module, unbundled)
 └── element-canvas.d.ts       (TypeScript Declaration File)
 ```
 

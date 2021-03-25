@@ -6,10 +6,12 @@
 
 ```text
 dist/
-├── element-viewer.js         (UMD, default)
-├── element-viewer.min.js     (UMD, compressed)
-├── element-viewer.esm.js     (ECMAScript Module)
-├── element-viewer.esm.min.js (ECMAScript Module, compressed)
+├── element-viewer.js         (UMD, bundled)
+├── element-viewer.min.js     (UMD, bundled, compressed)
+├── element-viewer.raw.js     (UMD, unbundled, default)
+├── element-viewer.esm.js     (ECMAScript Module, bundled)
+├── element-viewer.esm.min.js (ECMAScript Module, bundled, compressed)
+├── element-viewer.esm.raw.js (ECMAScript Module, unbundled)
 └── element-viewer.d.ts       (TypeScript Declaration File)
 ```
 

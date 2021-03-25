@@ -1,5 +1,5 @@
+import { ACTION_NONE } from '@cropper/helpers';
 import CropperElement from '@cropper/element';
-import { ACTION_NONE } from '@cropper/helper-constants';
 import style from './style';
 
 export default class CropperHandle extends CropperElement {

@@ -6,10 +6,12 @@
 
 ```text
 dist/
-├── element-handle.js         (UMD, default)
-├── element-handle.min.js     (UMD, compressed)
-├── element-handle.esm.js     (ECMAScript Module)
-├── element-handle.esm.min.js (ECMAScript Module, compressed)
+├── element-handle.js         (UMD, bundled)
+├── element-handle.min.js     (UMD, bundled, compressed)
+├── element-handle.raw.js     (UMD, unbundled, default)
+├── element-handle.esm.js     (ECMAScript Module, bundled)
+├── element-handle.esm.min.js (ECMAScript Module, bundled, compressed)
+├── element-handle.esm.raw.js (ECMAScript Module, unbundled)
 └── element-handle.d.ts       (TypeScript Declaration File)
 ```
 
