@@ -144,9 +144,9 @@ Cropper.js contains a series of [npm](https://www.npmjs.com/) packages:
 | `@cropper/element` | [![Version](https://img.shields.io/npm/v/@cropper/element)](https://www.npmjs.com/package/@cropper/element) | An abstract class for constructing Cropper elements. |
 | `@cropper/element-canvas` | [![Version](https://img.shields.io/npm/v/@cropper/element-canvas)](https://www.npmjs.com/package/@cropper/element-canvas) | A custom canvas element for the Cropper. |
 | `@cropper/element-image` | [![Version](https://img.shields.io/npm/v/@cropper/element-image)](https://www.npmjs.com/package/@cropper/element-image) | A custom image element for the Cropper. |
-| `@cropper/element-selection` | [![Version](https://img.shields.io/npm/v/@cropper/element-selection)](https://www.npmjs.com/package/@cropper/element-selection) | A custom selection element for the Cropper. |
-| `@cropper/element-handle` | [![Version](https://img.shields.io/npm/v/@cropper/element-handle)](https://www.npmjs.com/package/@cropper/element-handle) | A custom handle element for the Cropper. |
 | `@cropper/element-shade` | [![Version](https://img.shields.io/npm/v/@cropper/element-shade)](https://www.npmjs.com/package/@cropper/element-shade) | A custom shade element for the Cropper. |
+| `@cropper/element-handle` | [![Version](https://img.shields.io/npm/v/@cropper/element-handle)](https://www.npmjs.com/package/@cropper/element-handle) | A custom handle element for the Cropper. |
+| `@cropper/element-selection` | [![Version](https://img.shields.io/npm/v/@cropper/element-selection)](https://www.npmjs.com/package/@cropper/element-selection) | A custom selection element for the Cropper. |
 | `@cropper/element-grid` | [![Version](https://img.shields.io/npm/v/@cropper/element-grid)](https://www.npmjs.com/package/@cropper/element-grid) | A custom grid element for the Cropper. |
 | `@cropper/element-crosshair` | [![Version](https://img.shields.io/npm/v/@cropper/element-crosshair)](https://www.npmjs.com/package/@cropper/element-crosshair) | A custom crosshair element for the Cropper.|
 | `@cropper/element-viewer` | [![Version](https://img.shields.io/npm/v/@cropper/element-viewer)](https://www.npmjs.com/package/@cropper/element-viewer) | A custom viewer element for the Cropper. |
@@ -161,19 +161,19 @@ Cropper.js contains a series of [npm](https://www.npmjs.com/) packages:
 | `CropperElement` | `HTMLElement` | The `CropperElement` interface represents any Cropper element, extends the [HTMLElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement) interface. |
 | `CropperCanvas` | `CropperElement` | The `CropperCanvas` interface provides properties and methods for manipulating the layout and presentation of `<cropper-canvas>` elements. |
 | `CropperImage` | `CropperElement` | The `CropperImage` interface provides properties and methods for manipulating the layout and presentation of `<cropper-image>` elements. |
-| `CropperSelection` | `CropperElement` | The `CropperSelection` interface provides properties and methods for manipulating the layout and presentation of `<cropper-selection>` elements. |
-| `CropperHandle` | `CropperElement` | The `CropperHandle` interface provides properties and methods for manipulating the layout and presentation of `<cropper-handle>` elements. |
 | `CropperShade` | `CropperElement` | The `CropperShade` interface provides properties and methods for manipulating the layout and presentation of `<cropper-shade>` elements. |
+| `CropperHandle` | `CropperElement` | The `CropperHandle` interface provides properties and methods for manipulating the layout and presentation of `<cropper-handle>` elements. |
+| `CropperSelection` | `CropperElement` | The `CropperSelection` interface provides properties and methods for manipulating the layout and presentation of `<cropper-selection>` elements. |
 | `CropperGrid` | `CropperElement` | The `CropperGrid` interface provides properties and methods for manipulating the layout and presentation of `<cropper-grid>` elements. |
 | `CropperCrosshair` | `CropperElement` | The `CropperCrosshair` interface provides properties and methods for manipulating the layout and presentation of `<cropper-crosshair>` elements. |
 | `CropperViewer` | `CropperElement` | The `CropperViewer` interface provides properties and methods for manipulating the layout and presentation of `<cropper-viewer>` elements. |
 
 ## Browser support
 
-- Microsoft Edge 79+
-- Mozilla Firefox 63+
-- Google Chrome 54+
-- Apple Safari 10.1+
+- Edge 79+
+- Firefox 63+
+- Chrome 54+
+- Safari 10.1+
 - Opera 41+
 - iOS Safari 10.3+
 - Android Browser 81+
