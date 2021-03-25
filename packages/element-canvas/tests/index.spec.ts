@@ -12,7 +12,7 @@ import {
   EVENT_WHEEL,
   HAS_POINTER_EVENT,
   IS_TOUCH_DEVICE,
-} from '@cropper/helper-constants';
+} from '@cropper/utils';
 import CropperCanvas from '../src';
 
 CropperCanvas.$define();

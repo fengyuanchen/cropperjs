@@ -7,7 +7,7 @@ import {
   ACTION_RESIZE_NORTHWEST,
   ACTION_RESIZE_SOUTHEAST,
   ACTION_RESIZE_SOUTHWEST,
-} from '@cropper/helper-constants';
+} from '@cropper/utils';
 import CropperSelection from '../src';
 
 CropperSelection.$define();
@@ -279,11 +279,11 @@ describe('CropperSelection', () => {
 
           element.resizable = true;
           element.aspectRatio = 1;
-          element.$resize(ACTION_RESIZE_NORTH, 0, -1);
-          expect(element.x).toBe(-0.5);
-          expect(element.y).toBe(-1);
-          expect(element.width).toBe(1);
-          expect(element.height).toBe(1);
+          element.$resize(ACTION_RESIZE_NORTH, 0, -2);
+          expect(element.x).toBe(-1);
+          expect(element.y).toBe(-2);
+          expect(element.width).toBe(2);
+          expect(element.height).toBe(2);
         });
       });
 
@@ -314,11 +314,11 @@ describe('CropperSelection', () => {
 
           element.resizable = true;
           element.aspectRatio = 1;
-          element.$resize(ACTION_RESIZE_EAST, 1, 0);
+          element.$resize(ACTION_RESIZE_EAST, 2, 0);
           expect(element.x).toBe(0);
-          expect(element.y).toBe(-0.5);
-          expect(element.width).toBe(1);
-          expect(element.height).toBe(1);
+          expect(element.y).toBe(-1);
+          expect(element.width).toBe(2);
+          expect(element.height).toBe(2);
         });
       });
 
@@ -349,11 +349,11 @@ describe('CropperSelection', () => {
 
           element.resizable = true;
           element.aspectRatio = 1;
-          element.$resize(ACTION_RESIZE_SOUTH, 0, 1);
-          expect(element.x).toBe(-0.5);
+          element.$resize(ACTION_RESIZE_SOUTH, 0, 2);
+          expect(element.x).toBe(-1);
           expect(element.y).toBe(0);
-          expect(element.width).toBe(1);
-          expect(element.height).toBe(1);
+          expect(element.width).toBe(2);
+          expect(element.height).toBe(2);
         });
       });
 
@@ -384,11 +384,11 @@ describe('CropperSelection', () => {
 
           element.resizable = true;
           element.aspectRatio = 1;
-          element.$resize(ACTION_RESIZE_WEST, -1, 0);
-          expect(element.x).toBe(-1);
-          expect(element.y).toBe(-0.5);
-          expect(element.width).toBe(1);
-          expect(element.height).toBe(1);
+          element.$resize(ACTION_RESIZE_WEST, -2, 0);
+          expect(element.x).toBe(-2);
+          expect(element.y).toBe(-1);
+          expect(element.width).toBe(2);
+          expect(element.height).toBe(2);
         });
       });
 

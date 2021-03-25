@@ -35,7 +35,7 @@
   "homepage": "https://github.com/fengyuanchen/cropperjs/tree/next/packages/element-crosshair/#readme",
   "dependencies": {
     "@cropper/element": "^2.0.0-beta",
-    "@cropper/helpers": "^2.0.0-beta"
+    "@cropper/utils": "^2.0.0-beta"
   },
   "publishConfig": {
     "access": "public"

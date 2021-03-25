@@ -9,7 +9,7 @@ import {
   off,
   on,
   once,
-} from '@cropper/helpers';
+} from '@cropper/utils';
 import CropperElement from '@cropper/element';
 import CropperCanvas from '@cropper/element-canvas';
 import CropperImage from '@cropper/element-image';

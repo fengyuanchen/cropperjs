@@ -141,8 +141,6 @@ Cropper.js contains a series of [npm](https://www.npmjs.com/) packages:
 | Package | Version | Description |
 | --- | --- | --- |
 | `cropperjs` | [![Version](https://img.shields.io/npm/v/cropperjs/next)](https://www.npmjs.com/package/cropperjs/v/next) | The all-in-one package. |
-| `@cropper/helper-constants` | [![Version](https://img.shields.io/npm/v/@cropper/helper-constants)](https://www.npmjs.com/package/@cropper/helper-constants) | A series of common constants. |
-| `@cropper/helper-utils` | [![Version](https://img.shields.io/npm/v/@cropper/helper-utils)](https://www.npmjs.com/package/@cropper/helper-utils) | A series of common utility functions. |
 | `@cropper/element` | [![Version](https://img.shields.io/npm/v/@cropper/element)](https://www.npmjs.com/package/@cropper/element) | An abstract class for constructing Cropper elements. |
 | `@cropper/element-canvas` | [![Version](https://img.shields.io/npm/v/@cropper/element-canvas)](https://www.npmjs.com/package/@cropper/element-canvas) | A custom canvas element for the Cropper. |
 | `@cropper/element-image` | [![Version](https://img.shields.io/npm/v/@cropper/element-image)](https://www.npmjs.com/package/@cropper/element-image) | A custom image element for the Cropper. |
@@ -152,6 +150,8 @@ Cropper.js contains a series of [npm](https://www.npmjs.com/) packages:
 | `@cropper/element-grid` | [![Version](https://img.shields.io/npm/v/@cropper/element-grid)](https://www.npmjs.com/package/@cropper/element-grid) | A custom grid element for the Cropper. |
 | `@cropper/element-crosshair` | [![Version](https://img.shields.io/npm/v/@cropper/element-crosshair)](https://www.npmjs.com/package/@cropper/element-crosshair) | A custom crosshair element for the Cropper.|
 | `@cropper/element-viewer` | [![Version](https://img.shields.io/npm/v/@cropper/element-viewer)](https://www.npmjs.com/package/@cropper/element-viewer) | A custom viewer element for the Cropper. |
+| `@cropper/elements` | [![Version](https://img.shields.io/npm/v/@cropper/elements)](https://www.npmjs.com/package/@cropper/elements) | A series of custom elements for the Cropper. |
+| `@cropper/utils` | [![Version](https://img.shields.io/npm/v/@cropper/utils)](https://www.npmjs.com/package/@cropper/utils) | A series of common constants and utility functions for Cropper. |
 
 ## Interfaces
 

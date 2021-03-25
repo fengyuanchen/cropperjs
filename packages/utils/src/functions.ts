@@ -1,4 +1,4 @@
-import { WINDOW } from '@cropper/helper-constants';
+import { WINDOW } from './constants';
 
 /**
  * Check if the given value is a string.
@@ -247,6 +247,26 @@ export function toAngleInRadian(angle: number | string): number {
   return value;
 }
 
+interface SizeAdjustmentData {
+  aspectRatio: number;
+  height: number;
+  width: number;
+}
+
+interface SizeAdjustmentDataWithoutWidth {
+  aspectRatio: number;
+  height: number;
+}
+
+interface SizeAdjustmentDataWithoutHeight {
+  aspectRatio: number;
+  width: number;
+}
+
+type SizeAdjustmentType = 'contain' | 'cover';
+const SIZE_ADJUSTMENT_TYPE_CONTAIN: SizeAdjustmentType = 'contain';
+const SIZE_ADJUSTMENT_TYPE_COVER: SizeAdjustmentType = 'cover';
+
 /**
  * Get the max sizes in a rectangle under the given aspect ratio.
  * @param {Object} data The original sizes.
@@ -254,27 +274,22 @@ export function toAngleInRadian(angle: number | string): number {
  * @returns {Object} Returns the result sizes.
  */
 export function getAdjustedSizes(
-  {
-    aspectRatio,
-    height,
-    width,
-  }: {
-    aspectRatio: number;
-    height: number;
-    width: number;
-  },
-  type = 'contain', // or 'cover'
+  data: SizeAdjustmentData | SizeAdjustmentDataWithoutWidth | SizeAdjustmentDataWithoutHeight,
+  type: SizeAdjustmentType = SIZE_ADJUSTMENT_TYPE_CONTAIN,
 ): {
     width: number;
     height: number;
   } {
+  const { aspectRatio } = data;
+  let { width, height } = data as SizeAdjustmentData;
   const isValidWidth = isPositiveNumber(width);
   const isValidHeight = isPositiveNumber(height);
 
   if (isValidWidth && isValidHeight) {
     const adjustedWidth = height * aspectRatio;
 
-    if ((type === 'contain' && adjustedWidth > width) || (type === 'cover' && adjustedWidth < width)) {
+    if ((type === SIZE_ADJUSTMENT_TYPE_CONTAIN && adjustedWidth > width)
+      || (type === SIZE_ADJUSTMENT_TYPE_COVER && adjustedWidth < width)) {
       height = width / aspectRatio;
     } else {
       width = height * aspectRatio;

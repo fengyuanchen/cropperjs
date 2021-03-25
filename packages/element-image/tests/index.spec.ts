@@ -1,4 +1,4 @@
-import { EVENT_TRANSFORM } from '@cropper/helper-constants';
+import { EVENT_TRANSFORM } from '@cropper/utils';
 import CropperImage from '../src';
 
 // A 1×1 pixel PNG image.

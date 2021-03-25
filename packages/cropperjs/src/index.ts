@@ -2,7 +2,7 @@ import {
   CROPPER_IMAGE,
   isElement,
   isString,
-} from '@cropper/helpers';
+} from '@cropper/utils';
 import {
   CropperCanvas,
   CropperCrosshair,
@@ -15,7 +15,7 @@ import {
 } from '@cropper/elements';
 import DEFAULT_TEMPLATE from './template';
 
-interface CropperOptions {
+export interface CropperOptions {
   container?: Element | string;
   template?: string;
 }
@@ -34,7 +34,7 @@ CropperSelection.$define();
 CropperShade.$define();
 CropperViewer.$define();
 
-export * from '@cropper/helpers';
+export * from '@cropper/utils';
 export * from '@cropper/elements';
 export default class Cropper {
   static version = '__VERSION__';

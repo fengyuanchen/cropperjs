@@ -7,7 +7,7 @@ import {
   isUndefined,
   toCamelCase,
   toKebabCase,
-} from '@cropper/helpers';
+} from '@cropper/utils';
 import style from './style';
 
 const REGEXP_SUFFIX = /left|top|width|height/i;

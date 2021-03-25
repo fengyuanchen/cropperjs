@@ -1,4 +1,4 @@
-import { ACTION_NONE } from '@cropper/helpers';
+import { ACTION_NONE } from '@cropper/utils';
 import CropperElement from '@cropper/element';
 import style from './style';
 

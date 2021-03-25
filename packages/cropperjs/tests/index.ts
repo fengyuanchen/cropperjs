@@ -1,6 +1,6 @@
 import {
   CROPPER_CANVAS,
-} from '@cropper/helper-constants';
+} from '@cropper/utils';
 import Cropper from '../src';
 
 describe('Cropper', () => {

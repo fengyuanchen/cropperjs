@@ -4,21 +4,6 @@ CropperViewer.$define();
 
 describe('CropperViewer', () => {
   describe('properties', () => {
-    describe('bordered', () => {
-      it('should be `false` by default', () => {
-        const element = new CropperViewer();
-
-        expect(element.bordered).toBe(false);
-      });
-
-      it('should be `true`', () => {
-        const element = new CropperViewer();
-
-        element.setAttribute('bordered', '');
-        expect(element.bordered).toBe(true);
-      });
-    });
-
     describe('resize', () => {
       it('should be `"vertical"` by default', () => {
         const element = new CropperViewer();

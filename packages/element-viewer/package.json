@@ -38,7 +38,7 @@
     "@cropper/element-canvas": "^2.0.0-beta",
     "@cropper/element-image": "^2.0.0-beta",
     "@cropper/element-selection": "^2.0.0-beta",
-    "@cropper/helpers": "^2.0.0-beta"
+    "@cropper/utils": "^2.0.0-beta"
   },
   "publishConfig": {
     "access": "public"

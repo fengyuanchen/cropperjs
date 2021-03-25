@@ -1,10 +1,10 @@
 {
-  "name": "@cropper/helpers",
-  "description": "A series of common helpers.",
+  "name": "@cropper/utils",
+  "description": "A series of common constants and utility functions for Cropper.",
   "version": "2.0.0-beta",
-  "main": "dist/helpers.raw.js",
-  "module": "dist/helpers.esm.raw.js",
-  "types": "dist/helpers.d.ts",
+  "main": "dist/utils.raw.js",
+  "module": "dist/utils.esm.raw.js",
+  "types": "dist/utils.d.ts",
   "files": [
     "dist"
   ],
@@ -19,21 +19,20 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/fengyuanchen/cropperjs.git",
-    "directory": "packages/helpers"
+    "directory": "packages/utils"
   },
   "keywords": [
-    "helpers",
+    "utils",
+    "utilities",
+    "constants",
+    "functions",
     "cropper",
     "cropper.js"
   ],
   "author": "Chen Fengyuan (https://chenfengyuan.com/)",
   "license": "MIT",
   "bugs": "https://github.com/fengyuanchen/cropperjs/issues",
-  "homepage": "https://github.com/fengyuanchen/cropperjs/tree/next/packages/helpers/#readme",
-  "dependencies": {
-    "@cropper/helper-constants": "^2.0.0-beta",
-    "@cropper/helper-utils": "^2.0.0-beta"
-  },
+  "homepage": "https://github.com/fengyuanchen/cropperjs/tree/next/packages/utils/#readme",
   "publishConfig": {
     "access": "public"
   }

@@ -8,7 +8,7 @@ import {
   isNumber,
   off,
   on,
-} from '@cropper/helpers';
+} from '@cropper/utils';
 import CropperElement from '@cropper/element';
 import style from './style';
 

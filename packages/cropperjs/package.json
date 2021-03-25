@@ -48,7 +48,7 @@
   "homepage": "https://github.com/fengyuanchen/cropperjs/tree/next/packages/cropperjs/#readme",
   "dependencies": {
     "@cropper/elements": "^2.0.0-beta",
-    "@cropper/helpers": "^2.0.0-beta"
+    "@cropper/utils": "^2.0.0-beta"
   },
   "publishConfig": {
     "tag": "next"
