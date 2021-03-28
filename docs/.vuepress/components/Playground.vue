@@ -501,7 +501,7 @@
           </li>
         </ul>
       </section>
-      <section v-for="(handle, index) in canvas.selection.handles">
+      <section v-for="(handle, index) in canvas.selection.handles" :key="handle.action">
         <h6>&lt;cropper-handle action="{{ handle.action }}"&gt;</h6>
         <ul>
           <li>
@@ -581,6 +581,7 @@
           ></cropper-crosshair>
           <cropper-handle
             v-for="handle in canvas.selection.handles"
+            :key="handle.action"
             :action="handle.action"
             :hidden="handle.hidden"
             :theme-color="handle.themeColor"
@@ -854,6 +855,10 @@ export default {
 
   .nav-link {
     padding: 0;
+  }
+
+  .repo-link {
+    text-decoration: none;
   }
 
   .form-control-sm {

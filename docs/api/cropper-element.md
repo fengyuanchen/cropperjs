@@ -54,14 +54,16 @@ Inherits properties from its parent, [`HTMLElement`](https://developer.mozilla.o
 
 ### $getShadowRoot
 
+Outputs the shadow root of the element, even if its mode is `"closed"`.
+
 - **Syntax**: `$getShadowRoot()`
 - **Returns**:
   - Type: `ShadowRoot`
   - The shadow root.
 
-Outputs the shadow root of the element, even if its mode is `"closed"`.
-
 ### $addStyles
+
+Adds styles to the shadow root.
 
 - **Syntax**: `$addStyles(styles)`
 - **Arguments**:
@@ -83,9 +85,9 @@ Outputs the shadow root of the element, even if its mode is `"closed"`.
   `);
   ```
 
-Adds styles to the shadow root.
-
 ### $emit
+
+Dispatches an event at the current element.
 
 - **Syntax**: `$emit(type, detail, options)`
 - **Arguments**:
@@ -116,11 +118,11 @@ Adds styles to the shadow root.
   });
   ```
 
-Dispatches an event at the current element.
-
 ## Static methods
 
 ### $define
+
+Defines the constructor as a new custom element. It is just a shortcut to call [`CustomElementRegistry.define()`](https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/define).
 
 - **Syntax**:
   - `$define()`
@@ -143,5 +145,3 @@ Dispatches an event at the current element.
     extends: 'div',
   });
   ```
-
-Defines the constructor as a new custom element. It is just a shortcut to call [`CustomElementRegistry.define()`](https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/define).

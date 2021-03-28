@@ -41,12 +41,12 @@ The default template for the Cropper:
 
 ```html
 <cropper-canvas background>
-  <cropper-image src="/picture.jpg" alt="Picture"></cropper-image>
+  <cropper-image></cropper-image>
   <cropper-shade hidden></cropper-shade>
   <cropper-handle action="select" plain></cropper-handle>
-  <cropper-selection auto-select auto-select-area="0.5">
+  <cropper-selection auto-select auto-select-area="0.5" movable resizable zoomable>
     <cropper-grid role="grid"></cropper-grid>
-    <cropper-crosshair></cropper-crosshair>
+    <cropper-crosshair theme-color="rgba(238, 238, 238, 0.5)" centered></cropper-crosshair>
     <cropper-handle action="move" theme-color="rgba(255, 255, 255, 0.35)"></cropper-handle>
     <cropper-handle action="n-resize"></cropper-handle>
     <cropper-handle action="e-resize"></cropper-handle>

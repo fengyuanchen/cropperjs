@@ -55,9 +55,9 @@ module.exports = {
               children: [
                 'cropper-canvas',
                 'cropper-image',
-                'cropper-selection',
-                'cropper-handle',
                 'cropper-shade',
+                'cropper-handle',
+                'cropper-selection',
                 'cropper-grid',
                 'cropper-crosshair',
                 'cropper-viewer',
