@@ -1,6 +1,8 @@
 import {
   ACTION_MOVE,
+  ACTION_ROTATE,
   ACTION_SCALE,
+  ACTION_TRANSFORM,
   CROPPER_CANVAS,
   CROPPER_SELECTION,
   EVENT_ACTION,
@@ -132,13 +134,31 @@ export default class CropperImage extends CropperElement {
 
     if (detail && (!selection || selection.hidden)) {
       switch (detail.action) {
+        case ACTION_MOVE:
+          this.$move(detail.endX - detail.startX, detail.endY - detail.startY);
+          break;
+
         case ACTION_SCALE:
           this.$scale(detail.scale);
           break;
 
-        case ACTION_MOVE:
-          this.$move(detail.endX - detail.startX, detail.endY - detail.startY);
+        case ACTION_ROTATE:
+          this.$rotate(detail.rotate);
           break;
+
+        case ACTION_TRANSFORM: {
+          const { rotate, scale } = detail;
+
+          this.$transform(
+            scale * Math.cos(rotate),
+            scale * Math.sin(rotate),
+            scale * -Math.sin(rotate),
+            scale * Math.cos(rotate),
+            0,
+            0,
+          );
+          break;
+        }
 
         default:
       }

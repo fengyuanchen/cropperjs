@@ -1,5 +1,8 @@
 import {
+  ACTION_NONE,
+  ACTION_ROTATE,
   ACTION_SCALE,
+  ACTION_TRANSFORM,
   ATTRIBUTE_ACTION,
   CROPPER_IMAGE,
   EVENT_ACTION,
@@ -27,6 +30,7 @@ interface ActionEventData {
   action: string;
   relatedEvent: Event;
   scale?: number;
+  rotate?: number;
   startX?: number;
   startY?: number;
   endX?: number;
@@ -168,7 +172,7 @@ export default class CropperCanvas extends CropperElement {
     }
 
     if ($pointers.size > 1) {
-      action = ACTION_SCALE;
+      action = ACTION_TRANSFORM;
     } else if (isElement(event.target)) {
       action = (event.target as any).action || event.target.getAttribute(ATTRIBUTE_ACTION) || '';
     }
@@ -234,27 +238,113 @@ export default class CropperCanvas extends CropperElement {
       relatedEvent: event,
     };
 
-    if ($action === ACTION_SCALE) {
+    if ($action === ACTION_TRANSFORM) {
       const pointers2 = new Map($pointers);
-      let { scale } = this;
+      let maxRotateRate = 0;
+      let maxScaleRate = 0;
+      let rotate = 0;
+      let scale = 0;
 
       $pointers.forEach((pointer, pointerId) => {
         pointers2.delete(pointerId);
         pointers2.forEach((pointer2) => {
-          const x1 = Math.abs(pointer.startX - pointer2.startX);
-          const y1 = Math.abs(pointer.startY - pointer2.startY);
-          const x2 = Math.abs(pointer.endX - pointer2.endX);
-          const y2 = Math.abs(pointer.endY - pointer2.endY);
-          const z1 = Math.sqrt((x1 * x1) + (y1 * y1));
-          const z2 = Math.sqrt((x2 * x2) + (y2 * y2));
-          const ratio = (z2 - z1) / z1;
+          let x1 = pointer2.startX - pointer.startX;
+          let y1 = pointer2.startY - pointer.startY;
+          let x2 = pointer2.endX - pointer.endX;
+          let y2 = pointer2.endY - pointer.endY;
+          let z1 = 0;
+          let z2 = 0;
+          let a1 = 0;
+          let a2 = 0;
 
-          if (ratio > scale) {
-            scale = ratio;
+          if (x1 === 0) {
+            if (y1 < 0) {
+              a1 = Math.PI * 2;
+            } else if (y1 > 0) {
+              a1 = Math.PI;
+            }
+          } else if (x1 > 0) {
+            a1 = (Math.PI / 2) + Math.atan(y1 / x1);
+          } else if (x1 < 0) {
+            a1 = (Math.PI * 1.5) + Math.atan(y1 / x1);
+          }
+
+          if (x2 === 0) {
+            if (y2 < 0) {
+              a2 = Math.PI * 2;
+            } else if (y2 > 0) {
+              a2 = Math.PI;
+            }
+          } else if (x2 > 0) {
+            a2 = (Math.PI / 2) + Math.atan(y2 / x2);
+          } else if (x2 < 0) {
+            a2 = (Math.PI * 1.5) + Math.atan(y2 / x2);
+          }
+
+          if (a2 > 0 || a1 > 0) {
+            const rotateRate = a2 - a1;
+            const absRotateRate = Math.abs(rotateRate);
+
+            if (absRotateRate > maxRotateRate) {
+              maxRotateRate = absRotateRate;
+              rotate = rotateRate;
+            }
+          }
+
+          x1 = Math.abs(x1);
+          y1 = Math.abs(y1);
+          x2 = Math.abs(x2);
+          y2 = Math.abs(y2);
+
+          if (x1 > 0 && y1 > 0) {
+            z1 = Math.sqrt((x1 * x1) + (y1 * y1));
+          } else if (x1 > 0) {
+            z1 = x1;
+          } else if (y1 > 0) {
+            z1 = y1;
+          }
+
+          if (x2 > 0 && y2 > 0) {
+            z2 = Math.sqrt((x2 * x2) + (y2 * y2));
+          } else if (x2 > 0) {
+            z2 = x2;
+          } else if (y2 > 0) {
+            z2 = y2;
+          }
+
+          if (z1 > 0 && z2 > 0) {
+            const scaleRate = (z2 - z1) / z1;
+            const absScaleRate = Math.abs(scaleRate);
+
+            if (absScaleRate > maxScaleRate) {
+              maxScaleRate = absScaleRate;
+              scale = scaleRate;
+            }
           }
         });
       });
-      detail.scale = scale;
+
+      if (scale < 0) {
+        scale = 1 / (1 - scale);
+      } else {
+        scale += 1;
+      }
+
+      const rotatable = maxRotateRate > 0;
+      const scalable = maxScaleRate > 0;
+
+      if (rotatable && scalable) {
+        detail.rotate = rotate;
+        detail.scale = scale;
+      } else if (rotatable) {
+        detail.action = ACTION_ROTATE;
+        detail.rotate = rotate;
+      } else if (scalable) {
+        detail.action = ACTION_SCALE;
+        detail.scale = scale;
+      } else {
+        detail.action = ACTION_NONE;
+      }
     } else {
       const [pointer] = Array.from($pointers.values());
 
@@ -267,9 +357,11 @@ export default class CropperCanvas extends CropperElement {
       pointer.startY = pointer.endY;
     });
 
-    this.$emit(EVENT_ACTION, detail, {
-      cancelable: false,
-    });
+    if (detail.action !== ACTION_NONE) {
+      this.$emit(EVENT_ACTION, detail, {
+        cancelable: false,
+      });
+    }
   }
 
   protected $handlePointerUp(event: Event): void {
