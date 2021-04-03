@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Cropper.js</title>
+  <link rel="stylesheet" href="../css/cropper.css">
+  <style>
+    .container {
+      margin: 20px auto;
+      max-width: 640px;
+    }
+
+    img {
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Crop on canvas with Cropper</h1>
+    <h3>Image</h3>
+    <div class="img-container">
+      <img id="image" src="../images/picture.jpg" alt="Picture">
+    </div>
+    <h3>Canvas</h3>
+    <div class="img-container">
+      <canvas id="canvas"></canvas>
+    </div>
+  </div>
+
+  <script src="../js/cropper.js"></script>
+  <script>
+    function start() {
+      var width = this.offsetWidth;
+      var height = this.offsetHeight;
+      var cropper;
+
+      canvas.width = width;
+      canvas.height = height;
+      canvas.getContext('2d').drawImage(
+        this,
+        0, 0, this.naturalWidth, this.naturalHeight,
+        0, 0, width, height
+      );
+      cropper = new Cropper(canvas);
+    }
+
+    window.addEventListener('DOMContentLoaded', function () {
+      var canvas = document.getElementById('canvas');
+      var image = document.getElementById('image');
+
+      if (image.complete) {
+        start.call(image);
+      } else {
+        image.onload = start;
+      }
+    });
+  </script>
+</body>
+</html>

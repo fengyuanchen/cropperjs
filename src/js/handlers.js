@@ -14,26 +14,23 @@ import {
 } from './constants';
 import {
   addClass,
+  assign,
   dispatchEvent,
-  each,
-  extend,
+  forEach,
   getData,
   getPointer,
   hasClass,
+  isNumber,
   toggleClass,
 } from './utilities';
 
 export default {
   resize() {
-    const { options, container, containerData } = this;
-    const minContainerWidth = Number(options.minContainerWidth) || 200;
-    const minContainerHeight = Number(options.minContainerHeight) || 100;
-
-    if (this.disabled || containerData.width <= minContainerWidth ||
-      containerData.height <= minContainerHeight) {
+    if (this.disabled) {
       return;
     }
 
+    const { options, container, containerData } = this;
     const ratio = container.offsetWidth / containerData.width;
 
     // Resize when width changed or height changed
@@ -49,10 +46,10 @@ export default {
       this.render();
 
       if (options.restore) {
-        this.setCanvasData(each(canvasData, (n, i) => {
+        this.setCanvasData(forEach(canvasData, (n, i) => {
           canvasData[i] = n * ratio;
         }));
-        this.setCropBoxData(each(cropBoxData, (n, i) => {
+        this.setCropBoxData(forEach(cropBoxData, (n, i) => {
           cropBoxData[i] = n * ratio;
         }));
       }
@@ -67,7 +64,7 @@ export default {
     this.setDragMode(hasClass(this.dragBox, CLASS_CROP) ? DRAG_MODE_MOVE : DRAG_MODE_CROP);
   },
 
-  wheel(e) {
+  wheel(event) {
     const ratio = Number(this.options.wheelZoomRatio) || 0.1;
     let delta = 1;
 
@@ -75,7 +72,7 @@ export default {
       return;
     }
 
-    e.preventDefault();
+    event.preventDefault();
 
     // Limit wheel speed to prevent zoom too fast (#21)
     if (this.wheeling) {
@@ -88,39 +85,56 @@ export default {
       this.wheeling = false;
     }, 50);
 
-    if (e.deltaY) {
-      delta = e.deltaY > 0 ? 1 : -1;
-    } else if (e.wheelDelta) {
-      delta = -e.wheelDelta / 120;
-    } else if (e.detail) {
-      delta = e.detail > 0 ? 1 : -1;
+    if (event.deltaY) {
+      delta = event.deltaY > 0 ? 1 : -1;
+    } else if (event.wheelDelta) {
+      delta = -event.wheelDelta / 120;
+    } else if (event.detail) {
+      delta = event.detail > 0 ? 1 : -1;
     }
 
-    this.zoom(-delta * ratio, e);
+    this.zoom(-delta * ratio, event);
   },
 
-  cropStart(e) {
-    if (this.disabled) {
+  cropStart(event) {
+    const { buttons, button } = event;
+
+    if (
+      this.disabled
+
+      // Handle mouse event and pointer event and ignore touch event
+      || ((
+        event.type === 'mousedown'
+        || (event.type === 'pointerdown' && event.pointerType === 'mouse')
+      ) && (
+        // No primary button (Usually the left button)
+        (isNumber(buttons) && buttons !== 1)
+        || (isNumber(button) && button !== 0)
+
+        // Open context menu
+        || event.ctrlKey
+      ))
+    ) {
       return;
     }
 
     const { options, pointers } = this;
     let action;
 
-    if (e.changedTouches) {
+    if (event.changedTouches) {
       // Handle touch event
-      each(e.changedTouches, (touch) => {
+      forEach(event.changedTouches, (touch) => {
         pointers[touch.identifier] = getPointer(touch);
       });
     } else {
       // Handle mouse event and pointer event
-      pointers[e.pointerId || 0] = getPointer(e);
+      pointers[event.pointerId || 0] = getPointer(event);
     }
 
     if (Object.keys(pointers).length > 1 && options.zoomable && options.zoomOnTouch) {
       action = ACTION_ZOOM;
     } else {
-      action = getData(e.target, DATA_ACTION);
+      action = getData(event.target, DATA_ACTION);
     }
 
     if (!REGEXP_ACTIONS.test(action)) {
@@ -128,13 +142,14 @@ export default {
     }
 
     if (dispatchEvent(this.element, EVENT_CROP_START, {
-      originalEvent: e,
+      originalEvent: event,
       action,
     }) === false) {
       return;
     }
 
-    e.preventDefault();
+    // This line is required for preventing page zooming in iOS browsers
+    event.preventDefault();
 
     this.action = action;
     this.cropping = false;
@@ -145,7 +160,7 @@ export default {
     }
   },
 
-  cropMove(e) {
+  cropMove(event) {
     const { action } = this;
 
     if (this.disabled || !action) {
@@ -154,46 +169,47 @@ export default {
 
     const { pointers } = this;
 
-    e.preventDefault();
+    event.preventDefault();
 
     if (dispatchEvent(this.element, EVENT_CROP_MOVE, {
-      originalEvent: e,
+      originalEvent: event,
       action,
     }) === false) {
       return;
     }
 
-    if (e.changedTouches) {
-      each(e.changedTouches, (touch) => {
-        extend(pointers[touch.identifier], getPointer(touch, true));
+    if (event.changedTouches) {
+      forEach(event.changedTouches, (touch) => {
+        // The first parameter should not be undefined (#432)
+        assign(pointers[touch.identifier] || {}, getPointer(touch, true));
       });
     } else {
-      extend(pointers[e.pointerId || 0], getPointer(e, true));
+      assign(pointers[event.pointerId || 0] || {}, getPointer(event, true));
     }
 
-    this.change(e);
+    this.change(event);
   },
 
-  cropEnd(e) {
+  cropEnd(event) {
     if (this.disabled) {
       return;
     }
 
     const { action, pointers } = this;
 
-    if (e.changedTouches) {
-      each(e.changedTouches, (touch) => {
+    if (event.changedTouches) {
+      forEach(event.changedTouches, (touch) => {
         delete pointers[touch.identifier];
       });
     } else {
-      delete pointers[e.pointerId || 0];
+      delete pointers[event.pointerId || 0];
     }
 
     if (!action) {
       return;
     }
 
-    e.preventDefault();
+    event.preventDefault();
 
     if (!Object.keys(pointers).length) {
       this.action = '';
@@ -205,7 +221,7 @@ export default {
     }
 
     dispatchEvent(this.element, EVENT_CROP_END, {
-      originalEvent: e,
+      originalEvent: event,
       action,
     });
   },

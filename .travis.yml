@@ -1,7 +1,9 @@
 language: node_js
-node_js:
-  - "node"
+node_js: lts/*
+cache: npm
 script:
   - npm run lint
   - npm run build
   - npm test
+after_success:
+  - npm run codecov

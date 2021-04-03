@@ -11,13 +11,10 @@ import {
   CLASS_HIDDEN,
   CLASS_HIDE,
   CLASS_INVISIBLE,
-  CLASS_MODAL,
   CLASS_MOVE,
   DATA_ACTION,
-  EVENT_CROP,
-  EVENT_ERROR,
-  EVENT_LOAD,
   EVENT_READY,
+  MIME_TYPE_JPEG,
   NAMESPACE,
   REGEXP_DATA_URL,
   REGEXP_DATA_URL_JPEG,
@@ -29,19 +26,15 @@ import {
   addListener,
   addTimestamp,
   arrayBufferToDataURL,
+  assign,
   dataURLToArrayBuffer,
   dispatchEvent,
-  extend,
-  getData,
-  getImageNaturalSizes,
-  getOrientation,
   isCrossOriginURL,
   isFunction,
   isPlainObject,
   parseOrientation,
-  proxy,
   removeClass,
-  removeListener,
+  resetAndGetOrientation,
   setData,
 } from './utilities';
 
@@ -59,21 +52,15 @@ class Cropper {
     }
 
     this.element = element;
-    this.options = extend({}, DEFAULTS, isPlainObject(options) && options);
-    this.complete = false;
+    this.options = assign({}, DEFAULTS, isPlainObject(options) && options);
     this.cropped = false;
     this.disabled = false;
-    this.isImg = false;
-    this.limited = false;
-    this.loaded = false;
-    this.ready = false;
-    this.replaced = false;
-    this.wheeling = false;
-    this.originalUrl = '';
-    this.canvasData = null;
-    this.cropBoxData = null;
-    this.previews = null;
     this.pointers = {};
+    this.ready = false;
+    this.reloading = false;
+    this.replaced = false;
+    this.sized = false;
+    this.sizing = false;
     this.init();
   }
 
@@ -82,11 +69,11 @@ class Cropper {
     const tagName = element.tagName.toLowerCase();
     let url;
 
-    if (getData(element, NAMESPACE)) {
+    if (element[NAMESPACE]) {
       return;
     }
 
-    setData(element, NAMESPACE, this);
+    element[NAMESPACE] = this;
 
     if (tagName === 'img') {
       this.isImg = true;
@@ -100,7 +87,7 @@ class Cropper {
         return;
       }
 
-      // e.g.: "http://example.com/img/picture.jpg"
+      // e.g.: "https://example.com/img/picture.jpg"
       url = element.src;
     } else if (tagName === 'canvas' && window.HTMLCanvasElement) {
       url = element.toDataURL();
@@ -119,37 +106,69 @@ class Cropper {
 
     const { element, options } = this;
 
+    if (!options.rotatable && !options.scalable) {
+      options.checkOrientation = false;
+    }
+
+    // Only IE10+ supports Typed Arrays
     if (!options.checkOrientation || !window.ArrayBuffer) {
       this.clone();
       return;
     }
 
-    // XMLHttpRequest disallows to open a Data URL in some browsers like IE11 and Safari
+    // Detect the mime type of the image directly if it is a Data URL
     if (REGEXP_DATA_URL.test(url)) {
+      // Read ArrayBuffer from Data URL of JPEG images directly for better performance
       if (REGEXP_DATA_URL_JPEG.test(url)) {
         this.read(dataURLToArrayBuffer(url));
       } else {
+        // Only a JPEG image may contains Exif Orientation information,
+        // the rest types of Data URLs are not necessary to check orientation at all.
         this.clone();
       }
 
       return;
     }
 
+    // 1. Detect the mime type of the image by a XMLHttpRequest.
+    // 2. Load the image as ArrayBuffer for reading orientation if its a JPEG image.
     const xhr = new XMLHttpRequest();
+    const clone = this.clone.bind(this);
 
-    xhr.onerror = () => {
-      this.clone();
+    this.reloading = true;
+    this.xhr = xhr;
+
+    // 1. Cross origin requests are only supported for protocol schemes:
+    // http, https, data, chrome, chrome-extension.
+    // 2. Access to XMLHttpRequest from a Data URL will be blocked by CORS policy
+    // in some browsers as IE11 and Safari.
+    xhr.onabort = clone;
+    xhr.onerror = clone;
+    xhr.ontimeout = clone;
+
+    xhr.onprogress = () => {
+      // Abort the request directly if it not a JPEG image for better performance
+      if (xhr.getResponseHeader('content-type') !== MIME_TYPE_JPEG) {
+        xhr.abort();
+      }
     };
 
     xhr.onload = () => {
       this.read(xhr.response);
     };
 
+    xhr.onloadend = () => {
+      this.reloading = false;
+      this.xhr = null;
+    };
+
+    // Bust cache when there is a "crossOrigin" property to avoid browser cache error
     if (options.checkCrossOrigin && isCrossOriginURL(url) && element.crossOrigin) {
       url = addTimestamp(url);
     }
 
-    xhr.open('get', url);
+    // The third parameter is required for avoiding side-effect (#682)
+    xhr.open('GET', url, true);
     xhr.responseType = 'arraybuffer';
     xhr.withCredentials = element.crossOrigin === 'use-credentials';
     xhr.send();
@@ -157,13 +176,17 @@ class Cropper {
 
   read(arrayBuffer) {
     const { options, imageData } = this;
-    const orientation = getOrientation(arrayBuffer);
+
+    // Reset the orientation value to its default value 1
+    // as some iOS browsers will render image with its orientation
+    const orientation = resetAndGetOrientation(arrayBuffer);
     let rotate = 0;
     let scaleX = 1;
     let scaleY = 1;
 
     if (orientation > 1) {
-      this.url = arrayBufferToDataURL(arrayBuffer, 'image/jpeg');
+      // Generate a new URL which has the default orientation value
+      this.url = arrayBufferToDataURL(arrayBuffer, MIME_TYPE_JPEG);
       ({ rotate, scaleX, scaleY } = parseOrientation(orientation));
     }
 
@@ -181,20 +204,16 @@ class Cropper {
 
   clone() {
     const { element, url } = this;
-    let crossOrigin;
-    let crossOriginUrl;
+    let { crossOrigin } = element;
+    let crossOriginUrl = url;
 
     if (this.options.checkCrossOrigin && isCrossOriginURL(url)) {
-      ({ crossOrigin } = element);
-
-      if (crossOrigin) {
-        crossOriginUrl = url;
-      } else {
+      if (!crossOrigin) {
         crossOrigin = 'anonymous';
-
-        // Bust cache when there is not a "crossOrigin" property
-        crossOriginUrl = addTimestamp(url);
       }
+
+      // Bust cache when there is not a "crossOrigin" property (#519)
+      crossOriginUrl = addTimestamp(url);
     }
 
     this.crossOrigin = crossOrigin;
@@ -207,64 +226,87 @@ class Cropper {
     }
 
     image.src = crossOriginUrl || url;
-
-    const start = proxy(this.start, this);
-    const stop = proxy(this.stop, this);
-
+    image.alt = element.alt || 'The image to crop';
     this.image = image;
-    this.onStart = start;
-    this.onStop = stop;
-
-    if (this.isImg) {
-      if (element.complete) {
-        this.start();
-      } else {
-        addListener(element, EVENT_LOAD, start);
-      }
-    } else {
-      addListener(image, EVENT_LOAD, start);
-      addListener(image, EVENT_ERROR, stop);
-      addClass(image, CLASS_HIDE);
-      element.parentNode.insertBefore(image, element.nextSibling);
-    }
+    image.onload = this.start.bind(this);
+    image.onerror = this.stop.bind(this);
+    addClass(image, CLASS_HIDE);
+    element.parentNode.insertBefore(image, element.nextSibling);
   }
 
-  start(event) {
-    const image = this.isImg ? this.element : this.image;
+  start() {
+    const { image } = this;
 
-    if (event) {
-      removeListener(image, EVENT_LOAD, this.onStart);
-      removeListener(image, EVENT_ERROR, this.onStop);
-    }
+    image.onload = null;
+    image.onerror = null;
+    this.sizing = true;
 
-    getImageNaturalSizes(image, (naturalWidth, naturalHeight) => {
-      extend(this.imageData, {
+    // Match all browsers that use WebKit as the layout engine in iOS devices,
+    // such as Safari for iOS, Chrome for iOS, and in-app browsers.
+    const isIOSWebKit = WINDOW.navigator && /(?:iPad|iPhone|iPod).*?AppleWebKit/i.test(WINDOW.navigator.userAgent);
+    const done = (naturalWidth, naturalHeight) => {
+      assign(this.imageData, {
         naturalWidth,
         naturalHeight,
         aspectRatio: naturalWidth / naturalHeight,
       });
-      this.loaded = true;
+      this.initialImageData = assign({}, this.imageData);
+      this.sizing = false;
+      this.sized = true;
       this.build();
-    });
+    };
+
+    // Most modern browsers (excepts iOS WebKit)
+    if (image.naturalWidth && !isIOSWebKit) {
+      done(image.naturalWidth, image.naturalHeight);
+      return;
+    }
+
+    const sizingImage = document.createElement('img');
+    const body = document.body || document.documentElement;
+
+    this.sizingImage = sizingImage;
+
+    sizingImage.onload = () => {
+      done(sizingImage.width, sizingImage.height);
+
+      if (!isIOSWebKit) {
+        body.removeChild(sizingImage);
+      }
+    };
+
+    sizingImage.src = image.src;
+
+    // iOS WebKit will convert the image automatically
+    // with its orientation once append it into DOM (#279)
+    if (!isIOSWebKit) {
+      sizingImage.style.cssText = (
+        'left:0;'
+        + 'max-height:none!important;'
+        + 'max-width:none!important;'
+        + 'min-height:0!important;'
+        + 'min-width:0!important;'
+        + 'opacity:0;'
+        + 'position:absolute;'
+        + 'top:0;'
+        + 'z-index:-1;'
+      );
+      body.appendChild(sizingImage);
+    }
   }
 
   stop() {
     const { image } = this;
 
-    removeListener(image, EVENT_LOAD, this.onStart);
-    removeListener(image, EVENT_ERROR, this.onStop);
+    image.onload = null;
+    image.onerror = null;
     image.parentNode.removeChild(image);
     this.image = null;
   }
 
   build() {
-    if (!this.loaded) {
+    if (!this.sized || this.ready) {
       return;
-    }
-
-    // Unbuild first when replace
-    if (this.ready) {
-      this.unbuild();
     }
 
     const { element, options, image } = this;
@@ -305,18 +347,11 @@ class Cropper {
     this.initPreview();
     this.bind();
 
+    options.initialAspectRatio = Math.max(0, options.initialAspectRatio) || NaN;
     options.aspectRatio = Math.max(0, options.aspectRatio) || NaN;
     options.viewMode = Math.max(0, Math.min(3, Math.round(options.viewMode))) || 0;
 
-    this.cropped = options.autoCrop;
-
-    if (options.autoCrop) {
-      if (options.modal) {
-        addClass(dragBox, CLASS_MODAL);
-      }
-    } else {
-      addClass(cropBox, CLASS_HIDDEN);
-    }
+    addClass(cropBox, CLASS_HIDDEN);
 
     if (!options.guides) {
       addClass(cropBox.getElementsByClassName(`${NAMESPACE}-dashed`), CLASS_HIDDEN);
@@ -344,24 +379,23 @@ class Cropper {
       addClass(cropBox.getElementsByClassName(`${NAMESPACE}-point`), CLASS_HIDDEN);
     }
 
-    this.setDragMode(options.dragMode);
     this.render();
     this.ready = true;
+    this.setDragMode(options.dragMode);
+
+    if (options.autoCrop) {
+      this.crop();
+    }
+
     this.setData(options.data);
 
-    // Call the "ready" option asynchronously to keep "image.cropper" is defined
-    this.completing = setTimeout(() => {
-      if (isFunction(options.ready)) {
-        addListener(element, EVENT_READY, options.ready, {
-          once: true,
-        });
-      }
+    if (isFunction(options.ready)) {
+      addListener(element, EVENT_READY, options.ready, {
+        once: true,
+      });
+    }
 
-      dispatchEvent(element, EVENT_READY);
-      dispatchEvent(element, EVENT_CROP, this.getData());
-
-      this.complete = true;
-    }, 0);
+    dispatchEvent(element, EVENT_READY);
   }
 
   unbuild() {
@@ -369,32 +403,28 @@ class Cropper {
       return;
     }
 
-    if (!this.complete) {
-      clearTimeout(this.completing);
-    }
-
     this.ready = false;
-    this.complete = false;
-    this.initialImageData = null;
-
-    // Clear `initialCanvasData` is necessary when replace
-    this.initialCanvasData = null;
-    this.initialCropBoxData = null;
-    this.containerData = null;
-    this.canvasData = null;
-
-    // Clear `cropBoxData` is necessary when replace
-    this.cropBoxData = null;
     this.unbind();
     this.resetPreview();
-    this.previews = null;
-    this.viewBox = null;
-    this.cropBox = null;
-    this.dragBox = null;
-    this.canvas = null;
-    this.container = null;
     this.cropper.parentNode.removeChild(this.cropper);
-    this.cropper = null;
+    removeClass(this.element, CLASS_HIDDEN);
+  }
+
+  uncreate() {
+    if (this.ready) {
+      this.unbuild();
+      this.ready = false;
+      this.cropped = false;
+    } else if (this.sizing) {
+      this.sizingImage.onload = null;
+      this.sizing = false;
+      this.sized = false;
+    } else if (this.reloading) {
+      this.xhr.onabort = null;
+      this.xhr.abort();
+    } else if (this.image) {
+      this.stop();
+    }
   }
 
   /**
@@ -411,10 +441,10 @@ class Cropper {
    * @param {Object} options - The new default options.
    */
   static setDefaults(options) {
-    extend(DEFAULTS, isPlainObject(options) && options);
+    assign(DEFAULTS, isPlainObject(options) && options);
   }
 }
 
-extend(Cropper.prototype, render, preview, events, handlers, change, methods);
+assign(Cropper.prototype, render, preview, events, handlers, change, methods);
 
 export default Cropper;

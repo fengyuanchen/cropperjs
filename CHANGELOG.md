@@ -1,5 +1,124 @@
 # Changelog
 
+## 1.5.11 (Feb 17, 2021)
+
+- Fix TypeScript declarations compatibility (#799).
+
+## 1.5.10 (Feb 12, 2021)
+
+- Explicitly set the XMLHttpRequest request to be asynchronous (#682).
+- Improve TypeScript declarations (#791).
+
+## 1.5.9 (Sep 10, 2020)
+
+- Fix the issue of fail to zoom out on touch device (#726).
+- Add TypeScript declarations for the events.
+
+## 1.5.8 (Sep 5, 2020)
+
+- Fix the issue when the value of the `minContainerWidth/Height` options is `0` (#683).
+- Reset the initial canvas size when the `minCanvasWidth/Height` options is set (#725).
+- Store the initial image data in the right place for avoiding [side-effect](https://github.com/fengyuanchen/jquery-cropper/issues/19).
+
+## 1.5.7 (May 23, 2020)
+
+- Improve container resizing (#636).
+- Improve touch device detection (#614).
+
+## 1.5.6 (Oct 4, 2019)
+
+- Improve event type determining for iOS 13+ (#571).
+
+## 1.5.5 (Aug 3, 2019)
+
+- Clone the image's `crossOrigin` attribute always even though the `checkCrossOrigin` is set to `false` (#535).
+- Improve browser environment detecting (#554).
+
+## 1.5.4 (Jul 20, 2019)
+
+- Avoid removing the events of the original image.
+- Avoid requesting any Data URLs by XMLHttpRequest for better performance (#526).
+- Add an `alt` attribute to all internal images for better accessibility (#548).
+- Transform `enum`s to `type`s from the definition files for TypeScript (#550).
+
+## 1.5.3 (Jul 10, 2019)
+
+- Compute the size of the image for all browsers that use WebKit as the layout engine in iOS devices, such as Safari and in-app browsers (#544).
+
+## 1.5.2 (Jun 30, 2019)
+
+- Alway add a timestamp to the URL of a cross-origin image (#519).
+
+## 1.5.1 (Mar 10, 2019)
+
+- Revert the minimum container width from `300` to `200`.
+- Revert the minimum container height from `150` to `100`.
+
+## 1.5.0 (Mar 10, 2019)
+
+- Add `passive: false` and `capture: true` to wheel event for better performance.
+- Improve touch event binding.
+- Ignore the pointer events are not triggered by the primary button.
+- Fix typed array spreading error in IE or Safari 9.
+- Fix the RegExp for the Safari browser detecting to ignore Chrome (#478).
+
+## 1.4.3 (Oct 24, 2018)
+
+- Ignore range error when the image does not have correct Exif information
+
+## 1.4.2 (Oct 15, 2018)
+
+- Read orientation only when it is a JPEG image.
+- Improve cropper instance storage to avoid side effect (#394).
+- Fix parameter error of `Object.assign` in iOS devices (#432).
+- Improve typed array loop for better performance (#435).
+
+## 1.4.1 (Jul 15, 2018)
+
+- Not to restrict the canvas position when it is not cropped.
+- Fix wrong crop box size in view mode 1 and 2 (#381).
+
+## 1.4.0 (Jun 1, 2018)
+
+- Added 1 new option: `initialAspectRatio`.
+- Improve the smoothness of crop box resizing.
+
+## 1.3.6 (May 20, 2018)
+
+- Check orientation only when both the `rotatable` and `scalable` options are set to `true`.
+- In case rounding off leads to extra 1px in right or bottom border we should round the top-left corner and the dimension (#343).
+
+## 1.3.5 (Apr 15, 2018)
+
+- Ensure the cloned image loads completely before trigger the `ready` event to avoid side effect (#303).
+- Add namespace to data attribute names (from `data-*` to `data-cropper-*`) to avoid side effect (#319).
+
+## 1.3.4 (Mar 31, 2018)
+
+- Compute destination sizes with image's aspect ratio when draw image (#326).
+
+## 1.3.3 (Mar 18, 2018)
+
+- Improve event binding.
+- Add missing `pivot` definition to `zoomTo` method (#320)
+
+## 1.3.2 (Mar 3, 2018)
+
+- Fix the bug of cropping image with orientation (#313).
+
+## 1.3.1 (Feb 28, 2018)
+
+- Add missing `width` and `height` definitions (#302).
+- Fix incorrect behavior of `viewMode: 2` (#304).
+- Fix the bug of multiple starts (#306).
+- Remove `browser` field from the `package.json` file (#307).
+
+## 1.3.0 (Feb 25, 2018)
+
+- Add type definition files for TypeScript.
+- Enhance the `preview` option to support `Array` and `NodeList`.
+- Fix incorrect cropped canvas sizes when max/min sizes provided.
+
 ## 1.2.2 (Jan 3, 2018)
 
 - Fix incorrect image natural sizes in iOS Safari (#279).
@@ -31,12 +150,12 @@
 
 - Added 4 new options to `getCroppedCanvas` method:  `minWidth`, `minHeight`, `maxWidth` and `maxHeight`.
 - Enhanced image scaling: the `scaleX` and `scaleY` values should only be `1` or `-1` before, but now they can be any numbers.
-- Improved crop box resizing behaviour in the northeast, northwest, southeast and southwest directions. (#222).
+- Improved crop box resizing behavior in the northeast, northwest, southeast and southwest directions. (#222).
 
 ## 1.0.0 (Sep 3, 2017)
 
 - Fixed a bug of zoom out after cleared the crop box in view mode 1, 2 and 3 (#209).
-- Improve crop box resizing behaviour in the east, west, south and north directions (#222).
+- Improve crop box resizing behavior in the east, west, south and north directions (#222).
 
 ## 1.0.0-rc.3 (Jul 7, 2017)
 
@@ -99,7 +218,7 @@
 
 ## 0.7.1 (May 28, 2016)
 
-- Improved the rotate and scale transform behaviour.
+- Improved the rotate and scale transform behavior.
 - Improved the `getCroppedCanvas` method (returns the whole canvas if it is not cropped).
 - Check cross origin setting when load image by XMLHTTPRequest.
 

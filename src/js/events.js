@@ -14,7 +14,6 @@ import {
 import {
   addListener,
   isFunction,
-  proxy,
   removeListener,
 } from './utilities';
 
@@ -42,29 +41,32 @@ export default {
       addListener(element, EVENT_ZOOM, options.zoom);
     }
 
-    addListener(cropper, EVENT_POINTER_DOWN, (this.onCropStart = proxy(this.cropStart, this)));
+    addListener(cropper, EVENT_POINTER_DOWN, (this.onCropStart = this.cropStart.bind(this)));
 
     if (options.zoomable && options.zoomOnWheel) {
-      addListener(cropper, EVENT_WHEEL, (this.onWheel = proxy(this.wheel, this)));
+      addListener(cropper, EVENT_WHEEL, (this.onWheel = this.wheel.bind(this)), {
+        passive: false,
+        capture: true,
+      });
     }
 
     if (options.toggleDragModeOnDblclick) {
-      addListener(cropper, EVENT_DBLCLICK, (this.onDblclick = proxy(this.dblclick, this)));
+      addListener(cropper, EVENT_DBLCLICK, (this.onDblclick = this.dblclick.bind(this)));
     }
 
     addListener(
       element.ownerDocument,
       EVENT_POINTER_MOVE,
-      (this.onCropMove = proxy(this.cropMove, this)),
+      (this.onCropMove = this.cropMove.bind(this)),
     );
     addListener(
       element.ownerDocument,
       EVENT_POINTER_UP,
-      (this.onCropEnd = proxy(this.cropEnd, this)),
+      (this.onCropEnd = this.cropEnd.bind(this)),
     );
 
     if (options.responsive) {
-      addListener(window, EVENT_RESIZE, (this.onResize = proxy(this.resize, this)));
+      addListener(window, EVENT_RESIZE, (this.onResize = this.resize.bind(this)));
     }
   },
 
@@ -94,7 +96,10 @@ export default {
     removeListener(cropper, EVENT_POINTER_DOWN, this.onCropStart);
 
     if (options.zoomable && options.zoomOnWheel) {
-      removeListener(cropper, EVENT_WHEEL, this.onWheel);
+      removeListener(cropper, EVENT_WHEEL, this.onWheel, {
+        passive: false,
+        capture: true,
+      });
     }
 
     if (options.toggleDragModeOnDblclick) {

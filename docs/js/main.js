@@ -1,5 +1,4 @@
 window.onload = function () {
-
   'use strict';
 
   var Cropper = window.Cropper;
@@ -49,6 +48,7 @@ window.onload = function () {
   var cropper = new Cropper(image, options);
   var originalImageURL = image.src;
   var uploadedImageType = 'image/jpeg';
+  var uploadedImageName = 'cropped.jpg';
   var uploadedImageURL;
 
   // Tooltip
@@ -67,6 +67,7 @@ window.onload = function () {
   // Download
   if (typeof download.download === 'undefined') {
     download.className += ' disabled';
+    download.title = 'Your browser does not support download';
   }
 
   // Options
@@ -206,6 +207,7 @@ window.onload = function () {
             $('#getCroppedCanvasModal').modal().find('.modal-body').html(result);
 
             if (!download.disabled) {
+              download.download = uploadedImageName;
               download.href = result.toDataURL(uploadedImageType);
             }
           }
@@ -237,7 +239,7 @@ window.onload = function () {
   document.body.onkeydown = function (event) {
     var e = event || window.event;
 
-    if (!cropper || this.scrollTop > 300) {
+    if (e.target !== this || !cropper || this.scrollTop > 300) {
       return;
     }
 
@@ -272,18 +274,23 @@ window.onload = function () {
       var files = this.files;
       var file;
 
-      if (cropper && files && files.length) {
+      if (files && files.length) {
         file = files[0];
 
         if (/^image\/\w+/.test(file.type)) {
           uploadedImageType = file.type;
+          uploadedImageName = file.name;
 
           if (uploadedImageURL) {
             URL.revokeObjectURL(uploadedImageURL);
           }
 
           image.src = uploadedImageURL = URL.createObjectURL(file);
-          cropper.destroy();
+
+          if (cropper) {
+            cropper.destroy();
+          }
+
           cropper = new Cropper(image, options);
           inputImage.value = null;
         } else {
