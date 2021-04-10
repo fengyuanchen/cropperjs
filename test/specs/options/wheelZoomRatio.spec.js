@@ -28,7 +28,13 @@ describe('wheelZoomRatio (option)', () => {
 
         wheelEvent.deltaY = -1;
         cropper.cropper.dispatchEvent(wheelEvent);
-        expect(canvasData.width * (1 + wheelZoomRatio)).to.equal(cropper.getCanvasData().width);
+        const expectedWidthRaw = canvasData.width * (1 + wheelZoomRatio);
+        const actualWidthRaw = cropper.getCanvasData().width;
+
+        const expectedWidth = Math.round(expectedWidthRaw * 10) / 10;
+        const actualWidth = Math.round(actualWidthRaw * 10) / 10;
+
+        expect(expectedWidth).to.equal(actualWidth);
         done();
       },
     });
