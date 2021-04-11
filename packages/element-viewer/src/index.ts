@@ -11,9 +11,9 @@ import {
   once,
 } from '@cropper/utils';
 import CropperElement from '@cropper/element';
-import CropperCanvas from '@cropper/element-canvas';
-import CropperImage from '@cropper/element-image';
-import CropperSelection from '@cropper/element-selection';
+import type CropperCanvas from '@cropper/element-canvas';
+import type CropperImage from '@cropper/element-image';
+import type CropperSelection from '@cropper/element-selection';
 import style from './style';
 
 const imageCache = new WeakMap();
