@@ -14,19 +14,11 @@ class MyCropperElement extends CropperElement {
   myNumberProperty = NaN;
   myBooleanProperty = false;
 
-  static get observedAttributes(): string[] {
+  static get observedAttributes() {
     return super.observedAttributes.concat([
       'my-boolean-property',
       'my-number-property',
       'my-string-property',
-    ]);
-  }
-
-  static get $observedProperties(): string[] {
-    return super.$observedProperties.concat([
-      'myBooleanProperty',
-      'myNumberProperty',
-      'myStringProperty',
     ]);
   }
 

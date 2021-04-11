@@ -51,7 +51,7 @@ The default width and height of this element is `0`.
   <cropper-image src="/picture.jpg" alt="Picture"></cropper-image>
   <cropper-shade hidden></cropper-shade>
   <cropper-handle action="select" plain></cropper-handle>
-  <cropper-selection hidden>
+  <cropper-selection movable resizable zoomable>
     <cropper-handle action="move" plain></cropper-handle>
   </cropper-selection>
 </cropper-canvas>
@@ -66,30 +66,6 @@ The `<cropper-shade>` element will synchronize the position and size of the visi
 :::tip
 The [`hidden`](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden) attribute is a native global attribute.
 :::
-
-## Constructor
-
-### `CropperShade`
-
-- **Syntax**:
-  - `new CropperShade()`
-  - `document.createElement("cropper-shade")`
-- **Returns**:
-  - Type: `CropperShade`
-  - The element instance.
-- Example:
-
-  ```js
-  const cropperShade = new CropperShade();
-
-  cropperShade.x = 10;
-  cropperShade.y = 5;
-  cropperShade.width = 160;
-  cropperShade.height = 90;
-  document.body.appendChild(cropperShade);
-  ```
-
-The `CropperShade()` constructor creates and returns a new `CropperShade` object representing a `<cropper-shade>` element which is not attached to any DOM tree.
 
 ## Properties
 

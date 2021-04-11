@@ -25,7 +25,7 @@ import Cropper from 'cropperjs';
 
 const image = new Image();
 
-image.src = '/path/to/image.jpg';
+image.src = '/path/to/picture.jpg';
 
 const cropper = new Cropper(image);
 ```

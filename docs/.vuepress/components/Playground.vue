@@ -982,6 +982,7 @@ export default {
   }
 
   .preview {
+    border: 1px solid #ddd;
     float: left;
     margin-bottom: 1rem;
     margin-right: 1rem;

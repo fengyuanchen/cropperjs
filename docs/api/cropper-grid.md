@@ -34,7 +34,7 @@ The default height of this element is `0`.
 
 ```html
 <cropper-canvas>
-  <cropper-grid bordered></cropper-grid>
+  <cropper-grid bordered covered></cropper-grid>
 </cropper-canvas>
 ```
 
@@ -46,7 +46,7 @@ The default height of this element is `0`.
 
 ```html
 <cropper-selection width="160" height="90">
-  <cropper-grid bordered></cropper-grid>
+  <cropper-grid bordered covered></cropper-grid>
 </cropper-selection>
 ```
 

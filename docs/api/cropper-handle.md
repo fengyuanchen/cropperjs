@@ -39,7 +39,7 @@ The default width and height of this element is `0`.
 
 <cropper-canvas background>
   <cropper-image src="/picture.jpg" alt="Picture"></cropper-image>
-  <cropper-selection width="100" height="100">
+  <cropper-selection width="100" height="100" movable>
     <cropper-handle action="move"></cropper-handle>
   </cropper-selection>
 </cropper-canvas>
@@ -54,6 +54,7 @@ Inherits properties from its parent, [`CropperElement`](cropper-element.html), a
 | Name | Type | Default | Options | Description |
 | --- | --- | --- | --- | --- |
 | action | `string` | `"none"` | `"select"`, `"move"`, `"scale"`, `"n-resize"`, `"e-resize"`, `"s-resize"`, `"w-resize"`, `"ne-resize"`, `"nw-resize"`, `"se-resize"`, `"sw-resize"`, `"none"` | Indicate the action type of the handle. |
+| plain | `boolean` | `false` | - | Indicate whether this element is plain (without background). |
 | slottable | `boolean` | `false` | - | Indicate whether this element is slottable. |
 | themeColor | `string` | `"rgba(51, 153, 255, 0.5)"` | - | Indicate the color of the handle. |
 
