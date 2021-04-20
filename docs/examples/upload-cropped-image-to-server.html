@@ -103,12 +103,12 @@
         }
       });
 
-      $modal.on('shown.bs.modal', function () {
+      $modal.off('shown.bs.modal').on('shown.bs.modal', function () {
         cropper = new Cropper(image, {
           aspectRatio: 1,
           viewMode: 3,
         });
-      }).on('hidden.bs.modal', function () {
+      }).off('hidden.bs.modal').on('hidden.bs.modal', function () {
         cropper.destroy();
         cropper = null;
       });
