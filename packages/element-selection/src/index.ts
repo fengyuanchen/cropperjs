@@ -34,6 +34,13 @@ import style from './style';
 
 const canvasCache = new WeakMap();
 
+export interface Selection {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
 export default class CropperSelection extends CropperElement {
   static $version = '__VERSION__';
 

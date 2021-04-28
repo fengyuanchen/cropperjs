@@ -14,6 +14,7 @@ import CropperElement from '@cropper/element';
 import type CropperCanvas from '@cropper/element-canvas';
 import type CropperImage from '@cropper/element-image';
 import type CropperSelection from '@cropper/element-selection';
+import { Selection } from '@cropper/element-selection';
 import style from './style';
 
 const imageCache = new WeakMap();
@@ -148,12 +149,7 @@ export default class CropperViewer extends CropperElement {
     this.$transformImageByOffset((event as CustomEvent).detail.matrix, -x, -y);
   }
 
-  protected $render(selection?: {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-  }): void {
+  protected $render(selection?: Selection): void {
     const {
       x,
       y,
