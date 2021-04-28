@@ -3,6 +3,7 @@ import changeCase from 'change-case';
 import createBanner from 'create-banner';
 import commonjs from '@rollup/plugin-commonjs';
 import nodeResolve from '@rollup/plugin-node-resolve';
+import postcss from 'rollup-plugin-inline-postcss';
 import replace from '@rollup/plugin-replace';
 import typescript from '@rollup/plugin-typescript';
 import { terser } from 'rollup-plugin-terser';
@@ -55,6 +56,9 @@ export default bundles.reduce((configs, bundle) => {
         nodeResolve(),
         commonjs(),
         typescript(config.compilerOptions),
+        postcss({
+          styleRegex: /(?<=style\s=\s)`([^`]+)`/g,
+        }),
         replace({
           __VERSION__: pkg.version,
         }),

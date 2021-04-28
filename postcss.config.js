@@ -4,5 +4,8 @@ module.exports = {
     stylelint: {
       fix: true,
     },
+    // cssnano: {
+    //   preset: 'default',
+    // },
   },
 };
