@@ -4,7 +4,7 @@ The `CropperCanvas` interface provides properties and methods for manipulating t
 
 ## Examples
 
-### Baisc
+### Basic
 
 :::live-demo
 
