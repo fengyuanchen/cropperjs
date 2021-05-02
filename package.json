@@ -7,16 +7,14 @@
   ],
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "build": "npm run bootstrap && npm run build:docs",
-    "build:docs": "vuepress build docs",
+    "build": "npm run bootstrap && vuepress build docs",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
     "lint": "npm run lint:js && npm run lint:css",
-    "lint:css": "stylelint **/*.{css,styl,html,md} --fix",
-    "lint:js": "eslint . --ext .js,.ts --fix",
+    "lint:css": "stylelint **/*.{css,scss,html,md} --fix",
+    "lint:js": "eslint . docs/.vuepress --fix",
     "prepare": "husky install",
     "release": "lerna run release && npm run lint && npm test && npm run build && npm run changelog",
-    "serve": "vuepress dev docs",
-    "start": "npm run bootstrap && npm run serve",
+    "start": "npm run bootstrap && vuepress dev docs",
     "test": "jest"
   },
   "devDependencies": {
@@ -30,7 +28,8 @@
     "@types/jest": "^26.0.23",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
-    "@vuepress/plugin-back-to-top": "^1.8.2",
+    "@vuepress/plugin-register-components": "^2.0.0-beta.12",
+    "@vuepress/plugin-search": "^2.0.0-beta.12",
     "change-case": "^4.1.2",
     "conventional-changelog-cli": "^2.1.1",
     "create-banner": "^2.0.0",
@@ -39,6 +38,7 @@
     "eslint": "^7.25.0",
     "eslint-config-airbnb-typescript": "^12.3.1",
     "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-vue": "^7.9.0",
     "husky": "^6.0.0",
     "jest": "^26.6.3",
     "lerna": "^4.0.0",
@@ -55,7 +55,7 @@
     "ts-loader": "^9.1.1",
     "tslib": "^2.2.0",
     "typescript": "^4.2.4",
-    "vuepress": "^1.8.2"
+    "vuepress": "^2.0.0-beta.12"
   },
   "browserslist": [
     "last 2 versions",
@@ -69,7 +69,7 @@
     ]
   },
   "lint-staged": {
-    "*.{js,ts}": "eslint --fix",
-    "*.{css,styl,html,md}": "stylelint --fix"
+    "*.{js,ts,vue}": "eslint --fix",
+    "*.{css,scss,html,md}": "stylelint --fix"
   }
 }

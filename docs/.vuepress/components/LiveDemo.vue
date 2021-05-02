@@ -1,32 +1,41 @@
 <template>
   <div class="live-demo">
     <div class="live-demo__view">
-      <div ref="demo" class="live-demo__view-content"></div>
+      <div
+        ref="demo"
+        class="live-demo__view-content"
+      />
     </div>
-    <div ref="code" class="live-demo__code">
+    <div
+      ref="code"
+      class="live-demo__code"
+    >
       <slot />
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   name: 'LiveDemo',
-  mounted() {
+  mounted(): void {
     this.render();
   },
-  updated() {
+  updated(): void {
     this.render();
   },
   methods: {
-    render() {
-      this.$refs.demo.innerHTML = this.$refs.code.textContent;
+    render(): void {
+      const demo = this.$refs.demo as HTMLElement;
+      const code = this.$refs.code as HTMLElement;
+
+      demo.innerHTML = code.textContent || '';
     },
   },
 };
 </script>
 
-<style lang="stylus" scoped>
+<style lang="scss" scoped>
 .live-demo {
   margin-bottom: 1rem;
   margin-top: 1rem;

@@ -1,31 +1,50 @@
 <template>
   <div class="avatar-editor">
-    <cropper-canvas ref="source" background>
-      <cropper-image src="/picture.jpg" alt="Picture"></cropper-image>
-      <cropper-handle action="move" plain></cropper-handle>
+    <cropper-canvas
+      ref="source"
+      background
+    >
+      <cropper-image
+        src="/picture.jpg"
+        alt="Picture"
+      />
+      <cropper-handle
+        action="move"
+        plain
+      />
     </cropper-canvas>
     <p>
-      <button type="button" @click="crop">Crop</button>
+      <button
+        type="button"
+        @click="crop"
+      >
+        Crop
+      </button>
     </p>
-    <div ref="target"></div>
+    <div ref="target" />
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import type CropperCanvas from '@cropper/element-canvas';
+
 export default {
   name: 'CropperCanvasToNativeCanvas',
   methods: {
-    crop() {
-      this.$refs.target.innerHTML = '';
-      this.$refs.source.$toCanvas().then((canvas) => {
-        this.$refs.target.appendChild(canvas);
+    crop(): void {
+      const source = this.$refs.source as CropperCanvas;
+      const target = this.$refs.target as HTMLElement;
+
+      target.innerHTML = '';
+      source.$toCanvas().then((canvas: HTMLCanvasElement) => {
+        target.appendChild(canvas);
       });
     },
   },
 };
 </script>
 
-<style lang="stylus" scoped>
+<style lang="scss" scoped>
 .avatar-editor {
   > cropper-canvas {
     border: 1px solid #eee;

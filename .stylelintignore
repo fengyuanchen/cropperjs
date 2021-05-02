@@ -1,4 +1,6 @@
 *.local*
+.cache
+.temp
 coverage
 dist
 node_modules

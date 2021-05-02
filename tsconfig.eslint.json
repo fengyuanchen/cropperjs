@@ -3,7 +3,7 @@
   "include": [
     "*.js",
     ".*.js",
-    "docs/.vuepress/**/*.js",
+    "docs/.vuepress/**/*",
     "packages/*/src",
     "packages/*/tests",
     "types/*"

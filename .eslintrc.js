@@ -6,24 +6,29 @@ module.exports = {
   extends: [
     'airbnb-typescript/base',
     'plugin:@typescript-eslint/recommended',
+    'plugin:vue/vue3-recommended',
   ],
-  parser: '@typescript-eslint/parser',
+  parser: 'vue-eslint-parser',
   parserOptions: {
-    sourceType: 'module',
+    parser: '@typescript-eslint/parser',
     project: 'tsconfig.eslint.json',
+    sourceType: 'module',
+    extraFileExtensions: ['.vue'],
   },
   plugins: [
     '@typescript-eslint',
+    'vue',
   ],
   rules: {
     '@typescript-eslint/no-explicit-any': 'off',
     'import/no-extraneous-dependencies': 'off',
     'max-len': ['error', 100, 2, {
-      ignoreUrls: true,
+      ignorePattern: '\\S+="[^"]*"',
       ignoreComments: true,
-      ignoreRegExpLiterals: true,
+      ignoreUrls: true,
       ignoreStrings: true,
       ignoreTemplateLiterals: true,
+      ignoreRegExpLiterals: true,
     }],
     'no-param-reassign': 'off',
   },
@@ -38,9 +43,10 @@ module.exports = {
       },
     },
     {
-      files: 'docs/.vuepress/**/*.js',
+      files: 'docs/.vuepress/**/*.vue',
       rules: {
-        'global-require': 'off',
+        'import/no-unresolved': 'off',
+        'no-new': 'off',
       },
     },
   ],

@@ -202,7 +202,9 @@ describe('Utilities', () => {
 
         switch (count) {
           case 1:
-            setTimeout(done, 500);
+            setTimeout(() => {
+              done();
+            }, 500);
             break;
 
           case 2:
@@ -276,7 +278,9 @@ describe('Utilities', () => {
       on(element, 'click', listener);
       off(element, 'click', listener);
       emit(element, 'click');
-      setTimeout(done, 500);
+      setTimeout(() => {
+        done();
+      }, 500);
     });
 
     it('should support multiple event types', (done) => {
@@ -289,7 +293,9 @@ describe('Utilities', () => {
       off(element, 'focus blur', listener);
       emit(element, 'focus');
       emit(element, 'blur');
-      setTimeout(done, 500);
+      setTimeout(() => {
+        done();
+      }, 500);
     });
   });
 

@@ -33,7 +33,7 @@ const cropper = new Cropper(image);
 ## Options
 
 | Name | Type | Default | Description |
-| --- | --- | --- | --- | --- |
+| --- | --- | --- | --- |
 | container | `Element | string` | Defaults to the parent element of the target element, or `document.body` if the parent element is null. | The Cropper container. If it is a sting, will be passed into the `document.querySelector` to find the element. |
 | template | `string` | Defaults to a built-in template, see below. | The Cropper template. |
 

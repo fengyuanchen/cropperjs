@@ -2,34 +2,59 @@
   <div class="to-canvas-demo">
     <div>
       <cropper-canvas background>
-        <cropper-image src="/picture.jpg" alt="Picture"></cropper-image>
-        <cropper-shade hidden></cropper-shade>
-        <cropper-handle action="move" plain></cropper-handle>
-        <cropper-selection ref="source" auto-select auto-select-area="0.5" movable zoomable>
-          <cropper-handle action="move" plain></cropper-handle>
+        <cropper-image
+          src="/picture.jpg"
+          alt="Picture"
+        />
+        <cropper-shade hidden />
+        <cropper-handle
+          action="move"
+          plain
+        />
+        <cropper-selection
+          ref="source"
+          auto-select
+          auto-select-area="0.5"
+          movable
+          zoomable
+        >
+          <cropper-handle
+            action="move"
+            plain
+          />
         </cropper-selection>
       </cropper-canvas>
     </div>
-    <button type="button" @click="convertToCanvas">Convert to canvas &raquo;</button>
-    <div ref="target"></div>
+    <button
+      type="button"
+      @click="convertToCanvas"
+    >
+      Convert to canvas &raquo;
+    </button>
+    <div ref="target" />
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import type CropperCanvas from '@cropper/element-canvas';
+
 export default {
   name: 'CropperSelectionToNativeCanvas',
   methods: {
-    convertToCanvas() {
-      this.$refs.target.innerHTML = '';
-      this.$refs.source.$toCanvas().then((canvas) => {
-        this.$refs.target.appendChild(canvas);
+    convertToCanvas(): void {
+      const source = this.$refs.source as CropperCanvas;
+      const target = this.$refs.target as HTMLElement;
+
+      target.innerHTML = '';
+      source.$toCanvas().then((canvas: HTMLCanvasElement) => {
+        target.appendChild(canvas);
       });
     },
   },
 };
 </script>
 
-<style lang="stylus" scoped>
+<style lang="scss" scoped>
 .to-canvas-demo {
   display: flex;
 
