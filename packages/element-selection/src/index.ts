@@ -167,8 +167,7 @@ export default class CropperSelection extends CropperElement {
       this.$canvas = $canvas;
       this.$setStyles({
         position: 'absolute',
-        left: this.x,
-        top: this.y,
+        transform: `translate(${this.x}px, ${this.y}px)`,
       });
 
       if (!this.hidden) {
@@ -790,8 +789,7 @@ export default class CropperSelection extends CropperElement {
    */
   $render(): this {
     return this.$setStyles({
-      left: this.x,
-      top: this.y,
+      transform: `translate(${this.x}px, ${this.y}px)`,
       width: this.width,
       height: this.height,
     });

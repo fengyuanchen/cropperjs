@@ -187,6 +187,7 @@ export default class CropperCanvas extends CropperElement {
     // Prevent page zooming in the browsers for iOS.
     event.preventDefault();
     this.$action = action;
+    this.style.willChange = 'transform';
   }
 
   protected $handlePointerMove(event: Event): void {
@@ -393,6 +394,7 @@ export default class CropperCanvas extends CropperElement {
     }
 
     if ($pointers.size === 0) {
+      this.style.willChange = '';
       this.$action = '';
     }
   }

@@ -88,9 +88,7 @@ export default class CropperImage extends CropperElement {
 
     if (canvas) {
       this.$setStyles({
-        left: 0,
         position: 'absolute',
-        top: 0,
       });
 
       const onLoad = () => {
