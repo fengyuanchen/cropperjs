@@ -11,16 +11,6 @@ export const CROPPER_IMAGE = `${NAMESPACE}-image`;
 export const CROPPER_SELECTION = `${NAMESPACE}-selection`;
 export const CROPPER_SHADE = `${NAMESPACE}-shade`;
 export const CROPPER_VIEWER = `${NAMESPACE}-viewer`;
-export const CROPPER_ELEMENTS = [
-  CROPPER_CANVAS,
-  CROPPER_CROSSHAIR,
-  CROPPER_GIRD,
-  CROPPER_HANDLE,
-  CROPPER_IMAGE,
-  CROPPER_SELECTION,
-  CROPPER_SHADE,
-  CROPPER_VIEWER,
-];
 
 // Actions
 export const ACTION_SELECT = 'select';

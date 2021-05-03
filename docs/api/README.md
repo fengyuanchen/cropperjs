@@ -20,21 +20,34 @@ new Cropper(element[, options])
 
 ### Example
 
+<ClientOnly>
+  <Cropper />
+</ClientOnly>
+
+```html
+<div class="cropper-container"></div>
+```
+
 ```js
 import Cropper from 'cropperjs';
 
 const image = new Image();
 
-image.src = '/path/to/picture.jpg';
+image.src = '/picture.jpg';
+image.alt = 'Picture';
 
-const cropper = new Cropper(image);
+const cropper = new Cropper(image, {
+  container: '.cropper-container',
+});
+
+console.log(cropper);
 ```
 
 ## Options
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| container | `Element | string` | Defaults to the parent element of the target element, or `document.body` if the parent element is null. | The Cropper container. If it is a sting, will be passed into the `document.querySelector` to find the element. |
+| container | `Element \| string` | Defaults to the parent element of the target element, or `document.body` if the parent element is null. | The Cropper container. If it is a sting, will be passed into the `document.querySelector` to find the element. |
 | template | `string` | Defaults to a built-in template, see below. | The Cropper template. |
 
 The default template for the Cropper:
@@ -45,7 +58,7 @@ The default template for the Cropper:
   <cropper-shade hidden></cropper-shade>
   <cropper-handle action="select" plain></cropper-handle>
   <cropper-selection auto-select auto-select-area="0.5" movable resizable zoomable>
-    <cropper-grid role="grid"></cropper-grid>
+    <cropper-grid role="grid" covered></cropper-grid>
     <cropper-crosshair theme-color="rgba(238, 238, 238, 0.5)" centered></cropper-crosshair>
     <cropper-handle action="move" theme-color="rgba(255, 255, 255, 0.35)"></cropper-handle>
     <cropper-handle action="n-resize"></cropper-handle>
@@ -59,3 +72,11 @@ The default template for the Cropper:
   </cropper-selection>
 </cropper-canvas>
 ```
+
+## Instance Properties
+
+| Name | Type | Description |
+| --- | --- | --- |
+| element | `HTMLImageElement \| HTMLCanvasElement` | The normalized Cropper element. |
+| options | `Object` | The normalized Cropper options. |
+| container | `Element` | The normalized Cropper container. |

@@ -20,7 +20,8 @@ export interface CropperOptions {
   template?: string;
 }
 
-const ALLOWED_ELEMENTS = /^img|canvas$/;
+const REGEXP_ALLOWED_ELEMENTS = /^img|canvas$/;
+const REGEXP_BLOCKED_TAGS = /<(\/?(?:script|style)[^>]*)>/gi;
 const DEFAULT_OPTIONS: CropperOptions = {
   template: DEFAULT_TEMPLATE,
 };
@@ -39,9 +40,11 @@ export * from '@cropper/elements';
 export default class Cropper {
   static version = '__VERSION__';
 
-  element?: HTMLImageElement | HTMLCanvasElement | string;
+  element: HTMLImageElement | HTMLCanvasElement;
 
   options: CropperOptions = DEFAULT_OPTIONS;
+
+  container: Element;
 
   constructor(
     element: HTMLImageElement | HTMLCanvasElement | string,
@@ -51,38 +54,53 @@ export default class Cropper {
       element = document.querySelector(element) as HTMLImageElement;
     }
 
-    if (!isElement(element) || !ALLOWED_ELEMENTS.test(element.localName)) {
+    if (!isElement(element) || !REGEXP_ALLOWED_ELEMENTS.test(element.localName)) {
       throw new Error('The first argument is required and must be an <img> or <canvas> element.');
     }
 
+    this.element = element;
     options = { ...DEFAULT_OPTIONS, ...options };
     this.options = options;
-    this.element = element;
+
+    const { ownerDocument } = element;
+    let { container } = options;
+
+    if (container) {
+      if (isString(container)) {
+        container = ownerDocument.querySelector(container) as Element;
+      }
+
+      if (!isElement(container)) {
+        throw new Error('The `container` option must be an element or a valid selector.');
+      }
+    }
+
+    if (!isElement(container)) {
+      if (element.parentElement) {
+        container = element.parentElement;
+      } else {
+        container = ownerDocument.body;
+      }
+    }
+
+    this.container = container;
 
     const tagName = element.localName;
     let src = '';
 
     if (tagName === 'img') {
-      src = element.getAttribute('src') || '';
-
-      if (!src) {
-        return;
-      }
-
       ({ src } = element as HTMLImageElement);
     } else if (tagName === 'canvas' && window.HTMLCanvasElement) {
       src = (element as HTMLCanvasElement).toDataURL();
     }
 
     const { template } = options;
-    let { container } = options;
 
     if (template && isString(template)) {
       const templateElement = document.createElement('template');
       const documentFragment = document.createDocumentFragment();
-      const { ownerDocument } = element;
 
-      templateElement.innerHTML = template;
+      templateElement.innerHTML = template.replace(REGEXP_BLOCKED_TAGS, '&lt;$1&gt;');
       documentFragment.appendChild(templateElement.content);
 
       Array.from(documentFragment.querySelectorAll(CROPPER_IMAGE)).forEach((image) => {
@@ -90,23 +108,11 @@ export default class Cropper {
         image.setAttribute('alt', (element as HTMLImageElement).alt || 'The image to crop');
       });
 
-      if (container) {
-        if (isString(container)) {
-          container = ownerDocument.querySelector(container) as Element;
-        }
-
-        if (!isElement(container)) {
-          throw new Error('The `container` option must be an element or a valid selector.');
-        }
-      }
-
-      if (isElement(container)) {
-        container.appendChild(documentFragment);
-      } else if (element.parentElement) {
+      if (element.parentElement) {
         element.style.display = 'none';
-        element.parentElement.insertBefore(documentFragment, element.nextSibling);
+        container.insertBefore(documentFragment, element.nextSibling);
       } else {
-        ownerDocument.body.appendChild(documentFragment);
+        container.appendChild(documentFragment);
       }
     }
   }

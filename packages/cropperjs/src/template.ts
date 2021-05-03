@@ -4,7 +4,7 @@ export default (
     + '<cropper-shade hidden></cropper-shade>'
     + '<cropper-handle action="select" plain></cropper-handle>'
     + '<cropper-selection auto-select auto-select-area="0.5" movable resizable zoomable>'
-      + '<cropper-grid role="grid"></cropper-grid>'
+      + '<cropper-grid role="grid" covered></cropper-grid>'
       + '<cropper-crosshair theme-color="rgba(238, 238, 238, 0.5)" centered></cropper-crosshair>'
       + '<cropper-handle action="move" theme-color="rgba(255, 255, 255, 0.35)"></cropper-handle>'
       + '<cropper-handle action="n-resize"></cropper-handle>'
