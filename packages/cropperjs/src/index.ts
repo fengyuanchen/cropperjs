@@ -1,5 +1,7 @@
 import {
+  CROPPER_CANVAS,
   CROPPER_IMAGE,
+  CROPPER_SELECTION,
   isElement,
   isString,
 } from '@cropper/utils';
@@ -115,5 +117,21 @@ export default class Cropper {
         container.appendChild(documentFragment);
       }
     }
+  }
+
+  getCropperCanvas(): CropperCanvas | null {
+    return this.container.querySelector(CROPPER_CANVAS);
+  }
+
+  getCropperImage(): CropperImage | null {
+    return this.container.querySelector(CROPPER_IMAGE);
+  }
+
+  getCropperSelection(): CropperSelection | null {
+    return this.container.querySelector(CROPPER_SELECTION);
+  }
+
+  getCropperSelections(): NodeListOf<CropperSelection> | null {
+    return this.container.querySelectorAll(CROPPER_SELECTION);
   }
 }

@@ -1,6 +1,11 @@
 import {
   CROPPER_CANVAS,
 } from '@cropper/utils';
+import {
+  CropperCanvas,
+  CropperImage,
+  CropperSelection,
+} from '@cropper/elements';
 import Cropper from '../src';
 
 describe('Cropper', () => {
@@ -80,6 +85,46 @@ describe('Cropper', () => {
 
         expect(cropper.options.template).toBe(template);
         expect(document.querySelector('#cropperCanvas')).toBeTruthy();
+      });
+    });
+  });
+
+  describe('methods', () => {
+    describe('getCropperCanvas', () => {
+      it('should return the cropper canvas element', () => {
+        const image = new Image();
+        const cropper = new Cropper(image);
+
+        expect(cropper.getCropperCanvas()).toBeInstanceOf(CropperCanvas);
+      });
+    });
+
+    describe('getCropperImage', () => {
+      it('should return the cropper image element', () => {
+        const image = new Image();
+        const cropper = new Cropper(image);
+
+        expect(cropper.getCropperImage()).toBeInstanceOf(CropperImage);
+      });
+    });
+
+    describe('getCropperSelection', () => {
+      it('should return the cropper selection element', () => {
+        const image = new Image();
+        const cropper = new Cropper(image);
+
+        expect(cropper.getCropperSelection()).toBeInstanceOf(CropperSelection);
+      });
+    });
+
+    describe('getCropperSelections', () => {
+      it('should return all the cropper selection elements', () => {
+        const image = new Image();
+        const cropper = new Cropper(image);
+        const selections = cropper.getCropperSelections();
+
+        expect(selections).toHaveLength(1);
+        expect(selections[0]).toBeInstanceOf(CropperSelection);
       });
     });
   });

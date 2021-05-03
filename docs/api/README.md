@@ -12,7 +12,7 @@ new Cropper(element[, options])
 
 - **element**
   - Type: `HTMLImageElement | HTMLCanvasElement | string`
-  - The target image or canvas element for cropping. If it is a sting, will be passed into the `document.querySelector` to find the element.
+  - The target image or canvas element for cropping. If it is a sting, will be passed into the [`document.querySelector`](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector) to find the element.
 
 - **options** (optional)
   - Type: `Object`
@@ -80,3 +80,45 @@ The default template for the Cropper:
 | element | `HTMLImageElement \| HTMLCanvasElement` | The normalized Cropper element. |
 | options | `Object` | The normalized Cropper options. |
 | container | `Element` | The normalized Cropper container. |
+
+## Instance Methods
+
+### getCropperCanvas
+
+- **Syntax**: `getCropperCanvas()`
+- **Alternative**: `cropper.container.querySelector('cropper-canvas')`
+- **Returns**:
+  - Type: `CropperCanvas | null`
+  - The `<cropper-canvas>` element if any.
+
+Get the `<cropper-canvas>` element in the Cropper container.
+
+### getCropperImage
+
+- **Syntax**: `getCropperImage()`
+- **Alternative**: `cropper.container.querySelector('cropper-image')`
+- **Returns**:
+  - Type: `CropperImage | null`
+  - The `<cropper-image>` element if any.
+
+Get the `<cropper-image>` element in the Cropper container.
+
+### getCropperSelection
+
+- **Syntax**: `getCropperSelection()`
+- **Alternative**: `cropper.container.querySelector('cropper-selection')`
+- **Returns**:
+  - Type: `CropperSelection | null`
+  - The `<cropper-selection>` element if any.
+
+Get the `<cropper-selection>` element in the Cropper container.
+
+### getCropperSelections
+
+- **Syntax**: `getCropperSelections()`
+- **Alternative**: `cropper.container.querySelectorAll('cropper-selection')`
+- **Returns**:
+  - Type: `NodeListOf<CropperSelection> | null`
+  - The `<cropper-selection>` element if any.
+
+Get all the `<cropper-selection>` elements in the Cropper container when there are multiple selections.
