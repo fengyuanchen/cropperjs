@@ -1,7 +1,9 @@
 export default `
 :host {
   display: block;
+  left: 0;
   position: relative;
+  right: 0;
 }
 
 :host([outlined]) {

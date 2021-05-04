@@ -70,15 +70,15 @@ export default class CropperSelection extends CropperElement {
 
   autoSelectArea = 1;
 
-  movable = false;
+  movable = true;
 
-  resizable = false;
+  resizable = true;
 
-  zoomable = false;
+  zoomable = true;
 
   multiple = false;
 
-  keyboard = false;
+  keyboard = true;
 
   outlined = false;
 
@@ -284,6 +284,7 @@ export default class CropperSelection extends CropperElement {
         }
       } else {
         this.$reset();
+        this.hidden = true;
       }
     }
   }
@@ -312,29 +313,35 @@ export default class CropperSelection extends CropperElement {
   }
 
   protected $handleAction(event: Event): void {
-    if (this.hidden || (this.multiple && !this.active)) {
+    if (this.multiple && !this.active) {
       return;
     }
 
-    const { $canvas } = this;
     const { currentTarget, detail } = event as CustomEvent;
-    const moveX = detail.endX - detail.startX;
-    const moveY = detail.endY - detail.startY;
-    const { width, height } = this;
-    let { aspectRatio } = this;
-    let { action } = detail;
-
-    // Locking aspect ratio by holding shift key
-    if (!isPositiveNumber(aspectRatio) && (event as PointerEvent).shiftKey) {
-      aspectRatio = isPositiveNumber(width) && isPositiveNumber(height) ? width / height : 1;
-    }
 
     if (currentTarget && detail) {
+      let { action } = detail;
+
+      if (this.hidden && action !== ACTION_SELECT) {
+        return;
+      }
+
+      const moveX = detail.endX - detail.startX;
+      const moveY = detail.endY - detail.startY;
+      const { width, height } = this;
+      let { aspectRatio } = this;
+
+      // Locking aspect ratio by holding shift key
+      if (!isPositiveNumber(aspectRatio) && (event as PointerEvent).shiftKey) {
+        aspectRatio = isPositiveNumber(width) && isPositiveNumber(height) ? width / height : 1;
+      }
+
       switch (action) {
         case ACTION_SELECT: {
+          const { $canvas } = this;
           const offset = getOffset(currentTarget as Element);
 
-          (this.multiple ? this.$createSelection() : this).$change(
+          (this.multiple && !this.hidden ? this.$createSelection() : this).$change(
             detail.startX - offset.left,
             detail.startY - offset.top,
             moveX,
@@ -377,7 +384,7 @@ export default class CropperSelection extends CropperElement {
   }
 
   protected $handleKeyDown(event: Event): void {
-    if (this.hidden || !this.active || event.defaultPrevented) {
+    if (this.hidden || event.defaultPrevented) {
       return;
     }
 
@@ -392,6 +399,40 @@ export default class CropperSelection extends CropperElement {
       case 'Delete':
         event.preventDefault();
         this.$removeSelection();
+        break;
+
+      // Move to the left
+      case 'ArrowLeft':
+        event.preventDefault();
+        this.$move(-1, 0);
+        break;
+
+        // Move to the top
+      case 'ArrowUp':
+        event.preventDefault();
+        this.$move(0, -1);
+        break;
+
+        // Move to the right
+      case 'ArrowRight':
+        event.preventDefault();
+        this.$move(1, 0);
+        break;
+
+        // Move to the bottom
+      case 'ArrowDown':
+        event.preventDefault();
+        this.$move(0, 1);
+        break;
+
+      case '+':
+        event.preventDefault();
+        this.$zoom(0.1);
+        break;
+
+      case '-':
+        event.preventDefault();
+        this.$zoom(-0.1);
         break;
 
       default:

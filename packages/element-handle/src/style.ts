@@ -2,6 +2,9 @@ export default `
 :host {
   background-color: var(--theme-color);
   display: block;
+}
+
+:host([action]) {
   position: absolute;
 }
 

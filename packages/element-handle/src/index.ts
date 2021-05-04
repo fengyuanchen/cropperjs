@@ -1,4 +1,3 @@
-import { ACTION_NONE } from '@cropper/utils';
 import CropperElement from '@cropper/element';
 import style from './style';
 
@@ -11,7 +10,7 @@ export default class CropperHandle extends CropperElement {
 
   protected $style: string = style;
 
-  action: string = ACTION_NONE;
+  action = '';
 
   plain = false;
 
@@ -28,6 +27,7 @@ export default class CropperHandle extends CropperElement {
 
   protected static get $observedProperties(): string[] {
     return super.$observedProperties.concat([
+      'action',
       'plain',
     ]);
   }

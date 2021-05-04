@@ -69,6 +69,10 @@ export default {
     align-items: center;
     display: flex;
     justify-content: center;
+
+    :deep(canvas) {
+      max-width: 100%;
+    }
   }
 
   > button {

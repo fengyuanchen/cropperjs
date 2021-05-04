@@ -1,9 +1,9 @@
 export default `
 :host([hidden]) {
-  display: none;
+  display: none !important;
 }
 
 :host([static]) {
-  position: static;
+  position: static !important;
 }
 `;

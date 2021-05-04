@@ -108,17 +108,17 @@ describe('CropperElement', () => {
 
       protected static get observedAttributes(): string[] {
         return super.observedAttributes.concat([
-          'string',
-          'number',
           'boolean',
+          'number',
+          'string',
         ]);
       }
 
       protected static get $observedProperties(): string[] {
         return super.$observedProperties.concat([
-          'string',
-          'number',
           'boolean',
+          'number',
+          'string',
         ]);
       }
     }

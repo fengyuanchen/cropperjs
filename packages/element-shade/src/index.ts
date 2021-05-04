@@ -37,38 +37,49 @@ export default class CropperShade extends CropperElement {
 
   protected static get observedAttributes(): string[] {
     return super.observedAttributes.concat([
+      'height',
+      'width',
       'x',
       'y',
-      'width',
-      'height',
     ]);
   }
 
   protected connectedCallback(): void {
     super.connectedCallback();
 
-    const canvas: HTMLElement | null = this.closest(CROPPER_CANVAS);
+    const canvas: any = this.closest(CROPPER_CANVAS);
 
     if (canvas) {
-      on(canvas, EVENT_ACTION_START, (this.$onCanvasActionStart = () => {
-        const selection: HTMLElement | null = canvas.querySelector(CROPPER_SELECTION);
+      const selection: any = canvas.querySelector(CROPPER_SELECTION);
 
-        if (!selection || selection.hidden) {
-          this.hidden = false;
-        }
-      }));
-      on(canvas, EVENT_ACTION_END, (this.$onCanvasActionEnd = () => {
-        const selection: HTMLElement | null = canvas.querySelector(CROPPER_SELECTION);
+      this.style.position = 'absolute';
 
-        if (!selection || selection.hidden) {
-          this.hidden = true;
-        }
-      }));
-      on(canvas, EVENT_CHANGE, (this.$onCanvasChange = (event) => {
-        const { detail } = event as CustomEvent;
+      if (selection) {
+        on(canvas, EVENT_ACTION_START, (this.$onCanvasActionStart = () => {
+          if (selection.hidden) {
+            this.hidden = false;
+          }
+        }));
+        on(canvas, EVENT_ACTION_END, (this.$onCanvasActionEnd = () => {
+          if (selection.hidden) {
+            this.hidden = true;
+          }
+        }));
+        on(canvas, EVENT_CHANGE, (this.$onCanvasChange = (event) => {
+          const {
+            x,
+            y,
+            width,
+            height,
+          } = (event as CustomEvent).detail;
 
-        this.$change(detail.x, detail.y, detail.width, detail.height);
-      }));
+          this.$change(x, y, width, height);
+
+          if (selection.hidden || (x === 0 && y === 0 && width === 0 && height === 0)) {
+            this.hidden = true;
+          }
+        }));
+      }
     }
 
     this.$render();
@@ -139,11 +150,10 @@ export default class CropperShade extends CropperElement {
    */
   $render(): this {
     return this.$setStyles({
-      outlineWidth: WINDOW.innerWidth,
-      left: this.x,
-      top: this.y,
+      transform: `translate(${this.x}px, ${this.y}px)`,
       width: this.width,
       height: this.height,
+      outlineWidth: WINDOW.innerWidth,
     });
   }
 }
