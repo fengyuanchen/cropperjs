@@ -34,11 +34,11 @@ Inherits properties from its parent, [`CropperElement`](cropper-element.html), a
 
 | Name | Type | Default | Options | Description |
 | --- | --- | --- | --- | --- |
-| rotatable | `boolean` | `true` | - | Indicate whether this element is rotatable. |
-| scalable | `boolean` | `true` | - | Indicate whether this element is scalable. |
-| skewable | `boolean` | `true` | - | Indicate whether this element is skewable. |
-| slottable | `boolean` | `false` | - | Indicate whether this element is slottable. |
-| translatable | `boolean` | `true` | - | Indicate whether this element is translatable. |
+| rotatable | `boolean` | `true` | - | Indicates whether this element is rotatable. |
+| scalable | `boolean` | `true` | - | Indicates whether this element is scalable. |
+| skewable | `boolean` | `true` | - | Indicates whether this element is skewable. |
+| slottable | `boolean` | `false` | - | Indicates whether this element is slottable. |
+| translatable | `boolean` | `true` | - | Indicates whether this element is translatable. |
 
 The built-in `<img>` element will inherit the following attributes by default:
 

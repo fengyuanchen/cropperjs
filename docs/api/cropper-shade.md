@@ -73,12 +73,12 @@ Inherits properties from its parent, [`CropperElement`](cropper-element.html), a
 
 | Name | Type | Default | Options | Description |
 | --- | --- | --- | --- | --- |
-| x | `number` | `0` | - | Indicate the x-axis coordinate of the element. |
-| y | `number` | `0` | - | Indicate the y-axis coordinate of the element. |
-| width | `number` | `0` | - | Indicate the width of the element. |
-| height | `number` | `0` | - | Indicate the height of the element. |
-| slottable | `boolean` | `false` | - | Indicate whether this element is slottable. |
-| themeColor | `string` | `"rgba(0, 0, 0, 0.65)"` | - | Indicate the color of the shade. |
+| x | `number` | `0` | - | Indicates the x-axis coordinate of the element. |
+| y | `number` | `0` | - | Indicates the y-axis coordinate of the element. |
+| width | `number` | `0` | - | Indicates the width of the element. |
+| height | `number` | `0` | - | Indicates the height of the element. |
+| slottable | `boolean` | `false` | - | Indicates whether this element is slottable. |
+| themeColor | `string` | `"rgba(0, 0, 0, 0.65)"` | - | Indicates the color of the shade. |
 
 ## Methods
 

@@ -62,10 +62,10 @@ Inherits properties from its parent, [`CropperElement`](cropper-element.html), a
 
 | Name | Type | Default | Options | Description |
 | --- | --- | --- | --- | --- |
-| background | `boolean` | `false` | - | Indicate whether this element has a grid background. |
-| disabled | `boolean` | `false` | - | Indicate whether this element is disabled. |
-| scale | `number` | `0.1` | - | Indicate the scaling factor for zooming in/out. |
-| themeColor | `string` | `"#39f"` | - | Indicate the primary color of this element and its children. |
+| background | `boolean` | `false` | - | Indicates whether this element has a grid background. |
+| disabled | `boolean` | `false` | - | Indicates whether this element is disabled. |
+| scale | `number` | `0.1` | - | Indicates the scaling factor for zooming in/out. |
+| themeColor | `string` | `"#39f"` | - | Indicates the primary color of this element and its children. |
 
 ## Methods
 

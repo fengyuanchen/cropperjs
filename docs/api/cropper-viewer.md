@@ -61,9 +61,9 @@ Inherits properties from its parent, [`CropperElement`](cropper-element.html), a
 
 | Name | Type | Default | Options | Description |
 | --- | --- | --- | --- | --- |
-| resize | `string` | `"vertical"` | `"both"`, `"horizontal"`, `"vertical"`, `"none"` | Indicate whether this element is resizable, and if so, in which directions. |
-| selection | `string` | `""` | - | Indicate the source selection to view. It must be a valid selector for `document.querySelector`. |
-| slottable | `boolean` | `false` | - | Indicate whether this element is slottable. |
+| resize | `string` | `"vertical"` | `"both"`, `"horizontal"`, `"vertical"`, `"none"` | Indicates whether this element is resizable, and if so, in which directions. |
+| selection | `string` | `""` | - | Indicates the source selection to view. It must be a valid selector for `document.querySelector`. |
+| slottable | `boolean` | `false` | - | Indicates whether this element is slottable. |
 
 ## Slots
 

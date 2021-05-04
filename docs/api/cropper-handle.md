@@ -52,10 +52,10 @@ Inherits properties from its parent, [`CropperElement`](cropper-element.html), a
 
 | Name | Type | Default | Options | Description |
 | --- | --- | --- | --- | --- |
-| action | `string` | `"none"` | `"select"`, `"move"`, `"scale"`, `"n-resize"`, `"e-resize"`, `"s-resize"`, `"w-resize"`, `"ne-resize"`, `"nw-resize"`, `"se-resize"`, `"sw-resize"`, `"none"` | Indicate the action type of the handle. |
-| plain | `boolean` | `false` | - | Indicate whether this element is plain (without background). |
-| slottable | `boolean` | `false` | - | Indicate whether this element is slottable. |
-| themeColor | `string` | `"rgba(51, 153, 255, 0.5)"` | - | Indicate the color of the handle. |
+| action | `string` | `"none"` | `"select"`, `"move"`, `"scale"`, `"n-resize"`, `"e-resize"`, `"s-resize"`, `"w-resize"`, `"ne-resize"`, `"nw-resize"`, `"se-resize"`, `"sw-resize"`, `"none"` | Indicates the action type of the handle. |
+| plain | `boolean` | `false` | - | Indicates whether this element is plain (without background). |
+| slottable | `boolean` | `false` | - | Indicates whether this element is slottable. |
+| themeColor | `string` | `"rgba(51, 153, 255, 0.5)"` | - | Indicates the color of the handle. |
 
 ## Slots
 

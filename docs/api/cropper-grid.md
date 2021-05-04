@@ -58,12 +58,12 @@ Inherits properties from its parent, [`CropperElement`](cropper-element.html), a
 
 | Name | Type | Default | Options | Description |
 | --- | --- | --- | --- | --- |
-| rows | `number` | `3` | - | Indicate the number of the rows. |
-| columns | `number` | `3` | - | Indicate the number of the columns. |
-| bordered | `boolean` | `false` | - | Indicate whether this element is bordered. |
-| covered | `boolean` | `false` | - | Indicate whether this element has covered its parent element. |
-| slottable | `boolean` | `false` | - | Indicate whether this element is slottable. |
-| themeColor | `string` | `"rgba(238, 238, 238, 0.5)"` | - | Indicate the color of the element. |
+| rows | `number` | `3` | - | Indicates the number of the rows. |
+| columns | `number` | `3` | - | Indicates the number of the columns. |
+| bordered | `boolean` | `false` | - | Indicates whether this element is bordered. |
+| covered | `boolean` | `false` | - | Indicates whether this element covers its parent element. |
+| slottable | `boolean` | `false` | - | Indicates whether this element is slottable. |
+| themeColor | `string` | `"rgba(238, 238, 238, 0.5)"` | - | Indicates the color of the element. |
 
 ## Slots
 

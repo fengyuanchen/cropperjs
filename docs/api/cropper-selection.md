@@ -18,18 +18,6 @@ The `CropperSelection` interface provides properties and methods for manipulatin
 The default width and height of this element is `0`.
 :::
 
-### Within CropperCanvas
-
-:::live-demo
-
-```html
-<cropper-canvas background>
-  <cropper-selection outlined></cropper-selection>
-</cropper-canvas>
-```
-
-:::
-
 ### Auto select
 
 :::live-demo
@@ -60,7 +48,7 @@ The default width and height of this element is `0`.
 
 ```html
 <cropper-canvas background>
-  <cropper-selection auto-select auto-select-area="0.8" outlined>
+  <cropper-selection auto-select auto-select-area="0.8" movable resizable outlined>
     <cropper-handle action="move" theme-color="rgba(255, 255, 255, 0.35)"></cropper-handle>
     <cropper-handle action="n-resize"></cropper-handle>
     <cropper-handle action="e-resize"></cropper-handle>
@@ -111,19 +99,19 @@ Inherits properties from its parent, [`CropperElement`](cropper-element.html), a
 
 | Name | Type | Default | Options | Description |
 | --- | --- | --- | --- | --- |
-| x | `number` | `0` | - | Indicate the x-axis coordinate of the selection. |
-| y | `number` | `0` | - | Indicate the y-axis coordinate of the selection. |
-| width | `number` | `0` | - | Indicate the width of the selection. |
-| height | `number` | `0` | - | Indicate the height of the selection. |
-| aspectRatio | `number` | `NaN` | - | Indicate the aspect ratio of the selection, must a positive number. |
-| initialAspectRatio | `number` | `NaN` | - | Indicate the initial aspect ratio of the selection, must a positive number. |
-| autoSelect | `boolean` | `false` | - | Indicate whether specify the position and size bases on the parent element automatically once connected to document. |
-| autoSelectArea | `number` | `1` | - | Indicate the area of the selection, must a positive number between `0` and `1`, default to `1` (100%). |
-| movable | `boolean` | `false` | - | Indicate whether this element is movable. |
-| resizable | `boolean` | `false` | - | Indicate whether this element is resizable. |
-| zoomable | `boolean` | `false` | - | Indicate whether this element is zoomable. |
-| outlined | `boolean` | `false` | - | Indicate whether show the outlined or not. |
-| precise | `boolean` | `false` | - | Indicate whether reserve the precise of the `x`, `y`, `width`, and `height` properties or not. |
+| x | `number` | `0` | - | Indicates the x-axis coordinate of the selection. |
+| y | `number` | `0` | - | Indicates the y-axis coordinate of the selection. |
+| width | `number` | `0` | - | Indicates the width of the selection. |
+| height | `number` | `0` | - | Indicates the height of the selection. |
+| aspectRatio | `number` | `NaN` | - | Indicates the aspect ratio of the selection, must a positive number. |
+| initialAspectRatio | `number` | `NaN` | - | Indicates the initial aspect ratio of the selection, must a positive number. |
+| autoSelect | `boolean` | `false` | - | Indicates whether specify the position and size bases on the parent element automatically once connected to document. |
+| autoSelectArea | `number` | `1` | - | Indicates the area of the selection, must a positive number between `0` and `1`, default to `1` (100%). |
+| movable | `boolean` | `false` | - | Indicates whether this element is movable. |
+| resizable | `boolean` | `false` | - | Indicates whether this element is resizable. |
+| zoomable | `boolean` | `false` | - | Indicates whether this element is zoomable. |
+| outlined | `boolean` | `false` | - | Indicates whether show the outlined or not. |
+| precise | `boolean` | `false` | - | Indicates whether reserve the precise of the `x`, `y`, `width`, and `height` properties or not. |
 
 ## Methods
 
@@ -188,7 +176,7 @@ Moves the selection to a specific position.
   - `action`:
     - Type: `string`
     - Options: `"n-resize"`, `"e-resize"`, `"s-resize"`, `"w-resize"`, `"ne-resize"`, `"nw-resize"`, `"se-resize"`, and `"sw-resize"`.
-    - Indicate the side or corner to resize.
+    - Indicates the side or corner to resize.
   - `offsetX`:
     - Type: `number`
     - Default: `0`
