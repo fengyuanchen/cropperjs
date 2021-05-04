@@ -411,34 +411,6 @@ export default class CropperImage extends CropperElement {
   }
 
   /**
-   * Resets (overrides) the current transform to the specific identity matrix by a certain offset.
-   * @param {Array} matrix The transformation matrix.
-   * @param {number} [x=0] The horizontal offset of the transformation origin.
-   * @param {number} [y=0] The vertical offset of the transformation origin.
-   * @returns {CropperImage} Returns `this` for chaining.
-   */
-  $setTransformByOffset(matrix: number[], x = 0, y = 0): this {
-    if (Array.isArray(matrix) && isNumber(x) && isNumber(y)) {
-      const [a, b, c, d] = matrix;
-      const e = ((x * d) - (c * y)) / ((a * d) - (c * b));
-      const f = (y - (b * e)) / d;
-      const [a1, b1, c1, d1, e1, f1] = matrix;
-      const [a2, b2, c2, d2, e2, f2] = [1, 0, 0, 1, e, f];
-
-      matrix = [
-        a1 * a2 + c1 * b2,
-        b1 * a2 + d1 * b2,
-        a1 * c2 + c1 * d2,
-        b1 * c2 + d1 * d2,
-        a1 * e2 + c1 * f2 + e1,
-        b1 * e2 + d1 * f2 + f1,
-      ];
-    }
-
-    return this.$setTransform(matrix);
-  }
-
-  /**
    * Retrieves the current transformation matrix being applied to the element.
    * {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/getTransform}
    * @returns {Array} Returns the readonly transformation matrix.

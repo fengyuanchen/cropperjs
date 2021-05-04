@@ -254,27 +254,6 @@ Transforms the image.
 
 Resets (overrides) the current transform to the specific identity matrix, and then invokes a transform described by the arguments of this method. This lets you scale, rotate, translate (move), and skew the context. It is similar to [CanvasRenderingContext2D.setTransform()](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/setTransform).
 
-### $setTransformByOffset
-
-- **Syntax**: `$setTransformByOffset(matrix, x = 0, y = 0)`
-- **Arguments**:
-  - `matrix`:
-    - Type: `Array`
-    - The transformation matrix.
-  - `x`:
-    - Type: `number`
-    - Default: `0`
-    - The horizontal offset of the transformation origin.
-  - `y`:
-    - Type: `number`
-    - Default: `0`
-    - The vertical offset of the transformation origin.
-- **Returns**:
-  - Type: `CropperImage`
-  - The element instance for chaining.
-
-Resets (overrides) the current transform to the specific identity matrix by a certain offset.
-
 ### $getTransform
 
 - **Syntax**: `$getTransform()`
