@@ -658,13 +658,11 @@ describe('CropperSelection', () => {
         element.y = 1;
         element.width = 1;
         element.height = 1;
-        expect(element.style.left).toBe('');
-        expect(element.style.top).toBe('');
+        expect(element.style.transform).toBe('');
         expect(element.style.width).toBe('');
         expect(element.style.height).toBe('');
         element.$render();
-        expect(element.style.left).toBe('1px');
-        expect(element.style.top).toBe('1px');
+        expect(element.style.transform).toBe('translate(1px, 1px)');
         expect(element.style.width).toBe('1px');
         expect(element.style.height).toBe('1px');
       });
