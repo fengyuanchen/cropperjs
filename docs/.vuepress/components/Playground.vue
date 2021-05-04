@@ -825,12 +825,12 @@
             >
           </li>
           <li>
-            <label for="selectionPrecision">precision</label>
+            <label for="selectionPrecision">precise</label>
             <input
               id="selectionPrecision"
-              v-model="canvas.selection.precision"
+              v-model="canvas.selection.precise"
               type="checkbox"
-              name="precision"
+              name="precise"
             >
           </li>
           <li>
@@ -1822,7 +1822,7 @@
           :resizable="canvas.selection.resizable"
           :zoomable="canvas.selection.zoomable"
           :outlined="canvas.selection.outlined"
-          :precision="canvas.selection.precision"
+          :precise="canvas.selection.precise"
           @change="onSelectionChange"
         >
           <!-- <cropper-viewer v-bind="canvas.selection.viewer"></cropper-viewer> -->
@@ -2005,7 +2005,7 @@ export default {
           resizable: true,
           zoomable: true,
           outlined: false,
-          precision: false,
+          precise: false,
           grid: {
             hidden: false,
             covered: true,

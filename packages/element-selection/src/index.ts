@@ -82,7 +82,7 @@ export default class CropperSelection extends CropperElement {
 
   outlined = false;
 
-  precision = false;
+  precise = false;
 
   protected set $canvas(element: Element) {
     if (isElement(element)) {
@@ -108,7 +108,7 @@ export default class CropperSelection extends CropperElement {
       'movable',
       'multiple',
       'outlined',
-      'precision',
+      'precise',
       'resizable',
       'width',
       'x',
@@ -739,7 +739,7 @@ export default class CropperSelection extends CropperElement {
       return this;
     }
 
-    if (!this.precision) {
+    if (!this.precise) {
       x = Math.round(x);
       y = Math.round(y);
       width = Math.round(width);

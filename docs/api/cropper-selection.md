@@ -123,7 +123,7 @@ Inherits properties from its parent, [`CropperElement`](cropper-element.html), a
 | resizable | `boolean` | `false` | - | Indicate whether this element is resizable. |
 | zoomable | `boolean` | `false` | - | Indicate whether this element is zoomable. |
 | outlined | `boolean` | `false` | - | Indicate whether show the outlined or not. |
-| precision | `boolean` | `false` | - | Indicate whether reserve the precision of the `x`, `y`, `width`, and `height` properties or not. |
+| precise | `boolean` | `false` | - | Indicate whether reserve the precise of the `x`, `y`, `width`, and `height` properties or not. |
 
 ## Methods
 

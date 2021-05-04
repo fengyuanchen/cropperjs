@@ -194,18 +194,18 @@ describe('CropperSelection', () => {
       });
     });
 
-    describe('precision', () => {
+    describe('precise', () => {
       it('should be `false` by default', () => {
         const element = new CropperSelection();
 
-        expect(element.precision).toBe(false);
+        expect(element.precise).toBe(false);
       });
 
       it('should be `true`', () => {
         const element = new CropperSelection();
 
-        element.setAttribute('precision', '');
-        expect(element.precision).toBe(true);
+        element.setAttribute('precise', '');
+        expect(element.precise).toBe(true);
       });
     });
   });
