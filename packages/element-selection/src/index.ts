@@ -248,6 +248,46 @@ export default class CropperSelection extends CropperElement {
     return selections;
   }
 
+  protected $createSelection(): CropperSelection {
+    const newSelection = this.cloneNode(true) as CropperSelection;
+
+    if (this.hasAttribute('id')) {
+      newSelection.removeAttribute('id');
+    }
+
+    this.active = false;
+
+    if (this.parentElement) {
+      this.parentElement.insertBefore(newSelection, this.nextSibling);
+    }
+
+    return newSelection;
+  }
+
+  protected $removeSelection(): void {
+    if (this.parentElement) {
+      const selections = this.$getSelections();
+
+      if (selections.length > 1) {
+        const index = selections.indexOf(this);
+        const activeSelection = selections[index + 1] || selections[index - 1];
+
+        if (activeSelection) {
+          this.parentElement.removeChild(this);
+          activeSelection.active = true;
+          activeSelection.$emit(EVENT_CHANGE, {
+            x: activeSelection.x,
+            y: activeSelection.y,
+            width: activeSelection.width,
+            height: activeSelection.height,
+          });
+        }
+      } else {
+        this.$reset();
+      }
+    }
+  }
+
   protected $handleActionStart(event: Event): void {
     if (this.hidden || !this.multiple || this.active) {
       return;
@@ -293,23 +333,8 @@ export default class CropperSelection extends CropperElement {
       switch (action) {
         case ACTION_SELECT: {
           const offset = getOffset(currentTarget as Element);
-          const createSelection = () => {
-            const newSelection = this.cloneNode(true) as CropperSelection;
 
-            if (this.hasAttribute('id')) {
-              newSelection.removeAttribute('id');
-            }
-
-            this.active = false;
-
-            if (this.parentElement) {
-              this.parentElement.insertBefore(newSelection, this.nextSibling);
-            }
-
-            return newSelection;
-          };
-
-          (this.multiple ? createSelection() : this).$change(
+          (this.multiple ? this.$createSelection() : this).$change(
             detail.startX - offset.left,
             detail.startY - offset.top,
             moveX,
@@ -352,46 +377,21 @@ export default class CropperSelection extends CropperElement {
   }
 
   protected $handleKeyDown(event: Event): void {
-    if (this.hidden || !this.active) {
+    if (this.hidden || !this.active || event.defaultPrevented) {
       return;
     }
 
     switch ((event as KeyboardEvent).key) {
-      case 'Delete':
-        if (this.parentElement) {
-          const selections = this.$getSelections();
-
-          if (selections.length > 1) {
-            let previous;
-
-            selections.some((selection) => {
-              if (selection === this) {
-                return true;
-              }
-
-              previous = selection;
-
-              return false;
-            });
-
-            if (previous) {
-              const activeSelection = previous as CropperSelection;
-
-              this.parentElement.removeChild(this);
-              activeSelection.active = true;
-              activeSelection.$emit(EVENT_CHANGE, {
-                x: activeSelection.x,
-                y: activeSelection.y,
-                width: activeSelection.width,
-                height: activeSelection.height,
-              });
-            }
-          } else {
-            this.$reset();
-            this.hidden = true;
-          }
+      case 'Backspace':
+        if ((event as KeyboardEvent).metaKey) {
+          event.preventDefault();
+          this.$removeSelection();
         }
+        break;
 
+      case 'Delete':
+        event.preventDefault();
+        this.$removeSelection();
         break;
 
       default:
@@ -441,7 +441,7 @@ export default class CropperSelection extends CropperElement {
 
   /**
    * Adjusts the size the selection on a specific side or corner.
-   * @param {string} action Indicate the side or corner to resize.
+   * @param {string} action Indicates the side or corner to resize.
    * @param {number} [offsetX=0] The horizontal offset of the specific side or corner.
    * @param {number} [offsetY=0] The vertical offset of the specific side or corner.
    * @param {number} [aspectRatio=this.aspectRatio] The aspect ratio for computing the new size if it is necessary.

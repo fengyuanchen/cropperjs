@@ -50,14 +50,16 @@ export default class CropperShade extends CropperElement {
     const canvas: HTMLElement | null = this.closest(CROPPER_CANVAS);
 
     if (canvas) {
-      const selection: HTMLElement | null = canvas.querySelector(CROPPER_SELECTION);
-
       on(canvas, EVENT_ACTION_START, (this.$onCanvasActionStart = () => {
+        const selection: HTMLElement | null = canvas.querySelector(CROPPER_SELECTION);
+
         if (!selection || selection.hidden) {
           this.hidden = false;
         }
       }));
       on(canvas, EVENT_ACTION_END, (this.$onCanvasActionEnd = () => {
+        const selection: HTMLElement | null = canvas.querySelector(CROPPER_SELECTION);
+
         if (!selection || selection.hidden) {
           this.hidden = true;
         }
