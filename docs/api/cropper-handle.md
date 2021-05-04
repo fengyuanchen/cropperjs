@@ -36,7 +36,6 @@ The default width and height of this element is `0`.
 :::live-demo
 
 ```html
-
 <cropper-canvas background>
   <cropper-image src="/picture.jpg" alt="Picture"></cropper-image>
   <cropper-selection width="100" height="100" movable>

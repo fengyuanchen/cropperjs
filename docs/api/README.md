@@ -12,7 +12,7 @@ new Cropper(element[, options])
 
 - **element**
   - Type: `HTMLImageElement | HTMLCanvasElement | string`
-  - The target image or canvas element for cropping. If it is a sting, will be passed into the [`document.querySelector`](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector) to find the element.
+  - The target image or canvas element for cropping. If it is a string, will be passed into the [`document.querySelector`](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector) to find the element.
 
 - **options** (optional)
   - Type: `Object`
@@ -47,7 +47,7 @@ console.log(cropper);
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| container | `Element \| string` | Defaults to the parent element of the target element, or `document.body` if the parent element is null. | The Cropper container. If it is a sting, will be passed into the `document.querySelector` to find the element. |
+| container | `Element \| string` | Defaults to the parent element of the target element, or `document.body` if the parent element is null. | The Cropper container. If it is a string, it will be passed into the `document.querySelector` to find the element. |
 | template | `string` | Defaults to a built-in template, see below. | The Cropper template. |
 
 The default template for the Cropper:

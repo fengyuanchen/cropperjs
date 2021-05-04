@@ -205,7 +205,7 @@ Moves the selection to a specific position.
   - Type: `CropperSelection`
   - The element instance for chaining.
 
-Adjusts the size the selection on a specific side or corner.
+Adjusts the size of the selection on a specific side or corner.
 
 ### $zoom
 

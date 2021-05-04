@@ -8,7 +8,7 @@ sidebar: auto
 
 Cropper.js is a series of web components for image cropping.
 
-- **What is the different between Cropper.js 1.0 and Cropper.js 2.0?**
+- **What is the difference between Cropper.js 1.0 and Cropper.js 2.0?**
 
 | Type | Cropper.js 1.0 | Cropper.js 2.0 |
 | --- | --- | --- |
@@ -18,10 +18,10 @@ Cropper.js is a series of web components for image cropping.
 | Construction | All in one | Separated |
 | Extensible | No | Yes |
 | Customizable | No | Yes |
-| Import on demand | No | Yes |
+| Import on-demand | No | Yes |
 | Browser Compatibility | Modern browsers / IE 9+ | Modern browsers |
 
-- **What is the different between Cropper, Cropper.js and jQuery Cropper?**
+- **What is the difference between Cropper, Cropper.js, and jQuery Cropper?**
 
 | GitHub Project | npm Package | Dependencies | Funded | Status | Description |
 | --- | --- | --- | --- | --- | --- |
@@ -35,7 +35,7 @@ Cropper.js is a series of web components for image cropping.
 
 #### npm
 
-npm is the recommended installation method when building large scale applications with Cropper.js.
+npm is the recommended installation method when building large-scale applications with Cropper.js.
 
 ```sh
 npm install cropperjs@next
@@ -109,7 +109,7 @@ import 'cropperjs';
 
 :::
 
-#### Use on demand
+#### Use on-demand
 
 Import the required Cropper elements only and [define](https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/define) them as custom elements manually.
 

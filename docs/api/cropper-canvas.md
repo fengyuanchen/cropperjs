@@ -15,7 +15,7 @@ The `CropperCanvas` interface provides properties and methods for manipulating t
 :::
 
 :::tip
-The default minium width and minium height of this element are `200px` and `100px`.
+The default minimum width and minimum height of this element are `200px` and `100px`.
 :::
 
 ### Background
