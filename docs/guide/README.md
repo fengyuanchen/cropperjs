@@ -15,7 +15,7 @@ Cropper.js is a series of web components for image cropping.
 | Funded | 2015 | 2021 |
 | Status | Maintaining | Active |
 | Package Number | 1 | 12+ |
-| Construction | All in one | Separated |
+| Architecture | All in one | Separated |
 | Extensible | No | Yes |
 | Customizable | No | Yes |
 | Import on-demand | No | Yes |

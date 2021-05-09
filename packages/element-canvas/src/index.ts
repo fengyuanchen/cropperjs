@@ -9,8 +9,6 @@ import {
   EVENT_ACTION_END,
   EVENT_ACTION_MOVE,
   EVENT_ACTION_START,
-  EVENT_ERROR,
-  EVENT_LOAD,
   EVENT_POINTER_DOWN,
   EVENT_POINTER_MOVE,
   EVENT_POINTER_UP,
@@ -21,7 +19,6 @@ import {
   isString,
   off,
   on,
-  once,
 } from '@cropper/utils';
 import CropperElement from '@cropper/element';
 import style from './style';
@@ -472,21 +469,7 @@ export default class CropperCanvas extends CropperElement {
         return;
       }
 
-      new Promise((resolve2) => {
-        const image = cropperImage.$image;
-
-        if (image.complete) {
-          resolve2(image);
-        } else {
-          const types = [EVENT_LOAD, EVENT_ERROR].join(' ');
-          const onLoad = () => {
-            off(image, types, onLoad);
-            resolve2(image);
-          };
-
-          once(image, types, onLoad);
-        }
-      }).then((image: any) => {
+      cropperImage.$ready().then((image: HTMLImageElement) => {
         const context = canvas.getContext('2d');
 
         if (context) {

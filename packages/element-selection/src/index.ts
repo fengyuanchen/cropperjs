@@ -16,9 +16,7 @@ import {
   EVENT_ACTION,
   EVENT_ACTION_START,
   EVENT_CHANGE,
-  EVENT_ERROR,
   EVENT_KEYDOWN,
-  EVENT_LOAD,
   getAdjustedSizes,
   getOffset,
   isElement,
@@ -27,7 +25,6 @@ import {
   isPositiveNumber,
   off,
   on,
-  once,
 } from '@cropper/utils';
 import CropperElement from '@cropper/element';
 import style from './style';
@@ -70,15 +67,15 @@ export default class CropperSelection extends CropperElement {
 
   autoSelectArea = 1;
 
-  movable = true;
+  movable = false;
 
-  resizable = true;
+  resizable = false;
 
-  zoomable = true;
+  zoomable = false;
 
   multiple = false;
 
-  keyboard = true;
+  keyboard = false;
 
   outlined = false;
 
@@ -871,21 +868,7 @@ export default class CropperSelection extends CropperElement {
         return;
       }
 
-      new Promise((resolve2) => {
-        const image = cropperImage.$image;
-
-        if (image.complete) {
-          resolve2(image);
-        } else {
-          const types = [EVENT_LOAD, EVENT_ERROR].join(' ');
-          const onLoad = () => {
-            off(image, types, onLoad);
-            resolve2(image);
-          };
-
-          once(image, types, onLoad);
-        }
-      }).then((image: any) => {
+      cropperImage.$ready().then((image: HTMLImageElement) => {
         const context = canvas.getContext('2d');
 
         if (context) {

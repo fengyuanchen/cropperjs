@@ -8,6 +8,12 @@
         src="/picture.jpg"
         alt="Picture"
       />
+      <cropper-grid
+        covered
+      />
+      <cropper-crosshair
+        centered
+      />
       <cropper-handle
         action="move"
         plain

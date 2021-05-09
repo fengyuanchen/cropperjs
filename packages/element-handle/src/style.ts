@@ -4,14 +4,11 @@ export default `
   display: block;
 }
 
-:host([action]) {
-  position: absolute;
-}
-
 :host([action="move"]),
 :host([action="select"]) {
   height: 100%;
   left: 0;
+  position: absolute;
   top: 0;
   width: 100%;
 }
@@ -27,6 +24,7 @@ export default `
 :host([action$="-resize"]) {
   background-color: transparent;
   height: 15px;
+  position: absolute;
   width: 15px;
 }
 

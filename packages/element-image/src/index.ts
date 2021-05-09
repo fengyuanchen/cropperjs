@@ -6,8 +6,10 @@ import {
   CROPPER_CANVAS,
   CROPPER_SELECTION,
   EVENT_ACTION,
+  EVENT_ERROR,
   EVENT_LOAD,
   EVENT_TRANSFORM,
+  isFunction,
   isNumber,
   off,
   on,
@@ -77,12 +79,14 @@ export default class CropperImage extends CropperElement {
 
     const { $image } = this;
 
-    once($image, EVENT_LOAD, () => {
-      this.$setStyles({
-        width: $image.naturalWidth,
-        height: $image.naturalHeight,
+    if ($image.src) {
+      this.$ready((image) => {
+        this.$setStyles({
+          width: image.naturalWidth,
+          height: image.naturalHeight,
+        });
       });
-    });
+    }
 
     const canvas: any = this.closest(CROPPER_CANVAS);
 
@@ -91,15 +95,11 @@ export default class CropperImage extends CropperElement {
         position: 'absolute',
       });
 
-      const onLoad = () => {
-        this.$center();
-        this.$fit();
-      };
-
-      if ($image.complete) {
-        onLoad();
-      } else {
-        once($image, EVENT_LOAD, onLoad);
+      if ($image.src) {
+        this.$ready(() => {
+          this.$center();
+          this.$fit();
+        });
       }
 
       if (this.scalable || this.translatable) {
@@ -130,14 +130,18 @@ export default class CropperImage extends CropperElement {
     const selection = canvas.querySelector(CROPPER_SELECTION);
     const { detail } = event as CustomEvent;
 
-    if (detail && (!selection || selection.hidden)) {
+    if (detail) {
       switch (detail.action) {
         case ACTION_MOVE:
-          this.$move(detail.endX - detail.startX, detail.endY - detail.startY);
+          if (!selection || selection.hidden || !selection.movable) {
+            this.$move(detail.endX - detail.startX, detail.endY - detail.startY);
+          }
           break;
 
         case ACTION_SCALE:
-          this.$scale(detail.scale);
+          if (!selection || selection.hidden || !selection.zoomable) {
+            this.$scale(detail.scale);
+          }
           break;
 
         case ACTION_ROTATE:
@@ -161,6 +165,48 @@ export default class CropperImage extends CropperElement {
         default:
       }
     }
+  }
+
+  /**
+   * Defers the callback to execute after successfully loading the image.
+   * @param {Function} [callback] The callback to execute after successfully loading the image.
+   * @returns {Promise} Returns a promise that resolves to the image element.
+   */
+  $ready(callback?: (image: HTMLImageElement) => unknown): Promise<HTMLImageElement> {
+    const { $image } = this;
+    const promise = new Promise<HTMLImageElement>((resolve, reject) => {
+      const error = new Error('Failed to load the image source');
+
+      if ($image.complete) {
+        if ($image.naturalWidth > 0 && $image.naturalHeight > 0) {
+          resolve($image);
+        } else {
+          reject(error);
+        }
+      } else {
+        const onLoad = () => {
+          // eslint-disable-next-line @typescript-eslint/no-use-before-define
+          off($image, EVENT_ERROR, onError);
+          resolve($image);
+        };
+        const onError = () => {
+          off($image, EVENT_LOAD, onLoad);
+          reject(error);
+        };
+
+        once($image, EVENT_LOAD, onLoad);
+        once($image, EVENT_ERROR, onError);
+      }
+    });
+
+    if (isFunction(callback)) {
+      promise.then((image) => {
+        callback(image);
+        return image;
+      });
+    }
+
+    return promise;
   }
 
   /**

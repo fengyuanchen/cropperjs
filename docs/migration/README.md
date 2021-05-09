@@ -84,7 +84,7 @@ sidebar: auto
 
 | Cropper.js 1.0 | Cropper.js 2.0 |
 | --- | --- |
-| `ready` | Use the `<cropper-image>` element's `load` event. |
+| `ready` | Use the `<cropper-image>` element's `load` event or `$ready` method. |
 | `cropstart` | Use the `<cropper-canvas>` element's `actionstart` event. |
 | `cropmove` | Use the `<cropper-canvas>` element's `actionmove` event. |
 | `cropend` | Use the `<cropper-canvas>` element's `actionend` event. |

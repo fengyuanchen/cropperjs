@@ -1,4 +1,5 @@
 import CropperElement from '@cropper/element';
+import { ACTION_NONE } from '@cropper/utils';
 import style from './style';
 
 export default class CropperHandle extends CropperElement {
@@ -10,7 +11,7 @@ export default class CropperHandle extends CropperElement {
 
   protected $style: string = style;
 
-  action = '';
+  action = ACTION_NONE;
 
   plain = false;
 

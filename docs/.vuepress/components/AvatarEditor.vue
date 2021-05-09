@@ -8,6 +8,9 @@
         src="/picture.jpg"
         alt="Picture"
       />
+      <cropper-crosshair
+        centered
+      />
       <cropper-handle
         action="move"
         plain

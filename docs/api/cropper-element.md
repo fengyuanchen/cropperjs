@@ -131,9 +131,4 @@ Defines the constructor as a new custom element. It is just a shortcut to call [
   ```js
   // Define as a autonomous custom element: `<cropper-element></cropper-element>`.
   CropperElement.$define();
-
-  // Define as a customized built-in element: `<div is="cropper-element"></div>`.
-  CropperElement.$define({
-    extends: 'div',
-  });
   ```

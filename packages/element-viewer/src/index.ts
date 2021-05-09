@@ -3,12 +3,10 @@ import {
   CROPPER_IMAGE,
   CROPPER_SELECTION,
   EVENT_CHANGE,
-  EVENT_LOAD,
   EVENT_TRANSFORM,
   isElement,
   off,
   on,
-  once,
 } from '@cropper/utils';
 import CropperElement from '@cropper/element';
 import type CropperCanvas from '@cropper/element-canvas';
@@ -213,19 +211,13 @@ export default class CropperViewer extends CropperElement {
       const translateY = (y - (b * translateX)) / d;
       const newE = a * translateX + c * translateY + e;
       const newF = b * translateX + d * translateY + f;
-      const onImageLoad = () => {
+
+      $image.$ready((image) => {
         this.$setStyles.call($image, {
-          width: $image.$image.naturalWidth * $scale,
-          height: $image.$image.naturalHeight * $scale,
+          width: image.naturalWidth * $scale,
+          height: image.naturalHeight * $scale,
         });
-      };
-
-      if ($image.$image.complete) {
-        onImageLoad();
-      } else {
-        once($image.$image, EVENT_LOAD, onImageLoad);
-      }
-
+      });
       $image.$setTransform(a, b, c, d, newE * $scale, newF * $scale);
     }
   }

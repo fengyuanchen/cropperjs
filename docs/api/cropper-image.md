@@ -54,6 +54,31 @@ The built-in `<img>` element will inherit the following attributes by default:
 
 ## Methods
 
+### $ready
+
+- **Syntax**:
+  - `$ready()`
+  - `$ready(callback)`
+- **Arguments**:
+  - `callback`:
+    - Type: `Function`
+    - The callback to execute after successfully loading the image.
+- **Returns**:
+  - Type: `Promise`
+  - A promise that resolves to the image element.
+- **Example**:
+
+  ```js
+  const cropperImage = new CropperImage();
+
+  cropperImage.$ready((image) => {
+    console.log(image.naturalWidth, image.naturalHeight);
+  });
+  cropperImage.src = '/picture.jpg';
+  ```
+
+Defers the callback to execute after successfully loading the image.
+
 ### $center
 
 - **Syntax**: `$center()`
