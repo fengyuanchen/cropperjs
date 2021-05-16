@@ -9,7 +9,17 @@ const packages = resolve(__dirname, '../../packages');
 export default defineUserConfig<DefaultThemeOptions, WebpackBundlerOptions>({
   title: 'Cropper.js',
   description: 'JavaScript image cropper.',
+  head: [
+    ['link', { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' }],
+    ['link', { rel: 'icon', type:"image/png", size: '16x16', href: '/favicon-16x16.png' }],
+    ['link', { rel: 'icon', type:"image/png", size: '32x32', href: '/favicon-32x32.png' }],
+    ['link', { rel: 'manifest', href: '/manifest.webmanifest' }],
+    ['link', { rel: 'mask-icon', color: '#39f', href: '/safari-pinned-tab.svg' }],
+    ['meta', { name: 'msapplication-TileColor', content: '#2b5797' }],
+    ['meta', { name: 'theme-color', content: '#39f' }],
+  ],
   themeConfig: {
+    logo: '/logo.svg',
     repo: 'fengyuanchen/cropperjs-next',
     docsDir: 'docs',
     editLinks: true,
@@ -83,13 +93,15 @@ export default defineUserConfig<DefaultThemeOptions, WebpackBundlerOptions>({
     },
   },
   plugins: [
+    '@vuepress/plugin-pwa',
+    '@vuepress/plugin-pwa-popup',
+    '@vuepress/search',
     [
       '@vuepress/register-components',
       {
         componentsDir: resolve(__dirname, './components'),
       },
     ],
-    '@vuepress/search',
   ],
   markdown: {
     code: {
