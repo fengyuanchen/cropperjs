@@ -31,10 +31,12 @@ export default {
     }
 
     const { options, container, containerData } = this;
-    const ratio = container.offsetWidth / containerData.width;
+    const ratioX = container.offsetWidth / containerData.width;
+    const ratioY = container.offsetHeight / containerData.height;
+    const ratio = Math.abs(ratioX - 1) > Math.abs(ratioY - 1) ? ratioX : ratioY;
 
     // Resize when width changed or height changed
-    if (ratio !== 1 || container.offsetHeight !== containerData.height) {
+    if (ratio !== 1) {
       let canvasData;
       let cropBoxData;
 
