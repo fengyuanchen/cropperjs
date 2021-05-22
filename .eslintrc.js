@@ -6,6 +6,7 @@ module.exports = {
   extends: [
     'airbnb-typescript/base',
     'plugin:@typescript-eslint/recommended',
+    'plugin:jsdoc/recommended',
     'plugin:vue/vue3-recommended',
   ],
   parser: 'vue-eslint-parser',
@@ -17,6 +18,7 @@ module.exports = {
   },
   plugins: [
     '@typescript-eslint',
+    'jsdoc',
     'vue',
   ],
   rules: {
