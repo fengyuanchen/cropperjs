@@ -1,5 +1,5 @@
 <template>
-  <div class="cropper-container"></div>
+  <div class="cropper-container" />
 </template>
 
 <script lang="ts">
@@ -17,6 +17,7 @@ export default {
       container: '.cropper-container',
     });
 
+    // eslint-disable-next-line no-console
     console.log(cropper);
   },
 };

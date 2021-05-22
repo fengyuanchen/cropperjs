@@ -9,10 +9,10 @@ import {
   on,
 } from '@cropper/utils';
 import CropperElement from '@cropper/element';
+import { Selection } from '@cropper/element-selection';
 import type CropperCanvas from '@cropper/element-canvas';
 import type CropperImage from '@cropper/element-image';
 import type CropperSelection from '@cropper/element-selection';
-import { Selection } from '@cropper/element-selection';
 import style from './style';
 
 const imageCache = new WeakMap();

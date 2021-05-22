@@ -429,6 +429,7 @@ export default class CropperCanvas extends CropperElement {
 
   /**
    * Changes the current action to a new one.
+   *
    * @param {string} action The new action.
    * @returns {CropperCanvas} Returns `this` for chaining.
    */
@@ -442,7 +443,8 @@ export default class CropperCanvas extends CropperElement {
 
   /**
    * Generates a real canvas element, with the image draw into if there is one.
-   * @param {Object} [options={}] The available options.
+   *
+   * @param {object} [options={}] The available options.
    * @param {Function} [options.beforeDraw] The function called before drawing the image onto the canvas.
    * @returns {Promise} Returns a promise that resolves to the generated canvas element.
    */

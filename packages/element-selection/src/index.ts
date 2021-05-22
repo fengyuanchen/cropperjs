@@ -438,6 +438,7 @@ export default class CropperSelection extends CropperElement {
 
   /**
    * Aligns the selection to the center of its parent element.
+   *
    * @returns {CropperSelection} Returns `this` for chaining.
    */
   $center(): this {
@@ -455,6 +456,7 @@ export default class CropperSelection extends CropperElement {
 
   /**
    * Moves the selection.
+   *
    * @param {number} x The moving distance in the horizontal direction.
    * @param {number} [y=x] The moving distance in the vertical direction.
    * @returns {CropperSelection} Returns `this` for chaining.
@@ -465,6 +467,7 @@ export default class CropperSelection extends CropperElement {
 
   /**
    * Moves the selection to a specific position.
+   *
    * @param {number} x The new position in the horizontal direction.
    * @param {number} [y=x] The new position in the vertical direction.
    * @returns {CropperSelection} Returns `this` for chaining.
@@ -479,6 +482,7 @@ export default class CropperSelection extends CropperElement {
 
   /**
    * Adjusts the size the selection on a specific side or corner.
+   *
    * @param {string} action Indicates the side or corner to resize.
    * @param {number} [offsetX=0] The horizontal offset of the specific side or corner.
    * @param {number} [offsetY=0] The vertical offset of the specific side or corner.
@@ -712,6 +716,7 @@ export default class CropperSelection extends CropperElement {
 
   /**
    * Zooms the selection.
+   *
    * @param {number} scale The zoom factor.
    * @returns {CropperSelection} Returns `this` for chaining.
    */
@@ -729,6 +734,7 @@ export default class CropperSelection extends CropperElement {
 
   /**
    * Zooms the selection to a specific factor.
+   *
    * @param {number} scale The zoom factor.
    * @param {number} [x] The zoom origin in the horizontal, defaults to the center of the selection.
    * @param {number} [y] The zoom origin in the vertical, defaults to the center of the selection.
@@ -759,6 +765,7 @@ export default class CropperSelection extends CropperElement {
 
   /**
    * Changes the position and/or size of the selection.
+   *
    * @param {number} x The new position in the horizontal direction.
    * @param {number} y The new position in the vertical direction.
    * @param {number} [width=this.width] The new width.
@@ -815,6 +822,7 @@ export default class CropperSelection extends CropperElement {
 
   /**
    * Resets the selection to its initial position and size.
+   *
    * @returns {CropperSelection} Returns `this` for chaining.
    */
   $reset(): this {
@@ -823,6 +831,7 @@ export default class CropperSelection extends CropperElement {
 
   /**
    * Refreshes the position or size of the selection.
+   *
    * @returns {CropperSelection} Returns `this` for chaining.
    */
   $render(): this {
@@ -835,7 +844,8 @@ export default class CropperSelection extends CropperElement {
 
   /**
    * Generates a real canvas element, with the image (selected area only) draw into if there is one.
-   * @param {Object} [options={}] The available options.
+   *
+   * @param {object} [options={}] The available options.
    * @param {Function} [options.beforeDraw] The function called before drawing the image onto the canvas.
    * @returns {Promise} Returns a promise that resolves to the generated canvas element.
    */

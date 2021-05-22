@@ -169,6 +169,7 @@ export default class CropperImage extends CropperElement {
 
   /**
    * Defers the callback to execute after successfully loading the image.
+   *
    * @param {Function} [callback] The callback to execute after successfully loading the image.
    * @returns {Promise} Returns a promise that resolves to the image element.
    */
@@ -211,6 +212,7 @@ export default class CropperImage extends CropperElement {
 
   /**
    * Aligns the image to the center of its parent element.
+   *
    * @returns {CropperImage} Returns `this` for chaining.
    */
   $center(): this {
@@ -232,6 +234,7 @@ export default class CropperImage extends CropperElement {
 
   /**
    * Fits the image to its parent element.
+   *
    * @returns {CropperImage} Returns `this` for chaining.
    */
   $fit(): this {
@@ -258,6 +261,7 @@ export default class CropperImage extends CropperElement {
 
   /**
    * Moves the image.
+   *
    * @param {number} x The moving distance in the horizontal direction.
    * @param {number} [y=x] The moving distance in the vertical direction.
    * @returns {CropperImage} Returns `this` for chaining.
@@ -276,6 +280,7 @@ export default class CropperImage extends CropperElement {
 
   /**
    * Moves the image to a specific position.
+   *
    * @param {number} x The new position in the horizontal direction.
    * @param {number} [y=x] The new position in the vertical direction.
    * @returns {CropperImage} Returns `this` for chaining.
@@ -296,6 +301,7 @@ export default class CropperImage extends CropperElement {
    * Rotates the image.
    * {@link https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/rotate}
    * {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/rotate}
+   *
    * @param {number|string} angle The rotation angle (in radians).
    * @returns {CropperImage} Returns `this` for chaining.
    */
@@ -320,6 +326,7 @@ export default class CropperImage extends CropperElement {
    * Scales the image.
    * {@link https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/scale}
    * {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/scale}
+   *
    * @param {number} x The scaling factor in the horizontal direction.
    * @param {number} [y=x] The scaling factor in the vertical direction.
    * @returns {CropperImage} Returns `this` for chaining.
@@ -336,6 +343,7 @@ export default class CropperImage extends CropperElement {
    * Skews the image.
    * {@link https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/skew}
    * {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/transform}
+   *
    * @param {number|string} x The skewing angle in the horizontal direction.
    * @param {number|string} [y=0] The skewing angle in the vertical direction.
    * @returns {CropperImage} Returns `this` for chaining.
@@ -355,6 +363,7 @@ export default class CropperImage extends CropperElement {
    * Translates the image.
    * {@link https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/translate}
    * {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/translate}
+   *
    * @param {number} x The translating distance in the horizontal direction.
    * @param {number} [y=x] The translating distance in the vertical direction.
    * @returns {CropperImage} Returns `this` for chaining.
@@ -371,6 +380,7 @@ export default class CropperImage extends CropperElement {
    * Transforms the image.
    * {@link https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix}
    * {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/transform}
+   *
    * @param {number} a The scaling factor in the horizontal direction.
    * @param {number} b The skewing angle in the vertical direction.
    * @param {number} c The skewing angle in the horizontal direction.
@@ -410,6 +420,7 @@ export default class CropperImage extends CropperElement {
   /**
    * Resets (overrides) the current transform to the specific identity matrix.
    * {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/setTransform}
+   *
    * @param {number|Array} a The scaling factor in the horizontal direction.
    * @param {number} b The skewing angle in the vertical direction.
    * @param {number} c The skewing angle in the horizontal direction.
@@ -459,6 +470,7 @@ export default class CropperImage extends CropperElement {
   /**
    * Retrieves the current transformation matrix being applied to the element.
    * {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/getTransform}
+   *
    * @returns {Array} Returns the readonly transformation matrix.
    */
   $getTransform(): number[] {
@@ -468,6 +480,7 @@ export default class CropperImage extends CropperElement {
   /**
    * Resets the current transform to the initial identity matrix.
    * {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/resetTransform}
+   *
    * @returns {CropperImage} Returns `this` for chaining.
    */
   $resetTransform(): this {

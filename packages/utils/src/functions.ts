@@ -2,6 +2,7 @@ import { WINDOW } from './constants';
 
 /**
  * Check if the given value is a string.
+ *
  * @param {*} value The value to check.
  * @returns {boolean} Returns `true` if the given value is a string, else `false`.
  */
@@ -16,6 +17,9 @@ export const isNaN = Number.isNaN || WINDOW.isNaN;
 
 /**
  * Check if the given value is a number.
+ *
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if the given value is a number, else `false`.
  */
 export function isNumber(value: unknown): value is number {
   return typeof value === 'number' && !isNaN(value);
@@ -23,6 +27,7 @@ export function isNumber(value: unknown): value is number {
 
 /**
  * Check if the given value is a positive number.
+ *
  * @param {*} value The value to check.
  * @returns {boolean} Returns `true` if the given value is a positive number, else `false`.
  */
@@ -32,6 +37,7 @@ export function isPositiveNumber(value: unknown): value is number {
 
 /**
  * Check if the given value is undefined.
+ *
  * @param {*} value The value to check.
  * @returns {boolean} Returns `true` if the given value is undefined, else `false`.
  */
@@ -41,6 +47,7 @@ export function isUndefined(value: unknown): value is undefined {
 
 /**
  * Check if the given value is an object.
+ *
  * @param {*} value - The value to check.
  * @returns {boolean} Returns `true` if the given value is an object, else `false`.
  */
@@ -52,6 +59,7 @@ const { hasOwnProperty } = Object.prototype;
 
 /**
  * Check if the given value is a plain object.
+ *
  * @param {*} value - The value to check.
  * @returns {boolean} Returns `true` if the given value is a plain object, else `false`.
  */
@@ -72,6 +80,7 @@ export function isPlainObject(value: unknown): value is Record<string, unknown> 
 
 /**
  * Check if the given value is a function.
+ *
  * @param {*} value The value to check.
  * @returns {boolean} Returns `true` if the given value is a function, else `false`.
  */
@@ -81,6 +90,7 @@ export function isFunction(value: unknown): value is (...args: unknown[]) => unk
 
 /**
  * Check if the given node is an element.
+ *
  * @param {*} node The node to check.
  * @returns {boolean} Returns `true` if the given node is an element; otherwise, `false`.
  */
@@ -92,6 +102,7 @@ const REGEXP_CAMEL_CASE = /([a-z\d])([A-Z])/g;
 
 /**
  * Transform the given string from camelCase to kebab-case.
+ *
  * @param {string} value The value to transform.
  * @returns {string} Returns the transformed value.
  */
@@ -103,6 +114,7 @@ const REGEXP_KEBAB_CASE = /-[A-z\d]/g;
 
 /**
  * Transform the given string from kebab-case to camelCase.
+ *
  * @param {string} value The value to transform.
  * @returns {string} Returns the transformed value.
  */
@@ -115,6 +127,7 @@ const REGEXP_SPACES = /\s\s*/;
 /**
  * Remove event listener from the event target.
  * {@link https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/removeEventListener}
+ *
  * @param {EventTarget} target The target of the event.
  * @param {string} types The types of the event.
  * @param {EventListenerOrEventListenerObject} listener The listener of the event.
@@ -134,6 +147,7 @@ export function off(
 /**
  * Add event listener to the event target.
  * {@link https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener}
+ *
  * @param {EventTarget} target The target of the event.
  * @param {string} types The types of the event.
  * @param {EventListenerOrEventListenerObject} listener The listener of the event.
@@ -152,6 +166,7 @@ export function on(
 
 /**
  * Add once event listener to the event target.
+ *
  * @param {EventTarget} target The target of the event.
  * @param {string} types The types of the event.
  * @param {EventListenerOrEventListenerObject} listener The listener of the event.
@@ -178,6 +193,7 @@ const defaultEventOptions: CustomEventInit = {
 /**
  * Dispatch event on the event target.
  * {@link https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/dispatchEvent}
+ *
  * @param {EventTarget} target The target of the event.
  * @param {string} type The name of the event.
  * @param {*} [detail] The data passed when initializing the event.
@@ -199,8 +215,9 @@ export function emit(
 
 /**
  * Get the offset base on the document.
+ *
  * @param {Element} element The target element.
- * @returns {Object} The offset data.
+ * @returns {object} The offset data.
  */
 export function getOffset(element: Element): {
   left: number;
@@ -220,6 +237,7 @@ const REGEXP_ANGLE_UNIT = /deg|g?rad|turn$/i;
 /**
  * Convert an angle to a radian number.
  * {@link https://developer.mozilla.org/en-US/docs/Web/CSS/angle}
+ *
  * @param {number|string} angle The angle to convert.
  * @returns {number} Returns the radian number.
  */
@@ -269,9 +287,10 @@ const SIZE_ADJUSTMENT_TYPE_COVER: SizeAdjustmentType = 'cover';
 
 /**
  * Get the max sizes in a rectangle under the given aspect ratio.
- * @param {Object} data The original sizes.
+ *
+ * @param {object} data The original sizes.
  * @param {string} [type='contain'] The adjust type.
- * @returns {Object} Returns the result sizes.
+ * @returns {object} Returns the result sizes.
  */
 export function getAdjustedSizes(
   data: SizeAdjustmentData | SizeAdjustmentDataWithoutWidth | SizeAdjustmentDataWithoutHeight,
