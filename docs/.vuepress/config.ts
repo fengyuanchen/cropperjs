@@ -57,7 +57,7 @@ export default defineUserConfig<DefaultThemeOptions, WebpackBundlerOptions>({
         children: [
           {
             text: 'Guide',
-            link: '/guide/',
+            link: '/guide.html',
           },
           {
             text: 'Examples',
@@ -65,7 +65,7 @@ export default defineUserConfig<DefaultThemeOptions, WebpackBundlerOptions>({
           },
           {
             text: 'Migration from Cropper.js 1',
-            link: '/migration/',
+            link: '/migration.html',
           },
         ],
       },

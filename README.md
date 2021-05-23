@@ -6,20 +6,6 @@
 
 - [Website](https://fengyuanchen.github.io/cropperjs)
 
-## Browser support
-
-- Edge 79+
-- Firefox 63+
-- Chrome 54+
-- Safari 10.1+
-- Opera 41+
-- iOS Safari 10.3+
-- Android Browser 81+
-- Opera Mobile 46+
-- Chrome for Android 81+
-- Firefox for Android 68+
-- Samsung Internet 6.2+
-
 ## Versioning
 
 Maintained under the [Semantic Versioning guidelines](https://semver.org/).

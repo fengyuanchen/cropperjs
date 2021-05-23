@@ -16,10 +16,12 @@ Cropper.js is a series of web components for image cropping.
 | Status | Maintaining | Active |
 | Package Number | 1 | 12+ |
 | Architecture | All in one | Separated |
+| Browser Compatibility | Modern browsers / IE 9+ | Modern browsers |
 | Extensible | No | Yes |
 | Customizable | No | Yes |
 | Import on-demand | No | Yes |
-| Browser Compatibility | Modern browsers / IE 9+ | Modern browsers |
+| Multiple selections | No | Yes |
+| Rotate image on touch | No | Yes |
 
 - **What is the difference between Cropper, Cropper.js, and jQuery Cropper?**
 

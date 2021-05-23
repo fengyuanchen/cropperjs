@@ -78,7 +78,7 @@ sidebar: auto
 | `setCropBoxData` | Use the `<cropper-selection>` element's `x`, `y`, `width`, and `height` properties. |
 | `getCroppedCanvas` | Use the `<cropper-selection>` element's `$toCanvas` method. |
 | `setAspectRatio` | Use the `<cropper-selection>` element's `aspectRatio` property. |
-| `setDragMode` | Deprecated. |
+| `setDragMode` | Use the `<cropper-handle>` element's action property. |
 
 ## Events
 

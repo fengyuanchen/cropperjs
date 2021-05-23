@@ -5,7 +5,7 @@ heroText: Cropper.js
 tagline: JavaScript image cropper.
 actions:
   - text: Get Started
-    link: /guide/
+    link: /guide.html
     type: primary
   - text: Playground
     link: /playground.html
