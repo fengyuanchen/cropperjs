@@ -41,11 +41,7 @@ export default class CropperViewer extends CropperElement {
   slottable = false;
 
   protected set $image(element: CropperImage) {
-    if (isElement(element)) {
-      imageCache.set(this, element);
-    } else {
-      imageCache.delete(this);
-    }
+    imageCache.set(this, element);
   }
 
   protected get $image(): CropperImage {
@@ -53,11 +49,7 @@ export default class CropperViewer extends CropperElement {
   }
 
   protected set $sourceImage(element: CropperImage) {
-    if (isElement(element)) {
-      sourceImageCache.set(this, element);
-    } else {
-      sourceImageCache.delete(this);
-    }
+    sourceImageCache.set(this, element);
   }
 
   protected get $sourceImage(): CropperImage {
@@ -65,11 +57,7 @@ export default class CropperViewer extends CropperElement {
   }
 
   set $selection(element: CropperSelection) {
-    if (isElement(element)) {
-      selectionCache.set(this, element);
-    } else {
-      selectionCache.delete(this);
-    }
+    selectionCache.set(this, element);
   }
 
   get $selection(): CropperSelection {

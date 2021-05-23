@@ -19,7 +19,6 @@ import {
   EVENT_KEYDOWN,
   getAdjustedSizes,
   getOffset,
-  isElement,
   isFunction,
   isNumber,
   isPositiveNumber,
@@ -27,6 +26,8 @@ import {
   on,
 } from '@cropper/utils';
 import CropperElement from '@cropper/element';
+import type CropperCanvas from '@cropper/element-canvas';
+import type CropperImage from '@cropper/element-image';
 import style from './style';
 
 const canvasCache = new WeakMap();
@@ -81,15 +82,11 @@ export default class CropperSelection extends CropperElement {
 
   precise = false;
 
-  protected set $canvas(element: Element) {
-    if (isElement(element)) {
-      canvasCache.set(this, element);
-    } else {
-      canvasCache.delete(this);
-    }
+  protected set $canvas(element: CropperCanvas) {
+    canvasCache.set(this, element);
   }
 
-  protected get $canvas(): Element {
+  protected get $canvas(): CropperCanvas {
     return canvasCache.get(this);
   }
 
@@ -158,7 +155,7 @@ export default class CropperSelection extends CropperElement {
       this.active = true;
     }
 
-    const $canvas = this.closest(CROPPER_CANVAS);
+    const $canvas: CropperCanvas | null = this.closest(CROPPER_CANVAS);
 
     if ($canvas) {
       this.$canvas = $canvas;
@@ -859,19 +856,17 @@ export default class CropperSelection extends CropperElement {
       }
 
       const canvas = document.createElement('canvas');
-      const { width, height } = this;
+      const { $canvas, width, height } = this;
 
       canvas.width = width;
       canvas.height = height;
 
-      const cropperCanvas: any = this.closest(CROPPER_CANVAS);
-
-      if (!cropperCanvas) {
+      if (!$canvas) {
         resolve(canvas);
         return;
       }
 
-      const cropperImage: any = cropperCanvas.querySelector(CROPPER_IMAGE);
+      const cropperImage: CropperImage | null = $canvas.querySelector(CROPPER_IMAGE);
 
       if (!cropperImage) {
         resolve(canvas);

@@ -10,7 +10,11 @@ import {
   on,
 } from '@cropper/utils';
 import CropperElement from '@cropper/element';
+import type CropperCanvas from '@cropper/element-canvas';
+import type CropperSelection from '@cropper/element-selection';
 import style from './style';
+
+const canvasCache = new WeakMap();
 
 export default class CropperShade extends CropperElement {
   static $version = '__VERSION__';
@@ -35,6 +39,14 @@ export default class CropperShade extends CropperElement {
 
   themeColor = 'rgba(0, 0, 0, 0.65)';
 
+  protected set $canvas(element: CropperCanvas) {
+    canvasCache.set(this, element);
+  }
+
+  protected get $canvas(): CropperCanvas {
+    return canvasCache.get(this);
+  }
+
   protected static get observedAttributes(): string[] {
     return super.observedAttributes.concat([
       'height',
@@ -47,25 +59,26 @@ export default class CropperShade extends CropperElement {
   protected connectedCallback(): void {
     super.connectedCallback();
 
-    const canvas: any = this.closest(CROPPER_CANVAS);
+    const $canvas: CropperCanvas | null = this.closest(CROPPER_CANVAS);
 
-    if (canvas) {
-      const selection: any = canvas.querySelector(CROPPER_SELECTION);
-
+    if ($canvas) {
+      this.$canvas = $canvas;
       this.style.position = 'absolute';
 
-      if (selection) {
-        on(canvas, EVENT_ACTION_START, (this.$onCanvasActionStart = () => {
-          if (selection.hidden) {
+      const $selection: CropperSelection | null = $canvas.querySelector(CROPPER_SELECTION);
+
+      if ($selection) {
+        on($canvas, EVENT_ACTION_START, (this.$onCanvasActionStart = () => {
+          if ($selection.hidden) {
             this.hidden = false;
           }
         }));
-        on(canvas, EVENT_ACTION_END, (this.$onCanvasActionEnd = () => {
-          if (selection.hidden) {
+        on($canvas, EVENT_ACTION_END, (this.$onCanvasActionEnd = () => {
+          if ($selection.hidden) {
             this.hidden = true;
           }
         }));
-        on(canvas, EVENT_CHANGE, (this.$onCanvasChange = (event) => {
+        on($canvas, EVENT_CHANGE, (this.$onCanvasChange = (event) => {
           const {
             x,
             y,
@@ -75,7 +88,7 @@ export default class CropperShade extends CropperElement {
 
           this.$change(x, y, width, height);
 
-          if (selection.hidden || (x === 0 && y === 0 && width === 0 && height === 0)) {
+          if ($selection.hidden || (x === 0 && y === 0 && width === 0 && height === 0)) {
             this.hidden = true;
           }
         }));
@@ -86,23 +99,23 @@ export default class CropperShade extends CropperElement {
   }
 
   protected disconnectedCallback(): void {
-    super.disconnectedCallback();
+    const { $canvas } = this;
 
-    const canvas: HTMLElement | null = this.closest(CROPPER_CANVAS);
-
-    if (canvas) {
+    if ($canvas) {
       if (this.$onCanvasActionStart) {
-        off(canvas, EVENT_ACTION_START, this.$onCanvasActionStart);
+        off($canvas, EVENT_ACTION_START, this.$onCanvasActionStart);
       }
 
       if (this.$onCanvasActionEnd) {
-        off(canvas, EVENT_ACTION_END, this.$onCanvasActionEnd);
+        off($canvas, EVENT_ACTION_END, this.$onCanvasActionEnd);
       }
 
       if (this.$onCanvasChange) {
-        off(canvas, EVENT_CHANGE, this.$onCanvasChange);
+        off($canvas, EVENT_CHANGE, this.$onCanvasChange);
       }
     }
+
+    super.disconnectedCallback();
   }
 
   /**

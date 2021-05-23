@@ -17,8 +17,10 @@ import {
   toAngleInRadian,
 } from '@cropper/utils';
 import CropperElement from '@cropper/element';
+import type CropperCanvas from '@cropper/element-canvas';
 import style from './style';
 
+const canvasCache = new WeakMap();
 const NATIVE_ATTRIBUTES = [
   'alt',
   'crossorigin',
@@ -51,6 +53,14 @@ export default class CropperImage extends CropperElement {
   slottable = false;
 
   translatable = true;
+
+  protected set $canvas(element: CropperCanvas) {
+    canvasCache.set(this, element);
+  }
+
+  protected get $canvas(): CropperCanvas {
+    return canvasCache.get(this);
+  }
 
   protected static get observedAttributes(): string[] {
     return super.observedAttributes.concat(NATIVE_ATTRIBUTES, [
@@ -88,9 +98,10 @@ export default class CropperImage extends CropperElement {
       });
     }
 
-    const canvas: any = this.closest(CROPPER_CANVAS);
+    const $canvas: CropperCanvas | null = this.closest(CROPPER_CANVAS);
 
-    if (canvas) {
+    if ($canvas) {
+      this.$canvas = $canvas;
       this.$setStyles({
         position: 'absolute',
       });
@@ -103,7 +114,7 @@ export default class CropperImage extends CropperElement {
       }
 
       if (this.scalable || this.translatable) {
-        on(canvas, EVENT_ACTION, (this.$onCanvasAction = this.$handleAction.bind(this)));
+        on($canvas, EVENT_ACTION, (this.$onCanvasAction = this.$handleAction.bind(this)));
       }
     }
 
@@ -111,10 +122,10 @@ export default class CropperImage extends CropperElement {
   }
 
   protected disconnectedCallback(): void {
-    const canvas = this.closest(CROPPER_CANVAS);
+    const { $canvas } = this;
 
-    if (canvas && this.$onCanvasAction) {
-      off(canvas, EVENT_ACTION, this.$onCanvasAction);
+    if ($canvas && this.$onCanvasAction) {
+      off($canvas, EVENT_ACTION, this.$onCanvasAction);
     }
 
     this.$getShadowRoot().removeChild(this.$image);
@@ -126,8 +137,8 @@ export default class CropperImage extends CropperElement {
       return;
     }
 
-    const canvas: any = this.closest(CROPPER_CANVAS);
-    const selection = canvas.querySelector(CROPPER_SELECTION);
+    const { $canvas } = this;
+    const selection: any = $canvas.querySelector(CROPPER_SELECTION);
     const { detail } = event as CustomEvent;
 
     if (detail) {
