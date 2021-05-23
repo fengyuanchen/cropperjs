@@ -13,7 +13,7 @@
     "lint:css": "stylelint **/*.{css,scss,html,md} --fix",
     "lint:js": "eslint . docs/.vuepress --fix",
     "prepare": "husky install",
-    "release": "lerna run release && npm run lint && npm test && npm run build && npm run changelog",
+    "release": "npm run bootstrap && lerna run release && npm run lint && npm test && npm run build && npm run changelog",
     "start": "npm run bootstrap && vuepress dev docs",
     "test": "jest"
   },

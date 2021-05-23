@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/fengyuanchen/cropperjs.git",
+    "url": "https://github.com/fengyuanchen/cropperjs-next.git",
     "directory": "packages/element-handle"
   },
   "keywords": [
@@ -31,13 +31,14 @@
   ],
   "author": "Chen Fengyuan (https://chenfengyuan.com/)",
   "license": "MIT",
-  "bugs": "https://github.com/fengyuanchen/cropperjs/issues",
-  "homepage": "https://github.com/fengyuanchen/cropperjs/tree/next/packages/element-handle/#readme",
+  "bugs": "https://github.com/fengyuanchen/cropperjs-next/issues",
+  "homepage": "https://github.com/fengyuanchen/cropperjs-next/tree/next/packages/element-handle/#readme",
   "dependencies": {
     "@cropper/element": "^2.0.0-beta",
     "@cropper/utils": "^2.0.0-beta"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "tag": "next"
   }
 }
