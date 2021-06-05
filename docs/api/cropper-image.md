@@ -154,6 +154,35 @@ Moves the image to a specific position.
 
 Rotates the image.
 
+### $zoom
+
+- **Syntax**:
+  - `$zoom(scale)`
+  - `$zoom(scale, x, y)`
+- **Arguments**:
+  - `scale`:
+    - Type: `number`
+    - The zoom factor. Positive numbers for zooming in, and negative numbers for zooming out.
+  - `x`:
+    - Type: `number`
+    - Default: The center of the image in the horizontal.
+    - The zoom origin in the horizontal.
+  - `y`:
+    - Type: `number`
+    - Default: The center of the image in the vertical.
+    - The zoom origin in the vertical.
+- **Returns**:
+  - Type: `CropperImage`
+  - The element instance for chaining.
+- **Example**:
+
+  ```js
+  cropperImage.$zoom(0.1); // Zoom in 10%
+  cropperImage.$zoom(-0.1); // Zoom out 10%
+  ```
+
+Zooms the image.
+
 ### $scale
 
 - **Syntax**:
@@ -170,6 +199,15 @@ Rotates the image.
 - **Returns**:
   - Type: `CropperImage`
   - The element instance for chaining.
+- **Example**:
+
+  ```js
+  cropperImage.$scale(1.1); // Zoom in 10%
+  cropperImage.$scale(0.9); // Zoom out 10%
+  cropperImage.$scale(-1); // Flip both the horizontal and vertical directions
+  cropperImage.$scale(-1, 1); // Flip the horizontal direction
+  cropperImage.$scale(1, -1); // Flip the vertical direction
+  ```
 
 Scales the image.
 

@@ -149,11 +149,20 @@ export default class CropperImage extends CropperElement {
           }
           break;
 
-        case ACTION_SCALE:
-          if (!selection || selection.hidden || !selection.zoomable) {
-            this.$scale(detail.scale);
+        case ACTION_SCALE: {
+          const { relatedEvent } = detail;
+
+          if (relatedEvent && this.scalable) {
+            const { x, y } = this.getBoundingClientRect();
+
+            this.$zoom(
+              detail.scale,
+              relatedEvent.clientX - x,
+              relatedEvent.clientY - y,
+            );
           }
           break;
+        }
 
         case ACTION_ROTATE:
           this.$rotate(detail.rotate);
@@ -328,6 +337,43 @@ export default class CropperImage extends CropperElement {
         0,
         0,
       );
+    }
+
+    return this;
+  }
+
+  /**
+   * Zooms the image.
+   *
+   * @param {number} scale The zoom factor. Positive numbers for zooming in, and negative numbers for zooming out.
+   * @param {number} [x] The zoom origin in the horizontal, defaults to the center of the image.
+   * @param {number} [y] The zoom origin in the vertical, defaults to the center of the image.
+   * @returns {CropperImage} Returns `this` for chaining.
+   */
+  $zoom(scale: number, x?: number, y?: number): this {
+    if (!this.scalable || scale === 0) {
+      return this;
+    }
+
+    if (scale < 0) {
+      scale = 1 / (1 - scale);
+    } else {
+      scale += 1;
+    }
+
+    if (isNumber(x) && isNumber(y)) {
+      const [a, b, c, d] = this.$matrix;
+      const { width, height } = this.getBoundingClientRect();
+      const originX = width / 2;
+      const originY = height / 2;
+      const moveX = x - originX;
+      const moveY = y - originY;
+      const translateX = ((moveX * d) - (c * moveY)) / ((a * d) - (c * b));
+      const translateY = (moveY - (b * translateX)) / d;
+
+      this.$transform(scale, 0, 0, scale, translateX * (1 - scale), translateY * (1 - scale));
+    } else {
+      this.$scale(scale);
     }
 
     return this;

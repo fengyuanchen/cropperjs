@@ -367,9 +367,20 @@ export default class CropperSelection extends CropperElement {
           this.$move(moveX, moveY);
           break;
 
-        case ACTION_SCALE:
-          this.$zoomTo(detail.scale);
+        case ACTION_SCALE: {
+          const { relatedEvent } = detail;
+
+          if (relatedEvent && this.zoomable) {
+            const offset = getOffset(currentTarget as Element);
+
+            this.$zoom(
+              detail.scale,
+              relatedEvent.pageX - offset.left,
+              relatedEvent.pageY - offset.top,
+            );
+          }
           break;
+        }
 
         default:
           this.$resize(action, moveX, moveY, aspectRatio);
@@ -714,32 +725,20 @@ export default class CropperSelection extends CropperElement {
   /**
    * Zooms the selection.
    *
-   * @param {number} scale The zoom factor.
-   * @returns {CropperSelection} Returns `this` for chaining.
-   */
-  $zoom(scale: number): this {
-    scale = Number(scale);
-
-    if (scale < 0) {
-      scale = 1 / (1 - scale);
-    } else {
-      scale = 1 + scale;
-    }
-
-    return this.$zoomTo(scale);
-  }
-
-  /**
-   * Zooms the selection to a specific factor.
-   *
-   * @param {number} scale The zoom factor.
+   * @param {number} scale The zoom factor. Positive numbers for zooming in, and negative numbers for zooming out.
    * @param {number} [x] The zoom origin in the horizontal, defaults to the center of the selection.
    * @param {number} [y] The zoom origin in the vertical, defaults to the center of the selection.
    * @returns {CropperSelection} Returns `this` for chaining.
    */
-  $zoomTo(scale: number, x?: number, y?: number): this {
-    if (!this.zoomable || scale < 0) {
+  $zoom(scale: number, x?: number, y?: number): this {
+    if (!this.zoomable || scale === 0) {
       return this;
+    }
+
+    if (scale < 0) {
+      scale = 1 / (1 - scale);
+    } else {
+      scale += 1;
     }
 
     const { width, height } = this;

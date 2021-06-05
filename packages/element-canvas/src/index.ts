@@ -322,12 +322,6 @@ export default class CropperCanvas extends CropperElement {
         });
       });
 
-      if (scale < 0) {
-        scale = 1 / (1 - scale);
-      } else {
-        scale += 1;
-      }
-
       const rotatable = maxRotateRate > 0;
       const scalable = maxScaleRate > 0;
 
@@ -416,7 +410,7 @@ export default class CropperCanvas extends CropperElement {
     }, 50);
 
     const delta = (event as WheelEvent).deltaY > 0 ? 1 : -1;
-    const scale = 1 - (delta * this.scale);
+    const scale = delta * this.scale;
 
     this.$emit(EVENT_ACTION, {
       action: ACTION_SCALE,

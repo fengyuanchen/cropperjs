@@ -110,6 +110,8 @@ Inherits properties from its parent, [`CropperElement`](cropper-element.html), a
 | movable | `boolean` | `false` | - | Indicates whether this element is movable. |
 | resizable | `boolean` | `false` | - | Indicates whether this element is resizable. |
 | zoomable | `boolean` | `false` | - | Indicates whether this element is zoomable. |
+| multiple | `boolean` | `false` | - | Indicates whether multiple selections is supported. |
+| keyboard | `boolean` | `false` | - | Indicates whether keyboard control is supported. |
 | outlined | `boolean` | `false` | - | Indicates whether show the outlined or not. |
 | precise | `boolean` | `false` | - | Indicates whether reserve the precise of the `x`, `y`, `width`, and `height` properties or not. |
 
@@ -197,27 +199,13 @@ Adjusts the size of the selection on a specific side or corner.
 
 ### $zoom
 
-- **Syntax**: `$zoom(scale)`
-- **Alternatives**: `$zoomTo(1 + scale)`
-- **Arguments**:
-  - `scale`:
-    - Type: `number`
-    - The zoom factor. A positive number for zooming in, and a negative number for zooming out.
-- **Returns**:
-  - Type: `CropperSelection`
-  - The element instance for chaining.
-
-Zooms the selection.
-
-### $zoomTo
-
 - **Syntax**:
-  - `$zoomTo(scale)`
-  - `$zoomTo(scale, x, y)`
+  - `$zoom(scale)`
+  - `$zoom(scale, x, y)`
 - **Arguments**:
   - `scale`:
     - Type: `number`
-    - The zoom factor. It must be a positive number.
+    - The zoom factor. Positive numbers for zooming in, and negative numbers for zooming out.
   - `x`:
     - Type: `number`
     - Default: The center of the selection in the horizontal.
@@ -229,8 +217,14 @@ Zooms the selection.
 - **Returns**:
   - Type: `CropperSelection`
   - The element instance for chaining.
+- **Example**:
 
-Zooms the selection to a specific factor. Changes the width and height of the selection in pixels directly at the same time.
+  ```js
+  cropperSelection.$zoom(0.1); // Zoom in 10%
+  cropperSelection.$zoom(-0.1); // Zoom out 10%
+  ```
+
+Zooms the selection. Changes the width and height of the selection in pixels directly at the same time.
 
 ### $change
 

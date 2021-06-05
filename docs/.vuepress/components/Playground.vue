@@ -449,8 +449,8 @@
                 class="btn btn-outline-primary btn-sm"
                 data-toggle="tooltip"
                 data-placement="top"
-                title="image.$scale(1.1)"
-                @click="$refs.cropperImage.$scale(1.1)"
+                title="image.$zoom(0.1)"
+                @click="$refs.cropperImage.$zoom(0.1)"
               >
                 <svg
                   width="1em"
@@ -476,8 +476,8 @@
                 class="btn btn-outline-primary btn-sm"
                 data-toggle="tooltip"
                 data-placement="top"
-                title="image.$scale(0.9)"
-                @click="$refs.cropperImage.$scale(0.9)"
+                title="image.$zoom(-0.1)"
+                @click="$refs.cropperImage.$zoom(-0.1)"
               >
                 <svg
                   width="1em"
@@ -1218,8 +1218,8 @@
                   class="btn btn-outline-primary btn-sm"
                   data-toggle="tooltip"
                   data-placement="top"
-                  title="selection.$zoom(0.01)"
-                  @click="$refs.cropperSelection.$zoom(0.01)"
+                  title="selection.$zoom(0.1)"
+                  @click="$refs.cropperSelection.$zoom(0.1)"
                 >
                   <svg
                     width="1em"
@@ -1473,8 +1473,8 @@
                   class="btn btn-outline-primary btn-sm"
                   data-toggle="tooltip"
                   data-placement="top"
-                  title="selection.$zoom(-0.01)"
-                  @click="$refs.cropperSelection.$zoom(-0.01)"
+                  title="selection.$zoom(-0.1)"
+                  @click="$refs.cropperSelection.$zoom(-0.1)"
                 >
                   <svg
                     width="1em"
@@ -2102,6 +2102,7 @@ export default {
       new Promise((resolve, reject) => {
         const script = document.createElement('script');
 
+        script.id = 'bootstrap';
         script.src = 'https://unpkg.com/bootstrap@next/dist/js/bootstrap.bundle.min.js';
         script.onload = resolve;
         script.onerror = reject;
@@ -2180,7 +2181,8 @@ export default {
 
 .playground {
   canvas {
-    max-width: 100%;
+    display: block;
+    width: 100%;
   }
 
   textarea {

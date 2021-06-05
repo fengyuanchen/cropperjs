@@ -159,11 +159,35 @@ describe('CropperImage', () => {
       });
     });
 
+    describe('$zoom', () => {
+      it('should zoom in the image', () => {
+        const element = new CropperImage();
+
+        element.$zoom(0.1);
+
+        const matrix = element.$getTransform();
+
+        expect(matrix[0]).toBeGreaterThan(1);
+        expect(matrix[3]).toBeGreaterThan(1);
+      });
+
+      it('should zoom out the image', () => {
+        const element = new CropperImage();
+
+        element.$zoom(-0.1);
+
+        const matrix = element.$getTransform();
+
+        expect(matrix[0]).toBeLessThan(1);
+        expect(matrix[3]).toBeLessThan(1);
+      });
+    });
+
     describe('$scale', () => {
       it('should scale the image', () => {
         const element = new CropperImage();
 
-        element.$scale(0.1, 0.2);
+        element.$scale(1.1, 1.2);
 
         const matrix = element.$getTransform();
 
@@ -174,7 +198,7 @@ describe('CropperImage', () => {
       it('should default to the first parameter for the second parameter', () => {
         const element = new CropperImage();
 
-        element.$scale(0.1);
+        element.$scale(1.1);
 
         const matrix = element.$getTransform();
 

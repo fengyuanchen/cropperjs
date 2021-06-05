@@ -581,34 +581,6 @@ describe('CropperSelection', () => {
       });
     });
 
-    describe('$zoomTo', () => {
-      it('should zoom the selection to a specific factor', () => {
-        const element = new CropperSelection();
-
-        element.zoomable = true;
-        element.width = 1;
-        element.height = 1;
-        element.$zoomTo(3);
-        expect(element.x).toBe(-1);
-        expect(element.y).toBe(-1);
-        expect(element.width).toBe(3);
-        expect(element.height).toBe(3);
-      });
-
-      it('should zoom the selection bases on the specific origin', () => {
-        const element = new CropperSelection();
-
-        element.zoomable = true;
-        element.width = 1;
-        element.height = 1;
-        element.$zoomTo(3, 1, 1);
-        expect(element.x).toBe(-2);
-        expect(element.y).toBe(-2);
-        expect(element.width).toBe(3);
-        expect(element.height).toBe(3);
-      });
-    });
-
     describe('$change', () => {
       it('should change the position', () => {
         const element = new CropperSelection();
