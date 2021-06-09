@@ -72,11 +72,11 @@ export default {
   // Canvas (image wrapper)
   initCanvas() {
     const { containerData, imageData } = this;
-    const { viewMode } = this.options;
+    const { viewMode, aspectRatio: optionAspectRatio, containerHeightAspectRatio } = this.options;
     const rotated = Math.abs(imageData.rotate) % 180 === 90;
     const naturalWidth = rotated ? imageData.naturalHeight : imageData.naturalWidth;
     const naturalHeight = rotated ? imageData.naturalWidth : imageData.naturalHeight;
-    const aspectRatio = naturalWidth / naturalHeight;
+    const aspectRatio = containerHeightAspectRatio === 'auto' ? optionAspectRatio : (naturalWidth / naturalHeight);
     let canvasWidth = containerData.width;
     let canvasHeight = containerData.height;
 

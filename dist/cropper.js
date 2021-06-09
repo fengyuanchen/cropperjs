@@ -1251,11 +1251,14 @@
     initCanvas: function initCanvas() {
       var containerData = this.containerData,
           imageData = this.imageData;
-      var viewMode = this.options.viewMode;
+      var _this$options = this.options,
+          viewMode = _this$options.viewMode,
+          optionAspectRatio = _this$options.aspectRatio,
+          containerHeightAspectRatio = _this$options.containerHeightAspectRatio;
       var rotated = Math.abs(imageData.rotate) % 180 === 90;
       var naturalWidth = rotated ? imageData.naturalHeight : imageData.naturalWidth;
       var naturalHeight = rotated ? imageData.naturalWidth : imageData.naturalHeight;
-      var aspectRatio = naturalWidth / naturalHeight;
+      var aspectRatio = containerHeightAspectRatio === 'auto' ? optionAspectRatio : naturalWidth / naturalHeight;
       var canvasWidth = containerData.width;
       var canvasHeight = containerData.height;
 
