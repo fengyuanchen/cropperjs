@@ -5,7 +5,7 @@
  * Copyright 2015-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2021-06-10T13:54:54.192Z
+ * Date: 2021-06-10T14:11:23.958Z
  */
 
 (function (global, factory) {
@@ -1276,8 +1276,8 @@
 
       var canvasData = {
         aspectRatio: aspectRatio,
-        naturalWidth: containerHeightAspectRatio === 'auto' ? canvasWidth : naturalWidth,
-        naturalHeight: containerHeightAspectRatio === 'auto' ? canvasHeight : naturalHeight,
+        naturalWidth: naturalWidth,
+        naturalHeight: naturalHeight,
         width: canvasWidth,
         height: canvasHeight
       };

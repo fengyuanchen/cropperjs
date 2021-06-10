@@ -94,8 +94,8 @@ export default {
 
     const canvasData = {
       aspectRatio,
-      naturalWidth: containerHeightAspectRatio === 'auto' ? canvasWidth : naturalWidth,
-      naturalHeight: containerHeightAspectRatio === 'auto' ? canvasHeight : naturalHeight,
+      naturalWidth,
+      naturalHeight,
       width: canvasWidth,
       height: canvasHeight,
     };
