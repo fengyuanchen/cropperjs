@@ -5,7 +5,7 @@
  * Copyright 2015-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2021-06-09T20:46:10.047Z
+ * Date: 2021-06-10T13:54:54.192Z
  */
 
 function _typeof(obj) {
@@ -1270,8 +1270,8 @@ var render = {
 
     var canvasData = {
       aspectRatio: aspectRatio,
-      naturalWidth: naturalWidth,
-      naturalHeight: naturalHeight,
+      naturalWidth: containerHeightAspectRatio === 'auto' ? canvasWidth : naturalWidth,
+      naturalHeight: containerHeightAspectRatio === 'auto' ? canvasHeight : naturalHeight,
       width: canvasWidth,
       height: canvasHeight
     };
@@ -1378,10 +1378,7 @@ var render = {
   },
   renderCanvas: function renderCanvas(changed, transformed) {
     var canvasData = this.canvasData,
-        imageData = this.imageData,
-        options = this.options;
-    var optionAspectRatio = options.aspectRatio,
-        containerHeightAspectRatio = options.containerHeightAspectRatio;
+        imageData = this.imageData;
 
     if (transformed) {
       var _getRotatedSizes = getRotatedSizes({
@@ -1398,7 +1395,7 @@ var render = {
       canvasData.top -= (height - canvasData.height) / 2;
       canvasData.width = width;
       canvasData.height = height;
-      canvasData.aspectRatio = containerHeightAspectRatio === 'auto' ? optionAspectRatio : naturalWidth / naturalHeight;
+      canvasData.aspectRatio = naturalWidth / naturalHeight;
       canvasData.naturalWidth = naturalWidth;
       canvasData.naturalHeight = naturalHeight;
       this.limitCanvas(true, false);

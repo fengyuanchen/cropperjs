@@ -94,8 +94,8 @@ export default {
 
     const canvasData = {
       aspectRatio,
-      naturalWidth,
-      naturalHeight,
+      naturalWidth: containerHeightAspectRatio === 'auto' ? canvasWidth : naturalWidth,
+      naturalHeight: containerHeightAspectRatio === 'auto' ? canvasHeight : naturalHeight,
       width: canvasWidth,
       height: canvasHeight,
     };
@@ -223,8 +223,7 @@ export default {
   },
 
   renderCanvas(changed, transformed) {
-    const { canvasData, imageData, options } = this;
-    const { aspectRatio: optionAspectRatio, containerHeightAspectRatio } = options;
+    const { canvasData, imageData } = this;
 
     if (transformed) {
       const { width: naturalWidth, height: naturalHeight } = getRotatedSizes({
@@ -239,7 +238,7 @@ export default {
       canvasData.top -= (height - canvasData.height) / 2;
       canvasData.width = width;
       canvasData.height = height;
-      canvasData.aspectRatio = containerHeightAspectRatio === 'auto' ? optionAspectRatio : (naturalWidth / naturalHeight);
+      canvasData.aspectRatio = naturalWidth / naturalHeight;
       canvasData.naturalWidth = naturalWidth;
       canvasData.naturalHeight = naturalHeight;
       this.limitCanvas(true, false);
