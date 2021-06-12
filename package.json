@@ -17,7 +17,6 @@
     "build:css": "postcss src/index.css -o dist/cropper.css --no-map",
     "build:js": "rollup -c",
     "clean": "del-cli dist",
-    "codecov": "cat coverage/lcov.info | codecov",
     "compress": "npm run compress:css && npm run compress:js",
     "compress:css": "postcss dist/cropper.css -u cssnano -o dist/cropper.min.css --no-map",
     "compress:js": "uglifyjs dist/cropper.js -o dist/cropper.min.js -c -m --comments /^!/",
@@ -29,6 +28,7 @@
     "release": "npm run clean && npm run lint && npm run build && npm run compress && npm run copy && npm test",
     "start": "npm-run-all --parallel watch:*",
     "test": "karma start",
+    "test:coverage": "cat coverage/lcov.info | codecov",
     "watch:css": "postcss src/index.css -o docs/css/cropper.css -m -w",
     "watch:js": "rollup -c -m -w"
   },
