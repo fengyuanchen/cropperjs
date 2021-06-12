@@ -1,7 +1,7 @@
 const { babel } = require('@rollup/plugin-babel');
 const changeCase = require('change-case');
 const createBanner = require('create-banner');
-const pkg = require('./package');
+const pkg = require('./package.json');
 
 pkg.name = pkg.name.replace('js', '');
 
