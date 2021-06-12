@@ -1,6 +1,6 @@
 # Changelog
 
-## next
+## 1.5.12 (Jun 12, 2021)
 
 - Fix the cropper responsive when only the height was changed (#835).
 
