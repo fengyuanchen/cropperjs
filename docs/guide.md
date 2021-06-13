@@ -19,6 +19,7 @@ Cropper.js is a series of web components for image cropping.
 | Browser Compatibility | Modern browsers / IE 9+ | Modern browsers |
 | Extensible | No | Yes |
 | Customizable | No | Yes |
+| CSS-in-JS | No | Yes |
 | Import on-demand | No | Yes |
 | Multiple selections | No | Yes |
 | Rotate image on touch | No | Yes |
@@ -93,9 +94,9 @@ import 'cropperjs';
   <cropper-image src="/picture.jpg" alt="Picture"></cropper-image>
   <cropper-shade hidden></cropper-shade>
   <cropper-handle action="select" plain></cropper-handle>
-  <cropper-selection auto-select auto-select-area="0.5">
-    <cropper-grid role="grid"></cropper-grid>
-    <cropper-crosshair></cropper-crosshair>
+  <cropper-selection initial-coverage="0.5" movable resizable zoomable>
+    <cropper-grid role="grid" covered></cropper-grid>
+    <cropper-crosshair centered></cropper-crosshair>
     <cropper-handle action="move" theme-color="rgba(255, 255, 255, 0.35)"></cropper-handle>
     <cropper-handle action="n-resize"></cropper-handle>
     <cropper-handle action="e-resize"></cropper-handle>

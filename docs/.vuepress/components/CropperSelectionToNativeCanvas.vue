@@ -13,8 +13,7 @@
         />
         <cropper-selection
           ref="source"
-          auto-select
-          auto-select-area="0.5"
+          initial-coverage="0.5"
           movable
           zoomable
         >

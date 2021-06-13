@@ -27,7 +27,7 @@ The default height of this element is `0`.
   <cropper-image src="/picture.jpg" alt="Picture"></cropper-image>
   <cropper-shade hidden></cropper-shade>
   <cropper-handle action="select" plain></cropper-handle>
-  <cropper-selection id="cropperSelection" auto-select initial-aspect-ratio="1.5" movable resizable zoomable>
+  <cropper-selection id="cropperSelection" initial-aspect-ratio="1.5" movable resizable zoomable>
     <cropper-handle action="move" plain></cropper-handle>
     <cropper-handle action="se-resize"></cropper-handle>
   </cropper-selection>

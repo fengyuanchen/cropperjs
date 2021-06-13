@@ -18,13 +18,13 @@ The `CropperSelection` interface provides properties and methods for manipulatin
 The default width and height of this element is `0`.
 :::
 
-### Auto select
+### Customize initial selection coverage
 
 :::live-demo
 
 ```html
 <cropper-canvas background>
-  <cropper-selection auto-select auto-select-area="0.8" outlined></cropper-selection>
+  <cropper-selection initial-coverage="0.5" outlined></cropper-selection>
 </cropper-canvas>
 ```
 
@@ -48,7 +48,7 @@ The default width and height of this element is `0`.
 
 ```html
 <cropper-canvas background>
-  <cropper-selection auto-select auto-select-area="0.8" movable resizable outlined>
+  <cropper-selection initial-coverage="0.5" movable resizable outlined>
     <cropper-handle action="move" theme-color="rgba(255, 255, 255, 0.35)"></cropper-handle>
     <cropper-handle action="n-resize"></cropper-handle>
     <cropper-handle action="e-resize"></cropper-handle>
@@ -75,7 +75,7 @@ Set the `multiple` property to `true` to support multiple selections on the same
   <cropper-image src="/picture.jpg" alt="Picture"></cropper-image>
   <cropper-shade hidden></cropper-shade>
   <cropper-handle action="select" plain></cropper-handle>
-  <cropper-selection id="cropperSelection" auto-select auto-select-area="0.5" movable resizable zoomable multiple keyboard>
+  <cropper-selection id="cropperSelection" initial-coverage="0.5" movable resizable zoomable multiple keyboard>
     <cropper-grid role="grid" covered></cropper-grid>
     <cropper-crosshair centered></cropper-crosshair>
     <cropper-handle action="move" theme-color="rgba(255, 255, 255, 0.35)"></cropper-handle>
@@ -105,8 +105,7 @@ Inherits properties from its parent, [`CropperElement`](cropper-element.html), a
 | height | `number` | `0` | - | Indicates the height of the selection. |
 | aspectRatio | `number` | `NaN` | - | Indicates the aspect ratio of the selection, must a positive number. |
 | initialAspectRatio | `number` | `NaN` | - | Indicates the initial aspect ratio of the selection, must a positive number. |
-| autoSelect | `boolean` | `false` | - | Indicates whether specify the position and size bases on the parent element automatically once connected to document. |
-| autoSelectArea | `number` | `1` | - | Indicates the area of the selection, must a positive number between `0` and `1`, default to `1` (100%). |
+| initialCoverage | `number` | `NaN` | - | Indicates the initial coverage of the selection, must a positive number between `0` (0%) and `1` (100%). |
 | movable | `boolean` | `false` | - | Indicates whether this element is movable. |
 | resizable | `boolean` | `false` | - | Indicates whether this element is resizable. |
 | zoomable | `boolean` | `false` | - | Indicates whether this element is zoomable. |

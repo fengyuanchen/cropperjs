@@ -62,11 +62,9 @@ export default class CropperSelection extends CropperElement {
 
   initialAspectRatio = NaN;
 
+  initialCoverage = NaN;
+
   active = false;
-
-  autoSelect = false;
-
-  autoSelectArea = 1;
 
   movable = false;
 
@@ -94,10 +92,9 @@ export default class CropperSelection extends CropperElement {
     return super.observedAttributes.concat([
       'active',
       'aspect-ratio',
-      'auto-select',
-      'auto-select-area',
       'height',
       'initial-aspect-ratio',
+      'initial-coverage',
       'keyboard',
       'movable',
       'multiple',
@@ -132,13 +129,13 @@ export default class CropperSelection extends CropperElement {
         }
         break;
 
-      case 'auto-select-area':
-        if (!isPositiveNumber(this.autoSelectArea) || this.autoSelectArea > 1) {
-          this.autoSelectArea = 1;
+      case 'initial-coverage':
+        if (!isPositiveNumber(this.initialCoverage) || this.initialCoverage > 1) {
+          this.initialCoverage = NaN;
         }
         break;
 
-      case 'initialAspect-ratio':
+      case 'initial-aspect-ratio':
         if (!isPositiveNumber(this.initialAspectRatio)) {
           this.initialAspectRatio = NaN;
         }
@@ -168,22 +165,20 @@ export default class CropperSelection extends CropperElement {
         this.$render();
       }
 
-      if (this.autoSelect) {
-        const { autoSelectArea, parentElement } = this;
+      const { initialCoverage, parentElement } = this;
 
-        if (isPositiveNumber(autoSelectArea) && parentElement) {
-          const aspectRatio = this.aspectRatio || this.initialAspectRatio;
-          const { offsetWidth, offsetHeight } = parentElement;
-          let width = offsetWidth * this.autoSelectArea;
-          let height = offsetHeight * this.autoSelectArea;
+      if (isPositiveNumber(initialCoverage) && parentElement) {
+        const aspectRatio = this.aspectRatio || this.initialAspectRatio;
+        const { offsetWidth, offsetHeight } = parentElement;
+        let width = offsetWidth * initialCoverage;
+        let height = offsetHeight * initialCoverage;
 
-          if (isPositiveNumber(aspectRatio)) {
-            ({ width, height } = getAdjustedSizes({ aspectRatio, width, height }));
-          }
-
-          this.$change(this.x, this.y, width, height);
-          this.$center();
+        if (isPositiveNumber(aspectRatio)) {
+          ({ width, height } = getAdjustedSizes({ aspectRatio, width, height }));
         }
+
+        this.$change(this.x, this.y, width, height);
+        this.$center();
       }
 
       if (this.multiple) {

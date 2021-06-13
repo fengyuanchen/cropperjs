@@ -104,33 +104,18 @@ describe('CropperSelection', () => {
       });
     });
 
-    describe('autoSelect', () => {
-      it('should be `false` by default', () => {
+    describe('initialCoverage', () => {
+      it('should be `NaN` by default', () => {
         const element = new CropperSelection();
 
-        expect(element.autoSelect).toBe(false);
-      });
-
-      it('should be `true`', () => {
-        const element = new CropperSelection();
-
-        element.setAttribute('auto-select', '');
-        expect(element.autoSelect).toBe(true);
-      });
-    });
-
-    describe('autoSelectArea', () => {
-      it('should be `1` by default', () => {
-        const element = new CropperSelection();
-
-        expect(element.autoSelectArea).toBe(1);
+        expect(element.initialCoverage).toBeNaN();
       });
 
       it('should be `0.5`', () => {
         const element = new CropperSelection();
 
-        element.setAttribute('auto-select-area', '0.5');
-        expect(element.autoSelectArea).toBe(0.5);
+        element.setAttribute('initial-coverage', '0.5');
+        expect(element.initialCoverage).toBe(0.5);
       });
     });
 

@@ -776,13 +776,13 @@
             >
           </li>
           <li>
-            <label for="selectionAutoSelectArea">auto-select-area</label>
+            <label for="selectionAutoSelectArea">initial-coverage</label>
             <input
               id="selectionAutoSelectArea"
-              v-model.number="canvas.selection.autoSelectArea"
+              v-model.number="canvas.selection.initialCoverage"
               type="range"
               class="form-range form-control-sm"
-              name="autoSelectArea"
+              name="initialCoverage"
               min="0"
               max="1"
               step="0.1"
@@ -1814,8 +1814,7 @@
           id="cropperSelection"
           ref="cropperSelection"
           :aspect-ratio="canvas.selection.aspectRatio"
-          :auto-select-area="canvas.selection.autoSelectArea"
-          :auto-select="canvas.selection.autoSelect"
+          :initial-coverage="canvas.selection.initialCoverage"
           :hidden="canvas.selection.hidden"
           :initial-aspect-ratio="canvas.selection.initialAspectRatio"
           :movable="canvas.selection.movable"
@@ -1997,10 +1996,9 @@ export default {
         },
         selection: {
           hidden: false,
-          initialAspectRatio: NaN,
           aspectRatio: NaN,
-          autoSelect: true,
-          autoSelectArea: 0.8,
+          initialAspectRatio: NaN,
+          initialCoverage: 0.8,
           movable: true,
           resizable: true,
           zoomable: true,
@@ -2093,7 +2091,7 @@ export default {
 
         link.id = 'bootstrap';
         link.rel = 'stylesheet';
-        link.href = 'https://unpkg.com/bootstrap@next/dist/css/bootstrap.min.css';
+        link.href = 'https://unpkg.com/bootstrap@5/dist/css/bootstrap.min.css';
         link.onload = resolve;
         link.onerror = reject;
         link.onabort = reject;
@@ -2103,7 +2101,7 @@ export default {
         const script = document.createElement('script');
 
         script.id = 'bootstrap';
-        script.src = 'https://unpkg.com/bootstrap@next/dist/js/bootstrap.bundle.min.js';
+        script.src = 'https://unpkg.com/bootstrap@5/dist/js/bootstrap.bundle.min.js';
         script.onload = resolve;
         script.onerror = reject;
         script.onabort = reject;

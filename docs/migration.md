@@ -23,8 +23,8 @@ sidebar: auto
 | `center` | Use the `<cropper-crosshair>` element. |
 | `highlight` | Use the `<cropper-action>` element. |
 | `background` | Use the `<cropper-canvas>` element's `background` property. |
-| `autoCrop` | Use the `<cropper-selection>` element's `autoSelect` property. |
-| `autoCropArea` | Use the `<cropper-selection>` element's `autoSelectArea` property. |
+| `autoCrop` | Use the `<cropper-selection>` element's `initialCoverage` property. |
+| `autoCropArea` | Use the `<cropper-selection>` element's `initialCoverage` property. |
 | `movable` | Use the `<cropper-image>` element's `translatable` property. |
 | `rotatable` | Use the `<cropper-image>` element's `rotatable` property. |
 | `scalable` | Use the `<cropper-image>` element's `scalable` property. |
@@ -41,7 +41,7 @@ sidebar: auto
 | `minCanvasHeight` | Use the `<cropper-canvas>` element's `min-height` CSS property. |
 | `minCropBoxWidth` | Use the `<cropper-selection>` element's `min-width` CSS property. |
 | `minCropBoxHeight` | Use the `<cropper-selection>` element's `min-height` CSS property. |
-| `ready` | Use the `<cropper-image>` element's `load` event. |
+| `ready` | Use the `<cropper-image>` element's `load` event or `$ready` method. |
 | `cropstart` | Use the `<cropper-canvas>` element's `actionstart` event. |
 | `cropmove` | Use the `<cropper-canvas>` element's `actionmove` event. |
 | `cropend` | Use the `<cropper-canvas>` element's `actionend` event. |
