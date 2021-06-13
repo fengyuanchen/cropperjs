@@ -1,6 +1,6 @@
 # Cropper.js
 
-[![Build Status](https://img.shields.io/github/workflow/status/fengyuanchen/cropperjs-next/ci/main.svg)](https://github.com/fengyuanchen/cropperjs-next/actions) [![Coverage Status](https://img.shields.io/codecov/c/github/fengyuanchen/cropperjs-next.svg)](https://codecov.io/gh/fengyuanchen/cropperjs-next) [![Downloads](https://img.shields.io/npm/dm/cropperjs.svg)](https://www.npmjs.com/package/cropperjs) [![Version](https://img.shields.io/npm/v/cropperjs/next.svg)](https://www.npmjs.com/package/cropperjs) [![Dependencies](https://img.shields.io/david/fengyuanchen/cropperjs-next.svg)](https://www.npmjs.com/package/cropperjs)
+[![Coverage Status](https://img.shields.io/codecov/c/github/fengyuanchen/cropperjs-next.svg)](https://codecov.io/gh/fengyuanchen/cropperjs-next) [![Downloads](https://img.shields.io/npm/dm/cropperjs.svg)](https://www.npmjs.com/package/cropperjs) [![Version](https://img.shields.io/npm/v/cropperjs/next.svg)](https://www.npmjs.com/package/cropperjs) [![Dependencies](https://img.shields.io/david/fengyuanchen/cropperjs-next.svg)](https://www.npmjs.com/package/cropperjs)
 
 > JavaScript image cropper.
 
