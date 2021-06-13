@@ -28,10 +28,10 @@
     "@types/jest": "^26.0.23",
     "@typescript-eslint/eslint-plugin": "^4.26.1",
     "@typescript-eslint/parser": "^4.26.1",
-    "@vuepress/plugin-pwa": "^2.0.0-beta.14",
-    "@vuepress/plugin-pwa-popup": "^2.0.0-beta.14",
-    "@vuepress/plugin-register-components": "^2.0.0-beta.14",
-    "@vuepress/plugin-search": "^2.0.0-beta.14",
+    "@vuepress/plugin-pwa": "^2.0.0-beta.18",
+    "@vuepress/plugin-pwa-popup": "^2.0.0-beta.18",
+    "@vuepress/plugin-register-components": "^2.0.0-beta.18",
+    "@vuepress/plugin-search": "^2.0.0-beta.18",
     "change-case": "^4.1.2",
     "conventional-changelog-cli": "^2.1.1",
     "create-banner": "^2.0.0",
@@ -58,7 +58,7 @@
     "ts-loader": "^9.2.3",
     "tslib": "^2.3.0",
     "typescript": "^4.3.2",
-    "vuepress": "^2.0.0-beta.14"
+    "vuepress": "^2.0.0-beta.18"
   },
   "browserslist": [
     "last 2 versions",
