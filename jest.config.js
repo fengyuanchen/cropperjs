@@ -7,6 +7,7 @@ module.exports = {
     '^@cropper/(.*?)$': '<rootDir>/packages/$1/src',
     cropperjs: '<rootDir>/packages/cropperjs/src',
   },
+  testEnvironment: 'jsdom',
   testEnvironmentOptions: {
     resources: 'usable',
   },
