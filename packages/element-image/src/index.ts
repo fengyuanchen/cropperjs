@@ -108,7 +108,6 @@ export default class CropperImage extends CropperElement {
 
       if ($image.src) {
         this.$ready(() => {
-          this.$center();
           this.$fit();
         });
       }
@@ -242,14 +241,19 @@ export default class CropperImage extends CropperElement {
       return this;
     }
 
-    const { offsetWidth, offsetHeight } = parentElement;
-    const [a, b, c, d] = this.$matrix;
-    const width = this.$image.naturalWidth * a;
-    const height = this.$image.naturalHeight * d;
-    const e = (offsetWidth - width) / 2;
-    const f = (offsetHeight - height) / 2;
+    const container = parentElement.getBoundingClientRect();
+    const {
+      x,
+      y,
+      width,
+      height,
+    } = this.getBoundingClientRect();
+    const startX = x + (width / 2);
+    const startY = y + (height / 2);
+    const endX = container.x + (container.width / 2);
+    const endY = container.y + (container.height / 2);
 
-    return this.$setTransform(a, b, c, d, e, f);
+    return this.$move(endX - startX, endY - startY);
   }
 
   /**
@@ -265,14 +269,13 @@ export default class CropperImage extends CropperElement {
     }
 
     const { offsetWidth, offsetHeight } = parentElement;
-    const [a, d] = this.$matrix;
-    const width = this.$image.naturalWidth * a;
-    const height = this.$image.naturalHeight * d;
+    const { width, height } = this.getBoundingClientRect();
 
-    if (width > offsetWidth || height > offsetHeight) {
-      this.$scale(Math.max(
-        (width - offsetWidth) / width,
-        (height - offsetHeight) / height,
+    if (width !== offsetWidth || height !== offsetHeight) {
+      this.$center();
+      this.$scale(Math.min(
+        offsetWidth / width,
+        offsetHeight / height,
       ));
     }
 
