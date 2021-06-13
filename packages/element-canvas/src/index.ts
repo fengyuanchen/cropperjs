@@ -16,6 +16,7 @@ import {
   isElement,
   isFunction,
   isNumber,
+  isPlainObject,
   isString,
   off,
   on,
@@ -51,7 +52,7 @@ export default class CropperCanvas extends CropperElement {
 
   protected $style = style;
 
-  protected $action = '';
+  protected $action = ACTION_NONE;
 
   background = false;
 
@@ -190,7 +191,7 @@ export default class CropperCanvas extends CropperElement {
   protected $handlePointerMove(event: Event): void {
     const { $action, $pointers } = this;
 
-    if (this.disabled || !$action || $pointers.size === 0) {
+    if (this.disabled || $action === ACTION_NONE || $pointers.size === 0) {
       return;
     }
 
@@ -359,7 +360,7 @@ export default class CropperCanvas extends CropperElement {
   protected $handlePointerUp(event: Event): void {
     const { $action, $pointers } = this;
 
-    if (this.disabled || !$action) {
+    if (this.disabled || $action === ACTION_NONE) {
       return;
     }
 
@@ -386,7 +387,7 @@ export default class CropperCanvas extends CropperElement {
 
     if ($pointers.size === 0) {
       this.style.willChange = '';
-      this.$action = '';
+      this.$action = ACTION_NONE;
     }
   }
 
@@ -438,13 +439,13 @@ export default class CropperCanvas extends CropperElement {
   /**
    * Generates a real canvas element, with the image draw into if there is one.
    *
-   * @param {object} [options={}] The available options.
+   * @param {object} [options] The available options.
    * @param {Function} [options.beforeDraw] The function called before drawing the image onto the canvas.
    * @returns {Promise} Returns a promise that resolves to the generated canvas element.
    */
-  $toCanvas(options: {
+  $toCanvas(options?: {
     beforeDraw?: (context: CanvasRenderingContext2D, canvas: HTMLCanvasElement) => void;
-  } = {}): Promise<HTMLCanvasElement> {
+  }): Promise<HTMLCanvasElement> {
     return new Promise((resolve, reject) => {
       if (!this.isConnected) {
         reject(new Error('The current element is not connected to the DOM.'));
@@ -476,7 +477,7 @@ export default class CropperCanvas extends CropperElement {
           context.fillStyle = 'transparent';
           context.fillRect(0, 0, width, height);
 
-          if (isFunction(options.beforeDraw)) {
+          if (isPlainObject(options) && isFunction(options.beforeDraw)) {
             options.beforeDraw.call(this, context, canvas);
           }
 

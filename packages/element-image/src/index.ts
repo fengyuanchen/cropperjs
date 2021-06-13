@@ -108,7 +108,7 @@ export default class CropperImage extends CropperElement {
 
       if ($image.src) {
         this.$ready(() => {
-          this.$fit();
+          this.$center('cover');
         });
       }
 
@@ -232,9 +232,10 @@ export default class CropperImage extends CropperElement {
   /**
    * Aligns the image to the center of its parent element.
    *
+   * @param {string} [size] The size of the image.
    * @returns {CropperImage} Returns `this` for chaining.
    */
-  $center(): this {
+  $center(size?: string): this {
     const { parentElement } = this;
 
     if (!parentElement) {
@@ -242,6 +243,8 @@ export default class CropperImage extends CropperElement {
     }
 
     const container = parentElement.getBoundingClientRect();
+    const containerWidth = container.width;
+    const containerHeight = container.height;
     const {
       x,
       y,
@@ -250,33 +253,26 @@ export default class CropperImage extends CropperElement {
     } = this.getBoundingClientRect();
     const startX = x + (width / 2);
     const startY = y + (height / 2);
-    const endX = container.x + (container.width / 2);
-    const endY = container.y + (container.height / 2);
+    const endX = container.x + (containerWidth / 2);
+    const endY = container.y + (containerHeight / 2);
 
-    return this.$move(endX - startX, endY - startY);
-  }
+    this.$move(endX - startX, endY - startY);
 
-  /**
-   * Fits the image to its parent element.
-   *
-   * @returns {CropperImage} Returns `this` for chaining.
-   */
-  $fit(): this {
-    const { parentElement } = this;
+    if (size && (width !== containerWidth || height !== containerHeight)) {
+      const scaleX = containerWidth / width;
+      const scaleY = containerHeight / height;
 
-    if (!parentElement) {
-      return this;
-    }
+      switch (size) {
+        case 'cover':
+          this.$scale(Math.max(scaleX, scaleY));
+          break;
 
-    const { offsetWidth, offsetHeight } = parentElement;
-    const { width, height } = this.getBoundingClientRect();
+        case 'contain':
+          this.$scale(Math.min(scaleX, scaleY));
+          break;
 
-    if (width !== offsetWidth || height !== offsetHeight) {
-      this.$center();
-      this.$scale(Math.min(
-        offsetWidth / width,
-        offsetHeight / height,
-      ));
+        default:
+      }
     }
 
     return this;

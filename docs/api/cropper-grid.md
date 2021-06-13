@@ -23,7 +23,7 @@ The default height of this element is `0`.
 :::live-demo
 
 ```html
-<cropper-grid rows="4" columns="18" style="height: 10rem;"></cropper-grid>
+<cropper-grid rows="4" columns="18" theme-color="#39f" style="height: 10rem;"></cropper-grid>
 ```
 
 :::
@@ -33,7 +33,7 @@ The default height of this element is `0`.
 :::live-demo
 
 ```html
-<cropper-canvas>
+<cropper-canvas style="background-color: #39f;">
   <cropper-grid bordered covered></cropper-grid>
 </cropper-canvas>
 ```
@@ -45,7 +45,7 @@ The default height of this element is `0`.
 :::live-demo
 
 ```html
-<cropper-selection width="160" height="90">
+<cropper-selection width="160" height="90" style="background-color: #39f;">
   <cropper-grid bordered covered></cropper-grid>
 </cropper-selection>
 ```

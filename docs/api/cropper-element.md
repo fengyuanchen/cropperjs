@@ -38,7 +38,7 @@ Inherits properties from its parent, [`HTMLElement`](https://developer.mozilla.o
 
 | Name | Type | Default | Options | Description |
 | --- | --- | --- | --- | --- |
-| shadowRootMode | `string` | `"open"` | `"closed" | "open"` | Indicates the encapsulation mode for the shadow DOM tree. |
+| shadowRootMode | `string` | `"open"` | `"closed" \| "open"` | Indicates the encapsulation mode for the shadow DOM tree. |
 | slottable | `boolean` | `true` | - | Indicates whether this element contains a `<slot>` element. |
 | themeColor | `string` | - | - | Indicates the theme color of this element and its children. |
 

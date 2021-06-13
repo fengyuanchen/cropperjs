@@ -31,15 +31,12 @@ export default class CropperElement extends HTMLElement {
 
   slottable = true;
 
-  static = false;
-
   themeColor?: string;
 
   protected static get observedAttributes(): string[] {
     return [
       'shadow-root-mode',
       'slottable',
-      'static',
       'theme-color',
     ];
   }
@@ -49,7 +46,6 @@ export default class CropperElement extends HTMLElement {
     if (newValue === oldValue) {
       return;
     }
-
     const propertyName = toCamelCase(name);
     const oldPropertyValue = (this as any)[propertyName];
     let newPropertyValue: any = newValue;
@@ -89,9 +85,7 @@ export default class CropperElement extends HTMLElement {
   }
 
   protected static get $observedProperties(): string[] {
-    return [
-      'static',
-    ];
+    return [];
   }
 
   // Convert property to attribute

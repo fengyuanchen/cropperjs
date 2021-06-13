@@ -71,7 +71,7 @@ Set the `multiple` property to `true` to support multiple selections on the same
 :::live-demo
 
 ```html
-<cropper-canvas style="height: 300px;" background>
+<cropper-canvas style="height: 360px;" background>
   <cropper-image src="/picture.jpg" alt="Picture"></cropper-image>
   <cropper-shade hidden></cropper-shade>
   <cropper-handle action="select" plain></cropper-handle>
@@ -113,6 +113,16 @@ Inherits properties from its parent, [`CropperElement`](cropper-element.html), a
 | keyboard | `boolean` | `false` | - | Indicates whether keyboard control is supported. |
 | outlined | `boolean` | `false` | - | Indicates whether show the outlined or not. |
 | precise | `boolean` | `false` | - | Indicates whether reserve the precise of the `x`, `y`, `width`, and `height` properties or not. |
+
+The supported keyboard keys:
+
+- `Delete` or `Command + Backspace`: Removes the active selection.
+- `ArrowLeft`: Moves the active selection to the left by 1 pixel.
+- `ArrowRight`: Moves the active selection to the right by 1 pixel.
+- `ArrowUp`: Moves the active selection to the top by 1 pixel.
+- `ArrowDown`: Moves the active selection to the bottom by 1 pixel.
+- `+`: Zooms in the active selection by 10%.
+- `-`: Zooms out the active selection by 10%.
 
 ## Methods
 
@@ -276,11 +286,12 @@ Refreshes the position or size of the selection.
 
 ### $toCanvas
 
-- **Syntax**: `$toCanvas(options)`
+- **Syntax**:
+  - `$toCanvas()`
+  - `$toCanvas(options)`
 - **Arguments**:
   - `options`:
     - Type: `Object`
-    - Default: `{}`
     - The available options.
     - Properties:
       - `options.beforeDraw`:

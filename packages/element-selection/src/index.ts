@@ -21,6 +21,7 @@ import {
   getOffset,
   isFunction,
   isNumber,
+  isPlainObject,
   isPositiveNumber,
   off,
   on,
@@ -129,15 +130,15 @@ export default class CropperSelection extends CropperElement {
         }
         break;
 
-      case 'initial-coverage':
-        if (!isPositiveNumber(this.initialCoverage) || this.initialCoverage > 1) {
-          this.initialCoverage = NaN;
-        }
-        break;
-
       case 'initial-aspect-ratio':
         if (!isPositiveNumber(this.initialAspectRatio)) {
           this.initialAspectRatio = NaN;
+        }
+        break;
+
+      case 'initial-coverage':
+        if (!isPositiveNumber(this.initialCoverage) || this.initialCoverage > 1) {
+          this.initialCoverage = NaN;
         }
         break;
 
@@ -384,7 +385,7 @@ export default class CropperSelection extends CropperElement {
   }
 
   protected $handleKeyDown(event: Event): void {
-    if (this.hidden || event.defaultPrevented) {
+    if (this.hidden || (this.multiple && !this.active) || event.defaultPrevented) {
       return;
     }
 
@@ -407,19 +408,19 @@ export default class CropperSelection extends CropperElement {
         this.$move(-1, 0);
         break;
 
-        // Move to the top
-      case 'ArrowUp':
-        event.preventDefault();
-        this.$move(0, -1);
-        break;
-
-        // Move to the right
+      // Move to the right
       case 'ArrowRight':
         event.preventDefault();
         this.$move(1, 0);
         break;
 
-        // Move to the bottom
+      // Move to the top
+      case 'ArrowUp':
+        event.preventDefault();
+        this.$move(0, -1);
+        break;
+
+      // Move to the bottom
       case 'ArrowDown':
         event.preventDefault();
         this.$move(0, 1);
@@ -836,13 +837,13 @@ export default class CropperSelection extends CropperElement {
   /**
    * Generates a real canvas element, with the image (selected area only) draw into if there is one.
    *
-   * @param {object} [options={}] The available options.
+   * @param {object} [options] The available options.
    * @param {Function} [options.beforeDraw] The function called before drawing the image onto the canvas.
    * @returns {Promise} Returns a promise that resolves to the generated canvas element.
    */
-  $toCanvas(options: {
+  $toCanvas(options?: {
     beforeDraw?: (context: CanvasRenderingContext2D, canvas: HTMLCanvasElement) => void;
-  } = {}): Promise<HTMLCanvasElement> {
+  }): Promise<HTMLCanvasElement> {
     return new Promise((resolve, reject) => {
       if (!this.isConnected) {
         reject(new Error('The current element is not connected to the DOM.'));
@@ -884,7 +885,7 @@ export default class CropperSelection extends CropperElement {
           context.fillStyle = 'transparent';
           context.fillRect(0, 0, width, height);
 
-          if (isFunction(options.beforeDraw)) {
+          if (isPlainObject(options) && isFunction(options.beforeDraw)) {
             options.beforeDraw.call(this, context, canvas);
           }
 

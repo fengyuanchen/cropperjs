@@ -18,7 +18,7 @@ The `CropperImage` interface provides properties and methods for manipulating th
 The default width and height of this element is `0`.
 :::
 
-### Source
+### With image source
 
 :::live-demo
 
@@ -81,21 +81,19 @@ Defers the callback to execute after successfully loading the image.
 
 ### $center
 
-- **Syntax**: `$center()`
+- **Syntax**:
+  - `$center()`
+  - `$center(size)`
+- **Arguments**:
+  - `size`:
+    - Type: `string`
+    - Options: `'contain'`, and `'cover'`.
+    - The size of the image.
 - **Returns**:
   - Type: `CropperImage`
   - The element instance for chaining.
 
 Aligns the image to the center of its parent element.
-
-### $fit
-
-- **Syntax**: `$fit()`
-- **Returns**:
-  - Type: `CropperImage`
-  - The element instance for chaining.
-
-Fits the image to its parent element.
 
 ### $move
 
@@ -152,7 +150,7 @@ Moves the image to a specific position.
   - `$rotate('50grad')`
   - `$rotate('0.1turn')`
 
-Rotates the image.
+Rotates the image. It is similar to CSS function [rotate()](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/rotate()) or [CanvasRenderingContext2D.rotate()](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/rotate).
 
 ### $zoom
 
@@ -209,7 +207,7 @@ Zooms the image.
   cropperImage.$scale(1, -1); // Flip the vertical direction
   ```
 
-Scales the image.
+Scales the image. It is similar to CSS function [scale()](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/scale()) or [CanvasRenderingContext2D.scale()](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/scale).
 
 ### $skew
 
@@ -235,7 +233,7 @@ Scales the image.
   - `$skew('0.1turn')`
   - `$skew(0, 0.8)`
 
-Skews the image.
+Skews the image. It is similar to CSS function [skew()](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/skew()).
 
 ### $translate
 
@@ -254,7 +252,7 @@ Skews the image.
   - Type: `CropperImage`
   - The element instance for chaining.
 
-Translates the image.
+Translates the image. It is similar to CSS function [translate()](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/translate()) or [CanvasRenderingContext2D.translate()](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/translate).
 
 ### $transform
 
@@ -282,17 +280,17 @@ Translates the image.
   - Type: `CropperImage`
   - The element instance for chaining.
 
-Transforms the image.
+Transforms the image. It is similar to CSS function [matrix()](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix()) or [CanvasRenderingContext2D.transform()](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/transform).
 
 ### $setTransform
 
 - **Syntax**:
   - `$setTransform(a, b, c, d, e, f)`
-  - `$setTransform(matrix)`
+  - `$setTransform(a)`
 - **Arguments**:
   - `a`:
-    - Type: `number`
-    - The scaling factor in the horizontal direction.
+    - Type: `number | Array`
+    - The scaling factor in the horizontal direction, or the transformation matrix.
   - `b`:
     - Type: `number`
     - The skewing angle in the vertical direction.
@@ -308,9 +306,6 @@ Transforms the image.
   - `f`:
     - Type: `number`
     - The translating distance in the vertical direction.
-  - `matrix`:
-    - Type: `Array`
-    - The transformation matrix.
 - **Returns**:
   - Type: `CropperImage`
   - The element instance for chaining.

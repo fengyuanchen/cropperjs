@@ -30,7 +30,9 @@ export default class CropperGrid extends CropperElement {
   protected static get $observedProperties(): string[] {
     return super.$observedProperties.concat([
       'bordered',
+      'columns',
       'covered',
+      'rows',
     ]);
   }
 

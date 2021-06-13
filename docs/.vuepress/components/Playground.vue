@@ -9,15 +9,6 @@
   >
     <aside>
       <section>
-        <button
-          type="button"
-          class="btn btn-outline-primary btn-sm btn-block"
-          @click="resetAll"
-        >
-          Reset All
-        </button>
-      </section>
-      <section>
         <h6>&lt;cropper-canvas&gt;</h6>
         <ul>
           <li>
@@ -39,12 +30,12 @@
             >
           </li>
           <li>
-            <label for="canvasOutlined">outlined</label>
+            <label for="canvasDisabled">disabled</label>
             <input
-              id="canvasOutlined"
-              v-model="canvas.outlined"
+              id="canvasDisabled"
+              v-model="canvas.disabled"
               type="checkbox"
-              name="outlined"
+              name="disabled"
             >
           </li>
           <li>
@@ -89,7 +80,7 @@
             <label for="imageHidden">hidden</label>
             <input
               id="imageHidden"
-              v-model="canvas.image.hidden"
+              v-model="image.hidden"
               type="checkbox"
               name="hidden"
             >
@@ -98,7 +89,7 @@
             <label for="imageRotatable">rotatable</label>
             <input
               id="imageRotatable"
-              v-model="canvas.image.rotatable"
+              v-model="image.rotatable"
               type="checkbox"
               name="rotatable"
             >
@@ -107,7 +98,7 @@
             <label for="imageScalable">scalable</label>
             <input
               id="imageScalable"
-              v-model="canvas.image.scalable"
+              v-model="image.scalable"
               type="checkbox"
               name="scalable"
             >
@@ -116,7 +107,7 @@
             <label for="imageSkewable">skewable</label>
             <input
               id="imageSkewable"
-              v-model="canvas.image.skewable"
+              v-model="image.skewable"
               type="checkbox"
               name="skewable"
             >
@@ -125,7 +116,7 @@
             <label for="imageTranslatable">translatable</label>
             <input
               id="imageTranslatable"
-              v-model="canvas.image.translatable"
+              v-model="image.translatable"
               type="checkbox"
               name="translatable"
             >
@@ -134,7 +125,7 @@
             <label for="imageSrc">src</label>
             <input
               id="imageSrc"
-              v-model="canvas.image.src"
+              v-model="image.src"
               type="text"
               class="form-control form-control-sm"
               name="src"
@@ -144,7 +135,7 @@
             <label for="imageAlt">alt</label>
             <input
               id="imageAlt"
-              v-model="canvas.image.alt"
+              v-model="image.alt"
               type="text"
               class="form-control form-control-sm"
               name="alt"
@@ -157,7 +148,7 @@
               data-toggle="tooltip"
               data-placement="top"
               title="image.$getTransform()"
-              @click="output.image.matrix = $refs.cropperImage.$getTransform()"
+              @click="output.image.matrix = JSON.stringify($refs.cropperImage.$getTransform())"
             >
               $getTransform()
             </button>
@@ -169,9 +160,65 @@
               data-toggle="tooltip"
               data-placement="top"
               title="image.$setTransform()"
-              @click="output.image.matrix = $refs.cropperImage.$setTransform(output.image.matrix)"
+              @click="$refs.cropperImage.$setTransform(JSON.parse(output.image.matrix))"
             >
               $setTransform()
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              class="btn btn-outline-primary btn-sm"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="image.$resetTransform()"
+              @click="output.image.matrix = JSON.stringify($refs.cropperImage.$resetTransform().$getTransform())"
+            >
+              $resetTransform()
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              class="btn btn-outline-primary btn-sm"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="image.$center()"
+              @click="$refs.cropperImage.$center()"
+            >
+              $center()
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-primary btn-sm"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="image.$center('contain')"
+              @click="$refs.cropperImage.$center('contain')"
+            >
+              $center('contain')
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              class="btn btn-outline-primary btn-sm"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="image.$center('cover')"
+              @click="$refs.cropperImage.$center('cover')"
+            >
+              $center('cover')
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-primary btn-sm"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="image.$moveTo(0, 0)"
+              @click="$refs.cropperImage.$moveTo(0, 0)"
+            >
+              $moveTo(0, 0)
             </button>
           </li>
           <li>
@@ -189,19 +236,7 @@
                   title="image.$move(-1, -1)"
                   @click="$refs.cropperImage.$move(-1, -1)"
                 >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrow-up-left"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M2 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1H3.707l10.147 10.146a.5.5 0 0 1-.708.708L3 3.707V8.5a.5.5 0 0 1-1 0v-6z"
-                    />
-                  </svg>
+                  <i class="bi-arrow-up-left"></i>
                 </button>
                 <button
                   type="button"
@@ -211,19 +246,7 @@
                   title="image.$move(0, -1)"
                   @click="$refs.cropperImage.$move(0, -1)"
                 >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrow-up"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"
-                    />
-                  </svg>
+                  <i class="bi-arrow-up"></i>
                 </button>
                 <button
                   type="button"
@@ -233,19 +256,7 @@
                   title="image.$move(1, -1)"
                   @click="$refs.cropperImage.$move(1, -1)"
                 >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrow-up-right"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z"
-                    />
-                  </svg>
+                  <i class="bi-arrow-up-right"></i>
                 </button>
               </div>
               <div
@@ -261,38 +272,14 @@
                   title="image.$move(-1, 0)"
                   @click="$refs.cropperImage.$move(-1, 0)"
                 >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrow-left"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"
-                    />
-                  </svg>
+                  <i class="bi-arrow-left"></i>
                 </button>
                 <button
                   type="button"
                   class="btn btn-outline-primary btn-sm"
                   disabled
                 >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrows-move"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M7.646.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 1.707V5.5a.5.5 0 0 1-1 0V1.707L6.354 2.854a.5.5 0 1 1-.708-.708l2-2zM8 10a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 14.293V10.5A.5.5 0 0 1 8 10zM.146 8.354a.5.5 0 0 1 0-.708l2-2a.5.5 0 1 1 .708.708L1.707 7.5H5.5a.5.5 0 0 1 0 1H1.707l1.147 1.146a.5.5 0 0 1-.708.708l-2-2zM10 8a.5.5 0 0 1 .5-.5h3.793l-1.147-1.146a.5.5 0 0 1 .708-.708l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L14.293 8.5H10.5A.5.5 0 0 1 10 8z"
-                    />
-                  </svg>
+                  <i class="bi-arrows-move"></i>
                 </button>
                 <button
                   type="button"
@@ -302,19 +289,7 @@
                   title="image.$move(1, 0)"
                   @click="$refs.cropperImage.$move(1, 0)"
                 >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrow-right"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"
-                    />
-                  </svg>
+                   <i class="bi-arrow-right"></i>
                 </button>
               </div>
               <div
@@ -330,19 +305,7 @@
                   title="image.$move(-1, 1)"
                   @click="$refs.cropperImage.$move(-1, 1)"
                 >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrow-down-left"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M2 13.5a.5.5 0 0 0 .5.5h6a.5.5 0 0 0 0-1H3.707L13.854 2.854a.5.5 0 0 0-.708-.708L3 12.293V7.5a.5.5 0 0 0-1 0v6z"
-                    />
-                  </svg>
+                  <i class="bi-arrow-down-left"></i>
                 </button>
                 <button
                   type="button"
@@ -352,19 +315,7 @@
                   title="image.$move(0, 1)"
                   @click="$refs.cropperImage.$move(0, 1)"
                 >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrow-down"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"
-                    />
-                  </svg>
+                  <i class="bi-arrow-down"></i>
                 </button>
                 <button
                   type="button"
@@ -374,68 +325,116 @@
                   title="image.$move(1, 1)"
                   @click="$refs.cropperImage.$move(1, 1)"
                 >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrow-down-right"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M14 13.5a.5.5 0 0 1-.5.5h-6a.5.5 0 0 1 0-1h4.793L2.146 2.854a.5.5 0 1 1 .708-.708L13 12.293V7.5a.5.5 0 0 1 1 0v6z"
-                    />
-                  </svg>
+                  <i class="bi-arrow-down-right"></i>
                 </button>
               </div>
             </div>
-            <div
-              class="btn-group"
-              role="group"
-              aria-label="Move the cropper image"
-            >
-              <button
-                type="button"
-                class="btn btn-outline-primary btn-sm"
-                data-toggle="tooltip"
-                data-placement="top"
-                title="image.$center()"
-                @click="$refs.cropperImage.$center()"
+            <div class="btn-groups">
+              <div
+                class="btn-group"
+                role="group"
+                aria-label="Translate the cropper image"
               >
-                <svg
-                  width="1em"
-                  height="1em"
-                  viewBox="0 0 16 16"
-                  class="bi bi-align-center"
-                  fill="currentColor"
-                  xmlns="http://www.w3.org/2000/svg"
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="image.$translate(-1, -1)"
+                  @click="$refs.cropperImage.$translate(-1, -1)"
                 >
-                  <path d="M8 1a.5.5 0 0 1 .5.5V6h-1V1.5A.5.5 0 0 1 8 1zm0 14a.5.5 0 0 1-.5-.5V10h1v4.5a.5.5 0 0 1-.5.5zM2 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7z" />
-                </svg>
-              </button>
-              <button
-                type="button"
-                class="btn btn-outline-primary btn-sm"
-                data-toggle="tooltip"
-                data-placement="top"
-                title="image.$fit()"
-                @click="$refs.cropperImage.$fit()"
+                  <i class="bi-arrow-up-left"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="image.$translate(0, -1)"
+                  @click="$refs.cropperImage.$translate(0, -1)"
+                >
+                  <i class="bi-arrow-up"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="image.$translate(1, -1)"
+                  @click="$refs.cropperImage.$translate(1, -1)"
+                >
+                  <i class="bi-arrow-up-right"></i>
+                </button>
+              </div>
+              <div
+                class="btn-group"
+                role="group"
+                aria-label="Translate the cropper image"
               >
-                <svg
-                  width="1.0625em"
-                  height="1em"
-                  viewBox="0 0 17 16"
-                  class="bi bi-image-fill"
-                  fill="currentColor"
-                  xmlns="http://www.w3.org/2000/svg"
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="image.$translate(-1, 0)"
+                  @click="$refs.cropperImage.$translate(-1, 0)"
                 >
-                  <path
-                    fill-rule="evenodd"
-                    d="M.002 3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-12a2 2 0 0 1-2-2V3zm1 9l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094L15.002 9.5V13a1 1 0 0 1-1 1h-12a1 1 0 0 1-1-1v-1zm5-6.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"
-                  />
-                </svg>
-              </button>
+                  <i class="bi-arrow-left"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  disabled
+                >
+                  <i class="bi-arrows-move"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="image.$translate(1, 0)"
+                  @click="$refs.cropperImage.$translate(1, 0)"
+                >
+                   <i class="bi-arrow-right"></i>
+                </button>
+              </div>
+              <div
+                class="btn-group"
+                role="group"
+                aria-label="Translate the cropper image"
+              >
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="image.$translate(-1, 1)"
+                  @click="$refs.cropperImage.$translate(-1, 1)"
+                >
+                  <i class="bi-arrow-down-left"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="image.$translate(0, 1)"
+                  @click="$refs.cropperImage.$translate(0, 1)"
+                >
+                  <i class="bi-arrow-down"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="image.$translate(1, 1)"
+                  @click="$refs.cropperImage.$translate(1, 1)"
+                >
+                  <i class="bi-arrow-down-right"></i>
+                </button>
+              </div>
             </div>
           </li>
           <li>
@@ -452,24 +451,7 @@
                 title="image.$zoom(0.1)"
                 @click="$refs.cropperImage.$zoom(0.1)"
               >
-                <svg
-                  width="1em"
-                  height="1em"
-                  viewBox="0 0 16 16"
-                  class="bi bi-zoom-in"
-                  fill="currentColor"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"
-                  />
-                  <path d="M10.344 11.742c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1 6.538 6.538 0 0 1-1.398 1.4z" />
-                  <path
-                    fill-rule="evenodd"
-                    d="M6.5 3a.5.5 0 0 1 .5.5V6h2.5a.5.5 0 0 1 0 1H7v2.5a.5.5 0 0 1-1 0V7H3.5a.5.5 0 0 1 0-1H6V3.5a.5.5 0 0 1 .5-.5z"
-                  />
-                </svg>
+                <i class="bi-zoom-in"></i>
               </button>
               <button
                 type="button"
@@ -479,24 +461,7 @@
                 title="image.$zoom(-0.1)"
                 @click="$refs.cropperImage.$zoom(-0.1)"
               >
-                <svg
-                  width="1em"
-                  height="1em"
-                  viewBox="0 0 16 16"
-                  class="bi bi-zoom-out"
-                  fill="currentColor"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"
-                  />
-                  <path d="M10.344 11.742c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1 6.538 6.538 0 0 1-1.398 1.4z" />
-                  <path
-                    fill-rule="evenodd"
-                    d="M3 6.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z"
-                  />
-                </svg>
+                <i class="bi-zoom-out"></i>
               </button>
             </div>
             <div
@@ -512,20 +477,7 @@
                 title="image.$rotate('-45deg')"
                 @click="$refs.cropperImage.$rotate('-45deg')"
               >
-                <svg
-                  width="1em"
-                  height="1em"
-                  viewBox="0 0 16 16"
-                  class="bi bi-arrow-counterclockwise"
-                  fill="currentColor"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2v1z"
-                  />
-                  <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466z" />
-                </svg>
+                <i class="bi-arrow-90deg-left"></i>
               </button>
               <button
                 type="button"
@@ -535,20 +487,7 @@
                 title="image.$rotate('45deg')"
                 @click="$refs.cropperImage.$rotate('45deg')"
               >
-                <svg
-                  width="1em"
-                  height="1em"
-                  viewBox="0 0 16 16"
-                  class="bi bi-arrow-clockwise"
-                  fill="currentColor"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"
-                  />
-                  <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
-                </svg>
+                <i class="bi-arrow-90deg-right"></i>
               </button>
             </div>
             <div
@@ -564,19 +503,7 @@
                 title="image.$skew('45deg')"
                 @click="$refs.cropperImage.$skew('45deg')"
               >
-                <svg
-                  width="1em"
-                  height="1em"
-                  viewBox="0 0 16 16"
-                  class="bi bi-arrow-up-left"
-                  fill="currentColor"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M2 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1H3.707l10.147 10.146a.5.5 0 0 1-.708.708L3 3.707V8.5a.5.5 0 0 1-1 0v-6z"
-                  />
-                </svg>
+                <i class="bi-arrow-up-left-square"></i>
               </button>
               <button
                 type="button"
@@ -586,19 +513,35 @@
                 title="image.$skew('-45deg')"
                 @click="$refs.cropperImage.$skew('-45deg')"
               >
-                <svg
-                  width="1em"
-                  height="1em"
-                  viewBox="0 0 16 16"
-                  class="bi bi-arrow-up-right"
-                  fill="currentColor"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z"
-                  />
-                </svg>
+                <i class="bi-arrow-up-right-square"></i>
+              </button>
+            </div>
+          </li>
+          <li>
+            <div
+              class="btn-group"
+              role="group"
+              aria-label="Rotate the cropper image"
+            >
+              <button
+                type="button"
+                class="btn btn-outline-primary btn-sm"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="image.$scale(-1, 1)"
+                @click="$refs.cropperImage.$scale(-1, 1)"
+              >
+                <i class="bi-arrow-left-right"></i>
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-primary btn-sm"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="image.$scale(1, -1)"
+                @click="$refs.cropperImage.$scale(1, -1)"
+              >
+                <i class="bi-arrow-down-up"></i>
               </button>
             </div>
           </li>
@@ -617,7 +560,7 @@
             <label for="shadeHidden">hidden</label>
             <input
               id="shadeHidden"
-              v-model="canvas.shade.hidden"
+              v-model="shade.hidden"
               type="checkbox"
               name="hidden"
             >
@@ -626,9 +569,10 @@
             <label for="shadeThemeColor">theme-color</label>
             <input
               id="shadeThemeColor"
-              v-model="canvas.shade.themeColor"
-              type="text"
-              class="form-control form-control-sm"
+              v-model="shade.themeColor"
+              type="color"
+              class="form-control form-control-color form-control-sm"
+              name="themeColor"
             >
           </li>
         </ul>
@@ -640,7 +584,7 @@
             <label for="handleHidden">hidden</label>
             <input
               id="handleHidden"
-              v-model="canvas.handle.hidden"
+              v-model="handle.hidden"
               type="checkbox"
               name="hidden"
             >
@@ -649,7 +593,7 @@
             <label for="handleAction">action</label>
             <select
               id="handleAction"
-              v-model="canvas.handle.action"
+              v-model="handle.action"
               class="form-control form-control-sm"
               name="action"
             >
@@ -719,12 +663,22 @@
             </select>
           </li>
           <li>
+            <label for="handlePlain">plain</label>
+            <input
+              id="handlePlain"
+              v-model="handle.plain"
+              type="checkbox"
+              name="plain"
+            >
+          </li>
+          <li>
             <label for="handleThemeColor">theme-color</label>
             <input
               id="handleThemeColor"
-              v-model="canvas.handle.themeColor"
-              type="text"
-              class="form-control form-control-sm"
+              v-model="handle.themeColor"
+              type="color"
+              class="form-control form-control-color form-control-sm"
+              name="themeColor"
             >
           </li>
         </ul>
@@ -736,7 +690,7 @@
             <label for="selectionHidden">hidden</label>
             <input
               id="selectionHidden"
-              v-model="canvas.selection.hidden"
+              v-model="selection.hidden"
               type="checkbox"
               name="hidden"
             >
@@ -745,7 +699,7 @@
             <label for="selectionAspectRatio">aspect-ratio</label>
             <select
               id="selectionAspectRatio"
-              v-model.number="canvas.selection.aspectRatio"
+              v-model.number="selection.aspectRatio"
               class="form-control form-control-sm"
               name="aspectRatio"
             >
@@ -767,7 +721,7 @@
             <label for="selectionInitialAspectRatio">initial-aspect-ratio</label>
             <input
               id="selectionInitialAspectRatio"
-              v-model.number="canvas.selection.initialAspectRatio"
+              v-model.number="selection.initialAspectRatio"
               type="number"
               class="form-control form-control-sm"
               name="initialAspectRatio"
@@ -779,7 +733,7 @@
             <label for="selectionAutoSelectArea">initial-coverage</label>
             <input
               id="selectionAutoSelectArea"
-              v-model.number="canvas.selection.initialCoverage"
+              v-model.number="selection.initialCoverage"
               type="range"
               class="form-range form-control-sm"
               name="initialCoverage"
@@ -792,7 +746,7 @@
             <label for="selectionMovable">movable</label>
             <input
               id="selectionMovable"
-              v-model="canvas.selection.movable"
+              v-model="selection.movable"
               type="checkbox"
               name="movable"
             >
@@ -801,7 +755,7 @@
             <label for="selectionResizable">resizable</label>
             <input
               id="selectionResizable"
-              v-model="canvas.selection.resizable"
+              v-model="selection.resizable"
               type="checkbox"
               name="resizable"
             >
@@ -810,16 +764,34 @@
             <label for="selectionZoomable">zoomable</label>
             <input
               id="selectionZoomable"
-              v-model="canvas.selection.zoomable"
+              v-model="selection.zoomable"
               type="checkbox"
               name="zoomable"
+            >
+          </li>
+          <li>
+            <label for="selectionMultiple">multiple</label>
+            <input
+              id="selectionMultiple"
+              v-model="selection.multiple"
+              type="checkbox"
+              name="multiple"
+            >
+          </li>
+          <li>
+            <label for="selectionKeyboard">keyboard</label>
+            <input
+              id="selectionKeyboard"
+              v-model="selection.keyboard"
+              type="checkbox"
+              name="keyboard"
             >
           </li>
           <li>
             <label for="selectionOutlined">outlined</label>
             <input
               id="selectionOutlined"
-              v-model="canvas.selection.outlined"
+              v-model="selection.outlined"
               type="checkbox"
               name="outlined"
             >
@@ -828,7 +800,7 @@
             <label for="selectionPrecision">precise</label>
             <input
               id="selectionPrecision"
-              v-model="canvas.selection.precise"
+              v-model="selection.precise"
               type="checkbox"
               name="precise"
             >
@@ -878,737 +850,6 @@
             >
               $moveTo(0, 0)
             </button>
-          </li>
-          <li>
-            <div class="btn-groups">
-              <div
-                class="btn-group"
-                role="group"
-                aria-label="Move the cropper image"
-              >
-                <button
-                  type="button"
-                  class="btn btn-outline-primary btn-sm"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="selection.$move(-1, -1)"
-                  @click="$refs.cropperSelection.$move(-1, -1)"
-                >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrow-up-left"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M2 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1H3.707l10.147 10.146a.5.5 0 0 1-.708.708L3 3.707V8.5a.5.5 0 0 1-1 0v-6z"
-                    />
-                  </svg>
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-primary btn-sm"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="selection.$move(0, -1)"
-                  @click="$refs.cropperSelection.$move(0, -1)"
-                >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrow-up"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"
-                    />
-                  </svg>
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-primary btn-sm"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="selection.$move(1, -1)"
-                  @click="$refs.cropperSelection.$move(1, -1)"
-                >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrow-up-right"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z"
-                    />
-                  </svg>
-                </button>
-              </div>
-              <div
-                class="btn-group"
-                role="group"
-                aria-label="Move the cropper image"
-              >
-                <button
-                  type="button"
-                  class="btn btn-outline-primary btn-sm"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="selection.$move(-1, 0)"
-                  @click="$refs.cropperSelection.$move(-1, 0)"
-                >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrow-left"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"
-                    />
-                  </svg>
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-primary btn-sm"
-                  disabled
-                >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrows-move"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M7.646.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 1.707V5.5a.5.5 0 0 1-1 0V1.707L6.354 2.854a.5.5 0 1 1-.708-.708l2-2zM8 10a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 14.293V10.5A.5.5 0 0 1 8 10zM.146 8.354a.5.5 0 0 1 0-.708l2-2a.5.5 0 1 1 .708.708L1.707 7.5H5.5a.5.5 0 0 1 0 1H1.707l1.147 1.146a.5.5 0 0 1-.708.708l-2-2zM10 8a.5.5 0 0 1 .5-.5h3.793l-1.147-1.146a.5.5 0 0 1 .708-.708l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L14.293 8.5H10.5A.5.5 0 0 1 10 8z"
-                    />
-                  </svg>
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-primary btn-sm"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="selection.$move(1, 0)"
-                  @click="$refs.cropperSelection.$move(1, 0)"
-                >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrow-right"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"
-                    />
-                  </svg>
-                </button>
-              </div>
-              <div
-                class="btn-group"
-                role="group"
-                aria-label="Move the cropper image"
-              >
-                <button
-                  type="button"
-                  class="btn btn-outline-primary btn-sm"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="selection.$move(-1, 1)"
-                  @click="$refs.cropperSelection.$move(-1, 1)"
-                >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrow-down-left"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M2 13.5a.5.5 0 0 0 .5.5h6a.5.5 0 0 0 0-1H3.707L13.854 2.854a.5.5 0 0 0-.708-.708L3 12.293V7.5a.5.5 0 0 0-1 0v6z"
-                    />
-                  </svg>
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-primary btn-sm"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="selection.$move(0, 1)"
-                  @click="$refs.cropperSelection.$move(0, 1)"
-                >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrow-down"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"
-                    />
-                  </svg>
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-primary btn-sm"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="selection.$move(1, 1)"
-                  @click="$refs.cropperSelection.$move(1, 1)"
-                >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrow-down-right"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M14 13.5a.5.5 0 0 1-.5.5h-6a.5.5 0 0 1 0-1h4.793L2.146 2.854a.5.5 0 1 1 .708-.708L13 12.293V7.5a.5.5 0 0 1 1 0v6z"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="btn-groups">
-              <div
-                class="btn-group"
-                role="group"
-                aria-label="Scale the cropper image"
-              >
-                <button
-                  type="button"
-                  class="btn btn-outline-primary btn-sm"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="selection.$resize('nw-resize', -1, -1)"
-                  @click="$refs.cropperSelection.$resize('nw-resize', -1, -1)"
-                >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrow-up-left-square"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
-                    />
-                    <path
-                      fill-rule="evenodd"
-                      d="M10.828 10.828a.5.5 0 0 1-.707 0L6.025 6.732V9.5a.5.5 0 0 1-1 0V5.525a.5.5 0 0 1 .5-.5H9.5a.5.5 0 0 1 0 1H6.732l4.096 4.096a.5.5 0 0 1 0 .707z"
-                    />
-                  </svg>
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-primary btn-sm"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="selection.$resize('n-resize', 0, -1)"
-                  @click="$refs.cropperSelection.$resize('n-resize', 0, -1)"
-                >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrow-up-square"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
-                    />
-                    <path
-                      fill-rule="evenodd"
-                      d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z"
-                    />
-                  </svg>
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-primary btn-sm"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="selection.$resize('ne-resize', 1, -1)"
-                  @click="$refs.cropperSelection.$resize('ne-resize', 1, -1)"
-                >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrow-up-right-square"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
-                    />
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.172 10.828a.5.5 0 0 0 .707 0l4.096-4.096V9.5a.5.5 0 1 0 1 0V5.525a.5.5 0 0 0-.5-.5H6.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707z"
-                    />
-                  </svg>
-                </button>
-              </div>
-              <div
-                class="btn-group"
-                role="group"
-                aria-label="Scale the cropper image"
-              >
-                <button
-                  type="button"
-                  class="btn btn-outline-primary btn-sm"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="selection.$resize('w-resize', -1, 0)"
-                  @click="$refs.cropperSelection.$resize('w-resize', -1, 0)"
-                >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrow-left-square"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
-                    />
-                    <path
-                      fill-rule="evenodd"
-                      d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"
-                    />
-                  </svg>
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-primary btn-sm"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="selection.$zoom(0.1)"
-                  @click="$refs.cropperSelection.$zoom(0.1)"
-                >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-zoom-in"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"
-                    />
-                    <path d="M10.344 11.742c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1 6.538 6.538 0 0 1-1.398 1.4z" />
-                    <path
-                      fill-rule="evenodd"
-                      d="M6.5 3a.5.5 0 0 1 .5.5V6h2.5a.5.5 0 0 1 0 1H7v2.5a.5.5 0 0 1-1 0V7H3.5a.5.5 0 0 1 0-1H6V3.5a.5.5 0 0 1 .5-.5z"
-                    />
-                  </svg>
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-primary btn-sm"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="selection.$resize('e-resize', 1, 0)"
-                  @click="$refs.cropperSelection.$resize('e-resize', 1, 0)"
-                >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrow-right-square"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
-                    />
-                    <path
-                      fill-rule="evenodd"
-                      d="M4 8a.5.5 0 0 0 .5.5h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5A.5.5 0 0 0 4 8z"
-                    />
-                  </svg>
-                </button>
-              </div>
-              <div
-                class="btn-group"
-                role="group"
-                aria-label="Scale the cropper image"
-              >
-                <button
-                  type="button"
-                  class="btn btn-outline-primary btn-sm"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="selection.$resize('sw-resize', -1, 1)"
-                  @click="$refs.cropperSelection.$resize('sw-resize', -1, 1)"
-                >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrow-down-left-square"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
-                    />
-                    <path
-                      fill-rule="evenodd"
-                      d="M10.828 5.172a.5.5 0 0 0-.707 0L6.025 9.268V6.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H9.5a.5.5 0 0 0 0-1H6.732l4.096-4.096a.5.5 0 0 0 0-.707z"
-                    />
-                  </svg>
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-primary btn-sm"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="selection.$resize('s-resize', 0, 1)"
-                  @click="$refs.cropperSelection.$resize('s-resize', 0, 1)"
-                >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrow-down-square"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
-                    />
-                    <path
-                      fill-rule="evenodd"
-                      d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z"
-                    />
-                  </svg>
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-primary btn-sm"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="selection.$resize('se-resize', 1, 1)"
-                  @click="$refs.cropperSelection.$resize('se-resize', 1, 1)"
-                >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrow-down-right-square"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
-                    />
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.172 5.172a.5.5 0 0 1 .707 0l4.096 4.096V6.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H6.5a.5.5 0 0 1 0-1h2.768L5.172 5.879a.5.5 0 0 1 0-.707z"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
-            <div class="btn-groups">
-              <div
-                class="btn-group"
-                role="group"
-                aria-label="Scale the cropper image"
-              >
-                <button
-                  type="button"
-                  class="btn btn-outline-primary btn-sm"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="selection.$resize('nw-resize', 1, 1)"
-                  @click="$refs.cropperSelection.$resize('nw-resize', 1, 1)"
-                >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrow-down-right-square"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
-                    />
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.172 5.172a.5.5 0 0 1 .707 0l4.096 4.096V6.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H6.5a.5.5 0 0 1 0-1h2.768L5.172 5.879a.5.5 0 0 1 0-.707z"
-                    />
-                  </svg>
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-primary btn-sm"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="selection.$resize('n-resize', 0, 1)"
-                  @click="$refs.cropperSelection.$resize('n-resize', 0, 1)"
-                >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrow-down-square"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
-                    />
-                    <path
-                      fill-rule="evenodd"
-                      d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z"
-                    />
-                  </svg>
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-primary btn-sm"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="selection.$resize('ne-resize', -1, 1)"
-                  @click="$refs.cropperSelection.$resize('ne-resize', -1, 1)"
-                >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrow-down-left-square"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
-                    />
-                    <path
-                      fill-rule="evenodd"
-                      d="M10.828 5.172a.5.5 0 0 0-.707 0L6.025 9.268V6.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H9.5a.5.5 0 0 0 0-1H6.732l4.096-4.096a.5.5 0 0 0 0-.707z"
-                    />
-                  </svg>
-                </button>
-              </div>
-              <div
-                class="btn-group"
-                role="group"
-                aria-label="Scale the cropper image"
-              >
-                <button
-                  type="button"
-                  class="btn btn-outline-primary btn-sm"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="selection.$resize('w-resize', 1, 0)"
-                  @click="$refs.cropperSelection.$resize('w-resize', 1, 0)"
-                >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrow-right-square"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
-                    />
-                    <path
-                      fill-rule="evenodd"
-                      d="M4 8a.5.5 0 0 0 .5.5h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5A.5.5 0 0 0 4 8z"
-                    />
-                  </svg>
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-primary btn-sm"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="selection.$zoom(-0.1)"
-                  @click="$refs.cropperSelection.$zoom(-0.1)"
-                >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-zoom-out"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"
-                    />
-                    <path d="M10.344 11.742c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1 6.538 6.538 0 0 1-1.398 1.4z" />
-                    <path
-                      fill-rule="evenodd"
-                      d="M3 6.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z"
-                    />
-                  </svg>
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-primary btn-sm"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="selection.$resize('e-resize', -1, 0)"
-                  @click="$refs.cropperSelection.$resize('e-resize', -1, 0)"
-                >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrow-left-square"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
-                    />
-                    <path
-                      fill-rule="evenodd"
-                      d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"
-                    />
-                  </svg>
-                </button>
-              </div>
-              <div
-                class="btn-group"
-                role="group"
-                aria-label="Scale the cropper image"
-              >
-                <button
-                  type="button"
-                  class="btn btn-outline-primary btn-sm"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="selection.$resize('sw-resize', 1, -1)"
-                  @click="$refs.cropperSelection.$resize('sw-resize', 1, -1)"
-                >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrow-up-right-square"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
-                    />
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.172 10.828a.5.5 0 0 0 .707 0l4.096-4.096V9.5a.5.5 0 1 0 1 0V5.525a.5.5 0 0 0-.5-.5H6.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707z"
-                    />
-                  </svg>
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-primary btn-sm"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="selection.$resize('s-resize', 0, -1)"
-                  @click="$refs.cropperSelection.$resize('s-resize', 0, -1)"
-                >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrow-up-square"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
-                    />
-                    <path
-                      fill-rule="evenodd"
-                      d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z"
-                    />
-                  </svg>
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-primary btn-sm"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="selection.$resize('se-resize', -1, -1)"
-                  @click="$refs.cropperSelection.$resize('se-resize', -1, -1)"
-                >
-                  <svg
-                    width="1em"
-                    height="1em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-arrow-up-left-square"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
-                    />
-                    <path
-                      fill-rule="evenodd"
-                      d="M10.828 10.828a.5.5 0 0 1-.707 0L6.025 6.732V9.5a.5.5 0 0 1-1 0V5.525a.5.5 0 0 1 .5-.5H9.5a.5.5 0 0 1 0 1H6.732l4.096 4.096a.5.5 0 0 1 0 .707z"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </li>
-          <li>
             <button
               type="button"
               class="btn btn-outline-primary btn-sm btn-block"
@@ -1619,6 +860,337 @@
               $toCanvas()
             </button>
           </li>
+          <li>
+            <div class="btn-groups">
+              <div
+                class="btn-group"
+                role="group"
+                aria-label="Move the cropper selection"
+              >
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="selection.$move(-1, -1)"
+                  @click="$refs.cropperSelection.$move(-1, -1)"
+                >
+                  <i class="bi-arrow-up-left"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="selection.$move(0, -1)"
+                  @click="$refs.cropperSelection.$move(0, -1)"
+                >
+                  <i class="bi-arrow-up"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="selection.$move(1, -1)"
+                  @click="$refs.cropperSelection.$move(1, -1)"
+                >
+                  <i class="bi-arrow-up-right"></i>
+                </button>
+              </div>
+              <div
+                class="btn-group"
+                role="group"
+                aria-label="Move the cropper selection"
+              >
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="selection.$move(-1, 0)"
+                  @click="$refs.cropperSelection.$move(-1, 0)"
+                >
+                  <i class="bi-arrow-left"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  disabled
+                >
+                  <i class="bi-arrows-move"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="selection.$move(1, 0)"
+                  @click="$refs.cropperSelection.$move(1, 0)"
+                >
+                   <i class="bi-arrow-right"></i>
+                </button>
+              </div>
+              <div
+                class="btn-group"
+                role="group"
+                aria-label="Move the cropper selection"
+              >
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="selection.$move(-1, 1)"
+                  @click="$refs.cropperSelection.$move(-1, 1)"
+                >
+                  <i class="bi-arrow-down-left"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="selection.$move(0, 1)"
+                  @click="$refs.cropperSelection.$move(0, 1)"
+                >
+                  <i class="bi-arrow-down"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="selection.$move(1, 1)"
+                  @click="$refs.cropperSelection.$move(1, 1)"
+                >
+                  <i class="bi-arrow-down-right"></i>
+                </button>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="btn-groups">
+              <div
+                class="btn-group"
+                role="group"
+                aria-label="Resize the cropper selection"
+              >
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="selection.$resize('nw-resize', -1, -1)"
+                  @click="$refs.cropperSelection.$resize('nw-resize', -1, -1)"
+                >
+                  <i class="bi-arrow-up-left-square"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="selection.$resize('n-resize', 0, -1)"
+                  @click="$refs.cropperSelection.$resize('n-resize', 0, -1)"
+                >
+                  <i class="bi-arrow-up-square"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="selection.$resize('ne-resize', 1, -1)"
+                  @click="$refs.cropperSelection.$resize('ne-resize', 1, -1)"
+                >
+                  <i class="bi-arrow-up-right-square"></i>
+                </button>
+              </div>
+              <div
+                class="btn-group"
+                role="group"
+                aria-label="Resize the cropper selection"
+              >
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="selection.$resize('w-resize', -1, 0)"
+                  @click="$refs.cropperSelection.$resize('w-resize', -1, 0)"
+                >
+                  <i class="bi-arrow-left-square"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="selection.$zoom(0.1)"
+                  @click="$refs.cropperSelection.$zoom(0.1)"
+                >
+                  <i class="bi-zoom-in"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="selection.$resize('e-resize', 1, 0)"
+                  @click="$refs.cropperSelection.$resize('e-resize', 1, 0)"
+                >
+                  <i class="bi-arrow-right-square"></i>
+                </button>
+              </div>
+              <div
+                class="btn-group"
+                role="group"
+                aria-label="Resize the cropper selection"
+              >
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="selection.$resize('sw-resize', -1, 1)"
+                  @click="$refs.cropperSelection.$resize('sw-resize', -1, 1)"
+                >
+                  <i class="bi-arrow-down-left-square"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="selection.$resize('s-resize', 0, 1)"
+                  @click="$refs.cropperSelection.$resize('s-resize', 0, 1)"
+                >
+                  <i class="bi-arrow-down-square"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="selection.$resize('se-resize', 1, 1)"
+                  @click="$refs.cropperSelection.$resize('se-resize', 1, 1)"
+                >
+                  <i class="bi-arrow-down-right-square"></i>
+                </button>
+              </div>
+            </div>
+            <div class="btn-groups">
+              <div
+                class="btn-group"
+                role="group"
+                aria-label="Resize the cropper selection"
+              >
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="selection.$resize('nw-resize', 1, 1)"
+                  @click="$refs.cropperSelection.$resize('nw-resize', 1, 1)"
+                >
+                  <i class="bi-arrow-down-right-square"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="selection.$resize('n-resize', 0, 1)"
+                  @click="$refs.cropperSelection.$resize('n-resize', 0, 1)"
+                >
+                  <i class="bi-arrow-down-square"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="selection.$resize('ne-resize', -1, 1)"
+                  @click="$refs.cropperSelection.$resize('ne-resize', -1, 1)"
+                >
+                  <i class="bi-arrow-down-left-square"></i>
+                </button>
+              </div>
+              <div
+                class="btn-group"
+                role="group"
+                aria-label="Resize the cropper selection"
+              >
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="selection.$resize('w-resize', 1, 0)"
+                  @click="$refs.cropperSelection.$resize('w-resize', 1, 0)"
+                >
+                  <i class="bi-arrow-right-square"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="selection.$zoom(-0.1)"
+                  @click="$refs.cropperSelection.$zoom(-0.1)"
+                >
+                  <i class="bi-zoom-out"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="selection.$resize('e-resize', -1, 0)"
+                  @click="$refs.cropperSelection.$resize('e-resize', -1, 0)"
+                >
+                  <i class="bi-arrow-left-square"></i>
+                </button>
+              </div>
+              <div
+                class="btn-group"
+                role="group"
+                aria-label="Resize the cropper selection"
+              >
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="selection.$resize('sw-resize', 1, -1)"
+                  @click="$refs.cropperSelection.$resize('sw-resize', 1, -1)"
+                >
+                  <i class="bi-arrow-up-right-square"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="selection.$resize('s-resize', 0, -1)"
+                  @click="$refs.cropperSelection.$resize('s-resize', 0, -1)"
+                >
+                  <i class="bi-arrow-up-square"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="selection.$resize('se-resize', -1, -1)"
+                  @click="$refs.cropperSelection.$resize('se-resize', -1, -1)"
+                >
+                  <i class="bi-arrow-up-left-square"></i>
+                </button>
+              </div>
+            </div>
+          </li>
         </ul>
       </section>
       <section>
@@ -1628,7 +1200,7 @@
             <label for="selectionGridHidden">hidden</label>
             <input
               id="selectionGridHidden"
-              v-model="canvas.selection.grid.hidden"
+              v-model="grid.hidden"
               type="checkbox"
               name="hidden"
             >
@@ -1637,7 +1209,7 @@
             <label for="selectionGridRows">rows</label>
             <input
               id="selectionGridRows"
-              v-model.number="canvas.selection.grid.rows"
+              v-model.number="grid.rows"
               type="number"
               class="form-control form-control-sm"
               name="rows"
@@ -1649,12 +1221,40 @@
             <label for="selectionGridColumns">columns</label>
             <input
               id="selectionGridColumns"
-              v-model.number="canvas.selection.grid.columns"
+              v-model.number="grid.columns"
               type="number"
               class="form-control form-control-sm"
               name="columns"
               min="0"
               max="9"
+            >
+          </li>
+          <li>
+            <label for="selectionGridBordered">bordered</label>
+            <input
+              id="selectionGridBordered"
+              v-model="grid.bordered"
+              type="checkbox"
+              name="bordered"
+            >
+          </li>
+          <li>
+            <label for="selectionGridCovered">covered</label>
+            <input
+              id="selectionGridCovered"
+              v-model="grid.covered"
+              type="checkbox"
+              name="covered"
+            >
+          </li>
+          <li>
+            <label for="selectionGridThemeColor">theme-color</label>
+            <input
+              id="selectionGridThemeColor"
+              v-model="grid.themeColor"
+              type="color"
+              class="form-control form-control-color form-control-sm"
+              name="themeColor"
             >
           </li>
         </ul>
@@ -1666,16 +1266,25 @@
             <label for="selectionCrosshairHidden">hidden</label>
             <input
               id="selectionCrosshairHidden"
-              v-model="canvas.selection.crosshair.hidden"
+              v-model="crosshair.hidden"
               type="checkbox"
               name="hidden"
+            >
+          </li>
+          <li>
+            <label for="selectionCrosshairCentered">centered</label>
+            <input
+              id="selectionCrosshairCentered"
+              v-model="crosshair.centered"
+              type="checkbox"
+              name="centered"
             >
           </li>
           <li>
             <label for="selectionCrosshairThemeColor">theme-color</label>
             <input
               id="selectionCrosshairThemeColor"
-              v-model="canvas.selection.crosshair.themeColor"
+              v-model="crosshair.themeColor"
               type="color"
               class="form-control form-control-color form-control-sm"
               name="themeColor"
@@ -1684,7 +1293,7 @@
         </ul>
       </section>
       <section
-        v-for="(handle, index) in canvas.selection.handles"
+        v-for="(handle, index) in handles"
         :key="handle.action"
       >
         <h6>&lt;cropper-handle action="{{ handle.action }}"&gt;</h6>
@@ -1792,47 +1401,61 @@
         :background="canvas.background"
         :disabled="canvas.disabled"
         :hidden="canvas.hidden"
-        :outlined="canvas.outlined"
         :scale="canvas.scale"
         :theme-color="canvas.themeColor"
       >
         <cropper-image
           ref="cropperImage"
-          v-bind="canvas.image"
+          :hidden="image.hidden"
+          :rotatable="image.rotatable"
+          :scalable="image.scalable"
+          :skewable="image.skewable"
+          :translatable="image.translatable"
+          :src="image.src"
+          :alt="image.alt"
           @transform="onImageTransform"
         />
         <cropper-shade
-          :hidden="canvas.shade.hidden"
-          :theme-color="canvas.shade.themeColor"
+          :hidden="shade.hidden"
+          :theme-color="shade.themeColor"
         />
         <cropper-handle
-          :action="canvas.handle.action"
-          :hidden="canvas.handle.hidden"
-          :plain="canvas.handle.plain"
+          :action="handle.action"
+          :hidden="handle.hidden"
+          :plain="handle.plain"
+          :theme-color="handle.themeColor"
         />
         <cropper-selection
           id="cropperSelection"
           ref="cropperSelection"
-          :aspect-ratio="canvas.selection.aspectRatio"
-          :initial-coverage="canvas.selection.initialCoverage"
-          :hidden="canvas.selection.hidden"
-          :initial-aspect-ratio="canvas.selection.initialAspectRatio"
-          :movable="canvas.selection.movable"
-          :resizable="canvas.selection.resizable"
-          :zoomable="canvas.selection.zoomable"
-          :outlined="canvas.selection.outlined"
-          :precise="canvas.selection.precise"
+          :aspect-ratio="selection.aspectRatio"
+          :initial-coverage="selection.initialCoverage"
+          :hidden="selection.hidden"
+          :initial-aspect-ratio="selection.initialAspectRatio"
+          :movable="selection.movable"
+          :resizable="selection.resizable"
+          :zoomable="selection.zoomable"
+          :multiple="selection.multiple"
+          :keyboard="selection.keyboard"
+          :outlined="selection.outlined"
+          :precise="selection.precise"
           @change="onSelectionChange"
         >
-          <!-- <cropper-viewer v-bind="canvas.selection.viewer"></cropper-viewer> -->
-          <cropper-grid v-bind="canvas.selection.grid" />
+          <cropper-grid
+            :hidden="grid.hidden"
+            :rows="grid.rows"
+            :columns="grid.columns"
+            :bordered="grid.bordered"
+            :covered="grid.covered"
+            :theme-color="grid.themeColor"
+          />
           <cropper-crosshair
-            :hidden="canvas.selection.crosshair.hidden"
-            :centered="canvas.selection.crosshair.centered"
-            :theme-color="canvas.selection.crosshair.themeColor"
+            :hidden="crosshair.hidden"
+            :centered="crosshair.centered"
+            :theme-color="crosshair.themeColor"
           />
           <cropper-handle
-            v-for="handle in canvas.selection.handles"
+            v-for="handle in handles"
             :key="handle.action"
             :action="handle.action"
             :hidden="handle.hidden"
@@ -1973,97 +1596,100 @@ export default {
         hidden: false,
         background: true,
         disabled: false,
-        outlined: false,
         scale: 0.1,
         themeColor: '#3399ff',
-        image: {
-          hidden: false,
-          rotatable: true,
-          scalable: true,
-          skewable: true,
-          translatable: true,
-          src: '/picture.jpg',
-          alt: 'The image to crop',
-        },
-        shade: {
-          action: 'select',
-          themeColor: 'rgba(0, 0, 0, 0.65)',
-        },
-        handle: {
-          hidden: false,
-          action: 'select',
-          plain: true,
-        },
-        selection: {
-          hidden: false,
-          aspectRatio: NaN,
-          initialAspectRatio: NaN,
-          initialCoverage: 0.8,
-          movable: true,
-          resizable: true,
-          zoomable: true,
-          outlined: false,
-          precise: false,
-          grid: {
-            hidden: false,
-            covered: true,
-            columns: 3,
-            rows: 3,
-          },
-          crosshair: {
-            hidden: false,
-            centered: true,
-            themeColor: '#eeeeee',
-          },
-          handles: [
-            {
-              hidden: false,
-              action: 'move',
-              themeColor: 'rgba(255, 255, 255, 0.35)',
-            },
-            {
-              hidden: false,
-              action: 'n-resize',
-              themeColor: '#3399ff',
-            },
-            {
-              hidden: false,
-              action: 'e-resize',
-              themeColor: '#3399ff',
-            },
-            {
-              hidden: false,
-              action: 's-resize',
-              themeColor: '#3399ff',
-            },
-            {
-              hidden: false,
-              action: 'w-resize',
-              themeColor: '#3399ff',
-            },
-            {
-              hidden: false,
-              action: 'ne-resize',
-              themeColor: '#3399ff',
-            },
-            {
-              hidden: false,
-              action: 'nw-resize',
-              themeColor: '#3399ff',
-            },
-            {
-              hidden: false,
-              action: 'se-resize',
-              themeColor: '#3399ff',
-            },
-            {
-              hidden: false,
-              action: 'sw-resize',
-              themeColor: '#3399ff',
-            },
-          ],
-        },
       },
+      image: {
+        hidden: false,
+        rotatable: true,
+        scalable: true,
+        skewable: true,
+        translatable: true,
+        src: '/picture.jpg',
+        alt: 'The image to crop',
+      },
+      shade: {
+        themeColor: 'rgba(0, 0, 0, 0.65)',
+      },
+      handle: {
+        hidden: false,
+        action: 'select',
+        plain: true,
+        themeColor: 'rgba(51, 153, 255, 0.5)',
+      },
+      selection: {
+        hidden: false,
+        aspectRatio: NaN,
+        initialAspectRatio: NaN,
+        initialCoverage: 0.5,
+        movable: true,
+        resizable: true,
+        zoomable: true,
+        multiple: true,
+        keyboard: true,
+        outlined: false,
+        precise: false,
+      },
+      grid: {
+        hidden: false,
+        rows: 3,
+        columns: 3,
+        bordered: true,
+        covered: true,
+        themeColor: 'rgba(238, 238, 238, 0.5)',
+      },
+      crosshair: {
+        hidden: false,
+        centered: true,
+        themeColor: 'rgba(238, 238, 238, 0.5)',
+      },
+      handles: [
+        {
+          hidden: false,
+          action: 'move',
+          themeColor: 'rgba(255, 255, 255, 0.35)',
+        },
+        {
+          hidden: false,
+          action: 'n-resize',
+          themeColor: '#3399ff',
+        },
+        {
+          hidden: false,
+          action: 'e-resize',
+          themeColor: '#3399ff',
+        },
+        {
+          hidden: false,
+          action: 's-resize',
+          themeColor: '#3399ff',
+        },
+        {
+          hidden: false,
+          action: 'w-resize',
+          themeColor: '#3399ff',
+        },
+        {
+          hidden: false,
+          action: 'ne-resize',
+          themeColor: '#3399ff',
+        },
+        {
+          hidden: false,
+          action: 'nw-resize',
+          themeColor: '#3399ff',
+        },
+        {
+          hidden: false,
+          action: 'se-resize',
+          themeColor: '#3399ff',
+        },
+        {
+          hidden: false,
+          action: 'sw-resize',
+          themeColor: '#3399ff',
+        },
+      ],
       imageData: {
         matrix: [1, 0, 0, 1, 0, 0],
       },
@@ -2076,20 +1702,16 @@ export default {
       output: {
         canvas: {},
         image: {
-          matrix: 'matrix(1, 0, 0, 1, 0, 0)',
+          matrix: '[1, 0, 0, 1, 0, 0]',
         },
       },
     };
-  },
-  created(): void {
-    this.initialCanvas = JSON.stringify(this.canvas);
   },
   mounted(): void {
     Promise.all([
       new Promise((resolve, reject) => {
         const link = document.createElement('link');
 
-        link.id = 'bootstrap';
         link.rel = 'stylesheet';
         link.href = 'https://unpkg.com/bootstrap@5/dist/css/bootstrap.min.css';
         link.onload = resolve;
@@ -2098,9 +1720,18 @@ export default {
         document.head.appendChild(link);
       }),
       new Promise((resolve, reject) => {
+        const link = document.createElement('link');
+
+        link.rel = 'stylesheet';
+        link.href = 'https://unpkg.com/bootstrap-icons@1/font/bootstrap-icons.css';
+        link.onload = resolve;
+        link.onerror = reject;
+        link.onabort = reject;
+        document.head.appendChild(link);
+      }),
+      new Promise((resolve, reject) => {
         const script = document.createElement('script');
 
-        script.id = 'bootstrap';
         script.src = 'https://unpkg.com/bootstrap@5/dist/js/bootstrap.bundle.min.js';
         script.onload = resolve;
         script.onerror = reject;
@@ -2129,9 +1760,6 @@ export default {
     onSelectionChange(event: CustomEvent): void {
       this.selectionData = event.detail;
     },
-    resetAll(): void {
-      this.canvas = JSON.parse(this.initialCanvas);
-    },
     cropperCanvasToCanvas(): void {
       const cropperCanvas = this.$refs.cropperCanvas as CropperCanvas;
       const canvasViewer = this.$refs.canvasViewer as HTMLElement;
@@ -2158,10 +1786,11 @@ export default {
 .playground-container {
   .navbar {
     position: fixed;
-    padding-top: .7rem;
-    padding-bottom: .7rem;
+    padding-bottom: var(--navbar-padding-v);
+    padding-top: var(--navbar-padding-v);
 
     a {
+      color: var(--c-text);
       text-decoration: none;
     }
   }
@@ -2178,6 +1807,8 @@ export default {
 }
 
 .playground {
+  background-color: #fff;
+
   canvas {
     display: block;
     width: 100%;
@@ -2326,7 +1957,7 @@ export default {
     left: 0;
     position: absolute;
     right: 0;
-    top: 0;
+    top: var(--navbar-height);
 
     > aside {
       width: 18rem;

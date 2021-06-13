@@ -84,11 +84,12 @@ Changes the current action to a new one.
 
 ### $toCanvas
 
-- **Syntax**: `$toCanvas(options)`
+- **Syntax**:
+  - `$toCanvas()`
+  - `$toCanvas(options)`
 - **Arguments**:
   - `options`:
     - Type: `Object`
-    - Default: `{}`
     - The available options.
     - Properties:
       - `options.beforeDraw`:
@@ -128,14 +129,17 @@ The event is fired when a pointer changes on the canvas.
     - The related data of the action.
   - **event.detail.action**:
     - Type: `string`
-    - Options: `"select"`, `"move"`, `"scale"`, `"n-resize"`, `"e-resize"`, `"s-resize"`, `"w-resize"`, `"ne-resize"`, `"nw-resize"`, `"se-resize"`, and `"sw-resize"`.
+    - Options: `"select"`, `"move"`, `"scale"`, `"rotate"`, `"transform"`, `"n-resize"`, `"e-resize"`, `"s-resize"`, `"w-resize"`, `"ne-resize"`, `"nw-resize"`, `"se-resize"`, and `"sw-resize"`.
     - The action type.
   - **event.detail.relatedEvent**:
     - Type: `PointerEvent | TouchEvent | MouseEvent | WheelEvent`
     - The related native event that triggered this event.
   - **event.detail.scale**:
     - Type: `number`
-    - The scaling factor, only available when the `action` is `"scale"`.
+    - The scaling factor, only available when the `action` is `"scale"` or `"transform"`.
+  - **event.detail.rotate**:
+    - Type: `number`
+    - The scaling factor, only available when the `action` is `"rotate"`or `"transform"`.
   - **event.detail.startX**:
     - Type: `number`
     - The starting `pageX` value, only available when the `relatedEvent` is `PointerEvent`, `TouchEvent`, or `MouseEvent`.

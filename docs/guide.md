@@ -72,7 +72,7 @@ Import the Cropper class and constructing a new Cropper instance.
 ```js
 import Cropper from 'cropperjs';
 
-const cropper = new Cropper(document.getElementById('image'));
+const cropper = new Cropper('#image');
 ```
 
 ```html
