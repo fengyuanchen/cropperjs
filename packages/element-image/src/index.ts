@@ -371,6 +371,12 @@ export default class CropperImage extends CropperElement {
       const translateX = ((moveX * d) - (c * moveY)) / ((a * d) - (c * b));
       const translateY = (moveY - (b * translateX)) / d;
 
+      /**
+       * Equals to
+       * this.$translate(translateX, translateX);
+       * this.$scale(scale);
+       * this.$translate(-translateX, -translateX);
+       */
       this.$transform(scale, 0, 0, scale, translateX * (1 - scale), translateY * (1 - scale));
     } else {
       this.$scale(scale);
