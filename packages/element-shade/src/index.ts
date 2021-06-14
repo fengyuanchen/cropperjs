@@ -68,17 +68,17 @@ export default class CropperShade extends CropperElement {
       const $selection: CropperSelection | null = $canvas.querySelector(CROPPER_SELECTION);
 
       if ($selection) {
-        on($canvas, EVENT_ACTION_START, (this.$onCanvasActionStart = () => {
+        this.$onCanvasActionStart = () => {
           if ($selection.hidden) {
             this.hidden = false;
           }
-        }));
-        on($canvas, EVENT_ACTION_END, (this.$onCanvasActionEnd = () => {
+        };
+        this.$onCanvasActionEnd = () => {
           if ($selection.hidden) {
             this.hidden = true;
           }
-        }));
-        on($canvas, EVENT_CHANGE, (this.$onCanvasChange = (event) => {
+        };
+        this.$onCanvasChange = (event) => {
           const {
             x,
             y,
@@ -91,7 +91,10 @@ export default class CropperShade extends CropperElement {
           if ($selection.hidden || (x === 0 && y === 0 && width === 0 && height === 0)) {
             this.hidden = true;
           }
-        }));
+        };
+        on($canvas, EVENT_ACTION_START, this.$onCanvasActionStart);
+        on($canvas, EVENT_ACTION_END, this.$onCanvasActionEnd);
+        on($canvas, EVENT_CHANGE, this.$onCanvasChange);
       }
     }
 
@@ -104,14 +107,17 @@ export default class CropperShade extends CropperElement {
     if ($canvas) {
       if (this.$onCanvasActionStart) {
         off($canvas, EVENT_ACTION_START, this.$onCanvasActionStart);
+        this.$onCanvasActionStart = null;
       }
 
       if (this.$onCanvasActionEnd) {
         off($canvas, EVENT_ACTION_END, this.$onCanvasActionEnd);
+        this.$onCanvasActionEnd = null;
       }
 
       if (this.$onCanvasChange) {
         off($canvas, EVENT_CHANGE, this.$onCanvasChange);
+        this.$onCanvasChange = null;
       }
     }
 

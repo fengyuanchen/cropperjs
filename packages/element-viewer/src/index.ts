@@ -84,11 +84,8 @@ export default class CropperViewer extends CropperElement {
 
     if (isElement($selection)) {
       this.$selection = $selection;
-      on(
-        $selection,
-        EVENT_CHANGE,
-        (this.$onSelectionChange = this.$handleSelectionChange.bind(this)),
-      );
+      this.$onSelectionChange = this.$handleSelectionChange.bind(this);
+      on($selection, EVENT_CHANGE, this.$onSelectionChange);
 
       const $canvas: CropperCanvas | null = $selection.closest(CROPPER_CANVAS);
 
@@ -99,11 +96,8 @@ export default class CropperViewer extends CropperElement {
           this.$sourceImage = $sourceImage;
           this.$image = $sourceImage.cloneNode(true) as CropperImage;
           this.$getShadowRoot().appendChild(this.$image);
-          on(
-            $sourceImage,
-            EVENT_TRANSFORM,
-            (this.$onSourceImageTransform = this.$handleSourceImageTransform.bind(this)),
-          );
+          this.$onSourceImageTransform = this.$handleSourceImageTransform.bind(this);
+          on($sourceImage, EVENT_TRANSFORM, this.$onSourceImageTransform);
         }
       }
 
@@ -114,12 +108,14 @@ export default class CropperViewer extends CropperElement {
   protected disconnectedCallback(): void {
     const { $selection, $sourceImage } = this;
 
-    if ($sourceImage && this.$onSourceImageTransform) {
-      off($sourceImage, EVENT_TRANSFORM, this.$onSourceImageTransform);
-    }
-
     if ($selection && this.$onSelectionChange) {
       off($selection, EVENT_CHANGE, this.$onSelectionChange);
+      this.$onSelectionChange = null;
+    }
+
+    if ($sourceImage && this.$onSourceImageTransform) {
+      off($sourceImage, EVENT_TRANSFORM, this.$onSourceImageTransform);
+      this.$onSourceImageTransform = null;
     }
 
     super.disconnectedCallback();

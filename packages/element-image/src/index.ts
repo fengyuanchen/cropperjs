@@ -112,9 +112,8 @@ export default class CropperImage extends CropperElement {
         });
       }
 
-      if (this.scalable || this.translatable) {
-        on($canvas, EVENT_ACTION, (this.$onCanvasAction = this.$handleAction.bind(this)));
-      }
+      this.$onCanvasAction = this.$handleAction.bind(this);
+      on($canvas, EVENT_ACTION, this.$onCanvasAction);
     }
 
     this.$getShadowRoot().appendChild($image);
@@ -125,6 +124,7 @@ export default class CropperImage extends CropperElement {
 
     if ($canvas && this.$onCanvasAction) {
       off($canvas, EVENT_ACTION, this.$onCanvasAction);
+      this.$onCanvasAction = null;
     }
 
     this.$getShadowRoot().removeChild(this.$image);
@@ -132,7 +132,7 @@ export default class CropperImage extends CropperElement {
   }
 
   protected $handleAction(event: Event | CustomEvent): void {
-    if (this.hidden) {
+    if (this.hidden || !(this.rotatable || this.scalable || this.translatable)) {
       return;
     }
 

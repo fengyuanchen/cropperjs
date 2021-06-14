@@ -69,54 +69,65 @@ export default class CropperCanvas extends CropperElement {
     ]);
   }
 
-  protected connectedCallback(): void {
-    super.connectedCallback();
-    on(
-      this,
-      EVENT_POINTER_DOWN,
-      (this.$onPointerDown = this.$handlePointerDown.bind(this)),
-    );
-    on(
-      this.ownerDocument,
-      EVENT_POINTER_MOVE,
-      (this.$onPointerMove = this.$handlePointerMove.bind(this)),
-    );
-    on(
-      this.ownerDocument,
-      EVENT_POINTER_UP,
-      (this.$onPointerUp = this.$handlePointerUp.bind(this)),
-    );
-    on(
-      this,
-      EVENT_WHEEL,
-      (this.$onWheel = this.$handleWheel.bind(this)),
-      {
-        passive: false,
-        capture: true,
-      },
-    );
-  }
-
-  protected disconnectedCallback(): void {
-    if (this.$onPointerDown) {
-      off(this, EVENT_POINTER_DOWN, this.$onPointerDown);
+  protected $propertyChangedCallback(name: string, oldValue: unknown, newValue: unknown): void {
+    if (Object.is(newValue, oldValue)) {
+      return;
     }
 
-    if (this.$onPointerMove) {
-      off(this.ownerDocument, EVENT_POINTER_MOVE, this.$onPointerMove);
-    }
+    super.$propertyChangedCallback(name, oldValue, newValue);
 
-    if (this.$onPointerUp) {
-      off(this.ownerDocument, EVENT_POINTER_UP, this.$onPointerUp);
-    }
+    switch (name) {
+      case 'disabled':
+        if (newValue) {
+          if (this.$onPointerDown) {
+            off(this, EVENT_POINTER_DOWN, this.$onPointerDown);
+            this.$onPointerDown = null;
+          }
 
-    if (this.$onWheel) {
-      off(this, EVENT_WHEEL, this.$onWheel, {
-        capture: true,
-      });
-    }
+          if (this.$onPointerMove) {
+            off(this.ownerDocument, EVENT_POINTER_MOVE, this.$onPointerMove);
+            this.$onPointerMove = null;
+          }
 
-    super.disconnectedCallback();
+          if (this.$onPointerUp) {
+            off(this.ownerDocument, EVENT_POINTER_UP, this.$onPointerUp);
+            this.$onPointerUp = null;
+          }
+
+          if (this.$onWheel) {
+            off(this, EVENT_WHEEL, this.$onWheel, {
+              capture: true,
+            });
+            this.$onWheel = null;
+          }
+        } else {
+          if (!this.$onPointerDown) {
+            this.$onPointerDown = this.$handlePointerDown.bind(this);
+            on(this, EVENT_POINTER_DOWN, this.$onPointerDown);
+          }
+
+          if (!this.$onPointerMove) {
+            this.$onPointerMove = this.$handlePointerMove.bind(this);
+            on(this.ownerDocument, EVENT_POINTER_MOVE, this.$onPointerMove);
+          }
+
+          if (!this.$onPointerUp) {
+            this.$onPointerUp = this.$handlePointerUp.bind(this);
+            on(this.ownerDocument, EVENT_POINTER_UP, this.$onPointerUp);
+          }
+
+          if (!this.$onWheel) {
+            this.$onWheel = this.$handleWheel.bind(this);
+            on(this, EVENT_WHEEL, this.$onWheel, {
+              passive: false,
+              capture: true,
+            });
+          }
+        }
+        break;
+
+      default:
+    }
   }
 
   protected $handlePointerDown(event: Event): void {

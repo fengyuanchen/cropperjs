@@ -15,6 +15,7 @@ const DEFAULT_SHADOW_ROOT_MODE = 'open';
 const shadowRoots = new WeakMap();
 const styleSheets = new WeakMap();
 const supportsAdoptedStyleSheets = WINDOW.document && Array.isArray(WINDOW.document.adoptedStyleSheets) && 'replaceSync' in WINDOW.CSSStyleSheet.prototype;
+const resolvedPromise: Promise<any> = Promise.resolve();
 
 export default class CropperElement extends HTMLElement {
   static $version = '__VERSION__';
@@ -249,6 +250,16 @@ export default class CropperElement extends HTMLElement {
    */
   $emit(type: string, detail?: unknown, options?: CustomEventInit): boolean {
     return emit(this, type, detail, options);
+  }
+
+  /**
+   * Defers the callback to be executed after the next DOM update cycle.
+   *
+   * @param {Function} [fn] The callback function.
+   * @returns {Promise} The offset data.
+   */
+  $nextTick(fn?: () => void): Promise<void> {
+    return fn ? resolvedPromise.then(fn.bind(this)) : resolvedPromise;
   }
 
   /**
