@@ -236,7 +236,7 @@
                   title="image.$move(-1, -1)"
                   @click="$refs.cropperImage.$move(-1, -1)"
                 >
-                  <i class="bi-arrow-up-left"></i>
+                  <i class="bi-arrow-up-left" />
                 </button>
                 <button
                   type="button"
@@ -246,7 +246,7 @@
                   title="image.$move(0, -1)"
                   @click="$refs.cropperImage.$move(0, -1)"
                 >
-                  <i class="bi-arrow-up"></i>
+                  <i class="bi-arrow-up" />
                 </button>
                 <button
                   type="button"
@@ -256,7 +256,7 @@
                   title="image.$move(1, -1)"
                   @click="$refs.cropperImage.$move(1, -1)"
                 >
-                  <i class="bi-arrow-up-right"></i>
+                  <i class="bi-arrow-up-right" />
                 </button>
               </div>
               <div
@@ -272,14 +272,14 @@
                   title="image.$move(-1, 0)"
                   @click="$refs.cropperImage.$move(-1, 0)"
                 >
-                  <i class="bi-arrow-left"></i>
+                  <i class="bi-arrow-left" />
                 </button>
                 <button
                   type="button"
                   class="btn btn-outline-primary btn-sm"
                   disabled
                 >
-                  <i class="bi-arrows-move"></i>
+                  <i class="bi-arrows-move" />
                 </button>
                 <button
                   type="button"
@@ -289,7 +289,7 @@
                   title="image.$move(1, 0)"
                   @click="$refs.cropperImage.$move(1, 0)"
                 >
-                   <i class="bi-arrow-right"></i>
+                  <i class="bi-arrow-right" />
                 </button>
               </div>
               <div
@@ -305,7 +305,7 @@
                   title="image.$move(-1, 1)"
                   @click="$refs.cropperImage.$move(-1, 1)"
                 >
-                  <i class="bi-arrow-down-left"></i>
+                  <i class="bi-arrow-down-left" />
                 </button>
                 <button
                   type="button"
@@ -315,7 +315,7 @@
                   title="image.$move(0, 1)"
                   @click="$refs.cropperImage.$move(0, 1)"
                 >
-                  <i class="bi-arrow-down"></i>
+                  <i class="bi-arrow-down" />
                 </button>
                 <button
                   type="button"
@@ -325,7 +325,7 @@
                   title="image.$move(1, 1)"
                   @click="$refs.cropperImage.$move(1, 1)"
                 >
-                  <i class="bi-arrow-down-right"></i>
+                  <i class="bi-arrow-down-right" />
                 </button>
               </div>
             </div>
@@ -343,7 +343,7 @@
                   title="image.$translate(-1, -1)"
                   @click="$refs.cropperImage.$translate(-1, -1)"
                 >
-                  <i class="bi-arrow-up-left"></i>
+                  <i class="bi-arrow-up-left" />
                 </button>
                 <button
                   type="button"
@@ -353,7 +353,7 @@
                   title="image.$translate(0, -1)"
                   @click="$refs.cropperImage.$translate(0, -1)"
                 >
-                  <i class="bi-arrow-up"></i>
+                  <i class="bi-arrow-up" />
                 </button>
                 <button
                   type="button"
@@ -363,7 +363,7 @@
                   title="image.$translate(1, -1)"
                   @click="$refs.cropperImage.$translate(1, -1)"
                 >
-                  <i class="bi-arrow-up-right"></i>
+                  <i class="bi-arrow-up-right" />
                 </button>
               </div>
               <div
@@ -379,14 +379,14 @@
                   title="image.$translate(-1, 0)"
                   @click="$refs.cropperImage.$translate(-1, 0)"
                 >
-                  <i class="bi-arrow-left"></i>
+                  <i class="bi-arrow-left" />
                 </button>
                 <button
                   type="button"
                   class="btn btn-outline-primary btn-sm"
                   disabled
                 >
-                  <i class="bi-arrows-move"></i>
+                  <i class="bi-arrows-move" />
                 </button>
                 <button
                   type="button"
@@ -396,7 +396,7 @@
                   title="image.$translate(1, 0)"
                   @click="$refs.cropperImage.$translate(1, 0)"
                 >
-                   <i class="bi-arrow-right"></i>
+                  <i class="bi-arrow-right" />
                 </button>
               </div>
               <div
@@ -412,7 +412,7 @@
                   title="image.$translate(-1, 1)"
                   @click="$refs.cropperImage.$translate(-1, 1)"
                 >
-                  <i class="bi-arrow-down-left"></i>
+                  <i class="bi-arrow-down-left" />
                 </button>
                 <button
                   type="button"
@@ -422,7 +422,7 @@
                   title="image.$translate(0, 1)"
                   @click="$refs.cropperImage.$translate(0, 1)"
                 >
-                  <i class="bi-arrow-down"></i>
+                  <i class="bi-arrow-down" />
                 </button>
                 <button
                   type="button"
@@ -432,7 +432,7 @@
                   title="image.$translate(1, 1)"
                   @click="$refs.cropperImage.$translate(1, 1)"
                 >
-                  <i class="bi-arrow-down-right"></i>
+                  <i class="bi-arrow-down-right" />
                 </button>
               </div>
             </div>
@@ -451,7 +451,7 @@
                 title="image.$zoom(0.1)"
                 @click="$refs.cropperImage.$zoom(0.1)"
               >
-                <i class="bi-zoom-in"></i>
+                <i class="bi-zoom-in" />
               </button>
               <button
                 type="button"
@@ -461,7 +461,7 @@
                 title="image.$zoom(-0.1)"
                 @click="$refs.cropperImage.$zoom(-0.1)"
               >
-                <i class="bi-zoom-out"></i>
+                <i class="bi-zoom-out" />
               </button>
             </div>
             <div
@@ -477,7 +477,7 @@
                 title="image.$rotate('-45deg')"
                 @click="$refs.cropperImage.$rotate('-45deg')"
               >
-                <i class="bi-arrow-90deg-left"></i>
+                <i class="bi-arrow-90deg-left" />
               </button>
               <button
                 type="button"
@@ -487,7 +487,7 @@
                 title="image.$rotate('45deg')"
                 @click="$refs.cropperImage.$rotate('45deg')"
               >
-                <i class="bi-arrow-90deg-right"></i>
+                <i class="bi-arrow-90deg-right" />
               </button>
             </div>
             <div
@@ -503,7 +503,7 @@
                 title="image.$skew('45deg')"
                 @click="$refs.cropperImage.$skew('45deg')"
               >
-                <i class="bi-arrow-up-left-square"></i>
+                <i class="bi-arrow-up-left-square" />
               </button>
               <button
                 type="button"
@@ -513,7 +513,7 @@
                 title="image.$skew('-45deg')"
                 @click="$refs.cropperImage.$skew('-45deg')"
               >
-                <i class="bi-arrow-up-right-square"></i>
+                <i class="bi-arrow-up-right-square" />
               </button>
             </div>
           </li>
@@ -531,7 +531,7 @@
                 title="image.$scale(-1, 1)"
                 @click="$refs.cropperImage.$scale(-1, 1)"
               >
-                <i class="bi-arrow-left-right"></i>
+                <i class="bi-arrow-left-right" />
               </button>
               <button
                 type="button"
@@ -541,7 +541,7 @@
                 title="image.$scale(1, -1)"
                 @click="$refs.cropperImage.$scale(1, -1)"
               >
-                <i class="bi-arrow-down-up"></i>
+                <i class="bi-arrow-down-up" />
               </button>
             </div>
           </li>
@@ -875,7 +875,7 @@
                   title="selection.$move(-1, -1)"
                   @click="$refs.cropperSelection.$move(-1, -1)"
                 >
-                  <i class="bi-arrow-up-left"></i>
+                  <i class="bi-arrow-up-left" />
                 </button>
                 <button
                   type="button"
@@ -885,7 +885,7 @@
                   title="selection.$move(0, -1)"
                   @click="$refs.cropperSelection.$move(0, -1)"
                 >
-                  <i class="bi-arrow-up"></i>
+                  <i class="bi-arrow-up" />
                 </button>
                 <button
                   type="button"
@@ -895,7 +895,7 @@
                   title="selection.$move(1, -1)"
                   @click="$refs.cropperSelection.$move(1, -1)"
                 >
-                  <i class="bi-arrow-up-right"></i>
+                  <i class="bi-arrow-up-right" />
                 </button>
               </div>
               <div
@@ -911,14 +911,14 @@
                   title="selection.$move(-1, 0)"
                   @click="$refs.cropperSelection.$move(-1, 0)"
                 >
-                  <i class="bi-arrow-left"></i>
+                  <i class="bi-arrow-left" />
                 </button>
                 <button
                   type="button"
                   class="btn btn-outline-primary btn-sm"
                   disabled
                 >
-                  <i class="bi-arrows-move"></i>
+                  <i class="bi-arrows-move" />
                 </button>
                 <button
                   type="button"
@@ -928,7 +928,7 @@
                   title="selection.$move(1, 0)"
                   @click="$refs.cropperSelection.$move(1, 0)"
                 >
-                   <i class="bi-arrow-right"></i>
+                  <i class="bi-arrow-right" />
                 </button>
               </div>
               <div
@@ -944,7 +944,7 @@
                   title="selection.$move(-1, 1)"
                   @click="$refs.cropperSelection.$move(-1, 1)"
                 >
-                  <i class="bi-arrow-down-left"></i>
+                  <i class="bi-arrow-down-left" />
                 </button>
                 <button
                   type="button"
@@ -954,7 +954,7 @@
                   title="selection.$move(0, 1)"
                   @click="$refs.cropperSelection.$move(0, 1)"
                 >
-                  <i class="bi-arrow-down"></i>
+                  <i class="bi-arrow-down" />
                 </button>
                 <button
                   type="button"
@@ -964,7 +964,7 @@
                   title="selection.$move(1, 1)"
                   @click="$refs.cropperSelection.$move(1, 1)"
                 >
-                  <i class="bi-arrow-down-right"></i>
+                  <i class="bi-arrow-down-right" />
                 </button>
               </div>
             </div>
@@ -984,7 +984,7 @@
                   title="selection.$resize('nw-resize', -1, -1)"
                   @click="$refs.cropperSelection.$resize('nw-resize', -1, -1)"
                 >
-                  <i class="bi-arrow-up-left-square"></i>
+                  <i class="bi-arrow-up-left-square" />
                 </button>
                 <button
                   type="button"
@@ -994,7 +994,7 @@
                   title="selection.$resize('n-resize', 0, -1)"
                   @click="$refs.cropperSelection.$resize('n-resize', 0, -1)"
                 >
-                  <i class="bi-arrow-up-square"></i>
+                  <i class="bi-arrow-up-square" />
                 </button>
                 <button
                   type="button"
@@ -1004,7 +1004,7 @@
                   title="selection.$resize('ne-resize', 1, -1)"
                   @click="$refs.cropperSelection.$resize('ne-resize', 1, -1)"
                 >
-                  <i class="bi-arrow-up-right-square"></i>
+                  <i class="bi-arrow-up-right-square" />
                 </button>
               </div>
               <div
@@ -1020,7 +1020,7 @@
                   title="selection.$resize('w-resize', -1, 0)"
                   @click="$refs.cropperSelection.$resize('w-resize', -1, 0)"
                 >
-                  <i class="bi-arrow-left-square"></i>
+                  <i class="bi-arrow-left-square" />
                 </button>
                 <button
                   type="button"
@@ -1030,7 +1030,7 @@
                   title="selection.$zoom(0.1)"
                   @click="$refs.cropperSelection.$zoom(0.1)"
                 >
-                  <i class="bi-zoom-in"></i>
+                  <i class="bi-zoom-in" />
                 </button>
                 <button
                   type="button"
@@ -1040,7 +1040,7 @@
                   title="selection.$resize('e-resize', 1, 0)"
                   @click="$refs.cropperSelection.$resize('e-resize', 1, 0)"
                 >
-                  <i class="bi-arrow-right-square"></i>
+                  <i class="bi-arrow-right-square" />
                 </button>
               </div>
               <div
@@ -1056,7 +1056,7 @@
                   title="selection.$resize('sw-resize', -1, 1)"
                   @click="$refs.cropperSelection.$resize('sw-resize', -1, 1)"
                 >
-                  <i class="bi-arrow-down-left-square"></i>
+                  <i class="bi-arrow-down-left-square" />
                 </button>
                 <button
                   type="button"
@@ -1066,7 +1066,7 @@
                   title="selection.$resize('s-resize', 0, 1)"
                   @click="$refs.cropperSelection.$resize('s-resize', 0, 1)"
                 >
-                  <i class="bi-arrow-down-square"></i>
+                  <i class="bi-arrow-down-square" />
                 </button>
                 <button
                   type="button"
@@ -1076,7 +1076,7 @@
                   title="selection.$resize('se-resize', 1, 1)"
                   @click="$refs.cropperSelection.$resize('se-resize', 1, 1)"
                 >
-                  <i class="bi-arrow-down-right-square"></i>
+                  <i class="bi-arrow-down-right-square" />
                 </button>
               </div>
             </div>
@@ -1094,7 +1094,7 @@
                   title="selection.$resize('nw-resize', 1, 1)"
                   @click="$refs.cropperSelection.$resize('nw-resize', 1, 1)"
                 >
-                  <i class="bi-arrow-down-right-square"></i>
+                  <i class="bi-arrow-down-right-square" />
                 </button>
                 <button
                   type="button"
@@ -1104,7 +1104,7 @@
                   title="selection.$resize('n-resize', 0, 1)"
                   @click="$refs.cropperSelection.$resize('n-resize', 0, 1)"
                 >
-                  <i class="bi-arrow-down-square"></i>
+                  <i class="bi-arrow-down-square" />
                 </button>
                 <button
                   type="button"
@@ -1114,7 +1114,7 @@
                   title="selection.$resize('ne-resize', -1, 1)"
                   @click="$refs.cropperSelection.$resize('ne-resize', -1, 1)"
                 >
-                  <i class="bi-arrow-down-left-square"></i>
+                  <i class="bi-arrow-down-left-square" />
                 </button>
               </div>
               <div
@@ -1130,7 +1130,7 @@
                   title="selection.$resize('w-resize', 1, 0)"
                   @click="$refs.cropperSelection.$resize('w-resize', 1, 0)"
                 >
-                  <i class="bi-arrow-right-square"></i>
+                  <i class="bi-arrow-right-square" />
                 </button>
                 <button
                   type="button"
@@ -1140,7 +1140,7 @@
                   title="selection.$zoom(-0.1)"
                   @click="$refs.cropperSelection.$zoom(-0.1)"
                 >
-                  <i class="bi-zoom-out"></i>
+                  <i class="bi-zoom-out" />
                 </button>
                 <button
                   type="button"
@@ -1150,7 +1150,7 @@
                   title="selection.$resize('e-resize', -1, 0)"
                   @click="$refs.cropperSelection.$resize('e-resize', -1, 0)"
                 >
-                  <i class="bi-arrow-left-square"></i>
+                  <i class="bi-arrow-left-square" />
                 </button>
               </div>
               <div
@@ -1166,7 +1166,7 @@
                   title="selection.$resize('sw-resize', 1, -1)"
                   @click="$refs.cropperSelection.$resize('sw-resize', 1, -1)"
                 >
-                  <i class="bi-arrow-up-right-square"></i>
+                  <i class="bi-arrow-up-right-square" />
                 </button>
                 <button
                   type="button"
@@ -1176,7 +1176,7 @@
                   title="selection.$resize('s-resize', 0, -1)"
                   @click="$refs.cropperSelection.$resize('s-resize', 0, -1)"
                 >
-                  <i class="bi-arrow-up-square"></i>
+                  <i class="bi-arrow-up-square" />
                 </button>
                 <button
                   type="button"
@@ -1186,7 +1186,7 @@
                   title="selection.$resize('se-resize', -1, -1)"
                   @click="$refs.cropperSelection.$resize('se-resize', -1, -1)"
                 >
-                  <i class="bi-arrow-up-left-square"></i>
+                  <i class="bi-arrow-up-left-square" />
                 </button>
               </div>
             </div>
@@ -1293,16 +1293,16 @@
         </ul>
       </section>
       <section
-        v-for="(handle, index) in handles"
-        :key="handle.action"
+        v-for="(subhandle, index) in handles"
+        :key="subhandle.action"
       >
-        <h6>&lt;cropper-handle action="{{ handle.action }}"&gt;</h6>
+        <h6>&lt;cropper-handle action="{{ subhandle.action }}"&gt;</h6>
         <ul>
           <li>
             <label :for="`selectionHandleHidden${index}`">hidden</label>
             <input
               :id="`selectionHandleHidden${index}`"
-              v-model="handle.hidden"
+              v-model="subhandle.hidden"
               type="checkbox"
               name="hidden"
             >
@@ -1311,7 +1311,7 @@
             <label :for="`selectionHandleAction${index}`">action</label>
             <select
               :id="`selectionHandleAction${index}`"
-              v-model="handle.action"
+              v-model="subhandle.action"
               class="form-control form-control-sm"
               name="action"
               :disabled="index > 0"
@@ -1385,7 +1385,7 @@
             <label :for="`selectionHandleThemeColor${index}`">theme-color</label>
             <input
               :id="`selectionHandleThemeColor${index}`"
-              v-model="handle.themeColor"
+              v-model="subhandle.themeColor"
               type="color"
               class="form-control form-control-color form-control-sm"
               name="themeColor"
@@ -1455,11 +1455,11 @@
             :theme-color="crosshair.themeColor"
           />
           <cropper-handle
-            v-for="handle in handles"
-            :key="handle.action"
-            :action="handle.action"
-            :hidden="handle.hidden"
-            :theme-color="handle.themeColor"
+            v-for="subhandle in handles"
+            :key="subhandle.action"
+            :action="subhandle.action"
+            :hidden="subhandle.hidden"
+            :theme-color="subhandle.themeColor"
           />
         </cropper-selection>
       </cropper-canvas>
