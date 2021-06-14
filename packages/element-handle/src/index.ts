@@ -25,11 +25,4 @@ export default class CropperHandle extends CropperElement {
       'plain',
     ]);
   }
-
-  protected static get $observedProperties(): string[] {
-    return super.$observedProperties.concat([
-      'action',
-      'plain',
-    ]);
-  }
 }

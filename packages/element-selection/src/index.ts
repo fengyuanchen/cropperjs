@@ -109,34 +109,27 @@ export default class CropperSelection extends CropperElement {
     ]);
   }
 
-  protected static get $observedProperties(): string[] {
-    return super.$observedProperties.concat([
-      'active',
-      'multiple',
-    ]);
-  }
-
-  protected attributeChangedCallback(name: string, oldValue: string, newValue: string): void {
-    if (newValue === oldValue) {
+  protected $propertyChangedCallback(name: string, oldValue: unknown, newValue: unknown): void {
+    if (Object.is(newValue, oldValue)) {
       return;
     }
 
-    super.attributeChangedCallback(name, oldValue, newValue);
+    super.$propertyChangedCallback(name, oldValue, newValue);
 
     switch (name) {
-      case 'aspect-ratio':
+      case 'aspectRatio':
         if (!isPositiveNumber(this.aspectRatio)) {
           this.aspectRatio = NaN;
         }
         break;
 
-      case 'initial-aspect-ratio':
+      case 'initialAspectRatio':
         if (!isPositiveNumber(this.initialAspectRatio)) {
           this.initialAspectRatio = NaN;
         }
         break;
 
-      case 'initial-coverage':
+      case 'initialCoverage':
         if (!isPositiveNumber(this.initialCoverage) || this.initialCoverage > 1) {
           this.initialCoverage = NaN;
         }

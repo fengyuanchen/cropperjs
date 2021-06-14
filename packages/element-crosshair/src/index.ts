@@ -17,10 +17,4 @@ export default class CropperCrosshair extends CropperElement {
       'centered',
     ]);
   }
-
-  protected static get $observedProperties(): string[] {
-    return super.$observedProperties.concat([
-      'centered',
-    ]);
-  }
 }

@@ -27,21 +27,12 @@ export default class CropperGrid extends CropperElement {
     ]);
   }
 
-  protected static get $observedProperties(): string[] {
-    return super.$observedProperties.concat([
-      'bordered',
-      'columns',
-      'covered',
-      'rows',
-    ]);
-  }
-
-  protected attributeChangedCallback(name: string, oldValue: string, newValue: string): void {
-    if (newValue === oldValue) {
+  protected $propertyChangedCallback(name: string, oldValue: unknown, newValue: unknown): void {
+    if (Object.is(newValue, oldValue)) {
       return;
     }
 
-    super.attributeChangedCallback(name, oldValue, newValue);
+    super.$propertyChangedCallback(name, oldValue, newValue);
 
     if (name === 'rows' || name === 'columns') {
       this.$render();

@@ -69,13 +69,6 @@ export default class CropperCanvas extends CropperElement {
     ]);
   }
 
-  protected static get $observedProperties(): string[] {
-    return super.$observedProperties.concat([
-      'background',
-      'disabled',
-    ]);
-  }
-
   protected connectedCallback(): void {
     super.connectedCallback();
     on(

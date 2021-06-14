@@ -43,9 +43,10 @@ export default class CropperElement extends HTMLElement {
 
   // Convert attribute to property
   protected attributeChangedCallback(name: string, oldValue: string, newValue: string): void {
-    if (newValue === oldValue) {
+    if (Object.is(newValue, oldValue)) {
       return;
     }
+
     const propertyName = toCamelCase(name);
     const oldPropertyValue = (this as any)[propertyName];
     let newPropertyValue: any = newValue;
@@ -84,13 +85,9 @@ export default class CropperElement extends HTMLElement {
     }
   }
 
-  protected static get $observedProperties(): string[] {
-    return [];
-  }
-
   // Convert property to attribute
   protected $propertyChangedCallback(name: string, oldValue: unknown, newValue: unknown): void {
-    if (newValue === oldValue) {
+    if (Object.is(newValue, oldValue)) {
       return;
     }
 
@@ -130,7 +127,7 @@ export default class CropperElement extends HTMLElement {
 
   protected connectedCallback(): void {
     // Observe properties after observed attributes
-    Object.getPrototypeOf(this).constructor.$observedProperties.forEach((attribute: string) => {
+    Object.getPrototypeOf(this).constructor.observedAttributes.forEach((attribute: string) => {
       const property = toCamelCase(attribute);
       let value = (this as any)[property];
 

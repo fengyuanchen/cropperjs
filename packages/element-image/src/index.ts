@@ -72,7 +72,7 @@ export default class CropperImage extends CropperElement {
   }
 
   protected attributeChangedCallback(name: string, oldValue: string, newValue: string): void {
-    if (newValue === oldValue) {
+    if (Object.is(newValue, oldValue)) {
       return;
     }
 
