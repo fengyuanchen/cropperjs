@@ -46,16 +46,14 @@ Inherits properties from its parent, [`HTMLElement`](https://developer.mozilla.o
 
 ### $getShadowRoot
 
-Outputs the shadow root of the element, even if its mode is `"closed"`.
-
 - **Syntax**: `$getShadowRoot()`
 - **Returns**:
   - Type: `ShadowRoot`
   - The shadow root.
 
-### $addStyles
+Outputs the shadow root of the element, even if its mode is `"closed"`.
 
-Adds styles to the shadow root.
+### $addStyles
 
 - **Syntax**: `$addStyles(styles)`
 - **Arguments**:
@@ -77,9 +75,9 @@ Adds styles to the shadow root.
   `);
   ```
 
-### $emit
+Adds styles to the shadow root.
 
-Dispatches an event at the current element.
+### $emit
 
 - **Syntax**: `$emit(type, detail, options)`
 - **Arguments**:
@@ -109,6 +107,23 @@ Dispatches an event at the current element.
     height: 90,
   });
   ```
+
+Dispatches an event at the current element.
+
+### $nextTick
+
+- **Syntax**:
+  - `$nextTick()`
+  - `$nextTick(callback)`
+- **Arguments**:
+  - `callback`:
+    - Type: `Function`
+    - The callback to execute after the next DOM update cycle.
+- **Returns**:
+  - Type: `Promise`
+  - A promise that resolves to nothing.
+
+Defers the callback to be executed after the next DOM update cycle.
 
 ## Static methods
 

@@ -5,6 +5,7 @@ import {
   isNaN,
   isNumber,
   isUndefined,
+  nextTick,
   toCamelCase,
   toKebabCase,
 } from '@cropper/utils';
@@ -15,7 +16,6 @@ const DEFAULT_SHADOW_ROOT_MODE = 'open';
 const shadowRoots = new WeakMap();
 const styleSheets = new WeakMap();
 const supportsAdoptedStyleSheets = WINDOW.document && Array.isArray(WINDOW.document.adoptedStyleSheets) && 'replaceSync' in WINDOW.CSSStyleSheet.prototype;
-const resolvedPromise: Promise<any> = Promise.resolve();
 
 export default class CropperElement extends HTMLElement {
   static $version = '__VERSION__';
@@ -255,11 +255,11 @@ export default class CropperElement extends HTMLElement {
   /**
    * Defers the callback to be executed after the next DOM update cycle.
    *
-   * @param {Function} [fn] The callback function.
-   * @returns {Promise} The offset data.
+   * @param {Function} [callback] The callback to execute after the next DOM update cycle.
+   * @returns {Promise} A promise that resolves to nothing.
    */
-  $nextTick(fn?: () => void): Promise<void> {
-    return fn ? resolvedPromise.then(fn.bind(this)) : resolvedPromise;
+  $nextTick(callback?: () => void): Promise<void> {
+    return nextTick(this, callback);
   }
 
   /**

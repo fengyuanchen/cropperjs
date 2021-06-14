@@ -213,6 +213,21 @@ export function emit(
   }));
 }
 
+const resolvedPromise: Promise<any> = Promise.resolve();
+
+/**
+ * Defers the callback to be executed after the next DOM update cycle.
+ *
+ * @param {*} [context] The `this` context.
+ * @param {Function} [callback] The callback to execute after the next DOM update cycle.
+ * @returns {Promise} A promise that resolves to nothing.
+ */
+export function nextTick(context?: unknown, callback?: () => void): Promise<void> {
+  return callback
+    ? resolvedPromise.then(context ? callback.bind(context) : callback)
+    : resolvedPromise;
+}
+
 /**
  * Get the offset base on the document.
  *
