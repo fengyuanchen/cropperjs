@@ -1,7 +1,7 @@
 {
   "name": "@cropper/element",
-  "description": "An abstract class for constructing Cropper elements.",
   "version": "2.0.0-beta",
+  "description": "An abstract class for constructing Cropper elements.",
   "main": "dist/element.raw.js",
   "module": "dist/element.esm.raw.js",
   "types": "dist/element.d.ts",

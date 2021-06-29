@@ -1,7 +1,7 @@
 {
   "name": "@cropper/element-image",
-  "description": "A custom image element for the Cropper.",
   "version": "2.0.0-beta",
+  "description": "A custom image element for the Cropper.",
   "main": "dist/element-image.raw.js",
   "module": "dist/element-image.esm.raw.js",
   "types": "dist/element-image.d.ts",

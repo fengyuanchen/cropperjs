@@ -1,7 +1,7 @@
 {
   "name": "@cropper/elements",
-  "description": "A series of custom elements for the Cropper.",
   "version": "2.0.0-beta",
+  "description": "A series of custom elements for the Cropper.",
   "main": "dist/elements.raw.js",
   "module": "dist/elements.esm.raw.js",
   "types": "dist/elements.d.ts",

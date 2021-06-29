@@ -1,7 +1,7 @@
 {
   "name": "@cropper/element-handle",
-  "description": "A custom handle element for the Cropper.",
   "version": "2.0.0-beta",
+  "description": "A custom handle element for the Cropper.",
   "main": "dist/element-handle.raw.js",
   "module": "dist/element-handle.esm.raw.js",
   "types": "dist/element-handle.d.ts",

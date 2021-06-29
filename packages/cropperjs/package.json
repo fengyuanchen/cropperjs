@@ -1,7 +1,7 @@
 {
   "name": "cropperjs",
-  "description": "JavaScript image cropper.",
   "version": "2.0.0-beta",
+  "description": "JavaScript image cropper.",
   "main": "dist/cropper.raw.js",
   "module": "dist/cropper.esm.raw.js",
   "types": "dist/cropper.d.ts",

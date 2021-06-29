@@ -1,7 +1,7 @@
 {
   "name": "@cropper/utils",
-  "description": "A series of common constants and utility functions for Cropper.",
   "version": "2.0.0-beta",
+  "description": "A series of common constants and utility functions for Cropper.",
   "main": "dist/utils.raw.js",
   "module": "dist/utils.esm.raw.js",
   "types": "dist/utils.d.ts",

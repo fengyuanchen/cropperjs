@@ -1,7 +1,7 @@
 {
   "name": "@cropper/element-canvas",
-  "description": "A custom canvas element for the Cropper.",
   "version": "2.0.0-beta",
+  "description": "A custom canvas element for the Cropper.",
   "main": "dist/element-canvas.raw.js",
   "module": "dist/element-canvas.esm.raw.js",
   "types": "dist/element-canvas.d.ts",

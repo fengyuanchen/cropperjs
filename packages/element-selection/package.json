@@ -1,7 +1,7 @@
 {
   "name": "@cropper/element-selection",
-  "description": "A custom selection element for the Cropper.",
   "version": "2.0.0-beta",
+  "description": "A custom selection element for the Cropper.",
   "main": "dist/element-selection.raw.js",
   "module": "dist/element-selection.esm.raw.js",
   "types": "dist/element-selection.d.ts",

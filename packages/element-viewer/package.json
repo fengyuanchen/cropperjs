@@ -1,7 +1,7 @@
 {
   "name": "@cropper/element-viewer",
-  "description": "A custom viewer element for the Cropper.",
   "version": "2.0.0-beta",
+  "description": "A custom viewer element for the Cropper.",
   "main": "dist/element-viewer.raw.js",
   "module": "dist/element-viewer.esm.raw.js",
   "types": "dist/element-viewer.d.ts",
