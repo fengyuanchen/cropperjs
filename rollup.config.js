@@ -55,10 +55,11 @@ export default bundles.reduce((configs, bundle) => {
       plugins: [
         nodeResolve(),
         commonjs(),
-        typescript(config.compilerOptions),
         postcss({
-          styleRegex: /(?<=style\s=\s)`([^`]+)`/g,
+          include: [/\/style\.ts$/],
+          styleRegex: /(?:export default `)([^`]+)(?:`;)/g,
         }),
+        typescript(config.compilerOptions),
         replace({
           __VERSION__: pkg.version,
         }),
