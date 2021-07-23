@@ -151,5 +151,10 @@ export default defineUserConfig<DefaultThemeOptions, WebpackBundlerOptions>({
         }, {}),
       },
     }),
+    vue: {
+      compilerOptions: {
+        isCustomElement: (tag) => tag.startsWith('cropper-'),
+      },
+    },
   },
 });
