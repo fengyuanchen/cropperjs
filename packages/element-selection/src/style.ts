@@ -27,6 +27,7 @@ export default `
 
 :host([multiple][active]) {
   outline-color: var(--theme-color);
+  z-index: 1;
 }
 
 :host([multiple]) > * {

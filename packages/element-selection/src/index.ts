@@ -317,7 +317,13 @@ export default class CropperSelection extends CropperElement {
     if (currentTarget && detail) {
       let { action } = detail;
 
-      if (this.hidden && action !== ACTION_SELECT) {
+      // Switching to another selection
+      if (!action && this.multiple) {
+        // Get the `action` property from the focusing in selection
+        action = detail.relatedEvent?.target.action;
+      }
+
+      if (!action || (this.hidden && action !== ACTION_SELECT)) {
         return;
       }
 
