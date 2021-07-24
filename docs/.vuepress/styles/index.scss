@@ -1,5 +1,11 @@
-.playground-container .theme-default-content {
-  max-width: none;
+.playground-container {
+  .theme-default-content {
+    max-width: none;
+  }
+
+  .page-meta {
+    display: none;
+  }
 }
 
 .theme-default-content:not(.custom) td {

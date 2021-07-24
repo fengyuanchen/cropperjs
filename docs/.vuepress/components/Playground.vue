@@ -1,10 +1,10 @@
 <template>
   <div
-    v-if="loading"
+    v-if="loading && !transitioning"
     class="loading"
   />
   <div
-    v-else
+    v-else-if="!transitioning"
     class="playground"
   >
     <aside>
@@ -1589,7 +1589,9 @@ import type CropperSelection from '@cropper/element-selection';
 export default {
   data(): Record<string, any> {
     return {
-      loading: true,
+      transitionDelay: 350,
+      transitioning: true,
+      loading: false,
       ready: false,
       initialCanvas: '',
       canvas: {
@@ -1707,7 +1709,15 @@ export default {
       },
     };
   },
+  created() {
+    setTimeout(() => {
+      this.transitioning = false;
+      this.loading = true;
+    }, this.transitionDelay);
+  },
   mounted(): void {
+    const startTime = Date.now();
+
     Promise.all([
       new Promise((resolve, reject) => {
         const link = document.createElement('link');
@@ -1738,7 +1748,17 @@ export default {
         script.onabort = reject;
         document.head.appendChild(script);
       }),
-    ]).then(() => {
+    ]).then(() => new Promise<void>((resolve) => {
+      const endTime = Date.now();
+      const loadingTime = endTime - startTime;
+      const delay = this.transitionDelay - loadingTime;
+
+      if (delay > 0) {
+        setTimeout(resolve, delay);
+      } else {
+        resolve();
+      }
+    })).then(() => {
       this.loading = false;
       this.$nextTick(() => {
         this.ready = true;
@@ -1749,6 +1769,7 @@ export default {
     });
   },
   beforeUnmount(): void {
+    this.transitioning = true;
     Array.from(document.head.querySelectorAll('[href*="bootstrap"],[src*="bootstrap"]')).forEach((element) => {
       document.head.removeChild(element);
     });
@@ -1807,7 +1828,8 @@ export default {
 }
 
 .playground {
-  background-color: #fff;
+  background-color: var(--c-bg);
+  color: var(--c-text);
 
   canvas {
     display: block;
@@ -1861,7 +1883,7 @@ export default {
   }
 
   > article {
-    background-color: #fafafa;
+    background-color: var(-c-bg-light);
     height: 20rem;
 
     > cropper-canvas {
@@ -1923,7 +1945,7 @@ export default {
   }
 
   .preview {
-    border: 1px solid #ddd;
+    border: 1px solid var(--c-border);
     float: left;
     margin-bottom: 1rem;
     margin-right: 1rem;
@@ -1981,13 +2003,14 @@ export default {
 }
 
 .loading {
-  background-color: #fff;
+  background-color: var(--c-bg);
   bottom: 0;
   display: flex;
   left: 0;
-  position: absolute;
+  position: fixed;
   right: 0;
-  top: 0;
+  top: var(--navbar-height);
+  z-index: 1;
 
   &::after {
     animation: spinner 1s linear infinite;
