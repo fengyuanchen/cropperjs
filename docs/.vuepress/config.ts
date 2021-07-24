@@ -52,26 +52,16 @@ export default defineUserConfig<DefaultThemeOptions, WebpackBundlerOptions>({
     editLinks: true,
     navbar: [
       {
-        text: 'Docs',
-        ariaLabel: 'Documentation Menu',
-        children: [
-          {
-            text: 'Guide',
-            link: '/guide.html',
-          },
-          {
-            text: 'Examples',
-            link: '/examples/',
-          },
-          {
-            text: 'Migration from Cropper.js 1',
-            link: '/migration.html',
-          },
-        ],
+        text: 'Guide',
+        link: '/guide.html',
       },
       {
         text: 'API Reference',
         link: '/api/',
+      },
+      {
+        text: 'Migration',
+        link: '/migration.html',
       },
       {
         text: 'Playground',
@@ -85,13 +75,11 @@ export default defineUserConfig<DefaultThemeOptions, WebpackBundlerOptions>({
     sidebar: {
       '/api/': [
         {
-          isGroup: true,
           text: 'API',
           children: [
             'index.html',
             'cropper-element.html',
             {
-              isGroup: true,
               text: 'Elements',
               children: [
                 'cropper-canvas.html',
@@ -109,7 +97,6 @@ export default defineUserConfig<DefaultThemeOptions, WebpackBundlerOptions>({
       ],
       '/examples/': [
         {
-          isGroup: true,
           text: 'Examples',
           children: [
             'index.html',
