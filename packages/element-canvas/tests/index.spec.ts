@@ -49,6 +49,21 @@ describe('CropperCanvas', () => {
       });
     });
 
+    describe('scaleStep', () => {
+      it('should be `0.1` by default', () => {
+        const element = new CropperCanvas();
+
+        expect(element.scaleStep).toBe(0.1);
+      });
+
+      it('should be `true`', () => {
+        const element = new CropperCanvas();
+
+        element.setAttribute('scale-step', '0.2');
+        expect(element.scaleStep).toBe(0.2);
+      });
+    });
+
     describe('themeColor', () => {
       it('should be `"#39f"` by default', () => {
         const element = new CropperCanvas();

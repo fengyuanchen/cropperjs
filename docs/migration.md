@@ -31,7 +31,7 @@ sidebar: auto
 | `zoomable` | Deprecated. |
 | `zoomOnTouch` | Deprecated. |
 | `zoomOnWheel` | Deprecated. |
-| `wheelZoomRatio` | Use the `<cropper-canvas>` element's `scale` property. |
+| `wheelZoomRatio` | Use the `<cropper-canvas>` element's `scaleStep` property. |
 | `cropBoxMovable` | Use the `<cropper-selection>` element's `movable` property. |
 | `cropBoxResizable` | Use the `<cropper-selection>` element's `resizable` property. |
 | `toggleDragModeOnDblclick` | Deprecated. |

@@ -39,12 +39,12 @@
             >
           </li>
           <li>
-            <label for="canvasScale">scale</label>
+            <label for="canvasScaleStep">scale-step</label>
             <input
-              id="canvasScale"
-              v-model="canvas.scale"
+              id="canvasScaleStep"
+              v-model="canvas.scaleStep"
               type="number"
-              name="scale"
+              name="scaleStep"
               min="0.1"
               max="1"
               step="0.1"
@@ -1401,7 +1401,7 @@
         :background="canvas.background"
         :disabled="canvas.disabled"
         :hidden="canvas.hidden"
-        :scale="canvas.scale"
+        :scale-step="canvas.scaleStep"
         :theme-color="canvas.themeColor"
       >
         <cropper-image
@@ -1598,7 +1598,7 @@ export default {
         hidden: false,
         background: true,
         disabled: false,
-        scale: 0.1,
+        scaleStep: 0.1,
         themeColor: '#3399ff',
       },
       image: {

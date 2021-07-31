@@ -58,7 +58,7 @@ export default class CropperCanvas extends CropperElement {
 
   disabled = false;
 
-  scale = 0.1;
+  scaleStep = 0.1;
 
   themeColor = '#39f';
 
@@ -415,7 +415,7 @@ export default class CropperCanvas extends CropperElement {
     }, 50);
 
     const delta = (event as WheelEvent).deltaY > 0 ? 1 : -1;
-    const scale = delta * this.scale;
+    const scale = delta * this.scaleStep;
 
     this.$emit(EVENT_ACTION, {
       action: ACTION_SCALE,
