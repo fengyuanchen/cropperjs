@@ -2,6 +2,13 @@
 
 The `CropperElement` interface represents any Cropper element, extends the [HTMLElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement) interface.
 
+## Specifications
+
+- The name of public properties should start with alphabetic-character.
+- The name of private properties should start with `$`.
+- The name of public/private custom methods should start with `$`.
+- The name of private custom listeners should start with `$on`.
+
 ## Example
 
 ```js
