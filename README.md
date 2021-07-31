@@ -71,7 +71,7 @@ In browser:
 #### Syntax
 
 ```js
-new Cropper(element[, options])
+new Cropper([element, options])
 ```
 
 - **element**
