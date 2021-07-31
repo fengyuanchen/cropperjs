@@ -140,6 +140,14 @@ Moves the image to a specific position.
   - `angle`:
     - Type: `number | string`
     - The rotation angle (in radians). The default unit is `rad`.
+  - `x`:
+    - Type: `number`
+    - Default: The center of the image in the horizontal.
+    - The rotation origin in the horizontal.
+  - `y`:
+    - Type: `number`
+    - Default: The center of the image in the vertical.
+    - The rotation origin in the vertical.
 - **Returns**:
   - Type: `CropperImage`
   - The element instance for chaining.
@@ -149,6 +157,7 @@ Moves the image to a specific position.
   - `$rotate('45deg')`
   - `$rotate('50grad')`
   - `$rotate('0.1turn')`
+  - `$rotate('90deg', 0, 0)`
 
 Rotates the image. It is similar to CSS function [rotate()](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/rotate()) or [CanvasRenderingContext2D.rotate()](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/rotate).
 
@@ -172,11 +181,13 @@ Rotates the image. It is similar to CSS function [rotate()](https://developer.mo
 - **Returns**:
   - Type: `CropperImage`
   - The element instance for chaining.
-- **Example**:
+- **Examples**:
 
   ```js
   cropperImage.$zoom(0.1); // Zoom in 10%
   cropperImage.$zoom(-0.1); // Zoom out 10%
+  cropperImage.$zoom(0.1, 0, 0); // Zoom in from the top-left corner
+  cropperImage.$zoom(-0.1, 0, 0); // Zoom out from the top-left corner
   ```
 
 Zooms the image.
@@ -197,7 +208,7 @@ Zooms the image.
 - **Returns**:
   - Type: `CropperImage`
   - The element instance for chaining.
-- **Example**:
+- **Examples**:
 
   ```js
   cropperImage.$scale(1.1); // Zoom in 10%

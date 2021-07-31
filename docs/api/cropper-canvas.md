@@ -64,7 +64,7 @@ Inherits properties from its parent, [`CropperElement`](cropper-element.html), a
 | --- | --- | --- | --- | --- |
 | background | `boolean` | `false` | - | Indicates whether this element has a grid background. |
 | disabled | `boolean` | `false` | - | Indicates whether this element is disabled. |
-| scaleStep | `number` | `0.1` | - | Indicates the stepping interval of the scaling factor when zooming in/out by wheeling. |
+| scaleStep | `number` | `0.1` | - | Indicates the stepping interval of the scaling factor when zooming in/out by wheeling, must a positive number. |
 | themeColor | `string` | `"#39f"` | - | Indicates the primary color of this element and its children. |
 
 ## Methods

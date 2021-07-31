@@ -467,6 +467,60 @@
             <div
               class="btn-group"
               role="group"
+              aria-label="Scale the cropper image"
+            >
+              <button
+                type="button"
+                class="btn btn-outline-primary btn-sm"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="image.$zoom(0.1, 0, 0)"
+                @click="$refs.cropperImage.$zoom(0.1, 0, 0)"
+              >
+                <i class="bi-zoom-in" />
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-primary btn-sm"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="image.$zoom(-0.1, 0, 0)"
+                @click="$refs.cropperImage.$zoom(-0.1, 0, 0)"
+              >
+                <i class="bi-zoom-out" />
+              </button>
+            </div>
+            <div
+              class="btn-group"
+              role="group"
+              aria-label="Rotate the cropper image"
+            >
+              <button
+                type="button"
+                class="btn btn-outline-primary btn-sm"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="image.$scale(-1, 1)"
+                @click="$refs.cropperImage.$scale(-1, 1)"
+              >
+                <i class="bi-arrow-left-right" />
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-primary btn-sm"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="image.$scale(1, -1)"
+                @click="$refs.cropperImage.$scale(1, -1)"
+              >
+                <i class="bi-arrow-down-up" />
+              </button>
+            </div>
+          </li>
+          <li>
+            <div
+              class="btn-group"
+              role="group"
               aria-label="Rotate the cropper image"
             >
               <button
@@ -500,6 +554,32 @@
                 class="btn btn-outline-primary btn-sm"
                 data-toggle="tooltip"
                 data-placement="top"
+                title="image.$rotate('-45deg', 0, 0)"
+                @click="$refs.cropperImage.$rotate('-45deg', 0, 0)"
+              >
+                <i class="bi-arrow-90deg-left" />
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-primary btn-sm"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="image.$rotate('45deg', 0, 0)"
+                @click="$refs.cropperImage.$rotate('45deg', 0, 0)"
+              >
+                <i class="bi-arrow-90deg-right" />
+              </button>
+            </div>
+            <div
+              class="btn-group"
+              role="group"
+              aria-label="Rotate the cropper image"
+            >
+              <button
+                type="button"
+                class="btn btn-outline-primary btn-sm"
+                data-toggle="tooltip"
+                data-placement="top"
                 title="image.$skew('45deg')"
                 @click="$refs.cropperImage.$skew('45deg')"
               >
@@ -514,34 +594,6 @@
                 @click="$refs.cropperImage.$skew('-45deg')"
               >
                 <i class="bi-arrow-up-right-square" />
-              </button>
-            </div>
-          </li>
-          <li>
-            <div
-              class="btn-group"
-              role="group"
-              aria-label="Rotate the cropper image"
-            >
-              <button
-                type="button"
-                class="btn btn-outline-primary btn-sm"
-                data-toggle="tooltip"
-                data-placement="top"
-                title="image.$scale(-1, 1)"
-                @click="$refs.cropperImage.$scale(-1, 1)"
-              >
-                <i class="bi-arrow-left-right" />
-              </button>
-              <button
-                type="button"
-                class="btn btn-outline-primary btn-sm"
-                data-toggle="tooltip"
-                data-placement="top"
-                title="image.$scale(1, -1)"
-                @click="$refs.cropperImage.$scale(1, -1)"
-              >
-                <i class="bi-arrow-down-up" />
               </button>
             </div>
           </li>

@@ -33,6 +33,8 @@ interface ActionEventData {
   startY?: number;
   endX?: number;
   endY?: number;
+  centerX?: number;
+  centerY?: number;
 }
 
 export default class CropperCanvas extends CropperElement {
@@ -271,6 +273,8 @@ export default class CropperCanvas extends CropperElement {
       let maxScaleRate = 0;
       let rotate = 0;
       let scale = 0;
+      let centerX = (event as PointerEvent).pageX;
+      let centerY = (event as PointerEvent).pageY;
 
       $pointers.forEach((pointer, pointerId) => {
         pointers2.delete(pointerId);
@@ -315,6 +319,8 @@ export default class CropperCanvas extends CropperElement {
             if (absRotateRate > maxRotateRate) {
               maxRotateRate = absRotateRate;
               rotate = rotateRate;
+              centerX = (pointer.startX + pointer2.startX) / 2;
+              centerY = (pointer.startY + pointer2.startY) / 2;
             }
           }
 
@@ -346,6 +352,8 @@ export default class CropperCanvas extends CropperElement {
             if (absScaleRate > maxScaleRate) {
               maxScaleRate = absScaleRate;
               scale = scaleRate;
+              centerX = (pointer.startX + pointer2.startX) / 2;
+              centerY = (pointer.startY + pointer2.startY) / 2;
             }
           }
         });
@@ -357,12 +365,18 @@ export default class CropperCanvas extends CropperElement {
       if (rotatable && scalable) {
         detail.rotate = rotate;
         detail.scale = scale;
+        detail.centerX = centerX;
+        detail.centerY = centerY;
       } else if (rotatable) {
         detail.action = ACTION_ROTATE;
         detail.rotate = rotate;
+        detail.centerX = centerX;
+        detail.centerY = centerY;
       } else if (scalable) {
         detail.action = ACTION_SCALE;
         detail.scale = scale;
+        detail.centerX = centerX;
+        detail.centerY = centerY;
       } else {
         detail.action = ACTION_NONE;
       }

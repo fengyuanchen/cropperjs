@@ -1,5 +1,6 @@
 import {
   ACTION_MOVE,
+  ACTION_NONE,
   ACTION_ROTATE,
   ACTION_SCALE,
   ACTION_TRANSFORM,
@@ -141,45 +142,116 @@ export default class CropperImage extends CropperElement {
     const { detail } = event as CustomEvent;
 
     if (detail) {
-      switch (detail.action) {
+      let { action } = detail;
+
+      if (action === ACTION_TRANSFORM && (!this.rotatable || !this.scalable)) {
+        if (this.rotatable) {
+          action = ACTION_ROTATE;
+        } else if (this.scalable) {
+          action = ACTION_SCALE;
+        } else {
+          action = ACTION_NONE;
+        }
+      }
+
+      switch (action) {
         case ACTION_MOVE:
           if (!selection || selection.hidden || !selection.movable) {
             this.$move(detail.endX - detail.startX, detail.endY - detail.startY);
           }
           break;
 
-        case ACTION_SCALE: {
-          const { relatedEvent } = detail;
+        case ACTION_ROTATE:
+          if (this.rotatable) {
+            const { relatedEvent } = detail;
 
-          if (relatedEvent && this.scalable) {
-            const { x, y } = this.getBoundingClientRect();
+            if (relatedEvent) {
+              const { x, y } = this.getBoundingClientRect();
 
-            this.$zoom(
-              detail.scale,
-              relatedEvent.clientX - x,
-              relatedEvent.clientY - y,
-            );
+              this.$rotate(
+                detail.rotate,
+                relatedEvent.clientX - x,
+                relatedEvent.clientY - y,
+              );
+            } else {
+              this.$rotate(detail.rotate);
+            }
           }
           break;
-        }
 
-        case ACTION_ROTATE:
-          this.$rotate(detail.rotate);
+        case ACTION_SCALE:
+          if (this.scalable) {
+            const { relatedEvent } = detail;
+
+            if (relatedEvent) {
+              const { x, y } = this.getBoundingClientRect();
+
+              this.$zoom(
+                detail.scale,
+                relatedEvent.clientX - x,
+                relatedEvent.clientY - y,
+              );
+            } else {
+              this.$zoom(detail.scale);
+            }
+          }
           break;
 
-        case ACTION_TRANSFORM: {
-          const { rotate, scale } = detail;
+        case ACTION_TRANSFORM:
+          if (this.rotatable && this.scalable) {
+            const { rotate, relatedEvent } = detail;
+            let { scale } = detail;
 
-          this.$transform(
-            scale * Math.cos(rotate),
-            scale * Math.sin(rotate),
-            scale * -Math.sin(rotate),
-            scale * Math.cos(rotate),
-            0,
-            0,
-          );
+            if (scale < 0) {
+              scale = 1 / (1 - scale);
+            } else {
+              scale += 1;
+            }
+
+            const cos = Math.cos(rotate);
+            const sin = Math.sin(rotate);
+            const [scaleX, skewY, skewX, scaleY] = [
+              cos * scale,
+              sin * scale,
+              -sin * scale,
+              cos * scale,
+            ];
+
+            if (relatedEvent) {
+              const clientRect = this.getBoundingClientRect();
+              const x = relatedEvent.clientX - clientRect.x;
+              const y = relatedEvent.clientY - clientRect.y;
+              const [a, b, c, d] = this.$matrix;
+              const originX = clientRect.width / 2;
+              const originY = clientRect.height / 2;
+              const moveX = x - originX;
+              const moveY = y - originY;
+              const translateX = ((moveX * d) - (c * moveY)) / ((a * d) - (c * b));
+              const translateY = (moveY - (b * translateX)) / d;
+
+              /**
+               * Equals to
+               * this.$rotate(rotate, x, y);
+               * this.$scale(scale, x, y);
+               */
+              this.$transform(
+                scaleX,
+                skewY,
+                skewX,
+                scaleY,
+                translateX * (1 - scaleX) + translateY * skewX,
+                translateY * (1 - scaleY) + translateX * skewY,
+              );
+            } else {
+              /**
+               * Equals to
+               * this.$rotate(rotate);
+               * this.$scale(scale);
+               */
+              this.$transform(scaleX, skewY, skewX, scaleY, 0, 0);
+            }
+          }
           break;
-        }
 
         default:
       }
@@ -322,20 +394,44 @@ export default class CropperImage extends CropperElement {
    * {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/rotate}
    *
    * @param {number|string} angle The rotation angle (in radians).
+   * @param {number} [x] The rotation origin in the horizontal, defaults to the center of the image.
+   * @param {number} [y] The rotation origin in the vertical, defaults to the center of the image.
    * @returns {CropperImage} Returns `this` for chaining.
    */
-  $rotate(angle: number | string): this {
+  $rotate(angle: number | string, x?: number, y?: number): this {
     if (this.rotatable) {
       const radian = toAngleInRadian(angle);
+      const cos = Math.cos(radian);
+      const sin = Math.sin(radian);
+      const [scaleX, skewY, skewX, scaleY] = [cos, sin, -sin, cos];
 
-      this.$transform(
-        Math.cos(radian),
-        Math.sin(radian),
-        -Math.sin(radian),
-        Math.cos(radian),
-        0,
-        0,
-      );
+      if (isNumber(x) && isNumber(y)) {
+        const [a, b, c, d] = this.$matrix;
+        const { width, height } = this.getBoundingClientRect();
+        const originX = width / 2;
+        const originY = height / 2;
+        const moveX = x - originX;
+        const moveY = y - originY;
+        const translateX = ((moveX * d) - (c * moveY)) / ((a * d) - (c * b));
+        const translateY = (moveY - (b * translateX)) / d;
+
+        /**
+         * Equals to
+         * this.$translate(translateX, translateX);
+         * this.$rotate(angle);
+         * this.$translate(-translateX, -translateX);
+         */
+        this.$transform(
+          scaleX,
+          skewY,
+          skewX,
+          scaleY,
+          translateX * (1 - scaleX) - translateY * skewX,
+          translateY * (1 - scaleY) - translateX * skewY,
+        );
+      } else {
+        this.$transform(scaleX, skewY, skewX, scaleY, 0, 0);
+      }
     }
 
     return this;
