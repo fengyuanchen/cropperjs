@@ -70,7 +70,7 @@ Before you submit your Pull Request (PR) consider the following guidelines:
 1. Make your changes in a new git branch:
 
     ```shell
-    git checkout -b my-fix-branch master
+    git checkout -b my-fix-branch main
     ```
 
 1. Create your patch, **including appropriate test cases**.
@@ -89,14 +89,14 @@ Before you submit your Pull Request (PR) consider the following guidelines:
     git push origin my-fix-branch
     ```
 
-1. In GitHub, send a pull request to `cropperjs:master`.
+1. In GitHub, send a pull request to `cropperjs:main`.
 1. If we suggest changes then:
     - Make the required updates.
     - Re-run the Cropper.js test suites to ensure tests are still passing.
     - Rebase your branch and force push to your GitHub repository (this will update your Pull Request):
 
     ```shell
-    git rebase master -i
+    git rebase main -i
     git push -f
     ```
 
@@ -112,10 +112,10 @@ After your pull request is merged, you can safely delete your branch and pull th
     git push origin --delete my-fix-branch
     ```
 
-1. Check out the master branch:
+1. Check out the main branch:
 
     ```shell
-    git checkout master -f
+    git checkout main -f
     ```
 
 1. Delete the local branch:
@@ -124,10 +124,10 @@ After your pull request is merged, you can safely delete your branch and pull th
     git branch -D my-fix-branch
     ```
 
-1. Update your master with the latest upstream version:
+1. Update your main with the latest upstream version:
 
     ```shell
-    git pull --ff upstream master
+    git pull --ff upstream main
     ```
 
 ## Coding Rules
@@ -158,7 +158,7 @@ Any line of the commit message cannot be longer 100 characters! This allows the 
 
 The footer should contain a [closing reference to an issue](https://help.github.com/articles/closing-issues-via-commit-messages/) if any.
 
-Here are some [samples](https://github.com/fengyuanchen/cropperjs/commits/master).
+Here are some [samples](https://github.com/fengyuanchen/cropperjs/commits/main).
 
 ### Revert
 
