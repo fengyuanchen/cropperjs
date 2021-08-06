@@ -128,7 +128,7 @@ How to crop a new area after zoom in or zoom out?
 
 How to move the image after cropping an area?
 
-> Just double click your mouse to enter move mode.
+> Just double-click your mouse to enter move mode.
 
 How to fix aspect ratio in free ratio mode?
 
@@ -151,7 +151,7 @@ How to crop a square area in free ratio mode?
 
 - [Known iOS resource limits](https://developer.apple.com/library/mac/documentation/AppleApplications/Reference/SafariWebContent/CreatingContentforSafarioniPhone/CreatingContentforSafarioniPhone.html): As iOS devices limit memory, the browser may crash when you are cropping a large image (iPhone camera resolution). To avoid this, you may resize the image first (preferably below 1024 pixels) before starting a cropper.
 
-- Known image size increase: When exporting the cropped image on the browser side with the `HTMLCanvasElement.toDataURL` method, the size of the exported image may be greater than the original image's. This is because the type of the exported image is not the same as the original image's. So just pass the original image's type as the first parameter to `toDataURL` to fix this. For example, if the original type is JPEG, then use `cropper.getCroppedCanvas().toDataURL('image/jpeg')` to export image.
+- Known image size increase: When exporting the cropped image on the browser side with the `HTMLCanvasElement.toDataURL` method, the size of the exported image may be greater than the original image's. This is because the type of the exported image is not the same as the original image. So just pass the original image's type as the first parameter to `toDataURL` to fix this. For example, if the original type is JPEG, then use `cropper.getCroppedCanvas().toDataURL('image/jpeg')` to export image.
 
 [⬆ back to top](#table-of-contents)
 
@@ -206,7 +206,7 @@ Define the fixed aspect ratio of the crop box. By default, the crop box has a fr
 
 The previous cropped data you stored will be passed to the `setData` method automatically when initialized.
 
-> Only available when the `autoCrop` option had set to the`true`.
+> Only available when the `autoCrop` option had set to the `true`.
 
 ### preview
 
@@ -513,7 +513,7 @@ new Cropper(image, {
 
 ### reset()
 
-Reset the image and crop box to their initial states.
+Reset the image and crop box to its initial states.
 
 ### clear()
 
@@ -839,7 +839,7 @@ Change the crop box position and size with new data.
   - Rotated image: requires [CSS3 2D Transforms](https://developer.mozilla.org/en-US/docs/Web/CSS/transform) support ([IE 9+](https://caniuse.com/transforms2d)).
   - Cross-origin image: requires HTML5 [CORS settings attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_settings_attributes) support ([IE 11+](https://caniuse.com/cors)).
 
-Get a canvas drawn the cropped image (lossy compression). If it is not cropped, then returns a canvas drawn the whole image.
+Get a canvas drawn from the cropped image (lossy compression). If it is not cropped, then returns a canvas drawn the whole image.
 
 > After then, you can display the canvas as an image directly, or use [HTMLCanvasElement.toDataURL](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL) to get a Data URL, or use [HTMLCanvasElement.toBlob](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) to get a blob and upload it to server with [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) if the browser supports these APIs.
 

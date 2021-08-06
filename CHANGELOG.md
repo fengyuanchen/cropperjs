@@ -80,7 +80,7 @@
 ## 1.4.1 (Jul 15, 2018)
 
 - Not to restrict the canvas position when it is not cropped.
-- Fix wrong crop box size in view mode 1 and 2 (#381).
+- Fix the wrong crop box size in view modes 1 and 2 (#381).
 
 ## 1.4.0 (Jun 1, 2018)
 
@@ -94,7 +94,7 @@
 
 ## 1.3.5 (Apr 15, 2018)
 
-- Ensure the cloned image loads completely before triggering the `ready` event to avoid side-effect (#303).
+- Ensure the cloned image loads completely before triggering the `ready` event to avoid side effects (#303).
 - Add namespace to data attribute names (from `data-*` to `data-cropper-*`) to avoid side-effect (#319).
 
 ## 1.3.4 (Mar 31, 2018)
@@ -158,7 +158,7 @@
 
 ## 1.0.0 (Sep 3, 2017)
 
-- Fix the issue of zoom-out after clearing the crop box in view mode 1, 2, and 3 (#209).
+- Fix the issue of zoom-out after clearing the crop box in view modes 1, 2, and 3 (#209).
 - Improve crop box resizing behavior in the east, west, south, and north directions (#222).
 
 ## 1.0.0-rc.3 (Jul 7, 2017)
