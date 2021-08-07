@@ -60,20 +60,5 @@
     "tslib": "^2.3.0",
     "typescript": "^4.3.5",
     "vuepress": "^2.0.0-beta.22"
-  },
-  "browserslist": [
-    "last 2 versions",
-    "> 1%",
-    "not ie < 11",
-    "not dead"
-  ],
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
-  },
-  "lint-staged": {
-    "*.{js,ts,vue}": "eslint --fix",
-    "*.{css,scss,html,md}": "stylelint --fix"
   }
 }
