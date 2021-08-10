@@ -25,6 +25,27 @@ describe('preview (option)', () => {
     expect(cropper.options.preview).to.equal(preview);
   });
 
+  it('should support element with precisePreview enable', (done) => {
+    const image = window.createImage();
+    const preview = document.createElement('div');
+
+    image.ownerDocument.body.appendChild(preview);
+
+    const cropper = new Cropper(image, {
+      preview,
+      precisePreview: true,
+
+      ready() {
+        expect(preview.firstElementChild).to.not.be.null;
+        expect(preview.firstElementChild.src).to.equal(image.src);
+        done();
+      },
+    });
+
+    expect(cropper.options.preview).to.equal(preview);
+    expect(cropper.options.precisePreview).to.equal(true);
+  });
+
   it('should support array of elements', (done) => {
     const image = window.createImage();
     const previews = document.createElement('ul');
