@@ -13,10 +13,12 @@ import {
   EVENT_POINTER_MOVE,
   EVENT_POINTER_UP,
   EVENT_WHEEL,
+  getAdjustedSizes,
   isElement,
   isFunction,
   isNumber,
   isPlainObject,
+  isPositiveNumber,
   isString,
   off,
   on,
@@ -482,13 +484,17 @@ export default class CropperCanvas extends CropperElement {
    * Generates a real canvas element, with the image draw into if there is one.
    *
    * @param {object} [options] The available options.
+   * @param {object} [options.width] The width of the canvas.
+   * @param {object} [options.height] The height of the canvas.
    * @param {Function} [options.beforeDraw] The function called before drawing the image onto the canvas.
    * @returns {Promise} Returns a promise that resolves to the generated canvas element.
    */
   $toCanvas(options?: {
+    width?: number;
+    height?: number;
     beforeDraw?: (context: CanvasRenderingContext2D, canvas: HTMLCanvasElement) => void;
   }): Promise<HTMLCanvasElement> {
-    return new Promise((resolve, reject) => {
+    return new Promise<HTMLCanvasElement>((resolve, reject) => {
       if (!this.isConnected) {
         reject(new Error('The current element is not connected to the DOM.'));
         return;
@@ -512,9 +518,9 @@ export default class CropperCanvas extends CropperElement {
         const context = canvas.getContext('2d');
 
         if (context) {
-          const matrix = cropperImage.$getTransform();
-          const centerX = cropperImage.offsetWidth / 2;
-          const centerY = cropperImage.offsetHeight / 2;
+          const [a, b, c, d, e, f] = cropperImage.$getTransform();
+          const centerX = image.naturalWidth / 2;
+          const centerY = image.naturalHeight / 2;
 
           context.fillStyle = 'transparent';
           context.fillRect(0, 0, width, height);
@@ -528,7 +534,7 @@ export default class CropperCanvas extends CropperElement {
           // Move the transform origin to the center of the image.
           // https://developer.mozilla.org/en-US/docs/Web/CSS/transform-origin
           context.translate(centerX, centerY);
-          context.transform(matrix[0], matrix[1], matrix[2], matrix[3], matrix[4], matrix[5]);
+          context.transform(a, b, c, d, e, f);
 
           // Move the transform origin to the top-left of the image.
           context.translate(-centerX, -centerY);
@@ -538,6 +544,33 @@ export default class CropperCanvas extends CropperElement {
 
         resolve(canvas);
       }).catch(reject);
+    }).then((canvas) => {
+      if (isPlainObject(options)
+        && (isPositiveNumber(options.width) || isPositiveNumber(options.height))) {
+        let { width, height } = canvas;
+
+        ({ width, height } = getAdjustedSizes({
+          aspectRatio: width / height,
+          width: options.width || width,
+          height: options.height || height,
+        }));
+
+        if (width !== canvas.width) {
+          const newCanvas = document.createElement('canvas');
+          const newContext = newCanvas.getContext('2d');
+
+          newCanvas.width = width;
+          newCanvas.height = height;
+
+          if (newContext) {
+            newContext.drawImage(canvas, 0, 0, width, height);
+          }
+
+          return newCanvas;
+        }
+      }
+
+      return canvas;
     });
   }
 }
