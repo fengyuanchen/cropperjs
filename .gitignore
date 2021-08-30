@@ -2,3 +2,4 @@
 *.map
 coverage
 node_modules
+.idea
