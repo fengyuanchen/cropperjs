@@ -5,11 +5,28 @@
     "module": "esnext",
     "moduleResolution": "node",
     "strict": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "useDefineForClassFields": true,
+    "sourceMap": true,
     "lib": ["dom", "esnext"],
     "paths": {
       "@cropper/*": ["packages/*/src"],
       "cropperjs": ["packages/cropperjs/src"]
-    }
+    },
+    "types": [
+      "@vuepress/client/types",
+      "jest"
+    ]
   },
-  "include": ["packages/*/src"]
+  "include": [
+    "*.js",
+    ".*.js",
+    "docs/.vuepress/**/*",
+    "packages/*/src/*",
+    "packages/*/tests/*",
+    "types/*"
+  ]
 }

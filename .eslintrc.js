@@ -12,12 +12,13 @@ module.exports = {
   parser: 'vue-eslint-parser',
   parserOptions: {
     parser: '@typescript-eslint/parser',
-    project: 'tsconfig.eslint.json',
+    project: 'tsconfig.json',
     sourceType: 'module',
     extraFileExtensions: ['.vue'],
   },
   plugins: [
     '@typescript-eslint',
+    'import',
     'jsdoc',
     'vue',
   ],
