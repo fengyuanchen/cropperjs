@@ -551,8 +551,8 @@ export default class CropperCanvas extends CropperElement {
 
         ({ width, height } = getAdjustedSizes({
           aspectRatio: width / height,
-          width: options.width || width,
-          height: options.height || height,
+          width: options.width as number,
+          height: options.height as number,
         }));
 
         if (width !== canvas.width) {
