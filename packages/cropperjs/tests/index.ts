@@ -124,7 +124,10 @@ describe('Cropper', () => {
         const selections = cropper.getCropperSelections();
 
         expect(selections).toHaveLength(1);
-        expect(selections[0]).toBeInstanceOf(CropperSelection);
+
+        if (selections) {
+          expect(selections[0]).toBeInstanceOf(CropperSelection);
+        }
       });
     });
   });
