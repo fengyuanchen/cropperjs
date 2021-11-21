@@ -1639,6 +1639,7 @@ import type CropperCanvas from '@cropper/element-canvas';
 import type CropperSelection from '@cropper/element-selection';
 
 export default {
+  name: 'CropperPlayground',
   data(): Record<string, any> {
     return {
       transitionDelay: 350,

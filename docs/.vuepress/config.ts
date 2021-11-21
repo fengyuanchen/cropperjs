@@ -124,7 +124,7 @@ export default defineUserConfig<DefaultThemeOptions, WebpackBundlerOptions>({
   },
   extendsMarkdown: (md) => {
     md.use(markdownItContainer, 'live-demo', {
-      render(tokens, index) {
+      render(tokens: any[], index: number) {
         return tokens[index].nesting === 1 ? '<ClientOnly><LiveDemo>' : '</LiveDemo></ClientOnly>';
       },
     });
@@ -132,7 +132,7 @@ export default defineUserConfig<DefaultThemeOptions, WebpackBundlerOptions>({
   bundlerConfig: {
     configureWebpack: () => ({
       resolve: {
-        alias: readdirSync(packages).reduce((alias, name) => {
+        alias: readdirSync(packages).reduce((alias: Record<string, string>, name) => {
           alias[name === 'cropperjs' ? name : `@cropper/${name}`] = resolve(packages, name, 'src');
           return alias;
         }, {}),

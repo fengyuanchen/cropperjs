@@ -5,5 +5,5 @@ pageClass: playground-container
 ---
 
 <ClientOnly>
-  <Playground />
+  <CropperPlayground />
 </ClientOnly>

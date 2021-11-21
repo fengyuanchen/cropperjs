@@ -6,7 +6,7 @@
 import Cropper from 'cropperjs';
 
 export default {
-  name: 'Cropper',
+  name: 'CropperExample',
   mounted(): void {
     const image = new Image();
 

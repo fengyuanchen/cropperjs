@@ -21,7 +21,7 @@ new Cropper(element[, options])
 ### Example
 
 <ClientOnly>
-  <Cropper />
+  <CropperExample />
 </ClientOnly>
 
 ```html
