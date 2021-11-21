@@ -11,10 +11,10 @@
   "scripts": {
     "api-extractor": "api-extractor run --local --verbose",
     "build": "npm run tsc && npm run api-extractor && npm run rollup",
-    "clean": "del-cli dist temp",
+    "clean": "del-cli dist .temp",
     "release": "npm run clean && npm run build",
     "rollup": "rollup -c ../../rollup.config.js",
-    "tsc": "tsc --outDir ./temp --declaration --emitDeclarationOnly"
+    "tsc": "tsc --outDir ./.temp --declaration --emitDeclarationOnly"
   },
   "repository": {
     "type": "git",
