@@ -484,8 +484,8 @@ export default class CropperCanvas extends CropperElement {
    * Generates a real canvas element, with the image draw into if there is one.
    *
    * @param {object} [options] The available options.
-   * @param {object} [options.width] The width of the canvas.
-   * @param {object} [options.height] The height of the canvas.
+   * @param {number} [options.width] The width of the canvas.
+   * @param {number} [options.height] The height of the canvas.
    * @param {Function} [options.beforeDraw] The function called before drawing the image onto the canvas.
    * @returns {Promise} Returns a promise that resolves to the generated canvas element.
    */

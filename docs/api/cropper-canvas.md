@@ -92,7 +92,13 @@ Changes the current action to a new one.
     - Type: `Object`
     - The available options.
     - Properties:
-      - `options.beforeDraw`:
+      - `width`:
+        - Type: `number`
+        - The width of the canvas.
+      - `height`:
+        - Type: `number`
+        - The height of the canvas.
+      - `beforeDraw`:
         - Type: `Function`
         - The function called before drawing the image onto the canvas.
         - Syntax: `beforeDraw(context, canvas)`
@@ -112,7 +118,7 @@ Changes the current action to a new one.
     <CropperCanvasToNativeCanvas />
   </ClientOnly>
 
-Generates a real canvas element, with the image draw into if there is one.
+Generates a real canvas element, with the image drawn into if there is one.
 
 ## Events
 
