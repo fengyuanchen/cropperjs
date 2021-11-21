@@ -854,13 +854,17 @@ export default class CropperSelection extends CropperElement {
    * Generates a real canvas element, with the image (selected area only) draw into if there is one.
    *
    * @param {object} [options] The available options.
+   * @param {number} [options.width] The width of the canvas.
+   * @param {number} [options.height] The height of the canvas.
    * @param {Function} [options.beforeDraw] The function called before drawing the image onto the canvas.
    * @returns {Promise} Returns a promise that resolves to the generated canvas element.
    */
   $toCanvas(options?: {
+    width?: number;
+    height?: number;
     beforeDraw?: (context: CanvasRenderingContext2D, canvas: HTMLCanvasElement) => void;
   }): Promise<HTMLCanvasElement> {
-    return new Promise((resolve, reject) => {
+    return new Promise<HTMLCanvasElement>((resolve, reject) => {
       if (!this.isConnected) {
         reject(new Error('The current element is not connected to the DOM.'));
         return;
@@ -888,9 +892,9 @@ export default class CropperSelection extends CropperElement {
         const context = canvas.getContext('2d');
 
         if (context) {
-          const centerX = cropperImage.offsetWidth / 2;
-          const centerY = cropperImage.offsetHeight / 2;
           const [a, b, c, d, e, f] = cropperImage.$getTransform();
+          const centerX = image.naturalWidth / 2;
+          const centerY = image.naturalHeight / 2;
           const offsetX = -this.x;
           const offsetY = -this.y;
           const translateX = ((offsetX * d) - (c * offsetY)) / ((a * d) - (c * b));
@@ -920,6 +924,33 @@ export default class CropperSelection extends CropperElement {
 
         resolve(canvas);
       }).catch(reject);
+    }).then((canvas) => {
+      if (isPlainObject(options)
+        && (isPositiveNumber(options.width) || isPositiveNumber(options.height))) {
+        let { width, height } = canvas;
+
+        ({ width, height } = getAdjustedSizes({
+          aspectRatio: width / height,
+          width: options.width || width,
+          height: options.height || height,
+        }));
+
+        if (width !== canvas.width) {
+          const newCanvas = document.createElement('canvas');
+          const newContext = newCanvas.getContext('2d');
+
+          newCanvas.width = width;
+          newCanvas.height = height;
+
+          if (newContext) {
+            newContext.drawImage(canvas, 0, 0, width, height);
+          }
+
+          return newCanvas;
+        }
+      }
+
+      return canvas;
     });
   }
 }

@@ -294,7 +294,13 @@ Refreshes the position or size of the selection.
     - Type: `Object`
     - The available options.
     - Properties:
-      - `options.beforeDraw`:
+      - `width`:
+        - Type: `number`
+        - The width of the canvas.
+      - `height`:
+        - Type: `number`
+        - The height of the canvas.
+      - `beforeDraw`:
         - Type: `Function`
         - The function called before drawing the image onto the canvas.
         - Syntax: `beforeDraw(context, canvas)`
@@ -314,7 +320,7 @@ Refreshes the position or size of the selection.
     <CropperSelectionToNativeCanvas />
   </ClientOnly>
 
-Generates a real canvas element, with the image (selected area only) draw into if there is one.
+Generates a real canvas element, with the image (selected area only) drawn into if there is one.
 
 ## Events
 
