@@ -56,7 +56,7 @@ describe('CropperCanvas', () => {
         expect(element.scaleStep).toBe(0.1);
       });
 
-      it('should be `true`', () => {
+      it('should be `0.2`', () => {
         const element = new CropperCanvas();
 
         element.setAttribute('scale-step', '0.2');

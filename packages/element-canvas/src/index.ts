@@ -70,6 +70,7 @@ export default class CropperCanvas extends CropperElement {
     return super.observedAttributes.concat([
       'background',
       'disabled',
+      'scale-step',
     ]);
   }
 
