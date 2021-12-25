@@ -1,6 +1,6 @@
 # Changelog
 
-## next
+## 2.0.0-alpha.2 (Dec 25, 2021)
 
 - Fix the cropper responsive when only the height was changed (#835).
 - Fix TypeScript declarations compatibility (#799).

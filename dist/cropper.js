@@ -1,31 +1,53 @@
 /*!
- * Cropper.js v2.0.0-alpha.1
+ * Cropper.js v2.0.0-alpha.2
  * https://fengyuanchen.github.io/cropperjs
  *
  * Copyright 2015-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2019-11-09T12:02:24.890Z
+ * Date: 2021-12-25T08:31:12.767Z
  */
 
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
-  (global = global || self, global.Cropper = factory());
-}(this, (function () { 'use strict';
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.Cropper = factory());
+})(this, (function () { 'use strict';
 
-  function _typeof(obj) {
-    if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-      _typeof = function (obj) {
-        return typeof obj;
-      };
-    } else {
-      _typeof = function (obj) {
-        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-      };
+  function ownKeys(object, enumerableOnly) {
+    var keys = Object.keys(object);
+
+    if (Object.getOwnPropertySymbols) {
+      var symbols = Object.getOwnPropertySymbols(object);
+      enumerableOnly && (symbols = symbols.filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      })), keys.push.apply(keys, symbols);
     }
 
-    return _typeof(obj);
+    return keys;
+  }
+
+  function _objectSpread2(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = null != arguments[i] ? arguments[i] : {};
+      i % 2 ? ownKeys(Object(source), !0).forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+
+    return target;
+  }
+
+  function _typeof(obj) {
+    "@babel/helpers - typeof";
+
+    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) {
+      return typeof obj;
+    } : function (obj) {
+      return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    }, _typeof(obj);
   }
 
   function _classCallCheck(instance, Constructor) {
@@ -47,6 +69,9 @@
   function _createClass(Constructor, protoProps, staticProps) {
     if (protoProps) _defineProperties(Constructor.prototype, protoProps);
     if (staticProps) _defineProperties(Constructor, staticProps);
+    Object.defineProperty(Constructor, "prototype", {
+      writable: false
+    });
     return Constructor;
   }
 
@@ -65,63 +90,42 @@
     return obj;
   }
 
-  function ownKeys(object, enumerableOnly) {
-    var keys = Object.keys(object);
-
-    if (Object.getOwnPropertySymbols) {
-      var symbols = Object.getOwnPropertySymbols(object);
-      if (enumerableOnly) symbols = symbols.filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-      });
-      keys.push.apply(keys, symbols);
-    }
-
-    return keys;
-  }
-
-  function _objectSpread2(target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i] != null ? arguments[i] : {};
-
-      if (i % 2) {
-        ownKeys(source, true).forEach(function (key) {
-          _defineProperty(target, key, source[key]);
-        });
-      } else if (Object.getOwnPropertyDescriptors) {
-        Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-      } else {
-        ownKeys(source).forEach(function (key) {
-          Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-        });
-      }
-    }
-
-    return target;
-  }
-
   function _toConsumableArray(arr) {
-    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
   }
 
   function _arrayWithoutHoles(arr) {
-    if (Array.isArray(arr)) {
-      for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
-
-      return arr2;
-    }
+    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
   }
 
   function _iterableToArray(iter) {
-    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+    if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
+  }
+
+  function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+  }
+
+  function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+
+    for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+
+    return arr2;
   }
 
   function _nonIterableSpread() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance");
+    throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
 
   var IS_BROWSER = typeof window !== 'undefined' && typeof window.document !== 'undefined';
   var WINDOW = IS_BROWSER ? window : {};
-  var IS_TOUCH_DEVICE = IS_BROWSER ? 'ontouchstart' in WINDOW.document.documentElement : false;
+  var IS_TOUCH_DEVICE = IS_BROWSER && WINDOW.document.documentElement ? 'ontouchstart' in WINDOW.document.documentElement : false;
   var HAS_POINTER_EVENT = IS_BROWSER ? 'PointerEvent' in WINDOW : false;
   var NAMESPACE = 'cropper'; // Actions
 
@@ -352,10 +356,10 @@
       if (Array.isArray(data) || isNumber(data.length)
       /* array-like */
       ) {
-          toArray(data).forEach(function (value, key) {
-            callback.call(data, value, key, data);
-          });
-        } else if (isObject(data)) {
+        toArray(data).forEach(function (value, key) {
+          callback.call(data, value, key, data);
+        });
+      } else if (isObject(data)) {
         Object.keys(data).forEach(function (key) {
           callback.call(data, data[key], key, data);
         });
@@ -391,7 +395,7 @@
   var REGEXP_DECIMALS = /\.\d*(?:0|9){12}\d*$/;
   /**
    * Normalize decimal number.
-   * Check out {@link http://0.30000000000000004.com/}
+   * Check out {@link https://0.30000000000000004.com/}
    * @param {number} value - The value to normalize.
    * @param {number} [times=100000000000] - The times for normalizing.
    * @returns {number} Returns the normalized number.
@@ -796,7 +800,7 @@
   function getMaxZoomRatio(pointers) {
     var pointers2 = _objectSpread2({}, pointers);
 
-    var ratios = [];
+    var maxRatio = 0;
     forEach(pointers, function (pointer, pointerId) {
       delete pointers2[pointerId];
       forEach(pointers2, function (pointer2) {
@@ -807,13 +811,13 @@
         var z1 = Math.sqrt(x1 * x1 + y1 * y1);
         var z2 = Math.sqrt(x2 * x2 + y2 * y2);
         var ratio = (z2 - z1) / z1;
-        ratios.push(ratio);
+
+        if (Math.abs(ratio) > Math.abs(maxRatio)) {
+          maxRatio = ratio;
+        }
       });
     });
-    ratios.sort(function (a, b) {
-      return Math.abs(a) < Math.abs(b);
-    });
-    return ratios[0];
+    return maxRatio;
   }
   /**
    * Get a pointer from an event object.
@@ -865,8 +869,7 @@
    * @returns {Object} The result sizes.
    */
 
-  function getAdjustedSizes(_ref4) // or 'cover'
-  {
+  function getAdjustedSizes(_ref4) {
     var aspectRatio = _ref4.aspectRatio,
         height = _ref4.height,
         width = _ref4.width;
@@ -1104,14 +1107,14 @@
           if (littleEndian || endianness === 0x4D4D
           /* bigEndian */
           ) {
-              if (dataView.getUint16(tiffOffset + 2, littleEndian) === 0x002A) {
-                var firstIFDOffset = dataView.getUint32(tiffOffset + 4, littleEndian);
+            if (dataView.getUint16(tiffOffset + 2, littleEndian) === 0x002A) {
+              var firstIFDOffset = dataView.getUint32(tiffOffset + 4, littleEndian);
 
-                if (firstIFDOffset >= 0x00000008) {
-                  ifdStart = tiffOffset + firstIFDOffset;
-                }
+              if (firstIFDOffset >= 0x00000008) {
+                ifdStart = tiffOffset + firstIFDOffset;
               }
             }
+          }
         }
       }
 
@@ -1128,14 +1131,14 @@
           if (dataView.getUint16(_offset, littleEndian) === 0x0112
           /* Orientation */
           ) {
-              // 8 is the offset of the current tag's value
-              _offset += 8; // Get the original orientation value
+            // 8 is the offset of the current tag's value
+            _offset += 8; // Get the original orientation value
 
-              orientation = dataView.getUint16(_offset, littleEndian); // Override the orientation with its default value
+            orientation = dataView.getUint16(_offset, littleEndian); // Override the orientation with its default value
 
-              dataView.setUint16(_offset, 1, littleEndian);
-              break;
-            }
+            dataView.setUint16(_offset, 1, littleEndian);
+            break;
+          }
         }
       }
     } catch (error) {
@@ -1205,9 +1208,10 @@
     render: function render() {
       this.initContainer();
       this.initCanvas();
-      this.initCropBox();
-      this.initialImageData = assign({}, this.imageData);
       this.initialCanvasData = assign({}, this.canvasData);
+      this.initCropBox(); // Store the `initialCropBoxData` outside of the `initCropBox` method,
+      // just because the `initCropBox` method will be called more then once.
+
       this.initialCropBoxData = assign({}, this.cropBoxData);
       this.renderCanvas();
 
@@ -1220,11 +1224,13 @@
           options = this.options,
           container = this.container,
           cropper = this.cropper;
+      var minWidth = Number(options.minContainerWidth);
+      var minHeight = Number(options.minContainerHeight);
       addClass(cropper, CLASS_HIDDEN);
       removeClass(element, CLASS_HIDDEN);
       var containerData = {
-        width: Math.max(container.offsetWidth, Number(options.minContainerWidth) || MIN_CONTAINER_WIDTH),
-        height: Math.max(container.offsetHeight, Number(options.minContainerHeight) || MIN_CONTAINER_HEIGHT)
+        width: Math.max(container.offsetWidth, minWidth >= 0 ? minWidth : MIN_CONTAINER_WIDTH),
+        height: Math.max(container.offsetHeight, minHeight >= 0 ? minHeight : MIN_CONTAINER_HEIGHT)
       };
       setStyle(cropper, containerData);
       addClass(element, CLASS_HIDDEN);
@@ -1816,19 +1822,18 @@
 
   var handlers = {
     resize: function resize() {
-      var options = this.options,
-          container = this.container,
-          containerData = this.containerData;
-      var minContainerWidth = Number(options.minContainerWidth) || MIN_CONTAINER_WIDTH;
-      var minContainerHeight = Number(options.minContainerHeight) || MIN_CONTAINER_HEIGHT;
-
-      if (this.disabled || containerData.width <= minContainerWidth || containerData.height <= minContainerHeight) {
+      if (this.disabled) {
         return;
       }
 
-      var ratio = container.offsetWidth / containerData.width; // Resize when width changed or height changed
+      var options = this.options,
+          container = this.container,
+          containerData = this.containerData;
+      var ratioX = container.offsetWidth / containerData.width;
+      var ratioY = container.offsetHeight / containerData.height;
+      var ratio = Math.abs(ratioX - 1) > Math.abs(ratioY - 1) ? ratioX : ratioY; // Resize when width changed or height changed
 
-      if (ratio !== 1 || container.offsetHeight !== containerData.height) {
+      if (ratio !== 1) {
         var canvasData;
         var cropBoxData;
 
@@ -3269,9 +3274,7 @@
 
   var AnotherCropper = WINDOW.Cropper;
 
-  var Cropper =
-  /*#__PURE__*/
-  function () {
+  var Cropper = /*#__PURE__*/function () {
     /**
      * Create a new Cropper.
      * @param {Element} element - The target element for cropping.
@@ -3320,7 +3323,7 @@
 
           if (!url) {
             return;
-          } // e.g.: "http://example.com/img/picture.jpg"
+          } // e.g.: "https://example.com/img/picture.jpg"
 
 
           url = element.src;
@@ -3401,9 +3404,10 @@
 
         if (options.checkCrossOrigin && isCrossOriginURL(url) && element.crossOrigin) {
           url = addTimestamp(url);
-        }
+        } // The third parameter is required for avoiding side-effect (#682)
 
-        xhr.open('GET', url);
+
+        xhr.open('GET', url, true);
         xhr.responseType = 'arraybuffer';
         xhr.withCredentials = element.crossOrigin === 'use-credentials';
         xhr.send();
@@ -3493,7 +3497,9 @@
             naturalWidth: naturalWidth,
             naturalHeight: naturalHeight,
             aspectRatio: naturalWidth / naturalHeight
-          });
+          }); // Store the `initialImageData` here for avoiding side effect (jquery-cropper#19)
+
+          _this2.initialImageData = assign({}, _this2.imageData);
           _this2.sizing = false;
           _this2.sized = true;
 
@@ -3683,4 +3689,4 @@
 
   return Cropper;
 
-})));
+}));

@@ -1,7 +1,7 @@
 {
   "name": "cropperjs",
   "description": "JavaScript image cropper.",
-  "version": "2.0.0-alpha.1",
+  "version": "2.0.0-alpha.2",
   "main": "dist/cropper.common.js",
   "module": "dist/cropper.esm.js",
   "browser": "dist/cropper.js",
@@ -103,5 +103,8 @@
     "stylelint-config-standard-scss": "^3.0.0",
     "stylelint-order": "^5.0.0",
     "uglify-js": "^3.14.5"
+  },
+  "publishConfig": {
+    "tag": "next"
   }
 }
