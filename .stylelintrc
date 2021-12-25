@@ -1,10 +1,16 @@
 {
-  "extends": "stylelint-config-standard",
+  "extends": "stylelint-config-standard-scss",
   "plugins": [
     "stylelint-order"
   ],
   "rules": {
     "no-descending-specificity": null,
     "order/properties-alphabetical-order": true
-  }
+  },
+  "overrides": [
+    {
+      "files": ["**/*.html"],
+      "customSyntax": "postcss-html"
+    }
+  ]
 }
