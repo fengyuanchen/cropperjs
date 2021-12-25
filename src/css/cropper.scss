@@ -1,4 +1,4 @@
-$cropper-image-path: '../images' !default;
+$cropper-image-path: "../images" !default;
 
 .cropper-container {
   direction: ltr;
@@ -83,7 +83,7 @@ $cropper-image-path: '../images' !default;
   &::before,
   &::after {
     background-color: #eee;
-    content: "";
+    content: " ";
     display: block;
     position: absolute;
   }
@@ -230,7 +230,7 @@ $cropper-image-path: '../images' !default;
   &.point-se::before {
     background-color: #39f;
     bottom: -50%;
-    content: "";
+    content: " ";
     display: block;
     height: 200%;
     opacity: 0;
