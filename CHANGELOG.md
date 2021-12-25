@@ -3,28 +3,13 @@
 ## next
 
 - Fix the cropper responsive when only the height was changed (#835).
-
-## 1.5.11 (Feb 17, 2021)
-
 - Fix TypeScript declarations compatibility (#799).
-
-## 1.5.10 (Feb 12, 2021)
-
 - Explicitly set the XMLHttpRequest request to be asynchronous (#682).
-
-## 1.5.9 (Sep 10, 2020)
-
 - Fix the issue that cannot zoom out on touch devices (#726).
 - Add TypeScript declarations for the events.
-
-## 1.5.8 (Sep 5, 2020)
-
 - Fix the issue when the value of the `minContainerWidth/Height` options is `0` (#683).
 - Reset the initial canvas size when the `minCanvasWidth/Height` options is set (#725).
 - Store the initial image data in the right place for avoiding [side-effect](https://github.com/fengyuanchen/jquery-cropper/issues/19).
-
-## 1.5.7 (May 23, 2020)
-
 - Improve container resizing (#636).
 - Improve touch device detection (#614).
 
@@ -33,29 +18,14 @@
 - Merge improvements from v1.
 - Store the initial image data in the right place for avoiding [side-effect](https://github.com/fengyuanchen/jquery-cropper/issues/19).
 - Fix the issue when the value of the `minContainerWidth/Height` options is `0` (#683).
-
-## 1.5.6 (Oct 4, 2019)
-
 - Improve event type determining for iOS 13+ (#571).
-
-## 1.5.5 (Aug 3, 2019)
-
 - Clone the image's `crossOrigin` attribute always even though the `checkCrossOrigin` is set to `false` (#535).
 - Improve browser environment detecting (#554).
-
-## 1.5.4 (Jul 20, 2019)
-
 - Avoid removing the events of the original image.
 - Avoid requesting any Data URLs by XMLHttpRequest for better performance (#526).
 - Add an `alt` attribute to all internal images for better accessibility (#548).
 - Transform `enum`s to `type`s from the definition files for TypeScript (#550).
-
-## 1.5.3 (Jul 10, 2019)
-
 - Compute the size of the image for all browsers that use WebKit as the layout engine in iOS devices, such as Safari and in-app browsers (#544).
-
-## 1.5.2 (Jun 30, 2019)
-
 - Always add a timestamp to the URL of a cross-origin image (#519).
 
 ## 2.0.0-alpha (Mar 10, 2019)
