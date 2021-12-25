@@ -1,4 +1,4 @@
-$cropper-image-path: '../images' !default;
+$cropper-image-path: "../images" !default;
 
 .cropper {
   &-container {
@@ -52,7 +52,7 @@ $cropper-image-path: '../images' !default;
     display: block;
     height: 100%;
     outline: 1px solid #39f;
-    outline-color: rgba(51, 153, 255, 0.75);
+    outline-color: rgb(51 153 255 / 75%);
     overflow: hidden;
     width: 100%;
   }
@@ -94,7 +94,7 @@ $cropper-image-path: '../images' !default;
     &::before,
     &::after {
       background-color: #eee;
-      content: ' ';
+      content: " ";
       display: block;
       position: absolute;
     }
@@ -242,7 +242,7 @@ $cropper-image-path: '../images' !default;
     &.point-se::before {
       background-color: #39f;
       bottom: -50%;
-      content: ' ';
+      content: " ";
       display: block;
       height: 200%;
       opacity: 0;
@@ -257,7 +257,7 @@ $cropper-image-path: '../images' !default;
   }
 
   &-bg {
-    background-image: url('#{$cropper-image-path}/bg.png');
+    background-image: url("#{$cropper-image-path}/bg.png");
   }
 
   &-hide {

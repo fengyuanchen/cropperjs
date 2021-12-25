@@ -49,7 +49,7 @@
   display: block;
   height: 100%;
   outline: 1px solid #39f;
-  outline-color: rgba(51, 153, 255, 0.75);
+  outline-color: rgb(51 153 255 / 75%);
   overflow: hidden;
   width: 100%;
 }
@@ -91,7 +91,7 @@
   &::before,
   &::after {
     background-color: #eee;
-    content: ' ';
+    content: " ";
     display: block;
     position: absolute;
   }
@@ -239,7 +239,7 @@
   &.point-se::before {
     background-color: #39f;
     bottom: -50%;
-    content: ' ';
+    content: " ";
     display: block;
     height: 200%;
     opacity: 0;
@@ -254,7 +254,7 @@
 }
 
 .cropper-bg {
-  background-image: url('../images/bg.png');
+  background-image: url("../images/bg.png");
 }
 
 .cropper-hide {
