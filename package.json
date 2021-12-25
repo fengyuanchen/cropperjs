@@ -22,8 +22,9 @@
     "compress:js": "uglifyjs dist/cropper.js -o dist/cropper.min.js -c -m --comments /^!/",
     "copy": "cpy dist/cropper.css docs/css",
     "lint": "npm run lint:js && npm run lint:css",
-    "lint:css": "stylelint {src,docs,examples}/**/*.{css,scss,html} --fix",
-    "lint:js": "eslint src test *.js --fix",
+    "lint:css": "stylelint **/*.{css,scss,html} --fix",
+    "lint:js": "eslint . --fix",
+    "prepare": "husky install",
     "release": "npm run clean && npm run lint && npm run build && npm run compress && npm run copy && npm test",
     "start": "npm-run-all --parallel watch:*",
     "test": "karma start",
@@ -102,31 +103,5 @@
     "stylelint-config-standard-scss": "^3.0.0",
     "stylelint-order": "^5.0.0",
     "uglify-js": "^3.14.5"
-  },
-  "browserslist": [
-    "last 2 versions",
-    "> 1%",
-    "not ie <= 8"
-  ],
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
-  "lint-staged": {
-    "{src,test}/**/*.js|*.conf*.js": [
-      "eslint --fix",
-      "git add"
-    ],
-    "{src,docs}/**/*.{css,scss,html}": [
-      "stylelint --fix",
-      "git add"
-    ]
   }
 }

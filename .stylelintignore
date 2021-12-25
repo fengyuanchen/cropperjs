@@ -1,6 +1,5 @@
 *.local*
-*.log
-*.map
-.DS_Store
+.husky
 coverage
+dist
 node_modules
