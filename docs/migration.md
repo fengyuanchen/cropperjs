@@ -58,7 +58,7 @@ sidebar: auto
 | `replace` | Use the `<cropper-image>` element's `src` property. |
 | `enable` | Use the `<cropper-canvas>` element's `disabled` property. |
 | `disable` | Use the `<cropper-canvas>` element's `disabled` property. |
-| `destroy` | Drops the Cropper elements from the DOM directly. |
+| `destroy` | Deprecated. Drops the Cropper elements from the DOM directly. |
 | `move` | Use the `<cropper-image>` element's `$move` method. |
 | `moveTo` | Use the `<cropper-image>` element's `$moveTo` method. |
 | `zoom` | Use the `<cropper-image>` element's `$scale` method. |
