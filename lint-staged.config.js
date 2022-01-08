@@ -1,4 +1,4 @@
 module.exports = {
-  '*.{js,jsx,vue,ts,tsx}': 'vue-cli-service lint',
-  '*.{css,scss,html,vue,md}': 'stylelint --fix',
+  '*.{js,ts,vue}': 'eslint --fix',
+  '*.{css,scss,vue}': 'stylelint --fix',
 };

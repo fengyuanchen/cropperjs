@@ -10,7 +10,7 @@
     "build": "npm run bootstrap && vuepress build docs",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
     "lint": "npm run lint:js && npm run lint:css",
-    "lint:css": "stylelint **/*.{css,scss,html,vue} --fix",
+    "lint:css": "stylelint **/*.{css,scss,vue} --fix",
     "lint:js": "eslint . docs/.vuepress --fix",
     "prepare": "husky install",
     "release": "npm run bootstrap && lerna run release && npm run lint && npm test && npm run build && npm run changelog",

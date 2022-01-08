@@ -1,7 +1,6 @@
 module.exports = {
   extends: [
-    'stylelint-config-recommended-scss',
-    'stylelint-config-recommended-vue',
+    'stylelint-config-recommended-vue/scss',
   ],
   plugins: [
     'stylelint-order',
