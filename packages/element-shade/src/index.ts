@@ -1,4 +1,5 @@
 import {
+  ACTION_SELECT,
   CROPPER_CANVAS,
   CROPPER_SELECTION,
   EVENT_ACTION_END,
@@ -68,13 +69,13 @@ export default class CropperShade extends CropperElement {
       const $selection: CropperSelection | null = $canvas.querySelector(CROPPER_SELECTION);
 
       if ($selection) {
-        this.$onCanvasActionStart = () => {
-          if ($selection.hidden) {
+        this.$onCanvasActionStart = (event) => {
+          if ($selection.hidden && (event as CustomEvent).detail.action === ACTION_SELECT) {
             this.hidden = false;
           }
         };
-        this.$onCanvasActionEnd = () => {
-          if ($selection.hidden) {
+        this.$onCanvasActionEnd = (event) => {
+          if ($selection.hidden && (event as CustomEvent).detail.action === ACTION_SELECT) {
             this.hidden = true;
           }
         };
