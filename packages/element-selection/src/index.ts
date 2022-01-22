@@ -315,12 +315,13 @@ export default class CropperSelection extends CropperElement {
     const { currentTarget, detail } = event as CustomEvent;
 
     if (currentTarget && detail) {
+      const { relatedEvent } = detail;
       let { action } = detail;
 
       // Switching to another selection
       if (!action && this.multiple) {
         // Get the `action` property from the focusing in selection
-        action = detail.relatedEvent?.target.action;
+        action = relatedEvent?.target.action;
       }
 
       if (!action || (this.hidden && action !== ACTION_SELECT)) {
@@ -371,12 +372,12 @@ export default class CropperSelection extends CropperElement {
         }
 
         case ACTION_MOVE:
-          this.$move(moveX, moveY);
+          if (this.movable && (!relatedEvent || this.contains(relatedEvent.target))) {
+            this.$move(moveX, moveY);
+          }
           break;
 
-        case ACTION_SCALE: {
-          const { relatedEvent } = detail;
-
+        case ACTION_SCALE:
           if (relatedEvent && this.zoomable) {
             const offset = getOffset(currentTarget as Element);
 
@@ -387,7 +388,6 @@ export default class CropperSelection extends CropperElement {
             );
           }
           break;
-        }
 
         default:
           this.$resize(action, moveX, moveY, aspectRatio);

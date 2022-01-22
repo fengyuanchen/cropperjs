@@ -138,10 +138,10 @@ export default class CropperImage extends CropperElement {
     }
 
     const { $canvas } = this;
-    const selection: any = $canvas.querySelector(CROPPER_SELECTION);
     const { detail } = event as CustomEvent;
 
     if (detail) {
+      const { relatedEvent } = detail;
       let { action } = detail;
 
       if (action === ACTION_TRANSFORM && (!this.rotatable || !this.scalable)) {
@@ -156,15 +156,22 @@ export default class CropperImage extends CropperElement {
 
       switch (action) {
         case ACTION_MOVE:
-          if (!selection || selection.hidden || !selection.movable) {
-            this.$move(detail.endX - detail.startX, detail.endY - detail.startY);
+          if (this.translatable) {
+            let selection: any = $canvas.querySelector(CROPPER_SELECTION);
+
+            if (selection && selection.multiple && !selection.active) {
+              selection = $canvas.querySelector(`${CROPPER_SELECTION}[active]`);
+            }
+
+            if (!selection || selection.hidden || !selection.movable
+              || !(relatedEvent && selection.contains(relatedEvent.target))) {
+              this.$move(detail.endX - detail.startX, detail.endY - detail.startY);
+            }
           }
           break;
 
         case ACTION_ROTATE:
           if (this.rotatable) {
-            const { relatedEvent } = detail;
-
             if (relatedEvent) {
               const { x, y } = this.getBoundingClientRect();
 
@@ -181,8 +188,6 @@ export default class CropperImage extends CropperElement {
 
         case ACTION_SCALE:
           if (this.scalable) {
-            const { relatedEvent } = detail;
-
             if (relatedEvent) {
               const { x, y } = this.getBoundingClientRect();
 
@@ -199,7 +204,7 @@ export default class CropperImage extends CropperElement {
 
         case ACTION_TRANSFORM:
           if (this.rotatable && this.scalable) {
-            const { rotate, relatedEvent } = detail;
+            const { rotate } = detail;
             let { scale } = detail;
 
             if (scale < 0) {
