@@ -52,13 +52,13 @@
           </li>
           <li>
             <label for="canvasThemeColor">theme-color</label>
-            <input
+            <color-input
               id="canvasThemeColor"
               v-model="canvas.themeColor"
               type="color"
               class="form-control form-control-color form-control-sm"
               name="themeColor"
-            >
+            />
           </li>
           <li>
             <button
@@ -619,13 +619,13 @@
           </li>
           <li>
             <label for="shadeThemeColor">theme-color</label>
-            <input
+            <color-input
               id="shadeThemeColor"
               v-model="shade.themeColor"
               type="color"
               class="form-control form-control-color form-control-sm"
               name="themeColor"
-            >
+            />
           </li>
         </ul>
       </section>
@@ -725,13 +725,13 @@
           </li>
           <li>
             <label for="handleThemeColor">theme-color</label>
-            <input
+            <color-input
               id="handleThemeColor"
               v-model="handle.themeColor"
               type="color"
               class="form-control form-control-color form-control-sm"
               name="themeColor"
-            >
+            />
           </li>
         </ul>
       </section>
@@ -1301,13 +1301,13 @@
           </li>
           <li>
             <label for="selectionGridThemeColor">theme-color</label>
-            <input
+            <color-input
               id="selectionGridThemeColor"
               v-model="grid.themeColor"
               type="color"
               class="form-control form-control-color form-control-sm"
               name="themeColor"
-            >
+            />
           </li>
         </ul>
       </section>
@@ -1334,13 +1334,13 @@
           </li>
           <li>
             <label for="selectionCrosshairThemeColor">theme-color</label>
-            <input
+            <color-input
               id="selectionCrosshairThemeColor"
               v-model="crosshair.themeColor"
               type="color"
               class="form-control form-control-color form-control-sm"
               name="themeColor"
-            >
+            />
           </li>
         </ul>
       </section>
@@ -1435,13 +1435,13 @@
           </li>
           <li>
             <label :for="`selectionHandleThemeColor${index}`">theme-color</label>
-            <input
+            <color-input
               :id="`selectionHandleThemeColor${index}`"
               v-model="subhandle.themeColor"
               type="color"
               class="form-control form-control-color form-control-sm"
               name="themeColor"
-            >
+            />
           </li>
         </ul>
       </section>
@@ -1637,9 +1637,13 @@
 <script lang="ts">
 import type CropperCanvas from '@cropper/element-canvas';
 import type CropperSelection from '@cropper/element-selection';
+import ColorInput from './ColorInput.vue';
 
 export default {
   name: 'CropperPlayground',
+  components: {
+    ColorInput,
+  },
   data(): Record<string, any> {
     return {
       transitionDelay: 350,
@@ -1674,8 +1678,8 @@ export default {
       },
       selection: {
         hidden: false,
-        aspectRatio: NaN,
-        initialAspectRatio: NaN,
+        aspectRatio: undefined,
+        initialAspectRatio: undefined,
         initialCoverage: 0.5,
         movable: true,
         resizable: true,
