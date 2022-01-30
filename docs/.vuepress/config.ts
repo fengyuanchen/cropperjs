@@ -107,6 +107,12 @@ export default defineUserConfig<DefaultThemeOptions, WebpackBundlerOptions>({
         componentsDir: resolve(__dirname, './components'),
       },
     ],
+    [
+      '@vuepress/plugin-google-analytics',
+      {
+        id: 'G-CD35DZJ728',
+      },
+    ],
   ],
   markdown: {
     code: {
