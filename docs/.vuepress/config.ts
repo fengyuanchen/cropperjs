@@ -95,15 +95,6 @@ export default defineUserConfig<DefaultThemeOptions, WebpackBundlerOptions>({
           ],
         },
       ],
-      '/examples/': [
-        {
-          text: 'Examples',
-          children: [
-            'index.html',
-            'banner-editor.html',
-          ],
-        },
-      ],
     },
   },
   plugins: [
