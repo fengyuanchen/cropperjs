@@ -1,6 +1,6 @@
 # Cropper.js
 
-[![Downloads](https://img.shields.io/npm/dm/cropperjs.svg)](https://www.npmjs.com/package/cropperjs) [![Version](https://img.shields.io/npm/v/cropperjs.svg)](https://www.npmjs.com/package/cropperjs) [![Gzip Size](https://img.shields.io/bundlephobia/minzip/cropperjs.svg)](https://unpkg.com/cropperjs/dist/cropper.common.js) [![Dependencies](https://img.shields.io/david/fengyuanchen/cropperjs.svg)](https://www.npmjs.com/package/cropperjs)
+[![Downloads](https://img.shields.io/npm/dm/cropperjs.svg)](https://www.npmjs.com/package/cropperjs) [![Version](https://img.shields.io/npm/v/cropperjs.svg)](https://www.npmjs.com/package/cropperjs) [![Gzip Size](https://img.shields.io/bundlephobia/minzip/cropperjs.svg)](https://unpkg.com/cropperjs/dist/cropper.common.js)
 
 > JavaScript image cropper.
 
@@ -37,7 +37,7 @@
 - Supports to translate Exif Orientation information
 - Cross-browser support
 
-## Main
+## Main files
 
 ```text
 dist/
