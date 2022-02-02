@@ -2,4 +2,5 @@
 .husky
 coverage
 dist
+docs/css/cropper.css
 node_modules
