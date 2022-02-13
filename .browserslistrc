@@ -1,2 +1,2 @@
 defaults
-not ie <= 8
+ie >= 9
