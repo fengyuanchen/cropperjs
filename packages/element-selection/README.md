@@ -2,7 +2,7 @@
 
 > A custom selection element for the Cropper.
 
-## Main files
+## Main npm package files
 
 ```text
 dist/

@@ -2,7 +2,7 @@
 
 > A series of common constants and utility functions for Cropper.
 
-## Main files
+## Main npm package files
 
 ```text
 dist/

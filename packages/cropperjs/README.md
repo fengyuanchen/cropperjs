@@ -2,7 +2,7 @@
 
 > JavaScript image cropper.
 
-## Main files
+## Main npm package files
 
 ```text
 dist/

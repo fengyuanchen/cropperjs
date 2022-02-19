@@ -2,7 +2,7 @@
 
 > An abstract class for constructing Cropper elements.
 
-## Main files
+## Main npm package files
 
 ```text
 dist/

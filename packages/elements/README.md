@@ -2,7 +2,7 @@
 
 > A series of custom elements for the Cropper.
 
-## Main files
+## Main npm package files
 
 ```text
 dist/
