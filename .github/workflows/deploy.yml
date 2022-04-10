@@ -28,6 +28,6 @@ jobs:
       - run: rm -r .temp
       - run: git config user.name "${{ github.actor }}"
       - run: git config user.email "${{ github.actor }}@users.noreply.github.com"
-      - run: git add --all
+      - run: git add v2
       - run: git commit --message "${{ github.ref_name }}"
       - run: git push
