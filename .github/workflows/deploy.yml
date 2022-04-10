@@ -1,0 +1,26 @@
+name: Deploy
+
+on:
+  push:
+    tags:
+      - v1.*
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - run: cp -r docs .temp
+      - uses: actions/checkout@v3
+        with:
+          ref: gh-pages
+          clean: false
+      - run: cp -rf .temp/* .
+      - run: rm -r .temp
+      - run: git config user.name "${{ github.actor }}"
+      - run: git config user.email "${{ github.actor }}@users.noreply.github.com"
+      - run: git add --all
+      - run: git commit --message "${{ github.ref_name }}"
+      - run: git push
