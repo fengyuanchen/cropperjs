@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - v2.*
+      - '!v2.0.0-alpha*'
   workflow_dispatch:
 
 jobs:
