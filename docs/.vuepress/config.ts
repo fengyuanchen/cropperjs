@@ -7,6 +7,7 @@ import type { DefaultThemeOptions, WebpackBundlerOptions } from 'vuepress';
 const packages = resolve(__dirname, '../../packages');
 
 export default defineUserConfig<DefaultThemeOptions, WebpackBundlerOptions>({
+  base: '/cropperjs/v2/',
   title: 'Cropper.js',
   description: 'JavaScript image cropper.',
   head: [
