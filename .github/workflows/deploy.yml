@@ -1,0 +1,31 @@
+name: Deploy
+
+on:
+  push:
+    tags:
+      - v2.*
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: npm install
+      - run: npm run build
+      - run: cp -r docs/.vuepress/dist .temp
+      - uses: actions/checkout@v3
+        with:
+          ref: gh-pages
+          clean: false
+      - run: cp -rf .temp/* v2
+      - run: rm -r .temp
+      - run: git config user.name "${{ github.actor }}"
+      - run: git config user.email "${{ github.actor }}@users.noreply.github.com"
+      - run: git add --all
+      - run: git commit --message "${{ github.ref_name }}"
+      - run: git push
