@@ -2,7 +2,7 @@
 
 [![Downloads](https://img.shields.io/npm/dm/cropperjs.svg)](https://www.npmjs.com/package/cropperjs) [![Version](https://img.shields.io/npm/v/cropperjs.svg)](https://www.npmjs.com/package/cropperjs) [![Gzip Size](https://img.shields.io/bundlephobia/minzip/cropperjs.svg)](https://unpkg.com/cropperjs/dist/cropper.common.js)
 
-> JavaScript image cropper.
+> JavaScript image cropper. This is the branch for v2.0.0-alpha*, for v2.0.0-beta+, check out the [`v2`](https://github.com/fengyuanchen/cropperjs/tree/v2) branch.
 
 - [Website](https://fengyuanchen.github.io/cropperjs)
 - [Photo Editor](https://fengyuanchen.github.io/photo-editor) - An advanced example of Cropper.js.
