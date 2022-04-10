@@ -60,9 +60,9 @@
 
 ## 1.5.0 (Mar 10, 2019)
 
-- Add `passive: false` and `capture: true` to wheel event for better performance.
+- Add `passive: false` and `capture: true` to the wheel event for better performance.
 - Improve touch event binding.
-- Ignore the pointer-events that were not triggered by the primary button.
+- Ignore the pointer events that were not triggered by the primary button.
 - Fix typed array spreading error in IE or Safari 9.
 - Fix the RegExp for the Safari browser detecting to ignore Chrome (#478).
 
@@ -75,7 +75,7 @@
 - Read the Orientation value only when it is a JPEG image.
 - Improve cropper instance storage to avoid side-effect (#394).
 - Fix parameter error of `Object.assign` in iOS devices (#432).
-- Improve TypedArray loop for better performance (#435).
+- Improve the TypedArray loop for better performance (#435).
 
 ## 1.4.1 (Jul 15, 2018)
 
@@ -104,11 +104,11 @@
 ## 1.3.3 (Mar 18, 2018)
 
 - Improve event binding.
-- Add missing `pivot` definition to the `zoomTo` method (#320)
+- Add the missing `pivot` definition to the `zoomTo` method (#320)
 
 ## 1.3.2 (Mar 3, 2018)
 
-- Fix the bug of cropping images that have Orientation value (#313).
+- Fix the bug of cropping images that have Orientation values (#313).
 
 ## 1.3.1 (Feb 28, 2018)
 
@@ -139,11 +139,11 @@
 
 ## 1.1.3 (Oct 21, 2017)
 
-- Fixed a bug of rendering when disabled one of `rotatable` and `scalable` options (#241).
+- Fixed a bug of rendering when disabled one of the `rotatable` and `scalable` options (#241).
 
 ## 1.1.2 (Oct 18, 2017)
 
-- Normalize related decimal numbers when crop an image with canvas.
+- Normalize related decimal numbers when cropping an image with canvas.
 
 ## 1.1.1 (Oct 11, 2017)
 
@@ -183,7 +183,7 @@
 
 ## 1.0.0-beta.2 (Feb 25, 2017)
 
-- Fixed the bug of rotate square image lead image shrink (#155).
+- Fixed the bug of rotating square image lead image shrink (#155).
 - Improved RegExps for DataURL processing (#156).
 
 ## 1.0.0-beta.1 (Jan 21, 2017)
@@ -193,7 +193,7 @@
 
 ## 1.0.0-beta (Jan 1, 2017)
 
-- Supports to set an element for preview (#113).
+- Supports setting an element for preview (#113).
 - Improved event handler for Pointer Events (#127).
 
 ## 1.0.0-alpha (Dec 4, 2016)
@@ -224,20 +224,20 @@
 
 - Improved the rotate and scale transform behavior.
 - Improved the `getCroppedCanvas` method (returns the whole canvas if it is not cropped).
-- Check cross-origin setting when load image by XMLHTTPRequest.
+- Check the cross-origin setting when loading an image by XMLHTTPRequest.
 
 ## 0.7.0 (Mar 20, 2016)
 
 - Supports 7 custom events: `build`, `built`, `cropstart`, `cropmove`, `cropend`, `crop`, and `zoom`.
-- The original callback options become shortcuts of these events now.
-- IE8 is no longer supported after added these custom events.
+- The original callback options become shortcuts to these events now.
+- IE8 is no longer supported after adding these custom events.
 
 ## 0.6.0 (Feb 22, 2016)
 
 - Added a new parameter to the `replace` method for applying filters.
 - Improved the image initializing for Safari.
 - Fixed incorrect size limitation of the crop box (#30).
-- Fixed incorrect cropped canvas when scaleX or scaleY great than 1.
+- Fixed incorrect cropped canvas when scaleX or scaleY is great than 1.
 
 ## 0.5.6 (Jan 18, 2016)
 
@@ -252,11 +252,11 @@
 
 ## 0.5.4 (Dec 28, 2015)
 
-- Supports to zoom from event triggering point.
+- Supports zoom from the event triggering point.
 
 ## 0.5.3 (Dec 24, 2015)
 
-- Limit wheel speed to prevent zoom too fast (#21).
+- Limit wheel speed to prevent zooming too fast (#21).
 - Improve the `setCropBoxData` method (#22).
 
 ## 0.5.2 (Dec 15, 2015)
@@ -267,7 +267,7 @@
 
 - Handle Data URL (avoid using XMLHttpRequest to open a Data URL).
 - Handle ajax error when loading ArrayBuffer.
-- Not to transform the image to base64 when Orientation equals to `1`.
+- Not to transform the image to base64 when Orientation equals `1`.
 - Fix some typos.
 
 ## 0.5.0 (Dec 5, 2015)
@@ -296,7 +296,7 @@
 
 - Supports four view modes.
 - Supports three drag modes.
-- Makes the crop box's borders and handlers visible when overflow.
+- Makes the crop box's borders and handlers visible when overflowing.
 - Added some examples.
 - Fixed some issues.
 
@@ -314,7 +314,7 @@
 ## 0.2.1 (Oct 28, 2015)
 
 - Fix the error jQuery reference on the `setCanvasData` method.
-- Fix typo on the `destroy` method.
+- Fix the typo on the `destroy` method.
 
 ## 0.2.0 (Oct 25, 2015)
 
