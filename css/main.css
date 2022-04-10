@@ -1,0 +1,257 @@
+.btn {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+label.btn {
+  margin-bottom: 0;
+}
+
+.d-flex > .btn {
+  flex: 1;
+}
+
+.carbonads {
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  overflow: hidden;
+  padding: 1rem;
+}
+
+.carbon-wrap {
+  overflow: hidden;
+}
+
+.carbon-img {
+  clear: left;
+  display: block;
+  float: left;
+}
+
+.carbon-text,
+.carbon-poweredby {
+  display: block;
+  margin-left: 140px;
+}
+
+.carbon-text,
+.carbon-text:hover,
+.carbon-text:focus {
+  color: #fff;
+  text-decoration: none;
+}
+
+.carbon-poweredby,
+.carbon-poweredby:hover,
+.carbon-poweredby:focus {
+  color: #ddd;
+  text-decoration: none;
+}
+
+@media (min-width: 768px) {
+  .carbonads {
+    float: right;
+    margin-bottom: -1rem;
+    margin-top: -1rem;
+    max-width: 360px;
+  }
+}
+
+.footer {
+  font-size: 0.875rem;
+}
+
+.heart {
+  color: #ddd;
+  display: block;
+  height: 2rem;
+  line-height: 2rem;
+  margin-bottom: 0;
+  margin-top: 1rem;
+  position: relative;
+  text-align: center;
+  width: 100%;
+}
+
+.heart:hover {
+  color: #ff4136;
+}
+
+.heart::before {
+  border-top: 1px solid #eee;
+  content: " ";
+  display: block;
+  height: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 50%;
+}
+
+.heart::after {
+  background-color: #fff;
+  content: "♥";
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.docs-demo {
+  margin-bottom: 1rem;
+  overflow: hidden;
+  padding: 2px;
+}
+
+.img-container,
+.img-preview {
+  background-color: #f7f7f7;
+  text-align: center;
+  width: 100%;
+}
+
+.img-container {
+  max-height: 497px;
+  min-height: 200px;
+}
+
+@media (min-width: 768px) {
+  .img-container {
+    min-height: 497px;
+  }
+}
+
+.img-container > img {
+  max-width: 100%;
+}
+
+.docs-preview {
+  margin-right: -1rem;
+}
+
+.img-preview {
+  float: left;
+  margin-bottom: 0.5rem;
+  margin-right: 0.5rem;
+  overflow: hidden;
+}
+
+.img-preview > img {
+  max-width: 100%;
+}
+
+.preview-lg {
+  height: 9rem;
+  width: 16rem;
+}
+
+.preview-md {
+  height: 4.5rem;
+  width: 8rem;
+}
+
+.preview-sm {
+  height: 2.25rem;
+  width: 4rem;
+}
+
+.preview-xs {
+  height: 1.125rem;
+  margin-right: 0;
+  width: 2rem;
+}
+
+.docs-data > .input-group {
+  margin-bottom: 0.5rem;
+}
+
+.docs-data .input-group-prepend .input-group-text {
+  min-width: 4rem;
+}
+
+.docs-data .input-group-append .input-group-text {
+  min-width: 3rem;
+}
+
+.docs-buttons > .btn,
+.docs-buttons > .btn-group,
+.docs-buttons > .form-control {
+  margin-bottom: 0.5rem;
+  margin-right: 0.25rem;
+}
+
+.docs-toggles > .btn,
+.docs-toggles > .btn-group,
+.docs-toggles > .dropdown {
+  margin-bottom: 0.5rem;
+}
+
+.docs-tooltip {
+  display: block;
+  margin: -0.5rem -0.75rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.docs-tooltip > .icon {
+  margin: 0 -0.25rem;
+  vertical-align: top;
+}
+
+.tooltip-inner {
+  white-space: normal;
+}
+
+.btn-upload .tooltip-inner,
+.btn-toggle .tooltip-inner {
+  white-space: nowrap;
+}
+
+.btn-toggle {
+  padding: 0.5rem;
+}
+
+.btn-toggle > .docs-tooltip {
+  margin: -0.5rem;
+  padding: 0.5rem;
+}
+
+@media (max-width: 400px) {
+  .btn-group-crop {
+    margin-right: -1rem !important;
+  }
+
+  .btn-group-crop > .btn {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  .btn-group-crop .docs-tooltip {
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
+
+.docs-options .dropdown-menu {
+  width: 100%;
+}
+
+.docs-options .dropdown-menu > li {
+  font-size: 0.875rem;
+  padding: 0.125rem 1rem;
+}
+
+.docs-options .dropdown-menu .form-check-label {
+  display: block;
+}
+
+.docs-cropped .modal-body {
+  text-align: center;
+}
+
+.docs-cropped .modal-body > img,
+.docs-cropped .modal-body > canvas {
+  max-width: 100%;
+}
