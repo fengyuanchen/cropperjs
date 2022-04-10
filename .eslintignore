@@ -1,6 +1,7 @@
 *.local*
+.cache
 .husky
+.temp
 coverage
 dist
-docs
 node_modules

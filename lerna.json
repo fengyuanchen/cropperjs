@@ -1,0 +1,12 @@
+{
+  "command": {
+    "version": {
+      "conventionalCommits": true,
+      "changelog": false,
+      "gitTagVersion": false,
+      "push": false
+    }
+  },
+  "packages": ["packages/*"],
+  "version": "2.0.0-beta"
+}

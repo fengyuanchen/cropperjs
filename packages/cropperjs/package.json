@@ -1,0 +1,56 @@
+{
+  "name": "cropperjs",
+  "version": "2.0.0-beta",
+  "description": "JavaScript image cropper.",
+  "main": "dist/cropper.raw.js",
+  "module": "dist/cropper.esm.raw.js",
+  "types": "dist/cropper.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "api-extractor": "api-extractor run --local --verbose",
+    "build": "npm run tsc && npm run api-extractor && npm run rollup",
+    "clean": "del-cli dist .temp",
+    "release": "npm run clean && npm run build",
+    "rollup": "rollup -c ../../rollup.config.js",
+    "tsc": "tsc --outDir ./.temp --declaration --emitDeclarationOnly"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fengyuanchen/cropperjs-next.git",
+    "directory": "packages/cropperjs"
+  },
+  "keywords": [
+    "image",
+    "crop",
+    "move",
+    "zoom",
+    "rotate",
+    "scale",
+    "cropper",
+    "cropper.js",
+    "image-cropping",
+    "image-viewing",
+    "image-processing",
+    "cropper-element",
+    "custom-element",
+    "web-component",
+    "html",
+    "css",
+    "javascript",
+    "front-end",
+    "web"
+  ],
+  "author": "Chen Fengyuan (https://chenfengyuan.com/)",
+  "license": "MIT",
+  "bugs": "https://github.com/fengyuanchen/cropperjs-next/issues",
+  "homepage": "https://github.com/fengyuanchen/cropperjs-next/tree/next/packages/cropperjs/#readme",
+  "dependencies": {
+    "@cropper/elements": "^2.0.0-beta",
+    "@cropper/utils": "^2.0.0-beta"
+  },
+  "publishConfig": {
+    "tag": "next"
+  }
+}

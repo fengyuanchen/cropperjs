@@ -1,0 +1,48 @@
+{
+  "name": "@cropper/elements",
+  "version": "2.0.0-beta",
+  "description": "A series of custom elements for the Cropper.",
+  "main": "dist/elements.raw.js",
+  "module": "dist/elements.esm.raw.js",
+  "types": "dist/elements.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "api-extractor": "api-extractor run --local --verbose",
+    "build": "npm run tsc && npm run api-extractor && npm run rollup",
+    "clean": "del-cli dist .temp",
+    "release": "npm run clean && npm run build",
+    "rollup": "rollup -c ../../rollup.config.js",
+    "tsc": "tsc --outDir ./.temp --declaration --emitDeclarationOnly"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fengyuanchen/cropperjs-next.git",
+    "directory": "packages/elements"
+  },
+  "keywords": [
+    "elements",
+    "cropper",
+    "cropper.js"
+  ],
+  "author": "Chen Fengyuan (https://chenfengyuan.com/)",
+  "license": "MIT",
+  "bugs": "https://github.com/fengyuanchen/cropperjs-next/issues",
+  "homepage": "https://github.com/fengyuanchen/cropperjs-next/tree/next/packages/elements/#readme",
+  "dependencies": {
+    "@cropper/element": "^2.0.0-beta",
+    "@cropper/element-canvas": "^2.0.0-beta",
+    "@cropper/element-crosshair": "^2.0.0-beta",
+    "@cropper/element-grid": "^2.0.0-beta",
+    "@cropper/element-handle": "^2.0.0-beta",
+    "@cropper/element-image": "^2.0.0-beta",
+    "@cropper/element-selection": "^2.0.0-beta",
+    "@cropper/element-shade": "^2.0.0-beta",
+    "@cropper/element-viewer": "^2.0.0-beta"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "next"
+  }
+}

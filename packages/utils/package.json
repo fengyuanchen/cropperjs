@@ -1,0 +1,40 @@
+{
+  "name": "@cropper/utils",
+  "version": "2.0.0-beta",
+  "description": "A series of common constants and utility functions for Cropper.",
+  "main": "dist/utils.raw.js",
+  "module": "dist/utils.esm.raw.js",
+  "types": "dist/utils.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "api-extractor": "api-extractor run --local --verbose",
+    "build": "npm run tsc && npm run api-extractor && npm run rollup",
+    "clean": "del-cli dist .temp",
+    "release": "npm run clean && npm run build",
+    "rollup": "rollup -c ../../rollup.config.js",
+    "tsc": "tsc --outDir ./.temp --declaration --emitDeclarationOnly"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fengyuanchen/cropperjs-next.git",
+    "directory": "packages/utils"
+  },
+  "keywords": [
+    "utils",
+    "utilities",
+    "constants",
+    "functions",
+    "cropper",
+    "cropper.js"
+  ],
+  "author": "Chen Fengyuan (https://chenfengyuan.com/)",
+  "license": "MIT",
+  "bugs": "https://github.com/fengyuanchen/cropperjs-next/issues",
+  "homepage": "https://github.com/fengyuanchen/cropperjs-next/tree/next/packages/utils/#readme",
+  "publishConfig": {
+    "access": "public",
+    "tag": "next"
+  }
+}

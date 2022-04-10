@@ -1,0 +1,43 @@
+{
+  "name": "@cropper/element",
+  "version": "2.0.0-beta",
+  "description": "An abstract class for constructing Cropper elements.",
+  "main": "dist/element.raw.js",
+  "module": "dist/element.esm.raw.js",
+  "types": "dist/element.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "api-extractor": "api-extractor run --local --verbose",
+    "build": "npm run tsc && npm run api-extractor && npm run rollup",
+    "clean": "del-cli dist .temp",
+    "release": "npm run clean && npm run build",
+    "rollup": "rollup -c ../../rollup.config.js",
+    "tsc": "tsc --outDir ./.temp --declaration --emitDeclarationOnly"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fengyuanchen/cropperjs-next.git",
+    "directory": "packages/element"
+  },
+  "keywords": [
+    "element",
+    "cropper",
+    "cropper.js",
+    "cropper-element",
+    "custom-element",
+    "web-component"
+  ],
+  "author": "Chen Fengyuan (https://chenfengyuan.com/)",
+  "license": "MIT",
+  "bugs": "https://github.com/fengyuanchen/cropperjs-next/issues",
+  "homepage": "https://github.com/fengyuanchen/cropperjs-next/tree/next/packages/element/#readme",
+  "dependencies": {
+    "@cropper/utils": "^2.0.0-beta"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "next"
+  }
+}
