@@ -2,5 +2,6 @@
 *.log
 *.map
 .DS_Store
+.temp
 coverage
 node_modules
