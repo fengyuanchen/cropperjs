@@ -127,6 +127,7 @@ export default defineUserConfig<DefaultThemeOptions>({
       },
     });
   },
+  bundler: '@vuepress/webpack',
   bundlerConfig: {
     configureWebpack: () => ({
       resolve: {
