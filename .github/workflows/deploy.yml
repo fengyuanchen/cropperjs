@@ -17,6 +17,7 @@ jobs:
         with:
           ref: gh-pages
           clean: false
+      - run: mkdir -p v2-alpha
       - run: cp -rf .temp/* v2-alpha
       - run: rm -r .temp
       - run: git config user.name "${{ github.actor }}"
