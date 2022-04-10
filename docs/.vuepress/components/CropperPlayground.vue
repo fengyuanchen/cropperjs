@@ -1664,7 +1664,7 @@ export default {
         scalable: true,
         skewable: true,
         translatable: true,
-        src: '/picture.jpg',
+        src: this.$withBase('picture.jpg'),
         alt: 'The image to crop',
       },
       shade: {

@@ -33,7 +33,7 @@ import Cropper from 'cropperjs';
 
 const image = new Image();
 
-image.src = '/picture.jpg';
+image.src = '/cropperjs/v2/picture.jpg';
 image.alt = 'Picture';
 
 const cropper = new Cropper(image, {

@@ -7,10 +7,15 @@ import Cropper from 'cropperjs';
 
 export default {
   name: 'CropperExample',
+  data() {
+    return {
+      src: this.$withBase('picture.jpg'),
+    };
+  },
   mounted(): void {
     const image = new Image();
 
-    image.src = '/picture.jpg';
+    image.src = this.src;
     image.alt = 'Picture';
 
     const cropper = new Cropper(image, {

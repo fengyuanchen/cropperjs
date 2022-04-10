@@ -3,7 +3,7 @@
     <div>
       <cropper-canvas background>
         <cropper-image
-          src="/picture.jpg"
+          :src="$withBase('picture.jpg')"
           alt="Picture"
         />
         <cropper-shade hidden />

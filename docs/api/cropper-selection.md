@@ -72,7 +72,7 @@ Set the `multiple` property to `true` to support multiple selections on the same
 
 ```html
 <cropper-canvas style="height: 360px;" background>
-  <cropper-image src="/picture.jpg" alt="Picture"></cropper-image>
+  <cropper-image src="/cropperjs/v2/picture.jpg" alt="Picture"></cropper-image>
   <cropper-shade hidden></cropper-shade>
   <cropper-handle action="select" plain></cropper-handle>
   <cropper-selection id="cropperSelection" initial-coverage="0.5" movable resizable zoomable multiple keyboard>

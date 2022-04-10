@@ -76,7 +76,7 @@ const cropper = new Cropper('#image');
 ```
 
 ```html
-<img id="image" src="/picture.jpg" alt="Picture">
+<img id="image" src="/cropperjs/v2/picture.jpg" alt="Picture">
 ```
 
 #### Use in DOM
@@ -91,7 +91,7 @@ import 'cropperjs';
 
 ```html
 <cropper-canvas background>
-  <cropper-image src="/picture.jpg" alt="Picture"></cropper-image>
+  <cropper-image src="/cropperjs/v2/picture.jpg" alt="Picture"></cropper-image>
   <cropper-shade hidden></cropper-shade>
   <cropper-handle action="select" plain></cropper-handle>
   <cropper-selection initial-coverage="0.5" movable resizable zoomable>
@@ -130,7 +130,7 @@ CropperHandle.$define();
 
 ```html
 <cropper-canvas background>
-  <cropper-image src="/picture.jpg" alt="Picture"></cropper-image>
+  <cropper-image src="/cropperjs/v2/picture.jpg" alt="Picture"></cropper-image>
   <cropper-handle action="move" plain></cropper-handle>
 </cropper-canvas>
 ```

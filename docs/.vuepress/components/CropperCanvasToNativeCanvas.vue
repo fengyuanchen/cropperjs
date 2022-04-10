@@ -6,7 +6,7 @@
         background
       >
         <cropper-image
-          src="/picture.jpg"
+          :src="$withBase('picture.jpg')"
           alt="Picture"
         />
         <cropper-handle
