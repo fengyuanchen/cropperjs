@@ -58,8 +58,8 @@ export default {
       border-top-right-radius: 0;
 
       > :first-child {
-        margin-top: 0;
         margin-bottom: 0;
+        margin-top: 0;
       }
     }
   }

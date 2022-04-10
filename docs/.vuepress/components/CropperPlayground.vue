@@ -1863,9 +1863,9 @@ export default {
 <style lang="scss">
 .playground-container {
   .navbar {
-    position: fixed;
     padding-bottom: var(--navbar-padding-v);
     padding-top: var(--navbar-padding-v);
+    position: fixed;
 
     a {
       color: var(--c-text);
@@ -1878,9 +1878,9 @@ export default {
   }
 
   .form-control-sm {
+    font-size: .75rem;
     min-height: calc(1.5em + .25rem + 2px);
     padding: .125rem .25rem;
-    font-size: .75rem;
   }
 }
 
@@ -1966,8 +1966,8 @@ export default {
       }
 
       &:nth-child(2) {
-        margin-top: -1px;
         margin-bottom: -1px;
+        margin-top: -1px;
 
         > .btn {
           &:first-child {
@@ -2071,9 +2071,9 @@ export default {
 
   &::after {
     animation: spinner 1s linear infinite;
-    border-radius: 50%;
     border: 4px solid rgba(51, 153, 255, 0.5);
     border-left-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
     box-sizing: border-box;
     content: '';
     display: inline-block;

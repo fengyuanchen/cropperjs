@@ -2,11 +2,11 @@ import markdownItContainer from 'markdown-it-container';
 import { defineUserConfig } from 'vuepress';
 import { readdirSync } from 'fs';
 import { resolve } from 'path';
-import type { DefaultThemeOptions, WebpackBundlerOptions } from 'vuepress';
+import type { DefaultThemeOptions } from 'vuepress';
 
 const packages = resolve(__dirname, '../../packages');
 
-export default defineUserConfig<DefaultThemeOptions, WebpackBundlerOptions>({
+export default defineUserConfig<DefaultThemeOptions>({
   base: '/cropperjs/v2/',
   title: 'Cropper.js',
   description: 'JavaScript image cropper.',
@@ -138,7 +138,7 @@ export default defineUserConfig<DefaultThemeOptions, WebpackBundlerOptions>({
     }),
     vue: {
       compilerOptions: {
-        isCustomElement: (tag) => tag.startsWith('cropper-'),
+        isCustomElement: (tag: string) => tag.startsWith('cropper-'),
       },
     },
   },

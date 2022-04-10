@@ -25,8 +25,8 @@ export default {
 
 <style lang="scss" scoped>
 .cropper-container {
-  border-radius: 0.375rem;
   border: 1px solid #eaecef;
+  border-radius: 0.375rem;
   margin-bottom: 1rem;
   margin-top: 1rem;
   padding: 1.25rem 1.5rem;
