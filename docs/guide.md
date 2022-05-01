@@ -28,7 +28,7 @@ Cropper.js is a series of web components for image cropping.
 
 | GitHub Project | npm Package | Dependencies | Funded | Status | Description |
 | --- | --- | --- | --- | --- | --- |
-| [Cropper](https://github.com/fengyuanchen/cropper) | [`cropper`](https://www.npmjs.com/package/cropper) | [`jquery`](https://www.npmjs.com/package/jquery) | 2014 | Deprecating | A simple jQuery image cropping plugin. |
+| [Cropper](https://github.com/fengyuanchen/cropper) | [`cropper`](https://www.npmjs.com/package/cropper) | [`jquery`](https://www.npmjs.com/package/jquery) | 2014 | Deprecated | A simple jQuery image cropping plugin. |
 | [Cropper.js](https://github.com/fengyuanchen/cropperjs) | [`cropperjs`](https://www.npmjs.com/package/cropperjs) | - | 2015 | Active | JavaScript image cropper. |
 | [jQuery Cropper](https://github.com/fengyuanchen/jquery-cropper) | [`jquery-cropper`](https://www.npmjs.com/package/jquery-cropper) | [`jquery`](https://www.npmjs.com/package/jquery) + [`cropperjs`](https://www.npmjs.com/package/cropperjs) | 2018 | Maintaining | A jQuery plugin wrapper for Cropper.js. |
 
