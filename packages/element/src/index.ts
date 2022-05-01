@@ -20,7 +20,7 @@ const tagNames: Map<string, string> = new Map();
 const supportsAdoptedStyleSheets = WINDOW.document && Array.isArray(WINDOW.document.adoptedStyleSheets) && 'replaceSync' in WINDOW.CSSStyleSheet.prototype;
 
 export default class CropperElement extends HTMLElement {
-  static $name = 'cropper-element';
+  static $name: string;
 
   static $version = '__VERSION__';
 
