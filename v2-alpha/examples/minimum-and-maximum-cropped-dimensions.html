@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Cropper.js</title>
+  <link rel="stylesheet" href="../css/cropper.css">
+  <style>
+    .container {
+      margin: 20px auto;
+      max-width: 640px;
+    }
+
+    img {
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Minimum and maximum cropped dimensions</h1>
+    <h3>Image</h3>
+    <div>
+      <img id="image" src="../images/picture.jpg" alt="Picture">
+    </div>
+    <p>Maximum Width: 640, Maximum Height: 320, Minimum Width: 320, Minimum Height: 160</p>
+    <p>Data: <span id="data"></span></p>
+    <h3>Result</h3>
+    <p>
+      <button type="button" id="button">Crop</button>
+    </p>
+    <div id="result"></div>
+  </div>
+  <script src="../js/cropper.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      var image = document.querySelector('#image');
+      var data = document.querySelector('#data');
+      var button = document.getElementById('button');
+      var result = document.getElementById('result');
+      var minCroppedWidth = 320;
+      var minCroppedHeight = 160;
+      var maxCroppedWidth = 640;
+      var maxCroppedHeight = 320;
+      var cropper = new Cropper(image, {
+        viewMode: 3,
+        zoomable: false,
+
+        data: {
+          width: (minCroppedWidth + maxCroppedWidth) / 2,
+          height: (minCroppedHeight + maxCroppedHeight) / 2,
+        },
+
+        crop: function (event) {
+          var width = event.detail.width;
+          var height = event.detail.height;
+
+          if (
+            width < minCroppedWidth
+            || height < minCroppedHeight
+            || width > maxCroppedWidth
+            || height > maxCroppedHeight
+          ) {
+            cropper.setData({
+              width: Math.max(minCroppedWidth, Math.min(maxCroppedWidth, width)),
+              height: Math.max(minCroppedHeight, Math.min(maxCroppedHeight, height)),
+            });
+          }
+
+          data.textContent = JSON.stringify(cropper.getData(true));
+        },
+      });
+
+      button.onclick = function () {
+        result.innerHTML = '';
+        result.appendChild(cropper.getCroppedCanvas());
+      };
+    });
+  </script>
+</body>
+</html>
