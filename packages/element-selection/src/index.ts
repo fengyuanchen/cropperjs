@@ -157,6 +157,8 @@ export default class CropperSelection extends CropperElement {
         this.$nextTick(() => {
           if (this.$canvas) {
             if (newValue) {
+              this.active = true;
+
               if (!this.$onCanvasActionStart) {
                 this.$onCanvasActionStart = this.$handleActionStart.bind(this);
                 on(this.$canvas, EVENT_ACTION_START, this.$onCanvasActionStart);
@@ -172,6 +174,8 @@ export default class CropperSelection extends CropperElement {
                   this.$removeSelection(selection);
                 }
               });
+
+              this.active = false;
             }
           }
         });
