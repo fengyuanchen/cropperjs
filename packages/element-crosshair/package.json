@@ -5,6 +5,8 @@
   "main": "dist/element-crosshair.raw.js",
   "module": "dist/element-crosshair.esm.raw.js",
   "types": "dist/element-crosshair.d.ts",
+  "unpkg": "dist/element-crosshair.js",
+  "jsdelivr": "dist/element-crosshair.js",
   "files": [
     "dist"
   ],

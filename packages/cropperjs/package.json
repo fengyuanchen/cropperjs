@@ -5,6 +5,8 @@
   "main": "dist/cropper.raw.js",
   "module": "dist/cropper.esm.raw.js",
   "types": "dist/cropper.d.ts",
+  "unpkg": "dist/cropper.js",
+  "jsdelivr": "dist/cropper.js",
   "files": [
     "dist"
   ],

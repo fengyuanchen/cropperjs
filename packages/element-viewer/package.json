@@ -5,6 +5,8 @@
   "main": "dist/element-viewer.raw.js",
   "module": "dist/element-viewer.esm.raw.js",
   "types": "dist/element-viewer.d.ts",
+  "unpkg": "dist/element-viewer.js",
+  "jsdelivr": "dist/element-viewer.js",
   "files": [
     "dist"
   ],

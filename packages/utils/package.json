@@ -5,6 +5,8 @@
   "main": "dist/utils.raw.js",
   "module": "dist/utils.esm.raw.js",
   "types": "dist/utils.d.ts",
+  "unpkg": "dist/utils.js",
+  "jsdelivr": "dist/utils.js",
   "files": [
     "dist"
   ],

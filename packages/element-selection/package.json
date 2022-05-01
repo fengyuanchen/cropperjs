@@ -5,6 +5,8 @@
   "main": "dist/element-selection.raw.js",
   "module": "dist/element-selection.esm.raw.js",
   "types": "dist/element-selection.d.ts",
+  "unpkg": "dist/element-selection.js",
+  "jsdelivr": "dist/element-selection.js",
   "files": [
     "dist"
   ],

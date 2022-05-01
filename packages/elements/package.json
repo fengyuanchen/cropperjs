@@ -5,6 +5,8 @@
   "main": "dist/elements.raw.js",
   "module": "dist/elements.esm.raw.js",
   "types": "dist/elements.d.ts",
+  "unpkg": "dist/elements.js",
+  "jsdelivr": "dist/elements.js",
   "files": [
     "dist"
   ],

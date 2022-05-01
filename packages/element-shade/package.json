@@ -5,6 +5,8 @@
   "main": "dist/element-shade.raw.js",
   "module": "dist/element-shade.esm.raw.js",
   "types": "dist/element-shade.d.ts",
+  "unpkg": "dist/element-shade.js",
+  "jsdelivr": "dist/element-shade.js",
   "files": [
     "dist"
   ],

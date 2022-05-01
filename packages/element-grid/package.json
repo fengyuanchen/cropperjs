@@ -5,6 +5,8 @@
   "main": "dist/element-grid.raw.js",
   "module": "dist/element-grid.esm.raw.js",
   "types": "dist/element-grid.d.ts",
+  "unpkg": "dist/element-grid.js",
+  "jsdelivr": "dist/element-grid.js",
   "files": [
     "dist"
   ],

@@ -5,6 +5,8 @@
   "main": "dist/element-canvas.raw.js",
   "module": "dist/element-canvas.esm.raw.js",
   "types": "dist/element-canvas.d.ts",
+  "unpkg": "dist/element-canvas.js",
+  "jsdelivr": "dist/element-canvas.js",
   "files": [
     "dist"
   ],
