@@ -48,7 +48,8 @@ export default defineUserConfig<DefaultThemeOptions>({
   ],
   themeConfig: {
     logo: '/logo.svg',
-    repo: 'fengyuanchen/cropperjs-next',
+    repo: 'fengyuanchen/cropperjs',
+    docsBranch: 'v2',
     docsDir: 'docs',
     editLinks: true,
     navbar: [
