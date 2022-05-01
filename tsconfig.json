@@ -1,16 +1,14 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "target": "esnext",
+    "rootDir": ".",
+    "target": "es2016",
     "module": "esnext",
     "moduleResolution": "node",
     "strict": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "useDefineForClassFields": true,
-    "sourceMap": true,
     "lib": ["dom", "esnext"],
     "paths": {
       "@cropper/*": ["packages/*/src"],
