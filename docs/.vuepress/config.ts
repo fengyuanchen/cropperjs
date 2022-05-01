@@ -1,12 +1,17 @@
-import markdownItContainer from 'markdown-it-container';
-import { defineUserConfig } from 'vuepress';
 import { readdirSync } from 'fs';
 import { resolve } from 'path';
-import type { DefaultThemeOptions } from 'vuepress';
+import markdownItContainer from 'markdown-it-container';
+import { defineUserConfig, defaultTheme } from 'vuepress';
+import { webpackBundler } from 'vuepress-webpack';
+import { pwaPlugin } from '@vuepress/plugin-pwa';
+import { pwaPopupPlugin } from '@vuepress/plugin-pwa-popup';
+import { searchPlugin } from '@vuepress/plugin-search';
+import { registerComponentsPlugin } from '@vuepress/plugin-register-components';
+import { googleAnalyticsPlugin } from '@vuepress/plugin-google-analytics';
 
 const packages = resolve(__dirname, '../../packages');
 
-export default defineUserConfig<DefaultThemeOptions>({
+export default defineUserConfig({
   base: '/cropperjs/v2/',
   title: 'Cropper.js',
   description: 'JavaScript image cropper.',
@@ -14,28 +19,28 @@ export default defineUserConfig<DefaultThemeOptions>({
     ['link', {
       rel: 'apple-touch-icon',
       sizes: '180x180',
-      href: '/apple-touch-icon.png',
+      href: '/cropperjs/v2/apple-touch-icon.png',
     }],
     ['link', {
       rel: 'icon',
       type: 'image/png',
       size: '16x16',
-      href: '/favicon-16x16.png',
+      href: '/cropperjs/v2/favicon-16x16.png',
     }],
     ['link', {
       rel: 'icon',
       type: 'image/png',
       size: '32x32',
-      href: '/favicon-32x32.png',
+      href: '/cropperjs/v2/favicon-32x32.png',
     }],
     ['link', {
       rel: 'manifest',
-      href: '/manifest.webmanifest',
+      href: '/cropperjs/v2/manifest.webmanifest',
     }],
     ['link', {
       rel: 'mask-icon',
       color: '#39f',
-      href: '/safari-pinned-tab.svg',
+      href: '/cropperjs/v2/safari-pinned-tab.svg',
     }],
     ['meta', {
       name: 'msapplication-TileColor',
@@ -46,7 +51,7 @@ export default defineUserConfig<DefaultThemeOptions>({
       content: '#39f',
     }],
   ],
-  themeConfig: {
+  theme: defaultTheme({
     logo: '/logo.svg',
     repo: 'fengyuanchen/cropperjs',
     docsBranch: 'v2',
@@ -98,23 +103,17 @@ export default defineUserConfig<DefaultThemeOptions>({
         },
       ],
     },
-  },
+  }),
   plugins: [
-    '@vuepress/plugin-pwa',
-    '@vuepress/plugin-pwa-popup',
-    '@vuepress/search',
-    [
-      '@vuepress/register-components',
-      {
-        componentsDir: resolve(__dirname, './components'),
-      },
-    ],
-    [
-      '@vuepress/plugin-google-analytics',
-      {
-        id: 'G-CD35DZJ728',
-      },
-    ],
+    pwaPlugin({}),
+    pwaPopupPlugin(),
+    searchPlugin(),
+    registerComponentsPlugin({
+      componentsDir: resolve(__dirname, './components'),
+    }),
+    googleAnalyticsPlugin({
+      id: 'G-CD35DZJ728',
+    }),
   ],
   markdown: {
     code: {
@@ -128,8 +127,7 @@ export default defineUserConfig<DefaultThemeOptions>({
       },
     });
   },
-  bundler: '@vuepress/webpack',
-  bundlerConfig: {
+  bundler: webpackBundler({
     configureWebpack: () => ({
       resolve: {
         alias: readdirSync(packages).reduce((alias: Record<string, string>, name) => {
@@ -143,5 +141,5 @@ export default defineUserConfig<DefaultThemeOptions>({
         isCustomElement: (tag: string) => tag.startsWith('cropper-'),
       },
     },
-  },
+  }),
 });
