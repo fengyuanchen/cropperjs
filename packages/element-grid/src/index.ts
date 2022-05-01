@@ -1,10 +1,13 @@
 import CropperElement from '@cropper/element';
+import { CROPPER_GIRD } from '@cropper/utils';
 import style from './style';
 
 export default class CropperGrid extends CropperElement {
+  static $name = CROPPER_GIRD;
+
   static $version = '__VERSION__';
 
-  protected $style: string = style;
+  protected $style = style;
 
   bordered = false;
 

@@ -1,3 +1,5 @@
+import CropperElement from '@cropper/element';
+import type CropperCanvas from '@cropper/element-canvas';
 import {
   ACTION_MOVE,
   ACTION_NONE,
@@ -5,6 +7,7 @@ import {
   ACTION_SCALE,
   ACTION_TRANSFORM,
   CROPPER_CANVAS,
+  CROPPER_IMAGE,
   CROPPER_SELECTION,
   EVENT_ACTION,
   EVENT_ERROR,
@@ -17,8 +20,6 @@ import {
   once,
   toAngleInRadian,
 } from '@cropper/utils';
-import CropperElement from '@cropper/element';
-import type CropperCanvas from '@cropper/element-canvas';
 import style from './style';
 
 const canvasCache = new WeakMap();
@@ -35,15 +36,17 @@ const NATIVE_ATTRIBUTES = [
 ];
 
 export default class CropperImage extends CropperElement {
+  static $name = CROPPER_IMAGE;
+
   static $version = '__VERSION__';
 
-  protected $matrix: number[] = [1, 0, 0, 1, 0, 0];
+  protected $matrix = [1, 0, 0, 1, 0, 0];
 
   protected $onCanvasAction: EventListener | null = null;
 
-  protected $style: string = style;
+  protected $style = style;
 
-  readonly $image: HTMLImageElement = new Image();
+  readonly $image = new Image();
 
   rotatable = true;
 
@@ -99,7 +102,7 @@ export default class CropperImage extends CropperElement {
       });
     }
 
-    const $canvas: CropperCanvas | null = this.closest(CROPPER_CANVAS);
+    const $canvas: CropperCanvas | null = this.closest(this.$getTagNameOf(CROPPER_CANVAS));
 
     if ($canvas) {
       this.$canvas = $canvas;
@@ -157,10 +160,11 @@ export default class CropperImage extends CropperElement {
       switch (action) {
         case ACTION_MOVE:
           if (this.translatable) {
-            let selection: any = $canvas.querySelector(CROPPER_SELECTION);
+            const cropperSelectionTagName = this.$getTagNameOf(CROPPER_SELECTION);
+            let selection: any = $canvas.querySelector(cropperSelectionTagName);
 
             if (selection && selection.multiple && !selection.active) {
-              selection = $canvas.querySelector(`${CROPPER_SELECTION}[active]`);
+              selection = $canvas.querySelector(`${cropperSelectionTagName}[active]`);
             }
 
             if (!selection || selection.hidden || !selection.movable

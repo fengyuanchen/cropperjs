@@ -4,6 +4,7 @@ import {
   emit,
   isNaN,
   isNumber,
+  isObject,
   isUndefined,
   nextTick,
   toCamelCase,
@@ -15,9 +16,12 @@ const REGEXP_SUFFIX = /left|top|width|height/i;
 const DEFAULT_SHADOW_ROOT_MODE = 'open';
 const shadowRoots = new WeakMap();
 const styleSheets = new WeakMap();
+const tagNames: Map<string, string> = new Map();
 const supportsAdoptedStyleSheets = WINDOW.document && Array.isArray(WINDOW.document.adoptedStyleSheets) && 'replaceSync' in WINDOW.CSSStyleSheet.prototype;
 
 export default class CropperElement extends HTMLElement {
+  static $name = 'cropper-element';
+
   static $version = '__VERSION__';
 
   protected $style?: string;
@@ -33,6 +37,16 @@ export default class CropperElement extends HTMLElement {
   slottable = true;
 
   themeColor?: string;
+
+  constructor() {
+    super();
+
+    const name = Object.getPrototypeOf(this)?.constructor?.$name;
+
+    if (name) {
+      tagNames.set(name, this.tagName.toLowerCase());
+    }
+  }
 
   protected static get observedAttributes(): string[] {
     return [
@@ -189,6 +203,10 @@ export default class CropperElement extends HTMLElement {
     }
   }
 
+  protected $getTagNameOf(name: string): string {
+    return tagNames.get(name) ?? name;
+  }
+
   protected $setStyles(properties: Record<string, any>): this {
     Object.keys(properties).forEach((property: any) => {
       let value = properties[property];
@@ -266,10 +284,24 @@ export default class CropperElement extends HTMLElement {
    * Defines the constructor as a new custom element.
    * {@link https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/define}
    *
-   * @param {object} options The element definition options.
+   * @param {string|object} [name] The element name.
+   * @param {object} [options] The element definition options.
    */
-  static $define(options?: ElementDefinitionOptions): void {
-    const name = toKebabCase(this.name);
+  static $define(
+    name?: string | ElementDefinitionOptions,
+    options?: ElementDefinitionOptions,
+  ): void {
+    if (isObject(name)) {
+      options = name;
+      name = '';
+    }
+
+    if (!name) {
+      name = this.$name || this.name;
+    }
+
+    name = toKebabCase(name as string);
+
     const { customElements } = WINDOW;
 
     if (IS_BROWSER && customElements && !customElements.get(name)) {

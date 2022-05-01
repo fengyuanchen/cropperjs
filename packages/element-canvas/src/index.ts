@@ -1,9 +1,11 @@
+import CropperElement from '@cropper/element';
 import {
   ACTION_NONE,
   ACTION_ROTATE,
   ACTION_SCALE,
   ACTION_TRANSFORM,
   ATTRIBUTE_ACTION,
+  CROPPER_CANVAS,
   CROPPER_IMAGE,
   EVENT_ACTION,
   EVENT_ACTION_END,
@@ -23,7 +25,6 @@ import {
   off,
   on,
 } from '@cropper/utils';
-import CropperElement from '@cropper/element';
 import style from './style';
 
 interface ActionEventData {
@@ -40,6 +41,8 @@ interface ActionEventData {
 }
 
 export default class CropperCanvas extends CropperElement {
+  static $name = CROPPER_CANVAS;
+
   static $version = '__VERSION__';
 
   protected $onPointerDown: EventListener | null = null;
@@ -508,7 +511,7 @@ export default class CropperCanvas extends CropperElement {
       canvas.width = width;
       canvas.height = height;
 
-      const cropperImage: any = this.querySelector(CROPPER_IMAGE);
+      const cropperImage: any = this.querySelector(this.$getTagNameOf(CROPPER_IMAGE));
 
       if (!cropperImage) {
         resolve(canvas);

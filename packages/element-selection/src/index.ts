@@ -1,3 +1,6 @@
+import CropperElement from '@cropper/element';
+import type CropperCanvas from '@cropper/element-canvas';
+import type CropperImage from '@cropper/element-image';
 import {
   ACTION_MOVE,
   ACTION_RESIZE_EAST,
@@ -26,9 +29,6 @@ import {
   off,
   on,
 } from '@cropper/utils';
-import CropperElement from '@cropper/element';
-import type CropperCanvas from '@cropper/element-canvas';
-import type CropperImage from '@cropper/element-image';
 import style from './style';
 
 const canvasCache = new WeakMap();
@@ -41,6 +41,8 @@ export interface Selection {
 }
 
 export default class CropperSelection extends CropperElement {
+  static $name = CROPPER_SELECTION;
+
   static $version = '__VERSION__';
 
   protected $onCanvasAction: EventListener | null = null;
@@ -186,7 +188,7 @@ export default class CropperSelection extends CropperElement {
       this.active = true;
     }
 
-    const $canvas: CropperCanvas | null = this.closest(CROPPER_CANVAS);
+    const $canvas: CropperCanvas | null = this.closest(this.$getTagNameOf(CROPPER_CANVAS));
 
     if ($canvas) {
       this.$canvas = $canvas;
@@ -237,7 +239,9 @@ export default class CropperSelection extends CropperElement {
     let selections: CropperSelection[] = [];
 
     if (this.parentElement) {
-      selections = Array.from(this.parentElement.querySelectorAll(CROPPER_SELECTION));
+      selections = Array.from(this.parentElement.querySelectorAll(
+        this.$getTagNameOf(CROPPER_SELECTION),
+      ));
     }
 
     return selections;
@@ -881,7 +885,9 @@ export default class CropperSelection extends CropperElement {
         return;
       }
 
-      const cropperImage: CropperImage | null = $canvas.querySelector(CROPPER_IMAGE);
+      const cropperImage: CropperImage | null = $canvas.querySelector(
+        this.$getTagNameOf(CROPPER_IMAGE).join(),
+      );
 
       if (!cropperImage) {
         resolve(canvas);

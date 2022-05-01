@@ -1,18 +1,19 @@
+import CropperElement from '@cropper/element';
+import type { Selection } from '@cropper/element-selection';
+import type CropperCanvas from '@cropper/element-canvas';
+import type CropperImage from '@cropper/element-image';
+import type CropperSelection from '@cropper/element-selection';
 import {
   CROPPER_CANVAS,
   CROPPER_IMAGE,
   CROPPER_SELECTION,
+  CROPPER_VIEWER,
   EVENT_CHANGE,
   EVENT_TRANSFORM,
   isElement,
   off,
   on,
 } from '@cropper/utils';
-import CropperElement from '@cropper/element';
-import { Selection } from '@cropper/element-selection';
-import type CropperCanvas from '@cropper/element-canvas';
-import type CropperImage from '@cropper/element-image';
-import type CropperSelection from '@cropper/element-selection';
 import style from './style';
 
 const imageCache = new WeakMap();
@@ -24,6 +25,8 @@ export const RESIZE_HORIZONTAL = 'horizontal';
 export const RESIZE_VERTICAL = 'vertical';
 export const RESIZE_NONE = 'none';
 export default class CropperViewer extends CropperElement {
+  static $name = CROPPER_VIEWER;
+
   static $version = '__VERSION__';
 
   protected $onSourceImageTransform: EventListener | null = null;
@@ -79,7 +82,7 @@ export default class CropperViewer extends CropperElement {
     if (this.selection) {
       $selection = this.ownerDocument.querySelector(this.selection);
     } else {
-      $selection = this.closest(CROPPER_SELECTION);
+      $selection = this.closest(this.$getTagNameOf(CROPPER_SELECTION));
     }
 
     if (isElement($selection)) {
@@ -87,10 +90,12 @@ export default class CropperViewer extends CropperElement {
       this.$onSelectionChange = this.$handleSelectionChange.bind(this);
       on($selection, EVENT_CHANGE, this.$onSelectionChange);
 
-      const $canvas: CropperCanvas | null = $selection.closest(CROPPER_CANVAS);
+      const $canvas: CropperCanvas | null = $selection.closest(this.$getTagNameOf(CROPPER_CANVAS));
 
       if ($canvas) {
-        const $sourceImage: CropperImage | null = $canvas.querySelector(CROPPER_IMAGE);
+        const $sourceImage: CropperImage | null = $canvas.querySelector(
+          this.$getTagNameOf(CROPPER_IMAGE),
+        );
 
         if ($sourceImage) {
           this.$sourceImage = $sourceImage;

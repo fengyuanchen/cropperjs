@@ -4,7 +4,7 @@ The `CropperElement` interface represents any Cropper element, extends the [HTML
 
 ## Specifications
 
-- The name of public properties should start with alphabetic-character.
+- The name of public properties should start with an alphabetic character.
 - The name of private properties should start with `$`.
 - The name of public/private custom methods should start with `$`.
 - The name of private custom listeners should start with `$on`.
@@ -86,7 +86,10 @@ Adds styles to the shadow root.
 
 ### $emit
 
-- **Syntax**: `$emit(type, detail, options)`
+- **Syntax**:
+  - `$emit(type)`
+  - `$emit(type, detail)`
+  - `$emit(type, detail, options)`
 - **Arguments**:
   - `type`:
     - Type: `string`
@@ -132,6 +135,13 @@ Dispatches an event at the current element.
 
 Defers the callback to be executed after the next DOM update cycle.
 
+## Static Properties
+
+| Name | Type | Description |
+| --- | --- | --- |
+| $name | `string` | The name of the custom element. |
+| $version | `string` | The version of the package. |
+
 ## Static methods
 
 ### $define
@@ -140,17 +150,22 @@ Defines the constructor as a new custom element. It is just a shortcut to call [
 
 - **Syntax**:
   - `$define()`
+  - `$define(name)`
   - `$define(options)`
+  - `$define(name, options)`
 - **Alternatives**:
-  - `customElements.define('cropper-element', CropperElement)`
-  - `customElements.define('cropper-element', CropperElement, options)`
+  - `customElements.define(name, constructor)`
+  - `customElements.define(name, constructor, options)`
 - **Arguments**:
+  - `name`:
+    - Type: `string`
+    - The element name. Defaults to the `$name` static property of the constructor.
   - `options`:
     - Type: `Object`
     - The element definition options.
 - **Example**:
 
   ```js
-  // Define as a autonomous custom element: `<cropper-element></cropper-element>`.
-  CropperElement.$define();
+  // Define as a autonomous custom element: `<my-cropper-element></my-cropper-element>`.
+  CropperElement.$define('my-cropper-element');
   ```

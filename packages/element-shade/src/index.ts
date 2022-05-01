@@ -1,7 +1,11 @@
+import CropperElement from '@cropper/element';
+import type CropperCanvas from '@cropper/element-canvas';
+import type CropperSelection from '@cropper/element-selection';
 import {
   ACTION_SELECT,
   CROPPER_CANVAS,
   CROPPER_SELECTION,
+  CROPPER_SHADE,
   EVENT_ACTION_END,
   EVENT_ACTION_START,
   EVENT_CHANGE,
@@ -10,14 +14,13 @@ import {
   off,
   on,
 } from '@cropper/utils';
-import CropperElement from '@cropper/element';
-import type CropperCanvas from '@cropper/element-canvas';
-import type CropperSelection from '@cropper/element-selection';
 import style from './style';
 
 const canvasCache = new WeakMap();
 
 export default class CropperShade extends CropperElement {
+  static $name = CROPPER_SHADE;
+
   static $version = '__VERSION__';
 
   protected $onCanvasChange: EventListener | null = null;
@@ -26,7 +29,7 @@ export default class CropperShade extends CropperElement {
 
   protected $onCanvasActionStart: EventListener | null = null;
 
-  protected $style: string = style;
+  protected $style = style;
 
   x = 0;
 
@@ -60,13 +63,15 @@ export default class CropperShade extends CropperElement {
   protected connectedCallback(): void {
     super.connectedCallback();
 
-    const $canvas: CropperCanvas | null = this.closest(CROPPER_CANVAS);
+    const $canvas: CropperCanvas | null = this.closest(this.$getTagNameOf(CROPPER_CANVAS));
 
     if ($canvas) {
       this.$canvas = $canvas;
       this.style.position = 'absolute';
 
-      const $selection: CropperSelection | null = $canvas.querySelector(CROPPER_SELECTION);
+      const $selection: CropperSelection | null = $canvas.querySelector(
+        this.$getTagNameOf(CROPPER_SELECTION),
+      );
 
       if ($selection) {
         this.$onCanvasActionStart = (event) => {
