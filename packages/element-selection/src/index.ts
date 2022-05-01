@@ -890,7 +890,7 @@ export default class CropperSelection extends CropperElement {
       }
 
       const cropperImage: CropperImage | null = $canvas.querySelector(
-        this.$getTagNameOf(CROPPER_IMAGE).join(),
+        this.$getTagNameOf(CROPPER_IMAGE),
       );
 
       if (!cropperImage) {
