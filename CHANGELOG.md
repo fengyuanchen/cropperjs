@@ -1,5 +1,9 @@
 # Changelog
 
+## next
+
+- Check whether the parent node exists or not before removing the cropper container.
+
 ## 1.5.12 (Jun 12, 2021)
 
 - Fix the cropper responsive when only the height was changed (#835).

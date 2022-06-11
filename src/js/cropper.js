@@ -406,7 +406,13 @@ class Cropper {
     this.ready = false;
     this.unbind();
     this.resetPreview();
-    this.cropper.parentNode.removeChild(this.cropper);
+
+    const { parentNode } = this.cropper;
+
+    if (parentNode) {
+      parentNode.removeChild(this.cropper);
+    }
+
     removeClass(this.element, CLASS_HIDDEN);
   }
 
