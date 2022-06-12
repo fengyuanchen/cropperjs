@@ -42,6 +42,8 @@ export default class CropperImage extends CropperElement {
 
   protected $matrix = [1, 0, 0, 1, 0, 0];
 
+  protected $onLoad: EventListener | null = null;
+
   protected $onCanvasAction: EventListener | null = null;
 
   protected $style = style;
@@ -92,16 +94,6 @@ export default class CropperImage extends CropperElement {
     super.connectedCallback();
 
     const { $image } = this;
-
-    if ($image.src) {
-      this.$ready((image) => {
-        this.$setStyles({
-          width: image.naturalWidth,
-          height: image.naturalHeight,
-        });
-      });
-    }
-
     const $canvas: CropperCanvas | null = this.closest(this.$getTagNameOf(CROPPER_CANVAS));
 
     if ($canvas) {
@@ -110,29 +102,43 @@ export default class CropperImage extends CropperElement {
         position: 'absolute',
       });
 
-      if ($image.src) {
-        this.$ready(() => {
-          this.$center('cover');
-        });
-      }
-
       this.$onCanvasAction = this.$handleAction.bind(this);
       on($canvas, EVENT_ACTION, this.$onCanvasAction);
     }
 
+    this.$onLoad = this.$handleLoad.bind(this);
+    on($image, EVENT_LOAD, this.$onLoad);
     this.$getShadowRoot().appendChild($image);
   }
 
   protected disconnectedCallback(): void {
-    const { $canvas } = this;
+    const { $image, $canvas } = this;
 
     if ($canvas && this.$onCanvasAction) {
       off($canvas, EVENT_ACTION, this.$onCanvasAction);
       this.$onCanvasAction = null;
     }
 
-    this.$getShadowRoot().removeChild(this.$image);
+    if ($image && this.$onLoad) {
+      off($image, EVENT_LOAD, this.$onLoad);
+      this.$onLoad = null;
+    }
+
+    this.$getShadowRoot().removeChild($image);
     super.disconnectedCallback();
+  }
+
+  protected $handleLoad(): void {
+    const { $image } = this;
+
+    this.$setStyles({
+      width: $image.naturalWidth,
+      height: $image.naturalHeight,
+    });
+
+    if (this.$canvas) {
+      this.$center('cover');
+    }
   }
 
   protected $handleAction(event: Event | CustomEvent): void {

@@ -9,6 +9,7 @@ import {
   CROPPER_SELECTION,
   CROPPER_VIEWER,
   EVENT_CHANGE,
+  EVENT_LOAD,
   EVENT_TRANSFORM,
   isElement,
   off,
@@ -29,9 +30,11 @@ export default class CropperViewer extends CropperElement {
 
   static $version = '__VERSION__';
 
-  protected $onSourceImageTransform: EventListener | null = null;
-
   protected $onSelectionChange: EventListener | null = null;
+
+  protected $onSourceImageLoad: EventListener | null = null;
+
+  protected $onSourceImageTransform: EventListener | null = null;
 
   protected $scale = 1;
 
@@ -101,7 +104,9 @@ export default class CropperViewer extends CropperElement {
           this.$sourceImage = $sourceImage;
           this.$image = $sourceImage.cloneNode(true) as CropperImage;
           this.$getShadowRoot().appendChild(this.$image);
+          this.$onSourceImageLoad = this.$handleSourceImageLoad.bind(this);
           this.$onSourceImageTransform = this.$handleSourceImageTransform.bind(this);
+          on($sourceImage.$image, EVENT_LOAD, this.$onSourceImageLoad);
           on($sourceImage, EVENT_TRANSFORM, this.$onSourceImageTransform);
         }
       }
@@ -118,6 +123,11 @@ export default class CropperViewer extends CropperElement {
       this.$onSelectionChange = null;
     }
 
+    if ($sourceImage && this.$onSourceImageLoad) {
+      off($sourceImage.$image, EVENT_LOAD, this.$onSourceImageLoad);
+      this.$onSourceImageLoad = null;
+    }
+
     if ($sourceImage && this.$onSourceImageTransform) {
       off($sourceImage, EVENT_TRANSFORM, this.$onSourceImageTransform);
       this.$onSourceImageTransform = null;
@@ -130,7 +140,24 @@ export default class CropperViewer extends CropperElement {
     this.$render((event as CustomEvent).detail);
   }
 
-  protected $handleSourceImageTransform(event: Event): void {
+  protected $handleSourceImageLoad(): void {
+    const { $image, $sourceImage } = this;
+    const oldSrc = $image.getAttribute('src');
+    const newSrc = $sourceImage.getAttribute('src');
+
+    if (newSrc && newSrc !== oldSrc) {
+      $image.setAttribute('src', newSrc);
+      $image.$ready(() => {
+        setTimeout(() => {
+          const { x, y } = this.$selection;
+
+          this.$transformImageByOffset($sourceImage.$getTransform(), -x, -y);
+        });
+      });
+    }
+  }
+
+  protected $handleSourceImageTransform(event?: Event): void {
     const { x, y } = this.$selection;
 
     this.$transformImageByOffset((event as CustomEvent).detail.matrix, -x, -y);
