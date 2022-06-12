@@ -458,7 +458,7 @@ export default class CropperCanvas extends CropperElement {
       this.$wheeling = false;
     }, 50);
 
-    const delta = (event as WheelEvent).deltaY > 0 ? 1 : -1;
+    const delta = (event as WheelEvent).deltaY > 0 ? -1 : 1;
     const scale = delta * this.scaleStep;
 
     this.$emit(EVENT_ACTION, {

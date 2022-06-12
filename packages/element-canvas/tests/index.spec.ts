@@ -114,7 +114,7 @@ describe('CropperCanvas', () => {
           const { detail } = event as CustomEvent;
 
           expect(detail.action).toBe(ACTION_SCALE);
-          expect(detail.scale).toBeGreaterThan(0);
+          expect(detail.scale).toBeLessThan(0);
           expect(detail.relatedEvent).toBeInstanceOf(WheelEvent);
           done();
         });
