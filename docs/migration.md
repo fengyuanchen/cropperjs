@@ -41,7 +41,7 @@ sidebar: auto
 | `minCanvasHeight` | Use the `<cropper-canvas>` element's `min-height` CSS property. |
 | `minCropBoxWidth` | Use the `<cropper-selection>` element's `min-width` CSS property. |
 | `minCropBoxHeight` | Use the `<cropper-selection>` element's `min-height` CSS property. |
-| `ready` | Use the `<cropper-image>` element's `load` event or `$ready` method. |
+| `ready` | Use the `<cropper-image>` element's  `$ready` method. |
 | `cropstart` | Use the `<cropper-canvas>` element's `actionstart` event. |
 | `cropmove` | Use the `<cropper-canvas>` element's `actionmove` event. |
 | `cropend` | Use the `<cropper-canvas>` element's `actionend` event. |
@@ -84,7 +84,7 @@ sidebar: auto
 
 | Cropper.js 1.0 | Cropper.js 2.0 |
 | --- | --- |
-| `ready` | Use the `<cropper-image>` element's `load` event or `$ready` method. |
+| `ready` | Use the `<cropper-image>` element's  `$ready` method. |
 | `cropstart` | Use the `<cropper-canvas>` element's `actionstart` event. |
 | `cropmove` | Use the `<cropper-canvas>` element's `actionmove` event. |
 | `cropend` | Use the `<cropper-canvas>` element's `actionend` event. |
