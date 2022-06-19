@@ -908,7 +908,7 @@ export default class CropperSelection extends CropperElement {
           const offsetX = -this.x;
           const offsetY = -this.y;
           const translateX = ((offsetX * d) - (c * offsetY)) / ((a * d) - (c * b));
-          const translateY = (offsetY - (b * e)) / d;
+          const translateY = (offsetY - (b * translateX)) / d;
           const newE = a * translateX + c * translateY + e;
           const newF = b * translateX + d * translateY + f;
 
