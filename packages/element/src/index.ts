@@ -302,9 +302,7 @@ export default class CropperElement extends HTMLElement {
 
     name = toKebabCase(name as string);
 
-    const { customElements } = WINDOW;
-
-    if (IS_BROWSER && customElements && !customElements.get(name)) {
+    if (IS_BROWSER && WINDOW.customElements && !WINDOW.customElements.get(name)) {
       customElements.define(name, this, options);
     }
   }

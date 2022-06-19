@@ -1,3 +1,14 @@
+# [2.0.0-beta.1](https://github.com/fengyuanchen/cropperjs/compare/v2.0.0-beta...v2.0.0-beta.1) (2022-06-19)
+
+
+### Bug Fixes
+
+* **element-canvas:** correct the opposite scale direction ([9616427](https://github.com/fengyuanchen/cropperjs/commit/9616427793aa996232ca0fa9e42cd817d81c85ee))
+* **element-selection:** correct canvas drawing position ([2604d15](https://github.com/fengyuanchen/cropperjs/commit/2604d155fcdebfee123fe586cf1632b365c09823)), closes [#939](https://github.com/fengyuanchen/cropperjs/issues/939)
+* refresh viewer when the source image changed ([ab866e4](https://github.com/fengyuanchen/cropperjs/commit/ab866e4a4171d1fcfacbf5f194b7d222350ebcc1)), closes [#940](https://github.com/fengyuanchen/cropperjs/issues/940)
+
+
+
 # [2.0.0-beta](https://github.com/fengyuanchen/cropperjs/compare/v2.0.0-alpha.2...v2.0.0-beta) (2022-05-01)
 
 

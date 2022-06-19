@@ -56,7 +56,7 @@ export default defineUserConfig({
     repo: 'fengyuanchen/cropperjs',
     docsBranch: 'v2',
     docsDir: 'docs',
-    editLinks: true,
+    editLink: true,
     navbar: [
       {
         text: 'Guide',
