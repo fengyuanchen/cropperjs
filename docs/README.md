@@ -16,6 +16,6 @@ features:
 - title: Extensible
   details: Extend the cropper if you need more functions.
 - title: Import on-demand
-  details: Use the parts you need and let others go.
+  details: Use the parts you need and let the rest go with the wind.
 footer: MIT Licensed | Copyright © 2015-present Chen Fengyuan
 ---

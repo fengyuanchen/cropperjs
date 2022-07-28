@@ -6,16 +6,16 @@ sidebar: auto
 
 ## Introduction
 
-Cropper.js is a series of web components for image cropping.
+Cropper.js 2.0 is a series of web components for image cropping.
 
 - **What is the difference between Cropper.js 1.0 and Cropper.js 2.0?**
 
 | Type | Cropper.js 1.0 | Cropper.js 2.0 |
 | --- | --- | --- |
-| Funded | 2015 | 2021 |
+| Created | 2015 | 2021 |
 | Status | Maintaining | Active |
 | Package Number | 1 | 12+ |
-| Architecture | All in one | Separated |
+| Architecture | All in one | Modular |
 | Browser Compatibility | Modern browsers / IE 9+ | Modern browsers |
 | Extensible | No | Yes |
 | Customizable | No | Yes |
@@ -26,7 +26,7 @@ Cropper.js is a series of web components for image cropping.
 
 - **What is the difference between Cropper, Cropper.js, and jQuery Cropper?**
 
-| GitHub Project | npm Package | Dependencies | Funded | Status | Description |
+| GitHub Project | npm Package | Dependencies | Created | Status | Description |
 | --- | --- | --- | --- | --- | --- |
 | [Cropper](https://github.com/fengyuanchen/cropper) | [`cropper`](https://www.npmjs.com/package/cropper) | [`jquery`](https://www.npmjs.com/package/jquery) | 2014 | Deprecated | A simple jQuery image cropping plugin. |
 | [Cropper.js](https://github.com/fengyuanchen/cropperjs) | [`cropperjs`](https://www.npmjs.com/package/cropperjs) | - | 2015 | Active | JavaScript image cropper. |
@@ -56,16 +56,13 @@ For prototyping or learning purposes, you can use the latest version with:
 
 ```html
 <script src="https://unpkg.com/cropperjs@next"></script>
-
-<!-- ECMAScript Module -->
-<script src="https://unpkg.com/cropperjs@next/dist/cropper.esm.js" type="module"></script>
 ```
 
 For production, we recommend linking to a specific version number and build to avoid unexpected breakage from newer versions.
 
 ### Usage
 
-#### Use is JavaScript
+#### Use in JavaScript
 
 Import the Cropper class and constructing a new Cropper instance.
 
@@ -151,7 +148,7 @@ Cropper.js contains a series of [npm](https://www.npmjs.com/) packages:
 | `@cropper/element-handle` | [![Version](https://img.shields.io/npm/v/@cropper/element-handle)](https://www.npmjs.com/package/@cropper/element-handle) | A custom handle element for the Cropper. |
 | `@cropper/element-selection` | [![Version](https://img.shields.io/npm/v/@cropper/element-selection)](https://www.npmjs.com/package/@cropper/element-selection) | A custom selection element for the Cropper. |
 | `@cropper/element-grid` | [![Version](https://img.shields.io/npm/v/@cropper/element-grid)](https://www.npmjs.com/package/@cropper/element-grid) | A custom grid element for the Cropper. |
-| `@cropper/element-crosshair` | [![Version](https://img.shields.io/npm/v/@cropper/element-crosshair)](https://www.npmjs.com/package/@cropper/element-crosshair) | A custom crosshair element for the Cropper.|
+| `@cropper/element-crosshair` | [![Version](https://img.shields.io/npm/v/@cropper/element-crosshair)](https://www.npmjs.com/package/@cropper/element-crosshair) | A custom crosshair element for the Cropper. |
 | `@cropper/element-viewer` | [![Version](https://img.shields.io/npm/v/@cropper/element-viewer)](https://www.npmjs.com/package/@cropper/element-viewer) | A custom viewer element for the Cropper. |
 | `@cropper/elements` | [![Version](https://img.shields.io/npm/v/@cropper/elements)](https://www.npmjs.com/package/@cropper/elements) | A series of custom elements for the Cropper. |
 | `@cropper/utils` | [![Version](https://img.shields.io/npm/v/@cropper/utils)](https://www.npmjs.com/package/@cropper/utils) | A series of common constants and utility functions for Cropper. |

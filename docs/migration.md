@@ -58,7 +58,7 @@ sidebar: auto
 | `replace` | Use the `<cropper-image>` element's `src` property. |
 | `enable` | Use the `<cropper-canvas>` element's `disabled` property. |
 | `disable` | Use the `<cropper-canvas>` element's `disabled` property. |
-| `destroy` | Deprecated. Drops the Cropper elements from the DOM directly. |
+| `destroy` | Deprecated. Drops all the Cropper elements from the DOM directly. |
 | `move` | Use the `<cropper-image>` element's `$move` method. |
 | `moveTo` | Use the `<cropper-image>` element's `$moveTo` method. |
 | `zoom` | Use the `<cropper-image>` element's `$scale` method. |
@@ -78,7 +78,7 @@ sidebar: auto
 | `setCropBoxData` | Use the `<cropper-selection>` element's `x`, `y`, `width`, and `height` properties. |
 | `getCroppedCanvas` | Use the `<cropper-selection>` element's `$toCanvas` method. |
 | `setAspectRatio` | Use the `<cropper-selection>` element's `aspectRatio` property. |
-| `setDragMode` | Use the `<cropper-handle>` element's action property. |
+| `setDragMode` | Use the `<cropper-handle>` element's `action` property. |
 
 ## Events
 

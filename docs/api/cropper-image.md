@@ -349,18 +349,19 @@ Resets the current transform to the initial identity matrix. It is similar to [C
 
 ### transform
 
-- **event.bubbles**: `true`
-- **event.cancelable**: `true`
-- **event.composed**: `true`
-- **event.detail**:
-  - Type: `Object`
-  - The transform information of the image.
-- **event.detail.matrix**:
-  - Type: `Array`
-  - The new (next) matrix object.
-- **event.detail.oldMatrix**:
-  - Type: `Array`
-  - The old (current) matrix object.
+- Event:
+  - **event.bubbles**: `true`
+  - **event.cancelable**: `true`
+  - **event.composed**: `true`
+  - **event.detail**:
+    - Type: `Object`
+    - The transform information of the image.
+  - **event.detail.matrix**:
+    - Type: `Array`
+    - The new (next) matrix object.
+  - **event.detail.oldMatrix**:
+    - Type: `Array`
+    - The old (current) matrix object.
 
 The event is fired when the [`transform`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform) CSS property of the element is going to change.
 

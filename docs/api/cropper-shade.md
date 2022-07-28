@@ -60,7 +60,7 @@ The default width and height of this element is `0`.
 :::
 
 :::tip
-The `<cropper-shade>` element will synchronize the position and size of the active/visible `<cropper-selection>` element automatically.
+The `<cropper-shade>` element will automatically synchronize the position and size of the currently active `<cropper-selection>` element.
 :::
 
 :::tip
