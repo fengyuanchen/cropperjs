@@ -12,7 +12,7 @@ Maintained under the [Semantic Versioning guidelines](https://semver.org/).
 
 ## Commit Message Guidelines
 
-Git commits message follows the [Conventional Commits guidelines](https://conventionalcommits.org).
+Git commits message follows the [Conventional Commits guidelines](https://conventionalcommits.org/).
 
 ## License
 
