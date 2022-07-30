@@ -59,7 +59,7 @@ export default {
 
   > :first-child,
   > :last-child {
-    border: 1px solid #eee;
+    border: 1px solid var(--c-border);
     flex: 1;
     font-size: 0;
   }

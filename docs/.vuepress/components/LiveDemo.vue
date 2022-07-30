@@ -41,7 +41,7 @@ export default {
   margin-top: 1rem;
 
   &__view {
-    border: 1px solid #eaecef;
+    border: 1px solid var(--c-border);
     border-top-left-radius: 0.375rem;
     border-top-right-radius: 0.375rem;
     padding: 1.25rem 1.5rem;
