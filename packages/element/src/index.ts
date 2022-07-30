@@ -203,6 +203,7 @@ export default class CropperElement extends HTMLElement {
     }
   }
 
+  // eslint-disable-next-line class-methods-use-this
   protected $getTagNameOf(name: string): string {
     return tagNames.get(name) ?? name;
   }
