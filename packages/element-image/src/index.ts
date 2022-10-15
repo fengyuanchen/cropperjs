@@ -10,6 +10,8 @@ import {
   CROPPER_IMAGE,
   CROPPER_SELECTION,
   EVENT_ACTION,
+  EVENT_ACTION_END,
+  EVENT_ACTION_START,
   EVENT_ERROR,
   EVENT_LOAD,
   EVENT_TRANSFORM,
@@ -45,6 +47,12 @@ export default class CropperImage extends CropperElement {
   protected $onLoad: EventListener | null = null;
 
   protected $onCanvasAction: EventListener | null = null;
+
+  protected $onCanvasActionEnd: EventListener | null = null;
+
+  protected $onCanvasActionStart: EventListener | null = null;
+
+  protected $actionStartTarget: EventTarget | null = null;
 
   protected $style = style;
 
@@ -102,7 +110,15 @@ export default class CropperImage extends CropperElement {
         position: 'absolute',
       });
 
+      this.$onCanvasActionStart = (event: Event | CustomEvent) => {
+        this.$actionStartTarget = (event as CustomEvent).detail?.relatedEvent?.target;
+      };
+      this.$onCanvasActionEnd = () => {
+        this.$actionStartTarget = null;
+      };
       this.$onCanvasAction = this.$handleAction.bind(this);
+      on($canvas, EVENT_ACTION_START, this.$onCanvasActionStart);
+      on($canvas, EVENT_ACTION_END, this.$onCanvasActionEnd);
       on($canvas, EVENT_ACTION, this.$onCanvasAction);
     }
 
@@ -114,9 +130,21 @@ export default class CropperImage extends CropperElement {
   protected disconnectedCallback(): void {
     const { $image, $canvas } = this;
 
-    if ($canvas && this.$onCanvasAction) {
-      off($canvas, EVENT_ACTION, this.$onCanvasAction);
-      this.$onCanvasAction = null;
+    if ($canvas) {
+      if (this.$onCanvasActionStart) {
+        off($canvas, EVENT_ACTION_START, this.$onCanvasActionStart);
+        this.$onCanvasActionStart = null;
+      }
+
+      if (this.$onCanvasActionEnd) {
+        off($canvas, EVENT_ACTION_END, this.$onCanvasActionEnd);
+        this.$onCanvasActionEnd = null;
+      }
+
+      if (this.$onCanvasAction) {
+        off($canvas, EVENT_ACTION, this.$onCanvasAction);
+        this.$onCanvasAction = null;
+      }
     }
 
     if ($image && this.$onLoad) {
@@ -174,7 +202,8 @@ export default class CropperImage extends CropperElement {
             }
 
             if (!selection || selection.hidden || !selection.movable
-              || !(relatedEvent && selection.contains(relatedEvent.target))) {
+              || !(this.$actionStartTarget && selection.contains(this.$actionStartTarget))
+            ) {
               this.$move(detail.endX - detail.startX, detail.endY - detail.startY);
             }
           }
