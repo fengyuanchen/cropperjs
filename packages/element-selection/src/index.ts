@@ -17,6 +17,7 @@ import {
   CROPPER_IMAGE,
   CROPPER_SELECTION,
   EVENT_ACTION,
+  EVENT_ACTION_END,
   EVENT_ACTION_START,
   EVENT_CHANGE,
   EVENT_KEYDOWN,
@@ -49,7 +50,11 @@ export default class CropperSelection extends CropperElement {
 
   protected $onCanvasActionStart: EventListener | null = null;
 
+  protected $onCanvasActionEnd: EventListener | null = null;
+
   protected $onDocumentKeyDown: EventListener | null = null;
+
+  protected $actionStartTarget: EventTarget | null = null;
 
   protected $style = style;
 
@@ -158,17 +163,7 @@ export default class CropperSelection extends CropperElement {
           if (this.$canvas) {
             if (newValue) {
               this.active = true;
-
-              if (!this.$onCanvasActionStart) {
-                this.$onCanvasActionStart = this.$handleActionStart.bind(this);
-                on(this.$canvas, EVENT_ACTION_START, this.$onCanvasActionStart);
-              }
             } else {
-              if (this.$onCanvasActionStart) {
-                off(this.$canvas, EVENT_ACTION_START, this.$onCanvasActionStart);
-                this.$onCanvasActionStart = null;
-              }
-
               this.$getSelections().forEach((selection, index) => {
                 if (index > 0) {
                   this.$removeSelection(selection);
@@ -221,7 +216,11 @@ export default class CropperSelection extends CropperElement {
         this.$center();
       }
 
+      this.$onCanvasActionStart = this.$handleActionStart.bind(this);
+      this.$onCanvasActionEnd = this.$handleActionEnd.bind(this);
       this.$onCanvasAction = this.$handleAction.bind(this);
+      on($canvas, EVENT_ACTION_START, this.$onCanvasActionStart);
+      on($canvas, EVENT_ACTION_END, this.$onCanvasActionStart);
       on($canvas, EVENT_ACTION, this.$onCanvasAction);
     } else {
       this.$render();
@@ -231,9 +230,21 @@ export default class CropperSelection extends CropperElement {
   protected disconnectedCallback(): void {
     const { $canvas } = this;
 
-    if ($canvas && this.$onCanvasAction) {
-      off($canvas, EVENT_ACTION, this.$onCanvasAction);
-      this.$onCanvasAction = null;
+    if ($canvas) {
+      if (this.$onCanvasActionStart) {
+        off($canvas, EVENT_ACTION_START, this.$onCanvasActionStart);
+        this.$onCanvasActionStart = null;
+      }
+
+      if (this.$onCanvasActionEnd) {
+        off($canvas, EVENT_ACTION_END, this.$onCanvasActionEnd);
+        this.$onCanvasActionEnd = null;
+      }
+
+      if (this.$onCanvasAction) {
+        off($canvas, EVENT_ACTION, this.$onCanvasAction);
+        this.$onCanvasAction = null;
+      }
     }
 
     super.disconnectedCallback();
@@ -293,15 +304,17 @@ export default class CropperSelection extends CropperElement {
   }
 
   protected $handleActionStart(event: Event): void {
-    if (this.hidden || !this.multiple || this.active) {
-      return;
-    }
+    const relatedTarget = (event as CustomEvent).detail?.relatedEvent?.target;
 
-    const { detail } = event as CustomEvent;
-    const { relatedEvent } = detail;
-    const relatedTarget = relatedEvent.target;
+    this.$actionStartTarget = relatedTarget;
 
-    if (relatedTarget === this && this.parentElement) {
+    if (
+      !this.hidden
+      && this.multiple
+      && !this.active
+      && relatedTarget === this
+      && this.parentElement
+    ) {
       this.$getSelections().forEach((selection) => {
         (selection as CropperSelection).active = false;
       });
@@ -313,6 +326,10 @@ export default class CropperSelection extends CropperElement {
         height: this.height,
       });
     }
+  }
+
+  protected $handleActionEnd(): void {
+    this.$actionStartTarget = null;
   }
 
   protected $handleAction(event: Event): void {
@@ -380,7 +397,9 @@ export default class CropperSelection extends CropperElement {
         }
 
         case ACTION_MOVE:
-          if (this.movable && (!relatedEvent || this.contains(relatedEvent.target))) {
+          if (this.movable
+            && (this.$actionStartTarget && this.contains(this.$actionStartTarget as Node))
+          ) {
             this.$move(moveX, moveY);
           }
           break;
