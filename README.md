@@ -1063,5 +1063,6 @@ Maintained under the [Semantic Versioning guidelines](https://semver.org/).
 - [iron-cropper](https://github.com/safetychanger/iron-cropper) by @safetychanger
 - [react-cropper](https://github.com/react-cropper/react-cropper) by @roadmanfong
 - [vue-cropperjs](https://github.com/Agontuk/vue-cropperjs) by @Agontuk
+- [blazor-cropperjs](https://github.com/CropperBlazor/Cropper.Blazor) by @CropperBlazor
 
 [⬆ back to top](#table-of-contents)
