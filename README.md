@@ -851,10 +851,16 @@ cropper.getCroppedCanvas();
 cropper.getCroppedCanvas({
   width: 160,
   height: 90,
+});
+
+cropper.getCroppedCanvas({
   minWidth: 256,
   minHeight: 256,
   maxWidth: 4096,
   maxHeight: 4096,
+});
+
+cropper.getCroppedCanvas({
   fillColor: '#fff',
   imageSmoothingEnabled: false,
   imageSmoothingQuality: 'high',
