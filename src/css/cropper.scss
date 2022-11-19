@@ -10,6 +10,7 @@ $cropper-image-path: '../images' !default;
     user-select: none;
 
     img {
+      backface-visibility: hidden;
       display: block;
       height: 100%;
       image-orientation: 0deg;

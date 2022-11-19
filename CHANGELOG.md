@@ -2,6 +2,7 @@
 
 ## next
 
+- Add `backface-visibility: hidden` to cropper image to avoid ghost lines when moving (#982).
 - Remove useless `cropper-hide` class from cropper image.
 - Check whether the parent node exists or not before removing the cropper container.
 
