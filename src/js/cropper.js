@@ -339,10 +339,8 @@ class Cropper {
     // Inserts the cropper after to the current image
     container.insertBefore(cropper, element.nextSibling);
 
-    // Show the image if is hidden
-    if (!this.isImg) {
-      removeClass(image, CLASS_HIDE);
-    }
+    // Show the hidden image
+    removeClass(image, CLASS_HIDE);
 
     this.initPreview();
     this.bind();

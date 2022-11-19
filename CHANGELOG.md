@@ -2,6 +2,7 @@
 
 ## next
 
+- Remove useless `cropper-hide` class from cropper image.
 - Check whether the parent node exists or not before removing the cropper container.
 
 ## 1.5.12 (Jun 12, 2021)
