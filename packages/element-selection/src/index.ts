@@ -898,17 +898,28 @@ export default class CropperSelection extends CropperElement {
       }
 
       const canvas = document.createElement('canvas');
-      const { $canvas, width, height } = this;
+      let { width, height } = this;
+      let scale = 1;
+
+      if (isPlainObject(options)
+        && (isPositiveNumber(options.width) || isPositiveNumber(options.height))) {
+        ({ width, height } = getAdjustedSizes({
+          aspectRatio: width / height,
+          width: options.width as number,
+          height: options.height as number,
+        }));
+        scale = width / this.width;
+      }
 
       canvas.width = width;
       canvas.height = height;
 
-      if (!$canvas) {
+      if (!this.$canvas) {
         resolve(canvas);
         return;
       }
 
-      const cropperImage: CropperImage | null = $canvas.querySelector(
+      const cropperImage: CropperImage | null = this.$canvas.querySelector(
         this.$getTagNameOf(CROPPER_IMAGE),
       );
 
@@ -922,14 +933,24 @@ export default class CropperSelection extends CropperElement {
 
         if (context) {
           const [a, b, c, d, e, f] = cropperImage.$getTransform();
-          const centerX = image.naturalWidth / 2;
-          const centerY = image.naturalHeight / 2;
           const offsetX = -this.x;
           const offsetY = -this.y;
           const translateX = ((offsetX * d) - (c * offsetY)) / ((a * d) - (c * b));
           const translateY = (offsetY - (b * translateX)) / d;
-          const newE = a * translateX + c * translateY + e;
-          const newF = b * translateX + d * translateY + f;
+          let newE = a * translateX + c * translateY + e;
+          let newF = b * translateX + d * translateY + f;
+          let destWidth = image.naturalWidth;
+          let destHeight = image.naturalHeight;
+
+          if (scale !== 1) {
+            newE *= scale;
+            newF *= scale;
+            destWidth *= scale;
+            destHeight *= scale;
+          }
+
+          const centerX = destWidth / 2;
+          const centerY = destHeight / 2;
 
           context.fillStyle = 'transparent';
           context.fillRect(0, 0, width, height);
@@ -947,39 +968,12 @@ export default class CropperSelection extends CropperElement {
 
           // Move the transform origin to the top-left of the image.
           context.translate(-centerX, -centerY);
-          context.drawImage(image, 0, 0);
+          context.drawImage(image, 0, 0, destWidth, destHeight);
           context.restore();
         }
 
         resolve(canvas);
       }).catch(reject);
-    }).then((canvas) => {
-      if (isPlainObject(options)
-        && (isPositiveNumber(options.width) || isPositiveNumber(options.height))) {
-        let { width, height } = canvas;
-
-        ({ width, height } = getAdjustedSizes({
-          aspectRatio: width / height,
-          width: options.width as number,
-          height: options.height as number,
-        }));
-
-        if (width !== canvas.width) {
-          const newCanvas = document.createElement('canvas');
-          const newContext = newCanvas.getContext('2d');
-
-          newCanvas.width = width;
-          newCanvas.height = height;
-
-          if (newContext) {
-            newContext.drawImage(canvas, 0, 0, width, height);
-          }
-
-          return newCanvas;
-        }
-      }
-
-      return canvas;
     });
   }
 }

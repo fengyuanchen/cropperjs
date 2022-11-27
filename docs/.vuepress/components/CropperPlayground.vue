@@ -1882,6 +1882,12 @@ export default {
     min-height: calc(1.5em + .25rem + 2px);
     padding: .125rem .25rem;
   }
+
+  .modal-title {
+    margin-bottom: 0 !important;
+    margin-top: 0;
+    padding-top: 0;
+  }
 }
 
 .playground {
