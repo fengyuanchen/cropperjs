@@ -11,6 +11,7 @@ import {
   isPositiveNumber,
   isString,
   isUndefined,
+  multiplyMatrices,
   off,
   on,
   once,
@@ -383,6 +384,18 @@ describe('Utilities', () => {
       });
 
       expect(sizes.height).toBe(200);
+    });
+  });
+
+  describe('multiplyMatrices', () => {
+    it('should return the first parameter directly.', () => {
+      const matrix = [1, 0, 0, 1, 0, 0];
+
+      expect(multiplyMatrices(matrix)).toBe(matrix);
+    });
+
+    it('should multiply matrices correctly.', () => {
+      expect(multiplyMatrices([1, 0, 0, 1, 0, 0], [1, 0, 0, 1, 1, 1])).toEqual([1, 0, 0, 1, 1, 1]);
     });
   });
 });
