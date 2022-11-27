@@ -17,6 +17,7 @@ import {
   EVENT_TRANSFORM,
   isFunction,
   isNumber,
+  multiplyMatrices,
   off,
   on,
   once,
@@ -600,20 +601,7 @@ export default class CropperImage extends CropperElement {
       && isNumber(e)
       && isNumber(f)
     ) {
-      const [a1, b1, c1, d1, e1, f1] = this.$matrix;
-      const [a2, b2, c2, d2, e2, f2] = [a, b, c, d, e, f];
-
-      // ┌ a1 c1 e1 ┐   ┌ a2 c2 e2 ┐
-      // │ b1 d1 f1 │ × │ b2 d2 f2 │
-      // └ 0  0  1  ┘   └ 0  0  1  ┘
-      return this.$setTransform(
-        a1 * a2 + c1 * b2/* + e1 * 0 */,
-        b1 * a2 + d1 * b2/* + f1 * 0 */,
-        a1 * c2 + c1 * d2/* + e1 * 0 */,
-        b1 * c2 + d1 * d2/* + f1 * 0 */,
-        a1 * e2 + c1 * f2 + e1/* * 1 */,
-        b1 * e2 + d1 * f2 + f1/* * 1 */,
-      );
+      return this.$setTransform(multiplyMatrices(this.$matrix, [a, b, c, d, e, f]));
     }
 
     return this;

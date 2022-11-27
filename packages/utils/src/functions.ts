@@ -339,3 +339,33 @@ export function getAdjustedSizes(
     height,
   };
 }
+
+/**
+ * Multiply multiple matrices.
+ *
+ * @param {Array} matrix The first matrix.
+ * @param {Array} args The rest matrices.
+ * @returns {Array} Returns the result matrix.
+ */
+export function multiplyMatrices(matrix: number[], ...args: number[][]): number[] {
+  if (args.length === 0) {
+    return matrix;
+  }
+
+  const [a1, b1, c1, d1, e1, f1] = matrix;
+  const [a2, b2, c2, d2, e2, f2] = args[0];
+
+  // ┌ a1 c1 e1 ┐   ┌ a2 c2 e2 ┐
+  // │ b1 d1 f1 │ × │ b2 d2 f2 │
+  // └ 0  0  1  ┘   └ 0  0  1  ┘
+  matrix = [
+    a1 * a2 + c1 * b2/* + e1 * 0 */,
+    b1 * a2 + d1 * b2/* + f1 * 0 */,
+    a1 * c2 + c1 * d2/* + e1 * 0 */,
+    b1 * c2 + d1 * d2/* + f1 * 0 */,
+    a1 * e2 + c1 * f2 + e1/* * 1 */,
+    b1 * e2 + d1 * f2 + f1/* * 1 */,
+  ];
+
+  return multiplyMatrices(matrix, ...args.slice(1));
+}
