@@ -1,3 +1,12 @@
+# [2.0.0-beta.2](https://github.com/fengyuanchen/cropperjs/compare/v2.0.0-beta.1...v2.0.0-beta.2) (2022-12-04)
+
+
+### Bug Fixes
+
+* **element-image:** ignore selection move action ([c2aa7d9](https://github.com/fengyuanchen/cropperjs/commit/c2aa7d9557b8364b7426f8ca1ff16110c8ba02c5)), closes [#985](https://github.com/fengyuanchen/cropperjs/issues/985)
+
+
+
 # [2.0.0-beta.1](https://github.com/fengyuanchen/cropperjs/compare/v2.0.0-beta...v2.0.0-beta.1) (2022-06-19)
 
 

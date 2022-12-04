@@ -20,7 +20,9 @@ Git commits message follows the [Conventional Commits guidelines](https://conven
 
 ## Related projects
 
-- [angular-cropperjs](https://github.com/matheusdavidson/angular-cropperjs) by @matheusdavidson
-- [ember-cropperjs](https://github.com/danielthall/ember-cropperjs) by @danielthall
-- [react-cropper](https://github.com/react-cropper/react-cropper) by @roadmanfong
-- [vue-cropperjs](https://github.com/Agontuk/vue-cropperjs) by @Agontuk
+- [angular-cropperjs](https://github.com/matheusdavidson/angular-cropperjs) by [@matheusdavidson](https://github.com/matheusdavidson)
+- [blazor-cropperjs](https://github.com/CropperBlazor/Cropper.Blazor) by [@ColdForeign](https://github.com/ColdForeign), [@MaxymGorn](https://github.com/MaxymGorn)
+- [ember-cropperjs](https://github.com/danielthall/ember-cropperjs) by [@danielthall](https://github.com/danielthall)
+- [iron-cropper](https://github.com/safetychanger/iron-cropper) by [@safetychanger](https://github.com/safetychanger)
+- [react-cropper](https://github.com/react-cropper/react-cropper) by [@roadmanfong](https://github.com/roadmanfong)
+- [vue-cropperjs](https://github.com/Agontuk/vue-cropperjs) by [@Agontuk](https://github.com/Agontuk)
