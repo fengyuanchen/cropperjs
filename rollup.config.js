@@ -61,6 +61,7 @@ export default bundles.reduce((configs, bundle) => {
         }),
         typescript(config.compilerOptions),
         replace({
+          preventAssignment: true,
           __VERSION__: pkg.version,
         }),
       ],
