@@ -328,10 +328,6 @@ export default class CropperSelection extends CropperElement {
     }
   }
 
-  protected $handleActionEnd(): void {
-    this.$actionStartTarget = null;
-  }
-
   protected $handleAction(event: Event): void {
     if (this.multiple && !this.active) {
       return;
@@ -420,6 +416,10 @@ export default class CropperSelection extends CropperElement {
           this.$resize(action, moveX, moveY, aspectRatio);
       }
     }
+  }
+
+  protected $handleActionEnd(): void {
+    this.$actionStartTarget = null;
   }
 
   protected $handleKeyDown(event: Event): void {
@@ -549,7 +549,10 @@ export default class CropperSelection extends CropperElement {
     const hasValidAspectRatio = isPositiveNumber(aspectRatio);
     const { $canvas } = this;
     let {
-      x, y, width, height,
+      x,
+      y,
+      width,
+      height,
     } = this;
 
     switch (action) {
