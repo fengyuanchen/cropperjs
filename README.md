@@ -330,7 +330,7 @@ Enable to rotate the image.
 
 ### scalable
 
-- Type: `Boolean
+- Type: `Boolean`
 - Default: `true`
 
 Enable to scale the image.
