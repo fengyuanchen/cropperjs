@@ -53,8 +53,8 @@
         },
 
         crop: function (event) {
-          var width = event.detail.width;
-          var height = event.detail.height;
+          var width = Math.round(event.detail.width);
+          var height = Math.round(event.detail.height);
 
           if (
             width < minCroppedWidth
