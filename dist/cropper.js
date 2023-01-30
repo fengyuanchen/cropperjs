@@ -1167,8 +1167,8 @@
         imageData = this.imageData;
       var viewMode = this.options.viewMode;
       var rotated = Math.abs(imageData.rotate) % 180 === 90;
-      var naturalWidth = rotated ? imageData.naturalHeight : imageData.naturalWidth;
-      var naturalHeight = rotated ? imageData.naturalWidth : imageData.naturalHeight;
+      var naturalWidth = rotated ? imageData.naturalHeight * imageData.scaleY : imageData.naturalWidth * imageData.scaleX;
+      var naturalHeight = rotated ? imageData.naturalWidth * imageData.scaleX : imageData.naturalHeight * imageData.scaleY;
       var aspectRatio = naturalWidth / naturalHeight;
       var canvasWidth = containerData.width;
       var canvasHeight = containerData.height;

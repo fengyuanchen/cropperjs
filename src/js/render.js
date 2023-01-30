@@ -71,8 +71,8 @@ export default {
     const { containerData, imageData } = this;
     const { viewMode } = this.options;
     const rotated = Math.abs(imageData.rotate) % 180 === 90;
-    const naturalWidth = rotated ? imageData.naturalHeight : imageData.naturalWidth;
-    const naturalHeight = rotated ? imageData.naturalWidth : imageData.naturalHeight;
+    const naturalWidth = rotated ? imageData.naturalHeight * imageData.scaleY : imageData.naturalWidth * imageData.scaleX;
+    const naturalHeight = rotated ? imageData.naturalWidth * imageData.scaleX : imageData.naturalHeight * imageData.scaleY;
     const aspectRatio = naturalWidth / naturalHeight;
     let canvasWidth = containerData.width;
     let canvasHeight = containerData.height;
