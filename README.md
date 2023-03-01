@@ -824,6 +824,7 @@ Change the crop box position and size with new data.
     - `fillColor`: a color to fill any alpha values in the output canvas, the default value is the `transparent`.
     - [`imageSmoothingEnabled`](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/imageSmoothingEnabled): set to change if images are smoothed (`true`, default) or not (`false`).
     - [`imageSmoothingQuality`](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/imageSmoothingQuality): set the quality of image smoothing, one of "low" (default), "medium", or "high".
+    - `rounded`: set `true` to use rounded values (the cropped area position and size data), the default value is `false`.
 
 - (return  value):
   - Type: `HTMLCanvasElement`
