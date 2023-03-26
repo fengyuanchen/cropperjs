@@ -287,6 +287,7 @@ export default class CropperSelection extends CropperElement {
         const activeSelection = selections[index + 1] || selections[index - 1];
 
         if (activeSelection) {
+          selection.active = false;
           this.parentElement.removeChild(selection);
           activeSelection.active = true;
           activeSelection.$emit(EVENT_CHANGE, {
