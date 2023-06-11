@@ -4,6 +4,7 @@
 .DS_Store
 .cache
 .temp
+cache
 coverage
 dist
 node_modules

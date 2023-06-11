@@ -1,10 +1,10 @@
 <template>
   <div
-    v-if="loading && !transitioning"
+    v-if="loading"
     class="loading"
   />
   <div
-    v-else-if="!transitioning"
+    v-else
     class="playground"
   >
     <aside>
@@ -599,6 +599,7 @@
           </li>
           <li>
             <textarea
+              id="imageMatrix"
               v-model="output.image.matrix"
               class="form-control form-control-sm"
             />
@@ -1517,6 +1518,14 @@
       </cropper-canvas>
     </article>
     <aside>
+      <section class="carbonads">
+        <VPDocAsideCarbonAds
+          :carbon-ads="{
+            code: 'CKYI55Q7',
+            placement: 'fengyuanchengithubio',
+          }"
+        />
+      </section>
       <section class="previews clearfix">
         <h6>Preview</h6>
         <cropper-viewer
@@ -1635,6 +1644,7 @@
 </template>
 
 <script lang="ts">
+import { withBase } from 'vitepress';
 import type CropperCanvas from '@cropper/element-canvas';
 import type CropperSelection from '@cropper/element-selection';
 import ColorInput from './ColorInput.vue';
@@ -1646,9 +1656,7 @@ export default {
   },
   data(): Record<string, any> {
     return {
-      transitionDelay: 350,
-      transitioning: true,
-      loading: false,
+      loading: true,
       ready: false,
       initialCanvas: '',
       canvas: {
@@ -1664,7 +1672,7 @@ export default {
         scalable: true,
         skewable: true,
         translatable: true,
-        src: this.$withBase('picture.jpg'),
+        src: withBase('picture.jpg'),
         alt: 'The image to crop',
       },
       shade: {
@@ -1766,21 +1774,14 @@ export default {
       },
     };
   },
-  created() {
-    setTimeout(() => {
-      this.transitioning = false;
-      this.loading = true;
-    }, this.transitionDelay);
-  },
   mounted(): void {
-    const startTime = Date.now();
-
     Promise.all([
       new Promise((resolve, reject) => {
         const link = document.createElement('link');
 
-        link.rel = 'stylesheet';
         link.href = 'https://unpkg.com/bootstrap@5/dist/css/bootstrap.min.css';
+        link.rel = 'stylesheet';
+        link.crossOrigin = 'anonymous';
         link.onload = resolve;
         link.onerror = reject;
         link.onabort = reject;
@@ -1789,8 +1790,9 @@ export default {
       new Promise((resolve, reject) => {
         const link = document.createElement('link');
 
-        link.rel = 'stylesheet';
         link.href = 'https://unpkg.com/bootstrap-icons@1/font/bootstrap-icons.css';
+        link.rel = 'stylesheet';
+        link.crossOrigin = 'anonymous';
         link.onload = resolve;
         link.onerror = reject;
         link.onabort = reject;
@@ -1800,22 +1802,13 @@ export default {
         const script = document.createElement('script');
 
         script.src = 'https://unpkg.com/bootstrap@5/dist/js/bootstrap.bundle.min.js';
+        script.crossOrigin = 'anonymous';
         script.onload = resolve;
         script.onerror = reject;
         script.onabort = reject;
         document.head.appendChild(script);
       }),
-    ]).then(() => new Promise<void>((resolve) => {
-      const endTime = Date.now();
-      const loadingTime = endTime - startTime;
-      const delay = this.transitionDelay - loadingTime;
-
-      if (delay > 0) {
-        setTimeout(resolve, delay);
-      } else {
-        resolve();
-      }
-    })).then(() => {
+    ]).then(() => {
       this.loading = false;
       this.$nextTick(() => {
         this.ready = true;
@@ -1826,7 +1819,6 @@ export default {
     });
   },
   beforeUnmount(): void {
-    this.transitioning = true;
     Array.from(document.head.querySelectorAll('[href*="bootstrap"],[src*="bootstrap"]')).forEach((element) => {
       document.head.removeChild(element);
     });
@@ -1861,38 +1853,9 @@ export default {
 </script>
 
 <style lang="scss">
-.playground-container {
-  .navbar {
-    padding-bottom: var(--navbar-padding-v);
-    padding-top: var(--navbar-padding-v);
-    position: fixed;
-
-    a {
-      color: var(--c-text);
-      text-decoration: none;
-    }
-  }
-
-  .nav-link {
-    padding: 0;
-  }
-
-  .form-control-sm {
-    font-size: .75rem;
-    min-height: calc(1.5em + .25rem + 2px);
-    padding: .125rem .25rem;
-  }
-
-  .modal-title {
-    margin-bottom: 0 !important;
-    margin-top: 0;
-    padding-top: 0;
-  }
-}
-
 .playground {
-  background-color: var(--c-bg);
-  color: var(--c-text);
+  background-color: var(--vp-c-bg-soft-up);
+  color: var(--vp-c-text-1);
 
   canvas {
     display: block;
@@ -1904,6 +1867,7 @@ export default {
   }
 
   > aside {
+    background-color: var(--vp-c-bg);
     overflow-x: hidden;
     overflow-y: auto;
     padding: 1rem;
@@ -1946,7 +1910,6 @@ export default {
   }
 
   > article {
-    background-color: var(-c-bg-light);
     height: 20rem;
 
     > cropper-canvas {
@@ -2008,7 +1971,7 @@ export default {
   }
 
   .preview {
-    border: 1px solid var(--c-border);
+    border: 1px solid var(--vp-c-divider);
     float: left;
     margin-bottom: 1rem;
     margin-right: 1rem;
@@ -2037,12 +2000,8 @@ export default {
 
 @media (min-width: 992px) {
   .playground {
-    bottom: 0;
     display: flex;
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: var(--navbar-height);
+    height: 100vh;
 
     > aside {
       width: 18rem;
@@ -2066,14 +2025,10 @@ export default {
 }
 
 .loading {
-  background-color: var(--c-bg);
-  bottom: 0;
+  background-color: var(--vp-c-bg);
   display: flex;
-  left: 0;
-  position: fixed;
-  right: 0;
-  top: var(--navbar-height);
-  z-index: 1;
+  height: 100vh;
+  position: relative;
 
   &::after {
     animation: spinner 1s linear infinite;

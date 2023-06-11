@@ -47,7 +47,7 @@ module.exports = {
       },
     },
     {
-      files: 'docs/.vuepress/**/*.vue',
+      files: 'docs/.vitepress/**/*.vue',
       rules: {
         'import/no-unresolved': 'off',
         'no-new': 'off',

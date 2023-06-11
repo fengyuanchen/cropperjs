@@ -49,13 +49,13 @@
 
 <style>
 .cropper-viewers {
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 }
 
 .cropper-viewers > cropper-viewer {
-  border: 1px solid #ddd;
+  border: 1px solid var(--vp-c-divider);
   display: inline-block;
-  margin-right: 1rem;
+  margin-right: 0.25rem;
 }
 </style>
 ```

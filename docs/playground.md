@@ -1,10 +1,8 @@
 ---
 title: Playground
-editLink: false
-sidebar: false
-pageClass: playground-container
+layout: page
 ---
 
 <ClientOnly>
-  <CropperPlayground />
+  <CropperPlaygroundContainer src="./cropper-playground.html" />
 </ClientOnly>

@@ -6,7 +6,7 @@
         background
       >
         <cropper-image
-          :src="$withBase('picture.jpg')"
+          :src="src"
           alt="Picture"
         />
         <cropper-handle
@@ -27,9 +27,15 @@
 
 <script lang="ts">
 import type CropperCanvas from '@cropper/element-canvas';
+import { withBase } from 'vitepress';
 
 export default {
   name: 'CropperCanvasToNativeCanvas',
+  data() {
+    return {
+      src: withBase('picture.jpg'),
+    };
+  },
   methods: {
     convertToCanvas(): void {
       const source = this.$refs.source as CropperCanvas;
@@ -50,7 +56,7 @@ export default {
 
   > :first-child,
   > :last-child {
-    border: 1px solid var(--c-border);
+    border: 1px solid var(--vp-c-divider);
     flex: 1;
     font-size: 0;
   }
@@ -67,8 +73,18 @@ export default {
 
   > button {
     align-self: center;
+    border-radius: 0.25rem;
+    border: 1px solid var(--vp-c-brand);
+    color: var(--vp-c-brand);
     margin-left: 1rem;
     margin-right: 1rem;
+    padding: 0.25rem 0.5rem;
+
+    &:focus,
+    &:hover {
+      background-color: var(--vp-c-brand);
+      color: var(--vp-c-bg);
+    }
   }
 }
 </style>

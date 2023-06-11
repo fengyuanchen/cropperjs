@@ -7,6 +7,7 @@ module.exports = {
     'stylelint-order',
   ],
   rules: {
+    'selector-pseudo-class-no-unknown': null,
     'no-descending-specificity': null,
     'order/properties-alphabetical-order': true,
   },

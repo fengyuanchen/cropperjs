@@ -12,7 +12,7 @@ new Cropper(element[, options])
 
 - **element**
   - 类型：`HTMLImageElement | HTMLCanvasElement | string`
-  - 用于裁剪的目标图像或画布元素。如果是字符串，将传入 [`document.querySelector`](https：//developer.mozilla.org/zh-CN/docs/Web/API/Document/querySelector) 中去查找元素。
+  - 用于裁剪的目标图像或画布元素。如果是字符串，将传入 [`document.querySelector`](https://developer.mozilla.org/zh-CN/docs/Web/API/Document/querySelector) 中去查找元素。
 
 - **options** (可选)
   - 类型：`Object`

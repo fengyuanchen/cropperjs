@@ -1,9 +1,8 @@
 ---
-editLink: false
-sidebar: false
-pageClass: playground-container
+title: 演练场
+layout: page
 ---
 
 <ClientOnly>
-  <CropperPlayground />
+  <CropperPlaygroundContainer src="./cropper-playground.html" />
 </ClientOnly>

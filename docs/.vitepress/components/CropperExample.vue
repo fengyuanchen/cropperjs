@@ -3,13 +3,14 @@
 </template>
 
 <script lang="ts">
+import { withBase } from 'vitepress';
 import Cropper from 'cropperjs';
 
 export default {
   name: 'CropperExample',
   data() {
     return {
-      src: this.$withBase('picture.jpg'),
+      src: withBase('picture.jpg'),
     };
   },
   mounted(): void {
@@ -30,7 +31,7 @@ export default {
 
 <style lang="scss" scoped>
 .cropper-container {
-  border: 1px solid var(--c-border);
+  border: 1px solid var(--vp-c-divider);
   border-radius: 0.375rem;
   margin-bottom: 1rem;
   margin-top: 1rem;

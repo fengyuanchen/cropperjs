@@ -15,14 +15,13 @@
       "cropperjs": ["packages/cropperjs/src"]
     },
     "types": [
-      "@vuepress/client/types",
       "jest"
     ]
   },
   "include": [
     "*.js",
     ".*.js",
-    "docs/.vuepress/**/*",
+    "docs/.vitepress/**/*",
     "packages/*/src/*",
     "packages/*/tests/*",
     "types/*"

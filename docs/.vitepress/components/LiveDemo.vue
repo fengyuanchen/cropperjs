@@ -29,7 +29,7 @@ export default {
       const demo = this.$refs.demo as HTMLElement;
       const code = this.$refs.code as HTMLElement;
 
-      demo.innerHTML = code.textContent || '';
+      demo.innerHTML = code.querySelector('pre > code')?.textContent || '';
     },
   },
 };
@@ -41,9 +41,9 @@ export default {
   margin-top: 1rem;
 
   &__view {
-    border: 1px solid var(--c-border);
-    border-top-left-radius: 0.375rem;
-    border-top-right-radius: 0.375rem;
+    border: 1px solid var(--vp-c-divider);
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
     padding: 1.25rem 1.5rem;
 
     &-content {
@@ -54,13 +54,10 @@ export default {
 
   &__code {
     > :first-child {
+      margin-bottom: 0;
+      margin-top: 0;
       border-top-left-radius: 0;
       border-top-right-radius: 0;
-
-      > :first-child {
-        margin-bottom: 0;
-        margin-top: 0;
-      }
     }
   }
 }
