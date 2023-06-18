@@ -132,11 +132,10 @@ export default class CropperShade extends CropperElement {
 
   /**
    * Changes the position and/or size of the shade.
-   *
    * @param {number} x The new position in the horizontal direction.
    * @param {number} y The new position in the vertical direction.
-   * @param {number} [width=this.width] The new width.
-   * @param {number} [height=this.height] The new height.
+   * @param {number} [width] The new width.
+   * @param {number} [height] The new height.
    * @returns {CropperShade} Returns `this` for chaining.
    */
   $change(x: number, y: number, width: number = this.width, height: number = this.height): this {
@@ -164,7 +163,6 @@ export default class CropperShade extends CropperElement {
 
   /**
    * Resets the shade to its initial position and size.
-   *
    * @returns {CropperShade} Returns `this` for chaining.
    */
   $reset(): this {
@@ -173,7 +171,6 @@ export default class CropperShade extends CropperElement {
 
   /**
    * Refreshes the position or size of the shade.
-   *
    * @returns {CropperShade} Returns `this` for chaining.
    */
   $render(): this {

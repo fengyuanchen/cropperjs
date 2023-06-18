@@ -228,7 +228,6 @@ export default class CropperElement extends HTMLElement {
 
   /**
    * Outputs the shadow root of the element.
-   *
    * @returns {ShadowRoot} Returns the shadow root.
    */
   $getShadowRoot(): ShadowRoot {
@@ -237,7 +236,6 @@ export default class CropperElement extends HTMLElement {
 
   /**
    * Adds styles to the shadow root.
-   *
    * @param {string} styles The styles to add.
    * @returns {CSSStyleSheet|HTMLStyleElement} Returns the generated style sheet.
    */
@@ -261,7 +259,6 @@ export default class CropperElement extends HTMLElement {
 
   /**
    * Dispatches an event at the element.
-   *
    * @param {string} type The name of the event.
    * @param {*} [detail] The data passed when initializing the event.
    * @param {CustomEventInit} [options] The other event options.
@@ -273,7 +270,6 @@ export default class CropperElement extends HTMLElement {
 
   /**
    * Defers the callback to be executed after the next DOM update cycle.
-   *
    * @param {Function} [callback] The callback to execute after the next DOM update cycle.
    * @returns {Promise} A promise that resolves to nothing.
    */
@@ -284,7 +280,6 @@ export default class CropperElement extends HTMLElement {
   /**
    * Defines the constructor as a new custom element.
    * {@link https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/define}
-   *
    * @param {string|object} [name] The element name.
    * @param {object} [options] The element definition options.
    */
