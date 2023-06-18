@@ -15,7 +15,8 @@
       "cropperjs": ["packages/cropperjs/src"]
     },
     "types": [
-      "jest"
+      "jest",
+      "vite/client"
     ]
   },
   "include": [
