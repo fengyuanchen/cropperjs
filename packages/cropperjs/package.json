@@ -1,6 +1,6 @@
 {
   "name": "cropperjs",
-  "version": "2.0.0-beta.2",
+  "version": "2.0.0-beta.3",
   "description": "JavaScript image cropper.",
   "main": "dist/cropper.raw.js",
   "module": "dist/cropper.esm.raw.js",
@@ -49,8 +49,8 @@
   "bugs": "https://github.com/fengyuanchen/cropperjs-next/issues",
   "homepage": "https://github.com/fengyuanchen/cropperjs-next/tree/next/packages/cropperjs/#readme",
   "dependencies": {
-    "@cropper/elements": "^2.0.0-beta.2",
-    "@cropper/utils": "^2.0.0-beta.2"
+    "@cropper/elements": "^2.0.0-beta.3",
+    "@cropper/utils": "^2.0.0-beta.3"
   },
   "publishConfig": {
     "tag": "next"

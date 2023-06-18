@@ -1,6 +1,6 @@
 {
   "name": "@cropper/element-selection",
-  "version": "2.0.0-beta.2",
+  "version": "2.0.0-beta.3",
   "description": "A custom selection element for the Cropper.",
   "main": "dist/element-selection.raw.js",
   "module": "dist/element-selection.esm.raw.js",
@@ -36,10 +36,10 @@
   "bugs": "https://github.com/fengyuanchen/cropperjs-next/issues",
   "homepage": "https://github.com/fengyuanchen/cropperjs-next/tree/next/packages/element-selection/#readme",
   "dependencies": {
-    "@cropper/element": "^2.0.0-beta.2",
-    "@cropper/element-canvas": "^2.0.0-beta.2",
-    "@cropper/element-image": "^2.0.0-beta.2",
-    "@cropper/utils": "^2.0.0-beta.2"
+    "@cropper/element": "^2.0.0-beta.3",
+    "@cropper/element-canvas": "^2.0.0-beta.3",
+    "@cropper/element-image": "^2.0.0-beta.3",
+    "@cropper/utils": "^2.0.0-beta.3"
   },
   "publishConfig": {
     "access": "public",

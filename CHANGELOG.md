@@ -1,3 +1,12 @@
+# [2.0.0-beta.3](https://github.com/fengyuanchen/cropperjs/compare/v2.0.0-beta.2...v2.0.0-beta.3) (2023-06-18)
+
+
+### Bug Fixes
+
+* blur the removing selection to avoid side-effects ([0a334d9](https://github.com/fengyuanchen/cropperjs/commit/0a334d9877cb25cfddb71c9cfea09e3110f2d8e5)), closes [#1022](https://github.com/fengyuanchen/cropperjs/issues/1022)
+
+
+
 # [2.0.0-beta.2](https://github.com/fengyuanchen/cropperjs/compare/v2.0.0-beta.1...v2.0.0-beta.2) (2022-12-04)
 
 
