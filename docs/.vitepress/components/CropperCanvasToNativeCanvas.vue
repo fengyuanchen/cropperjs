@@ -73,8 +73,8 @@ export default {
 
   > button {
     align-self: center;
-    border-radius: 0.25rem;
     border: 1px solid var(--vp-c-brand);
+    border-radius: 0.25rem;
     color: var(--vp-c-brand);
     margin-left: 1rem;
     margin-right: 1rem;

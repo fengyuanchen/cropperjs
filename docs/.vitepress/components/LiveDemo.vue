@@ -54,10 +54,10 @@ export default {
 
   &__code {
     > :first-child {
-      margin-bottom: 0;
-      margin-top: 0;
       border-top-left-radius: 0;
       border-top-right-radius: 0;
+      margin-bottom: 0;
+      margin-top: 0;
     }
   }
 }
