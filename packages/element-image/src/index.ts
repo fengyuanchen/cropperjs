@@ -108,6 +108,8 @@ export default class CropperImage extends CropperElement {
     if ($canvas) {
       this.$canvas = $canvas;
       this.$setStyles({
+        // Make it a block element to avoid side effects (#1074).
+        display: 'block',
         position: 'absolute',
       });
 
