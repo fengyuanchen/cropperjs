@@ -102,7 +102,7 @@ img {
 ```
 
 ```js
-// import 'cropperjs/dist/cropper.css';
+import 'cropperjs/dist/cropper.css';
 import Cropper from 'cropperjs';
 
 const image = document.getElementById('image');
