@@ -58,6 +58,7 @@ declare namespace Cropper {
     fillColor?: string;
     imageSmoothingEnabled?: boolean;
     imageSmoothingQuality?: ImageSmoothingQuality;
+    rounded?: boolean;
   }
 
   export interface SetDataOptions {

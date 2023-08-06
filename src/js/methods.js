@@ -654,7 +654,7 @@ export default {
       y: initialY,
       width: initialWidth,
       height: initialHeight,
-    } = this.getData();
+    } = this.getData(!!options.rounded);
     const ratio = source.width / Math.floor(canvasData.naturalWidth);
 
     if (ratio !== 1) {
