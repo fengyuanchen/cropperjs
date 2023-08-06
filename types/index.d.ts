@@ -55,10 +55,10 @@ declare namespace Cropper {
     minHeight?: number;
     maxWidth?: number;
     maxHeight?: number;
+    rounded?: boolean;
     fillColor?: string;
     imageSmoothingEnabled?: boolean;
     imageSmoothingQuality?: ImageSmoothingQuality;
-    rounded?: boolean;
   }
 
   export interface SetDataOptions {

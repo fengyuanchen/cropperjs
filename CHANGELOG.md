@@ -1,5 +1,9 @@
 # Changelog
 
+## next
+
+- Add `rounded` option to the `getCroppedCanvas` method (#1047).
+
 ## 1.5.13 (Nov 20, 2022)
 
 - Add `backface-visibility: hidden` to cropper image to avoid ghost lines when moving (#982).
