@@ -1071,5 +1071,6 @@ Maintained under the [Semantic Versioning guidelines](https://semver.org/).
 - [iron-cropper](https://github.com/safetychanger/iron-cropper) by [@safetychanger](https://github.com/safetychanger)
 - [react-cropper](https://github.com/react-cropper/react-cropper) by [@roadmanfong](https://github.com/roadmanfong)
 - [vue-cropperjs](https://github.com/Agontuk/vue-cropperjs) by [@Agontuk](https://github.com/Agontuk)
+- [Symfony UX Cropper.js](https://github.com/symfony/ux-cropperjs) by [@symfony](https://github.com/symfony)
 
 [⬆ back to top](#table-of-contents)
