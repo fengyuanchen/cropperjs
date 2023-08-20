@@ -44,13 +44,6 @@ export default defineConfig({
     [
       'link',
       {
-        rel: 'manifest',
-        href: '/cropperjs/v2/manifest.webmanifest',
-      },
-    ],
-    [
-      'link',
-      {
         rel: 'mask-icon',
         color: '#39f',
         href: '/cropperjs/v2/safari-pinned-tab.svg',
