@@ -334,10 +334,6 @@ export default class CropperSelection extends CropperElement {
   }
 
   protected $handleAction(event: Event): void {
-    if (this.multiple && !this.active) {
-      return;
-    }
-
     const { currentTarget, detail } = event as CustomEvent;
 
     if (currentTarget && detail) {
@@ -350,7 +346,9 @@ export default class CropperSelection extends CropperElement {
         action = relatedEvent?.target.action;
       }
 
-      if (!action || (this.hidden && action !== ACTION_SELECT)) {
+      if (!action
+        || (this.hidden && action !== ACTION_SELECT)
+        || (this.multiple && !this.active && action !== ACTION_SCALE)) {
         return;
       }
 
