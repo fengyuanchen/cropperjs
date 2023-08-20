@@ -1,3 +1,14 @@
+# [2.0.0-beta.4](https://github.com/fengyuanchen/cropperjs/compare/v2.0.0-beta.3...v2.0.0-beta.4) (2023-08-20)
+
+
+### Bug Fixes
+
+* **cropper-image:** make it a block element to avoid side effects ([c3d94fc](https://github.com/fengyuanchen/cropperjs/commit/c3d94fccdf1efa076933cdc64fc8ea528ab6e6af)), closes [#1074](https://github.com/fengyuanchen/cropperjs/issues/1074)
+* **cropper-selection:** change inactive selections synchronously when scaling ([2e8d67f](https://github.com/fengyuanchen/cropperjs/commit/2e8d67f6dff21fb603249c1d61950aead919b552))
+* **cropper-selection:** improve  interaction between multiple selections ([f2bd525](https://github.com/fengyuanchen/cropperjs/commit/f2bd5259b131e1d2ef0a01b94d0ff3d3d352478e)), closes [#1044](https://github.com/fengyuanchen/cropperjs/issues/1044) [#1061](https://github.com/fengyuanchen/cropperjs/issues/1061)
+
+
+
 # [2.0.0-beta.3](https://github.com/fengyuanchen/cropperjs/compare/v2.0.0-beta.2...v2.0.0-beta.3) (2023-06-18)
 
 

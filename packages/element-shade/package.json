@@ -1,6 +1,6 @@
 {
   "name": "@cropper/element-shade",
-  "version": "2.0.0-beta.3",
+  "version": "2.0.0-beta.4",
   "description": "A custom shade element for the Cropper.",
   "main": "dist/element-shade.raw.js",
   "module": "dist/element-shade.esm.raw.js",
@@ -36,10 +36,10 @@
   "bugs": "https://github.com/fengyuanchen/cropperjs-next/issues",
   "homepage": "https://github.com/fengyuanchen/cropperjs-next/tree/next/packages/element-shade/#readme",
   "dependencies": {
-    "@cropper/element": "^2.0.0-beta.3",
-    "@cropper/element-canvas": "^2.0.0-beta.3",
-    "@cropper/element-selection": "^2.0.0-beta.3",
-    "@cropper/utils": "^2.0.0-beta.3"
+    "@cropper/element": "^2.0.0-beta.4",
+    "@cropper/element-canvas": "^2.0.0-beta.4",
+    "@cropper/element-selection": "^2.0.0-beta.4",
+    "@cropper/utils": "^2.0.0-beta.4"
   },
   "publishConfig": {
     "access": "public",
