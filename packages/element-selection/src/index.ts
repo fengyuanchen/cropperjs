@@ -54,6 +54,8 @@ export default class CropperSelection extends CropperElement {
 
   protected $onDocumentKeyDown: EventListener | null = null;
 
+  protected $action = '';
+
   protected $actionStartTarget: EventTarget | null = null;
 
   protected $style = style;
@@ -311,6 +313,7 @@ export default class CropperSelection extends CropperElement {
   protected $handleActionStart(event: Event): void {
     const relatedTarget = (event as CustomEvent).detail?.relatedEvent?.target;
 
+    this.$action = '';
     this.$actionStartTarget = relatedTarget;
 
     if (
@@ -343,7 +346,8 @@ export default class CropperSelection extends CropperElement {
       // Switching to another selection
       if (!action && this.multiple) {
         // Get the `action` property from the focusing in selection
-        action = relatedEvent?.target.action;
+        action = this.$action || relatedEvent?.target.action;
+        this.$action = action;
       }
 
       if (!action
@@ -422,6 +426,7 @@ export default class CropperSelection extends CropperElement {
   }
 
   protected $handleActionEnd(): void {
+    this.$action = '';
     this.$actionStartTarget = null;
   }
 
