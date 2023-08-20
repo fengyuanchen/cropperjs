@@ -161,16 +161,24 @@ export default class CropperSelection extends CropperElement {
       case 'multiple':
         this.$nextTick(() => {
           if (this.$canvas) {
-            if (newValue) {
-              this.active = true;
-            } else {
-              this.$getSelections().forEach((selection, index) => {
-                if (index > 0) {
-                  this.$removeSelection(selection);
-                }
-              });
+            const selections = this.$getSelections();
 
+            if (newValue) {
+              selections.forEach((selection) => {
+                selection.active = false;
+              });
+              this.active = true;
+              this.$emit(EVENT_CHANGE, {
+                x: this.x,
+                y: this.y,
+                width: this.width,
+                height: this.height,
+              });
+            } else {
               this.active = false;
+              selections.slice(1).forEach((selection) => {
+                this.$removeSelection(selection);
+              });
             }
           }
         });
@@ -182,10 +190,6 @@ export default class CropperSelection extends CropperElement {
 
   protected connectedCallback(): void {
     super.connectedCallback();
-
-    if (this.multiple && !this.active) {
-      this.active = true;
-    }
 
     const $canvas: CropperCanvas | null = this.closest(this.$getTagNameOf(CROPPER_CANVAS));
 
