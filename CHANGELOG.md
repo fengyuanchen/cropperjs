@@ -1,6 +1,6 @@
 # Changelog
 
-## next
+## 1.6.0 (Aug 26, 2023)
 
 - Add `rounded` option to the `getCroppedCanvas` method (#1047).
 
