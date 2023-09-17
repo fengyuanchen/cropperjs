@@ -396,7 +396,7 @@ function normalizeDecimalNumber(value) {
   var times = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 100000000000;
   return REGEXP_DECIMALS.test(value) ? Math.round(value * times) / times : value;
 }
-var REGEXP_SUFFIX = /^width|height|left|top|marginLeft|marginTop$/;
+var REGEXP_SUFFIX = /^width|height|left|top|marginLeft|marginTop|filter$/;
 
 /**
  * Apply styles to the given element.
@@ -893,6 +893,8 @@ function getSourceCanvas(image, _ref6, _ref7, _ref8) {
     imageNaturalHeight = _ref6.naturalHeight,
     _ref6$rotate = _ref6.rotate,
     rotate = _ref6$rotate === void 0 ? 0 : _ref6$rotate,
+    _ref6$filter = _ref6.filter,
+    filter = _ref6$filter === void 'none' ? 'none' : _ref6$filter,
     _ref6$scaleX = _ref6.scaleX,
     scaleX = _ref6$scaleX === void 0 ? 1 : _ref6$scaleX,
     _ref6$scaleY = _ref6.scaleY,
@@ -946,6 +948,7 @@ function getSourceCanvas(image, _ref6, _ref7, _ref8) {
   var params = [-destWidth / 2, -destHeight / 2, destWidth, destHeight];
   canvas.width = normalizeDecimalNumber(width);
   canvas.height = normalizeDecimalNumber(height);
+  context.filter = filter;
   context.fillStyle = fillColor;
   context.fillRect(0, 0, width, height);
   context.save();
@@ -1173,10 +1176,12 @@ var render = {
   initCanvas: function initCanvas() {
     var containerData = this.containerData,
       imageData = this.imageData;
+      if (!imageData.scaleX) imageData.scaleX = 1;
+      if (!imageData.scaleY) imageData.scaleY = 1;
     var viewMode = this.options.viewMode;
     var rotated = Math.abs(imageData.rotate) % 180 === 90;
-    var naturalWidth = rotated ? imageData.naturalHeight : imageData.naturalWidth;
-    var naturalHeight = rotated ? imageData.naturalWidth : imageData.naturalHeight;
+    var naturalWidth = rotated ? imageData.naturalHeight * imageData.scaleY : imageData.naturalWidth * imageData.scaleX;
+    var naturalHeight = rotated ? imageData.naturalWidth * imageData.scaleX : imageData.naturalHeight * imageData.scaleY;
     var aspectRatio = naturalWidth / naturalHeight;
     var canvasWidth = containerData.width;
     var canvasHeight = containerData.height;
@@ -1347,10 +1352,16 @@ var render = {
       left: (canvasData.width - width) / 2,
       top: (canvasData.height - height) / 2
     });
+    let filter = {};
+    if (imageData.filter) {
+      filter = { filter: imageData.filter };
+    } else {
+      filter = { filter: "none" };
+    }
     setStyle(this.image, assign({
       width: imageData.width,
       height: imageData.height
-    }, getTransforms(assign({
+    }, filter, getTransforms(assign({
       translateX: imageData.left,
       translateY: imageData.top
     }, imageData))));
@@ -1561,10 +1572,16 @@ var preview = {
     if (!this.cropped || this.disabled) {
       return;
     }
+    let filter = {};
+    if (imageData.filter) {
+      filter = { filter: imageData.filter };
+    } else {
+      filter = { filter: "none" };
+    }
     setStyle(this.viewBoxImage, assign({
       width: width,
       height: height
-    }, getTransforms(assign({
+    }, filter, getTransforms(assign({
       translateX: -left,
       translateY: -top
     }, imageData))));
@@ -2416,13 +2433,6 @@ var methods = {
     if (ratio >= 0 && this.ready && !this.disabled && options.zoomable) {
       var newWidth = naturalWidth * ratio;
       var newHeight = naturalHeight * ratio;
-      if (dispatchEvent(this.element, EVENT_ZOOM, {
-        ratio: ratio,
-        oldRatio: width / naturalWidth,
-        originalEvent: _originalEvent
-      }) === false) {
-        return this;
-      }
       if (_originalEvent) {
         var pointers = this.pointers;
         var offset = getOffset(this.cropper);
@@ -2445,6 +2455,15 @@ var methods = {
       canvasData.width = newWidth;
       canvasData.height = newHeight;
       this.renderCanvas(true);
+      // this event should be firec after the canvas is re-rendered, otherwise the canvas data is not actual 
+      // by reacting on the event.
+      if (dispatchEvent(this.element, EVENT_ZOOM, {
+        ratio: ratio,
+        oldRatio: width / naturalWidth,
+        originalEvent: _originalEvent
+      }) === false) {
+        return this;
+      }
     }
     return this;
   },
@@ -2467,6 +2486,16 @@ var methods = {
       this.imageData.rotate = degree % 360;
       this.renderCanvas(true, true);
     }
+    return this;
+  },
+  /**
+   * Sets the filter paramters.
+   * @param {string} filter - The string with filter parameters.
+   * @returns {Cropper} this
+   */
+  setFilter: function setFilter(filter) {
+    this.imageData.filter = filter;
+    this.renderCanvas(true, true);
     return this;
   },
   /**

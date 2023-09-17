@@ -136,7 +136,7 @@ export function normalizeDecimalNumber(value, times = 100000000000) {
   return REGEXP_DECIMALS.test(value) ? (Math.round(value * times) / times) : value;
 }
 
-const REGEXP_SUFFIX = /^width|height|left|top|marginLeft|marginTop$/;
+const REGEXP_SUFFIX = /^width|height|left|top|marginLeft|marginTop|filter$/;
 
 /**
  * Apply styles to the given element.
