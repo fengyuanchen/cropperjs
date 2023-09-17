@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.6.1 (Sep 17, 2023)
+
+- Fix an issue where some CSS styles were incompatible with old browsers.
+
 ## 1.6.0 (Aug 26, 2023)
 
 - Add `rounded` option to the `getCroppedCanvas` method (#1047).
