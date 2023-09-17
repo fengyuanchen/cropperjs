@@ -94,11 +94,18 @@ export default {
   },
 
   preview() {
-    const { imageData, canvasData, cropBoxData } = this;
-    const { width: cropBoxWidth, height: cropBoxHeight } = cropBoxData;
-    const { width, height } = imageData;
-    const left = cropBoxData.left - canvasData.left - imageData.left;
-    const top = cropBoxData.top - canvasData.top - imageData.top;
+    const {
+      imageData,
+      canvasData,
+      cropBoxData,
+      options,
+    } = this;
+    let { width: cropBoxWidth, height: cropBoxHeight } = cropBoxData;
+    let { width, height } = imageData;
+    let rawRatioX;
+    let rawRatioY;
+    let left = cropBoxData.left - canvasData.left - imageData.left;
+    let top = cropBoxData.top - canvasData.top - imageData.top;
 
     if (!this.cropped || this.disabled) {
       return;
@@ -111,6 +118,19 @@ export default {
       translateX: -left,
       translateY: -top,
     }, imageData))));
+
+    if (options.precisePreview) {
+      // emulate rounding that takes place during the crop process
+      // to make the preview exactly match with the cropped image
+      rawRatioX = (canvasData.naturalWidth * imageData.scaleX) / canvasData.width;
+      rawRatioY = (canvasData.naturalHeight * imageData.scaleY) / canvasData.height;
+      cropBoxWidth = Math.floor(cropBoxWidth * rawRatioX);
+      cropBoxHeight = Math.floor(cropBoxHeight * rawRatioY);
+      left = Math.floor(left * rawRatioX);
+      top = Math.floor(top * rawRatioY);
+      width = imageData.naturalWidth * imageData.scaleX;
+      height = imageData.naturalHeight * imageData.scaleY;
+    }
 
     forEach(this.previews, (element) => {
       const data = getData(element, DATA_PREVIEW);
