@@ -297,28 +297,29 @@ export function setData(element, name, data) {
 }
 
 /**
- * Remove data from the given element.
- * @param {Element} element - The target element.
- * @param {string} name - The data key to remove.
+ * Removes a data attribute from an element, either by deleting the property from the element object, 
+ * deleting the attribute from the element's dataset, or removing the attribute from the element's attributes.
+ * @param {Element} element - The element from which to remove the data attribute.
+ * @param {string} name - The name of the data attribute to remove.
  */
-export function removeData(element, name) {
-  if (isObject(element[name])) {
-    try {
-      delete element[name];
-    } catch (error) {
-      element[name] = undefined;
-    }
-  } else if (element.dataset) {
-    // #128 Safari not allows to delete dataset property
-    try {
-      delete element.dataset[name];
-    } catch (error) {
-      element.dataset[name] = undefined;
-    }
+function removeData(element, name) {
+  // Construct the name of the data attribute based on the input name.
+  const paramName = `data-${toParamCase(name)}`;
+
+  // If the property exists in the element and is an object, delete it from the element object.
+  if (isObject(element?.[name])) {
+    delete element[name];
+
+  // If the element has a dataset and the property exists in the dataset, delete it from the dataset.
+  } else if (element?.dataset) {
+    delete element.dataset?.[name];
+
+  // Otherwise, remove the attribute from the element's attributes.
   } else {
-    element.removeAttribute(`data-${toParamCase(name)}`);
+    element.removeAttribute(paramName);
   }
 }
+
 
 const REGEXP_SPACES = /\s\s*/;
 const onceSupported = (() => {
