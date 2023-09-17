@@ -92,7 +92,7 @@ new Cropper(element[, options])
 ```
 
 ```css
-/* Ensure the size of the image fit the container perfectly */
+/* Make sure the size of the image fits perfectly into the container */
 img {
   display: block;
 
