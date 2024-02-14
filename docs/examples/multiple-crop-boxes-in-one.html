@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cropper Example</title> 
+    <script type="module" src="https://unpkg.com/cropperjs@next"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/jszip@3.6.0/dist/jszip.min.js"></script>
+
+    <style> 
+        cropper-canvas {
+            width: 512px;
+            height: 512px;
+        }
+button{
+        height: 20px;        
+}
+ 
+        .flex-container {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+
+    <script type="module">
+        const zip = new JSZip() 
+        class CropperImage extends HTMLElement {} 
+        class CropperShade extends HTMLElement {} 
+        class CropperHandle extends HTMLElement {}
+        class CropperGrid extends HTMLElement {}
+        class CropperCrosshair extends HTMLElement {}
+        class CropperSelection extends HTMLElement {}
+
+        class CropperCanvas extends HTMLElement {}
+        
+
+    function handleCropperSelection(cropperSelectionId) {
+            const cropperSelection = document.querySelector(`#${cropperSelectionId}`);
+
+            if (cropperSelection) {
+                cropperSelection.$toCanvas({
+                    beforeDraw: function (context) { 
+                    }
+                }).then((canvas) => {
+                    console.log(`Canvas generated for ${cropperSelectionId}:`, canvas);
+                    const imageDataUrl = canvas.toDataURL();
+                    zip.file(`${cropperSelectionId}.png`, imageDataUrl.split(',')[1], { base64: true });
+                }).catch((error) => {
+                    console.error(`Error generating canvas for ${cropperSelectionId}:`, error);
+                });
+            } else {
+                console.error(`${cropperSelectionId} element not found.`);
+            }
+        }
+        document.getElementById('downloadZipButton').addEventListener('click', function () {
+            handleCropperSelection('cropperSelection');
+            handleCropperSelection('cropperSelection1');
+            handleCropperSelection('cropperSelection2');
+            // Generate and download the zip file
+            zip.generateAsync({ type: 'blob' }).then((blob) => {
+                const zipFileName = 'cropped_images.zip';
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = zipFileName;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Use multiple cropper-selection on one canvas instance</h1>
+    <h4>And crop out all selections at once, and download using JSZip</h4>
+<div class="flex-container">
+        <cropper-canvas style="width: 512px; height: 512px;" background>
+            <cropper-image src="./defaultimage.png" alt="Picture"></cropper-image>
+            <cropper-shade hidden></cropper-shade>
+            <cropper-handle action="select" plain></cropper-handle>
+            <cropper-selection id="cropperSelection" x="20" y="20" width="40" height="40" movable resizable zoomable multiple keyboard>
+                <cropper-grid role="grid" covered></cropper-grid>
+                <cropper-crosshair centered></cropper-crosshair>
+                <cropper-handle action="move" theme-color="rgba(255, 255, 255, 0.35)"></cropper-handle>
+                <cropper-handle action="n-resize"></cropper-handle>
+                <cropper-handle action="e-resize"></cropper-handle>
+                <cropper-handle action="s-resize"></cropper-handle>
+                <cropper-handle action="w-resize"></cropper-handle>
+                <cropper-handle action="ne-resize"></cropper-handle>
+                <cropper-handle action="nw-resize"></cropper-handle>
+                <cropper-handle action="se-resize"></cropper-handle>
+                <cropper-handle action="sw-resize"></cropper-handle>
+            </cropper-selection>
+            <cropper-selection id="cropperSelection1" x="60" y="60" width="80" height="80" movable resizable zoomable multiple keyboard>
+                <cropper-grid role="grid" covered></cropper-grid>
+                <cropper-crosshair centered></cropper-crosshair>
+                <cropper-handle action="move" theme-color="rgba(255, 255, 255, 0.35)"></cropper-handle>
+                <cropper-handle action="n-resize"></cropper-handle>
+                <cropper-handle action="e-resize"></cropper-handle>
+                <cropper-handle action="s-resize"></cropper-handle>
+                <cropper-handle action="w-resize"></cropper-handle>
+                <cropper-handle action="ne-resize"></cropper-handle>
+                <cropper-handle action="nw-resize"></cropper-handle>
+                <cropper-handle action="se-resize"></cropper-handle>
+                <cropper-handle action="sw-resize"></cropper-handle>
+            </cropper-selection>
+            <cropper-selection id="cropperSelection2" x="140" y="140" width="120" height="120" movable resizable zoomable multiple keyboard>
+                <cropper-grid role="grid" covered></cropper-grid>
+                <cropper-crosshair centered></cropper-crosshair>
+                <cropper-handle action="move" theme-color="rgba(255, 255, 255, 0.35)"></cropper-handle>
+                <cropper-handle action="n-resize"></cropper-handle>
+                <cropper-handle action="e-resize"></cropper-handle>
+                <cropper-handle action="s-resize"></cropper-handle>
+                <cropper-handle action="w-resize"></cropper-handle>
+                <cropper-handle action="ne-resize"></cropper-handle>
+                <cropper-handle action="nw-resize"></cropper-handle>
+                <cropper-handle action="se-resize"></cropper-handle>
+                <cropper-handle action="sw-resize"></cropper-handle>
+            </cropper-selection>
+        </cropper-canvas>
+
+ 
+        <div id="croppedImagesContainer"></div> 
+        <button id="downloadZipButton">Download Zip</button>
+    </div>
+
+
+
+</body>
+</html>
