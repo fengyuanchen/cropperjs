@@ -224,7 +224,7 @@ export default class CropperViewer extends CropperElement {
     if ($sourceImage && $image && $scale > 0) {
       const [a, b, c, d, e, f] = matrix;
       const translateX = ((x * d) - (c * y)) / ((a * d) - (c * b));
-      const translateY = (y - (b * translateX)) / d;
+      const translateY = ((y * a) - (b * x)) / ((a * d) - (c * b));
       const newE = a * translateX + c * translateY + e;
       const newF = b * translateX + d * translateY + f;
 
