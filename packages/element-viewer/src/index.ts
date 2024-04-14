@@ -17,6 +17,7 @@ import {
 } from '@cropper/utils';
 import style from './style';
 
+const canvasCache = new WeakMap();
 const imageCache = new WeakMap();
 const selectionCache = new WeakMap();
 const sourceImageCache = new WeakMap();
@@ -62,6 +63,14 @@ export default class CropperViewer extends CropperElement {
     return sourceImageCache.get(this);
   }
 
+  protected set $canvas(element: CropperCanvas) {
+    canvasCache.set(this, element);
+  }
+
+  protected get $canvas(): CropperCanvas {
+    return canvasCache.get(this);
+  }
+
   set $selection(element: CropperSelection) {
     selectionCache.set(this, element);
   }
@@ -96,6 +105,8 @@ export default class CropperViewer extends CropperElement {
       const $canvas: CropperCanvas | null = $selection.closest(this.$getTagNameOf(CROPPER_CANVAS));
 
       if ($canvas) {
+        this.$canvas = $canvas;
+
         const $sourceImage: CropperImage | null = $canvas.querySelector(
           this.$getTagNameOf(CROPPER_IMAGE),
         );
@@ -149,27 +160,43 @@ export default class CropperViewer extends CropperElement {
       $image.setAttribute('src', newSrc);
       $image.$ready(() => {
         setTimeout(() => {
-          const { x, y } = this.$selection;
-
-          this.$transformImageByOffset($sourceImage.$getTransform(), -x, -y);
-        });
+          this.$render();
+        }, 50);
       });
     }
   }
 
   protected $handleSourceImageTransform(event?: Event): void {
-    const { x, y } = this.$selection;
-
-    this.$transformImageByOffset((event as CustomEvent).detail.matrix, -x, -y);
+    this.$render(undefined, (event as CustomEvent).detail.matrix);
   }
 
-  protected $render(selection?: Selection): void {
+  protected $render(selection?: Selection, matrix?: number[]): void {
+    const { $canvas, $selection } = this;
+
+    if (!selection && !$selection.hidden) {
+      selection = $selection;
+    }
+
+    if (!selection || (
+      selection.x === 0
+      && selection.y === 0
+      && selection.width === 0
+      && selection.height === 0
+    )) {
+      selection = {
+        x: 0,
+        y: 0,
+        width: $canvas.offsetWidth,
+        height: $canvas.offsetHeight,
+      };
+    }
+
     const {
       x,
       y,
       width,
       height,
-    } = selection || this.$selection;
+    } = selection;
     const styles: any = {};
     const { clientWidth, clientHeight } = this;
     let newWidth = clientWidth;
@@ -186,13 +213,13 @@ export default class CropperViewer extends CropperElement {
         break;
 
       case RESIZE_HORIZONTAL:
-        scale = clientHeight / height;
+        scale = height > 0 ? clientHeight / height : 0;
         newWidth = width * scale;
         styles.width = newWidth;
         break;
 
       case RESIZE_VERTICAL:
-        scale = clientWidth / width;
+        scale = width > 0 ? clientWidth / width : 0;
         newHeight = height * scale;
         styles.height = newHeight;
         break;
@@ -200,9 +227,9 @@ export default class CropperViewer extends CropperElement {
       case RESIZE_NONE:
       default:
         if (clientWidth > 0) {
-          scale = clientWidth / width;
+          scale = width > 0 ? clientWidth / width : 0;
         } else if (clientHeight > 0) {
-          scale = clientHeight / height;
+          scale = height > 0 ? clientHeight / height : 0;
         }
     }
 
@@ -210,7 +237,7 @@ export default class CropperViewer extends CropperElement {
     this.$setStyles(styles);
 
     if (this.$sourceImage) {
-      this.$transformImageByOffset(this.$sourceImage.$getTransform(), -x, -y);
+      this.$transformImageByOffset(matrix ?? this.$sourceImage.$getTransform(), -x, -y);
     }
   }
 
@@ -221,7 +248,7 @@ export default class CropperViewer extends CropperElement {
       $sourceImage,
     } = this;
 
-    if ($sourceImage && $image && $scale > 0) {
+    if ($sourceImage && $image && $scale >= 0) {
       const [a, b, c, d, e, f] = matrix;
       const translateX = ((x * d) - (c * y)) / ((a * d) - (c * b));
       const translateY = ((y * a) - (b * x)) / ((a * d) - (c * b));
