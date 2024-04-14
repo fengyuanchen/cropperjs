@@ -274,7 +274,7 @@ export default class CropperImage extends CropperElement {
               const moveX = x - originX;
               const moveY = y - originY;
               const translateX = ((moveX * d) - (c * moveY)) / ((a * d) - (c * b));
-              const translateY = (moveY - (b * translateX)) / d;
+              const translateY = ((moveY * a) - (b * moveX)) / ((a * d) - (c * b));
 
               /**
                * Equals to
@@ -405,7 +405,7 @@ export default class CropperImage extends CropperElement {
     if (this.translatable && isNumber(x) && isNumber(y)) {
       const [a, b, c, d] = this.$matrix;
       const e = ((x * d) - (c * y)) / ((a * d) - (c * b));
-      const f = (y - (b * e)) / d;
+      const f = ((y * a) - (b * x)) / ((a * d) - (c * b));
 
       this.$translate(e, f);
     }
@@ -423,7 +423,7 @@ export default class CropperImage extends CropperElement {
     if (this.translatable && isNumber(x) && isNumber(y)) {
       const [a, b, c, d] = this.$matrix;
       const e = ((x * d) - (c * y)) / ((a * d) - (c * b));
-      const f = (y - (b * e)) / d;
+      const f = ((y * a) - (b * x)) / ((a * d) - (c * b));
 
       this.$setTransform(a, b, c, d, e, f);
     }
@@ -455,7 +455,7 @@ export default class CropperImage extends CropperElement {
         const moveX = x - originX;
         const moveY = y - originY;
         const translateX = ((moveX * d) - (c * moveY)) / ((a * d) - (c * b));
-        const translateY = (moveY - (b * translateX)) / d;
+        const translateY = ((moveY * a) - (b * moveX)) / ((a * d) - (c * b));
 
         /**
          * Equals to
@@ -505,7 +505,7 @@ export default class CropperImage extends CropperElement {
       const moveX = x - originX;
       const moveY = y - originY;
       const translateX = ((moveX * d) - (c * moveY)) / ((a * d) - (c * b));
-      const translateY = (moveY - (b * translateX)) / d;
+      const translateY = ((moveY * a) - (b * moveX)) / ((a * d) - (c * b));
 
       /**
        * Equals to
