@@ -8,6 +8,15 @@
     class="playground"
   >
     <aside>
+      <section class="d-grid">
+        <button
+          type="button"
+          class="btn btn-outline-primary btn-sm"
+          @click="resetAll"
+        >
+          Reset All
+        </button>
+      </section>
       <section>
         <h6>&lt;cropper-canvas&gt;</h6>
         <ul>
@@ -63,7 +72,7 @@
           <li>
             <button
               type="button"
-              class="btn btn-outline-primary btn-sm btn-block"
+              class="btn btn-outline-primary btn-sm"
               data-bs-toggle="modal"
               data-bs-target="#canvasViewerModal"
               @click="cropperCanvasToCanvas"
@@ -905,7 +914,7 @@
             </button>
             <button
               type="button"
-              class="btn btn-outline-primary btn-sm btn-block"
+              class="btn btn-outline-primary btn-sm"
               data-bs-toggle="modal"
               data-bs-target="#canvasViewerModal"
               @click="cropperSelectionToCanvas"
@@ -1774,6 +1783,9 @@ export default {
       },
     };
   },
+  created() {
+    this.initialData = JSON.stringify(this.$data);
+  },
   mounted(): void {
     Promise.all([
       new Promise((resolve, reject) => {
@@ -1824,6 +1836,21 @@ export default {
     });
   },
   methods: {
+    resetAll() {
+      this.ready = false;
+      this.$nextTick(() => {
+        const initialData = JSON.parse(this.initialData);
+
+        Object.keys(initialData).forEach((key) => {
+          const value = initialData[key];
+
+          if (typeof value === 'object') {
+            this.$data[key] = value;
+          }
+        });
+        this.ready = true;
+      });
+    },
     onImageTransform(event: CustomEvent): void {
       this.imageData = event.detail;
     },
