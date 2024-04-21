@@ -323,6 +323,25 @@ export function getAdjustedSizes(
 }
 
 /**
+ * Get the new width and height sizes based on given aspect ratio.
+ * @param {object} data The original sizes, with maybe a new aspect ratio.
+ * @returns {object} Returns the result sizes.
+ */
+export function getAdjustedSizesKeepArea(
+  data: SizeAdjustmentData,
+) {
+  const { aspectRatio } = data;
+  let { width, height } = data as SizeAdjustmentData;
+
+  const area = width * height
+
+  height = Math.sqrt(area / aspectRatio);
+  width = aspectRatio * height;
+
+  return { width: width, height: height };
+}
+
+/**
  * Multiply multiple matrices.
  * @param {Array} matrix The first matrix.
  * @param {Array} args The rest matrices.
