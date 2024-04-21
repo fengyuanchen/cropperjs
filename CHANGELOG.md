@@ -1,6 +1,6 @@
 # Changelog
 
-## next
+## 1.6.2 (Apr 21, 2024)
 
 - Disable touch callout on iOS webkit-based browsers (#1155).
 
