@@ -301,6 +301,15 @@ Changes the position and/or size of the selection.
 
 Resets the selection to its initial position and size.
 
+### $clear
+
+- **Syntax**: `$clear()`
+- **Returns**:
+  - Type: `CropperSelection`
+  - The element instance for chaining.
+
+Clears the selection.
+
 ### $render
 
 - **Syntax**: `$render()`

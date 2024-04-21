@@ -885,6 +885,16 @@
               class="btn btn-outline-primary btn-sm"
               data-toggle="tooltip"
               data-placement="top"
+              title="selection.$center()"
+              @click="$refs.cropperSelection.$center()"
+            >
+              $center()
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-primary btn-sm"
+              data-toggle="tooltip"
+              data-placement="top"
               title="selection.$reset()"
               @click="$refs.cropperSelection.$reset()"
             >
@@ -895,10 +905,10 @@
               class="btn btn-outline-primary btn-sm"
               data-toggle="tooltip"
               data-placement="top"
-              title="selection.$center()"
-              @click="$refs.cropperSelection.$center()"
+              title="selection.$clear()"
+              @click="$refs.cropperSelection.$clear()"
             >
-              $center()
+              $clear()
             </button>
           </li>
           <li>

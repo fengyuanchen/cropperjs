@@ -60,6 +60,14 @@ export default class CropperSelection extends CropperElement {
 
   protected $style = style;
 
+  private $x = 0;
+
+  private $y = 0;
+
+  private $width = 0;
+
+  private $height = 0;
+
   x = 0;
 
   y = 0;
@@ -220,6 +228,12 @@ export default class CropperSelection extends CropperElement {
 
         this.$change(this.x, this.y, width, height);
         this.$center();
+
+        // Overrides the initial position and size
+        this.$x = this.x;
+        this.$y = this.y;
+        this.$width = this.width;
+        this.$height = this.height;
       }
 
       this.$onCanvasActionStart = this.$handleActionStart.bind(this);
@@ -304,8 +318,7 @@ export default class CropperSelection extends CropperElement {
           });
         }
       } else {
-        this.$reset();
-        this.hidden = true;
+        this.$clear();
       }
     }
   }
@@ -865,7 +878,17 @@ export default class CropperSelection extends CropperElement {
    * @returns {CropperSelection} Returns `this` for chaining.
    */
   $reset(): this {
-    return this.$change(0, 0, 0, 0);
+    return this.$change(this.$x, this.$y, this.$width, this.$height);
+  }
+
+  /**
+   * Clears the selection.
+   * @returns {CropperSelection} Returns `this` for chaining.
+   */
+  $clear(): this {
+    this.$change(0, 0, 0, 0);
+    this.hidden = true;
+    return this;
   }
 
   /**
