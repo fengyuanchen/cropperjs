@@ -138,6 +138,7 @@ export default class CropperSelection extends CropperElement {
         if (!isPositiveNumber(newValue)) {
           this.aspectRatio = NaN;
         }
+        this.$change(this.x, this.y)
         break;
 
       case 'initialAspectRatio':
