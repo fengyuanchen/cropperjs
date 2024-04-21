@@ -17,8 +17,6 @@ import {
 } from '@cropper/elements';
 import DEFAULT_TEMPLATE from './template';
 
-export { DEFAULT_TEMPLATE }
-
 export interface CropperOptions {
   container?: Element | string;
   template?: string;
@@ -39,6 +37,7 @@ CropperSelection.$define();
 CropperShade.$define();
 CropperViewer.$define();
 
+export { DEFAULT_TEMPLATE };
 export * from '@cropper/utils';
 export * from '@cropper/elements';
 export default class Cropper {
