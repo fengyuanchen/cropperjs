@@ -13,6 +13,7 @@
     "lint:css": "stylelint docs/.vitepress/**/*.{css,scss,vue} --fix",
     "lint:js": "eslint . docs/.vitepress --fix",
     "prepare": "husky install",
+    "publish": "lerna publish from-package",
     "release": "lerna run release && npm run lint && npm test && npm run build && npm run changelog",
     "start": "npm run dev",
     "test": "jest"
