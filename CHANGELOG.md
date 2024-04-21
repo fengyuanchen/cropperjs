@@ -1,5 +1,9 @@
 # Changelog
 
+## next
+
+- Disable touch callout on iOS webkit-based browsers (#1155).
+
 ## 1.6.1 (Sep 17, 2023)
 
 - Fix an issue where some CSS styles were incompatible with old browsers.

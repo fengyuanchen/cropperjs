@@ -4,6 +4,7 @@
   line-height: 0;
   position: relative;
   touch-action: none;
+  -webkit-touch-callout: none;
   user-select: none;
 
   & img {

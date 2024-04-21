@@ -5,7 +5,7 @@
  * Copyright 2015-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2023-09-17T03:44:17.565Z
+ * Date: 2024-04-21T07:01:05.408Z
  */
 
 .cropper-container {
@@ -15,6 +15,7 @@
   position: relative;
   -ms-touch-action: none;
       touch-action: none;
+  -webkit-touch-callout: none;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
