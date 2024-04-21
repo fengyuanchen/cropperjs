@@ -22,6 +22,7 @@ import {
   EVENT_CHANGE,
   EVENT_KEYDOWN,
   getAdjustedSizes,
+  getAdjustedSizesKeepArea,
   getOffset,
   isFunction,
   isNumber,
@@ -844,16 +845,16 @@ export default class CropperSelection extends CropperElement {
       height = Math.round(height);
     }
 
+    if (isPositiveNumber(aspectRatio)) {
+      ({ width, height } = getAdjustedSizesKeepArea({ aspectRatio, width, height }));
+    }
+
     if (x === this.x && y === this.y && width === this.width && height === this.height) {
       return this;
     }
 
     if (this.hidden) {
       this.hidden = false;
-    }
-
-    if (isPositiveNumber(aspectRatio)) {
-      ({ width, height } = getAdjustedSizes({ aspectRatio, width, height }, 'cover'));
     }
 
     if (this.$emit(EVENT_CHANGE, {
