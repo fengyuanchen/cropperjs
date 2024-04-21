@@ -122,3 +122,23 @@ Get the `<cropper-selection>` element in the Cropper container.
   - The `<cropper-selection>` element if any.
 
 Get all the `<cropper-selection>` elements in the Cropper container when there are multiple selections.
+
+## Exported Modules
+
+```js
+import {
+  // Constants
+  DEFAULT_TEMPLATE,
+
+  // Elements
+  CropperElement,
+  CropperCanvas,
+  CropperImage,
+  CropperShade,
+  CropperHandle,
+  CropperSelection,
+  CropperGrid,
+  CropperCrosshair,
+  CropperViewer,
+} from 'cropperjs';
+```

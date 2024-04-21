@@ -122,3 +122,23 @@ Cropper 的默认模板：
   - `<cropper-selection>` 元素（如果有）。
 
 当有多个选择时，获取 Cropper 容器中的所有 `<cropper-selection>` 元素。
+
+## 导出的模块
+
+```js
+import {
+  // 常量
+  DEFAULT_TEMPLATE,
+
+  // 元素
+  CropperElement,
+  CropperCanvas,
+  CropperImage,
+  CropperShade,
+  CropperHandle,
+  CropperSelection,
+  CropperGrid,
+  CropperCrosshair,
+  CropperViewer,
+} from 'cropperjs';
+```
