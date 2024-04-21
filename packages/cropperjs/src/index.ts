@@ -17,6 +17,8 @@ import {
 } from '@cropper/elements';
 import DEFAULT_TEMPLATE from './template';
 
+export { DEFAULT_TEMPLATE }
+
 export interface CropperOptions {
   container?: Element | string;
   template?: string;
