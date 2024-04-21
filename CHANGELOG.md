@@ -1,3 +1,18 @@
+# [2.0.0-beta.5](https://github.com/fengyuanchen/cropperjs/compare/v2.0.0-beta.4...v2.0.0-beta.5) (2024-04-21)
+
+
+### Bug Fixes
+
+* **cropper-viewer:** calculate translateY correctly when rotated 90deg ([#1152](https://github.com/fengyuanchen/cropperjs/issues/1152)) ([2dea551](https://github.com/fengyuanchen/cropperjs/commit/2dea551f33d3181561eeed7bb0d52b9ea2fc492b)), closes [#1031](https://github.com/fengyuanchen/cropperjs/issues/1031)
+
+
+### Features
+
+* **cropper-selection:** add `$clear` method and improve  `$reset` method ([#1157](https://github.com/fengyuanchen/cropperjs/issues/1157)) ([8e6dbb0](https://github.com/fengyuanchen/cropperjs/commit/8e6dbb04f7c6b3c0150bf8cb48c34bdde6bc0b68))
+* export `DEFAULT_TEMPLATE` ([#1156](https://github.com/fengyuanchen/cropperjs/issues/1156)) ([2208e73](https://github.com/fengyuanchen/cropperjs/commit/2208e7319a69a33b481dbe23ddb6e41e690dd37d))
+
+
+
 # [2.0.0-beta.4](https://github.com/fengyuanchen/cropperjs/compare/v2.0.0-beta.3...v2.0.0-beta.4) (2023-08-20)
 
 
