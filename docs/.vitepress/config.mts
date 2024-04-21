@@ -42,21 +42,6 @@ export default defineConfig({
       },
     ],
     [
-      'link',
-      {
-        rel: 'mask-icon',
-        color: '#39f',
-        href: '/cropperjs/v2/safari-pinned-tab.svg',
-      },
-    ],
-    [
-      'meta',
-      {
-        name: 'msapplication-TileColor',
-        content: '#2b5797',
-      },
-    ],
-    [
       'meta',
       {
         name: 'theme-color',
