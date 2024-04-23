@@ -3,14 +3,15 @@
 </template>
 
 <script lang="ts">
-import { withBase } from 'vitepress';
 import Cropper from 'cropperjs';
+
+const { BASE_URL } = import.meta.env;
 
 export default {
   name: 'CropperExample',
   data() {
     return {
-      src: withBase('picture.jpg'),
+      src: `${BASE_URL}picture.jpg`,
     };
   },
   mounted(): void {

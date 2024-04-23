@@ -1663,10 +1663,11 @@
 </template>
 
 <script lang="ts">
-import { withBase } from 'vitepress';
 import type CropperCanvas from '@cropper/element-canvas';
 import type CropperSelection from '@cropper/element-selection';
 import ColorInput from './ColorInput.vue';
+
+const { BASE_URL } = import.meta.env;
 
 export default {
   name: 'CropperPlayground',
@@ -1691,7 +1692,7 @@ export default {
         scalable: true,
         skewable: true,
         translatable: true,
-        src: withBase('picture.jpg'),
+        src: `${BASE_URL}picture.jpg`,
         alt: 'The image to crop',
       },
       shade: {

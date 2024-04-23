@@ -27,13 +27,14 @@
 
 <script lang="ts">
 import type CropperCanvas from '@cropper/element-canvas';
-import { withBase } from 'vitepress';
+
+const { BASE_URL } = import.meta.env;
 
 export default {
   name: 'CropperCanvasToNativeCanvas',
   data() {
     return {
-      src: withBase('picture.jpg'),
+      src: `${BASE_URL}picture.jpg`,
     };
   },
   methods: {
