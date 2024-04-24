@@ -138,6 +138,7 @@ export default class CropperSelection extends CropperElement {
         if (!isPositiveNumber(newValue)) {
           this.aspectRatio = NaN;
         }
+        this.$change(this.x, this.y)
         break;
 
       case 'initialAspectRatio':
@@ -844,16 +845,16 @@ export default class CropperSelection extends CropperElement {
       height = Math.round(height);
     }
 
+    if (isPositiveNumber(aspectRatio)) {
+      ({ width, height } = getAdjustedSizes({ aspectRatio, width, height }, 'cover'));
+    }
+
     if (x === this.x && y === this.y && width === this.width && height === this.height) {
       return this;
     }
 
     if (this.hidden) {
       this.hidden = false;
-    }
-
-    if (isPositiveNumber(aspectRatio)) {
-      ({ width, height } = getAdjustedSizes({ aspectRatio, width, height }, 'cover'));
     }
 
     if (this.$emit(EVENT_CHANGE, {
