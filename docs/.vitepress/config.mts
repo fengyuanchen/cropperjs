@@ -60,6 +60,9 @@ export default defineConfig({
   lastUpdated: true,
   themeConfig: {
     logo: '/logo.svg',
+    outline: {
+      level: [2, 3],
+    },
     socialLinks: [
       {
         icon: 'github',
