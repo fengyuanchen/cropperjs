@@ -38,7 +38,9 @@ export default class CropperGrid extends CropperElement {
     super.$propertyChangedCallback(name, oldValue, newValue);
 
     if (name === 'rows' || name === 'columns') {
-      this.$render();
+      this.$nextTick(() => {
+        this.$render();
+      });
     }
   }
 
