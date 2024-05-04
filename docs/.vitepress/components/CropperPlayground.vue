@@ -138,6 +138,7 @@
               type="text"
               class="form-control form-control-sm"
               name="src"
+              autocomplete="off"
             >
           </li>
           <li>
@@ -148,6 +149,7 @@
               type="text"
               class="form-control form-control-sm"
               name="alt"
+              autocomplete="off"
             >
           </li>
           <li>
@@ -758,6 +760,52 @@
             >
           </li>
           <li>
+            <label for="selectionX">x</label>
+            <input
+              id="selectionX"
+              v-model="selection.x"
+              class="form-control form-control-sm"
+              type="number"
+              name="x"
+              autocomplete="off"
+            >
+          </li>
+          <li>
+            <label for="selectionY">y</label>
+            <input
+              id="selectionY"
+              v-model="selection.y"
+              class="form-control form-control-sm"
+              type="number"
+              name="y"
+              autocomplete="off"
+            >
+          </li>
+          <li>
+            <label for="selectionWidth">width</label>
+            <input
+              id="selectionWidth"
+              v-model="selection.width"
+              class="form-control form-control-sm"
+              type="number"
+              name="width"
+              min="0"
+              autocomplete="off"
+            >
+          </li>
+          <li>
+            <label for="selectionHeight">height</label>
+            <input
+              id="selectionHeight"
+              v-model="selection.height"
+              class="form-control form-control-sm"
+              type="number"
+              name="height"
+              min="0"
+              autocomplete="off"
+            >
+          </li>
+          <li>
             <label for="selectionAspectRatio">aspect-ratio</label>
             <select
               id="selectionAspectRatio"
@@ -777,19 +825,41 @@
               <option :value="1">
                 1:1
               </option>
+              <option :value="3/4">
+                3:4
+              </option>
+              <option :value="9/16">
+                9:16
+              </option>
             </select>
           </li>
           <li>
             <label for="selectionInitialAspectRatio">initial-aspect-ratio</label>
-            <input
+            <select
               id="selectionInitialAspectRatio"
               v-model.number="selection.initialAspectRatio"
-              type="number"
               class="form-control form-control-sm"
               name="initialAspectRatio"
-              min="0"
-              max="10"
             >
+              <option :value="NaN">
+                Free
+              </option>
+              <option :value="16/9">
+                16:9
+              </option>
+              <option :value="4/3">
+                4:3
+              </option>
+              <option :value="1">
+                1:1
+              </option>
+              <option :value="3/4">
+                3:4
+              </option>
+              <option :value="9/16">
+                9:16
+              </option>
+            </select>
           </li>
           <li>
             <label for="selectionAutoSelectArea">initial-coverage</label>
@@ -1500,6 +1570,10 @@
         <cropper-selection
           id="cropperSelection"
           ref="cropperSelection"
+          :x="selection.x"
+          :y="selection.y"
+          :width="selection.width"
+          :height="selection.height"
           :aspect-ratio="selection.aspectRatio"
           :initial-coverage="selection.initialCoverage"
           :hidden="selection.hidden"
@@ -1706,6 +1780,10 @@ export default {
       },
       selection: {
         hidden: false,
+        x: undefined,
+        y: undefined,
+        width: undefined,
+        height: undefined,
         aspectRatio: undefined,
         initialAspectRatio: undefined,
         initialCoverage: 0.5,
@@ -1793,6 +1871,18 @@ export default {
         },
       },
     };
+  },
+  watch: {
+    'selection.initialCoverage': {
+      handler() {
+        Object.assign(this.selection, {
+          x: undefined,
+          y: undefined,
+          width: undefined,
+          height: undefined,
+        });
+      },
+    },
   },
   created() {
     this.initialData = JSON.stringify(this.$data);

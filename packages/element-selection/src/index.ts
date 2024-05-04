@@ -60,13 +60,12 @@ export default class CropperSelection extends CropperElement {
 
   protected $style = style;
 
-  private $x = 0;
-
-  private $y = 0;
-
-  private $width = 0;
-
-  private $height = 0;
+  private $initialSelection = {
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0,
+  };
 
   x = 0;
 
@@ -134,22 +133,30 @@ export default class CropperSelection extends CropperElement {
     super.$propertyChangedCallback(name, oldValue, newValue);
 
     switch (name) {
-      case 'aspectRatio':
-        if (!isPositiveNumber(newValue)) {
-          this.aspectRatio = NaN;
-        }
+      case 'x':
+      case 'y':
+      case 'width':
+      case 'height':
+        this.$nextTick(() => {
+          this.$change(this.x, this.y, this.width, this.height, this.aspectRatio, true);
+        });
         break;
 
+      case 'aspectRatio':
       case 'initialAspectRatio':
-        if (!isPositiveNumber(newValue)) {
-          this.initialAspectRatio = NaN;
-        }
+        this.$nextTick(() => {
+          this.$initSelection();
+        });
         break;
 
       case 'initialCoverage':
-        if (!isPositiveNumber(newValue) || newValue > 1) {
-          this.initialCoverage = NaN;
-        }
+        this.$nextTick(() => {
+          if (isPositiveNumber(newValue) && newValue <= 1) {
+            this.$initSelection(true);
+          } else {
+            this.$clear();
+          }
+        });
         break;
 
       case 'keyboard':
@@ -194,6 +201,12 @@ export default class CropperSelection extends CropperElement {
         });
         break;
 
+      case 'precise':
+        this.$nextTick(() => {
+          this.$change(this.x, this.y);
+        });
+        break;
+
       default:
     }
   }
@@ -214,28 +227,7 @@ export default class CropperSelection extends CropperElement {
         this.$render();
       }
 
-      const { initialCoverage, parentElement } = this;
-
-      if (isPositiveNumber(initialCoverage) && parentElement) {
-        const aspectRatio = this.aspectRatio || this.initialAspectRatio;
-        const { offsetWidth, offsetHeight } = parentElement;
-        let width = offsetWidth * initialCoverage;
-        let height = offsetHeight * initialCoverage;
-
-        if (isPositiveNumber(aspectRatio)) {
-          ({ width, height } = getAdjustedSizes({ aspectRatio, width, height }));
-        }
-
-        this.$change(this.x, this.y, width, height);
-        this.$center();
-
-        // Overrides the initial position and size
-        this.$x = this.x;
-        this.$y = this.y;
-        this.$width = this.width;
-        this.$height = this.height;
-      }
-
+      this.$initSelection(true);
       this.$onCanvasActionStart = this.$handleActionStart.bind(this);
       this.$onCanvasActionEnd = this.$handleActionEnd.bind(this);
       this.$onCanvasAction = this.$handleAction.bind(this);
@@ -280,6 +272,34 @@ export default class CropperSelection extends CropperElement {
     }
 
     return selections;
+  }
+
+  protected $initSelection(center = false) {
+    const { initialCoverage, parentElement } = this;
+
+    if (isPositiveNumber(initialCoverage) && parentElement) {
+      const aspectRatio = this.aspectRatio || this.initialAspectRatio;
+      let width = this.width || parentElement.offsetWidth * initialCoverage;
+      let height = this.height || parentElement.offsetHeight * initialCoverage;
+
+      if (isPositiveNumber(aspectRatio)) {
+        ({ width, height } = getAdjustedSizes({ aspectRatio, width, height }));
+      }
+
+      this.$change(this.x, this.y, width, height);
+
+      if (center) {
+        this.$center();
+      }
+
+      // Overrides the initial position and size
+      this.$initialSelection = {
+        x: this.x,
+        y: this.y,
+        width: this.width,
+        height: this.height,
+      };
+    }
   }
 
   protected $createSelection(): CropperSelection {
@@ -824,6 +844,7 @@ export default class CropperSelection extends CropperElement {
    * @param {number} [width] The new width.
    * @param {number} [height] The new height.
    * @param {number} [aspectRatio] The new aspect ratio for this change only.
+   * @param {number} [_force] Force change.
    * @returns {CropperSelection} Returns `this` for chaining.
    */
   $change(
@@ -832,9 +853,21 @@ export default class CropperSelection extends CropperElement {
     width: number = this.width,
     height: number = this.height,
     aspectRatio: number = this.aspectRatio,
+    _force = false,
   ): this {
-    if (!isNumber(x) || !isNumber(y) || !isNumber(width) || !isNumber(height)) {
+    if (
+      !isNumber(x)
+      || !isNumber(y)
+      || !isNumber(width)
+      || !isNumber(height)
+      || width < 0
+      || height < 0
+    ) {
       return this;
+    }
+
+    if (isPositiveNumber(aspectRatio)) {
+      ({ width, height } = getAdjustedSizes({ aspectRatio, width, height }, 'cover'));
     }
 
     if (!this.precise) {
@@ -844,16 +877,19 @@ export default class CropperSelection extends CropperElement {
       height = Math.round(height);
     }
 
-    if (x === this.x && y === this.y && width === this.width && height === this.height) {
+    if (
+      x === this.x
+      && y === this.y
+      && width === this.width
+      && height === this.height
+      && Object.is(aspectRatio, this.aspectRatio)
+      && !_force
+    ) {
       return this;
     }
 
     if (this.hidden) {
       this.hidden = false;
-    }
-
-    if (isPositiveNumber(aspectRatio)) {
-      ({ width, height } = getAdjustedSizes({ aspectRatio, width, height }, 'cover'));
     }
 
     if (this.$emit(EVENT_CHANGE, {
@@ -878,7 +914,14 @@ export default class CropperSelection extends CropperElement {
    * @returns {CropperSelection} Returns `this` for chaining.
    */
   $reset(): this {
-    return this.$change(this.$x, this.$y, this.$width, this.$height);
+    const {
+      x,
+      y,
+      width,
+      height,
+    } = this.$initialSelection;
+
+    return this.$change(x, y, width, height);
   }
 
   /**
@@ -886,7 +929,7 @@ export default class CropperSelection extends CropperElement {
    * @returns {CropperSelection} Returns `this` for chaining.
    */
   $clear(): this {
-    this.$change(0, 0, 0, 0);
+    this.$change(0, 0, 0, 0, NaN, true);
     this.hidden = true;
     return this;
   }
