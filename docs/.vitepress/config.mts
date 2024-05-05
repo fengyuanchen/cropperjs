@@ -182,6 +182,7 @@ export default defineConfig({
         returnToTopLabel: '回到顶部',
         langMenuLabel: '选择语言',
         outline: {
+          level: [2, 3],
           label: '在当前页面上',
         },
         editLink: {
