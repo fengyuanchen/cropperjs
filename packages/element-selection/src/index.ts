@@ -152,9 +152,7 @@ export default class CropperSelection extends CropperElement {
       case 'initialCoverage':
         this.$nextTick(() => {
           if (isPositiveNumber(newValue) && newValue <= 1) {
-            this.$initSelection(true);
-          } else {
-            this.$clear();
+            this.$initSelection(true, true);
           }
         });
         break;
@@ -274,13 +272,13 @@ export default class CropperSelection extends CropperElement {
     return selections;
   }
 
-  protected $initSelection(center = false) {
+  protected $initSelection(center = false, resize = false) {
     const { initialCoverage, parentElement } = this;
 
     if (isPositiveNumber(initialCoverage) && parentElement) {
       const aspectRatio = this.aspectRatio || this.initialAspectRatio;
-      let width = this.width || parentElement.offsetWidth * initialCoverage;
-      let height = this.height || parentElement.offsetHeight * initialCoverage;
+      let width = (resize ? 0 : this.width) || parentElement.offsetWidth * initialCoverage;
+      let height = (resize ? 0 : this.height) || parentElement.offsetHeight * initialCoverage;
 
       if (isPositiveNumber(aspectRatio)) {
         ({ width, height } = getAdjustedSizes({ aspectRatio, width, height }));
