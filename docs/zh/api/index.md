@@ -18,30 +18,15 @@ new Cropper(element[, options])
   - 类型：`Object`
   - 用于裁剪的[选项](#options)。
 
-### Example
+### 示例
 
 <ClientOnly>
   <CropperExample />
 </ClientOnly>
 
-```html
-<div class="cropper-container"></div>
-```
-
-```js
-import Cropper from 'cropperjs';
-
-const image = new Image();
-
-image.src = '/cropperjs/v2/picture.jpg';
-image.alt = 'Picture';
-
-const cropper = new Cropper(image, {
-  container: '.cropper-container',
-});
-
-console.log(cropper);
-```
+::: details
+<<< @/.vitepress/components/CropperExample.vue
+:::
 
 ## 选项
 

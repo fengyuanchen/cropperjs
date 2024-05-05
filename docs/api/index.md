@@ -24,24 +24,9 @@ new Cropper(element[, options])
   <CropperExample />
 </ClientOnly>
 
-```html
-<div class="cropper-container"></div>
-```
-
-```js
-import Cropper from 'cropperjs';
-
-const image = new Image();
-
-image.src = '/cropperjs/v2/picture.jpg';
-image.alt = 'Picture';
-
-const cropper = new Cropper(image, {
-  container: '.cropper-container',
-});
-
-console.log(cropper);
-```
+::: details
+<<< @/.vitepress/components/CropperExample.vue
+:::
 
 ## Options
 
