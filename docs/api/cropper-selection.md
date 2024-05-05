@@ -119,6 +119,16 @@ Set the `multiple` property to `true` to support multiple selections on the same
 
 :::
 
+### Limit boundaries
+
+<ClientOnly>
+  <CropperSelectionExample />
+</ClientOnly>
+
+::: details
+<<< @/.vitepress/components/CropperSelectionExample.vue
+:::
+
 ## Properties
 
 Inherits properties from its parent, [`CropperElement`](cropper-element.html), and implements the following properties:

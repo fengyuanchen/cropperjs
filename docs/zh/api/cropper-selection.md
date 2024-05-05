@@ -119,6 +119,16 @@
 
 :::
 
+### 限制边界
+
+<ClientOnly>
+  <CropperSelectionExample />
+</ClientOnly>
+
+::: details
+<<< @/.vitepress/components/CropperSelectionExample.vue
+:::
+
 ## 属性
 
 从其父级 [`CropperElement`](cropper-element.html) 继承属性，并实现以下属性：
