@@ -631,11 +631,12 @@ export default class CropperImage extends CropperElement {
         && isNumber(e)
         && isNumber(f)
       ) {
+        const oldMatrix = [...this.$matrix];
         const newMatrix = [a, b, c, d, e, f];
 
         if (this.$emit(EVENT_TRANSFORM, {
           matrix: newMatrix,
-          oldMatrix: this.$matrix,
+          oldMatrix,
         }) === false) {
           return this;
         }
