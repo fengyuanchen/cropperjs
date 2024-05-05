@@ -38,7 +38,7 @@ export default {
     };
   },
   methods: {
-    convertToCanvas(): void {
+    convertToCanvas() {
       const source = this.$refs.source as CropperCanvas;
       const target = this.$refs.target as HTMLElement;
 

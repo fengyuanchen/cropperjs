@@ -1887,7 +1887,7 @@ export default {
   created() {
     this.initialData = JSON.stringify(this.$data);
   },
-  mounted(): void {
+  mounted() {
     Promise.all([
       new Promise((resolve, reject) => {
         const link = document.createElement('link');
@@ -1931,7 +1931,7 @@ export default {
       });
     });
   },
-  beforeUnmount(): void {
+  beforeUnmount() {
     Array.from(document.head.querySelectorAll('[href*="bootstrap"],[src*="bootstrap"]')).forEach((element) => {
       document.head.removeChild(element);
     });
@@ -1952,13 +1952,13 @@ export default {
         this.ready = true;
       });
     },
-    onImageTransform(event: CustomEvent): void {
+    onImageTransform(event: CustomEvent) {
       this.imageData = event.detail;
     },
-    onSelectionChange(event: CustomEvent): void {
+    onSelectionChange(event: CustomEvent) {
       this.selectionData = event.detail;
     },
-    cropperCanvasToCanvas(): void {
+    cropperCanvasToCanvas() {
       const cropperCanvas = this.$refs.cropperCanvas as CropperCanvas;
       const canvasViewer = this.$refs.canvasViewer as HTMLElement;
 
@@ -1967,7 +1967,7 @@ export default {
         canvasViewer.appendChild(canvas);
       });
     },
-    cropperSelectionToCanvas(): void {
+    cropperSelectionToCanvas() {
       const cropperSelection = this.$refs.cropperSelection as CropperSelection;
       const canvasViewer = this.$refs.canvasViewer as HTMLElement;
 

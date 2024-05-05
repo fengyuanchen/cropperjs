@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     rgbHex,
-    onInput(event: any): void {
+    onInput(event: any) {
       this.$emit(EVENT_UPDATE_MODEL_VALUE, event.target.value, this.modelValue);
     },
   },

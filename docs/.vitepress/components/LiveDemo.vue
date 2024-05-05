@@ -18,14 +18,14 @@
 <script lang="ts">
 export default {
   name: 'LiveDemo',
-  mounted(): void {
+  mounted() {
     this.render();
   },
-  updated(): void {
+  updated() {
     this.render();
   },
   methods: {
-    render(): void {
+    render() {
       const demo = this.$refs.demo as HTMLElement;
       const code = this.$refs.code as HTMLElement;
 

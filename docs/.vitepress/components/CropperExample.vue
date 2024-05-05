@@ -14,7 +14,7 @@ export default {
       src: `${BASE_URL}picture.jpg`,
     };
   },
-  mounted(): void {
+  mounted() {
     const image = new Image();
 
     image.src = this.src;
