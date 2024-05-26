@@ -24,7 +24,7 @@
 
 ```html
 <cropper-canvas background>
-  <cropper-shade x="265" y="5" width="160" height="90"></cropper-shade>
+  <cropper-shade x="240" y="5" width="160" height="90"></cropper-shade>
 </cropper-canvas>
 ```
 
@@ -36,7 +36,7 @@
 
 ```html
 <cropper-canvas background>
-  <cropper-shade x="265" y="5" width="160" height="90" theme-color="rgba(0, 0, 0, 0.35)"></cropper-shade>
+  <cropper-shade x="240" y="5" width="160" height="90" theme-color="rgba(0, 0, 0, 0.35)"></cropper-shade>
 </cropper-canvas>
 ```
 
