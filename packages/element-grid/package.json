@@ -1,6 +1,6 @@
 {
   "name": "@cropper/element-grid",
-  "version": "2.0.0-beta.5",
+  "version": "2.0.0-rc",
   "description": "A custom grid element for the Cropper.",
   "main": "dist/element-grid.raw.js",
   "module": "dist/element-grid.esm.raw.js",
@@ -36,8 +36,8 @@
   "bugs": "https://github.com/fengyuanchen/cropperjs-next/issues",
   "homepage": "https://github.com/fengyuanchen/cropperjs-next/tree/next/packages/element-grid/#readme",
   "dependencies": {
-    "@cropper/element": "^2.0.0-beta.5",
-    "@cropper/utils": "^2.0.0-beta.5"
+    "@cropper/element": "^2.0.0-rc",
+    "@cropper/utils": "^2.0.0-rc"
   },
   "publishConfig": {
     "access": "public",

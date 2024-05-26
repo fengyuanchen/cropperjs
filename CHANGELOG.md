@@ -1,3 +1,21 @@
+# [2.0.0-rc](https://github.com/fengyuanchen/cropperjs/compare/v2.0.0-beta.5...v2.0.0-rc) (2024-05-26)
+
+
+### Bug Fixes
+
+* disable callout in webkit-based browsers ([851bd70](https://github.com/fengyuanchen/cropperjs/commit/851bd709255816475bab1f152d06da89bf8c1c6a)), closes [#1108](https://github.com/fengyuanchen/cropperjs/issues/1108)
+* **element-selection:** observe the `linked` property ([7075bfe](https://github.com/fengyuanchen/cropperjs/commit/7075bfe4983304d91919d5801e2afd0e96979cdd))
+* **element-selection:** resize when initial coverage change ([2c75cd9](https://github.com/fengyuanchen/cropperjs/commit/2c75cd9adc84f43e467f8a391151831ac3fe87c2))
+
+
+### Features
+
+* **element-image:** add new `initial-center-size` property ([daccbfb](https://github.com/fengyuanchen/cropperjs/commit/daccbfb03abdbe36a5ad0587f45531282a8b950e)), closes [#1105](https://github.com/fengyuanchen/cropperjs/issues/1105)
+* **element-selection:** add new `linked` property ([1851f25](https://github.com/fengyuanchen/cropperjs/commit/1851f257c294451bdb59d3853b78094cab4f1373)), closes [#1133](https://github.com/fengyuanchen/cropperjs/issues/1133)
+* **element-selection:** make the `x`, `y`, `width`, `height`, `aspect-ratio`, `initial-aspect-ratio`, `initial-coverage`, and `precise` properties reactive ([ce3c6d3](https://github.com/fengyuanchen/cropperjs/commit/ce3c6d36c5379a4edc84e7ba48da6e773c0aa701)), closes [#1124](https://github.com/fengyuanchen/cropperjs/issues/1124) [#1163](https://github.com/fengyuanchen/cropperjs/issues/1163) [#1164](https://github.com/fengyuanchen/cropperjs/issues/1164) [#1165](https://github.com/fengyuanchen/cropperjs/issues/1165)
+
+
+
 # [2.0.0-beta.5](https://github.com/fengyuanchen/cropperjs/compare/v2.0.0-beta.4...v2.0.0-beta.5) (2024-04-21)
 
 
