@@ -115,6 +115,7 @@ export default class CropperSelection extends CropperElement {
       'initial-aspect-ratio',
       'initial-coverage',
       'keyboard',
+      'linked',
       'movable',
       'multiple',
       'outlined',
