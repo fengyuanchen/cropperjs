@@ -8,7 +8,7 @@
   "scripts": {
     "build": "vitepress build docs",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
-    "dev": "vitepress dev docs",
+    "dev": "vitepress dev docs --host",
     "lint": "npm run lint:js && npm run lint:css",
     "lint:css": "stylelint docs/.vitepress/**/*.{css,scss,vue} --fix",
     "lint:js": "eslint . docs/.vitepress --fix",
