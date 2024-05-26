@@ -193,6 +193,21 @@ describe('CropperSelection', () => {
         expect(element.precise).toBe(true);
       });
     });
+
+    describe('linked', () => {
+      it('should be `false` by default', () => {
+        const element = new CropperSelection();
+
+        expect(element.linked).toBe(false);
+      });
+
+      it('should be `true`', () => {
+        const element = new CropperSelection();
+
+        element.setAttribute('linked', '');
+        expect(element.linked).toBe(true);
+      });
+    });
   });
 
   describe('methods', () => {

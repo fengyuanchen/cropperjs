@@ -8,63 +8,78 @@ CropperImage.$define();
 
 describe('CropperImage', () => {
   describe('properties', () => {
-    describe('rotatable', () => {
-      it('should be `true` by default', () => {
+    describe('initial-center-size', () => {
+      it('should be `"contain"` by default', () => {
         const element = new CropperImage();
 
-        expect(element.rotatable).toBe(true);
+        expect(element.initialCenterSize).toBe('contain');
       });
 
-      it('should be `false`', () => {
+      it('should be `"cover"`', () => {
         const element = new CropperImage();
 
-        element.setAttribute('rotatable', 'false');
+        element.setAttribute('initial-center-size', 'cover');
+        expect(element.initialCenterSize).toBe('cover');
+      });
+    });
+
+    describe('rotatable', () => {
+      it('should be `false` by default', () => {
+        const element = new CropperImage();
+
         expect(element.rotatable).toBe(false);
+      });
+
+      it('should be `true`', () => {
+        const element = new CropperImage();
+
+        element.setAttribute('rotatable', 'true');
+        expect(element.rotatable).toBe(true);
       });
     });
 
     describe('scalable', () => {
-      it('should be `true` by default', () => {
+      it('should be `false` by default', () => {
         const element = new CropperImage();
 
-        expect(element.scalable).toBe(true);
+        expect(element.scalable).toBe(false);
       });
 
-      it('should be `false`', () => {
+      it('should be `true`', () => {
         const element = new CropperImage();
 
-        element.setAttribute('scalable', 'false');
-        expect(element.scalable).toBe(false);
+        element.setAttribute('scalable', 'true');
+        expect(element.scalable).toBe(true);
       });
     });
 
     describe('skewable', () => {
-      it('should be `true` by default', () => {
+      it('should be `false` by default', () => {
         const element = new CropperImage();
 
-        expect(element.skewable).toBe(true);
+        expect(element.skewable).toBe(false);
       });
 
-      it('should be `false`', () => {
+      it('should be `true`', () => {
         const element = new CropperImage();
 
-        element.setAttribute('skewable', 'false');
-        expect(element.skewable).toBe(false);
+        element.setAttribute('skewable', 'true');
+        expect(element.skewable).toBe(true);
       });
     });
 
     describe('translatable', () => {
-      it('should be `true` by default', () => {
+      it('should be `false` by default', () => {
         const element = new CropperImage();
 
-        expect(element.translatable).toBe(true);
+        expect(element.translatable).toBe(false);
       });
 
-      it('should be `false`', () => {
+      it('should be `true`', () => {
         const element = new CropperImage();
 
-        element.setAttribute('translatable', 'false');
-        expect(element.translatable).toBe(false);
+        element.setAttribute('translatable', 'true');
+        expect(element.translatable).toBe(true);
       });
     });
 
@@ -89,6 +104,7 @@ describe('CropperImage', () => {
       it('should move the image', () => {
         const element = new CropperImage();
 
+        element.translatable = true;
         element.$move(10, 10);
 
         const matrix = element.$getTransform();
@@ -100,6 +116,7 @@ describe('CropperImage', () => {
       it('should default to the first parameter for the second parameter', () => {
         const element = new CropperImage();
 
+        element.translatable = true;
         element.$move(10);
 
         const matrix = element.$getTransform();
@@ -112,6 +129,7 @@ describe('CropperImage', () => {
       it('should move the image to a specific position', () => {
         const element = new CropperImage();
 
+        element.translatable = true;
         element.$moveTo(10, 10);
 
         const matrix = element.$getTransform();
@@ -123,6 +141,7 @@ describe('CropperImage', () => {
       it('should default to the first parameter for the second parameter', () => {
         const element = new CropperImage();
 
+        element.translatable = true;
         element.$moveTo(10);
 
         const matrix = element.$getTransform();
@@ -135,6 +154,7 @@ describe('CropperImage', () => {
       it('should rotate the image', () => {
         const element = new CropperImage();
 
+        element.rotatable = true;
         element.$rotate(45);
 
         const [a, b, c, d] = element.$getTransform();
@@ -148,6 +168,7 @@ describe('CropperImage', () => {
       it('should support string parameter', () => {
         const element = new CropperImage();
 
+        element.rotatable = true;
         element.$rotate('45deg');
 
         const [a, b, c, d] = element.$getTransform();
@@ -163,6 +184,7 @@ describe('CropperImage', () => {
       it('should zoom in the image', () => {
         const element = new CropperImage();
 
+        element.scalable = true;
         element.$zoom(0.1);
 
         const matrix = element.$getTransform();
@@ -174,6 +196,7 @@ describe('CropperImage', () => {
       it('should zoom out the image', () => {
         const element = new CropperImage();
 
+        element.scalable = true;
         element.$zoom(-0.1);
 
         const matrix = element.$getTransform();
@@ -187,6 +210,7 @@ describe('CropperImage', () => {
       it('should scale the image', () => {
         const element = new CropperImage();
 
+        element.scalable = true;
         element.$scale(1.1, 1.2);
 
         const matrix = element.$getTransform();
@@ -198,6 +222,7 @@ describe('CropperImage', () => {
       it('should default to the first parameter for the second parameter', () => {
         const element = new CropperImage();
 
+        element.scalable = true;
         element.$scale(1.1);
 
         const matrix = element.$getTransform();
@@ -210,6 +235,7 @@ describe('CropperImage', () => {
       it('should skew the image', () => {
         const element = new CropperImage();
 
+        element.skewable = true;
         element.$skew(0.1, 0.2);
 
         const matrix = element.$getTransform();
@@ -221,6 +247,7 @@ describe('CropperImage', () => {
       it('should support string parameter', () => {
         const element = new CropperImage();
 
+        element.skewable = true;
         element.$skew('15deg', '30deg');
 
         const matrix = element.$getTransform();
@@ -232,6 +259,7 @@ describe('CropperImage', () => {
       it('should default to 0 for the second parameter', () => {
         const element = new CropperImage();
 
+        element.skewable = true;
         element.$skew(0.1);
 
         const matrix = element.$getTransform();
@@ -245,6 +273,7 @@ describe('CropperImage', () => {
       it('should translate the image', () => {
         const element = new CropperImage();
 
+        element.translatable = true;
         element.$translate(10, 5);
 
         const matrix = element.$getTransform();
@@ -256,6 +285,7 @@ describe('CropperImage', () => {
       it('should default to the first parameter for the second parameter', () => {
         const element = new CropperImage();
 
+        element.translatable = true;
         element.$translate(10);
 
         const matrix = element.$getTransform();
@@ -268,6 +298,10 @@ describe('CropperImage', () => {
       it('should transform the image', () => {
         const element = new CropperImage();
 
+        element.rotatable = true;
+        element.scalable = true;
+        element.skewable = true;
+        element.translatable = true;
         element.$transform(0.5, 0.5, 0.5, 0.5, 5, 5);
         expect(element.$getTransform()).toEqual([0.5, 0.5, 0.5, 0.5, 5, 5]);
       });
@@ -277,6 +311,10 @@ describe('CropperImage', () => {
       it('should reset (override) the current transform to the specific identity matrix', () => {
         const element = new CropperImage();
 
+        element.rotatable = true;
+        element.scalable = true;
+        element.skewable = true;
+        element.translatable = true;
         element.$setTransform(0.5, 0.5, 0.5, 0.5, 5, 5);
         expect(element.$getTransform()).toEqual([0.5, 0.5, 0.5, 0.5, 5, 5]);
       });
@@ -284,6 +322,10 @@ describe('CropperImage', () => {
       it('should support array parameter', () => {
         const element = new CropperImage();
 
+        element.rotatable = true;
+        element.scalable = true;
+        element.skewable = true;
+        element.translatable = true;
         element.$setTransform([0.5, 0.5, 0.5, 0.5, 5, 5]);
         expect(element.$getTransform()).toEqual([0.5, 0.5, 0.5, 0.5, 5, 5]);
       });
@@ -301,6 +343,10 @@ describe('CropperImage', () => {
       it('should reset the current transform to the initial identity matrix', () => {
         const element = new CropperImage();
 
+        element.rotatable = true;
+        element.scalable = true;
+        element.skewable = true;
+        element.translatable = true;
         expect(element.$getTransform()).toEqual([1, 0, 0, 1, 0, 0]);
         element.$setTransform([0.5, 0.5, 0.5, 0.5, 5, 5]);
         expect(element.$getTransform()).toEqual([0.5, 0.5, 0.5, 0.5, 5, 5]);
@@ -315,6 +361,10 @@ describe('CropperImage', () => {
       it('should trigger the `transform` event', (done) => {
         const element = new CropperImage();
 
+        element.rotatable = true;
+        element.scalable = true;
+        element.skewable = true;
+        element.translatable = true;
         element.addEventListener(EVENT_TRANSFORM, (event) => {
           const { detail } = event as CustomEvent;
 
@@ -330,6 +380,10 @@ describe('CropperImage', () => {
       it('should not transform when default prevented', () => {
         const element = new CropperImage();
 
+        element.rotatable = true;
+        element.scalable = true;
+        element.skewable = true;
+        element.translatable = true;
         element.addEventListener(EVENT_TRANSFORM, (event) => {
           event.preventDefault();
         });
