@@ -28,6 +28,16 @@ The default width and height of this element is `0`.
 
 :::
 
+### Limit boundaries
+
+<ClientOnly>
+  <CropperImageExample />
+</ClientOnly>
+
+::: details
+<<< @/.vitepress/components/CropperImageExample.vue
+:::
+
 ## Properties
 
 Inherits properties from its parent, [`CropperElement`](cropper-element.html), and implements the following properties:

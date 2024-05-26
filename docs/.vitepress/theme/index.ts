@@ -17,6 +17,7 @@ export default {
       import('../components/ColorInput.vue'),
       import('../components/CropperCanvasToNativeCanvas.vue'),
       import('../components/CropperExample.vue'),
+      import('../components/CropperImageExample.vue'),
       import('../components/CropperPlayground.vue'),
       import('../components/CropperPlaygroundContainer.vue'),
       import('../components/CropperSelectionExample.vue'),
