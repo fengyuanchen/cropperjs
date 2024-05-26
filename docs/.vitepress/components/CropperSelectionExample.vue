@@ -104,11 +104,12 @@ export default {
       );
     },
     onCropperImageTransform(event: CustomEvent) {
-      if (this.within !== 'image') {
+      const cropperCanvas = this.$refs.cropperCanvas as CropperCanvas;
+
+      if (!cropperCanvas || this.within !== 'image') {
         return;
       }
 
-      const cropperCanvas = this.$refs.cropperCanvas as CropperCanvas;
       const cropperImage = this.$refs.cropperImage as CropperImage;
       const cropperSelection = this.$refs.cropperSelection as CropperSelection;
       const cropperCanvasRect = cropperCanvas.getBoundingClientRect();
@@ -144,11 +145,12 @@ export default {
       }
     },
     onCropperSelectionChange(event: CustomEvent) {
-      if (this.within === 'none') {
+      const cropperCanvas = this.$refs.cropperCanvas as CropperCanvas;
+
+      if (!cropperCanvas || this.within === 'none') {
         return;
       }
 
-      const cropperCanvas = this.$refs.cropperCanvas as CropperCanvas;
       const cropperCanvasRect = cropperCanvas.getBoundingClientRect();
       const selection = event.detail as Selection;
 

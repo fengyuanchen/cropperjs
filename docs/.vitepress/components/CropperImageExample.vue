@@ -68,11 +68,12 @@ export default {
   },
   methods: {
     onCropperImageTransform(event: CustomEvent) {
-      if (this.imageFit === 'none') {
+      const cropperCanvas = this.$refs.cropperCanvas as CropperCanvas;
+
+      if (!cropperCanvas || this.imageFit === 'none') {
         return;
       }
 
-      const cropperCanvas = this.$refs.cropperCanvas as CropperCanvas;
       const cropperImage = this.$refs.cropperImage as CropperImage;
       const cropperCanvasRect = cropperCanvas.getBoundingClientRect();
 
