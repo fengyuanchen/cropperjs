@@ -8,7 +8,7 @@ sidebar: auto
 
 | Cropper.js 1.0 | Cropper.js 2.0 |
 | --- | --- |
-| `viewMode` | 已废弃。 |
+| `viewMode` | 改用 `<cropper-image>` 元素的 `transform` 事件去[限制图片边界](api/cropper-image.html#限制边界), 或者改用 `<cropper-selection>` 元素的  `change` 事件去[限制选区边界](api/cropper-selection.html#限制边界). |
 | `dragMode` | 改用 `<cropper-handle>` 元素的 `action` 属性。 |
 | `initialAspectRatio` | 改用 `<cropper-selection>` 元素的 `initialAspectRatio` 属性。 |
 | `aspectRatio` | 改用 `<cropper-selection>` 元素的 `aspectRatio` 属性。 |

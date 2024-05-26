@@ -8,7 +8,7 @@ sidebar: auto
 
 | Cropper.js 1.0 | Cropper.js 2.0 |
 | --- | --- |
-| `viewMode` | Deprecated. |
+| `viewMode` | Use the `<cropper-image>` element's `transform` event to [limit image boundaries](api/cropper-image.html#limit-boundaries), or use the `<cropper-selection>` element's  `change` event to [limit selection boundaries](api/cropper-selection.html#limit-boundaries). |
 | `dragMode` | Use the `<cropper-handle>` element's `action` property. |
 | `initialAspectRatio` | Use the `<cropper-selection>` element's `initialAspectRatio` property. |
 | `aspectRatio` | Use the `<cropper-selection>` element's `aspectRatio` property. |
