@@ -137,7 +137,7 @@
 | --- | --- | --- | --- | --- |
 | x | `number` | `0` | - | 指示选区的 x 轴坐标。 |
 | y | `number` | `0` | - | 指示选区的 y 轴坐标。 |
-| width | `number` | `0` | - | 指示选区的宽度。
+| width | `number` | `0` | - | 指示选区的宽度。 |
 | height | `number` | `0` | - | 指示选区的高度。 |
 | aspectRatio | `number` | `NaN` | - | 指示选区的纵横比，必须是正数。 |
 | initialAspectRatio | `number` | `NaN` | - | 指示选区的初始长宽比，必须一个正数。 |
@@ -149,6 +149,7 @@
 | keyboard | `boolean` | `false` | - | 指示是否支持键盘控制。 |
 | outlined | `boolean` | `false` | - | 指示是否显示轮廓线。 |
 | precise | `boolean` | `false` | - | 指示是否保留 `x`、`y`、`width` 和 `height` 属性的精确值。 |
+| linked | `boolean` | `false` | - | 指示是否与图片联动。 |
 
 支持的键盘键：
 

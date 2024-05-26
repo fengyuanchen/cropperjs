@@ -97,6 +97,8 @@ export default class CropperSelection extends CropperElement {
 
   precise = false;
 
+  linked = false;
+
   protected set $canvas(element: CropperCanvas) {
     canvasCache.set(this, element);
   }
@@ -431,15 +433,19 @@ export default class CropperSelection extends CropperElement {
         }
 
         case ACTION_MOVE:
-          if (this.movable
-            && (this.$actionStartTarget && this.contains(this.$actionStartTarget as Node))
-          ) {
+          if (this.movable && (
+            this.linked
+            || (this.$actionStartTarget && this.contains(this.$actionStartTarget as Node))
+          )) {
             this.$move(moveX, moveY);
           }
           break;
 
         case ACTION_SCALE:
-          if (relatedEvent && this.zoomable) {
+          if (relatedEvent && this.zoomable && (
+            this.linked
+            || this.contains(relatedEvent.target as Node)
+          )) {
             const offset = getOffset(currentTarget as Element);
 
             this.$zoom(

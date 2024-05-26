@@ -149,6 +149,7 @@ Inherits properties from its parent, [`CropperElement`](cropper-element.html), a
 | keyboard | `boolean` | `false` | - | Indicates whether keyboard control is supported. |
 | outlined | `boolean` | `false` | - | Indicates whether show the outlined or not. |
 | precise | `boolean` | `false` | - | Indicates whether reserve the precise of the `x`, `y`, `width`, and `height` properties or not. |
+| linked | `boolean` | `false` | - | Indicates whether to link with the cropper image. |
 
 The supported keyboard keys:
 

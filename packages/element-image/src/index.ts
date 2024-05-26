@@ -1,5 +1,6 @@
 import CropperElement from '@cropper/element';
 import type CropperCanvas from '@cropper/element-canvas';
+import type CropperSelection from '@cropper/element-selection';
 import {
   ACTION_MOVE,
   ACTION_NONE,
@@ -218,15 +219,22 @@ export default class CropperImage extends CropperElement {
       switch (action) {
         case ACTION_MOVE:
           if (this.translatable) {
-            const cropperSelectionTagName = this.$getTagNameOf(CROPPER_SELECTION);
-            let selection: any = $canvas.querySelector(cropperSelectionTagName);
+            let $selection: CropperSelection | null = null;
 
-            if (selection && selection.multiple && !selection.active) {
-              selection = $canvas.querySelector(`${cropperSelectionTagName}[active]`);
+            if (relatedEvent) {
+              $selection = relatedEvent.target.closest(this.$getTagNameOf(CROPPER_SELECTION));
             }
 
-            if (!selection || selection.hidden || !selection.movable
-              || !(this.$actionStartTarget && selection.contains(this.$actionStartTarget))
+            if (!$selection) {
+              $selection = $canvas.querySelector(this.$getTagNameOf(CROPPER_SELECTION));
+            }
+
+            if ($selection && $selection.multiple && !$selection.active) {
+              $selection = $canvas.querySelector(`${this.$getTagNameOf(CROPPER_SELECTION)}[active]`);
+            }
+
+            if (!$selection || $selection.hidden || !$selection.movable || $selection.linked
+              || !(this.$actionStartTarget && $selection.contains(this.$actionStartTarget as Node))
             ) {
               this.$move(detail.endX - detail.startX, detail.endY - detail.startY);
             }
@@ -252,13 +260,19 @@ export default class CropperImage extends CropperElement {
         case ACTION_SCALE:
           if (this.scalable) {
             if (relatedEvent) {
-              const { x, y } = this.getBoundingClientRect();
-
-              this.$zoom(
-                detail.scale,
-                relatedEvent.clientX - x,
-                relatedEvent.clientY - y,
+              const $selection: CropperSelection | null = relatedEvent.target.closest(
+                this.$getTagNameOf(CROPPER_SELECTION),
               );
+
+              if (!$selection || $selection.linked) {
+                const { x, y } = this.getBoundingClientRect();
+
+                this.$zoom(
+                  detail.scale,
+                  relatedEvent.clientX - x,
+                  relatedEvent.clientY - y,
+                );
+              }
             } else {
               this.$zoom(detail.scale);
             }

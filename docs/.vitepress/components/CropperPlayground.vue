@@ -945,12 +945,21 @@
             >
           </li>
           <li>
-            <label for="selectionPrecision">precise</label>
+            <label for="selectionPrecise">precise</label>
             <input
-              id="selectionPrecision"
+              id="selectionPrecise"
               v-model="selection.precise"
               type="checkbox"
               name="precise"
+            >
+          </li>
+          <li>
+            <label for="selectionLinked">linked</label>
+            <input
+              id="selectionLinked"
+              v-model="selection.linked"
+              type="checkbox"
+              name="linked"
             >
           </li>
           <li>
@@ -1602,6 +1611,7 @@
           :keyboard="selection.keyboard"
           :outlined="selection.outlined"
           :precise="selection.precise"
+          :linked="selection.linked"
           @change="onSelectionChange"
         >
           <cropper-grid
@@ -1812,6 +1822,7 @@ export default {
         keyboard: false,
         outlined: false,
         precise: false,
+        linked: true,
       },
       grid: {
         hidden: false,
