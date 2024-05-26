@@ -59,17 +59,17 @@ export default class CropperImage extends CropperElement {
 
   readonly $image = new Image();
 
-  rotatable = true;
+  initialCenterSize = 'contain';
 
-  scalable = true;
+  rotatable = false;
 
-  skewable = true;
+  scalable = false;
+
+  skewable = false;
 
   slottable = false;
 
-  translatable = true;
-
-  initialCenterSize = 'contain';
+  translatable = false;
 
   protected set $canvas(element: CropperCanvas) {
     canvasCache.set(this, element);

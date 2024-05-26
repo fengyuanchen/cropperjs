@@ -23,7 +23,7 @@ The default width and height of this element is `0`.
 :::live-demo
 
 ```html
-<cropper-image src="/cropperjs/v2/picture.jpg" alt="Picture" style="width: 100%;"></cropper-image>
+<cropper-image src="/cropperjs/v2/picture.jpg" alt="Picture" style="width: 100%;" rotatable scalable skewable translatable></cropper-image>
 ```
 
 :::
@@ -44,12 +44,12 @@ Inherits properties from its parent, [`CropperElement`](cropper-element.html), a
 
 | Name | Type | Default | Options | Description |
 | --- | --- | --- | --- | --- |
-| rotatable | `boolean` | `true` | - | Indicates whether this element is rotatable. |
-| scalable | `boolean` | `true` | - | Indicates whether this element is scalable. |
-| skewable | `boolean` | `true` | - | Indicates whether this element is skewable. |
-| slottable | `boolean` | `false` | - | Indicates whether this element is slottable. |
-| translatable | `boolean` | `true` | - | Indicates whether this element is translatable. |
 | initial-center-size | `string` | `"contain"` | `"contain"`, `"cover"` | Indicates the initial size of the image when aligned with the center of its parent element. |
+| rotatable | `boolean` | `false` | - | Indicates whether this element is rotatable. |
+| scalable | `boolean` | `false` | - | Indicates whether this element is scalable. |
+| skewable | `boolean` | `false` | - | Indicates whether this element is skewable. |
+| slottable | `boolean` | `false` | - | Indicates whether this element is slottable. |
+| translatable | `boolean` | `false` | - | Indicates whether this element is translatable. |
 
 The built-in `<img>` element will inherit the following attributes by default:
 

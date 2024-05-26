@@ -38,6 +38,10 @@
         ref="cropperImage"
         :src="src"
         alt="Picture"
+        rotatable
+        scalable
+        skewable
+        translatable
         @transform="onCropperImageTransform"
       />
       <cropper-handle

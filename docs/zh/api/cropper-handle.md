@@ -24,7 +24,7 @@
 
 ```html
 <cropper-canvas background>
-  <cropper-image src="/cropperjs/v2/picture.jpg" alt="Picture"></cropper-image>
+  <cropper-image src="/cropperjs/v2/picture.jpg" alt="Picture" rotatable scalable skewable translatable></cropper-image>
   <cropper-handle action="move"></cropper-handle>
 </cropper-canvas>
 ```
@@ -37,7 +37,7 @@
 
 ```html
 <cropper-canvas background>
-  <cropper-image src="/cropperjs/v2/picture.jpg" alt="Picture"></cropper-image>
+  <cropper-image src="/cropperjs/v2/picture.jpg" alt="Picture" rotatable scalable skewable translatable></cropper-image>
   <cropper-selection width="100" height="100" movable>
     <cropper-handle action="move"></cropper-handle>
   </cropper-selection>

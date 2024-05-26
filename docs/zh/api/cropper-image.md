@@ -23,7 +23,7 @@
 :::live-demo
 
 ```html
-<cropper-image src="/cropperjs/v2/picture.jpg" alt="Picture" style="width: 100%;"></cropper-image>
+<cropper-image src="/cropperjs/v2/picture.jpg" alt="Picture" style="width: 100%;" rotatable scalable skewable translatable></cropper-image>
 ```
 
 :::
@@ -44,12 +44,12 @@
 
 | 名称 | 类型 | 默认值 | 可选值 | 描述 |
 | --- | --- | --- | --- | --- |
-| rotatable | `boolean` | `true` | - | 指示此元素是否可旋转。 |
-| scalable | `boolean` | `true` | - | 指示此元素是否可缩放。 |
-| skewable | `boolean` | `true` | - | 指示此元素是否可倾斜。 |
-| slottable | `boolean` | `false` | - | 指示此元素是否启用默认插槽。 |
-| translatable | `boolean` | `true` | - | 指示此元素是否可移动。 |
 | initial-center-size | `string` | `"contain"` | `"contain"`, `"cover"` | 指示图像与其父元素的中心对齐时的初始大小。 |
+| rotatable | `boolean` | `false` | - | 指示此元素是否可旋转。 |
+| scalable | `boolean` | `false` | - | 指示此元素是否可缩放。 |
+| skewable | `boolean` | `false` | - | 指示此元素是否可倾斜。 |
+| slottable | `boolean` | `false` | - | 指示此元素是否启用默认插槽。 |
+| translatable | `boolean` | `false` | - | 指示此元素是否可移动。 |
 
 默认情况下，内置的 `<img>` 元素将继承以下属性：
 

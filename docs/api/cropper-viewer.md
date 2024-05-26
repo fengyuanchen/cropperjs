@@ -24,7 +24,7 @@ The default height of this element is `0`.
 
 ```html
 <cropper-canvas style="height: 240px;" background>
-  <cropper-image src="/cropperjs/v2/picture.jpg" alt="Picture"></cropper-image>
+  <cropper-image src="/cropperjs/v2/picture.jpg" alt="Picture" rotatable scalable skewable translatable></cropper-image>
   <cropper-shade hidden></cropper-shade>
   <cropper-handle action="select" plain></cropper-handle>
   <cropper-selection id="cropperSelection" initial-aspect-ratio="1.5" initial-coverage="0.5" movable resizable>

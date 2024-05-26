@@ -1,6 +1,6 @@
 export default (
   '<cropper-canvas background>'
-    + '<cropper-image></cropper-image>'
+    + '<cropper-image rotatable scalable skewable translatable></cropper-image>'
     + '<cropper-shade hidden></cropper-shade>'
     + '<cropper-handle action="select" plain></cropper-handle>'
     + '<cropper-selection initial-coverage="0.5" movable resizable zoomable>'

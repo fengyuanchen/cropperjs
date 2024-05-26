@@ -8,6 +8,10 @@
         <cropper-image
           :src="src"
           alt="Picture"
+          rotatable
+          scalable
+          skewable
+          translatable
         />
         <cropper-handle
           action="move"
