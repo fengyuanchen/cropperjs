@@ -23,7 +23,7 @@ The default width and height of this element is `0`.
 :::live-demo
 
 ```html
-<cropper-image src="/cropperjs/v2/picture.jpg" alt="Picture"></cropper-image>
+<cropper-image src="/cropperjs/v2/picture.jpg" alt="Picture" style="width: 100%;"></cropper-image>
 ```
 
 :::
@@ -49,6 +49,7 @@ Inherits properties from its parent, [`CropperElement`](cropper-element.html), a
 | skewable | `boolean` | `true` | - | Indicates whether this element is skewable. |
 | slottable | `boolean` | `false` | - | Indicates whether this element is slottable. |
 | translatable | `boolean` | `true` | - | Indicates whether this element is translatable. |
+| initial-center-size | `string` | `"contain"` | `"contain"`, `"cover"` | Indicates the initial size of the image when aligned with the center of its parent element. |
 
 The built-in `<img>` element will inherit the following attributes by default:
 
@@ -97,7 +98,7 @@ Defers the callback to execute after successfully loading the image.
 - **Arguments**:
   - `size`:
     - Type: `string`
-    - Options: `'contain'`, and `'cover'`.
+    - Options: `"contain"`, and `"cover"`.
     - The size of the image.
 - **Returns**:
   - Type: `CropperImage`

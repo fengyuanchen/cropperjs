@@ -69,6 +69,8 @@ export default class CropperImage extends CropperElement {
 
   translatable = true;
 
+  initialCenterSize = 'contain';
+
   protected set $canvas(element: CropperCanvas) {
     canvasCache.set(this, element);
   }
@@ -79,6 +81,7 @@ export default class CropperImage extends CropperElement {
 
   protected static get observedAttributes(): string[] {
     return super.observedAttributes.concat(NATIVE_ATTRIBUTES, [
+      'initial-center-size',
       'rotatable',
       'scalable',
       'skewable',
@@ -96,6 +99,24 @@ export default class CropperImage extends CropperElement {
     // Inherits the native attributes
     if (NATIVE_ATTRIBUTES.includes(name)) {
       this.$image.setAttribute(name, newValue);
+    }
+  }
+
+  protected $propertyChangedCallback(name: string, oldValue: unknown, newValue: unknown): void {
+    if (Object.is(newValue, oldValue)) {
+      return;
+    }
+
+    super.$propertyChangedCallback(name, oldValue, newValue);
+
+    switch (name) {
+      case 'initialCenterSize':
+        this.$nextTick(() => {
+          this.$center(newValue as string);
+        });
+        break;
+
+      default:
     }
   }
 
@@ -168,7 +189,7 @@ export default class CropperImage extends CropperElement {
     });
 
     if (this.$canvas) {
-      this.$center('cover');
+      this.$center(this.initialCenterSize);
     }
   }
 

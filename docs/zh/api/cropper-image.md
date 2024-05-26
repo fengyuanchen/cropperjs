@@ -23,7 +23,7 @@
 :::live-demo
 
 ```html
-<cropper-image src="/cropperjs/v2/picture.jpg" alt="Picture"></cropper-image>
+<cropper-image src="/cropperjs/v2/picture.jpg" alt="Picture" style="width: 100%;"></cropper-image>
 ```
 
 :::
@@ -49,6 +49,7 @@
 | skewable | `boolean` | `true` | - | 指示此元素是否可倾斜。 |
 | slottable | `boolean` | `false` | - | 指示此元素是否启用默认插槽。 |
 | translatable | `boolean` | `true` | - | 指示此元素是否可移动。 |
+| initial-center-size | `string` | `"contain"` | `"contain"`, `"cover"` | 指示图像与其父元素的中心对齐时的初始大小。 |
 
 默认情况下，内置的 `<img>` 元素将继承以下属性：
 
@@ -97,7 +98,7 @@
 - **参数**：
   - `size`：
     - 类型：`string`
-    - 可选值：`'contain'`, and `'cover'`.
+    - 可选值：`"contain"`, and `"cover"`.
     - 图像的尺寸模式。
 - **返回值**：
   - 类型：`CropperImage`
