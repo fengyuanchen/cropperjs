@@ -6,6 +6,7 @@ export default `
   overflow: hidden;
   position: relative;
   touch-action: none;
+  -webkit-touch-callout: none;
   user-select: none;
 }
 
