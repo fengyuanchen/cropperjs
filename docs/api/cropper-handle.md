@@ -46,6 +46,16 @@ The default width and height of this element is `0`.
 
 :::
 
+### Toggle Action on Dblclick
+
+<ClientOnly>
+  <CropperActionExample />
+</ClientOnly>
+
+::: details
+<<< @/.vitepress/components/CropperActionExample.vue
+:::
+
 ## Properties
 
 Inherits properties from its parent, [`CropperElement`](cropper-element.html), and implements the following properties:

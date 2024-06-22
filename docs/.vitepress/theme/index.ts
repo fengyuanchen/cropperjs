@@ -15,6 +15,7 @@ export default {
     });
     await Promise.all([
       import('../components/ColorInput.vue'),
+      import('../components/CropperActionExample.vue'),
       import('../components/CropperCanvasToNativeCanvas.vue'),
       import('../components/CropperExample.vue'),
       import('../components/CropperImageExample.vue'),

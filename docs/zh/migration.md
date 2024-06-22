@@ -34,7 +34,7 @@ sidebar: auto
 | `wheelZoomRatio` | 改用 `<cropper-canvas>` 元素的 `scaleStep` 属性。 |
 | `cropBoxMovable` | 改用 `<cropper-selection>` 元素的 `movable` 属性。 |
 | `cropBoxResizable` | 改用 `<cropper-selection>` 元素的 `resizable` 属性。 |
-| `toggleDragModeOnDblclick` | 已废弃。 |
+| `toggleDragModeOnDblclick` | 改用 `<cropper-handle>` 元素的 `dblclick` 事件去[双击切换动作类型](api/cropper-handle.html#toggle-action-on-dblclick)。 |
 | `minContainerWidth` | 已废弃。 |
 | `minContainerHeight` | 已废弃。 |
 | `minCanvasWidth` | 改用 `<cropper-canvas>` 元素的 `min-width` CSS 属性。 |

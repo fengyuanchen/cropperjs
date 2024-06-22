@@ -34,7 +34,7 @@ sidebar: auto
 | `wheelZoomRatio` | Use the `<cropper-canvas>` element's `scaleStep` property. |
 | `cropBoxMovable` | Use the `<cropper-selection>` element's `movable` property. |
 | `cropBoxResizable` | Use the `<cropper-selection>` element's `resizable` property. |
-| `toggleDragModeOnDblclick` | Deprecated. |
+| `toggleDragModeOnDblclick` | Use the `<cropper-handle>` element's `dblclick` event to [toggle action on dblclick](api/cropper-handle.html#toggle-action-on-dblclick). |
 | `minContainerWidth` | Deprecated. |
 | `minContainerHeight` | Deprecated. |
 | `minCanvasWidth` | Use the `<cropper-canvas>` element's `min-width` CSS property. |

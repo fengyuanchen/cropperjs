@@ -46,6 +46,16 @@
 
 :::
 
+### 双击切换动作类型
+
+<ClientOnly>
+  <CropperActionExample />
+</ClientOnly>
+
+::: details
+<<< @/.vitepress/components/CropperActionExample.vue
+:::
+
 ## 属性
 
 从其父级 [`CropperElement`](cropper-element.html) 继承属性，并实现以下属性：
