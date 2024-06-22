@@ -58,6 +58,8 @@ export default class CropperSelection extends CropperElement {
 
   protected $actionStartTarget: EventTarget | null = null;
 
+  protected $changing = false;
+
   protected $style = style;
 
   private $initialSelection = {
@@ -140,9 +142,11 @@ export default class CropperSelection extends CropperElement {
       case 'y':
       case 'width':
       case 'height':
-        this.$nextTick(() => {
-          this.$change(this.x, this.y, this.width, this.height, this.aspectRatio, true);
-        });
+        if (!this.$changing) {
+          this.$nextTick(() => {
+            this.$change(this.x, this.y, this.width, this.height, this.aspectRatio, true);
+          });
+        }
         break;
 
       case 'aspectRatio':
@@ -868,7 +872,8 @@ export default class CropperSelection extends CropperElement {
     _force = false,
   ): this {
     if (
-      !isNumber(x)
+      this.$changing
+      || !isNumber(x)
       || !isNumber(y)
       || !isNumber(width)
       || !isNumber(height)
@@ -913,10 +918,12 @@ export default class CropperSelection extends CropperElement {
       return this;
     }
 
+    this.$changing = true;
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
+    this.$changing = false;
 
     return this.$render();
   }
