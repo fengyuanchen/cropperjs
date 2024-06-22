@@ -91,7 +91,7 @@ import 'cropperjs';
   <cropper-image src="/cropperjs/v2/picture.jpg" alt="Picture" rotatable scalable skewable translatable></cropper-image>
   <cropper-shade hidden></cropper-shade>
   <cropper-handle action="select" plain></cropper-handle>
-  <cropper-selection initial-coverage="0.5" linked movable resizable zoomable>
+  <cropper-selection initial-coverage="0.5" movable resizable zoomable>
     <cropper-grid role="grid" covered></cropper-grid>
     <cropper-crosshair centered></cropper-crosshair>
     <cropper-handle action="move" theme-color="rgba(255, 255, 255, 0.35)"></cropper-handle>
@@ -141,17 +141,17 @@ Cropper.js 包含一系列 [npm](https://www.npmjs.com/) 包：
 | 安装包名称 | 版本 | 描述 |
 | --- | --- | --- |
 | `cropperjs` | [![Version](https://img.shields.io/npm/v/cropperjs/next)](https://www.npmjs.com/package/cropperjs/v/next) | 完整包。 |
-| `@cropper/element` | [![Version](https://img.shields.io/npm/v/@cropper/element)](https://www.npmjs.com/package/@cropper/element) | 用于构造 Cropper 元素的抽象类。 |
-| `@cropper/element-canvas` | [![Version](https://img.shields.io/npm/v/@cropper/element-canvas)](https://www.npmjs.com/package/@cropper/element-canvas) | Cropper 的自定义画布元素。 |
-| `@cropper/element-image` | [![Version](https://img.shields.io/npm/v/@cropper/element-image)](https://www.npmjs.com/package/@cropper/element-image) | Cropper 的自定义图像元素。 |
-| `@cropper/element-shade` | [![Version](https://img.shields.io/npm/v/@cropper/element-shade)](https://www.npmjs.com/package/@cropper/element-shade) | Cropper 的自定义阴影元素。 |
-| `@cropper/element-handle` | [![Version](https://img.shields.io/npm/v/@cropper/element-handle)](https://www.npmjs.com/package/@cropper/element-handle) | Cropper 的自定义手柄元素。 |
-| `@cropper/element-selection` | [![Version](https://img.shields.io/npm/v/@cropper/element-selection)](https://www.npmjs.com/package/@cropper/element-selection) | Cropper 的自定义选区元素。 |
-| `@cropper/element-grid` | [![Version](https://img.shields.io/npm/v/@cropper/element-grid)](https://www.npmjs.com/package/@cropper/element-grid) | Cropper 的自定义网格元素。 |
-| `@cropper/element-crosshair` | [![Version](https://img.shields.io/npm/v/@cropper/element-crosshair)](https://www.npmjs.com/package/@cropper/element-crosshair) | Cropper 的自定义十字准线元素。 |
-| `@cropper/element-viewer` | [![Version](https://img.shields.io/npm/v/@cropper/element-viewer)](https://www.npmjs.com/package/@cropper/element-viewer) | Cropper 的自定义查看器元素。 |
-| `@cropper/elements` | [![Version](https://img.shields.io/npm/v/@cropper/elements)](https://www.npmjs.com/package/@cropper/elements) | Cropper 的一系列自定义元素。 |
-| `@cropper/utils` | [![Version](https://img.shields.io/npm/v/@cropper/utils)](https://www.npmjs.com/package/@cropper/utils) | Cropper 的一系列常用常量和实用函数。 |
+| `@cropper/element` | [![Version](https://img.shields.io/npm/v/@cropper/element/next)](https://www.npmjs.com/package/@cropper/element) | 用于构造 Cropper 元素的抽象类。 |
+| `@cropper/element-canvas` | [![Version](https://img.shields.io/npm/v/@cropper/element-canvas/next)](https://www.npmjs.com/package/@cropper/element-canvas) | Cropper 的自定义画布元素。 |
+| `@cropper/element-image` | [![Version](https://img.shields.io/npm/v/@cropper/element-image/next)](https://www.npmjs.com/package/@cropper/element-image) | Cropper 的自定义图像元素。 |
+| `@cropper/element-shade` | [![Version](https://img.shields.io/npm/v/@cropper/element-shade/next)](https://www.npmjs.com/package/@cropper/element-shade) | Cropper 的自定义阴影元素。 |
+| `@cropper/element-handle` | [![Version](https://img.shields.io/npm/v/@cropper/element-handle/next)](https://www.npmjs.com/package/@cropper/element-handle) | Cropper 的自定义手柄元素。 |
+| `@cropper/element-selection` | [![Version](https://img.shields.io/npm/v/@cropper/element-selection/next)](https://www.npmjs.com/package/@cropper/element-selection) | Cropper 的自定义选区元素。 |
+| `@cropper/element-grid` | [![Version](https://img.shields.io/npm/v/@cropper/element-grid/next)](https://www.npmjs.com/package/@cropper/element-grid) | Cropper 的自定义网格元素。 |
+| `@cropper/element-crosshair` | [![Version](https://img.shields.io/npm/v/@cropper/element-crosshair/next)](https://www.npmjs.com/package/@cropper/element-crosshair) | Cropper 的自定义十字准线元素。 |
+| `@cropper/element-viewer` | [![Version](https://img.shields.io/npm/v/@cropper/element-viewer/next)](https://www.npmjs.com/package/@cropper/element-viewer) | Cropper 的自定义查看器元素。 |
+| `@cropper/elements` | [![Version](https://img.shields.io/npm/v/@cropper/elements/next)](https://www.npmjs.com/package/@cropper/elements) | Cropper 的一系列自定义元素。 |
+| `@cropper/utils` | [![Version](https://img.shields.io/npm/v/@cropper/utils/next)](https://www.npmjs.com/package/@cropper/utils) | Cropper 的一系列常用常量和实用函数。 |
 
 ## 接口
 

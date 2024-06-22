@@ -142,6 +142,7 @@ Inherits properties from its parent, [`CropperElement`](cropper-element.html), a
 | aspectRatio | `number` | `NaN` | - | Indicates the aspect ratio of the selection, must a positive number. |
 | initialAspectRatio | `number` | `NaN` | - | Indicates the initial aspect ratio of the selection, must a positive number. |
 | initialCoverage | `number` | `NaN` | - | Indicates the initial coverage of the selection, must a positive number between `0` (0%) and `1` (100%). |
+| dynamic | `boolean` | `false` | - | Indicates whether this selection is dynamic and changes as the image changes. |
 | movable | `boolean` | `false` | - | Indicates whether this element is movable. |
 | resizable | `boolean` | `false` | - | Indicates whether this element is resizable. |
 | zoomable | `boolean` | `false` | - | Indicates whether this element is zoomable. |
@@ -149,7 +150,6 @@ Inherits properties from its parent, [`CropperElement`](cropper-element.html), a
 | keyboard | `boolean` | `false` | - | Indicates whether keyboard control is supported. |
 | outlined | `boolean` | `false` | - | Indicates whether show the outlined or not. |
 | precise | `boolean` | `false` | - | Indicates whether reserve the precise of the `x`, `y`, `width`, and `height` properties or not. |
-| linked | `boolean` | `false` | - | Indicates whether to link with the cropper image. |
 
 The supported keyboard keys:
 

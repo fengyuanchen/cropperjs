@@ -119,6 +119,21 @@ describe('CropperSelection', () => {
       });
     });
 
+    describe('dynamic', () => {
+      it('should be `false` by default', () => {
+        const element = new CropperSelection();
+
+        expect(element.dynamic).toBe(false);
+      });
+
+      it('should be `true`', () => {
+        const element = new CropperSelection();
+
+        element.setAttribute('dynamic', '');
+        expect(element.dynamic).toBe(true);
+      });
+    });
+
     describe('movable', () => {
       it('should be `false` by default', () => {
         const element = new CropperSelection();
@@ -191,21 +206,6 @@ describe('CropperSelection', () => {
 
         element.setAttribute('precise', '');
         expect(element.precise).toBe(true);
-      });
-    });
-
-    describe('linked', () => {
-      it('should be `false` by default', () => {
-        const element = new CropperSelection();
-
-        expect(element.linked).toBe(false);
-      });
-
-      it('should be `true`', () => {
-        const element = new CropperSelection();
-
-        element.setAttribute('linked', '');
-        expect(element.linked).toBe(true);
       });
     });
   });

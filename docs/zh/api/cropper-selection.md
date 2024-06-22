@@ -142,6 +142,7 @@
 | aspectRatio | `number` | `NaN` | - | 指示选区的纵横比，必须是正数。 |
 | initialAspectRatio | `number` | `NaN` | - | 指示选区的初始长宽比，必须一个正数。 |
 | initialCoverage | `number` | `NaN` | - | 指示选区的初始覆盖范围，必须是在 `0` （0％）和 `1` （100%）之间的正数。 |
+| dynamic | `boolean` | `false` | - | 指示此选区是否是动态的，以及是否随着图像的变化而变化。 |
 | movable | `boolean` | `false` | - | 指示此元素是否可移动。 |
 | resizable | `boolean` | `false` | - | 指示此元素是否可调整大小。 |
 | zoomable | `boolean` | `false` | - | 指示此元素是否可缩放。 |
@@ -149,7 +150,6 @@
 | keyboard | `boolean` | `false` | - | 指示是否支持键盘控制。 |
 | outlined | `boolean` | `false` | - | 指示是否显示轮廓线。 |
 | precise | `boolean` | `false` | - | 指示是否保留 `x`、`y`、`width` 和 `height` 属性的精确值。 |
-| linked | `boolean` | `false` | - | 指示是否与图片联动。 |
 
 支持的键盘键：
 

@@ -233,7 +233,7 @@ export default class CropperImage extends CropperElement {
               $selection = $canvas.querySelector(`${this.$getTagNameOf(CROPPER_SELECTION)}[active]`);
             }
 
-            if (!$selection || $selection.hidden || !$selection.movable || $selection.linked
+            if (!$selection || $selection.hidden || !$selection.movable || $selection.dynamic
               || !(this.$actionStartTarget && $selection.contains(this.$actionStartTarget as Node))
             ) {
               this.$move(detail.endX - detail.startX, detail.endY - detail.startY);
@@ -264,7 +264,7 @@ export default class CropperImage extends CropperElement {
                 this.$getTagNameOf(CROPPER_SELECTION),
               );
 
-              if (!$selection || $selection.linked) {
+              if (!$selection || $selection.dynamic) {
                 const { x, y } = this.getBoundingClientRect();
 
                 this.$zoom(

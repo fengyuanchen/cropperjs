@@ -83,6 +83,8 @@ export default class CropperSelection extends CropperElement {
 
   active = false;
 
+  dynamic = false;
+
   movable = false;
 
   resizable = false;
@@ -97,8 +99,6 @@ export default class CropperSelection extends CropperElement {
 
   precise = false;
 
-  linked = false;
-
   protected set $canvas(element: CropperCanvas) {
     canvasCache.set(this, element);
   }
@@ -111,11 +111,11 @@ export default class CropperSelection extends CropperElement {
     return super.observedAttributes.concat([
       'active',
       'aspect-ratio',
+      'dynamic',
       'height',
       'initial-aspect-ratio',
       'initial-coverage',
       'keyboard',
-      'linked',
       'movable',
       'multiple',
       'outlined',
@@ -435,7 +435,7 @@ export default class CropperSelection extends CropperElement {
 
         case ACTION_MOVE:
           if (this.movable && (
-            this.linked
+            this.dynamic
             || (this.$actionStartTarget && this.contains(this.$actionStartTarget as Node))
           )) {
             this.$move(moveX, moveY);
@@ -444,7 +444,7 @@ export default class CropperSelection extends CropperElement {
 
         case ACTION_SCALE:
           if (relatedEvent && this.zoomable && (
-            this.linked
+            this.dynamic
             || this.contains(relatedEvent.target as Node)
           )) {
             const offset = getOffset(currentTarget as Element);
