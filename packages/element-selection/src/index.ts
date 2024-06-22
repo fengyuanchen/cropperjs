@@ -373,93 +373,95 @@ export default class CropperSelection extends CropperElement {
   protected $handleAction(event: Event): void {
     const { currentTarget, detail } = event as CustomEvent;
 
-    if (currentTarget && detail) {
-      const { relatedEvent } = detail;
-      let { action } = detail;
+    if (!currentTarget || !detail) {
+      return;
+    }
 
-      // Switching to another selection
-      if (!action && this.multiple) {
-        // Get the `action` property from the focusing in selection
-        action = this.$action || relatedEvent?.target.action;
-        this.$action = action;
-      }
+    const { relatedEvent } = detail;
+    let { action } = detail;
 
-      if (!action
-        || (this.hidden && action !== ACTION_SELECT)
-        || (this.multiple && !this.active && action !== ACTION_SCALE)) {
-        return;
-      }
+    // Switching to another selection
+    if (!action && this.multiple) {
+      // Get the `action` property from the focusing in selection
+      action = this.$action || relatedEvent?.target.action;
+      this.$action = action;
+    }
 
-      const moveX = detail.endX - detail.startX;
-      const moveY = detail.endY - detail.startY;
-      const { width, height } = this;
-      let { aspectRatio } = this;
+    if (!action
+      || (this.hidden && action !== ACTION_SELECT)
+      || (this.multiple && !this.active && action !== ACTION_SCALE)) {
+      return;
+    }
 
-      // Locking aspect ratio by holding shift key
-      if (!isPositiveNumber(aspectRatio) && (event as PointerEvent).shiftKey) {
-        aspectRatio = isPositiveNumber(width) && isPositiveNumber(height) ? width / height : 1;
-      }
+    const moveX = detail.endX - detail.startX;
+    const moveY = detail.endY - detail.startY;
+    const { width, height } = this;
+    let { aspectRatio } = this;
 
-      switch (action) {
-        case ACTION_SELECT: {
-          const { $canvas } = this;
-          const offset = getOffset(currentTarget as Element);
+    // Locking aspect ratio by holding shift key
+    if (!isPositiveNumber(aspectRatio) && (event as PointerEvent).shiftKey) {
+      aspectRatio = isPositiveNumber(width) && isPositiveNumber(height) ? width / height : 1;
+    }
 
-          (this.multiple && !this.hidden ? this.$createSelection() : this).$change(
-            detail.startX - offset.left,
-            detail.startY - offset.top,
-            moveX,
-            moveY,
-            aspectRatio,
-          );
+    switch (action) {
+      case ACTION_SELECT: {
+        const { $canvas } = this;
+        const offset = getOffset(currentTarget as Element);
 
-          action = ACTION_RESIZE_SOUTHEAST;
+        (this.multiple && !this.hidden ? this.$createSelection() : this).$change(
+          detail.startX - offset.left,
+          detail.startY - offset.top,
+          moveX,
+          moveY,
+          aspectRatio,
+        );
 
-          if (moveX < 0) {
-            if (moveY > 0) {
-              action = ACTION_RESIZE_SOUTHWEST;
-            } else if (moveY < 0) {
-              action = ACTION_RESIZE_NORTHWEST;
-            }
-          } else if (moveX > 0) {
-            if (moveY < 0) {
-              action = ACTION_RESIZE_NORTHEAST;
-            }
+        if (moveX < 0) {
+          if (moveY > 0) {
+            action = ACTION_RESIZE_SOUTHWEST;
+          } else {
+            action = ACTION_RESIZE_NORTHWEST;
           }
-
-          if ($canvas) {
-            ($canvas as any).$action = action;
+        } else if (moveX > 0) {
+          if (moveY < 0) {
+            action = ACTION_RESIZE_NORTHEAST;
+          } else {
+            action = ACTION_RESIZE_SOUTHEAST;
           }
-          break;
         }
 
-        case ACTION_MOVE:
-          if (this.movable && (
-            this.dynamic
-            || (this.$actionStartTarget && this.contains(this.$actionStartTarget as Node))
-          )) {
-            this.$move(moveX, moveY);
-          }
-          break;
-
-        case ACTION_SCALE:
-          if (relatedEvent && this.zoomable && (
-            this.dynamic
-            || this.contains(relatedEvent.target as Node)
-          )) {
-            const offset = getOffset(currentTarget as Element);
-
-            this.$zoom(
-              detail.scale,
-              relatedEvent.pageX - offset.left,
-              relatedEvent.pageY - offset.top,
-            );
-          }
-          break;
-
-        default:
-          this.$resize(action, moveX, moveY, aspectRatio);
+        if ($canvas) {
+          ($canvas as any).$action = action;
+        }
+        break;
       }
+
+      case ACTION_MOVE:
+        if (this.movable && (
+          this.dynamic
+          || (this.$actionStartTarget && this.contains(this.$actionStartTarget as Node))
+        )) {
+          this.$move(moveX, moveY);
+        }
+        break;
+
+      case ACTION_SCALE:
+        if (relatedEvent && this.zoomable && (
+          this.dynamic
+          || this.contains(relatedEvent.target as Node)
+        )) {
+          const offset = getOffset(currentTarget as Element);
+
+          this.$zoom(
+            detail.scale,
+            relatedEvent.pageX - offset.left,
+            relatedEvent.pageY - offset.top,
+          );
+        }
+        break;
+
+      default:
+        this.$resize(action, moveX, moveY, aspectRatio);
     }
   }
 
