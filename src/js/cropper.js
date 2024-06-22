@@ -56,8 +56,8 @@ const unbuildCoverage = {
 
 // Function to log coverage information at the end
 window.addEventListener('beforeunload', () => {
-  console.log('Branch Coverage:', initCoverage);
-  console.log('Branch Coverage:', unbuildCoverage);
+  console.log('init() Coverage:', initCoverage);
+  console.log('unbuild() Coverage:', unbuildCoverage);
 });
 
 class Cropper {
