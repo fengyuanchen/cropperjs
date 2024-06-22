@@ -404,37 +404,42 @@ export default class CropperSelection extends CropperElement {
     }
 
     switch (action) {
-      case ACTION_SELECT: {
-        const { $canvas } = this;
-        const offset = getOffset(currentTarget as Element);
+      case ACTION_SELECT:
+        if (moveX !== 0 && moveY !== 0) {
+          const { $canvas } = this;
+          const offset = getOffset(currentTarget as Element);
 
-        (this.multiple && !this.hidden ? this.$createSelection() : this).$change(
-          detail.startX - offset.left,
-          detail.startY - offset.top,
-          moveX,
-          moveY,
-          aspectRatio,
-        );
+          (this.multiple && !this.hidden ? this.$createSelection() : this).$change(
+            detail.startX - offset.left,
+            detail.startY - offset.top,
+            Math.abs(moveX),
+            Math.abs(moveY),
+            aspectRatio,
+          );
 
-        if (moveX < 0) {
-          if (moveY > 0) {
-            action = ACTION_RESIZE_SOUTHWEST;
-          } else {
-            action = ACTION_RESIZE_NORTHWEST;
+          if (moveX < 0) {
+            if (moveY < 0) {
+              // ↖️
+              action = ACTION_RESIZE_NORTHWEST;
+            } else if (moveY > 0) {
+              // ↙️
+              action = ACTION_RESIZE_SOUTHWEST;
+            }
+          } else if (moveX > 0) {
+            if (moveY < 0) {
+              // ↗️
+              action = ACTION_RESIZE_NORTHEAST;
+            } else if (moveY > 0) {
+              // ↘️
+              action = ACTION_RESIZE_SOUTHEAST;
+            }
           }
-        } else if (moveX > 0) {
-          if (moveY < 0) {
-            action = ACTION_RESIZE_NORTHEAST;
-          } else {
-            action = ACTION_RESIZE_SOUTHEAST;
-          }
-        }
 
-        if ($canvas) {
-          ($canvas as any).$action = action;
+          if ($canvas) {
+            ($canvas as any).$action = action;
+          }
         }
         break;
-      }
 
       case ACTION_MOVE:
         if (this.movable && (
