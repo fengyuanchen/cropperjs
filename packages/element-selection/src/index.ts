@@ -85,6 +85,9 @@ export default class CropperSelection extends CropperElement {
 
   active = false;
 
+  // Deprecated as of v2.0.0-rc.0, use `dynamic` instead.
+  linked = false;
+
   dynamic = false;
 
   movable = false;
@@ -118,6 +121,7 @@ export default class CropperSelection extends CropperElement {
       'initial-aspect-ratio',
       'initial-coverage',
       'keyboard',
+      'linked',
       'movable',
       'multiple',
       'outlined',
@@ -210,6 +214,11 @@ export default class CropperSelection extends CropperElement {
         this.$nextTick(() => {
           this.$change(this.x, this.y);
         });
+        break;
+
+      // Backwards compatible with 2.0.0-rc
+      case 'linked':
+        this.dynamic = newValue as boolean;
         break;
 
       default:
