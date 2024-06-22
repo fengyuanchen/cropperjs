@@ -40,6 +40,26 @@ import {
 
 const AnotherCropper = WINDOW.Cropper;
 
+const initCoverage = {
+  1001: false,
+  1002: false,
+  1003: false,
+  1004: false,
+  1005: false,
+};
+
+const unbuildCoverage = {
+  1001: false,
+  1002: false,
+  1003: false,
+};
+
+// Function to log coverage information at the end
+window.addEventListener('beforeunload', () => {
+  console.log('Branch Coverage:', initCoverage);
+  console.log('Branch Coverage:', unbuildCoverage);
+});
+
 class Cropper {
   /**
    * Create a new Cropper.
@@ -70,12 +90,15 @@ class Cropper {
     let url;
 
     if (element[NAMESPACE]) {
+      initCoverage[1001] = true;
       return;
     }
 
+    initCoverage[1002] = true;
     element[NAMESPACE] = this;
 
     if (tagName === 'img') {
+      initCoverage[1003] = true;
       this.isImg = true;
 
       // e.g.: "img/picture.jpg"
@@ -84,12 +107,14 @@ class Cropper {
 
       // Stop when it's a blank image
       if (!url) {
+        initCoverage[1004] = true;
         return;
       }
 
       // e.g.: "https://example.com/img/picture.jpg"
       url = element.src;
     } else if (tagName === 'canvas' && window.HTMLCanvasElement) {
+      initCoverage[1005] = true;
       url = element.toDataURL();
     }
 
@@ -398,8 +423,10 @@ class Cropper {
 
   unbuild() {
     if (!this.ready) {
+      unbuildCoverage[1001] = true;
       return;
     }
+    unbuildCoverage[1002] = true;
 
     this.ready = false;
     this.unbind();
@@ -408,6 +435,7 @@ class Cropper {
     const { parentNode } = this.cropper;
 
     if (parentNode) {
+      unbuildCoverage[1003] = true;
       parentNode.removeChild(this.cropper);
     }
 
