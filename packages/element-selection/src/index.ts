@@ -314,6 +314,7 @@ export default class CropperSelection extends CropperElement {
       newSelection.removeAttribute('id');
     }
 
+    newSelection.initialCoverage = NaN;
     this.active = false;
 
     if (this.parentElement) {
