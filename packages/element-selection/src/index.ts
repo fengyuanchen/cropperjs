@@ -399,7 +399,7 @@ export default class CropperSelection extends CropperElement {
     let { aspectRatio } = this;
 
     // Locking aspect ratio by holding shift key
-    if (!isPositiveNumber(aspectRatio) && (event as PointerEvent).shiftKey) {
+    if (!isPositiveNumber(aspectRatio) && relatedEvent.shiftKey) {
       aspectRatio = isPositiveNumber(width) && isPositiveNumber(height) ? width / height : 1;
     }
 
