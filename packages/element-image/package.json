@@ -1,6 +1,6 @@
 {
   "name": "@cropper/element-image",
-  "version": "2.0.0-rc",
+  "version": "2.0.0-rc.0",
   "description": "A custom image element for the Cropper.",
   "main": "dist/element-image.raw.js",
   "module": "dist/element-image.esm.raw.js",
@@ -36,9 +36,9 @@
   "bugs": "https://github.com/fengyuanchen/cropperjs-next/issues",
   "homepage": "https://github.com/fengyuanchen/cropperjs-next/tree/next/packages/element-image/#readme",
   "dependencies": {
-    "@cropper/element": "^2.0.0-rc",
-    "@cropper/element-canvas": "^2.0.0-rc",
-    "@cropper/utils": "^2.0.0-rc"
+    "@cropper/element": "^2.0.0-rc.0",
+    "@cropper/element-canvas": "^2.0.0-rc.0",
+    "@cropper/utils": "^2.0.0-rc.0"
   },
   "publishConfig": {
     "access": "public",

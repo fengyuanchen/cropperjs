@@ -9,10 +9,17 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": ["dom", "esnext"],
+    "lib": [
+      "dom",
+      "esnext"
+    ],
     "paths": {
-      "@cropper/*": ["packages/*/src"],
-      "cropperjs": ["packages/cropperjs/src"]
+      "@cropper/*": [
+        "packages/*/src"
+      ],
+      "cropperjs": [
+        "packages/cropperjs/src"
+      ]
     },
     "types": [
       "jest",

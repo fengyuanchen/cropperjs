@@ -1,3 +1,19 @@
+# [2.0.0-rc.0](https://github.com/fengyuanchen/cropperjs/compare/v2.0.0-rc...v2.0.0-rc.0) (2024-06-22)
+
+
+### Bug Fixes
+
+* **element-selection:** fix select action interaction ([a0ad269](https://github.com/fengyuanchen/cropperjs/commit/a0ad269dc4c6db2534420008e0e80a42ebc0f812)), closes [#1176](https://github.com/fengyuanchen/cropperjs/issues/1176)
+* **element-selection:** fix wrong event to read `shiftKey` ([206d2b4](https://github.com/fengyuanchen/cropperjs/commit/206d2b428d8babce13627973dada56278ed87b75))
+* **element-selection:** reset the `initialCoverage` property to its initial value when creating new selection ([57e2688](https://github.com/fengyuanchen/cropperjs/commit/57e2688353caadbba19a8bb38d973bce50241cd4))
+
+
+### Performance Improvements
+
+* **element-selection:** Avoid repeatedly calling the `$change` method ([a99a5bd](https://github.com/fengyuanchen/cropperjs/commit/a99a5bd43d05a5508a14d40e4fb96aa545d14c69))
+
+
+
 # [2.0.0-rc](https://github.com/fengyuanchen/cropperjs/compare/v2.0.0-beta.5...v2.0.0-rc) (2024-05-26)
 
 

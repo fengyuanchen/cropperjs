@@ -1,6 +1,6 @@
 {
   "name": "cropperjs",
-  "version": "2.0.0-rc",
+  "version": "2.0.0-rc.0",
   "private": true,
   "workspaces": [
     "packages/*"
@@ -21,10 +21,10 @@
   "devDependencies": {
     "@commitlint/cli": "^17.8.1",
     "@commitlint/config-conventional": "^17.8.1",
-    "@microsoft/api-extractor": "^7.47.0",
+    "@microsoft/api-extractor": "^7.44.1",
     "@rollup/plugin-commonjs": "^25.0.8",
     "@rollup/plugin-node-resolve": "^15.2.3",
-    "@rollup/plugin-replace": "^5.0.7",
+    "@rollup/plugin-replace": "^5.0.5",
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/estree": "^1.0.5",
     "@types/jest": "^29.5.12",
@@ -55,14 +55,14 @@
     "rollup": "^2.79.1",
     "rollup-plugin-inline-postcss": "^3.0.1",
     "rollup-plugin-terser": "^7.0.2",
-    "sass": "^1.77.6",
+    "sass": "^1.77.2",
     "stylelint": "^14.16.1",
     "stylelint-config-recommended-scss": "^8.0.0",
     "stylelint-config-recommended-vue": "^1.5.0",
     "stylelint-order": "^5.0.0",
-    "ts-jest": "^29.1.5",
-    "tslib": "^2.6.3",
+    "ts-jest": "^29.1.3",
+    "tslib": "^2.6.2",
     "typescript": "^4.9.5",
-    "vitepress": "^1.2.3"
+    "vitepress": "^1.2.2"
   }
 }
