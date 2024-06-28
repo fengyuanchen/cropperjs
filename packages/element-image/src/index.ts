@@ -264,7 +264,7 @@ export default class CropperImage extends CropperElement {
                 this.$getTagNameOf(CROPPER_SELECTION),
               );
 
-              if (!$selection || $selection.dynamic) {
+              if (!$selection || !$selection.zoomable || $selection.dynamic) {
                 const { x, y } = this.getBoundingClientRect();
 
                 this.$zoom(
