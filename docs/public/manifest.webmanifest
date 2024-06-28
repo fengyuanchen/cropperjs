@@ -1,0 +1,9 @@
+{
+  "name": "Cropper.js",
+  "short_name": "Cropper.js",
+  "description": "JavaScript image cropper.",
+  "start_url": "/cropperjs/v2/index.html",
+  "display": "standalone",
+  "background_color": "#fff",
+  "theme_color": "#39f"
+}
