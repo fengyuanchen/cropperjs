@@ -64,6 +64,35 @@
 
 :::
 
+### 动态变化
+
+将 `dynamic` 属性设置为 `true`，以随着图像的变化而变化.
+
+:::live-demo
+
+```html
+<cropper-canvas style="height: 360px;" background>
+  <cropper-image src="/cropperjs/v2/picture.jpg" alt="Picture" rotatable scalable skewable translatable></cropper-image>
+  <cropper-shade hidden></cropper-shade>
+  <cropper-handle action="move" plain></cropper-handle>
+  <cropper-selection initial-coverage="0.5" dynamic movable resizable zoomable>
+    <cropper-grid role="grid" covered></cropper-grid>
+    <cropper-crosshair centered></cropper-crosshair>
+    <cropper-handle action="move" theme-color="rgba(255, 255, 255, 0.35)"></cropper-handle>
+    <cropper-handle action="n-resize"></cropper-handle>
+    <cropper-handle action="e-resize"></cropper-handle>
+    <cropper-handle action="s-resize"></cropper-handle>
+    <cropper-handle action="w-resize"></cropper-handle>
+    <cropper-handle action="ne-resize"></cropper-handle>
+    <cropper-handle action="nw-resize"></cropper-handle>
+    <cropper-handle action="se-resize"></cropper-handle>
+    <cropper-handle action="sw-resize"></cropper-handle>
+  </cropper-selection>
+</cropper-canvas>
+```
+
+:::
+
 ### 多选区
 
 将 `multiple` 属性设置为 `true`，以支持在同一图像上的创建多个选区。
