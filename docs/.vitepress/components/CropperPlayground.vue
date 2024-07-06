@@ -1818,7 +1818,7 @@ export default {
         dynamic: false,
         movable: true,
         resizable: true,
-        zoomable: true,
+        zoomable: false,
         multiple: false,
         keyboard: false,
         outlined: false,

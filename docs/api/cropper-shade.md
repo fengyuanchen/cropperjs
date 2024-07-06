@@ -51,7 +51,7 @@ The default width and height of this element is `0`.
   <cropper-image src="/cropperjs/v2/picture.jpg" alt="Picture" rotatable scalable skewable translatable></cropper-image>
   <cropper-shade hidden></cropper-shade>
   <cropper-handle action="select" plain></cropper-handle>
-  <cropper-selection movable resizable zoomable hidden>
+  <cropper-selection movable resizable hidden>
     <cropper-handle action="move" plain></cropper-handle>
   </cropper-selection>
 </cropper-canvas>

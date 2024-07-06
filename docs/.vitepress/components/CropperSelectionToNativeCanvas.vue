@@ -19,7 +19,6 @@
           ref="source"
           initial-coverage="0.5"
           movable
-          zoomable
         >
           <cropper-handle
             action="move"

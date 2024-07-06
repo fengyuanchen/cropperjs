@@ -48,7 +48,7 @@ The default width and height of this element is `0`.
 
 ```html
 <cropper-canvas background>
-  <cropper-selection initial-coverage="0.5" movable resizable outlined>
+  <cropper-selection initial-coverage="0.5" movable resizable zoomable outlined>
     <cropper-handle action="move" theme-color="rgba(255, 255, 255, 0.35)"></cropper-handle>
     <cropper-handle action="n-resize"></cropper-handle>
     <cropper-handle action="e-resize"></cropper-handle>
@@ -75,7 +75,7 @@ Set the `multiple` property to `true` to support multiple selections on the same
   <cropper-image src="/cropperjs/v2/picture.jpg" alt="Picture" rotatable scalable skewable translatable></cropper-image>
   <cropper-shade hidden></cropper-shade>
   <cropper-handle action="select" plain></cropper-handle>
-  <cropper-selection id="cropperSelection" x="20" y="20" width="40" height="40" movable resizable zoomable multiple keyboard>
+  <cropper-selection id="cropperSelection" x="20" y="20" width="40" height="40" movable resizable multiple keyboard>
     <cropper-grid role="grid" covered></cropper-grid>
     <cropper-crosshair centered></cropper-crosshair>
     <cropper-handle action="move" theme-color="rgba(255, 255, 255, 0.35)"></cropper-handle>
@@ -88,7 +88,7 @@ Set the `multiple` property to `true` to support multiple selections on the same
     <cropper-handle action="se-resize"></cropper-handle>
     <cropper-handle action="sw-resize"></cropper-handle>
   </cropper-selection>
-  <cropper-selection id="cropperSelection1" x="60" y="60" width="80" height="80" movable resizable zoomable multiple keyboard>
+  <cropper-selection id="cropperSelection1" x="60" y="60" width="80" height="80" movable resizable multiple keyboard>
     <cropper-grid role="grid" covered></cropper-grid>
     <cropper-crosshair centered></cropper-crosshair>
     <cropper-handle action="move" theme-color="rgba(255, 255, 255, 0.35)"></cropper-handle>
@@ -101,7 +101,7 @@ Set the `multiple` property to `true` to support multiple selections on the same
     <cropper-handle action="se-resize"></cropper-handle>
     <cropper-handle action="sw-resize"></cropper-handle>
   </cropper-selection>
-  <cropper-selection id="cropperSelection2" x="140" y="140" width="120" height="120" movable resizable zoomable multiple keyboard>
+  <cropper-selection id="cropperSelection2" x="140" y="140" width="120" height="120" movable resizable multiple keyboard>
     <cropper-grid role="grid" covered></cropper-grid>
     <cropper-crosshair centered></cropper-crosshair>
     <cropper-handle action="move" theme-color="rgba(255, 255, 255, 0.35)"></cropper-handle>
