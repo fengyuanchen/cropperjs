@@ -5,4 +5,5 @@
 cache
 coverage
 dist
+docs/public
 node_modules
