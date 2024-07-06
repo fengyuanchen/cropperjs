@@ -218,7 +218,9 @@ export default class CropperSelection extends CropperElement {
 
       // Backwards compatible with 2.0.0-rc
       case 'linked':
-        this.dynamic = newValue as boolean;
+        if (newValue) {
+          this.dynamic = true;
+        }
         break;
 
       default:
