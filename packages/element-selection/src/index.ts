@@ -248,7 +248,7 @@ export default class CropperSelection extends CropperElement {
       this.$onCanvasActionEnd = this.$handleActionEnd.bind(this);
       this.$onCanvasAction = this.$handleAction.bind(this);
       on($canvas, EVENT_ACTION_START, this.$onCanvasActionStart);
-      on($canvas, EVENT_ACTION_END, this.$onCanvasActionStart);
+      on($canvas, EVENT_ACTION_END, this.$onCanvasActionEnd);
       on($canvas, EVENT_ACTION, this.$onCanvasAction);
     } else {
       this.$render();
