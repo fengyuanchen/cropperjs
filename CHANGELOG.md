@@ -1,3 +1,19 @@
+# [2.0.0-rc.1](https://github.com/fengyuanchen/cropperjs/compare/v2.0.0-rc.0...v2.0.0-rc.1) (2024-07-06)
+
+
+### Bug Fixes
+
+* **element-image:** zoom when the selection is both zoomable and dynamic ([0193036](https://github.com/fengyuanchen/cropperjs/commit/019303684580749ec17bd49ffdbd59779f1fbf33))
+* **element-selection:** backward compatible with `linked="true"` only ([64e2714](https://github.com/fengyuanchen/cropperjs/commit/64e271403c97844ef6bbe040592f4b89478496a1))
+* **element-selection:** fix wrong action end listener ([5f764a1](https://github.com/fengyuanchen/cropperjs/commit/5f764a1efc5070fe984a46712d5f0031a391db6f))
+
+
+### Features
+
+* **element-selection:** pass zoom events down to image when selection is not zoomable ([3aa7ff4](https://github.com/fengyuanchen/cropperjs/commit/3aa7ff4ec374bbfdb05e0d2978b0e245a18b6563)), closes [#1182](https://github.com/fengyuanchen/cropperjs/issues/1182)
+
+
+
 # [2.0.0-rc.0](https://github.com/fengyuanchen/cropperjs/compare/v2.0.0-rc...v2.0.0-rc.0) (2024-06-22)
 
 
