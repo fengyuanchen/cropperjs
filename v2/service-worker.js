@@ -5,9 +5,9 @@ if ('serviceWorker' in navigator) {
   self.addEventListener('activate', (event) => {
     event.waitUntil(
       caches.keys()
-      .then((keys) => Promise.all(keys.map((key) => caches.delete(key))))
-      .then(() => navigator.serviceWorker.getRegistrations())
-      .then((registrations) => Promise.all(registrations.map((registration) => registration.unregister())))
+        .then((keys) => Promise.all(keys.map((key) => caches.delete(key))))
+        .then(() => navigator.serviceWorker.getRegistrations())
+        .then((registrations) => Promise.all(registrations.map((registration) => registration.unregister()))),
     );
   });
 }
