@@ -2,6 +2,7 @@ import { readdirSync } from 'fs';
 import { resolve } from 'path';
 import markdownItContainer from 'markdown-it-container';
 import { defineConfig } from 'vitepress';
+import lerna from '../../lerna.json';
 
 const packages = resolve(__dirname, '../../packages');
 
@@ -108,6 +109,13 @@ export default defineConfig({
           {
             text: 'Migration',
             link: '/migration.html',
+          },
+          {
+            text: lerna.version,
+            items: [
+              { text: 'Changelog', link: 'https://github.com/fengyuanchen/cropperjs/blob/v2/CHANGELOG.md' },
+              { text: 'Contributing', link: 'https://github.com/fengyuanchen/cropperjs/blob/v2/.github/CONTRIBUTING.md' },
+            ],
           },
           {
             text: '1.x',
