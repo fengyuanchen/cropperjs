@@ -501,6 +501,16 @@ export default class CropperSelection extends CropperElement {
       return;
     }
 
+    const { activeElement } = document;
+
+    // Disable keyboard control when input something
+    if (activeElement && (
+      ['INPUT', 'TEXTAREA'].includes(activeElement.tagName)
+      || ['true', 'plaintext-only'].includes((activeElement as HTMLElement).contentEditable)
+    )) {
+      return;
+    }
+
     switch ((event as KeyboardEvent).key) {
       case 'Backspace':
         if ((event as KeyboardEvent).metaKey) {
