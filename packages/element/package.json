@@ -1,6 +1,6 @@
 {
   "name": "@cropper/element",
-  "version": "2.0.0-rc.1",
+  "version": "2.0.0-rc.2",
   "description": "An abstract class for constructing Cropper elements.",
   "main": "dist/element.raw.js",
   "module": "dist/element.esm.raw.js",
@@ -36,7 +36,7 @@
   "bugs": "https://github.com/fengyuanchen/cropperjs-next/issues",
   "homepage": "https://github.com/fengyuanchen/cropperjs-next/tree/next/packages/element/#readme",
   "dependencies": {
-    "@cropper/utils": "^2.0.0-rc.1"
+    "@cropper/utils": "^2.0.0-rc.2"
   },
   "publishConfig": {
     "access": "public",

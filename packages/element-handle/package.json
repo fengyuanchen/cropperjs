@@ -1,6 +1,6 @@
 {
   "name": "@cropper/element-handle",
-  "version": "2.0.0-rc.1",
+  "version": "2.0.0-rc.2",
   "description": "A custom handle element for the Cropper.",
   "main": "dist/element-handle.raw.js",
   "module": "dist/element-handle.esm.raw.js",
@@ -36,8 +36,8 @@
   "bugs": "https://github.com/fengyuanchen/cropperjs-next/issues",
   "homepage": "https://github.com/fengyuanchen/cropperjs-next/tree/next/packages/element-handle/#readme",
   "dependencies": {
-    "@cropper/element": "^2.0.0-rc.1",
-    "@cropper/utils": "^2.0.0-rc.1"
+    "@cropper/element": "^2.0.0-rc.2",
+    "@cropper/utils": "^2.0.0-rc.2"
   },
   "publishConfig": {
     "access": "public",

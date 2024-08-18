@@ -1,3 +1,12 @@
+# [2.0.0-rc.2](https://github.com/fengyuanchen/cropperjs/compare/v2.0.0-rc.1...v2.0.0-rc.2) (2024-08-18)
+
+
+### Bug Fixes
+
+* **element-selection:** disable keyboard control when input something ([af97972](https://github.com/fengyuanchen/cropperjs/commit/af97972366a5a7f5d47343a6e23198ffffc728c6)), closes [#1192](https://github.com/fengyuanchen/cropperjs/issues/1192)
+
+
+
 # [2.0.0-rc.1](https://github.com/fengyuanchen/cropperjs/compare/v2.0.0-rc.0...v2.0.0-rc.1) (2024-07-06)
 
 
