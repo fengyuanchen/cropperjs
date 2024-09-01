@@ -183,7 +183,7 @@ The event is fired when a pointer becomes active.
     - The related data of the action.
   - **event.detail.action**:
     - Type: `string`
-    - Options: same as the `action` event.
+    - Options: same as the `action` event, except for the `"scale"` option.
     - The action type.
   - **event.detail.relatedEvent**:
     - Type: `PointerEvent | TouchEvent | MouseEvent`
@@ -202,7 +202,7 @@ This event is fired when a pointer changes coordinates.
     - The related data of the action.
   - **event.detail.action**:
     - Type: `string`
-    - Options: same as the `action` event.
+    - Options: same as the `action` event, except for the `"scale"` option.
     - The action type.
   - **event.detail.relatedEvent**:
     - Type: `PointerEvent | TouchEvent | MouseEvent`
@@ -221,7 +221,7 @@ This event is fired when a pointer is no longer active.
     - The related data of the action.
   - **event.detail.action**:
     - Type: `string`
-    - Options: same as the `action` event.
+    - Options: same as the `action` event, except for the `"scale"` option.
     - The action type.
   - **event.detail.relatedEvent**:
     - Type: `PointerEvent | TouchEvent | MouseEvent`

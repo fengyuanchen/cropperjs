@@ -183,7 +183,7 @@ document.querySelector('#canvas').addEventListener('action', function (event) {
     - 动作的相关数据。
   - **event.detail.action**：
     - 类型：`string`
-    - 可选值：同 `action` 事件。
+    - 可选值：与 `action` 事件相同，除了 `"scale"` 选项。
     - 动作类型。
   - **event.detail.relatedEvent**：
     - 类型：`PointerEvent | TouchEvent | MouseEvent`
@@ -202,7 +202,7 @@ document.querySelector('#canvas').addEventListener('action', function (event) {
     - 动作的相关数据。
   - **event.detail.action**：
     - 类型：`string`
-    - 可选值：同 `action` 事件。
+    - 可选值：与 `action` 事件相同，除了 `"scale"` 选项。
     - 动作类型。
   - **event.detail.relatedEvent**：
     - 类型：`PointerEvent | TouchEvent | MouseEvent`
@@ -221,7 +221,7 @@ document.querySelector('#canvas').addEventListener('action', function (event) {
     - 动作的相关数据。
   - **event.detail.action**：
     - 类型：`string`
-    - 可选值：同 `action` 事件。
+    - 可选值：与 `action` 事件相同，除了 `"scale"` 选项。
     - 动作类型。
   - **event.detail.relatedEvent**：
     - 类型：`PointerEvent | TouchEvent | MouseEvent`
