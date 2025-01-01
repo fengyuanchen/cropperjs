@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/fengyuanchen/cropperjs-next.git",
+    "url": "https://github.com/fengyuanchen/cropperjs.git",
     "directory": "packages/element-canvas"
   },
   "keywords": [
@@ -33,8 +33,8 @@
   ],
   "author": "Chen Fengyuan (https://chenfengyuan.com/)",
   "license": "MIT",
-  "bugs": "https://github.com/fengyuanchen/cropperjs-next/issues",
-  "homepage": "https://github.com/fengyuanchen/cropperjs-next/tree/next/packages/element-canvas/#readme",
+  "bugs": "https://github.com/fengyuanchen/cropperjs/issues",
+  "homepage": "https://github.com/fengyuanchen/cropperjs/tree/v2/packages/element-canvas/#readme",
   "dependencies": {
     "@cropper/element": "^2.0.0-rc.2",
     "@cropper/utils": "^2.0.0-rc.2"
