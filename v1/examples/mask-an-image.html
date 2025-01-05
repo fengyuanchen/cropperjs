@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Cropper.js</title>
+  <link rel="stylesheet" href="../css/cropper.css">
+  <style>
+    .container {
+      margin: 20px auto;
+      max-width: 640px;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    .cropper-view-box,
+    .cropper-face {
+      background-color: black;
+      opacity: 1;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Mask an image (Redaction)</h1>
+    <h3>Image</h3>
+    <div>
+      <img id="image" src="../images/picture.jpg" alt="Picture">
+    </div>
+    <h3>Result</h3>
+    <p><button type="button" id="button">Mask</button></p>
+    <div id="result"></div>
+  </div>
+  <script src="../js/cropper.js"></script>
+  <script>
+    function getMaskedCanvas(sourceCanvas, sourceImage, cropper) {
+      var canvas = document.createElement('canvas');
+      var context = canvas.getContext('2d');
+      var maskWidth = cropper.getData().width;
+      var maskHeight = cropper.getData().height;
+      var maskTop =  cropper.getData().y;
+      var maskLeft =  cropper.getData().x;
+      var imageWidth = cropper.getImageData().naturalWidth;
+      var imageHeight = cropper.getImageData().naturalHeight;
+      var imageLeft = cropper.getImageData().left;
+      var imageTop = cropper.getImageData().top;
+      var imageAspect = cropper.getImageData().aspectRatio;
+
+      canvas.width = imageWidth;
+      canvas.height = imageHeight;
+
+      // Debug
+      console.log('Image Width: ' + imageWidth  + ' Image Height: ' + imageHeight + ' Image Aspect Ratio: ' + imageAspect );
+      console.log('Image Left: ' + imageLeft  + ' Image Top: ' + imageTop );
+      console.log('Mask Width: ' + maskWidth + ' Mask Height: ' + maskHeight + ' Mask Left: ' + maskLeft + ' Mask Top: ' + maskTop);
+
+      context.imageSmoothingEnabled = true;
+      context.drawImage(image, 0, 0, imageWidth, imageHeight);
+      context.fillRect(maskLeft, maskTop, maskWidth, maskHeight);
+      return canvas;
+    }
+
+    window.addEventListener('DOMContentLoaded', function () {
+      var image = document.getElementById('image');
+      var button = document.getElementById('button');
+      var result = document.getElementById('result');
+      var croppable = false;
+      var cropper = new Cropper(image, {
+        viewMode: 0,
+        guides: true,
+        center: true,
+        highlight: true,
+        cropBoxMovable: true,
+        cropBoxResizable: true,
+        ready: function () {
+          croppable = true;
+        },
+      });
+
+      button.onclick = function () {
+        var croppedCanvas;
+        var maskedCanvas;
+        var maskedImage;
+
+        if (!croppable) {
+          return;
+        }
+
+        // Crop
+        croppedCanvas = cropper.getCroppedCanvas();
+
+        // Mask
+        maskedCanvas = getMaskedCanvas(croppedCanvas, image, cropper);
+
+        // Show
+        maskedImage = document.createElement('img');
+        maskedImage.src = maskedCanvas.toDataURL();
+        result.innerHTML = '';
+        result.appendChild(maskedImage);
+      };
+    });
+  </script>
+</body>
+</html>

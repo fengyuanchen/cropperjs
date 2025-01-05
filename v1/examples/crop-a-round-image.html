@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Cropper.js</title>
+  <link rel="stylesheet" href="../css/cropper.css">
+  <style>
+    .container {
+      margin: 20px auto;
+      max-width: 640px;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    .cropper-view-box,
+    .cropper-face {
+      border-radius: 50%;
+    }
+
+    /* The css styles for `outline` do not follow `border-radius` on iOS/Safari (#979). */
+    .cropper-view-box {
+        outline: 0;
+        box-shadow: 0 0 0 1px #39f;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Crop a round image</h1>
+    <h3>Image</h3>
+    <div>
+      <img id="image" src="../images/picture.jpg" alt="Picture">
+    </div>
+    <h3>Result</h3>
+    <p>
+      <button type="button" id="button">Crop</button>
+    </p>
+    <div id="result"></div>
+  </div>
+  <script src="../js/cropper.js"></script>
+  <script>
+    function getRoundedCanvas(sourceCanvas) {
+      var canvas = document.createElement('canvas');
+      var context = canvas.getContext('2d');
+      var width = sourceCanvas.width;
+      var height = sourceCanvas.height;
+
+      canvas.width = width;
+      canvas.height = height;
+      context.imageSmoothingEnabled = true;
+      context.drawImage(sourceCanvas, 0, 0, width, height);
+      context.globalCompositeOperation = 'destination-in';
+      context.beginPath();
+      context.arc(width / 2, height / 2, Math.min(width, height) / 2, 0, 2 * Math.PI, true);
+      context.fill();
+      return canvas;
+    }
+
+    window.addEventListener('DOMContentLoaded', function () {
+      var image = document.getElementById('image');
+      var button = document.getElementById('button');
+      var result = document.getElementById('result');
+      var croppable = false;
+      var cropper = new Cropper(image, {
+        aspectRatio: 1,
+        viewMode: 1,
+        ready: function () {
+          croppable = true;
+        },
+      });
+
+      button.onclick = function () {
+        var croppedCanvas;
+        var roundedCanvas;
+        var roundedImage;
+
+        if (!croppable) {
+          return;
+        }
+
+        // Crop
+        croppedCanvas = cropper.getCroppedCanvas();
+
+        // Round
+        roundedCanvas = getRoundedCanvas(croppedCanvas);
+
+        // Show
+        roundedImage = document.createElement('img');
+        roundedImage.src = roundedCanvas.toDataURL()
+        result.innerHTML = '';
+        result.appendChild(roundedImage);
+      };
+    });
+  </script>
+</body>
+</html>
