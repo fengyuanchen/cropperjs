@@ -41,7 +41,7 @@ Cropper.js 2.0 是一系列用于图像裁剪的 Web 组件。
 在使用 Cropper.js 构建大型应用程序时，推荐使用 npm 安装方法。
 
 ```sh
-npm install cropperjs@next
+npm install cropperjs
 ```
 
 对于特定的包：
@@ -55,7 +55,7 @@ npm install @cropper/element-canvas
 出于原型设计或学习目的，你可以使用最新版本：
 
 ```html
-<script src="https://unpkg.com/cropperjs@next"></script>
+<script src="https://unpkg.com/cropperjs"></script>
 ```
 
 对于生产，我们建议链接到特定版本号和文件名以避免新版本意外损坏。
@@ -73,7 +73,7 @@ const cropper = new Cropper('#image');
 ```
 
 ```html
-<img id="image" src="/cropperjs/v2/picture.jpg" alt="Picture">
+<img id="image" src="/cropperjs/picture.jpg" alt="Picture">
 ```
 
 #### 在 DOM 中使用
@@ -88,7 +88,7 @@ import 'cropperjs';
 
 ```html
 <cropper-canvas background>
-  <cropper-image src="/cropperjs/v2/picture.jpg" alt="Picture" rotatable scalable skewable translatable></cropper-image>
+  <cropper-image src="/cropperjs/picture.jpg" alt="Picture" rotatable scalable skewable translatable></cropper-image>
   <cropper-shade hidden></cropper-shade>
   <cropper-handle action="select" plain></cropper-handle>
   <cropper-selection initial-coverage="0.5" movable resizable>
@@ -127,7 +127,7 @@ CropperHandle.$define();
 
 ```html
 <cropper-canvas background>
-  <cropper-image src="/cropperjs/v2/picture.jpg" alt="Picture" rotatable scalable skewable translatable></cropper-image>
+  <cropper-image src="/cropperjs/picture.jpg" alt="Picture" rotatable scalable skewable translatable></cropper-image>
   <cropper-handle action="move" plain></cropper-handle>
 </cropper-canvas>
 ```
@@ -140,18 +140,18 @@ Cropper.js 包含一系列 [npm](https://www.npmjs.com/) 包：
 
 | 安装包名称 | 版本 | 描述 |
 | --- | --- | --- |
-| `cropperjs` | [![Version](https://img.shields.io/npm/v/cropperjs/next)](https://www.npmjs.com/package/cropperjs/v/next) | 完整包。 |
-| `@cropper/element` | [![Version](https://img.shields.io/npm/v/@cropper/element/next)](https://www.npmjs.com/package/@cropper/element) | 用于构造 Cropper 元素的抽象类。 |
-| `@cropper/element-canvas` | [![Version](https://img.shields.io/npm/v/@cropper/element-canvas/next)](https://www.npmjs.com/package/@cropper/element-canvas) | Cropper 的自定义画布元素。 |
-| `@cropper/element-image` | [![Version](https://img.shields.io/npm/v/@cropper/element-image/next)](https://www.npmjs.com/package/@cropper/element-image) | Cropper 的自定义图像元素。 |
-| `@cropper/element-shade` | [![Version](https://img.shields.io/npm/v/@cropper/element-shade/next)](https://www.npmjs.com/package/@cropper/element-shade) | Cropper 的自定义阴影元素。 |
-| `@cropper/element-handle` | [![Version](https://img.shields.io/npm/v/@cropper/element-handle/next)](https://www.npmjs.com/package/@cropper/element-handle) | Cropper 的自定义手柄元素。 |
-| `@cropper/element-selection` | [![Version](https://img.shields.io/npm/v/@cropper/element-selection/next)](https://www.npmjs.com/package/@cropper/element-selection) | Cropper 的自定义选区元素。 |
-| `@cropper/element-grid` | [![Version](https://img.shields.io/npm/v/@cropper/element-grid/next)](https://www.npmjs.com/package/@cropper/element-grid) | Cropper 的自定义网格元素。 |
-| `@cropper/element-crosshair` | [![Version](https://img.shields.io/npm/v/@cropper/element-crosshair/next)](https://www.npmjs.com/package/@cropper/element-crosshair) | Cropper 的自定义十字准线元素。 |
-| `@cropper/element-viewer` | [![Version](https://img.shields.io/npm/v/@cropper/element-viewer/next)](https://www.npmjs.com/package/@cropper/element-viewer) | Cropper 的自定义查看器元素。 |
-| `@cropper/elements` | [![Version](https://img.shields.io/npm/v/@cropper/elements/next)](https://www.npmjs.com/package/@cropper/elements) | Cropper 的一系列自定义元素。 |
-| `@cropper/utils` | [![Version](https://img.shields.io/npm/v/@cropper/utils/next)](https://www.npmjs.com/package/@cropper/utils) | Cropper 的一系列常用常量和实用函数。 |
+| `cropperjs` | [![Version](https://img.shields.io/npm/v/cropperjs)](https://www.npmjs.com/package/cropperjs/v) | 完整包。 |
+| `@cropper/element` | [![Version](https://img.shields.io/npm/v/@cropper/element)](https://www.npmjs.com/package/@cropper/element) | 用于构造 Cropper 元素的抽象类。 |
+| `@cropper/element-canvas` | [![Version](https://img.shields.io/npm/v/@cropper/element-canvas)](https://www.npmjs.com/package/@cropper/element-canvas) | Cropper 的自定义画布元素。 |
+| `@cropper/element-image` | [![Version](https://img.shields.io/npm/v/@cropper/element-image)](https://www.npmjs.com/package/@cropper/element-image) | Cropper 的自定义图像元素。 |
+| `@cropper/element-shade` | [![Version](https://img.shields.io/npm/v/@cropper/element-shade)](https://www.npmjs.com/package/@cropper/element-shade) | Cropper 的自定义阴影元素。 |
+| `@cropper/element-handle` | [![Version](https://img.shields.io/npm/v/@cropper/element-handle)](https://www.npmjs.com/package/@cropper/element-handle) | Cropper 的自定义手柄元素。 |
+| `@cropper/element-selection` | [![Version](https://img.shields.io/npm/v/@cropper/element-selection)](https://www.npmjs.com/package/@cropper/element-selection) | Cropper 的自定义选区元素。 |
+| `@cropper/element-grid` | [![Version](https://img.shields.io/npm/v/@cropper/element-grid)](https://www.npmjs.com/package/@cropper/element-grid) | Cropper 的自定义网格元素。 |
+| `@cropper/element-crosshair` | [![Version](https://img.shields.io/npm/v/@cropper/element-crosshair)](https://www.npmjs.com/package/@cropper/element-crosshair) | Cropper 的自定义十字准线元素。 |
+| `@cropper/element-viewer` | [![Version](https://img.shields.io/npm/v/@cropper/element-viewer)](https://www.npmjs.com/package/@cropper/element-viewer) | Cropper 的自定义查看器元素。 |
+| `@cropper/elements` | [![Version](https://img.shields.io/npm/v/@cropper/elements)](https://www.npmjs.com/package/@cropper/elements) | Cropper 的一系列自定义元素。 |
+| `@cropper/utils` | [![Version](https://img.shields.io/npm/v/@cropper/utils)](https://www.npmjs.com/package/@cropper/utils) | Cropper 的一系列常用常量和实用函数。 |
 
 ## 接口
 

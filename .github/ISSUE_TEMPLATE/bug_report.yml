@@ -9,7 +9,7 @@ body:
         This form is only for submitting bug reports. If you have a usage question
         or are unsure if this is really a bug, make sure to:
 
-        - Read the [docs](https://fengyuanchen.github.io/cropperjs/v2/)
+        - Read the [docs](https://fengyuanchen.github.io/cropperjs)
         - Ask on [GitHub Discussions](https://github.com/fengyuanchen/cropperjs/discussions)
         - Look for / ask questions on [Stack Overflow](https://stackoverflow.com/questions/ask?tags=cropperjs)
 
@@ -27,7 +27,7 @@ body:
     attributes:
       label: Link to minimal reproduction
       description: |
-        The easiest way to provide a reproduction is by showing the bug in the [Playground](https://fengyuanchen.github.io/cropperjs/v2/playground.html).
+        The easiest way to provide a reproduction is by showing the bug in the [Playground](https://fengyuanchen.github.io/cropperjs/playground.html).
         If it cannot be reproduced in the playground and requires a proper build setup, try [StackBlitz](https://stackblitz.com/?starters=frontend).
         If neither of these are suitable, you can always provide a GitHub repository.
 

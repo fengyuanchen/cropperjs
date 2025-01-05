@@ -10,6 +10,28 @@
   "files": [
     "dist"
   ],
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/elements.d.ts",
+        "node": {
+          "production": "./dist/elements.esm.min.js",
+          "development": "./dist/elements.esm.js",
+          "default": "./dist/elements.esm.raw.js"
+        },
+        "default": "./dist/elements.esm.raw.js"
+      },
+      "require": {
+        "types": "./dist/elements.d.ts",
+        "node": {
+          "production": "./dist/elements.min.js",
+          "development": "./dist/elements.js",
+          "default": "./elements.raw.js"
+        },
+        "default": "./dist/elements.raw.js"
+      }
+    }
+  },
   "scripts": {
     "api-extractor": "api-extractor run --local --verbose",
     "build": "npm run tsc && npm run api-extractor && npm run rollup",
@@ -31,7 +53,7 @@
   "author": "Chen Fengyuan (https://chenfengyuan.com/)",
   "license": "MIT",
   "bugs": "https://github.com/fengyuanchen/cropperjs/issues",
-  "homepage": "https://github.com/fengyuanchen/cropperjs/tree/v2/packages/elements/#readme",
+  "homepage": "https://github.com/fengyuanchen/cropperjs/tree/main/packages/elements/#readme",
   "dependencies": {
     "@cropper/element": "^2.0.0-rc.2",
     "@cropper/element-canvas": "^2.0.0-rc.2",
@@ -42,9 +64,5 @@
     "@cropper/element-selection": "^2.0.0-rc.2",
     "@cropper/element-shade": "^2.0.0-rc.2",
     "@cropper/element-viewer": "^2.0.0-rc.2"
-  },
-  "publishConfig": {
-    "access": "public",
-    "tag": "next"
   }
 }

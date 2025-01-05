@@ -23,7 +23,7 @@ The default width and height of this element is `0`.
 :::live-demo
 
 ```html
-<cropper-image src="/cropperjs/v2/picture.jpg" alt="Picture" style="width: 100%;" rotatable scalable skewable translatable></cropper-image>
+<cropper-image src="/cropperjs/picture.jpg" alt="Picture" style="width: 100%;" rotatable scalable skewable translatable></cropper-image>
 ```
 
 :::
@@ -85,7 +85,7 @@ The built-in `<img>` element will inherit the following attributes by default:
   cropperImage.$ready((image) => {
     console.log(image.naturalWidth, image.naturalHeight);
   });
-  cropperImage.src = '/cropperjs/v2/picture.jpg';
+  cropperImage.src = '/cropperjs/picture.jpg';
   ```
 
 Defers the callback to execute after successfully loading the image.

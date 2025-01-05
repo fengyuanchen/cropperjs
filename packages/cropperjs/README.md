@@ -20,7 +20,7 @@ dist/
 ### Installation
 
 ```sh
-npm install cropperjs@next
+npm install cropperjs
 ```
 
 ### Usage

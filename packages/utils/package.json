@@ -10,6 +10,28 @@
   "files": [
     "dist"
   ],
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/utils.d.ts",
+        "node": {
+          "production": "./dist/utils.esm.min.js",
+          "development": "./dist/utils.esm.js",
+          "default": "./dist/utils.esm.raw.js"
+        },
+        "default": "./dist/utils.esm.raw.js"
+      },
+      "require": {
+        "types": "./dist/utils.d.ts",
+        "node": {
+          "production": "./dist/utils.min.js",
+          "development": "./dist/utils.js",
+          "default": "./utils.raw.js"
+        },
+        "default": "./dist/utils.raw.js"
+      }
+    }
+  },
   "scripts": {
     "api-extractor": "api-extractor run --local --verbose",
     "build": "npm run tsc && npm run api-extractor && npm run rollup",
@@ -34,9 +56,5 @@
   "author": "Chen Fengyuan (https://chenfengyuan.com/)",
   "license": "MIT",
   "bugs": "https://github.com/fengyuanchen/cropperjs/issues",
-  "homepage": "https://github.com/fengyuanchen/cropperjs/tree/v2/packages/utils/#readme",
-  "publishConfig": {
-    "access": "public",
-    "tag": "next"
-  }
+  "homepage": "https://github.com/fengyuanchen/cropperjs/tree/main/packages/utils/#readme"
 }

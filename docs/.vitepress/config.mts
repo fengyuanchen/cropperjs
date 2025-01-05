@@ -7,21 +7,21 @@ import lerna from '../../lerna.json';
 const packages = resolve(__dirname, '../../packages');
 
 export default defineConfig({
-  base: '/cropperjs/v2/',
+  base: '/cropperjs/',
   head: [
     [
       'link',
       {
         rel: 'apple-touch-icon',
         sizes: '180x180',
-        href: '/cropperjs/v2/apple-touch-icon.png',
+        href: '/cropperjs/apple-touch-icon.png',
       },
     ],
     [
       'link',
       {
         rel: 'icon',
-        href: '/cropperjs/v2/favicon.ico',
+        href: '/cropperjs/favicon.ico',
       },
     ],
     [
@@ -30,7 +30,7 @@ export default defineConfig({
         rel: 'icon',
         type: 'image/png',
         size: '16x16',
-        href: '/cropperjs/v2/favicon-16x16.png',
+        href: '/cropperjs/favicon-16x16.png',
       },
     ],
     [
@@ -39,7 +39,7 @@ export default defineConfig({
         rel: 'icon',
         type: 'image/png',
         size: '32x32',
-        href: '/cropperjs/v2/favicon-32x32.png',
+        href: '/cropperjs/favicon-32x32.png',
       },
     ],
     [
@@ -67,7 +67,7 @@ export default defineConfig({
     socialLinks: [
       {
         icon: 'github',
-        link: 'https://github.com/fengyuanchen/cropperjs/tree/v2',
+        link: 'https://github.com/fengyuanchen/cropperjs',
       },
     ],
     footer: {
@@ -90,7 +90,7 @@ export default defineConfig({
       description: 'JavaScript image cropper.',
       themeConfig: {
         editLink: {
-          pattern: 'https://github.com/fengyuanchen/cropperjs/edit/v2/docs/:path',
+          pattern: 'https://github.com/fengyuanchen/cropperjs/edit/main/docs/:path',
           text: 'Edit this page on GitHub',
         },
         nav: [
@@ -113,13 +113,13 @@ export default defineConfig({
           {
             text: lerna.version,
             items: [
-              { text: 'Changelog', link: 'https://github.com/fengyuanchen/cropperjs/blob/v2/CHANGELOG.md' },
-              { text: 'Contributing', link: 'https://github.com/fengyuanchen/cropperjs/blob/v2/.github/CONTRIBUTING.md' },
+              { text: 'Changelog', link: 'https://github.com/fengyuanchen/cropperjs/blob/main/CHANGELOG.md' },
+              { text: 'Contributing', link: 'https://github.com/fengyuanchen/cropperjs/blob/main/.github/CONTRIBUTING.md' },
             ],
           },
           {
             text: '1.x',
-            link: 'https://fengyuanchen.github.io/cropperjs',
+            link: 'https://fengyuanchen.github.io/cropperjs/v1/',
           },
         ],
         sidebar: {
@@ -194,7 +194,7 @@ export default defineConfig({
           label: '在当前页面上',
         },
         editLink: {
-          pattern: 'https://github.com/fengyuanchen/cropperjs/edit/v2/docs/:path',
+          pattern: 'https://github.com/fengyuanchen/cropperjs/edit/main/docs/:path',
           text: '在 GitHub 上编辑此页',
         },
         docFooter: {
@@ -220,7 +220,7 @@ export default defineConfig({
           },
           {
             text: '1.x',
-            link: 'https://fengyuanchen.github.io/cropperjs',
+            link: 'https://fengyuanchen.github.io/cropperjs/v1',
           },
         ],
         sidebar: {

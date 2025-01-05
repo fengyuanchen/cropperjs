@@ -10,6 +10,28 @@
   "files": [
     "dist"
   ],
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/element-handle.d.ts",
+        "node": {
+          "production": "./dist/element-handle.esm.min.js",
+          "development": "./dist/element-handle.esm.js",
+          "default": "./dist/element-handle.esm.raw.js"
+        },
+        "default": "./dist/element-handle.esm.raw.js"
+      },
+      "require": {
+        "types": "./dist/element-handle.d.ts",
+        "node": {
+          "production": "./dist/element-handle.min.js",
+          "development": "./dist/element-handle.js",
+          "default": "./element-handle.raw.js"
+        },
+        "default": "./dist/element-handle.raw.js"
+      }
+    }
+  },
   "scripts": {
     "api-extractor": "api-extractor run --local --verbose",
     "build": "npm run tsc && npm run api-extractor && npm run rollup",
@@ -34,13 +56,9 @@
   "author": "Chen Fengyuan (https://chenfengyuan.com/)",
   "license": "MIT",
   "bugs": "https://github.com/fengyuanchen/cropperjs/issues",
-  "homepage": "https://github.com/fengyuanchen/cropperjs/tree/v2/packages/element-handle/#readme",
+  "homepage": "https://github.com/fengyuanchen/cropperjs/tree/main/packages/element-handle/#readme",
   "dependencies": {
     "@cropper/element": "^2.0.0-rc.2",
     "@cropper/utils": "^2.0.0-rc.2"
-  },
-  "publishConfig": {
-    "access": "public",
-    "tag": "next"
   }
 }

@@ -10,6 +10,28 @@
   "files": [
     "dist"
   ],
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/element-crosshair.d.ts",
+        "node": {
+          "production": "./dist/element-crosshair.esm.min.js",
+          "development": "./dist/element-crosshair.esm.js",
+          "default": "./dist/element-crosshair.esm.raw.js"
+        },
+        "default": "./dist/element-crosshair.esm.raw.js"
+      },
+      "require": {
+        "types": "./dist/element-crosshair.d.ts",
+        "node": {
+          "production": "./dist/element-crosshair.min.js",
+          "development": "./dist/element-crosshair.js",
+          "default": "./element-crosshair.raw.js"
+        },
+        "default": "./dist/element-crosshair.raw.js"
+      }
+    }
+  },
   "scripts": {
     "api-extractor": "api-extractor run --local --verbose",
     "build": "npm run tsc && npm run api-extractor && npm run rollup",
@@ -34,13 +56,9 @@
   "author": "Chen Fengyuan (https://chenfengyuan.com/)",
   "license": "MIT",
   "bugs": "https://github.com/fengyuanchen/cropperjs/issues",
-  "homepage": "https://github.com/fengyuanchen/cropperjs/tree/v2/packages/element-crosshair/#readme",
+  "homepage": "https://github.com/fengyuanchen/cropperjs/tree/main/packages/element-crosshair/#readme",
   "dependencies": {
     "@cropper/element": "^2.0.0-rc.2",
     "@cropper/utils": "^2.0.0-rc.2"
-  },
-  "publishConfig": {
-    "access": "public",
-    "tag": "next"
   }
 }

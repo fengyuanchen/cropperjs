@@ -23,7 +23,7 @@
 :::live-demo
 
 ```html
-<cropper-image src="/cropperjs/v2/picture.jpg" alt="Picture" style="width: 100%;" rotatable scalable skewable translatable></cropper-image>
+<cropper-image src="/cropperjs/picture.jpg" alt="Picture" style="width: 100%;" rotatable scalable skewable translatable></cropper-image>
 ```
 
 :::
@@ -85,7 +85,7 @@
   cropperImage.$ready((image) => {
     console.log(image.naturalWidth, image.naturalHeight);
   });
-  cropperImage.src = '/cropperjs/v2/picture.jpg';
+  cropperImage.src = '/cropperjs/picture.jpg';
   ```
 
 成功加载图像后延迟执行回调。
