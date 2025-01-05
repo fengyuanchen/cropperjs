@@ -101,5 +101,8 @@
     "stylelint-config-standard": "^22.0.0",
     "stylelint-order": "^4.1.0",
     "uglify-js": "^3.19.3"
+  },
+  "publishConfig": {
+    "tag": "latest-1"
   }
 }
