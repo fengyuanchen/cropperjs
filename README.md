@@ -7,6 +7,11 @@
 - [Website](https://fengyuanchen.github.io/cropperjs)
 - [Photo Editor](https://fengyuanchen.github.io/photo-editor) - An advanced example of Cropper.js.
 - [jquery-cropper](https://github.com/fengyuanchen/jquery-cropper) - A jQuery plugin wrapper for Cropper.js.
+- [Usage Trend of cropperjs](https://npm-compare.com/cropperjs#timeRange=FIVE_YEARS)
+  
+<a href="https://npm-compare.com/cropperjs#timeRange=FIVE_YEARS" target="_blank">
+  <img src="https://npm-compare.com/img/npm-trend/FIVE_YEARS/cropperjs.png" width="70%" alt="NPM Usage Trend of cropperjs" />
+</a>
 
 ## Table of contents
 
