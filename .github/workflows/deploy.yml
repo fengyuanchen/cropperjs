@@ -23,7 +23,8 @@ jobs:
         with:
           ref: gh-pages
           clean: false
-      - run: cp -rf ./temp .
+      - run: cp -rf .temp/* .
+      - run: rm -r .temp
       - run: git config user.name "${{ github.actor }}"
       - run: git config user.email "${{ github.actor }}@users.noreply.github.com"
       - run: git add .
