@@ -70,7 +70,6 @@
     "babel-plugin-istanbul": "^6.1.1",
     "chai": "^4.5.0",
     "change-case": "^4.1.2",
-    "codecov": "^3.8.2",
     "cpy-cli": "^5.0.0",
     "create-banner": "^2.0.0",
     "cssnano": "^5.1.15",
