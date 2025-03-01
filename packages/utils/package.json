@@ -1,6 +1,6 @@
 {
   "name": "@cropper/utils",
-  "version": "2.0.0-rc.2",
+  "version": "2.0.0",
   "description": "A series of common constants and utility functions for Cropper.",
   "main": "dist/utils.raw.js",
   "module": "dist/utils.esm.raw.js",
@@ -56,5 +56,8 @@
   "author": "Chen Fengyuan (https://chenfengyuan.com/)",
   "license": "MIT",
   "bugs": "https://github.com/fengyuanchen/cropperjs/issues",
-  "homepage": "https://github.com/fengyuanchen/cropperjs/tree/main/packages/utils/#readme"
+  "homepage": "https://github.com/fengyuanchen/cropperjs/tree/main/packages/utils/#readme",
+  "publishConfig": {
+    "access": "public"
+  }
 }
