@@ -30,7 +30,7 @@ Cropper.js 2.0 是一系列用于图像裁剪的 Web 组件。
 | --- | --- | --- | --- | --- | --- |
 | [Cropper](https://github.com/fengyuanchen/cropper) | [`cropper`](https://www.npmjs.com/package/cropper) | [`jquery`](https://www.npmjs.com/package/jquery) | 2014 | 已废弃 | 一个简单的 jQuery 图像裁剪插件。 |
 | [Cropper.js](https://github.com/fengyuanchen/cropperjs) | [`cropperjs`](https://www.npmjs.com/package/cropperjs) | - | 2015 | 活跃中 | JavaScript 图片裁剪器。 |
-| [jQuery Cropper](https://github.com/fengyuanchen/jquery-cropper) | [`jquery-cropper`](https://www.npmjs.com/package/jquery-cropper) | [`jquery`](https://www.npmjs.com/package/jquery) + [`cropperjs`](https://www.npmjs.com/package/cropperjs) | 2018 | 维护中 | Cropper.js 的 jQuery 插件包装器。 |
+| [jQuery Cropper](https://github.com/fengyuanchen/jquery-cropper) | [`jquery-cropper`](https://www.npmjs.com/package/jquery-cropper) | [`jquery`](https://www.npmjs.com/package/jquery) + [`cropperjs@1`](https://www.npmjs.com/package/cropperjs) | 2018 | 维护中 | Cropper.js 1.0 的 jQuery 插件包装器。 |
 
 ## 入门
 
