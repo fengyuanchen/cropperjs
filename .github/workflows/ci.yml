@@ -21,6 +21,3 @@ jobs:
       - run: npm run lint
       - run: npm run build
       - run: npm test
-      - uses: codecov/codecov-action@v5
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
