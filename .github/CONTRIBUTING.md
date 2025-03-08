@@ -1,6 +1,6 @@
 # Contributing to Cropper.js
 
-> Based on [Angular's contributing guidelines](https://github.com/angular/angular/blob/master/CONTRIBUTING.md).
+> Based on [Angular's contributing guidelines](https://github.com/angular/angular/blob/main/CONTRIBUTING.md).
 
 We would love for you to contribute to Cropper.js and help make it even better than it is today! As a contributor, here are the guidelines we would like you to follow:
 
