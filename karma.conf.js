@@ -7,7 +7,13 @@ process.env.NODE_ENV = 'test';
 module.exports = (config) => {
   config.set({
     autoWatch: false,
-    browsers: ['ChromeHeadless'],
+    browsers: ['ChromeHeadlessNoSandbox'],
+    customLaunchers: {
+      ChromeHeadlessNoSandbox: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox'],
+      },
+    },
     client: {
       mocha: {
         timeout: 10000,
