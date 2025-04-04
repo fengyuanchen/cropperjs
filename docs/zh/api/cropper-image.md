@@ -56,7 +56,8 @@
 - `alt`
 - `crossorigin`
 - `decoding`
-- `importance`
+- `elementtiming`
+- `fetchpriority`
 - `loading`
 - `referrerpolicy`
 - `sizes`

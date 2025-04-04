@@ -31,7 +31,8 @@ const NATIVE_ATTRIBUTES = [
   'alt',
   'crossorigin',
   'decoding',
-  'importance',
+  'elementtiming',
+  'fetchpriority',
   'loading',
   'referrerpolicy',
   'sizes',
@@ -71,6 +72,27 @@ export default class CropperImage extends CropperElement {
   slottable = false;
 
   translatable = false;
+
+  // Native attributes
+  alt = '';
+
+  crossorigin = '';
+
+  decoding = '';
+
+  elementtiming = '';
+
+  fetchpriority = '';
+
+  loading = '';
+
+  referrerpolicy = '';
+
+  sizes = '';
+
+  src = '';
+
+  srcset = '';
 
   protected set $canvas(element: CropperCanvas) {
     canvasCache.set(this, element);

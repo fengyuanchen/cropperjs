@@ -56,7 +56,8 @@ The built-in `<img>` element will inherit the following attributes by default:
 - `alt`
 - `crossorigin`
 - `decoding`
-- `importance`
+- `elementtiming`
+- `fetchpriority`
 - `loading`
 - `referrerpolicy`
 - `sizes`
