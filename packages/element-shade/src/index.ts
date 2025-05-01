@@ -84,13 +84,13 @@ export default class CropperShade extends CropperElement {
             this.hidden = true;
           }
         };
-        this.$onCanvasChange = (event) => {
+        this.$onCanvasChange = () => {
           const {
             x,
             y,
             width,
             height,
-          } = (event as CustomEvent).detail;
+          } = $selection;
 
           this.$change(x, y, width, height);
 
