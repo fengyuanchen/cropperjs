@@ -2,6 +2,7 @@ import {
   CROPPER_CANVAS,
   CROPPER_IMAGE,
   CROPPER_SELECTION,
+  getRootDocument,
   isElement,
   isString,
 } from '@cropper/utils';
@@ -65,12 +66,11 @@ export default class Cropper {
     options = { ...DEFAULT_OPTIONS, ...options };
     this.options = options;
 
-    const { ownerDocument } = element;
     let { container } = options;
 
     if (container) {
       if (isString(container)) {
-        container = ownerDocument.querySelector(container) as Element;
+        container = getRootDocument(element)?.querySelector(container) as Element;
       }
 
       if (!isElement(container)) {
@@ -82,7 +82,7 @@ export default class Cropper {
       if (element.parentElement) {
         container = element.parentElement;
       } else {
-        container = ownerDocument.body;
+        container = element.ownerDocument.body;
       }
     }
 
