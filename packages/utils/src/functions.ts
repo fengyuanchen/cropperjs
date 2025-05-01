@@ -214,6 +214,30 @@ export function nextTick(context?: unknown, callback?: () => void): Promise<void
 }
 
 /**
+ * Get the root document node.
+ * @param {Element} element The target element.
+ * @returns {Document|DocumentFragment|null} The document node.
+ */
+export function getRootDocument(element: Element): Document | DocumentFragment | null {
+  const rootNode = element.getRootNode();
+
+  switch (rootNode.nodeType) {
+    case 1:
+      return rootNode.ownerDocument;
+
+    case 9:
+      return rootNode as Document;
+
+    case 11:
+      return rootNode as DocumentFragment;
+
+    default:
+  }
+
+  return null;
+}
+
+/**
  * Get the offset base on the document.
  * @param {Element} element The target element.
  * @returns {object} The offset data.

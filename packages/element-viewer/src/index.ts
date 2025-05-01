@@ -11,6 +11,7 @@ import {
   EVENT_CHANGE,
   EVENT_LOAD,
   EVENT_TRANSFORM,
+  getRootDocument,
   isElement,
   off,
   on,
@@ -92,7 +93,7 @@ export default class CropperViewer extends CropperElement {
     let $selection: CropperSelection | null = null;
 
     if (this.selection) {
-      $selection = this.ownerDocument.querySelector(this.selection);
+      $selection = getRootDocument(this)?.querySelector(this.selection) ?? null;
     } else {
       $selection = this.closest(this.$getTagNameOf(CROPPER_SELECTION));
     }
