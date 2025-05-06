@@ -23,11 +23,11 @@ export default class CropperShade extends CropperElement {
 
   static $version = '__VERSION__';
 
-  protected $onCanvasChange: EventListener | null = null;
-
   protected $onCanvasActionEnd: EventListener | null = null;
 
   protected $onCanvasActionStart: EventListener | null = null;
+
+  protected $onSelectionChange: EventListener | null = null;
 
   protected $style = style;
 
@@ -84,7 +84,7 @@ export default class CropperShade extends CropperElement {
             this.hidden = true;
           }
         };
-        this.$onCanvasChange = (event) => {
+        this.$onSelectionChange = (event) => {
           const {
             x,
             y,
@@ -100,7 +100,7 @@ export default class CropperShade extends CropperElement {
         };
         on($canvas, EVENT_ACTION_START, this.$onCanvasActionStart);
         on($canvas, EVENT_ACTION_END, this.$onCanvasActionEnd);
-        on($canvas, EVENT_CHANGE, this.$onCanvasChange);
+        on($canvas, EVENT_CHANGE, this.$onSelectionChange);
       }
     }
 
@@ -121,9 +121,9 @@ export default class CropperShade extends CropperElement {
         this.$onCanvasActionEnd = null;
       }
 
-      if (this.$onCanvasChange) {
-        off($canvas, EVENT_CHANGE, this.$onCanvasChange);
-        this.$onCanvasChange = null;
+      if (this.$onSelectionChange) {
+        off($canvas, EVENT_CHANGE, this.$onSelectionChange);
+        this.$onSelectionChange = null;
       }
     }
 
