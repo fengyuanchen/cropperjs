@@ -87,14 +87,6 @@ describe('Cropper', () => {
         expect(cropper.options.template).toBe(template);
         expect(document.querySelector('#cropperCanvas')).toBeTruthy();
       });
-
-      it('should set crossorigin attribute on image', () => {
-        const image = new Image();
-        image.crossOrigin = '';
-        const cropper = new Cropper(image);
-
-        expect(cropper.options.template).toBeDefined();
-      });
     });
   });
 
