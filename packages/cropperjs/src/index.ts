@@ -109,6 +109,9 @@ export default class Cropper {
       Array.from(documentFragment.querySelectorAll(CROPPER_IMAGE)).forEach((image) => {
         image.setAttribute('src', src);
         image.setAttribute('alt', (element as HTMLImageElement).alt || 'The image to crop');
+        if (element instanceof HTMLImageElement && typeof element.crossOrigin === 'string') {
+          image.setAttribute('crossorigin', element.crossOrigin);
+        }
       });
 
       if (element.parentElement) {
