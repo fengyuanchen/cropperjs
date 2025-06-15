@@ -109,8 +109,23 @@ export default class Cropper {
       Array.from(documentFragment.querySelectorAll(CROPPER_IMAGE)).forEach((image) => {
         image.setAttribute('src', src);
         image.setAttribute('alt', (element as HTMLImageElement).alt || 'The image to crop');
-        if (element instanceof HTMLImageElement && typeof element.crossOrigin === 'string') {
-          image.setAttribute('crossorigin', element.crossOrigin);
+
+        // Inherit additional attributes from HTMLImageElement
+        if (tagName === 'img') {
+          [
+            'crossorigin',
+            'decoding',
+            'elementtiming',
+            'fetchpriority',
+            'loading',
+            'referrerpolicy',
+            'sizes',
+            'srcset',
+          ].forEach((attribute) => {
+            if ((element as HTMLImageElement).hasAttribute(attribute)) {
+              image.setAttribute(attribute, (element as HTMLImageElement).getAttribute(attribute) || '');
+            }
+          });
         }
       });
 
