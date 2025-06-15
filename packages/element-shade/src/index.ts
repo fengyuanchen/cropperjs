@@ -90,7 +90,9 @@ export default class CropperShade extends CropperElement {
             y,
             width,
             height,
-          } = $selection.multiple ? (event as CustomEvent).detail : $selection;
+          } = ($selection.dynamic || $selection.multiple)
+            ? (event as CustomEvent).detail
+            : $selection;
 
           this.$change(x, y, width, height);
 
