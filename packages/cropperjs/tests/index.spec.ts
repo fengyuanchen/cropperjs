@@ -119,8 +119,11 @@ describe('Cropper', () => {
 
     describe('getCropperSelections', () => {
       it('should return all the cropper selection elements', () => {
+        const container = document.createElement('div');
         const image = new Image();
-        const cropper = new Cropper(image);
+        const cropper = new Cropper(image, {
+          container,
+        });
         const selections = cropper.getCropperSelections();
 
         expect(selections).toHaveLength(1);
