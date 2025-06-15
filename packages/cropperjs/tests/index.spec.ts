@@ -1,5 +1,6 @@
 import {
   CROPPER_CANVAS,
+  CROPPER_IMAGE,
 } from '@cropper/utils';
 import {
   CropperCanvas,
@@ -86,6 +87,22 @@ describe('Cropper', () => {
         expect(cropper.options.template).toBe(template);
         expect(document.querySelector('#cropperCanvas')).toBeTruthy();
       });
+    });
+  });
+
+  describe('others', () => {
+    it('should inherit alt and crossorigin', () => {
+      const image = new Image();
+      image.crossOrigin = 'anonymous';
+      image.alt = 'Test alt text';
+      new Cropper(image);
+
+      const element = document.querySelector(CROPPER_IMAGE);
+
+      if (element) {
+        expect(element.hasAttribute('alt')).toBe(true);
+        expect(element.hasAttribute('crossorigin')).toBe(true);
+      }
     });
   });
 
