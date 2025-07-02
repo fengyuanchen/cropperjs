@@ -26,11 +26,12 @@
         "node": {
           "production": "./dist/cropper.min.js",
           "development": "./dist/cropper.js",
-          "default": "./cropper.raw.js"
+          "default": "./dist/cropper.raw.js"
         },
         "default": "./dist/cropper.raw.js"
       }
-    }
+    },
+    "./package.json": "./package.json"
   },
   "scripts": {
     "api-extractor": "api-extractor run --local --verbose",
