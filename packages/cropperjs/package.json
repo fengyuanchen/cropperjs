@@ -26,7 +26,7 @@
         "node": {
           "production": "./dist/cropper.min.js",
           "development": "./dist/cropper.js",
-          "default": "./cropper.raw.js"
+          "default": "./dist/cropper.raw.js"
         },
         "default": "./dist/cropper.raw.js"
       }
