@@ -1,10 +1,34 @@
+## <small>2.0.1 (2025-07-25)</small>
+
+* build: add missing `/dist` paths ([42dba8b](https://github.com/fengyuanchen/cropperjs/commit/42dba8b))
+* build: release v2.0.1 ([b9c9420](https://github.com/fengyuanchen/cropperjs/commit/b9c9420))
+* fix: correct require.node.default export and explicitly export package.json (#1259) ([97f8787](https://github.com/fengyuanchen/cropperjs/commit/97f8787)), closes [#1259](https://github.com/fengyuanchen/cropperjs/issues/1259)
+* fix: set crossorigin attribute on cropper image element (#1253) ([f11026c](https://github.com/fengyuanchen/cropperjs/commit/f11026c)), closes [#1253](https://github.com/fengyuanchen/cropperjs/issues/1253)
+* fix(cropper-selection): improve selection movement logic for better user experience ([e7e3510](https://github.com/fengyuanchen/cropperjs/commit/e7e3510))
+* fix(cropperjs): fix container query issue when in a custom element ([4fea6fd](https://github.com/fengyuanchen/cropperjs/commit/4fea6fd))
+* fix(cropperjs): inherit additional attributes from HTMLImageElement ([cb5a341](https://github.com/fengyuanchen/cropperjs/commit/cb5a341))
+* fix(element-image): add missing attributes (type declarations) ([2e46715](https://github.com/fengyuanchen/cropperjs/commit/2e46715)), closes [#1233](https://github.com/fengyuanchen/cropperjs/issues/1233)
+* fix(element-shade): get data from `event.detail` when the selection is  dynamic ([f6b2847](https://github.com/fengyuanchen/cropperjs/commit/f6b2847))
+* fix(element-shade): get data from `event.detail` when there are multiple selections ([09fd9ca](https://github.com/fengyuanchen/cropperjs/commit/09fd9ca))
+* fix(element-shade): prevent shade from "glitching" when pulling selection too far (#1242) ([2dab6ff](https://github.com/fengyuanchen/cropperjs/commit/2dab6ff)), closes [#1242](https://github.com/fengyuanchen/cropperjs/issues/1242) [#1078](https://github.com/fengyuanchen/cropperjs/issues/1078)
+* fix(element-viewer): fix selection query issue when in a custom element ([aecee79](https://github.com/fengyuanchen/cropperjs/commit/aecee79)), closes [#1245](https://github.com/fengyuanchen/cropperjs/issues/1245)
+* fix(element-viewer): transform the image by the selection offset after the next DOM update cycle ([04a2c8b](https://github.com/fengyuanchen/cropperjs/commit/04a2c8b)), closes [#1258](https://github.com/fengyuanchen/cropperjs/issues/1258)
+* test(cropper): remove support for HTMLCanvasElement and improve container handling in tests ([91d5ab3](https://github.com/fengyuanchen/cropperjs/commit/91d5ab3))
+* test(cropperjs): add container option to `getCropperSelections` test ([69a0ab6](https://github.com/fengyuanchen/cropperjs/commit/69a0ab6))
+* refactor(element-shade): rename selection event handler for better readability ([c960217](https://github.com/fengyuanchen/cropperjs/commit/c960217))
+* docs: explain that jQuery Cropper only available for Cropper.js 1.0 now ([3df9b20](https://github.com/fengyuanchen/cropperjs/commit/3df9b20))
+
+
+
 ## 2.0.0 (2025-03-01)
 
 * build: config issue template ([649b2fa](https://github.com/fengyuanchen/cropperjs/commit/649b2fa))
 * build: prepare v2 stable version ([ae55bdf](https://github.com/fengyuanchen/cropperjs/commit/ae55bdf))
+* build: release v2.0.0 ([08a3d16](https://github.com/fengyuanchen/cropperjs/commit/08a3d16))
 * build: update dependencies ([56cef09](https://github.com/fengyuanchen/cropperjs/commit/56cef09))
 * build: update issue template for bug reports ([dc09c90](https://github.com/fengyuanchen/cropperjs/commit/dc09c90))
 * build: update repo urls ([2bee699](https://github.com/fengyuanchen/cropperjs/commit/2bee699))
+* ci: fix file path ([c13c162](https://github.com/fengyuanchen/cropperjs/commit/c13c162))
 * ci: update action version ([0bb45db](https://github.com/fengyuanchen/cropperjs/commit/0bb45db))
 * docs(element-canvas): except the `"scale"` option for the `event.detail.action` of actionstart/move/ ([c778cb6](https://github.com/fengyuanchen/cropperjs/commit/c778cb6))
 
@@ -155,6 +179,7 @@
 
 ## 2.0.0-beta (2022-05-01)
 
+* build: 简化 husky 命令 ([eaf868a](https://github.com/fengyuanchen/cropperjs/commit/eaf868a))
 * build: add jsdoc plugin for eslint ([5dfd4fc](https://github.com/fengyuanchen/cropperjs/commit/5dfd4fc))
 * build: clean up files for next version ([ae5733a](https://github.com/fengyuanchen/cropperjs/commit/ae5733a))
 * build: collect elements and helpers ([d38171d](https://github.com/fengyuanchen/cropperjs/commit/d38171d))
@@ -203,7 +228,6 @@
 * build: upgrade vuepress ([526b3fa](https://github.com/fengyuanchen/cropperjs/commit/526b3fa))
 * build: upgrade vuepress to v2.0.0-beta.18 ([15b9e8a](https://github.com/fengyuanchen/cropperjs/commit/15b9e8a))
 * build: use jsdom as test environment ([4f5e8b8](https://github.com/fengyuanchen/cropperjs/commit/4f5e8b8))
-* build: 简化 husky 命令 ([eaf868a](https://github.com/fengyuanchen/cropperjs/commit/eaf868a))
 * build(docs): use webpack as bundler ([5b836b6](https://github.com/fengyuanchen/cropperjs/commit/5b836b6))
 * fix: import type only ([590b83e](https://github.com/fengyuanchen/cropperjs/commit/590b83e))
 * fix: improve size adjusting ([abbdb54](https://github.com/fengyuanchen/cropperjs/commit/abbdb54))
@@ -1243,3 +1267,6 @@
 
 * Added .gitattributes & .gitignore files ([3d5f69d](https://github.com/fengyuanchen/cropperjs/commit/3d5f69d))
 * Released v0.1.0 ([7d34674](https://github.com/fengyuanchen/cropperjs/commit/7d34674))
+
+
+
