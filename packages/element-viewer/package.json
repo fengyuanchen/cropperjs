@@ -26,11 +26,13 @@
         "node": {
           "production": "./dist/element-viewer.min.js",
           "development": "./dist/element-viewer.js",
-          "default": "./element-viewer.raw.js"
+          "default": "./dist/element-viewer.raw.js"
         },
         "default": "./dist/element-viewer.raw.js"
       }
-    }
+    },
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json"
   },
   "scripts": {
     "api-extractor": "api-extractor run --local --verbose",

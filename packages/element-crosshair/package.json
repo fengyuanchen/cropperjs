@@ -26,11 +26,13 @@
         "node": {
           "production": "./dist/element-crosshair.min.js",
           "development": "./dist/element-crosshair.js",
-          "default": "./element-crosshair.raw.js"
+          "default": "./dist/element-crosshair.raw.js"
         },
         "default": "./dist/element-crosshair.raw.js"
       }
-    }
+    },
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json"
   },
   "scripts": {
     "api-extractor": "api-extractor run --local --verbose",

@@ -31,6 +31,7 @@
         "default": "./dist/cropper.raw.js"
       }
     },
+    "./dist/*": "./dist/*",
     "./package.json": "./package.json"
   },
   "scripts": {
