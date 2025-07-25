@@ -160,9 +160,7 @@ export default class CropperViewer extends CropperElement {
     if (newSrc && newSrc !== oldSrc) {
       $image.setAttribute('src', newSrc);
       $image.$ready(() => {
-        setTimeout(() => {
-          this.$render();
-        }, 50);
+        this.$render();
       });
     }
   }
@@ -238,7 +236,10 @@ export default class CropperViewer extends CropperElement {
     this.$setStyles(styles);
 
     if (this.$sourceImage) {
-      this.$transformImageByOffset(matrix ?? this.$sourceImage.$getTransform(), -x, -y);
+      // Transform the image by the selection offset after the next DOM update cycle
+      setTimeout(() => {
+        this.$transformImageByOffset(matrix ?? this.$sourceImage.$getTransform(), -x, -y);
+      });
     }
   }
 
