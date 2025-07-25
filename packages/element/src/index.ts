@@ -165,14 +165,11 @@ export default class CropperElement extends HTMLElement {
       });
     });
 
-    const shadow = this.attachShadow({
+    const shadow = this.shadowRoot || this.attachShadow({
       mode: this.shadowRootMode || DEFAULT_SHADOW_ROOT_MODE,
     });
 
-    if (!this.shadowRoot) {
-      shadowRoots.set(this, shadow);
-    }
-
+    shadowRoots.set(this, shadow);
     styleSheets.set(this, this.$addStyles(this.$sharedStyle));
 
     if (this.$style) {
