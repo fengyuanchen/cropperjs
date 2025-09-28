@@ -199,6 +199,22 @@ export function emit(
   }));
 }
 
+/**
+ * Get the real event target by checking composed path.
+ * This is useful when dealing with events that can cross shadow DOM boundaries.
+ * {@link https://developer.mozilla.org/en-US/docs/Web/API/Event/composedPath}
+ * @param {Event} event The event object.
+ * @returns {EventTarget | null} The first element in the composed path, or the original event target.
+ */
+export function getComposedPathTarget(event: Event): EventTarget | null {
+  if (typeof (event as any).composedPath === 'function') {
+    const path = (event as any).composedPath();
+    return path.find(isElement) || event.target;
+  }
+
+  return event.target;
+}
+
 const resolvedPromise: Promise<any> = Promise.resolve();
 
 /**
