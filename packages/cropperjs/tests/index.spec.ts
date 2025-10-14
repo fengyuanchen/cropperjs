@@ -138,5 +138,23 @@ describe('Cropper', () => {
         }
       });
     });
+
+    describe('destroy', () => {
+      it('should destroy the cropper instance', () => {
+        const container = document.createElement('div');
+        const image = new Image();
+
+        container.appendChild(image);
+        document.body.appendChild(container);
+
+        const cropper = new Cropper(image, {
+          container,
+        });
+
+        cropper.destroy();
+        expect(image.style.display).toBe('');
+        expect(container.childElementCount).toBe(1);
+      });
+    });
   });
 });

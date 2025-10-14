@@ -153,4 +153,16 @@ export default class Cropper {
   getCropperSelections(): NodeListOf<CropperSelection> | null {
     return this.container.querySelectorAll(CROPPER_SELECTION);
   }
+
+  destroy(): void {
+    const cropperCanvas = this.getCropperCanvas();
+
+    if (cropperCanvas) {
+      cropperCanvas.parentElement?.removeChild(cropperCanvas);
+    }
+
+    if (this.element) {
+      this.element.style.display = '';
+    }
+  }
 }

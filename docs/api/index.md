@@ -108,6 +108,12 @@ Get the `<cropper-selection>` element in the Cropper container.
 
 Get all the `<cropper-selection>` elements in the Cropper container when there are multiple selections.
 
+### destroy <Badge type="tip" text="^2.1.0" />
+
+- **Syntax**: `destroy()`
+
+Destroy the cropper instance.
+
 ## Exported Modules
 
 ```js

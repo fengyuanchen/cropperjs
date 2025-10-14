@@ -108,6 +108,12 @@ Cropper 的默认模板：
 
 当有多个选择时，获取 Cropper 容器中的所有 `<cropper-selection>` 元素。
 
+### destroy <Badge type="tip" text="^2.1.0" />
+
+- **语法**: `destroy()`
+
+注销 Cropper 实例。
+
 ## 导出的模块
 
 ```js
