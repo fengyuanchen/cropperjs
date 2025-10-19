@@ -386,7 +386,11 @@ export default class CropperImage extends CropperElement {
         const onLoad = () => {
           // eslint-disable-next-line @typescript-eslint/no-use-before-define
           off($image, EVENT_ERROR, onError);
-          resolve($image);
+
+          // Ensure the image is fully rendered.
+          setTimeout(() => {
+            resolve($image);
+          });
         };
         const onError = () => {
           off($image, EVENT_LOAD, onLoad);
