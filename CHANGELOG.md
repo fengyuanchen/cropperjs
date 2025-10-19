@@ -1,7 +1,19 @@
+## 2.1.0 (2025-10-19)
+
+* docs: fix value of free aspect ratio ([5b4e96f](https://github.com/fengyuanchen/cropperjs/commit/5b4e96f)), closes [#1274](https://github.com/fengyuanchen/cropperjs/issues/1274)
+* refactor(element-shade): use selection itself when default prevented ([0673f15](https://github.com/fengyuanchen/cropperjs/commit/0673f15))
+* fix(element-image): ensure the image is fully rendered ([5afd8f3](https://github.com/fengyuanchen/cropperjs/commit/5afd8f3)), closes [#1168](https://github.com/fengyuanchen/cropperjs/issues/1168)
+* fix(element-selection): get correct event target in shadow DOM (#1276) ([e64d6c3](https://github.com/fengyuanchen/cropperjs/commit/e64d6c3)), closes [#1276](https://github.com/fengyuanchen/cropperjs/issues/1276)
+* fix(element-shade): fix shade size when selection changes ([98c101c](https://github.com/fengyuanchen/cropperjs/commit/98c101c))
+* fix(element): call `attachShadow` only if `shadowRoot` does not exist ([75cabcf](https://github.com/fengyuanchen/cropperjs/commit/75cabcf)), closes [#1217](https://github.com/fengyuanchen/cropperjs/issues/1217)
+* feat(cropperjs): add `destroy` method ([6a933e3](https://github.com/fengyuanchen/cropperjs/commit/6a933e3)), closes [#1271](https://github.com/fengyuanchen/cropperjs/issues/1271)
+
+
+
 ## <small>2.0.1 (2025-07-25)</small>
 
 * build: add missing `/dist` paths ([42dba8b](https://github.com/fengyuanchen/cropperjs/commit/42dba8b))
-* build: release v2.0.1 ([b9c9420](https://github.com/fengyuanchen/cropperjs/commit/b9c9420))
+* build: release v2.0.1 ([6b8e5ff](https://github.com/fengyuanchen/cropperjs/commit/6b8e5ff))
 * fix: correct require.node.default export and explicitly export package.json (#1259) ([97f8787](https://github.com/fengyuanchen/cropperjs/commit/97f8787)), closes [#1259](https://github.com/fengyuanchen/cropperjs/issues/1259)
 * fix: set crossorigin attribute on cropper image element (#1253) ([f11026c](https://github.com/fengyuanchen/cropperjs/commit/f11026c)), closes [#1253](https://github.com/fengyuanchen/cropperjs/issues/1253)
 * fix(cropper-selection): improve selection movement logic for better user experience ([e7e3510](https://github.com/fengyuanchen/cropperjs/commit/e7e3510))

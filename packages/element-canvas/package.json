@@ -1,6 +1,6 @@
 {
   "name": "@cropper/element-canvas",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "A custom canvas element for the Cropper.",
   "main": "dist/element-canvas.raw.js",
   "module": "dist/element-canvas.esm.raw.js",
@@ -60,8 +60,8 @@
   "bugs": "https://github.com/fengyuanchen/cropperjs/issues",
   "homepage": "https://github.com/fengyuanchen/cropperjs/tree/main/packages/element-canvas/#readme",
   "dependencies": {
-    "@cropper/element": "^2.0.1",
-    "@cropper/utils": "^2.0.1"
+    "@cropper/element": "^2.1.0",
+    "@cropper/utils": "^2.1.0"
   },
   "publishConfig": {
     "access": "public"

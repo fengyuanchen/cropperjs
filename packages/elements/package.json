@@ -1,6 +1,6 @@
 {
   "name": "@cropper/elements",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "A series of custom elements for the Cropper.",
   "main": "dist/elements.raw.js",
   "module": "dist/elements.esm.raw.js",
@@ -57,15 +57,15 @@
   "bugs": "https://github.com/fengyuanchen/cropperjs/issues",
   "homepage": "https://github.com/fengyuanchen/cropperjs/tree/main/packages/elements/#readme",
   "dependencies": {
-    "@cropper/element": "^2.0.1",
-    "@cropper/element-canvas": "^2.0.1",
-    "@cropper/element-crosshair": "^2.0.1",
-    "@cropper/element-grid": "^2.0.1",
-    "@cropper/element-handle": "^2.0.1",
-    "@cropper/element-image": "^2.0.1",
-    "@cropper/element-selection": "^2.0.1",
-    "@cropper/element-shade": "^2.0.1",
-    "@cropper/element-viewer": "^2.0.1"
+    "@cropper/element": "^2.1.0",
+    "@cropper/element-canvas": "^2.1.0",
+    "@cropper/element-crosshair": "^2.1.0",
+    "@cropper/element-grid": "^2.1.0",
+    "@cropper/element-handle": "^2.1.0",
+    "@cropper/element-image": "^2.1.0",
+    "@cropper/element-selection": "^2.1.0",
+    "@cropper/element-shade": "^2.1.0",
+    "@cropper/element-viewer": "^2.1.0"
   },
   "publishConfig": {
     "access": "public"
