@@ -27,6 +27,7 @@ import {
   isNumber,
   isPlainObject,
   isPositiveNumber,
+  getComposedPathTarget,
   off,
   on,
 } from '@cropper/utils';
@@ -395,11 +396,14 @@ export default class CropperSelection extends CropperElement {
 
     const { relatedEvent } = detail;
     let { action } = detail;
+    const relatedTarget = relatedEvent
+      ? getComposedPathTarget(relatedEvent)
+      : null;
 
     // Switching to another selection
     if (!action && this.multiple) {
       // Get the `action` property from the focusing in selection
-      action = this.$action || relatedEvent?.target.action;
+      action = this.$action || (relatedTarget as any)?.action;
       this.$action = action;
     }
 

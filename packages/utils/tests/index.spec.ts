@@ -3,6 +3,7 @@ import {
   getAdjustedSizes,
   getOffset,
   isElement,
+  getComposedPathTarget,
   isFunction,
   isNaN,
   isNumber,
@@ -319,6 +320,104 @@ describe('Utilities', () => {
         done();
       });
       emit(element, 'test');
+    });
+  });
+
+  describe("getComposedPathTarget", () => {
+    it("should return the first element in composedPath if composedPath exists", () => {
+      const div = document.createElement("div");
+      const span = document.createElement("span");
+      const event = {
+        composedPath: () => [null, span, div],
+        target: div,
+      } as unknown as Event;
+
+      expect(getComposedPathTarget(event)).toBe(span);
+    });
+
+    it("should return event.target if composedPath does not exist", () => {
+      const div = document.createElement("div");
+      const event = { target: div } as unknown as Event;
+
+      expect(getComposedPathTarget(event)).toBe(div);
+    });
+
+    it("should return event.target if composedPath returns no element", () => {
+      const div = document.createElement("div");
+      const event = {
+        composedPath: () => [null, undefined, "string"],
+        target: div,
+      } as unknown as Event;
+
+      expect(getComposedPathTarget(event)).toBe(div);
+    });
+
+    it("should work with a real DOM event", () => {
+      const button = document.createElement("button");
+      document.body.appendChild(button);
+
+      const clickEvent = new MouseEvent("click", { bubbles: true });
+      let result: EventTarget | null = null;
+
+      button.addEventListener("click", (e) => {
+        result = getComposedPathTarget(e);
+      });
+
+      button.dispatchEvent(clickEvent);
+
+      expect(result).toBe(button);
+      document.body.removeChild(button);
+    });
+
+    it("should return the element inside shadow DOM using composedPath", () => {
+      const host = document.createElement("div");
+      const shadow = host.attachShadow({ mode: "open" });
+      const innerDiv = document.createElement("div");
+      shadow.appendChild(innerDiv);
+      document.body.appendChild(host);
+
+      let result: EventTarget | null = null;
+
+      innerDiv.addEventListener("click", (e) => {
+        result = getComposedPathTarget(e);
+      });
+
+      const clickEvent = new MouseEvent("click", {
+        bubbles: true,
+        composed: true,
+      });
+      innerDiv.dispatchEvent(clickEvent);
+
+      expect(result).toBe(innerDiv);
+
+      document.body.removeChild(host);
+    });
+
+    it("should fallback to event.target if shadow DOM event but composedPath returns empty", () => {
+      const host = document.createElement("div");
+      const shadow = host.attachShadow({ mode: "open" });
+      const innerDiv = document.createElement("div");
+      shadow.appendChild(innerDiv);
+      document.body.appendChild(host);
+
+      const event = {
+        target: innerDiv,
+        composedPath: () => [],
+      } as unknown as Event;
+
+      expect(getComposedPathTarget(event)).toBe(innerDiv);
+
+      document.body.removeChild(host);
+    });
+
+    it("should skip non-element nodes in composedPath", () => {
+      const div = document.createElement("div");
+      const event = {
+        composedPath: () => [null, "string", div],
+        target: div,
+      } as unknown as Event;
+
+      expect(getComposedPathTarget(event)).toBe(div);
     });
   });
 
