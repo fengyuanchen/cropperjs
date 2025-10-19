@@ -149,7 +149,7 @@ export default class CropperViewer extends CropperElement {
   }
 
   protected $handleSelectionChange(event: Event): void {
-    this.$render((event as CustomEvent).detail);
+    this.$render(event.defaultPrevented ? this.$selection : (event as CustomEvent).detail);
   }
 
   protected $handleSourceImageLoad(): void {

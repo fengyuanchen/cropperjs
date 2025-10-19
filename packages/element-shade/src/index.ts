@@ -85,16 +85,12 @@ export default class CropperShade extends CropperElement {
           }
         };
         this.$onSelectionChange = (event) => {
-          if (event.defaultPrevented) {
-            return;
-          }
-
           const {
             x,
             y,
             width,
             height,
-          } = (event as CustomEvent).detail;
+          } = event.defaultPrevented ? $selection : (event as CustomEvent).detail;
 
           this.$change(x, y, width, height);
 
