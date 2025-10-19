@@ -829,7 +829,7 @@
               class="form-control form-control-sm"
               name="aspectRatio"
             >
-              <option :value="NaN">
+              <option :value="undefined">
                 Free
               </option>
               <option :value="16/9">
@@ -857,7 +857,7 @@
               class="form-control form-control-sm"
               name="initialAspectRatio"
             >
-              <option :value="NaN">
+              <option :value="undefined">
                 Free
               </option>
               <option :value="16/9">
