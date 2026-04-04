@@ -107,6 +107,12 @@ export default defineConfig({
             link: '/playground.html',
           },
           {
+            text: 'Examples',
+            items: [
+              { text: 'Hello World', link: '/examples/hello-world.html', target: '_blank' },
+            ],
+          },
+          {
             text: 'Migration',
             link: '/migration.html',
           },
@@ -215,8 +221,21 @@ export default defineConfig({
             link: '/zh/playground.html',
           },
           {
+            text: '示例',
+            items: [
+              { text: 'Hello World', link: '/examples/hello-world.html', target: '_blank' },
+            ],
+          },
+          {
             text: '迁移',
             link: '/zh/migration.html',
+          },
+          {
+            text: lerna.version,
+            items: [
+              { text: '更新日志', link: 'https://github.com/fengyuanchen/cropperjs/blob/main/CHANGELOG.md' },
+              { text: '参与贡献', link: 'https://github.com/fengyuanchen/cropperjs/blob/main/.github/CONTRIBUTING.md' },
+            ],
           },
           {
             text: '1.x',
