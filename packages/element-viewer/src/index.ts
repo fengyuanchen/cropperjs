@@ -257,7 +257,9 @@ export default class CropperViewer extends CropperElement {
       const newE = a * translateX + c * translateY + e;
       const newF = b * translateX + d * translateY + f;
 
-      $image.$ready((image) => {
+      // Do not use `$image` here, because it is just a clone of the source image
+      // and may not have the correct size when using SVG image format in Safari, see #1290.
+      $sourceImage.$ready((image) => {
         this.$setStyles.call($image, {
           width: image.naturalWidth * $scale,
           height: image.naturalHeight * $scale,
