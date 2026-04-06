@@ -1,5 +1,20 @@
+## <small>2.1.1 (2026-04-06)</small>
+
+* chore: update dependencies ([d3af648](https://github.com/fengyuanchen/cropperjs/commit/d3af648))
+* fix(element-image): always center the image, even if it is neither translatable nor scalable ([a03c93a](https://github.com/fengyuanchen/cropperjs/commit/a03c93a)), closes [#1292](https://github.com/fengyuanchen/cropperjs/issues/1292)
+* fix(element-shade): re-render the shade on window resize ([26de54d](https://github.com/fengyuanchen/cropperjs/commit/26de54d))
+* fix(element-shade): use `window.devicePixelRatio` to calculate the correct outline width ([b32a975](https://github.com/fengyuanchen/cropperjs/commit/b32a975)), closes [#1284](https://github.com/fengyuanchen/cropperjs/issues/1284)
+* fix(element-viewer): fix  incorrect preview size when using SVG image format in Safari ([acc8771](https://github.com/fengyuanchen/cropperjs/commit/acc8771)), closes [#1290](https://github.com/fengyuanchen/cropperjs/issues/1290)
+* ci: add workflow for creating release ([3034097](https://github.com/fengyuanchen/cropperjs/commit/3034097))
+* ci: add workflow for publishing package to npm ([a2e2fcd](https://github.com/fengyuanchen/cropperjs/commit/a2e2fcd))
+* ci: update GitHub Actions to use latest versions of checkout and setup-node actions ([ba945ab](https://github.com/fengyuanchen/cropperjs/commit/ba945ab))
+* docs: add Hello World example ([a586dcb](https://github.com/fengyuanchen/cropperjs/commit/a586dcb)), closes [#1282](https://github.com/fengyuanchen/cropperjs/issues/1282)
+
+
+
 ## 2.1.0 (2025-10-19)
 
+* build: release v2.1.0 ([268be1a](https://github.com/fengyuanchen/cropperjs/commit/268be1a))
 * docs: fix value of free aspect ratio ([5b4e96f](https://github.com/fengyuanchen/cropperjs/commit/5b4e96f)), closes [#1274](https://github.com/fengyuanchen/cropperjs/issues/1274)
 * refactor(element-shade): use selection itself when default prevented ([0673f15](https://github.com/fengyuanchen/cropperjs/commit/0673f15))
 * fix(element-image): ensure the image is fully rendered ([5afd8f3](https://github.com/fengyuanchen/cropperjs/commit/5afd8f3)), closes [#1168](https://github.com/fengyuanchen/cropperjs/issues/1168)
@@ -1061,9 +1076,9 @@
 
 ## <small>0.5.3 (2015-12-24)</small>
 
-* Cancel to check property value ([533e708](https://github.com/fengyuanchen/cropperjs/commit/533e708)), closes [#22](https://github.com/fengyuanchen/cropperjs/issues/22)
+* Cancel to check property value ([533e708](https://github.com/fengyuanchen/cropperjs/commit/533e708))
 * Fix parameter for getCroppedCanvas ([1f9fe21](https://github.com/fengyuanchen/cropperjs/commit/1f9fe21))
-* Fixed #21: Limit wheel zoom speed ([7a28cef](https://github.com/fengyuanchen/cropperjs/commit/7a28cef)), closes [#21](https://github.com/fengyuanchen/cropperjs/issues/21)
+* Fixed #21: Limit wheel zoom speed ([7a28cef](https://github.com/fengyuanchen/cropperjs/commit/7a28cef))
 * Improve class utilities ([7230754](https://github.com/fengyuanchen/cropperjs/commit/7230754))
 * Improve utilities ([b3c6bed](https://github.com/fengyuanchen/cropperjs/commit/b3c6bed))
 * Inserts cropper after to target image ([1cbc7d7](https://github.com/fengyuanchen/cropperjs/commit/1cbc7d7))
@@ -1152,7 +1167,7 @@
 * Added full crop box example ([46468a3](https://github.com/fengyuanchen/cropperjs/commit/46468a3))
 * Added new "restore" option ([70c74bd](https://github.com/fengyuanchen/cropperjs/commit/70c74bd))
 * Fix links ([397030b](https://github.com/fengyuanchen/cropperjs/commit/397030b))
-* Fixed #12: Added vendor prefixes ([cdb658d](https://github.com/fengyuanchen/cropperjs/commit/cdb658d)), closes [#12](https://github.com/fengyuanchen/cropperjs/issues/12)
+* Fixed #12: Added vendor prefixes ([cdb658d](https://github.com/fengyuanchen/cropperjs/commit/cdb658d))
 * Release v0.4.0 ([0c15da0](https://github.com/fengyuanchen/cropperjs/commit/0c15da0))
 * The image should be full width ([16b70cd](https://github.com/fengyuanchen/cropperjs/commit/16b70cd))
 * Update Bootstrap from v3.3.5 to v3.3.6 ([81a0f7c](https://github.com/fengyuanchen/cropperjs/commit/81a0f7c))
@@ -1200,7 +1215,7 @@
 * Fix error comment ([984b8a1](https://github.com/fengyuanchen/cropperjs/commit/984b8a1))
 * Fix property ([8baa5f2](https://github.com/fengyuanchen/cropperjs/commit/8baa5f2))
 * Fix typo ([4b8ab46](https://github.com/fengyuanchen/cropperjs/commit/4b8ab46))
-* Fixed #7: Always set the "crossOrigin" value ([a757b3e](https://github.com/fengyuanchen/cropperjs/commit/a757b3e)), closes [#7](https://github.com/fengyuanchen/cropperjs/issues/7)
+* Fixed #7: Always set the "crossOrigin" value ([a757b3e](https://github.com/fengyuanchen/cropperjs/commit/a757b3e))
 * Improve "typeOf" utility function ([21eccdb](https://github.com/fengyuanchen/cropperjs/commit/21eccdb))
 * Improve test ([5dc4d68](https://github.com/fengyuanchen/cropperjs/commit/5dc4d68))
 * Improved ([6bd806a](https://github.com/fengyuanchen/cropperjs/commit/6bd806a))
