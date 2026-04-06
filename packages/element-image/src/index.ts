@@ -45,6 +45,8 @@ export default class CropperImage extends CropperElement {
 
   static $version = '__VERSION__';
 
+  protected $isReady = false;
+
   protected $matrix = [1, 0, 0, 1, 0, 0];
 
   protected $onLoad: EventListener | null = null;
@@ -139,6 +141,10 @@ export default class CropperImage extends CropperElement {
         });
         break;
 
+      case 'src':
+        this.$isReady = false;
+        break;
+
       default:
     }
   }
@@ -214,6 +220,8 @@ export default class CropperImage extends CropperElement {
     if (this.$canvas) {
       this.$center(this.initialCenterSize);
     }
+
+    this.$isReady = true;
   }
 
   protected $handleAction(event: Event | CustomEvent): void {
@@ -437,12 +445,28 @@ export default class CropperImage extends CropperElement {
     const startY = y + (height / 2);
     const endX = container.x + (containerWidth / 2);
     const endY = container.y + (containerHeight / 2);
+    const { translatable } = this;
+
+    if (!translatable && !this.$isReady) {
+      this.translatable = true;
+      this.$nextTick(() => {
+        this.translatable = translatable;
+      });
+    }
 
     this.$move(endX - startX, endY - startY);
 
     if (size && (width !== containerWidth || height !== containerHeight)) {
       const scaleX = containerWidth / width;
       const scaleY = containerHeight / height;
+      const { scalable } = this;
+
+      if (size && !scalable && !this.$isReady) {
+        this.scalable = true;
+        this.$nextTick(() => {
+          this.scalable = scalable;
+        });
+      }
 
       switch (size) {
         case 'cover':
