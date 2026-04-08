@@ -22,6 +22,7 @@ Git commits message follows the [Conventional Commits guidelines](https://conven
 
 - [angular-cropperjs](https://github.com/matheusdavidson/angular-cropperjs) by [@matheusdavidson](https://github.com/matheusdavidson)
 - [blazor-cropperjs](https://github.com/CropperBlazor/Cropper.Blazor) by [@ColdForeign](https://github.com/ColdForeign), [@MaxymGorn](https://github.com/MaxymGorn)
+- [cropperjs-react-wrapper](https://github.com/trigger-xyz/cropperjs-react-wrapper) by [@trigger_xyz](https://github.com/trigger-xyz) (compatible with v2)
 - [ember-cropperjs](https://github.com/danielthall/ember-cropperjs) by [@danielthall](https://github.com/danielthall)
 - [iron-cropper](https://github.com/safetychanger/iron-cropper) by [@safetychanger](https://github.com/safetychanger)
 - [react-cropper](https://github.com/react-cropper/react-cropper) by [@roadmanfong](https://github.com/roadmanfong)
