@@ -8,18 +8,18 @@ CropperImage.$define();
 
 describe('CropperImage', () => {
   describe('properties', () => {
-    describe('initialCenterSize', () => {
+    describe('initialFit', () => {
       it('should be `"contain"` by default', () => {
         const element = new CropperImage();
 
-        expect(element.initialCenterSize).toBe('contain');
+        expect(element.initialFit).toBe('contain');
       });
 
       it('should be `"cover"`', () => {
         const element = new CropperImage();
 
-        element.setAttribute('initial-center-size', 'cover');
-        expect(element.initialCenterSize).toBe('cover');
+        element.setAttribute('initial-fit', 'cover');
+        expect(element.initialFit).toBe('cover');
       });
     });
 

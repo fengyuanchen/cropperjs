@@ -28,14 +28,14 @@ The default width and height of this element is `0`.
 
 :::
 
-### Set initial centered size
+### Set initial fit
 
 <ClientOnly>
-  <CropperImageInitialCenterSizeExample />
+  <CropperImageInitialFitExample />
 </ClientOnly>
 
 ::: details
-<<< @/.vitepress/components/CropperImageInitialCenterSizeExample.vue
+<<< @/.vitepress/components/CropperImageInitialFitExample.vue
 :::
 
 ### Limit boundaries
@@ -54,12 +54,13 @@ Inherits properties from its parent, [`CropperElement`](cropper-element.html), a
 
 | Name | Type | Default | Options | Description |
 | --- | --- | --- | --- | --- |
-| initialCenterSize | `string` | `"contain"` | `"cover"` \| `"fill"` \| `"contain"` \| `"scale-down"` \| `"none"` | Indicates the initial size of the image when aligned with the center of its parent element. |
+| initialFit <Badge type="tip" text="^2.2.0" /> | `string` | `"contain"` | `"cover"` \| `"fill"` \| `"contain"` \| `"scale-down"` \| `"none"` | Indicates the initial size of the image when aligned with the center of its parent element. |
 | rotatable | `boolean` | `false` | - | Indicates whether this element is rotatable. |
 | scalable | `boolean` | `false` | - | Indicates whether this element is scalable. |
 | skewable | `boolean` | `false` | - | Indicates whether this element is skewable. |
 | slottable | `boolean` | `false` | - | Indicates whether this element is slottable. |
 | translatable | `boolean` | `false` | - | Indicates whether this element is translatable. |
+| initialCenterSize <Badge type="warning" text="deprecated" title="The `initialCenterSize` property is deprecated since version 2.2.0, use `initialFit` instead." /> | `string` | `"contain"` | `"contain"`, `"cover"` | Indicates the initial size of this element when aligned with the center of its parent element. |
 
 The built-in `<img>` element will inherit the following attributes by default:
 

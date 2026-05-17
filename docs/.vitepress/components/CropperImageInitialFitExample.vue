@@ -2,59 +2,59 @@
   <div class="cropper-container">
     <form>
       <fieldset>
-        <legend>initialCenterSize:</legend>
+        <legend>initialFit:</legend>
         <input
-          id="initialCenterSizeCover"
-          v-model="initialCenterSize"
+          id="initialFitCover"
+          v-model="initialFit"
           type="radio"
-          name="initialCenterSize"
+          name="initialFit"
           value="cover"
         >
-        <label for="initialCenterSizeCover">cover</label>
+        <label for="initialFitCover">cover</label>
         <input
-          id="initialCenterSizeFill"
-          v-model="initialCenterSize"
+          id="initialFitFill"
+          v-model="initialFit"
           type="radio"
-          name="initialCenterSize"
+          name="initialFit"
           value="fill"
         >
-        <label for="initialCenterSizeFill">fill</label>
+        <label for="initialFitFill">fill</label>
         <input
-          id="initialCenterSizeContain"
-          v-model="initialCenterSize"
+          id="initialFitContain"
+          v-model="initialFit"
           type="radio"
-          name="initialCenterSize"
+          name="initialFit"
           value="contain"
         >
-        <label for="initialCenterSizeContain">contain</label>
+        <label for="initialFitContain">contain</label>
         <input
-          id="initialCenterSizeScaleDown"
-          v-model="initialCenterSize"
+          id="initialFitScaleDown"
+          v-model="initialFit"
           type="radio"
-          name="initialCenterSize"
+          name="initialFit"
           value="scale-down"
         >
-        <label for="initialCenterSizeScaleDown">scale-down</label>
+        <label for="initialFitScaleDown">scale-down</label>
         <input
-          id="initialCenterSizeNone"
-          v-model="initialCenterSize"
+          id="initialFitNone"
+          v-model="initialFit"
           type="radio"
-          name="initialCenterSize"
+          name="initialFit"
           value="none"
         >
-        <label for="initialCenterSizeNone">none</label>
+        <label for="initialFitNone">none</label>
       </fieldset>
     </form>
     <cropper-canvas
       ref="cropperCanvas"
-      :key="initialCenterSize"
+      :key="initialFit"
       background
     >
       <cropper-image
         ref="cropperImage"
         :src="src"
         alt="Picture"
-        :initial-center-size="initialCenterSize"
+        :initial-fit="initialFit"
         rotatable
         scalable
         skewable
@@ -72,11 +72,11 @@
 const { BASE_URL } = import.meta.env;
 
 export default {
-  name: 'CropperImageInitialCenterSizeExample',
+  name: 'CropperImageInitialFitExample',
   data() {
     return {
       src: `${BASE_URL}picture.jpg`,
-      initialCenterSize: 'contain',
+      initialFit: 'contain',
     };
   },
 };

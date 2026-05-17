@@ -28,14 +28,14 @@
 
 :::
 
-### 设置初始居中大小
+### 设置初始尺寸
 
 <ClientOnly>
-  <CropperImageInitialCenterSizeExample />
+  <CropperImageInitialFitExample />
 </ClientOnly>
 
 ::: details
-<<< @/.vitepress/components/CropperImageInitialCenterSizeExample.vue
+<<< @/.vitepress/components/CropperImageInitialFitExample.vue
 :::
 
 ### 限制边界
@@ -54,12 +54,13 @@
 
 | 名称 | 类型 | 默认值 | 可选值 | 描述 |
 | --- | --- | --- | --- | --- |
-| initialCenterSize | `string` | `"contain"` | `"cover"` \| `"fill"` \| `"contain"` \| `"scale-down"` \| `"none"` | 指示图像与其父元素的中心对齐时的初始大小。 |
+| initialFit <Badge type="tip" text="^2.2.0" /> | `string` | `"contain"` | `"cover"` \| `"fill"` \| `"contain"` \| `"scale-down"` \| `"none"` | 指示图像与其父元素的中心对齐时的初始大小。 |
 | rotatable | `boolean` | `false` | - | 指示此元素是否可旋转。 |
 | scalable | `boolean` | `false` | - | 指示此元素是否可缩放。 |
 | skewable | `boolean` | `false` | - | 指示此元素是否可倾斜。 |
 | slottable | `boolean` | `false` | - | 指示此元素是否启用默认插槽。 |
 | translatable | `boolean` | `false` | - | 指示此元素是否可移动。 |
+| initialCenterSize <Badge type="warning" text="deprecated" title="`initialCenterSize` 属性自 2.2.0 版本起已弃用，请改用 `initialFit`。" /> | `string` | `"contain"` | `"contain"`, `"cover"` | 指示此元素与其父元素的中心对齐时的初始大小。 |
 
 默认情况下，内置的 `<img>` 元素将继承以下属性：
 

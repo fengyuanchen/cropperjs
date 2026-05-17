@@ -19,7 +19,7 @@ export default {
       import('../components/CropperCanvasToNativeCanvas.vue'),
       import('../components/CropperExample.vue'),
       import('../components/CropperImageExample.vue'),
-      import('../components/CropperImageInitialCenterSizeExample.vue'),
+      import('../components/CropperImageInitialFitExample.vue'),
       import('../components/CropperPlayground.vue'),
       import('../components/CropperPlaygroundContainer.vue'),
       import('../components/CropperSelectionExample.vue'),

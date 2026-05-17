@@ -131,12 +131,12 @@
             >
           </li>
           <li>
-            <label for="imageInitialCenterSize">initialCenterSize</label>
+            <label for="imageInitialCenterSize">initialFit</label>
             <select
               id="imageInitialCenterSize"
-              v-model="image.initialCenterSize"
+              v-model="image.initialFit"
               class="form-control form-control-sm"
-              name="initialCenterSize"
+              name="initialFit"
             >
               <option value="contain">
                 contain
@@ -1578,7 +1578,7 @@
           :scalable="image.scalable"
           :skewable="image.skewable"
           :translatable="image.translatable"
-          :initial-center-size="image.initialCenterSize"
+          :initial-fit="image.initialFit"
           :src="image.src"
           :alt="image.alt"
           @transform="onImageTransform"
@@ -1789,7 +1789,7 @@ export default {
       },
       image: {
         hidden: false,
-        initialCenterSize: 'contain',
+        initialFit: 'contain',
         rotatable: true,
         scalable: true,
         skewable: true,

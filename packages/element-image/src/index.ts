@@ -68,7 +68,12 @@ export default class CropperImage extends CropperElement {
 
   readonly $image = new Image();
 
-  initialCenterSize = OBJECT_FIT_CONTAIN;
+  /**
+   * @deprecated since version 2.2.0, use `initialFit` instead.
+   */
+  initialCenterSize = '';
+
+  initialFit = OBJECT_FIT_CONTAIN;
 
   rotatable = false;
 
@@ -112,6 +117,7 @@ export default class CropperImage extends CropperElement {
   protected static get observedAttributes(): string[] {
     return super.observedAttributes.concat(NATIVE_ATTRIBUTES, [
       'initial-center-size',
+      'initial-fit',
       'rotatable',
       'scalable',
       'skewable',
@@ -141,6 +147,7 @@ export default class CropperImage extends CropperElement {
 
     switch (name) {
       case 'initialCenterSize':
+      case 'initialFit':
         this.$nextTick(() => {
           if (this.$canvas) {
             this.$center(newValue as string);
@@ -225,7 +232,7 @@ export default class CropperImage extends CropperElement {
     });
 
     if (this.$canvas) {
-      this.$center(this.initialCenterSize);
+      this.$center(this.initialCenterSize || this.initialFit);
     }
 
     this.$isReady = true;
