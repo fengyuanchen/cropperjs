@@ -28,6 +28,16 @@ The default width and height of this element is `0`.
 
 :::
 
+### Set initial centered size
+
+<ClientOnly>
+  <CropperImageInitialCenterSizeExample />
+</ClientOnly>
+
+::: details
+<<< @/.vitepress/components/CropperImageInitialCenterSizeExample.vue
+:::
+
 ### Limit boundaries
 
 <ClientOnly>

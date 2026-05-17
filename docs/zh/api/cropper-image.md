@@ -28,6 +28,16 @@
 
 :::
 
+### 设置初始居中大小
+
+<ClientOnly>
+  <CropperImageInitialCenterSizeExample />
+</ClientOnly>
+
+::: details
+<<< @/.vitepress/components/CropperImageInitialCenterSizeExample.vue
+:::
+
 ### 限制边界
 
 <ClientOnly>
