@@ -44,7 +44,7 @@
 
 | 名称 | 类型 | 默认值 | 可选值 | 描述 |
 | --- | --- | --- | --- | --- |
-| initial-center-size | `string` | `"contain"` | `"contain"`, `"cover"` | 指示图像与其父元素的中心对齐时的初始大小。 |
+| initialCenterSize | `string` | `"contain"` | `"contain"`, `"cover"` | 指示图像与其父元素的中心对齐时的初始大小。 |
 | rotatable | `boolean` | `false` | - | 指示此元素是否可旋转。 |
 | scalable | `boolean` | `false` | - | 指示此元素是否可缩放。 |
 | skewable | `boolean` | `false` | - | 指示此元素是否可倾斜。 |

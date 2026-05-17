@@ -8,7 +8,7 @@ CropperImage.$define();
 
 describe('CropperImage', () => {
   describe('properties', () => {
-    describe('initial-center-size', () => {
+    describe('initialCenterSize', () => {
       it('should be `"contain"` by default', () => {
         const element = new CropperImage();
 

@@ -44,7 +44,7 @@ Inherits properties from its parent, [`CropperElement`](cropper-element.html), a
 
 | Name | Type | Default | Options | Description |
 | --- | --- | --- | --- | --- |
-| initial-center-size | `string` | `"contain"` | `"contain"`, `"cover"` | Indicates the initial size of the image when aligned with the center of its parent element. |
+| initialCenterSize | `string` | `"contain"` | `"contain"`, `"cover"` | Indicates the initial size of the image when aligned with the center of its parent element. |
 | rotatable | `boolean` | `false` | - | Indicates whether this element is rotatable. |
 | scalable | `boolean` | `false` | - | Indicates whether this element is scalable. |
 | skewable | `boolean` | `false` | - | Indicates whether this element is skewable. |
