@@ -16,6 +16,11 @@ import {
   EVENT_ERROR,
   EVENT_LOAD,
   EVENT_TRANSFORM,
+  OBJECT_FIT_CONTAIN,
+  OBJECT_FIT_COVER,
+  OBJECT_FIT_FILL,
+  OBJECT_FIT_NONE,
+  OBJECT_FIT_SCALE_DOWN,
   isFunction,
   isNumber,
   multiplyMatrices,
@@ -63,7 +68,7 @@ export default class CropperImage extends CropperElement {
 
   readonly $image = new Image();
 
-  initialCenterSize = 'contain';
+  initialCenterSize = OBJECT_FIT_CONTAIN;
 
   rotatable = false;
 
@@ -137,7 +142,9 @@ export default class CropperImage extends CropperElement {
     switch (name) {
       case 'initialCenterSize':
         this.$nextTick(() => {
-          this.$center(newValue as string);
+          if (this.$canvas) {
+            this.$center(newValue as string);
+          }
         });
         break;
 
@@ -456,12 +463,12 @@ export default class CropperImage extends CropperElement {
 
     this.$move(endX - startX, endY - startY);
 
-    if (size && (width !== containerWidth || height !== containerHeight)) {
+    if (size) {
       const scaleX = containerWidth / width;
       const scaleY = containerHeight / height;
       const { scalable } = this;
 
-      if (size && !scalable && !this.$isReady) {
+      if (!scalable && !this.$isReady) {
         this.scalable = true;
         this.$nextTick(() => {
           this.scalable = scalable;
@@ -469,12 +476,24 @@ export default class CropperImage extends CropperElement {
       }
 
       switch (size) {
-        case 'cover':
+        case OBJECT_FIT_COVER:
           this.$scale(Math.max(scaleX, scaleY));
           break;
 
-        case 'contain':
+        case OBJECT_FIT_FILL:
+          this.$scale(scaleX, scaleY);
+          break;
+
+        case OBJECT_FIT_CONTAIN:
           this.$scale(Math.min(scaleX, scaleY));
+          break;
+
+        case OBJECT_FIT_SCALE_DOWN:
+          this.$scale(Math.min(scaleX, scaleY, 1));
+          break;
+
+        case OBJECT_FIT_NONE:
+          this.$scale(1);
           break;
 
         default:

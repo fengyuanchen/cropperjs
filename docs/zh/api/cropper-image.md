@@ -54,7 +54,7 @@
 
 | 名称 | 类型 | 默认值 | 可选值 | 描述 |
 | --- | --- | --- | --- | --- |
-| initialCenterSize | `string` | `"contain"` | `"contain"`, `"cover"` | 指示图像与其父元素的中心对齐时的初始大小。 |
+| initialCenterSize | `string` | `"contain"` | `"cover"` \| `"fill"` \| `"contain"` \| `"scale-down"` \| `"none"` | 指示图像与其父元素的中心对齐时的初始大小。 |
 | rotatable | `boolean` | `false` | - | 指示此元素是否可旋转。 |
 | scalable | `boolean` | `false` | - | 指示此元素是否可缩放。 |
 | skewable | `boolean` | `false` | - | 指示此元素是否可倾斜。 |
@@ -109,7 +109,7 @@
 - **参数**：
   - `size`：
     - 类型：`string`
-    - 可选值：`"contain"`, and `"cover"`.
+    - 可选值：`"cover"`、`"fill"`、`"contain"`、`"scale-down"` 和 `"none"`.
     - 图像的尺寸模式。
 - **返回值**：
   - 类型：`CropperImage`

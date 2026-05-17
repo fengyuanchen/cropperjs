@@ -4,6 +4,22 @@
       <fieldset>
         <legend>initialCenterSize:</legend>
         <input
+          id="initialCenterSizeCover"
+          v-model="initialCenterSize"
+          type="radio"
+          name="initialCenterSize"
+          value="cover"
+        >
+        <label for="initialCenterSizeCover">cover</label>
+        <input
+          id="initialCenterSizeFill"
+          v-model="initialCenterSize"
+          type="radio"
+          name="initialCenterSize"
+          value="fill"
+        >
+        <label for="initialCenterSizeFill">fill</label>
+        <input
           id="initialCenterSizeContain"
           v-model="initialCenterSize"
           type="radio"
@@ -12,13 +28,13 @@
         >
         <label for="initialCenterSizeContain">contain</label>
         <input
-          id="initialCenterSizeCover"
+          id="initialCenterSizeScaleDown"
           v-model="initialCenterSize"
           type="radio"
           name="initialCenterSize"
-          value="cover"
+          value="scale-down"
         >
-        <label for="initialCenterSizeCover">cover</label>
+        <label for="initialCenterSizeScaleDown">scale-down</label>
         <input
           id="initialCenterSizeNone"
           v-model="initialCenterSize"

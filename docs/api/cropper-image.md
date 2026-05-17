@@ -54,7 +54,7 @@ Inherits properties from its parent, [`CropperElement`](cropper-element.html), a
 
 | Name | Type | Default | Options | Description |
 | --- | --- | --- | --- | --- |
-| initialCenterSize | `string` | `"contain"` | `"contain"`, `"cover"` | Indicates the initial size of the image when aligned with the center of its parent element. |
+| initialCenterSize | `string` | `"contain"` | `"cover"` \| `"fill"` \| `"contain"` \| `"scale-down"` \| `"none"` | Indicates the initial size of the image when aligned with the center of its parent element. |
 | rotatable | `boolean` | `false` | - | Indicates whether this element is rotatable. |
 | scalable | `boolean` | `false` | - | Indicates whether this element is scalable. |
 | skewable | `boolean` | `false` | - | Indicates whether this element is skewable. |
@@ -109,7 +109,7 @@ Defers the callback to execute after successfully loading the image.
 - **Arguments**:
   - `size`:
     - Type: `string`
-    - Options: `"contain"`, and `"cover"`.
+    - Options: `"cover"`, `"fill"`, `"contain"`, `"scale-down"`, and `"none"`.
     - The size of the image.
 - **Returns**:
   - Type: `CropperImage`

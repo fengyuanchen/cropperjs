@@ -51,3 +51,10 @@ export const EVENT_ACTION_MOVE = 'actionmove';
 export const EVENT_ACTION_START = 'actionstart';
 export const EVENT_CHANGE = 'change';
 export const EVENT_TRANSFORM = 'transform';
+
+// Object fit values
+export const OBJECT_FIT_CONTAIN = 'contain';
+export const OBJECT_FIT_COVER = 'cover';
+export const OBJECT_FIT_FILL = 'fill';
+export const OBJECT_FIT_NONE = 'none';
+export const OBJECT_FIT_SCALE_DOWN = 'scale-down';
