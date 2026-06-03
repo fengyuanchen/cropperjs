@@ -164,6 +164,21 @@ describe('CropperSelection', () => {
       });
     });
 
+    describe('centerLocked', () => {
+      it('should be `false` by default', () => {
+        const element = new CropperSelection();
+
+        expect(element.centerLocked).toBe(false);
+      });
+
+      it('should be `true` when the `center-locked` attribute is set', () => {
+        const element = new CropperSelection();
+
+        element.setAttribute('center-locked', '');
+        expect(element.centerLocked).toBe(true);
+      });
+    });
+
     describe('zoomable', () => {
       it('should be `false` by default', () => {
         const element = new CropperSelection();
@@ -554,6 +569,192 @@ describe('CropperSelection', () => {
           expect(element.width).toBe(1);
           expect(element.height).toBe(1);
         });
+      });
+
+      describe('resize from center', () => {
+        const seed = (element: CropperSelection) => {
+          element.resizable = true;
+          element.$change(10, 10, 20, 20); // center (20, 20)
+        };
+
+        it('should resize the east side symmetrically about the center', () => {
+          const element = new CropperSelection();
+
+          seed(element);
+          element.$resize(ACTION_RESIZE_EAST, 4, 0, NaN, true);
+          expect(element.x).toBe(6);
+          expect(element.y).toBe(10);
+          expect(element.width).toBe(28);
+          expect(element.height).toBe(20);
+        });
+
+        it('should resize the west side symmetrically about the center', () => {
+          const element = new CropperSelection();
+
+          seed(element);
+          element.$resize(ACTION_RESIZE_WEST, -4, 0, NaN, true);
+          expect(element.x).toBe(6);
+          expect(element.y).toBe(10);
+          expect(element.width).toBe(28);
+          expect(element.height).toBe(20);
+        });
+
+        it('should resize the north side symmetrically about the center', () => {
+          const element = new CropperSelection();
+
+          seed(element);
+          element.$resize(ACTION_RESIZE_NORTH, 0, -4, NaN, true);
+          expect(element.x).toBe(10);
+          expect(element.y).toBe(6);
+          expect(element.width).toBe(20);
+          expect(element.height).toBe(28);
+        });
+
+        it('should resize a corner symmetrically about the center', () => {
+          const element = new CropperSelection();
+
+          seed(element);
+          element.$resize(ACTION_RESIZE_SOUTHEAST, 4, 4, NaN, true);
+          expect(element.x).toBe(6);
+          expect(element.y).toBe(6);
+          expect(element.width).toBe(28);
+          expect(element.height).toBe(28);
+        });
+
+        it('should preserve aspect ratio and center together', () => {
+          const element = new CropperSelection();
+
+          seed(element);
+          element.$resize(ACTION_RESIZE_EAST, 4, 0, 1, true);
+          expect(element.x).toBe(6);
+          expect(element.y).toBe(6);
+          expect(element.width).toBe(28);
+          expect(element.height).toBe(28);
+        });
+
+        it('should produce a positive, still-centered box when dragged past the center', () => {
+          const element = new CropperSelection();
+
+          seed(element);
+          element.$resize(ACTION_RESIZE_EAST, -30, 0, NaN, true);
+          expect(element.x).toBe(0);
+          expect(element.y).toBe(10);
+          expect(element.width).toBe(40);
+          expect(element.height).toBe(20);
+        });
+
+        it('should preserve aspect ratio and center when resizing a vertical side', () => {
+          const element = new CropperSelection();
+
+          seed(element);
+          element.$resize(ACTION_RESIZE_NORTH, 0, -4, 1, true);
+          expect(element.x).toBe(6);
+          expect(element.y).toBe(6);
+          expect(element.width).toBe(28);
+          expect(element.height).toBe(28);
+        });
+
+        it('should resize the south side symmetrically about the center', () => {
+          const element = new CropperSelection();
+
+          seed(element);
+          element.$resize(ACTION_RESIZE_SOUTH, 0, 4, NaN, true);
+          expect(element.x).toBe(10);
+          expect(element.y).toBe(6);
+          expect(element.width).toBe(20);
+          expect(element.height).toBe(28);
+        });
+
+        it('should resize the northeast corner symmetrically about the center', () => {
+          const element = new CropperSelection();
+
+          seed(element);
+          element.$resize(ACTION_RESIZE_NORTHEAST, 4, -4, NaN, true);
+          expect(element.x).toBe(6);
+          expect(element.y).toBe(6);
+          expect(element.width).toBe(28);
+          expect(element.height).toBe(28);
+        });
+
+        it('should resize the northwest corner symmetrically about the center', () => {
+          const element = new CropperSelection();
+
+          seed(element);
+          element.$resize(ACTION_RESIZE_NORTHWEST, -4, -4, NaN, true);
+          expect(element.x).toBe(6);
+          expect(element.y).toBe(6);
+          expect(element.width).toBe(28);
+          expect(element.height).toBe(28);
+        });
+
+        it('should resize the southwest corner symmetrically about the center', () => {
+          const element = new CropperSelection();
+
+          seed(element);
+          element.$resize(ACTION_RESIZE_SOUTHWEST, -4, 4, NaN, true);
+          expect(element.x).toBe(6);
+          expect(element.y).toBe(6);
+          expect(element.width).toBe(28);
+          expect(element.height).toBe(28);
+        });
+
+        it('should keep the center fixed across an incremental fractional drag (no drift)', () => {
+          const element = new CropperSelection();
+
+          seed(element); // center (20, 20)
+
+          for (let i = 0; i < 40; i += 1) {
+            element.$resize(ACTION_RESIZE_EAST, 0.5, 0, NaN, true);
+          }
+
+          // Center must stay at 20 on both axes; the y axis must be untouched.
+          expect(element.x + (element.width / 2)).toBe(20);
+          expect(element.y).toBe(10);
+          expect(element.height).toBe(20);
+        });
+      });
+    });
+
+    describe('$handleAction (centerLocked via alt key)', () => {
+      const dispatchEast = (element: CropperSelection, altKey: boolean) => {
+        element.addEventListener('action', (event) => {
+          (element as any).$handleAction(event);
+        });
+        element.dispatchEvent(new CustomEvent('action', {
+          detail: {
+            action: ACTION_RESIZE_EAST,
+            startX: 0,
+            startY: 0,
+            endX: 4,
+            endY: 0,
+            relatedEvent: { altKey, shiftKey: false },
+          },
+        }));
+      };
+
+      it('should resize from center when alt is held and centerLocked is off', () => {
+        const element = new CropperSelection();
+
+        element.resizable = true;
+        element.$change(10, 10, 20, 20); // center (20, 20)
+        dispatchEast(element, true);
+        expect(element.x).toBe(6);
+        expect(element.y).toBe(10);
+        expect(element.width).toBe(28);
+        expect(element.height).toBe(20);
+      });
+
+      it('should resize anchored when alt is held and centerLocked is on (XOR)', () => {
+        const element = new CropperSelection();
+
+        element.resizable = true;
+        element.centerLocked = true;
+        element.$change(10, 10, 20, 20);
+        dispatchEast(element, true);
+        expect(element.x).toBe(10);
+        expect(element.y).toBe(10);
+        expect(element.width).toBe(24);
+        expect(element.height).toBe(20);
       });
     });
 
