@@ -23,7 +23,7 @@
 :::live-demo
 
 ```html
-<cropper-image src="/cropperjs/picture.jpg" alt="Picture" style="width: 100%;" rotatable scalable skewable translatable></cropper-image>
+<cropper-image src="/cropperjs/picture.jpg" alt="Picture" rotatable scalable skewable translatable></cropper-image>
 ```
 
 :::
@@ -38,14 +38,14 @@
 <<< @/.vitepress/components/CropperImageInitialFitExample.vue
 :::
 
-### 限制边界
+### 限制尺寸
 
 <ClientOnly>
-  <CropperImageExample />
+  <CropperImageMaxFitAndMinFitExample />
 </ClientOnly>
 
 ::: details
-<<< @/.vitepress/components/CropperImageExample.vue
+<<< @/.vitepress/components/CropperImageMaxFitAndMinFitExample.vue
 :::
 
 ## 属性
@@ -55,6 +55,8 @@
 | 名称 | 类型 | 默认值 | 可选值 | 描述 |
 | --- | --- | --- | --- | --- |
 | initialFit <Badge type="tip" text="^2.2.0" /> | `string` | `"contain"` | `"cover"` \| `"fill"` \| `"contain"` \| `"scale-down"` \| `"none"` | 指示图像与其父元素的中心对齐时的初始大小。 |
+| maxFit <Badge type="tip" text="^2.2.0" /> | `string` | `""` | `"cover"` \| `"fill"` \| `"contain"` \| `"scale-down"` \| `"none"` | 指示此元素相对于其父元素的最大尺寸。 |
+| minFit <Badge type="tip" text="^2.2.0" /> | `string` | `""` | `"cover"` \| `"fill"` \| `"contain"` \| `"scale-down"` \| `"none"` | 指示此元素相对于其父元素的最小尺寸。 |
 | rotatable | `boolean` | `false` | - | 指示此元素是否可旋转。 |
 | scalable | `boolean` | `false` | - | 指示此元素是否可缩放。 |
 | skewable | `boolean` | `false` | - | 指示此元素是否可倾斜。 |

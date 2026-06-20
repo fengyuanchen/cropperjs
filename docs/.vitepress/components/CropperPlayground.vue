@@ -147,6 +147,44 @@
             </select>
           </li>
           <li>
+            <label for="imageMaxFit">maxFit</label>
+            <select
+              id="imageMaxFit"
+              v-model="image.maxFit"
+              class="form-control form-control-sm"
+              name="maxFit"
+            >
+              <option value="contain">
+                contain
+              </option>
+              <option value="cover">
+                cover
+              </option>
+              <option value="none">
+                none
+              </option>
+            </select>
+          </li>
+          <li>
+            <label for="imageMinFit">minFit</label>
+            <select
+              id="imageMinFit"
+              v-model="image.minFit"
+              class="form-control form-control-sm"
+              name="minFit"
+            >
+              <option value="contain">
+                contain
+              </option>
+              <option value="cover">
+                cover
+              </option>
+              <option value="none">
+                none
+              </option>
+            </select>
+          </li>
+          <li>
             <label for="imageSrc">src</label>
             <input
               id="imageSrc"
@@ -1579,6 +1617,8 @@
           :skewable="image.skewable"
           :translatable="image.translatable"
           :initial-fit="image.initialFit"
+          :max-fit="image.maxFit"
+          :min-fit="image.minFit"
           :src="image.src"
           :alt="image.alt"
           @transform="onImageTransform"
@@ -1790,6 +1830,8 @@ export default {
       image: {
         hidden: false,
         initialFit: 'contain',
+        maxFit: 'none',
+        minFit: 'none',
         rotatable: true,
         scalable: true,
         skewable: true,

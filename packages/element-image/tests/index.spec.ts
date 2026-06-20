@@ -23,6 +23,36 @@ describe('CropperImage', () => {
       });
     });
 
+    describe('maxFit', () => {
+      it('should be `"none"` by default', () => {
+        const element = new CropperImage();
+
+        expect(element.maxFit).toBe('none');
+      });
+
+      it('should be `"cover"`', () => {
+        const element = new CropperImage();
+
+        element.setAttribute('max-fit', 'cover');
+        expect(element.maxFit).toBe('cover');
+      });
+    });
+
+    describe('minFit', () => {
+      it('should be `"none"` by default', () => {
+        const element = new CropperImage();
+
+        expect(element.minFit).toBe('none');
+      });
+
+      it('should be `"contain"`', () => {
+        const element = new CropperImage();
+
+        element.setAttribute('min-fit', 'contain');
+        expect(element.minFit).toBe('contain');
+      });
+    });
+
     describe('rotatable', () => {
       it('should be `false` by default', () => {
         const element = new CropperImage();

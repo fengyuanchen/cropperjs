@@ -23,7 +23,7 @@ The default width and height of this element is `0`.
 :::live-demo
 
 ```html
-<cropper-image src="/cropperjs/picture.jpg" alt="Picture" style="width: 100%;" rotatable scalable skewable translatable></cropper-image>
+<cropper-image src="/cropperjs/picture.jpg" alt="Picture" rotatable scalable skewable translatable></cropper-image>
 ```
 
 :::
@@ -38,14 +38,14 @@ The default width and height of this element is `0`.
 <<< @/.vitepress/components/CropperImageInitialFitExample.vue
 :::
 
-### Limit boundaries
+### Limit size
 
 <ClientOnly>
-  <CropperImageExample />
+  <CropperImageMaxFitAndMinFitExample />
 </ClientOnly>
 
 ::: details
-<<< @/.vitepress/components/CropperImageExample.vue
+<<< @/.vitepress/components/CropperImageMaxFitAndMinFitExample.vue
 :::
 
 ## Properties
@@ -55,6 +55,8 @@ Inherits properties from its parent, [`CropperElement`](cropper-element.html), a
 | Name | Type | Default | Options | Description |
 | --- | --- | --- | --- | --- |
 | initialFit <Badge type="tip" text="^2.2.0" /> | `string` | `"contain"` | `"cover"` \| `"fill"` \| `"contain"` \| `"scale-down"` \| `"none"` | Indicates the initial size of the image when aligned with the center of its parent element. |
+| maxFit <Badge type="tip" text="^2.2.0" /> | `string` | `""` | `"cover"` \| `"fill"` \| `"contain"` \| `"scale-down"` \| `"none"` | Indicates the max size of this element relative to its parent element. |
+| minFit <Badge type="tip" text="^2.2.0" /> | `string` | `""` | `"cover"` \| `"fill"` \| `"contain"` \| `"scale-down"` \| `"none"` | Indicates the min size of this element relative to its parent element. |
 | rotatable | `boolean` | `false` | - | Indicates whether this element is rotatable. |
 | scalable | `boolean` | `false` | - | Indicates whether this element is scalable. |
 | skewable | `boolean` | `false` | - | Indicates whether this element is skewable. |

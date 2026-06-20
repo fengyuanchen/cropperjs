@@ -75,6 +75,10 @@ export default class CropperImage extends CropperElement {
 
   initialFit = OBJECT_FIT_CONTAIN;
 
+  maxFit = '';
+
+  minFit = '';
+
   rotatable = false;
 
   scalable = false;
@@ -118,6 +122,8 @@ export default class CropperImage extends CropperElement {
     return super.observedAttributes.concat(NATIVE_ATTRIBUTES, [
       'initial-center-size',
       'initial-fit',
+      'max-fit',
+      'min-fit',
       'rotatable',
       'scalable',
       'skewable',
@@ -149,8 +155,18 @@ export default class CropperImage extends CropperElement {
       case 'initialCenterSize':
       case 'initialFit':
         this.$nextTick(() => {
-          if (this.$canvas) {
+          if (this.$isReady && this.$canvas) {
             this.$center(newValue as string);
+          }
+        });
+        break;
+
+      case 'maxFit':
+      case 'minFit':
+        this.$nextTick(() => {
+          if (this.$isReady && this.$canvas) {
+            this.$resetTransform();
+            this.$center(this.initialCenterSize || this.initialFit);
           }
         });
         break;
@@ -470,7 +486,98 @@ export default class CropperImage extends CropperElement {
 
     this.$move(endX - startX, endY - startY);
 
-    if (size) {
+    const { maxFit, minFit } = this;
+
+    if (size || maxFit || minFit) {
+      const { naturalWidth, naturalHeight } = this.$image;
+
+      switch (size) {
+        case OBJECT_FIT_COVER:
+          if ([
+            OBJECT_FIT_FILL,
+            OBJECT_FIT_CONTAIN,
+            OBJECT_FIT_SCALE_DOWN,
+          ].includes(maxFit) || (
+            maxFit === OBJECT_FIT_NONE
+            && (naturalWidth < containerWidth || naturalHeight < containerHeight)
+          )) {
+            size = maxFit;
+          } else if (
+            minFit === OBJECT_FIT_NONE
+            && naturalWidth > containerWidth
+            && naturalHeight > containerHeight
+          ) {
+            size = minFit;
+          }
+          break;
+
+        case OBJECT_FIT_FILL:
+          if ([OBJECT_FIT_CONTAIN, OBJECT_FIT_SCALE_DOWN].includes(maxFit) || (
+            maxFit === OBJECT_FIT_NONE
+            && (naturalWidth < containerWidth || naturalHeight < containerHeight)
+          )) {
+            size = maxFit;
+          } else if (minFit === OBJECT_FIT_COVER || (
+            minFit === OBJECT_FIT_NONE
+            && naturalWidth > containerWidth
+            && naturalHeight > containerHeight
+          )) {
+            size = minFit;
+          }
+          break;
+
+        case OBJECT_FIT_CONTAIN:
+          if (maxFit === OBJECT_FIT_SCALE_DOWN || (
+            maxFit === OBJECT_FIT_NONE
+            && naturalWidth < containerWidth
+            && naturalHeight < containerHeight
+          )) {
+            size = maxFit;
+          } else if ([OBJECT_FIT_COVER, OBJECT_FIT_FILL].includes(minFit) || (
+            minFit === OBJECT_FIT_NONE
+            && (naturalWidth > containerWidth || naturalHeight > containerHeight)
+          )) {
+            size = minFit;
+          }
+          break;
+
+        case OBJECT_FIT_SCALE_DOWN:
+          if (
+            maxFit === OBJECT_FIT_NONE
+            && naturalWidth < containerWidth
+            && naturalHeight < containerHeight
+          ) {
+            size = maxFit;
+          } else if ([OBJECT_FIT_COVER, OBJECT_FIT_FILL, OBJECT_FIT_CONTAIN].includes(minFit) || (
+            minFit === OBJECT_FIT_NONE
+            && (naturalWidth > containerWidth && naturalHeight > containerHeight)
+          )) {
+            size = minFit;
+          }
+          break;
+
+        // case OBJECT_FIT_NONE:
+        default:
+          if ([
+            OBJECT_FIT_COVER,
+            OBJECT_FIT_FILL,
+            OBJECT_FIT_CONTAIN,
+            OBJECT_FIT_SCALE_DOWN,
+          ].includes(maxFit)
+            && (naturalWidth > containerWidth || naturalHeight > containerHeight)
+          ) {
+            size = maxFit;
+          } else if ([
+            OBJECT_FIT_COVER,
+            OBJECT_FIT_FILL,
+            OBJECT_FIT_CONTAIN,
+            OBJECT_FIT_SCALE_DOWN,
+          ].includes(minFit) && naturalWidth < containerWidth && naturalHeight < containerHeight
+          ) {
+            size = minFit;
+          }
+      }
+
       const scaleX = containerWidth / width;
       const scaleY = containerHeight / height;
       const { scalable } = this;
@@ -487,12 +594,12 @@ export default class CropperImage extends CropperElement {
           this.$scale(Math.max(scaleX, scaleY));
           break;
 
-        case OBJECT_FIT_FILL:
-          this.$scale(scaleX, scaleY);
-          break;
-
         case OBJECT_FIT_CONTAIN:
           this.$scale(Math.min(scaleX, scaleY));
+          break;
+
+        case OBJECT_FIT_FILL:
+          this.$scale(scaleX, scaleY);
           break;
 
         case OBJECT_FIT_SCALE_DOWN:
@@ -748,6 +855,99 @@ export default class CropperImage extends CropperElement {
       ) {
         const oldMatrix = [...this.$matrix];
         const newMatrix = [a, b, c, d, e, f];
+
+        if (this.$isReady && this.$canvas) {
+          const { $canvas } = this;
+          const canvasRect = $canvas.getBoundingClientRect();
+          const imageClone = this.cloneNode() as CropperImage;
+          const { naturalWidth, naturalHeight } = this.$image;
+
+          imageClone.$setTransform(newMatrix);
+          imageClone.style.visibility = 'hidden';
+          imageClone.style.pointerEvents = 'none';
+          $canvas.insertBefore(imageClone, this);
+
+          const imageRect = imageClone.getBoundingClientRect();
+
+          $canvas.removeChild(imageClone);
+
+          // Check if the image is completely outside the canvas after transformation,
+          // if so, skip the transformation to avoid losing the image.
+          if (
+            imageRect.top > canvasRect.bottom
+            || imageRect.right < canvasRect.left
+            || imageRect.bottom < canvasRect.top
+            || imageRect.left > canvasRect.right
+          ) {
+            return this;
+          }
+
+          let { maxFit, minFit } = this;
+
+          if (maxFit || minFit) {
+            if (maxFit === OBJECT_FIT_SCALE_DOWN) {
+              if (naturalWidth >= canvasRect.width || naturalHeight >= canvasRect.height) {
+                maxFit = OBJECT_FIT_CONTAIN;
+              } else {
+                maxFit = OBJECT_FIT_NONE;
+              }
+            }
+
+            switch (maxFit) {
+              case OBJECT_FIT_COVER:
+                if (imageRect.width > canvasRect.width && imageRect.height > canvasRect.height) {
+                  return this;
+                }
+                break;
+
+              case OBJECT_FIT_FILL:
+              case OBJECT_FIT_CONTAIN:
+                if (imageRect.width > canvasRect.width || imageRect.height > canvasRect.height) {
+                  return this;
+                }
+                break;
+
+              case OBJECT_FIT_NONE:
+                if (imageRect.width > naturalWidth || imageRect.height > naturalHeight) {
+                  return this;
+                }
+                break;
+
+              default:
+            }
+
+            if (minFit === OBJECT_FIT_SCALE_DOWN) {
+              if (naturalWidth >= canvasRect.width || naturalHeight >= canvasRect.height) {
+                minFit = OBJECT_FIT_CONTAIN;
+              } else {
+                minFit = OBJECT_FIT_NONE;
+              }
+            }
+
+            switch (minFit) {
+              case OBJECT_FIT_COVER:
+              case OBJECT_FIT_FILL:
+                if (imageRect.width < canvasRect.width || imageRect.height < canvasRect.height) {
+                  return this;
+                }
+                break;
+
+              case OBJECT_FIT_CONTAIN:
+                if (imageRect.width < canvasRect.width && imageRect.height < canvasRect.height) {
+                  return this;
+                }
+                break;
+
+              case OBJECT_FIT_NONE:
+                if (imageRect.width < naturalWidth || imageRect.height < naturalHeight) {
+                  return this;
+                }
+                break;
+
+              default:
+            }
+          }
+        }
 
         if (this.$emit(EVENT_TRANSFORM, {
           matrix: newMatrix,
