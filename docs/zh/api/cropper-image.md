@@ -38,7 +38,7 @@
 <<< @/.vitepress/components/CropperImageInitialFitExample.vue
 :::
 
-### 限制尺寸
+### 限制最大尺寸和（或）最小尺寸
 
 <ClientOnly>
   <CropperImageMaxFitAndMinFitExample />
@@ -46,6 +46,16 @@
 
 ::: details
 <<< @/.vitepress/components/CropperImageMaxFitAndMinFitExample.vue
+:::
+
+### 限制边界
+
+<ClientOnly>
+  <CropperImageExample />
+</ClientOnly>
+
+::: details
+<<< @/.vitepress/components/CropperImageExample.vue
 :::
 
 ## 属性
@@ -389,6 +399,41 @@
     - 旧的（当前）矩阵对象。
 
 当元素的 [`transform`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/transform) CSS 属性将要变更时，将触发该事件。
+
+### change <Badge type="tip" text="^2.2.0" />
+
+当图像的位置和尺寸即将发送变化时触发该事件。
+
+- 事件：
+  - **event.bubbles**：`true`
+  - **event.cancelable**：`true`
+  - **event.composed**：`true`
+  - **event.detail**：
+    - 类型：`Object`
+    - 图像的位置和大小数据。
+  - **event.detail.x**：
+    - 类型：`number`
+    - 图像的 x 轴坐标。
+  - **event.detail.y**：
+    - 类型：`number`
+    - 图像的 y 轴坐标。
+  - **event.detail.width**：
+    - 类型：`number`
+    - 图像的宽度。
+  - **event.detail.height**：
+    - 类型：`number`
+    - 图像的高度。
+- 示例：
+
+```html
+<cropper-image id="image"></cropper-image>
+
+<script>
+document.querySelector('#image').addEventListener('change', function (event) {
+  console.log(event);
+});
+</script>
+```
 
 ## 插槽
 

@@ -13,6 +13,7 @@ import {
   EVENT_ACTION,
   EVENT_ACTION_END,
   EVENT_ACTION_START,
+  EVENT_CHANGE,
   EVENT_ERROR,
   EVENT_LOAD,
   EVENT_TRANSFORM,
@@ -946,6 +947,15 @@ export default class CropperImage extends CropperElement {
 
               default:
             }
+          }
+
+          if (this.$emit(EVENT_CHANGE, {
+            x: imageRect.x - canvasRect.x,
+            y: imageRect.y - canvasRect.y,
+            width: imageRect.width,
+            height: imageRect.height,
+          }) === false) {
+            return this;
           }
         }
 

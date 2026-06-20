@@ -1,6 +1,6 @@
 import CropperElement from '@cropper/element';
 import type CropperCanvas from '@cropper/element-canvas';
-import type CropperSelection from '@cropper/element-selection';
+import CropperSelection from '@cropper/element-selection';
 import {
   ACTION_SELECT,
   CROPPER_CANVAS,
@@ -88,7 +88,11 @@ export default class CropperShade extends CropperElement {
             this.hidden = true;
           }
         };
-        this.$onSelectionChange = (event) => {
+        this.$onSelectionChange = (event: Event) => {
+          if ((event.target?.constructor as any)?.$name !== CROPPER_SELECTION) {
+            return;
+          }
+
           const {
             x,
             y,

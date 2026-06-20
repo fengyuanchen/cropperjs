@@ -38,7 +38,7 @@ The default width and height of this element is `0`.
 <<< @/.vitepress/components/CropperImageInitialFitExample.vue
 :::
 
-### Limit size
+### Set max fit and/or min fit
 
 <ClientOnly>
   <CropperImageMaxFitAndMinFitExample />
@@ -46,6 +46,16 @@ The default width and height of this element is `0`.
 
 ::: details
 <<< @/.vitepress/components/CropperImageMaxFitAndMinFitExample.vue
+:::
+
+### Limit boundaries
+
+<ClientOnly>
+  <CropperImageExample />
+</ClientOnly>
+
+::: details
+<<< @/.vitepress/components/CropperImageExample.vue
 :::
 
 ## Properties
@@ -389,6 +399,41 @@ Resets the current transform to the initial identity matrix. It is similar to [C
     - The old (current) matrix object.
 
 The event is fired when the [`transform`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform) CSS property of the element is going to change.
+
+### change <Badge type="tip" text="^2.2.0" />
+
+The event is fired when the position or size of the image is going to change.
+
+- Event:
+  - **event.bubbles**: `true`
+  - **event.cancelable**: `true`
+  - **event.composed**: `true`
+  - **event.detail**:
+    - Type: `Object`
+    - The position and size data of the image.
+  - **event.detail.x**:
+    - Type: `number`
+    - The x-axis coordinate of the image.
+  - **event.detail.y**:
+    - Type: `number`
+    - The y-axis coordinate of the image.
+  - **event.detail.width**:
+    - Type: `number`
+    - The width of the image.
+  - **event.detail.height**:
+    - Type: `number`
+    - The height of the image.
+- Example:
+
+```html
+<cropper-image id="image"></cropper-image>
+
+<script>
+document.querySelector('#image').addEventListener('change', function (event) {
+  console.log(event);
+});
+</script>
+```
 
 ## Slots
 

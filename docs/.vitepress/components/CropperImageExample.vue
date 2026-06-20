@@ -4,6 +4,14 @@
       <fieldset>
         <legend>Within:</legend>
         <input
+          id="withinViewport"
+          v-model="within"
+          type="radio"
+          name="within"
+          value="viewport"
+        >
+        <label for="withinViewport">viewport</label>
+        <input
           id="withinCanvas"
           v-model="within"
           type="radio"
@@ -11,14 +19,6 @@
           value="canvas"
         >
         <label for="withinCanvas">canvas</label>
-        <input
-          id="withinImage"
-          v-model="within"
-          type="radio"
-          name="within"
-          value="image"
-        >
-        <label for="withinImage">image</label>
         <input
           id="withinNone"
           v-model="within"
@@ -48,46 +48,18 @@
         action="move"
         plain
       />
-      <cropper-selection
-        ref="cropperSelection"
-        initial-coverage="0.5"
-        movable
-        resizable
-        outlined
-        @change="onCropperSelectionChange"
-      >
-        <cropper-grid
-          role="grid"
-          covered
-        />
-        <cropper-crosshair centered />
-        <cropper-handle
-          action="move"
-          theme-color="rgba(255, 255, 255, 0.35)"
-        />
-        <cropper-handle action="n-resize" />
-        <cropper-handle action="e-resize" />
-        <cropper-handle action="s-resize" />
-        <cropper-handle action="w-resize" />
-        <cropper-handle action="ne-resize" />
-        <cropper-handle action="nw-resize" />
-        <cropper-handle action="se-resize" />
-        <cropper-handle action="sw-resize" />
-      </cropper-selection>
     </cropper-canvas>
   </div>
 </template>
 
 <script lang="ts">
 import type CropperCanvas from '@cropper/element-canvas';
-import type CropperImage from '@cropper/element-image';
-import type CropperSelection from '@cropper/element-selection';
 import type { Selection } from '@cropper/element-selection';
 
 const { BASE_URL } = import.meta.env;
 
 export default {
-  name: 'CropperSelectionExample',
+  name: 'CropperImageExample',
   data() {
     return {
       src: `${BASE_URL}picture.jpg`,
@@ -106,20 +78,6 @@ export default {
     onCropperImageChange(event: CustomEvent) {
       const cropperCanvas = this.$refs.cropperCanvas as CropperCanvas;
 
-      if (!cropperCanvas || this.within !== 'image') {
-        return;
-      }
-
-      const selection = this.$refs.cropperSelection as Selection;
-      const maxSelection = event.detail as Selection;;
-
-      if (!this.inSelection(selection, maxSelection)) {
-        event.preventDefault();
-      }
-    },
-    onCropperSelectionChange(event: CustomEvent) {
-      const cropperCanvas = this.$refs.cropperCanvas as CropperCanvas;
-
       if (!cropperCanvas || this.within === 'none') {
         return;
       }
@@ -128,12 +86,12 @@ export default {
       const selection = event.detail as Selection;
 
       switch (this.within) {
-        case 'canvas': {
+        case 'viewport': {
           const maxSelection: Selection = {
-            x: 0,
-            y: 0,
-            width: cropperCanvasRect.width,
-            height: cropperCanvasRect.height,
+            x: -cropperCanvasRect.x,
+            y: -cropperCanvasRect.y,
+            width: window.innerWidth,
+            height: window.innerHeight,
           };
 
           if (!this.inSelection(selection, maxSelection)) {
@@ -142,14 +100,13 @@ export default {
           break;
         }
 
-        case 'image': {
-          const cropperImage = this.$refs.cropperImage as CropperImage;
-          const cropperImageRect = cropperImage.getBoundingClientRect();
+        case 'canvas': {
+          const cropperCanvasRect = cropperCanvas.getBoundingClientRect();
           const maxSelection: Selection = {
-            x: cropperImageRect.left - cropperCanvasRect.left,
-            y: cropperImageRect.top - cropperCanvasRect.top,
-            width: cropperImageRect.width,
-            height: cropperImageRect.height,
+            x: 0,
+            y: 0,
+            width: cropperCanvasRect.width,
+            height: cropperCanvasRect.height,
           };
 
           if (!this.inSelection(selection, maxSelection)) {
