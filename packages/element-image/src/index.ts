@@ -860,32 +860,29 @@ export default class CropperImage extends CropperElement {
         if (this.$isReady && this.$canvas) {
           const { $canvas } = this;
           const canvasRect = $canvas.getBoundingClientRect();
-          const imageClone = this.cloneNode() as CropperImage;
-          const { naturalWidth, naturalHeight } = this.$image;
 
-          imageClone.$setTransform(newMatrix);
-          imageClone.style.visibility = 'hidden';
-          imageClone.style.pointerEvents = 'none';
-          $canvas.insertBefore(imageClone, this);
+          this.style.transform = `matrix(${newMatrix.join(', ')})`;
 
-          const imageRect = imageClone.getBoundingClientRect();
+          const imageRect = this.$image.getBoundingClientRect();
 
-          $canvas.removeChild(imageClone);
-
-          // Check if the image is completely outside the canvas after transformation,
-          // if so, skip the transformation to avoid losing the image.
-          if (
-            imageRect.top > canvasRect.bottom
-            || imageRect.right < canvasRect.left
-            || imageRect.bottom < canvasRect.top
-            || imageRect.left > canvasRect.right
-          ) {
-            return this;
-          }
+          this.style.transform = `matrix(${oldMatrix.join(', ')})`;
 
           let { maxFit, minFit } = this;
 
           if (maxFit || minFit) {
+            // Check if the image is completely outside the canvas after transformation,
+            // if so, skip the transformation to avoid losing the image.
+            if (
+              imageRect.top > canvasRect.bottom
+              || imageRect.right < canvasRect.left
+              || imageRect.bottom < canvasRect.top
+              || imageRect.left > canvasRect.right
+            ) {
+              return this;
+            }
+
+            const { naturalWidth, naturalHeight } = this.$image;
+
             if (maxFit === OBJECT_FIT_SCALE_DOWN) {
               if (naturalWidth >= canvasRect.width || naturalHeight >= canvasRect.height) {
                 maxFit = OBJECT_FIT_CONTAIN;
