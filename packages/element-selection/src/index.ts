@@ -23,12 +23,12 @@ import {
   EVENT_CHANGE,
   EVENT_KEYDOWN,
   getAdjustedSizes,
+  getComposedPathTarget,
   getOffset,
   isFunction,
   isNumber,
   isPlainObject,
   isPositiveNumber,
-  getComposedPathTarget,
   off,
   on,
 } from '@cropper/utils';

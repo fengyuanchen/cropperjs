@@ -1,9 +1,9 @@
 import {
   emit,
   getAdjustedSizes,
+  getComposedPathTarget,
   getOffset,
   isElement,
-  getComposedPathTarget,
   isFunction,
   isNaN,
   isNumber,

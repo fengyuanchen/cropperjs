@@ -35,6 +35,9 @@ module.exports = {
       ignoreRegExpLiterals: true,
     }],
     'no-param-reassign': 'off',
+    'sort-imports': ['error', {
+      ignoreDeclarationSort: true,
+    }],
   },
   overrides: [
     {
