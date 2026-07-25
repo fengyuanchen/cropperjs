@@ -101,7 +101,6 @@ export default {
         }
 
         case 'canvas': {
-          const cropperCanvasRect = cropperCanvas.getBoundingClientRect();
           const maxSelection: Selection = {
             x: 0,
             y: 0,

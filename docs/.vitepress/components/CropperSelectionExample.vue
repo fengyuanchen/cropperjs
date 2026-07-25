@@ -81,7 +81,6 @@
 <script lang="ts">
 import type CropperCanvas from '@cropper/element-canvas';
 import type CropperImage from '@cropper/element-image';
-import type CropperSelection from '@cropper/element-selection';
 import type { Selection } from '@cropper/element-selection';
 
 const { BASE_URL } = import.meta.env;
@@ -111,7 +110,7 @@ export default {
       }
 
       const selection = this.$refs.cropperSelection as Selection;
-      const maxSelection = event.detail as Selection;;
+      const maxSelection = event.detail as Selection;
 
       if (!this.inSelection(selection, maxSelection)) {
         event.preventDefault();
