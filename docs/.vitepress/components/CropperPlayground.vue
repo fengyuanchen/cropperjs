@@ -138,11 +138,20 @@
               class="form-control form-control-sm"
               name="initialFit"
             >
+              <option value="cover">
+                cover
+              </option>
+              <option value="fill">
+                fill
+              </option>
               <option value="contain">
                 contain
               </option>
-              <option value="cover">
-                cover
+              <option value="scale-down">
+                scale-down
+              </option>
+              <option value="none">
+                none
               </option>
             </select>
           </li>
@@ -154,11 +163,20 @@
               class="form-control form-control-sm"
               name="maxFit"
             >
-              <option value="contain">
-                contain
+              <option value="">
+                default
               </option>
               <option value="cover">
                 cover
+              </option>
+              <option value="fill">
+                fill
+              </option>
+              <option value="contain">
+                contain
+              </option>
+              <option value="scale-down">
+                scale-down
               </option>
               <option value="none">
                 none
@@ -173,11 +191,20 @@
               class="form-control form-control-sm"
               name="minFit"
             >
-              <option value="contain">
-                contain
+              <option value="">
+                default
               </option>
               <option value="cover">
                 cover
+              </option>
+              <option value="fill">
+                fill
+              </option>
+              <option value="contain">
+                contain
+              </option>
+              <option value="scale-down">
+                scale-down
               </option>
               <option value="none">
                 none
@@ -1830,8 +1857,8 @@ export default {
       image: {
         hidden: false,
         initialFit: 'contain',
-        maxFit: 'none',
-        minFit: 'none',
+        maxFit: '',
+        minFit: '',
         rotatable: true,
         scalable: true,
         skewable: true,

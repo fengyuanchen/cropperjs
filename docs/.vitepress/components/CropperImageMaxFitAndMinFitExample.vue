@@ -4,6 +4,14 @@
       <fieldset>
         <legend>Max Fit:</legend>
         <input
+          id="maxFit"
+          v-model="maxFit"
+          type="radio"
+          name="maxFit"
+          value=""
+        >
+        <label for="maxFit">default</label>
+        <input
           id="maxFitCover"
           v-model="maxFit"
           type="radio"
@@ -43,17 +51,17 @@
           value="none"
         >
         <label for="maxFitNone">none</label>
-        <input
-          id="maxFit"
-          v-model="maxFit"
-          type="radio"
-          name="maxFit"
-          value=""
-        >
-        <label for="maxFit">default</label>
       </fieldset>
       <fieldset>
         <legend>Min Fit:</legend>
+        <input
+          id="minFit"
+          v-model="minFit"
+          type="radio"
+          name="minFit"
+          value=""
+        >
+        <label for="minFit">default</label>
         <input
           id="minFitCover"
           v-model="minFit"
@@ -94,14 +102,6 @@
           value="none"
         >
         <label for="minFitNone">none</label>
-        <input
-          id="minFit"
-          v-model="minFit"
-          type="radio"
-          name="minFit"
-          value=""
-        >
-        <label for="minFit">default</label>
       </fieldset>
     </form>
     <cropper-canvas
