@@ -13,6 +13,7 @@ import {
   ACTION_RESIZE_WEST,
   ACTION_SCALE,
   ACTION_SELECT,
+  ACTION_TRANSFORM,
   CROPPER_CANVAS,
   CROPPER_IMAGE,
   CROPPER_SELECTION,
@@ -478,6 +479,7 @@ export default class CropperSelection extends CropperElement {
         break;
 
       case ACTION_SCALE:
+      case ACTION_TRANSFORM:
         if (relatedEvent && this.zoomable && (
           this.dynamic
           || this.contains(relatedEvent.target as Node)
