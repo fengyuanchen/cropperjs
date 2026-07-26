@@ -24,10 +24,10 @@ describe('CropperImage', () => {
     });
 
     describe('maxFit', () => {
-      it('should be `"none"` by default', () => {
+      it('should be `""` by default', () => {
         const element = new CropperImage();
 
-        expect(element.maxFit).toBe('none');
+        expect(element.maxFit).toBe('');
       });
 
       it('should be `"cover"`', () => {
@@ -39,10 +39,10 @@ describe('CropperImage', () => {
     });
 
     describe('minFit', () => {
-      it('should be `"none"` by default', () => {
+      it('should be `""` by default', () => {
         const element = new CropperImage();
 
-        expect(element.minFit).toBe('none');
+        expect(element.minFit).toBe('');
       });
 
       it('should be `"contain"`', () => {
