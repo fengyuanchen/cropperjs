@@ -363,6 +363,10 @@ export default class CropperSelection extends CropperElement {
   }
 
   protected $handleActionStart(event: Event): void {
+    if (event.defaultPrevented) {
+      return;
+    }
+
     const relatedTarget = (event as CustomEvent).detail?.relatedEvent?.target;
 
     this.$action = '';
@@ -391,7 +395,7 @@ export default class CropperSelection extends CropperElement {
   protected $handleAction(event: Event): void {
     const { currentTarget, detail } = event as CustomEvent;
 
-    if (!currentTarget || !detail) {
+    if (event.defaultPrevented || !currentTarget || !detail) {
       return;
     }
 
@@ -506,10 +510,10 @@ export default class CropperSelection extends CropperElement {
 
   protected $handleKeyDown(event: Event): void {
     if (
-      this.hidden
+      event.defaultPrevented
+      || this.hidden
       || !this.keyboard
       || (this.multiple && !this.active)
-      || event.defaultPrevented
     ) {
       return;
     }

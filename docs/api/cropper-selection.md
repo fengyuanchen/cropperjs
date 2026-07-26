@@ -148,6 +148,16 @@ Set the `multiple` property to `true` to support multiple selections on the same
 
 :::
 
+### Set zoom origin
+
+<ClientOnly>
+  <CropperSelectionZoomOriginExample />
+</ClientOnly>
+
+::: details
+<<< @/.vitepress/components/CropperSelectionZoomOriginExample.vue
+:::
+
 ### Limit boundaries
 
 <ClientOnly>

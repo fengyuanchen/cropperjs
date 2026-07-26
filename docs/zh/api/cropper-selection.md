@@ -148,6 +148,16 @@
 
 :::
 
+### 设置缩放原点
+
+<ClientOnly>
+  <CropperSelectionZoomOriginExample />
+</ClientOnly>
+
+::: details
+<<< @/.vitepress/components/CropperSelectionZoomOriginExample.vue
+:::
+
 ### 限制边界
 
 <ClientOnly>
