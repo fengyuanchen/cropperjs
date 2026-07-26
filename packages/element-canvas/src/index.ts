@@ -399,9 +399,7 @@ export default class CropperCanvas extends CropperElement {
     });
 
     if (detail.action !== ACTION_NONE) {
-      this.$emit(EVENT_ACTION, detail, {
-        cancelable: false,
-      });
+      this.$emit(EVENT_ACTION, detail);
     }
   }
 
@@ -465,8 +463,6 @@ export default class CropperCanvas extends CropperElement {
       action: ACTION_SCALE,
       scale,
       relatedEvent: event,
-    }, {
-      cancelable: false,
     });
   }
 

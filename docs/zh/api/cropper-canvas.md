@@ -128,7 +128,7 @@
 
 - 事件：
   - **event.bubbles**：`true`
-  - **event.cancelable**：`false`
+  - **event.cancelable**：`true`
   - **event.composed**：`true`
   - **event.detail**：
     - 类型：`Object`
@@ -166,6 +166,7 @@
 <script>
 document.querySelector('#canvas').addEventListener('action', function (event) {
   console.log(event);
+  // event.preventDefault();
 });
 </script>
 ```

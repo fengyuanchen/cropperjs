@@ -128,7 +128,7 @@ The event is fired when a pointer changes on the canvas.
 
 - Event:
   - **event.bubbles**: `true`
-  - **event.cancelable**: `false`
+  - **event.cancelable**: `true`
   - **event.composed**: `true`
   - **event.detail**:
     - Type: `Object`
@@ -166,6 +166,7 @@ The event is fired when a pointer changes on the canvas.
 <script>
 document.querySelector('#canvas').addEventListener('action', function (event) {
   console.log(event);
+  // event.preventDefault();
 });
 </script>
 ```
