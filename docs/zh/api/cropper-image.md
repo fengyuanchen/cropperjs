@@ -28,6 +28,16 @@
 
 :::
 
+### 设置缩放原点
+
+<ClientOnly>
+  <CropperImageZoomOriginExample />
+</ClientOnly>
+
+::: details
+<<< @/.vitepress/components/CropperImageZoomOriginExample.vue
+:::
+
 ### 设置初始尺寸
 
 <ClientOnly>

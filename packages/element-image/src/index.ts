@@ -195,6 +195,10 @@ export default class CropperImage extends CropperElement {
       });
 
       this.$onCanvasActionStart = (event: Event | CustomEvent) => {
+        if (event.defaultPrevented) {
+          return;
+        }
+
         this.$actionStartTarget = (event as CustomEvent).detail?.relatedEvent?.target;
       };
       this.$onCanvasActionEnd = () => {
@@ -256,7 +260,11 @@ export default class CropperImage extends CropperElement {
   }
 
   protected $handleAction(event: Event | CustomEvent): void {
-    if (this.hidden || !(this.rotatable || this.scalable || this.translatable)) {
+    if (
+      event.defaultPrevented
+      || this.hidden
+      || !(this.rotatable || this.scalable || this.translatable)
+    ) {
       return;
     }
 

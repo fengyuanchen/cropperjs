@@ -28,6 +28,16 @@ The default width and height of this element is `0`.
 
 :::
 
+### Set zoom origin
+
+<ClientOnly>
+  <CropperImageZoomOriginExample />
+</ClientOnly>
+
+::: details
+<<< @/.vitepress/components/CropperImageZoomOriginExample.vue
+:::
+
 ### Set initial fit
 
 <ClientOnly>
