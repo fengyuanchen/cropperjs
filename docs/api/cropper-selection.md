@@ -184,6 +184,7 @@ Inherits properties from its parent, [`CropperElement`](cropper-element.html), a
 | dynamic | `boolean` | `false` | - | Indicates whether this selection is dynamic and changes as the image changes. |
 | movable | `boolean` | `false` | - | Indicates whether this element is movable. |
 | resizable | `boolean` | `false` | - | Indicates whether this element is resizable. |
+| centerLocked | `boolean` | `false` | - | Indicates whether resizing keeps the selection's center fixed (symmetric resize). Requires `resizable` to be `true`. Holding the Alt key temporarily inverts this setting. For pixel-exact centering, enable `precise`. |
 | zoomable | `boolean` | `false` | - | Indicates whether this element is zoomable. |
 | multiple | `boolean` | `false` | - | Indicates whether multiple selections is supported. |
 | keyboard | `boolean` | `false` | - | Indicates whether keyboard control is supported. |
@@ -259,6 +260,7 @@ Moves the selection to a specific position.
   - `$resize(action, offsetX)`
   - `$resize(action, offsetX, offsetY)`
   - `$resize(action, offsetX, offsetY, aspectRatio)`
+  - `$resize(action, offsetX, offsetY, aspectRatio, centerLocked)`
 - **Arguments**:
   - `action`:
     - Type: `string`
@@ -276,6 +278,10 @@ Moves the selection to a specific position.
     - Type: `number`
     - Default: `this.aspectRatio`
     - The aspect ratio for computing the new size if it is necessary.
+  - `centerLocked`:
+    - Type: `boolean`
+    - Default: `this.centerLocked`
+    - Whether to resize symmetrically about the center of the selection. Defaults to the selection's `centerLocked` property.
 - **Returns**:
   - Type: `CropperSelection`
   - The element instance for chaining.
