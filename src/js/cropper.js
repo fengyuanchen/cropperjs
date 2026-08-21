@@ -122,7 +122,7 @@ class Cropper {
       if (REGEXP_DATA_URL_JPEG.test(url)) {
         this.read(dataURLToArrayBuffer(url));
       } else {
-        // Only a JPEG image may contains Exif Orientation information,
+        // Only a JPEG image may contain Exif Orientation information,
         // the rest types of Data URLs are not necessary to check orientation at all.
         this.clone();
       }

@@ -53,7 +53,7 @@ export default {
   // Enable to crop the image automatically when initialize
   autoCrop: true,
 
-  // Define the percentage of automatic cropping area when initializes
+  // Define the percentage of automatic cropping area when initialized
   autoCropArea: 0.8,
 
   // Enable to move the image
@@ -74,7 +74,7 @@ export default {
   // Enable to zoom the image by wheeling mouse
   zoomOnWheel: true,
 
-  // Define zoom ratio when zoom the image by wheeling mouse
+  // Define zoom ratio when zooming the image by mouse wheel
   wheelZoomRatio: 0.1,
 
   // Enable to move the crop box

@@ -309,7 +309,7 @@ export function removeData(element, name) {
       element[name] = undefined;
     }
   } else if (element.dataset) {
-    // #128 Safari not allows to delete dataset property
+    // #128 Safari doesn't allow deleting dataset properties
     try {
       delete element.dataset[name];
     } catch (error) {
@@ -443,7 +443,7 @@ export function dispatchEvent(element, type, data) {
 }
 
 /**
- * Get the offset base on the document.
+ * Get the offset based on the document.
  * @param {Element} element - The target element.
  * @returns {Object} The offset data.
  */
@@ -486,7 +486,7 @@ export function addTimestamp(url) {
 }
 
 /**
- * Get transforms base on the given object.
+ * Get transforms based on the given object.
  * @param {Object} obj - The target object.
  * @returns {string} A string contains transform values.
  */
@@ -671,7 +671,7 @@ export function getRotatedSizes({ width, height, degree }) {
 }
 
 /**
- * Get a canvas which drew the given image.
+ * Get a canvas which draws the given image.
  * @param {HTMLImageElement} image - The image for drawing.
  * @param {Object} imageData - The image data.
  * @param {Object} canvasData - The canvas data.
