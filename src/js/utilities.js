@@ -1,4 +1,4 @@
-import { IS_BROWSER, WINDOW } from './constants';
+import { IS_BROWSER, REGEXP_SPACES, WINDOW } from './constants';
 
 /**
  * Check if the given value is not a number.
@@ -221,7 +221,7 @@ export function removeClass(element, value) {
   }
 
   if (element.className.indexOf(value) >= 0) {
-    element.className = element.className.replace(value, '');
+    element.className = element.className.split(REGEXP_SPACES).filter((item) => item && item !== value).join(' ');
   }
 }
 
@@ -320,7 +320,6 @@ export function removeData(element, name) {
   }
 }
 
-const REGEXP_SPACES = /\s\s*/;
 const onceSupported = (() => {
   let supported = false;
 
