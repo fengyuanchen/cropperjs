@@ -164,7 +164,7 @@ export function setStyle(element, styles) {
 export function hasClass(element, value) {
   return element.classList
     ? element.classList.contains(value)
-    : element.className.indexOf(value) > -1;
+    : element.className.split(REGEXP_SPACES).indexOf(value) > -1;
 }
 
 /**
