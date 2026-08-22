@@ -60,11 +60,11 @@ npm install cropperjs@1.x
 In browser:
 
 ```html
-<link  href="/path/to/cropper.css" rel="stylesheet">
+<link href="/path/to/cropper.css" rel="stylesheet">
 <script src="/path/to/cropper.js"></script>
 ```
 
-[cdnjs](https://github.com/cdnjs/cdnjs) provides CDN support for Cropper.js's CSS and JavaScript. You can find the links [here](https://cdnjs.com/libraries/cropperjs).
+[The cdnjs project](https://github.com/cdnjs/cdnjs) provides CDN support for Cropper.js's CSS and JavaScript. You can find the [Cropper.js CDN files](https://cdnjs.com/libraries/cropperjs).
 
 ### Usage
 
