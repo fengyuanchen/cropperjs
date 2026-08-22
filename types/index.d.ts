@@ -181,7 +181,7 @@ declare class Cropper {
   getImageData(): Cropper.ImageData;
   move(offsetX: number, offsetY?: number): Cropper;
   moveTo(x: number, y?: number): Cropper;
-  replace(url: string, onlyColorChanged?: boolean): Cropper;
+  replace(url: string, hasSameSize?: boolean): Cropper;
   reset(): Cropper;
   rotate(degree: number): Cropper;
   rotateTo(degree: number): Cropper;
