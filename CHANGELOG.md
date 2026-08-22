@@ -2,7 +2,7 @@
 
 ## 1.6.2 (Apr 21, 2024)
 
-- Disable touch callout on iOS webkit-based browsers (#1155).
+- Disable touch callouts on iOS WebKit-based browsers (#1155).
 
 ## 1.6.1 (Sep 17, 2023)
 
@@ -33,14 +33,14 @@
 
 ## 1.5.9 (Sep 10, 2020)
 
-- Fix the issue that cannot zoom out on touch devices (#726).
+- Fix the issue where users cannot zoom out on touch devices (#726).
 - Add TypeScript declarations for the events.
 
 ## 1.5.8 (Sep 5, 2020)
 
-- Fix the issue when the value of the `minContainerWidth/Height` options is `0` (#683).
+- Fix the issue when the `minContainerWidth/Height` options are set to `0` (#683).
 - Reset the initial canvas size when the `minCanvasWidth/Height` options is set (#725).
-- Store the initial image data in the right place for avoiding [side-effect](https://github.com/fengyuanchen/jquery-cropper/issues/19).
+- Store the initial image data in the right place to avoid [side effects](https://github.com/fengyuanchen/jquery-cropper/issues/19).
 
 ## 1.5.7 (May 23, 2020)
 
@@ -54,7 +54,7 @@
 ## 1.5.5 (Aug 3, 2019)
 
 - Clone the image's `crossOrigin` attribute always even though the `checkCrossOrigin` is set to `false` (#535).
-- Improve browser environment detecting (#554).
+- Improve browser environment detection (#554).
 
 ## 1.5.4 (Jul 20, 2019)
 
@@ -97,12 +97,12 @@
 
 ## 1.4.1 (Jul 15, 2018)
 
-- Not to restrict the canvas position when it is not cropped.
+- Do not restrict the canvas position when it is not cropped.
 - Fix the wrong crop box size in view modes 1 and 2 (#381).
 
 ## 1.4.0 (Jun 1, 2018)
 
-- Added 1 new option: `initialAspectRatio`.
+- Add one new option: `initialAspectRatio`.
 - Improve the smoothness of crop box resizing.
 
 ## 1.3.6 (May 20, 2018)
@@ -153,11 +153,11 @@
 ## 1.2.0 (Dec 17, 2017)
 
 - Allow set the pivot of zoom (#144).
-- Fixed a bug of rotation (#260).
+- Fix a rotation bug (#260).
 
 ## 1.1.3 (Oct 21, 2017)
 
-- Fixed a bug of rendering when disabled one of the `rotatable` and `scalable` options (#241).
+- Fix a rendering bug when one of the `rotatable` and `scalable` options is disabled (#241).
 
 ## 1.1.2 (Oct 18, 2017)
 
@@ -165,12 +165,12 @@
 
 ## 1.1.1 (Oct 11, 2017)
 
-- Supports to load in node environment (#237).
-- Fixed a bug of event binding (#238).
+- Support loading in a Node environment (#237).
+- Fix a bug in event binding (#238).
 
 ## 1.1.0 (Oct 8, 2017)
 
-- Added 4 new options to `getCroppedCanvas` method:  `minWidth`, `minHeight`, `maxWidth`, and `maxHeight`.
+- Add four new options to the `getCroppedCanvas` method: `minWidth`, `minHeight`, `maxWidth`, and `maxHeight`.
 - Enhanced image scaling: the `scaleX` and `scaleY` values should only be `1` or `-1` before, but now they can be any numbers.
 - Improved crop box resizing behavior in the northeast, northwest, southeast, and southwest directions. (#222).
 
@@ -182,7 +182,7 @@
 ## 1.0.0-rc.3 (Jul 7, 2017)
 
 - Added two new options (`imageSmoothingEnabled` and `imageSmoothingQuality`) to `getCroppedCanvas` method.
-- Fixed a bug of RegExp using (#195 by @arusakov).
+- Fix a bug in RegExp usage (#195 by @arusakov).
 
 ## 1.0.0-rc.2 (May 30, 2017)
 
@@ -218,7 +218,7 @@
 
 - Built JavaScript with Rollup.
 - Build CSS with PostCSS.
-- Fixed a bug of auto-crop when replacing the image (#83).
+- Fix a bug in auto-cropping when replacing the image (#83).
 
 ## 0.8.1 (Sep 3, 2016)
 
@@ -235,7 +235,7 @@
 
 ## 0.7.2 (Jun 8, 2016)
 
-- Fixed a bug of `data-*` attributes setting and getting.
+- Fix a bug when setting and getting `data-*` attributes.
 - Fixed the calling order of `scale` and `rotate`.
 
 ## 0.7.1 (May 28, 2016)
@@ -255,11 +255,11 @@
 - Added a new parameter to the `replace` method for applying filters.
 - Improved the image initializing for Safari.
 - Fixed incorrect size limitation of the crop box (#30).
-- Fixed incorrect cropped canvas when scaleX or scaleY is great than 1.
+- Fixed an incorrect cropped canvas when scaleX or scaleY is greater than 1.
 
 ## 0.5.6 (Jan 18, 2016)
 
-- Fixed `crossOriginUrl` undefined error when exists the `crossOrigin` property.
+- Fixed the undefined `crossOriginUrl` error when the `crossOrigin` property exists.
 - Fixed the issue in the "destroy" method (#24).
 - Optimized tests.
 
@@ -285,7 +285,7 @@
 
 - Handle Data URL (avoid using XMLHttpRequest to open a Data URL).
 - Handle ajax error when loading ArrayBuffer.
-- Not to transform the image to base64 when Orientation equals `1`.
+- Do not transform the image to base64 when the Orientation is `1`.
 - Fix some typos.
 
 ## 0.5.0 (Dec 5, 2015)
@@ -331,7 +331,7 @@
 
 ## 0.2.1 (Oct 28, 2015)
 
-- Fix the error jQuery reference on the `setCanvasData` method.
+- Fix the jQuery reference error in the `setCanvasData` method.
 - Fix the typo on the `destroy` method.
 
 ## 0.2.0 (Oct 25, 2015)
