@@ -32,16 +32,16 @@
 
   <script src="../js/cropper.js"></script>
   <script>
-    function start() {
-      var width = this.offsetWidth;
-      var height = this.offsetHeight;
+    function start(image, canvas) {
+      var width = image.offsetWidth;
+      var height = image.offsetHeight;
       var cropper;
 
       canvas.width = width;
       canvas.height = height;
       canvas.getContext('2d').drawImage(
-        this,
-        0, 0, this.naturalWidth, this.naturalHeight,
+        image,
+        0, 0, image.naturalWidth, image.naturalHeight,
         0, 0, width, height
       );
       cropper = new Cropper(canvas);
@@ -52,9 +52,11 @@
       var image = document.getElementById('image');
 
       if (image.complete) {
-        start.call(image);
+        start(image, canvas);
       } else {
-        image.onload = start;
+        image.onload = function () {
+          start(image, canvas);
+        };
       }
     });
   </script>
