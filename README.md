@@ -2,7 +2,7 @@
 
 [![Downloads](https://img.shields.io/npm/dm/cropperjs.svg)](https://www.npmjs.com/package/cropperjs) [![Version](https://img.shields.io/npm/v/cropperjs.svg)](https://www.npmjs.com/package/cropperjs) [![Gzip Size](https://img.shields.io/bundlephobia/minzip/cropperjs.svg)](https://unpkg.com/cropperjs@1/dist/cropper.common.js)
 
-> JavaScript image cropper. This is the branch for v1.x, for v2.x, check out the [`main`](https://github.com/fengyuanchen/cropperjs/tree/main) branch.
+> JavaScript image cropper. This is the branch for v1.x. For v2.x, check out the [`main`](https://github.com/fengyuanchen/cropperjs/tree/main) branch.
 
 - [Website](https://fengyuanchen.github.io/cropperjs)
 - [Photo Editor](https://fengyuanchen.github.io/photo-editor) - An advanced example of Cropper.js.
@@ -33,7 +33,7 @@
 - Supports scaling (flipping)
 - Supports multiple croppers
 - Supports cropping on a canvas
-- Supports cropping an image on the browser-side by canvas
+- Supports cropping an image in the browser using a canvas
 - Supports translating Exif Orientation information
 - Cross-browser support
 
@@ -158,7 +158,7 @@ How to crop a square area in free ratio mode?
 ## Options
 
 You may set cropper options with `new Cropper(image, options)`.
-If you want to change the global default options, You may use `Cropper.setDefaults(options)`.
+If you want to change the global default options, you may use `Cropper.setDefaults(options)`.
 
 ### viewMode
 
@@ -168,7 +168,7 @@ If you want to change the global default options, You may use `Cropper.setDefaul
   - `0`: no restrictions
   - `1`: restrict the crop box not to exceed the size of the canvas.
   - `2`: restrict the minimum canvas size to fit within the container. If the proportions of the canvas and the container differ, the minimum canvas will be surrounded by extra space in one of the dimensions.
-  - `3`: restrict the minimum canvas size to fill fit the container. If the proportions of the canvas and the container are different, the container will not be able to fit the whole canvas in one of the dimensions.
+  - `3`: restrict the minimum canvas size to fill the container. If the proportions of the canvas and the container are different, the container will not be able to fit the whole canvas in one of the dimensions.
 
 Define the view mode of the cropper. If you set `viewMode` to `0`, the crop box can extend outside the canvas, while a value of `1`, `2`, or `3` will restrict the crop box to the size of the canvas. `viewMode` of `2` or `3` will additionally restrict the canvas to the container. There is no difference between `2` and `3` when the proportions of the canvas and the container are the same.
 
