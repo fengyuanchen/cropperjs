@@ -164,6 +164,19 @@ describe('CropperCanvas', () => {
 
         expect((element as any).$pointers.size).toBe(0);
       });
+
+      it('should use `none` when the target has no action', () => {
+        const element = new CropperCanvas();
+        const actions: string[] = [];
+
+        document.body.appendChild(element);
+        element.addEventListener(EVENT_ACTION_START, (event) => {
+          actions.push((event as CustomEvent).detail.action);
+        });
+        element.dispatchEvent(new PointerEvent(EVENT_POINTER_DOWN, pointerEventOptions));
+
+        expect(actions).toEqual(['none']);
+      });
     });
 
     describe(EVENT_ACTION_MOVE, () => {
@@ -211,6 +224,19 @@ describe('CropperCanvas', () => {
 
         expect((element as any).$pointers.size).toBe(0);
       });
+
+      it('should not trigger for a target with no action', () => {
+        const element = new CropperCanvas();
+        const listener = jest.fn();
+
+        document.body.appendChild(element);
+        element.addEventListener(EVENT_ACTION_MOVE, listener);
+        element.dispatchEvent(new PointerEvent(EVENT_POINTER_DOWN, pointerEventOptions));
+        element.dispatchEvent(new PointerEvent(EVENT_POINTER_MOVE, pointerEventOptions));
+        element.dispatchEvent(new PointerEvent(EVENT_POINTER_UP, pointerEventOptions));
+
+        expect(listener).not.toHaveBeenCalled();
+      });
     });
 
     describe(EVENT_ACTION_END, () => {
@@ -241,6 +267,18 @@ describe('CropperCanvas', () => {
         });
         element.dispatchEvent(new PointerEvent(EVENT_POINTER_DOWN, pointerEventOptions));
         element.dispatchEvent(new PointerEvent(EVENT_POINTER_UP, pointerEventOptions));
+      });
+
+      it('should clear the pointer when disabled during an action', () => {
+        const element = new CropperCanvas();
+
+        element.setAttribute(ATTRIBUTE_ACTION, ACTION_MOVE);
+        document.body.appendChild(element);
+        element.dispatchEvent(new PointerEvent(EVENT_POINTER_DOWN, pointerEventOptions));
+        element.disabled = true;
+
+        expect((element as any).$pointers.size).toBe(0);
+        expect((element as any).$action).toBe('none');
       });
     });
   });

@@ -86,10 +86,7 @@ export default class CropperCanvas extends CropperElement {
   }
 
   protected disconnectedCallback(): void {
-    if (!this.disabled) {
-      this.$unbind();
-    }
-
+    this.$unbind();
     super.disconnectedCallback();
   }
 
@@ -160,6 +157,10 @@ export default class CropperCanvas extends CropperElement {
       });
       this.$onWheel = null;
     }
+
+    this.$pointers.clear();
+    this.style.willChange = '';
+    this.$action = ACTION_NONE;
   }
 
   protected $addPointers(event: Event): void {
@@ -228,12 +229,14 @@ export default class CropperCanvas extends CropperElement {
     this.$addPointers(event);
 
     const { $pointers } = this;
-    let action = '';
+    let action = ACTION_NONE;
 
     if ($pointers.size > 1) {
       action = ACTION_TRANSFORM;
     } else if (isElement(event.target)) {
-      action = (event.target as any).action || event.target.getAttribute(ATTRIBUTE_ACTION) || '';
+      action = (event.target as any).action
+        || event.target.getAttribute(ATTRIBUTE_ACTION)
+        || ACTION_NONE;
     }
 
     if (this.$emit(EVENT_ACTION_START, {
@@ -432,7 +435,13 @@ export default class CropperCanvas extends CropperElement {
   protected $handlePointerUp(event: Event): void {
     const { $action } = this;
 
-    if (this.disabled || $action === ACTION_NONE) {
+    if (this.disabled) {
+      this.$removePointers(event);
+      return;
+    }
+
+    if ($action === ACTION_NONE) {
+      this.$removePointers(event);
       return;
     }
 
