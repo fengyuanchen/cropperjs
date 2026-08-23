@@ -3,15 +3,13 @@ name: Release
 on:
   push:
     tags:
-      - 'v*'
+      - v2.*
 
 jobs:
   release:
     runs-on: ubuntu-latest
-
     permissions:
       contents: write
-
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
