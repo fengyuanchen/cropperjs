@@ -3,6 +3,7 @@
 ## next
 
 - Add `isFinite` check to prevent `NaN` in `getMaxZoomRatio` calculations.
+- Preserve hash in URL when adding timestamp.
 
 ## 1.6.2 (Apr 21, 2024)
 

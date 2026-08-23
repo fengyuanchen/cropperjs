@@ -485,9 +485,12 @@ export function isCrossOriginURL(url) {
  * @returns {string} The result URL.
  */
 export function addTimestamp(url) {
+  const hashIndex = url.indexOf('#');
+  const hash = hashIndex >= 0 ? url.slice(hashIndex) : '';
+  const baseUrl = hashIndex >= 0 ? url.slice(0, hashIndex) : url;
   const timestamp = `timestamp=${(new Date()).getTime()}`;
 
-  return url + (url.indexOf('?') === -1 ? '?' : '&') + timestamp;
+  return `${baseUrl}${baseUrl.indexOf('?') === -1 ? '?' : '&'}${timestamp}${hash}`;
 }
 
 /**
