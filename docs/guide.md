@@ -140,7 +140,7 @@ Cropper.js contains a series of [npm](https://www.npmjs.com/) packages:
 
 | Package | Version | Description |
 | --- | --- | --- |
-| `cropperjs` | [![Version](https://img.shields.io/npm/v/cropperjs)](https://www.npmjs.com/package/cropperjs/v) | The all-in-one package. |
+| `cropperjs` | [![Version](https://img.shields.io/npm/v/cropperjs)](https://www.npmjs.com/package/cropperjs) | The all-in-one package. |
 | `@cropper/element` | [![Version](https://img.shields.io/npm/v/@cropper/element)](https://www.npmjs.com/package/@cropper/element) | An abstract class for constructing Cropper elements. |
 | `@cropper/element-canvas` | [![Version](https://img.shields.io/npm/v/@cropper/element-canvas)](https://www.npmjs.com/package/@cropper/element-canvas) | A custom canvas element for the Cropper. |
 | `@cropper/element-image` | [![Version](https://img.shields.io/npm/v/@cropper/element-image)](https://www.npmjs.com/package/@cropper/element-image) | A custom image element for the Cropper. |

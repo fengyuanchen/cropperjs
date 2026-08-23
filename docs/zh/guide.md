@@ -140,7 +140,7 @@ Cropper.js 包含一系列 [npm](https://www.npmjs.com/) 包：
 
 | 安装包名称 | 版本 | 描述 |
 | --- | --- | --- |
-| `cropperjs` | [![Version](https://img.shields.io/npm/v/cropperjs)](https://www.npmjs.com/package/cropperjs/v) | 完整包。 |
+| `cropperjs` | [![Version](https://img.shields.io/npm/v/cropperjs)](https://www.npmjs.com/package/cropperjs) | 完整包。 |
 | `@cropper/element` | [![Version](https://img.shields.io/npm/v/@cropper/element)](https://www.npmjs.com/package/@cropper/element) | 用于构造 Cropper 元素的抽象类。 |
 | `@cropper/element-canvas` | [![Version](https://img.shields.io/npm/v/@cropper/element-canvas)](https://www.npmjs.com/package/@cropper/element-canvas) | Cropper 的自定义画布元素。 |
 | `@cropper/element-image` | [![Version](https://img.shields.io/npm/v/@cropper/element-image)](https://www.npmjs.com/package/@cropper/element-image) | Cropper 的自定义图像元素。 |
