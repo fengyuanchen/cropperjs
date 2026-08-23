@@ -4,6 +4,12 @@
     class="loading"
   />
   <div
+    v-else-if="loadError"
+    class="loading-error"
+  >
+    Failed to load playground dependencies.
+  </div>
+  <div
     v-else
     class="playground"
   >
@@ -844,7 +850,7 @@
             <label for="selectionX">x</label>
             <input
               id="selectionX"
-              v-model="selection.x"
+              v-model.number="selection.x"
               class="form-control form-control-sm"
               type="number"
               name="x"
@@ -855,7 +861,7 @@
             <label for="selectionY">y</label>
             <input
               id="selectionY"
-              v-model="selection.y"
+              v-model.number="selection.y"
               class="form-control form-control-sm"
               type="number"
               name="y"
@@ -866,7 +872,7 @@
             <label for="selectionWidth">width</label>
             <input
               id="selectionWidth"
-              v-model="selection.width"
+              v-model.number="selection.width"
               class="form-control form-control-sm"
               type="number"
               name="width"
@@ -878,7 +884,7 @@
             <label for="selectionHeight">height</label>
             <input
               id="selectionHeight"
-              v-model="selection.height"
+              v-model.number="selection.height"
               class="form-control form-control-sm"
               type="number"
               name="height"
@@ -1845,7 +1851,9 @@ export default {
   data(): Record<string, any> {
     return {
       loading: true,
+      loadError: false,
       ready: false,
+      bootstrapElements: [],
       initialCanvas: '',
       canvas: {
         hidden: false,
@@ -1997,6 +2005,7 @@ export default {
         link.onerror = reject;
         link.onabort = reject;
         document.head.appendChild(link);
+        this.bootstrapElements.push(link);
       }),
       new Promise((resolve, reject) => {
         const link = document.createElement('link');
@@ -2008,6 +2017,7 @@ export default {
         link.onerror = reject;
         link.onabort = reject;
         document.head.appendChild(link);
+        this.bootstrapElements.push(link);
       }),
       new Promise((resolve, reject) => {
         const script = document.createElement('script');
@@ -2018,6 +2028,7 @@ export default {
         script.onerror = reject;
         script.onabort = reject;
         document.head.appendChild(script);
+        this.bootstrapElements.push(script);
       }),
     ]).then(() => {
       this.loading = false;
@@ -2027,11 +2038,14 @@ export default {
           new (window as any).bootstrap.Tooltip(element);
         });
       });
+    }).catch(() => {
+      this.loading = false;
+      this.loadError = true;
     });
   },
   beforeUnmount() {
-    Array.from(document.head.querySelectorAll('[href*="bootstrap"],[src*="bootstrap"]')).forEach((element) => {
-      document.head.removeChild(element);
+    this.bootstrapElements.forEach((element: HTMLElement) => {
+      element.remove();
     });
   },
   methods: {
@@ -2043,7 +2057,7 @@ export default {
         Object.keys(initialData).forEach((key) => {
           const value = initialData[key];
 
-          if (typeof value === 'object') {
+          if (key !== 'bootstrapElements' && typeof value === 'object') {
             this.$data[key] = value;
           }
         });

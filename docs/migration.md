@@ -21,7 +21,7 @@ sidebar: auto
 | `modal` | Use the `<cropper-shade>` element. |
 | `guides` | Use the `<cropper-grid>` element. |
 | `center` | Use the `<cropper-crosshair>` element. |
-| `highlight` | Use the `<cropper-action>` element. |
+| `highlight` | Use the `<cropper-handle>` element's `theme-color` property. |
 | `background` | Use the `<cropper-canvas>` element's `background` property. |
 | `autoCrop` | Use the `<cropper-selection>` element's `initialCoverage` property. |
 | `autoCropArea` | Use the `<cropper-selection>` element's `initialCoverage` property. |

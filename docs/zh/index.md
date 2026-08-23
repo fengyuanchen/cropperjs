@@ -10,10 +10,10 @@ hero:
   actions:
     - theme: brand
       text: 入门
-      link: /guide.html
+      link: /zh/guide.html
     - theme: alt
       text: 演练场
-      link: /playground.html
+      link: /zh/playground.html
 features:
   - title: 可定制
     details: 轻松定制你自己的裁剪器。
