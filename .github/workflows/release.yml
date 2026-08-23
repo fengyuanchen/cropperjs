@@ -19,7 +19,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           body: |
-            See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md) for details.
+            See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/v1/CHANGELOG.md) for details.
           draft: false
           prerelease: false
         env:
