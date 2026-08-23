@@ -437,6 +437,8 @@ describe('CropperImage', () => {
         expect(img.hasAttribute('src')).toBe(true);
         expect(img.hasAttribute('alt')).toBe(true);
         expect(img.hasAttribute('crossorigin')).toBe(true);
+        element.removeAttribute('alt');
+        expect(img.hasAttribute('alt')).toBe(false);
       }
     });
   });

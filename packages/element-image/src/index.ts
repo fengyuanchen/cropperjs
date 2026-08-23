@@ -132,7 +132,11 @@ export default class CropperImage extends CropperElement {
     ]);
   }
 
-  protected attributeChangedCallback(name: string, oldValue: string, newValue: string): void {
+  protected attributeChangedCallback(
+    name: string,
+    oldValue: string | null,
+    newValue: string | null,
+  ): void {
     if (Object.is(newValue, oldValue)) {
       return;
     }
@@ -141,7 +145,11 @@ export default class CropperImage extends CropperElement {
 
     // Inherits the native attributes
     if (NATIVE_ATTRIBUTES.includes(name)) {
-      this.$image.setAttribute(name, newValue);
+      if (newValue === null) {
+        this.$image.removeAttribute(name);
+      } else {
+        this.$image.setAttribute(name, newValue);
+      }
     }
   }
 
