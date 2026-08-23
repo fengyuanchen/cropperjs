@@ -264,7 +264,9 @@ const REGEXP_CAMEL_CASE = /([a-z\d])([A-Z])/g;
  * @returns {string} The transformed value.
  */
 export function toParamCase(value) {
-  return value.replace(REGEXP_CAMEL_CASE, '$1-$2').toLowerCase();
+  return typeof value === 'string'
+    ? value.replace(REGEXP_CAMEL_CASE, '$1-$2').toLowerCase()
+    : '';
 }
 
 /**
@@ -362,13 +364,18 @@ const onceSupported = (() => {
  * @param {Object} options - The event options.
  */
 export function removeListener(element, type, listener, options = {}) {
+  if (!element || !type || !isFunction(element.removeEventListener)) {
+    return;
+  }
+
   let handler = listener;
 
   type.trim().split(REGEXP_SPACES).forEach((event) => {
     if (!onceSupported) {
-      const { listeners } = element;
+      // eslint-disable-next-line no-underscore-dangle
+      const listeners = element.__cropperListeners__ || {};
 
-      if (listeners && listeners[event] && listeners[event][listener]) {
+      if (listeners[event] && listeners[event][listener]) {
         handler = listeners[event][listener];
         delete listeners[event][listener];
 
@@ -377,7 +384,8 @@ export function removeListener(element, type, listener, options = {}) {
         }
 
         if (Object.keys(listeners).length === 0) {
-          delete element.listeners;
+          // eslint-disable-next-line no-underscore-dangle
+          delete element.__cropperListeners__;
         }
       }
     }
@@ -394,14 +402,22 @@ export function removeListener(element, type, listener, options = {}) {
  * @param {Object} options - The event options.
  */
 export function addListener(element, type, listener, options = {}) {
+  if (!element || !type || !isFunction(element.addEventListener) || !isFunction(listener)) {
+    return;
+  }
+
   let handler = listener;
 
   type.trim().split(REGEXP_SPACES).forEach((event) => {
     if (options.once && !onceSupported) {
-      const { listeners = {} } = element;
+      // eslint-disable-next-line no-underscore-dangle
+      const listeners = element.__cropperListeners__ || {};
 
       handler = (...args) => {
-        delete listeners[event][listener];
+        if (listeners[event] && listeners[event][listener]) {
+          delete listeners[event][listener];
+        }
+
         element.removeEventListener(event, handler, options);
         listener.apply(element, args);
       };
@@ -415,7 +431,9 @@ export function addListener(element, type, listener, options = {}) {
       }
 
       listeners[event][listener] = handler;
-      element.listeners = listeners;
+
+      // eslint-disable-next-line no-underscore-dangle
+      element.__cropperListeners__ = listeners;
     }
 
     element.addEventListener(event, handler, options);
@@ -430,6 +448,10 @@ export function addListener(element, type, listener, options = {}) {
  * @returns {boolean} Indicate if the event is default prevented or not.
  */
 export function dispatchEvent(element, type, data) {
+  if (!element || !type || !isFunction(element.dispatchEvent)) {
+    return false;
+  }
+
   let event;
 
   // Event and CustomEvent on IE9-11 are global objects, not constructors
@@ -439,9 +461,11 @@ export function dispatchEvent(element, type, data) {
       bubbles: true,
       cancelable: true,
     });
-  } else {
+  } else if (isObject(document) && isFunction(document.createEvent)) {
     event = document.createEvent('CustomEvent');
     event.initCustomEvent(type, true, true, data);
+  } else {
+    return false;
   }
 
   return element.dispatchEvent(event);
@@ -453,11 +477,21 @@ export function dispatchEvent(element, type, data) {
  * @returns {Object} The offset data.
  */
 export function getOffset(element) {
+  if (!element || !isFunction(element.getBoundingClientRect)) {
+    return {
+      left: 0,
+      top: 0,
+    };
+  }
+
   const box = element.getBoundingClientRect();
+  const { documentElement = {} } = document || {};
+  const pageXOffset = WINDOW.pageXOffset || 0;
+  const pageYOffset = WINDOW.pageYOffset || 0;
 
   return {
-    left: box.left + (window.pageXOffset - document.documentElement.clientLeft),
-    top: box.top + (window.pageYOffset - document.documentElement.clientTop),
+    left: box.left + (pageXOffset - (documentElement.clientLeft || 0)),
+    top: box.top + (pageYOffset - (documentElement.clientTop || 0)),
   };
 }
 
