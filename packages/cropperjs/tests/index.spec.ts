@@ -21,6 +21,12 @@ describe('Cropper', () => {
         new Cropper(document.createElement('div') as HTMLImageElement);
       }).toThrow();
     });
+
+    it('should not support elements with similar tag names', () => {
+      expect(() => {
+        new Cropper(document.createElement('imgfoo') as HTMLImageElement);
+      }).toThrow();
+    });
   });
 
   describe('options', () => {

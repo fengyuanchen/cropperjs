@@ -23,7 +23,7 @@ export interface CropperOptions {
   template?: string;
 }
 
-const REGEXP_ALLOWED_ELEMENTS = /^img|canvas$/;
+const REGEXP_ALLOWED_ELEMENTS = /^(img|canvas)$/;
 const REGEXP_BLOCKED_TAGS = /<(\/?(?:script|style)[^>]*)>/gi;
 const DEFAULT_OPTIONS: CropperOptions = {
   template: DEFAULT_TEMPLATE,
