@@ -1,6 +1,6 @@
 # Changelog
 
-## next
+## 1.6.3 (Aug 23, 2026)
 
 - Add `isFinite` check to prevent `NaN` in `getMaxZoomRatio` calculations.
 - Add validation checks in event listener functions to prevent errors.
