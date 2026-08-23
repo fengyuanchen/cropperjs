@@ -1,6 +1,5 @@
 *.local*
 .cache
-.husky
 .temp
 coverage
 dist
