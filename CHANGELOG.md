@@ -1,5 +1,9 @@
 # Changelog
 
+## next
+
+- Add `isFinite` check to prevent `NaN` in `getMaxZoomRatio` calculations.
+
 ## 1.6.2 (Apr 21, 2024)
 
 - Disable touch callouts on iOS WebKit-based browsers (#1155).

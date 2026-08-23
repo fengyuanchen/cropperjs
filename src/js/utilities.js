@@ -6,6 +6,11 @@ import { IS_BROWSER, REGEXP_SPACES, WINDOW } from './constants';
 export const isNaN = Number.isNaN || WINDOW.isNaN;
 
 /**
+ * Check if the given value is a finite number.
+ */
+export const isFinite = Number.isFinite || WINDOW.isFinite;
+
+/**
  * Check if the given value is a number.
  * @param {*} value - The value to check.
  * @returns {boolean} Returns `true` if the given value is a number, else `false`.
@@ -548,9 +553,14 @@ export function getMaxZoomRatio(pointers) {
       const y2 = Math.abs(pointer.endY - pointer2.endY);
       const z1 = Math.sqrt((x1 * x1) + (y1 * y1));
       const z2 = Math.sqrt((x2 * x2) + (y2 * y2));
+
+      if (!isFinite(z1) || !isFinite(z2) || z1 === 0 || z2 === z1) {
+        return;
+      }
+
       const ratio = (z2 - z1) / z1;
 
-      if (Math.abs(ratio) > Math.abs(maxRatio)) {
+      if (isFinite(ratio) && Math.abs(ratio) > Math.abs(maxRatio)) {
         maxRatio = ratio;
       }
     });
