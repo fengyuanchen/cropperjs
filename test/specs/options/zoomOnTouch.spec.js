@@ -173,4 +173,77 @@ describe('zoomOnTouch (option)', () => {
 
     expect(cropper.options.zoomOnTouch).to.be.false;
   });
+
+  it('should ignore zero-distance touch gestures', (done) => {
+    const image = window.createImage();
+    const cropper = new Cropper(image, {
+      ready() {
+        const initialWidth = cropper.getCanvasData().width;
+
+        if (window.PointerEvent) {
+          cropper.cropper.dispatchEvent(new PointerEvent('pointerdown', {
+            pointerId: 1,
+            pageX: 100,
+            pageY: 100,
+          }));
+          cropper.cropper.dispatchEvent(new PointerEvent('pointerdown', {
+            pointerId: 2,
+            pageX: 100,
+            pageY: 100,
+          }));
+          cropper.cropper.dispatchEvent(new PointerEvent('pointermove', {
+            pointerId: 1,
+            pageX: 100,
+            pageY: 100,
+          }));
+          cropper.cropper.dispatchEvent(new PointerEvent('pointermove', {
+            pointerId: 2,
+            pageX: 100,
+            pageY: 100,
+          }));
+        } else {
+          cropper.cropper.dispatchEvent(new TouchEvent('touchstart', {
+            changedTouches: {
+              0: {
+                identifier: 1,
+                pageX: 100,
+                pageY: 100,
+              },
+              1: {
+                identifier: 2,
+                pageX: 100,
+                pageY: 100,
+              },
+              length: 2,
+            },
+          }));
+          cropper.cropper.dispatchEvent(new TouchEvent('touchmove', {
+            changedTouches: {
+              0: {
+                identifier: 1,
+                pageX: 100,
+                pageY: 100,
+              },
+              1: {
+                identifier: 2,
+                pageX: 100,
+                pageY: 100,
+              },
+              length: 2,
+            },
+          }));
+        }
+
+        const currentWidth = cropper.getCanvasData().width;
+
+        expect(Number.isFinite(currentWidth)).to.be.true;
+        expect(currentWidth).to.equal(initialWidth);
+        done();
+      },
+
+      zoom() {
+        expect.fail(1, 0);
+      },
+    });
+  });
 });
