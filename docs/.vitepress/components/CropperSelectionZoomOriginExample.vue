@@ -37,7 +37,7 @@
         initial-coverage="0.5"
         zoomable
       >
-        <cropper-crosshair centered></cropper-crosshair>
+        <cropper-crosshair centered />
       </cropper-selection>
     </cropper-canvas>
   </div>
