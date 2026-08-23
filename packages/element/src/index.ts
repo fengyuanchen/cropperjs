@@ -17,7 +17,12 @@ const DEFAULT_SHADOW_ROOT_MODE = 'open';
 const shadowRoots = new WeakMap();
 const styleSheets = new WeakMap();
 const tagNames: Map<string, string> = new Map();
-const supportsAdoptedStyleSheets = WINDOW.document && Array.isArray(WINDOW.document.adoptedStyleSheets) && 'replaceSync' in WINDOW.CSSStyleSheet.prototype;
+const supportsAdoptedStyleSheets = Boolean(
+  WINDOW.document
+  && Array.isArray(WINDOW.document.adoptedStyleSheets)
+  && WINDOW.CSSStyleSheet
+  && 'replaceSync' in WINDOW.CSSStyleSheet.prototype,
+);
 
 export default class CropperElement extends HTMLElement {
   static $name: string;
@@ -57,7 +62,11 @@ export default class CropperElement extends HTMLElement {
   }
 
   // Convert attribute to property
-  protected attributeChangedCallback(name: string, oldValue: string, newValue: string): void {
+  protected attributeChangedCallback(
+    name: string,
+    oldValue: string | null,
+    newValue: string | null,
+  ): void {
     if (Object.is(newValue, oldValue)) {
       return;
     }
