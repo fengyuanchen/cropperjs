@@ -1,5 +1,4 @@
 *.local*
-.husky
 coverage
 dist
 docs/css/cropper.css
