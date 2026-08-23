@@ -128,7 +128,7 @@ export default class CropperViewer extends CropperElement {
   }
 
   protected disconnectedCallback(): void {
-    const { $selection, $sourceImage } = this;
+    const { $image, $selection, $sourceImage } = this;
 
     if ($selection && this.$onSelectionChange) {
       off($selection, EVENT_CHANGE, this.$onSelectionChange);
@@ -143,6 +143,12 @@ export default class CropperViewer extends CropperElement {
     if ($sourceImage && this.$onSourceImageTransform) {
       off($sourceImage, EVENT_TRANSFORM, this.$onSourceImageTransform);
       this.$onSourceImageTransform = null;
+    }
+
+    const shadow = this.$getShadowRoot();
+
+    if ($image && shadow?.contains($image)) {
+      shadow.removeChild($image);
     }
 
     super.disconnectedCallback();
