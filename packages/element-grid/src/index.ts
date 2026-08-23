@@ -56,6 +56,7 @@ export default class CropperGrid extends CropperElement {
     for (let i = 0; i < this.rows; i += 1) {
       const row = document.createElement('span');
 
+      row.setAttribute('data-cropper-grid-row', '');
       row.setAttribute('role', 'row');
 
       for (let j = 0; j < this.columns; j += 1) {
@@ -69,7 +70,7 @@ export default class CropperGrid extends CropperElement {
     }
 
     if (shadow) {
-      shadow.innerHTML = '';
+      shadow.querySelectorAll('[data-cropper-grid-row]').forEach((row) => row.remove());
       shadow.appendChild(fragment);
     }
   }
