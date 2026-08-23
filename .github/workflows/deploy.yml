@@ -23,5 +23,5 @@ jobs:
       - run: git config user.name "${{ github.actor }}"
       - run: git config user.email "${{ github.actor }}@users.noreply.github.com"
       - run: git add v1
-      - run: git commit --message "${{ github.ref_name }}"
+      - run: git commit --no-verify --message "${{ github.ref_name }}"
       - run: git push
