@@ -162,24 +162,8 @@ export default class CropperCanvas extends CropperElement {
     }
   }
 
-  protected $handlePointerDown(event: Event): void {
-    const { buttons, button, type } = event as PointerEvent;
-
-    if (this.disabled || (
-      // Handle pointer or mouse event, and ignore touch event
-      ((type === 'pointerdown' && (event as PointerEvent).pointerType === 'mouse') || type === 'mousedown') && (
-        // No primary button (Usually the left button)
-        (isNumber(buttons) && buttons !== 1) || (isNumber(button) && button !== 0)
-
-        // Open context menu
-        || (event as PointerEvent).ctrlKey
-      ))
-    ) {
-      return;
-    }
-
+  protected $addPointers(event: Event): void {
     const { $pointers } = this;
-    let action = '';
 
     if ((event as TouchEvent).changedTouches) {
       Array.from((event as TouchEvent).changedTouches).forEach(({
@@ -204,6 +188,47 @@ export default class CropperCanvas extends CropperElement {
         endY: pageY,
       });
     }
+  }
+
+  protected $removePointers(event: Event): void {
+    const { $pointers } = this;
+
+    if ((event as TouchEvent).changedTouches) {
+      Array.from((event as TouchEvent).changedTouches).forEach(({ identifier }) => {
+        $pointers.delete(identifier);
+      });
+    } else {
+      const { pointerId = 0 } = event as PointerEvent;
+
+      $pointers.delete(pointerId);
+    }
+
+    if ($pointers.size === 0) {
+      this.style.willChange = '';
+      this.$action = ACTION_NONE;
+    }
+  }
+
+  protected $handlePointerDown(event: Event): void {
+    const { buttons, button, type } = event as PointerEvent;
+
+    if (this.disabled || (
+      // Handle pointer or mouse event, and ignore touch event
+      ((type === 'pointerdown' && (event as PointerEvent).pointerType === 'mouse') || type === 'mousedown') && (
+        // No primary button (Usually the left button)
+        (isNumber(buttons) && buttons !== 1) || (isNumber(button) && button !== 0)
+
+        // Open context menu
+        || (event as PointerEvent).ctrlKey
+      ))
+    ) {
+      return;
+    }
+
+    this.$addPointers(event);
+
+    const { $pointers } = this;
+    let action = '';
 
     if ($pointers.size > 1) {
       action = ACTION_TRANSFORM;
@@ -215,6 +240,7 @@ export default class CropperCanvas extends CropperElement {
       action,
       relatedEvent: event,
     }) === false) {
+      this.$removePointers(event);
       return;
     }
 
@@ -404,7 +430,7 @@ export default class CropperCanvas extends CropperElement {
   }
 
   protected $handlePointerUp(event: Event): void {
-    const { $action, $pointers } = this;
+    const { $action } = this;
 
     if (this.disabled || $action === ACTION_NONE) {
       return;
@@ -414,27 +440,12 @@ export default class CropperCanvas extends CropperElement {
       action: $action,
       relatedEvent: event,
     }) === false) {
+      this.$removePointers(event);
       return;
     }
 
     event.preventDefault();
-
-    if ((event as TouchEvent).changedTouches) {
-      Array.from((event as TouchEvent).changedTouches).forEach(({
-        identifier,
-      }) => {
-        $pointers.delete(identifier);
-      });
-    } else {
-      const { pointerId = 0 } = (event as PointerEvent);
-
-      $pointers.delete(pointerId);
-    }
-
-    if ($pointers.size === 0) {
-      this.style.willChange = '';
-      this.$action = ACTION_NONE;
-    }
+    this.$removePointers(event);
   }
 
   protected $handleWheel(event: Event): void {

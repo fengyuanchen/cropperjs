@@ -151,6 +151,19 @@ describe('CropperCanvas', () => {
         element.dispatchEvent(new PointerEvent(EVENT_POINTER_DOWN, pointerEventOptions));
         element.dispatchEvent(new PointerEvent(EVENT_POINTER_UP, pointerEventOptions));
       });
+
+      it('should clear the pointer when the event is canceled', () => {
+        const element = new CropperCanvas();
+
+        element.setAttribute(ATTRIBUTE_ACTION, ACTION_MOVE);
+        document.body.appendChild(element);
+        element.addEventListener(EVENT_ACTION_START, (event) => {
+          event.preventDefault();
+        });
+        element.dispatchEvent(new PointerEvent(EVENT_POINTER_DOWN, pointerEventOptions));
+
+        expect((element as any).$pointers.size).toBe(0);
+      });
     });
 
     describe(EVENT_ACTION_MOVE, () => {
@@ -183,6 +196,20 @@ describe('CropperCanvas', () => {
         element.dispatchEvent(new PointerEvent(EVENT_POINTER_DOWN, pointerEventOptions));
         element.dispatchEvent(new PointerEvent(EVENT_POINTER_MOVE, pointerEventOptions));
         element.dispatchEvent(new PointerEvent(EVENT_POINTER_UP, pointerEventOptions));
+      });
+
+      it('should clear the pointer when the event is canceled', () => {
+        const element = new CropperCanvas();
+
+        element.setAttribute(ATTRIBUTE_ACTION, ACTION_MOVE);
+        document.body.appendChild(element);
+        element.addEventListener(EVENT_ACTION_END, (event) => {
+          event.preventDefault();
+        });
+        element.dispatchEvent(new PointerEvent(EVENT_POINTER_DOWN, pointerEventOptions));
+        element.dispatchEvent(new PointerEvent(EVENT_POINTER_UP, pointerEventOptions));
+
+        expect((element as any).$pointers.size).toBe(0);
       });
     });
 
