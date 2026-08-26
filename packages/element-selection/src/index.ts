@@ -96,6 +96,8 @@ export default class CropperSelection extends CropperElement {
 
   resizable = false;
 
+  centerLocked = false;
+
   zoomable = false;
 
   multiple = false;
@@ -118,6 +120,7 @@ export default class CropperSelection extends CropperElement {
     return super.observedAttributes.concat([
       'active',
       'aspect-ratio',
+      'center-locked',
       'dynamic',
       'height',
       'initial-aspect-ratio',
@@ -428,6 +431,9 @@ export default class CropperSelection extends CropperElement {
       aspectRatio = isPositiveNumber(width) && isPositiveNumber(height) ? width / height : 1;
     }
 
+    // Locking the center by holding the alt key (XOR with the `centerLocked` property)
+    const centerLocked = this.centerLocked !== Boolean(relatedEvent.altKey);
+
     switch (action) {
       case ACTION_SELECT:
         if (moveX !== 0 || moveY !== 0) {
@@ -499,7 +505,7 @@ export default class CropperSelection extends CropperElement {
         break;
 
       default:
-        this.$resize(action, moveX, moveY, aspectRatio);
+        this.$resize(action, moveX, moveY, aspectRatio, centerLocked);
     }
   }
 
@@ -626,6 +632,7 @@ export default class CropperSelection extends CropperElement {
    * @param {number} [offsetX] The horizontal offset of the specific side or corner.
    * @param {number} [offsetY] The vertical offset of the specific side or corner.
    * @param {number} [aspectRatio] The aspect ratio for computing the new size if it is necessary.
+   * @param {boolean} [centerLocked] Whether to resize symmetrically about the center of the selection.
    * @returns {CropperSelection} Returns `this` for chaining.
    */
   $resize(
@@ -633,9 +640,14 @@ export default class CropperSelection extends CropperElement {
     offsetX = 0,
     offsetY = 0,
     aspectRatio: number = this.aspectRatio,
+    centerLocked: boolean = this.centerLocked,
   ): this {
     if (!this.resizable) {
       return this;
+    }
+
+    if (centerLocked) {
+      return this.$resizeFromCenter(action, offsetX, offsetY, aspectRatio);
     }
 
     const hasValidAspectRatio = isPositiveNumber(aspectRatio);
@@ -854,6 +866,96 @@ export default class CropperSelection extends CropperElement {
     }
 
     return this.$change(x, y, width, height);
+  }
+
+  /**
+   * Adjusts the size of the selection symmetrically about its center.
+   * @param {string} action Indicates the side or corner being dragged.
+   * @param {number} [offsetX] The horizontal offset of the dragged side or corner.
+   * @param {number} [offsetY] The vertical offset of the dragged side or corner.
+   * @param {number} [aspectRatio] The aspect ratio for computing the new size if it is necessary.
+   * @returns {CropperSelection} Returns `this` for chaining.
+   */
+  protected $resizeFromCenter(
+    action: string,
+    offsetX = 0,
+    offsetY = 0,
+    aspectRatio: number = this.aspectRatio,
+  ): this {
+    const centerX = this.x + (this.width / 2);
+    const centerY = this.y + (this.height / 2);
+    let dw = 0;
+    let dh = 0;
+
+    switch (action) {
+      case ACTION_RESIZE_EAST:
+        dw = offsetX;
+        break;
+
+      case ACTION_RESIZE_WEST:
+        dw = -offsetX;
+        break;
+
+      case ACTION_RESIZE_SOUTH:
+        dh = offsetY;
+        break;
+
+      case ACTION_RESIZE_NORTH:
+        dh = -offsetY;
+        break;
+
+      case ACTION_RESIZE_SOUTHEAST:
+        dw = offsetX;
+        dh = offsetY;
+        break;
+
+      case ACTION_RESIZE_SOUTHWEST:
+        dw = -offsetX;
+        dh = offsetY;
+        break;
+
+      case ACTION_RESIZE_NORTHEAST:
+        dw = offsetX;
+        dh = -offsetY;
+        break;
+
+      case ACTION_RESIZE_NORTHWEST:
+        dw = -offsetX;
+        dh = -offsetY;
+        break;
+
+      default:
+        return this;
+    }
+
+    // When `precise` is disabled the selection is snapped to whole pixels. Rounding
+    // the deltas here keeps the size change an even number of pixels so the center
+    // stays fixed across an incremental drag, instead of drifting from the rounding
+    // that `$change` would otherwise apply to `x`/`y` and `width`/`height` separately.
+    if (!this.precise) {
+      dw = Math.round(dw);
+      dh = Math.round(dh);
+    }
+
+    let width = this.width + (2 * dw);
+    let height = this.height + (2 * dh);
+
+    if (isPositiveNumber(aspectRatio)) {
+      if (action === ACTION_RESIZE_NORTH || action === ACTION_RESIZE_SOUTH) {
+        width = height * aspectRatio;
+      } else {
+        height = width / aspectRatio;
+      }
+    }
+
+    width = Math.abs(width);
+    height = Math.abs(height);
+
+    if (this.$canvas) {
+      (this.$canvas as any).$setAction(action);
+    }
+
+    return this.$change(centerX - (width / 2), centerY - (height / 2), width, height);
   }
 
   /**
