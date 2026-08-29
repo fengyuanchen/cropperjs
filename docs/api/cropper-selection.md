@@ -18,7 +18,7 @@ The `CropperSelection` interface provides properties and methods for manipulatin
 The default width and height of this element is `0`.
 :::
 
-### Customize initial selection coverage
+### Customize Initial Selection Coverage
 
 :::live-demo
 
@@ -30,7 +30,7 @@ The default width and height of this element is `0`.
 
 :::
 
-### Customize position and size
+### Customize Position and Size
 
 :::live-demo
 
@@ -42,7 +42,7 @@ The default width and height of this element is `0`.
 
 :::
 
-### With handles
+### With Handles
 
 :::live-demo
 
@@ -148,7 +148,7 @@ Set the `multiple` property to `true` to support multiple selections on the same
 
 :::
 
-### Set zoom origin
+### Set Zoom Origin
 
 <ClientOnly>
   <CropperSelectionZoomOriginExample />
@@ -158,7 +158,7 @@ Set the `multiple` property to `true` to support multiple selections on the same
 <<< @/.vitepress/components/CropperSelectionZoomOriginExample.vue
 :::
 
-### Limit boundaries
+### Limit Boundaries
 
 <ClientOnly>
   <CropperSelectionExample />

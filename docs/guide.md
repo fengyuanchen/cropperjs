@@ -32,7 +32,7 @@ Cropper.js 2.0 is a series of web components for image cropping.
 | [Cropper.js](https://github.com/fengyuanchen/cropperjs) | [`cropperjs`](https://www.npmjs.com/package/cropperjs) | - | 2015 | Active | JavaScript image cropper. |
 | [jQuery Cropper](https://github.com/fengyuanchen/jquery-cropper) | [`jquery-cropper`](https://www.npmjs.com/package/jquery-cropper) | [`jquery`](https://www.npmjs.com/package/jquery) + [`cropperjs@1`](https://www.npmjs.com/package/cropperjs) | 2018 | Maintaining | A jQuery plugin wrapper for Cropper.js 1.0. |
 
-## Getting started
+## Getting Started
 
 ### Installation
 
@@ -170,7 +170,7 @@ Cropper.js contains a series of [npm](https://www.npmjs.com/) packages:
 | `CropperCrosshair` | `CropperElement` | The `CropperCrosshair` interface provides properties and methods for manipulating the layout and presentation of `<cropper-crosshair>` elements. |
 | `CropperViewer` | `CropperElement` | The `CropperViewer` interface provides properties and methods for manipulating the layout and presentation of `<cropper-viewer>` elements. |
 
-## Browser support
+## Browser Support
 
 - Edge 79+
 - Firefox 63+

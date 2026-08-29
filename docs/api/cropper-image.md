@@ -18,7 +18,7 @@ The `CropperImage` interface provides properties and methods for manipulating th
 The default width and height of this element is `0`.
 :::
 
-### With image source
+### With Image Source
 
 :::live-demo
 
@@ -28,7 +28,7 @@ The default width and height of this element is `0`.
 
 :::
 
-### Set zoom origin
+### Set Zoom Origin
 
 <ClientOnly>
   <CropperImageZoomOriginExample />
@@ -38,7 +38,7 @@ The default width and height of this element is `0`.
 <<< @/.vitepress/components/CropperImageZoomOriginExample.vue
 :::
 
-### Set initial fit
+### Set Initial Fit
 
 <ClientOnly>
   <CropperImageInitialFitExample />
@@ -48,7 +48,7 @@ The default width and height of this element is `0`.
 <<< @/.vitepress/components/CropperImageInitialFitExample.vue
 :::
 
-### Set max fit and/or min fit
+### Set Max Fit and/or Min Fit
 
 <ClientOnly>
   <CropperImageMaxFitAndMinFitExample />
@@ -58,7 +58,7 @@ The default width and height of this element is `0`.
 <<< @/.vitepress/components/CropperImageMaxFitAndMinFitExample.vue
 :::
 
-### Limit boundaries
+### Limit Boundaries
 
 <ClientOnly>
   <CropperImageExample />

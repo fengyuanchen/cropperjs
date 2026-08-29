@@ -14,7 +14,7 @@ The `CropperCrosshair` interface provides properties and methods for manipulatin
 
 :::
 
-### Custom color
+### Custom Color
 
 :::live-demo
 

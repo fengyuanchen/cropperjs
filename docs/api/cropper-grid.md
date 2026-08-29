@@ -18,7 +18,7 @@ The `CropperGrid` interface provides properties and methods for manipulating the
 The default height of this element is `0`.
 :::
 
-### Custom rows and columns
+### Custom Rows and Columns
 
 :::live-demo
 

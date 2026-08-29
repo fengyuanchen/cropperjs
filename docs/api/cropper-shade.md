@@ -18,7 +18,7 @@ The `CropperShade` interface provides properties and methods for manipulating th
 The default width and height of this element is `0`.
 :::
 
-### Specify position and size
+### Specify Position and Size
 
 :::live-demo
 
@@ -30,7 +30,7 @@ The default width and height of this element is `0`.
 
 :::
 
-### Customize the color
+### Customize the Color
 
 :::live-demo
 
@@ -42,7 +42,7 @@ The default width and height of this element is `0`.
 
 :::
 
-### Toggle visibility on pointer down/up dynamically
+### Toggle Visibility on Pointer Down/Up Dynamically
 
 :::live-demo
 

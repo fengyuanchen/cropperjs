@@ -142,7 +142,7 @@ Defers the callback to be executed after the next DOM update cycle.
 | $name | `string` | The name of the custom element. |
 | $version | `string` | The version of the package. |
 
-## Static methods
+## Static Methods
 
 ### $define
 
