@@ -8,16 +8,16 @@
 - [Photo Editor](https://fengyuanchen.github.io/photo-editor) - An advanced example of Cropper.js.
 - [jquery-cropper](https://github.com/fengyuanchen/jquery-cropper) - A jQuery plugin wrapper for Cropper.js.
 
-## Table of contents
+## Table of Contents
 
 - [Features](#features)
 - [Main Files](#main-files)
-- [Getting started](#getting-started)
+- [Getting Started](#getting-started)
 - [Options](#options)
 - [Methods](#methods)
+- [Static Methods](#static-methods)
 - [Events](#events)
-- [No conflict](#no-conflict)
-- [Browser support](#browser-support)
+- [Browser Support](#browser-support)
 - [Contributing](#contributing)
 - [Versioning](#versioning)
 - [License](#license)
@@ -37,7 +37,7 @@
 - Supports translating Exif Orientation information
 - Cross-browser support
 
-## Main files
+## Main Files
 
 ```text
 dist/
@@ -49,7 +49,7 @@ dist/
 └── cropper.esm.js    (ES Module)
 ```
 
-## Getting started
+## Getting Started
 
 ### Installation
 
@@ -76,11 +76,13 @@ new Cropper(element[, options])
 
 - **element**
   - Type: `HTMLImageElement` or `HTMLCanvasElement`
-  - The target image or canvas element for cropping.
+  - The target image or canvas element to crop.
 
 - **options** (optional)
   - Type: `Object`
-  - The options for cropping. Check out the available [options](#options).
+  - The configuration options. Check out the available [options](#options).
+
+Alternatively, you may use `Cropper.create(element[, options])`.
 
 #### Example
 
@@ -147,7 +149,7 @@ How to crop a square area in free ratio mode?
 
 - If you try to start cropper on a cross-origin image, please make sure that your browser supports HTML5 [CORS settings attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_settings_attributes), and your image server supports the `Access-Control-Allow-Origin` option (see the [HTTP access control (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS)).
 
-#### Known issues
+#### Known Issues
 
 - [Known iOS resource limits](https://developer.apple.com/library/mac/documentation/AppleApplications/Reference/SafariWebContent/CreatingContentforSafarioniPhone/CreatingContentforSafarioniPhone.html): As iOS devices limit memory, the browser may crash when you are cropping a large image (iPhone camera resolution). To avoid this, you may resize the image first (preferably below 1024 pixels) before starting a cropper.
 
@@ -911,6 +913,43 @@ Change the drag mode.
 
 [⬆ back to top](#table-of-contents)
 
+## Static Methods
+
+### create(element[, options])
+
+Create a new `Cropper` instance without using the `new` operator.
+
+```js
+const cropper = Cropper.create(image, {
+  aspectRatio: 16 / 9,
+});
+```
+
+### setDefaults(options)
+
+Change the global default options for subsequently created `Cropper` instances. Instance options override these defaults.
+
+```js
+Cropper.setDefaults({
+  aspectRatio: 16 / 9,
+});
+```
+
+### noConflict
+
+If you have to use another cropper with the same namespace, just call the `Cropper.noConflict` static method to revert to it.
+
+```html
+<script src="other-cropper.js"></script>
+<script src="cropper.js"></script>
+<script>
+  Cropper.noConflict();
+  // Code that uses other `Cropper` can follow here.
+</script>
+```
+
+[⬆ back to top](#table-of-contents)
+
 ## Events
 
 ### ready
@@ -1028,20 +1067,7 @@ image.addEventListener('zoom', (event) => {
 
 [⬆ back to top](#table-of-contents)
 
-## No conflict
-
-If you have to use another cropper with the same namespace, just call the `Cropper.noConflict` static method to revert to it.
-
-```html
-<script src="other-cropper.js"></script>
-<script src="cropper.js"></script>
-<script>
-  Cropper.noConflict();
-  // Code that uses other `Cropper` can follow here.
-</script>
-```
-
-## Browser support
+## Browser Support
 
 - Chrome (latest)
 - Firefox (latest)
@@ -1062,7 +1088,7 @@ Maintained under the [Semantic Versioning guidelines](https://semver.org/).
 
 [MIT](https://opensource.org/licenses/MIT) © [Chen Fengyuan](https://chenfengyuan.com/)
 
-## Related projects
+## Related Projects
 
 - [angular-cropperjs](https://github.com/matheusdavidson/angular-cropperjs) by [@matheusdavidson](https://github.com/matheusdavidson)
 - [blazor-cropperjs](https://github.com/CropperBlazor/Cropper.Blazor) by [@ColdForeign](https://github.com/ColdForeign), [@MaxymGorn](https://github.com/MaxymGorn)

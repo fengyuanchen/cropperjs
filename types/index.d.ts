@@ -195,6 +195,8 @@ declare class Cropper {
   setDragMode(dragMode: Cropper.DragMode): Cropper;
   zoom(ratio: number): Cropper;
   zoomTo(ratio: number, pivot?: { x: number; y: number }): Cropper;
+  static create(element: HTMLImageElement, options?: Cropper.Options<HTMLImageElement>): Cropper;
+  static create(element: HTMLCanvasElement, options?: Cropper.Options<HTMLCanvasElement>): Cropper;
   static noConflict(): Cropper;
   static setDefaults(options: Cropper.Options<EventTarget>): void;
 }

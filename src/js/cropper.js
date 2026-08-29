@@ -43,7 +43,7 @@ const AnotherCropper = WINDOW.Cropper;
 class Cropper {
   /**
    * Create a new Cropper.
-   * @param {Element} element - The target element for cropping.
+   * @param {Element} element - The target image or canvas element to crop.
    * @param {Object} [options={}] - The configuration options.
    */
   constructor(element, options = {}) {
@@ -432,12 +432,13 @@ class Cropper {
   }
 
   /**
-   * Get the no conflict cropper class.
-   * @returns {Cropper} The cropper class.
+   * Create a new Cropper instance.
+   * @param {Element} element - The target image or canvas element to crop.
+   * @param {Object} [options={}] - The configuration options.
+   * @returns {Cropper} A new Cropper instance.
    */
-  static noConflict() {
-    window.Cropper = AnotherCropper;
-    return Cropper;
+  static create(element, options) {
+    return new Cropper(element, options);
   }
 
   /**
@@ -446,6 +447,15 @@ class Cropper {
    */
   static setDefaults(options) {
     assign(DEFAULTS, isPlainObject(options) && options);
+  }
+
+  /**
+   * Get the no conflict cropper class.
+   * @returns {Cropper} The cropper class.
+   */
+  static noConflict() {
+    window.Cropper = AnotherCropper;
+    return Cropper;
   }
 }
 
