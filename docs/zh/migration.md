@@ -8,7 +8,7 @@ sidebar: auto
 
 | Cropper.js 1.0 | Cropper.js 2.0 |
 | --- | --- |
-| `viewMode` | 改用 `<cropper-image>` 元素的 `change` 事件去[限制图片边界](api/cropper-image.html#限制边界), 或者改用 `<cropper-selection>` 元素的  `change` 事件去[限制选区边界](api/cropper-selection.html#限制边界). |
+| `viewMode` | 改用 `<cropper-image>` 元素的 `change` 事件去[限制图片边界](/zh/api/cropper-image.html#限制边界), 或者改用 `<cropper-selection>` 元素的  `change` 事件去[限制选区边界](/zh/api/cropper-selection.html#限制边界). |
 | `dragMode` | 改用 `<cropper-handle>` 元素的 `action` 属性。 |
 | `initialAspectRatio` | 改用 `<cropper-selection>` 元素的 `initialAspectRatio` 属性。 |
 | `aspectRatio` | 改用 `<cropper-selection>` 元素的 `aspectRatio` 属性。 |
@@ -34,7 +34,7 @@ sidebar: auto
 | `wheelZoomRatio` | 改用 `<cropper-canvas>` 元素的 `scaleStep` 属性。 |
 | `cropBoxMovable` | 改用 `<cropper-selection>` 元素的 `movable` 属性。 |
 | `cropBoxResizable` | 改用 `<cropper-selection>` 元素的 `resizable` 属性。 |
-| `toggleDragModeOnDblclick` | 改用 `<cropper-handle>` 元素的 `dblclick` 事件去[双击切换动作类型](api/cropper-handle.html#双击切换动作类型)。 |
+| `toggleDragModeOnDblclick` | 改用 `<cropper-handle>` 元素的 `dblclick` 事件去[双击切换动作类型](/zh/api/cropper-handle.html#双击切换动作类型)。 |
 | `minContainerWidth` | 已废弃。 |
 | `minContainerHeight` | 已废弃。 |
 | `minCanvasWidth` | 改用 `<cropper-canvas>` 元素的 `min-width` CSS 属性。 |

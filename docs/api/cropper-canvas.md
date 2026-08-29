@@ -145,7 +145,7 @@ The event is fired when a pointer changes on the canvas.
     - The scaling factor, only available when the `action` is `"scale"` or `"transform"`.
   - **event.detail.rotate**:
     - Type: `number`
-    - The scaling factor, only available when the `action` is `"rotate"`or `"transform"`.
+    - The rotation angle (in radians), only available when the `action` is `"rotate"` or `"transform"`.
   - **event.detail.startX**:
     - Type: `number`
     - The starting `pageX` value, only available when the `relatedEvent` is `PointerEvent`, `TouchEvent`, or `MouseEvent`.

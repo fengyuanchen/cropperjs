@@ -145,7 +145,7 @@
     - 缩放系数，仅当 `action` 为 `"scale"` 或 `"transform"` 时可用。
   - **event.detail.rotate**：
     - 类型：`number`
-    - 缩放系数，仅当 `action` 为 `"rotate"` 或 `"transform"` 时可用。
+    - 旋转角度，仅当 `action` 为 `"rotate"` 或 `"transform"` 时可用。
   - **event.detail.startX**：
     - 类型：`number`
     - 起始 `pageX` 值，仅当 `relatedEvent` 为 `PointerEvent`、`TouchEvent` 或 `MouseEvent` 时可用。

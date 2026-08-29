@@ -400,7 +400,7 @@
 - **返回值**：
   - 类型：`Promise`
   - 一个以生成的画布元素为给定值解析后的 Promise 对象。
-- **Example**：
+- **示例**：
   <ClientOnly>
     <CropperSelectionToNativeCanvas />
   </ClientOnly>
@@ -411,7 +411,7 @@
 
 ### change
 
-当选区的位置和尺寸即将发送变化时触发该事件。
+当选区的位置和尺寸即将发生变化时触发该事件。
 
 - 事件：
   - **event.bubbles**：`true`

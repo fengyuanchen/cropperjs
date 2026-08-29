@@ -8,7 +8,7 @@ sidebar: auto
 
 | Cropper.js 1.0 | Cropper.js 2.0 |
 | --- | --- |
-| `viewMode` | Use the `<cropper-image>` element's `change` event to [limit image boundaries](api/cropper-image.html#limit-boundaries), or use the `<cropper-selection>` element's  `change` event to [limit selection boundaries](api/cropper-selection.html#limit-boundaries). |
+| `viewMode` | Use the `<cropper-image>` element's `change` event to [limit image boundaries](/api/cropper-image.html#limit-boundaries), or use the `<cropper-selection>` element's  `change` event to [limit selection boundaries](/api/cropper-selection.html#limit-boundaries). |
 | `dragMode` | Use the `<cropper-handle>` element's `action` property. |
 | `initialAspectRatio` | Use the `<cropper-selection>` element's `initialAspectRatio` property. |
 | `aspectRatio` | Use the `<cropper-selection>` element's `aspectRatio` property. |
@@ -34,7 +34,7 @@ sidebar: auto
 | `wheelZoomRatio` | Use the `<cropper-canvas>` element's `scaleStep` property. |
 | `cropBoxMovable` | Use the `<cropper-selection>` element's `movable` property. |
 | `cropBoxResizable` | Use the `<cropper-selection>` element's `resizable` property. |
-| `toggleDragModeOnDblclick` | Use the `<cropper-handle>` element's `dblclick` event to [toggle action on dblclick](api/cropper-handle.html#toggle-action-on-dblclick). |
+| `toggleDragModeOnDblclick` | Use the `<cropper-handle>` element's `dblclick` event to [toggle action on dblclick](/api/cropper-handle.html#toggle-action-on-dblclick). |
 | `minContainerWidth` | Deprecated. |
 | `minContainerHeight` | Deprecated. |
 | `minCanvasWidth` | Use the `<cropper-canvas>` element's `min-width` CSS property. |
