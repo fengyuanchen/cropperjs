@@ -41,7 +41,7 @@ CropperViewer.$define();
 export { DEFAULT_TEMPLATE };
 export * from '@cropper/utils';
 export * from '@cropper/elements';
-export default class Cropper {
+export class Cropper {
   static version = '__VERSION__';
 
   element: HTMLImageElement | HTMLCanvasElement;
@@ -50,6 +50,11 @@ export default class Cropper {
 
   container: Element;
 
+  /**
+   * Create a new Cropper.
+   * @param {HTMLImageElement|HTMLCanvasElement|string} element - The target image or canvas element to crop.
+   * @param {CropperOptions} [options] - The configuration options.
+   */
   constructor(
     element: HTMLImageElement | HTMLCanvasElement | string,
     options?: CropperOptions,
@@ -166,3 +171,18 @@ export default class Cropper {
     }
   }
 }
+
+/**
+ * Create a new Cropper instance.
+ * @param {HTMLImageElement|HTMLCanvasElement|string} element - The target image or canvas element to crop.
+ * @param {CropperOptions} [options] - The configuration options.
+ * @returns {Cropper} A new Cropper instance.
+ */
+export function createCropper(
+  element: HTMLImageElement | HTMLCanvasElement | string,
+  options?: CropperOptions,
+): Cropper {
+  return new Cropper(element, options);
+}
+
+export default Cropper;

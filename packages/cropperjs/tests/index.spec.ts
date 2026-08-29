@@ -6,7 +6,7 @@ import {
   CropperImage,
   CropperSelection,
 } from '@cropper/elements';
-import Cropper from '../src';
+import { Cropper, createCropper } from '../src';
 
 describe('Cropper', () => {
   describe('element', () => {
@@ -160,6 +160,40 @@ describe('Cropper', () => {
         cropper.destroy();
         expect(image.style.display).toBe('');
         expect(container.childElementCount).toBe(1);
+      });
+    });
+  });
+
+  describe('functions', () => {
+    describe('createCropper', () => {
+      it('should create a new Cropper instance', () => {
+        const image = new Image();
+        const cropper = createCropper(image);
+
+        expect(cropper).toBeInstanceOf(Cropper);
+        expect(cropper.element).toBe(image);
+      });
+
+      it('should support passing options', () => {
+        const container = document.createElement('div');
+        const image = new Image();
+
+        container.appendChild(image);
+        document.body.appendChild(container);
+
+        const cropper = createCropper(image, {
+          container,
+        });
+
+        expect(cropper).toBeInstanceOf(Cropper);
+        expect(cropper.options.container).toBe(container);
+        expect(cropper.container).toBe(container);
+      });
+
+      it('should not support invalid elements', () => {
+        expect(() => {
+          createCropper(document.createElement('div') as HTMLImageElement);
+        }).toThrow();
       });
     });
   });

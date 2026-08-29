@@ -12,11 +12,13 @@ new Cropper(element[, options])
 
 - **element**
   - 类型：`HTMLImageElement | HTMLCanvasElement | string`
-  - 用于裁剪的目标图像或画布元素。如果是字符串，将传入 [`document.querySelector`](https://developer.mozilla.org/zh-CN/docs/Web/API/Document/querySelector) 中去查找元素。
+  - 要裁剪的目标图像或画布元素。如果是字符串，将传入 [`document.querySelector`](https://developer.mozilla.org/zh-CN/docs/Web/API/Document/querySelector) 中去查找元素。
 
 - **options** (可选)
   - 类型：`Object`
-  - 用于裁剪的[选项](#options)。
+  - 配置选项。请查看可用的 [选项](#选项)。
+
+或者，您也可以使用 `createCropper(element[, options])`。
 
 ### 示例
 
@@ -114,12 +116,33 @@ Cropper 的默认模板：
 
 注销 Cropper 实例。
 
+## 导出的函数
+
+### createCropper
+
+- **语法**：`createCropper(element[, options])`
+- **参数**：
+  - `element`：
+    - 类型：`HTMLImageElement | HTMLCanvasElement | string`
+    - 要裁剪的目标图像或画布元素。如果是字符串，将传入 [`document.querySelector`](https://developer.mozilla.org/zh-CN/docs/Web/API/Document/querySelector) 中去查找元素。
+  - `options`（可选）：
+    - 类型：`Object`
+    - 用于裁剪的[选项](#选项)。
+- **返回值**：
+  - 类型：`Cropper`
+  - 一个新的 Cropper 实例。
+
+创建一个新的 Cropper 实例。
+
 ## 导出的模块
 
 ```js
-import {
+import Cropper, {
   // 常量
   DEFAULT_TEMPLATE,
+
+  // 函数
+  createCropper,
 
   // 元素
   CropperElement,

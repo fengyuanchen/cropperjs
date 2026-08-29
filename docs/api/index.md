@@ -12,11 +12,13 @@ new Cropper(element[, options])
 
 - **element**
   - Type: `HTMLImageElement | HTMLCanvasElement | string`
-  - The target image or canvas element for cropping. If it is a string, will be passed into the [`document.querySelector`](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector) to find the element.
+  - The target image or canvas element to crop. If it is a string, will be passed into the [`document.querySelector`](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector) to find the element.
 
 - **options** (optional)
   - Type: `Object`
-  - The [options](#options) for cropping.
+  - The configuration options. Check out the available [options](#options).
+
+Alternatively, you may use `createCropper(element[, options])`.
 
 ### Example
 
@@ -114,12 +116,33 @@ Get all the `<cropper-selection>` elements in the Cropper container when there a
 
 Destroy the cropper instance.
 
+## Exported Functions
+
+### createCropper
+
+- **Syntax**: `createCropper(element[, options])`
+- **Arguments**:
+  - `element`:
+    - Type: `HTMLImageElement | HTMLCanvasElement | string`
+    - The target image or canvas element to crop. If it is a string, will be passed into the [`document.querySelector`](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector) to find the element.
+  - `options` (optional):
+    - Type: `Object`
+    - The [options](#options) for cropping.
+- **Returns**:
+  - Type: `Cropper`
+  - A new Cropper instance.
+
+Create a new Cropper instance.
+
 ## Exported Modules
 
 ```js
-import {
+import Cropper, {
   // Constants
   DEFAULT_TEMPLATE,
+
+  // Functions
+  createCropper,
 
   // Elements
   CropperElement,

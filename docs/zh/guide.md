@@ -68,8 +68,10 @@ npm install @cropper/element-canvas
 
 ```js
 import Cropper from 'cropperjs';
+// import { createCropper } from 'cropperjs';
 
 const cropper = new Cropper('#image');
+// const cropper = createCropper('#image');
 ```
 
 ```html

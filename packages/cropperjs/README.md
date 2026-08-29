@@ -27,12 +27,14 @@ npm install cropperjs
 
 ```js
 import Cropper from 'cropperjs';
+// import { createCropper } from 'cropperjs';
 
 const image = new Image();
 
 image.src = '/path/to/image.jpg';
 
 const cropper = new Cropper(image);
+// const cropper = createCropper(image);
 ```
 
 ## Versioning
