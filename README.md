@@ -1,7 +1,7 @@
 # Cropper.js
 
 [![Coverage Status](https://img.shields.io/codecov/c/github/fengyuanchen/cropperjs/v1
-)](https://codecov.io/gh/fengyuanchen/cropperjs) [![Downloads](https://img.shields.io/npm/dm/cropperjs.svg)](https://www.npmjs.com/package/cropperjs) [![Version](https://img.shields.io/npm/v/cropperjs.svg)](https://www.npmjs.com/package/cropperjs) [![Gzip Size](https://img.shields.io/bundlephobia/minzip/cropperjs.svg)](https://unpkg.com/cropperjs@1/dist/cropper.common.js)
+)](https://codecov.io/gh/fengyuanchen/cropperjs) [![Downloads](https://img.shields.io/npm/dm/cropperjs.svg)](https://www.npmjs.com/package/cropperjs) [![Version](https://img.shields.io/npm/v/cropperjs/latest-1.svg)](https://www.npmjs.com/package/cropperjs) [![Gzip Size](https://img.shields.io/bundlephobia/minzip/cropperjs.svg)](https://unpkg.com/cropperjs@1/dist/cropper.common.js)
 
 > JavaScript image cropper. This is the branch for v1.x. For v2.x, check out the [`main`](https://github.com/fengyuanchen/cropperjs/tree/main) branch.
 
