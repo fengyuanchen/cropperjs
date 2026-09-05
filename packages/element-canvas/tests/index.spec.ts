@@ -93,6 +93,30 @@ describe('CropperCanvas', () => {
     const wheelEventOptions = {
       deltaY: 1,
     };
+    const createPointerEvent = (type: string, pageX: number, pageY: number) => {
+      const event = new PointerEvent(type, pointerEventOptions);
+
+      Object.defineProperties(event, {
+        pageX: { configurable: true, value: pageX },
+        pageY: { configurable: true, value: pageY },
+      });
+
+      return event;
+    };
+    const createTouchEvent = (type: string, touches: Array<{
+      identifier: number;
+      pageX: number;
+      pageY: number;
+    }>) => {
+      const event = new Event(type, pointerEventOptions);
+
+      Object.defineProperty(event, 'changedTouches', {
+        configurable: true,
+        value: touches,
+      });
+
+      return event;
+    };
 
     describe(EVENT_ACTION, () => {
       it('should trigger the `action` event', (done) => {
@@ -119,6 +143,120 @@ describe('CropperCanvas', () => {
           done();
         });
         element.dispatchEvent(new WheelEvent(EVENT_WHEEL, wheelEventOptions));
+      });
+
+      it('should emit a rotate action for a rotate target', (done) => {
+        const element = new CropperCanvas();
+
+        element.setAttribute(ATTRIBUTE_ACTION, 'rotate');
+        document.body.appendChild(element);
+        element.addEventListener(EVENT_ACTION, (event: Event) => {
+          const { detail } = event as CustomEvent;
+
+          expect(detail.action).toBe('rotate');
+          expect(detail.relatedEvent).toBeInstanceOf(PointerEvent);
+          expect(detail.startX).toBe(10);
+          expect(detail.startY).toBe(20);
+          expect(detail.endX).toBe(30);
+          expect(detail.endY).toBe(45);
+          done();
+        });
+        element.dispatchEvent(createPointerEvent(EVENT_POINTER_DOWN, 10, 20));
+        element.dispatchEvent(createPointerEvent(EVENT_POINTER_MOVE, 30, 45));
+        element.dispatchEvent(new PointerEvent(EVENT_POINTER_UP, pointerEventOptions));
+      });
+
+      it('should emit a scale action for a scale target', (done) => {
+        const element = new CropperCanvas();
+
+        element.setAttribute(ATTRIBUTE_ACTION, 'scale');
+        document.body.appendChild(element);
+        element.addEventListener(EVENT_ACTION, (event: Event) => {
+          const { detail } = event as CustomEvent;
+
+          expect(detail.action).toBe('scale');
+          expect(detail.relatedEvent).toBeInstanceOf(PointerEvent);
+          expect(detail.startX).toBe(10);
+          expect(detail.startY).toBe(20);
+          expect(detail.endX).toBe(30);
+          expect(detail.endY).toBe(45);
+          done();
+        });
+        element.dispatchEvent(createPointerEvent(EVENT_POINTER_DOWN, 10, 20));
+        element.dispatchEvent(createPointerEvent(EVENT_POINTER_MOVE, 30, 45));
+        element.dispatchEvent(new PointerEvent(EVENT_POINTER_UP, pointerEventOptions));
+      });
+
+      it('should emit a rotate action for a two-finger touch gesture', (done) => {
+        const element = new CropperCanvas();
+        const firstTouch = { identifier: 1, pageX: 0, pageY: 0 };
+        const secondTouch = { identifier: 2, pageX: 10, pageY: 0 };
+
+        document.body.appendChild(element);
+        element.addEventListener(EVENT_ACTION, (event: Event) => {
+          const { detail } = event as CustomEvent;
+
+          expect(detail.action).toBe('rotate');
+          expect(detail.rotate).toBeCloseTo(Math.PI / 2);
+          expect(detail.scale).toBeUndefined();
+          expect(detail.relatedEvent.type).toBe(EVENT_POINTER_MOVE);
+          document.body.removeChild(element);
+          done();
+        });
+        element.dispatchEvent(createTouchEvent(EVENT_POINTER_DOWN, [firstTouch]));
+        element.dispatchEvent(createTouchEvent(EVENT_POINTER_DOWN, [secondTouch]));
+        element.dispatchEvent(createTouchEvent(EVENT_POINTER_MOVE, [
+          firstTouch,
+          { identifier: 2, pageX: 0, pageY: 10 },
+        ]));
+      });
+
+      it('should emit a transform action with rotate and scale for a two-finger gesture', (done) => {
+        const element = new CropperCanvas();
+        const firstTouch = { identifier: 1, pageX: 0, pageY: 0 };
+        const secondTouch = { identifier: 2, pageX: 10, pageY: 0 };
+
+        document.body.appendChild(element);
+        element.addEventListener(EVENT_ACTION, (event: Event) => {
+          const { detail } = event as CustomEvent;
+
+          expect(detail.action).toBe('transform');
+          expect(detail.rotate).toBeCloseTo(Math.PI / 2);
+          expect(detail.scale).toBe(1);
+          expect(detail.relatedEvent.type).toBe(EVENT_POINTER_MOVE);
+          document.body.removeChild(element);
+          done();
+        });
+        element.dispatchEvent(createTouchEvent(EVENT_POINTER_DOWN, [firstTouch]));
+        element.dispatchEvent(createTouchEvent(EVENT_POINTER_DOWN, [secondTouch]));
+        element.dispatchEvent(createTouchEvent(EVENT_POINTER_MOVE, [
+          firstTouch,
+          { identifier: 2, pageX: 0, pageY: 20 },
+        ]));
+      });
+
+      it('should emit a scale action for a two-finger touch gesture', (done) => {
+        const element = new CropperCanvas();
+        const firstTouch = { identifier: 1, pageX: 0, pageY: 0 };
+        const secondTouch = { identifier: 2, pageX: 10, pageY: 0 };
+
+        document.body.appendChild(element);
+        element.addEventListener(EVENT_ACTION, (event: Event) => {
+          const { detail } = event as CustomEvent;
+
+          expect(detail.action).toBe('scale');
+          expect(detail.scale).toBe(1);
+          expect(detail.rotate).toBeUndefined();
+          expect(detail.relatedEvent.type).toBe(EVENT_POINTER_MOVE);
+          document.body.removeChild(element);
+          done();
+        });
+        element.dispatchEvent(createTouchEvent(EVENT_POINTER_DOWN, [firstTouch]));
+        element.dispatchEvent(createTouchEvent(EVENT_POINTER_DOWN, [secondTouch]));
+        element.dispatchEvent(createTouchEvent(EVENT_POINTER_MOVE, [
+          firstTouch,
+          { identifier: 2, pageX: 20, pageY: 0 },
+        ]));
       });
     });
 
@@ -306,6 +444,20 @@ describe('CropperCanvas', () => {
           expect(error.message).toBe('The current element is not connected to the DOM.');
           done();
         });
+      });
+
+      it('should honor output dimensions when no image is present', async () => {
+        const element = new CropperCanvas();
+
+        Object.defineProperty(element, 'offsetWidth', { configurable: true, value: 400 });
+        Object.defineProperty(element, 'offsetHeight', { configurable: true, value: 200 });
+        document.body.appendChild(element);
+
+        const canvas = await element.$toCanvas({ width: 200 });
+
+        expect(canvas.width).toBe(200);
+        expect(canvas.height).toBe(100);
+        document.body.removeChild(element);
       });
     });
   });

@@ -1,9 +1,11 @@
-import { EVENT_TRANSFORM } from '@cropper/utils';
+import { EVENT_CHANGE, EVENT_TRANSFORM } from '@cropper/utils';
+import CropperCanvas from '@cropper/element-canvas';
 import CropperImage from '../src';
 
 // A 1×1 pixel PNG image.
 const URL_EXAMPLE_IMAGE = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQYV2P4////fwAJ+wP9BUNFygAAAABJRU5ErkJggg==';
 
+CropperCanvas.$define();
 CropperImage.$define();
 
 describe('CropperImage', () => {
@@ -15,12 +17,15 @@ describe('CropperImage', () => {
         expect(element.initialFit).toBe('contain');
       });
 
-      it('should be `"cover"`', () => {
-        const element = new CropperImage();
+      it.each(['cover', 'fill', 'contain', 'scale-down', 'none'])(
+        'should support the `%s` option',
+        (value) => {
+          const element = new CropperImage();
 
-        element.setAttribute('initial-fit', 'cover');
-        expect(element.initialFit).toBe('cover');
-      });
+          element.setAttribute('initial-fit', value);
+          expect(element.initialFit).toBe(value);
+        },
+      );
     });
 
     describe('maxFit', () => {
@@ -30,12 +35,15 @@ describe('CropperImage', () => {
         expect(element.maxFit).toBe('');
       });
 
-      it('should be `"cover"`', () => {
-        const element = new CropperImage();
+      it.each(['cover', 'fill', 'contain', 'scale-down', 'none'])(
+        'should support the `%s` option',
+        (value) => {
+          const element = new CropperImage();
 
-        element.setAttribute('max-fit', 'cover');
-        expect(element.maxFit).toBe('cover');
-      });
+          element.setAttribute('max-fit', value);
+          expect(element.maxFit).toBe(value);
+        },
+      );
     });
 
     describe('minFit', () => {
@@ -45,12 +53,15 @@ describe('CropperImage', () => {
         expect(element.minFit).toBe('');
       });
 
-      it('should be `"contain"`', () => {
-        const element = new CropperImage();
+      it.each(['cover', 'fill', 'contain', 'scale-down', 'none'])(
+        'should support the `%s` option',
+        (value) => {
+          const element = new CropperImage();
 
-        element.setAttribute('min-fit', 'contain');
-        expect(element.minFit).toBe('contain');
-      });
+          element.setAttribute('min-fit', value);
+          expect(element.minFit).toBe(value);
+        },
+      );
     });
 
     describe('rotatable', () => {
@@ -134,6 +145,8 @@ describe('CropperImage', () => {
       it('should move the image', () => {
         const element = new CropperImage();
 
+        element.$move(10, 10);
+        expect(element.$getTransform()).toEqual([1, 0, 0, 1, 0, 0]);
         element.translatable = true;
         element.$move(10, 10);
 
@@ -159,6 +172,8 @@ describe('CropperImage', () => {
       it('should move the image to a specific position', () => {
         const element = new CropperImage();
 
+        element.$moveTo(10, 10);
+        expect(element.$getTransform()).toEqual([1, 0, 0, 1, 0, 0]);
         element.translatable = true;
         element.$moveTo(10, 10);
 
@@ -184,6 +199,8 @@ describe('CropperImage', () => {
       it('should rotate the image', () => {
         const element = new CropperImage();
 
+        element.$rotate(45);
+        expect(element.$getTransform()).toEqual([1, 0, 0, 1, 0, 0]);
         element.rotatable = true;
         element.$rotate(45);
 
@@ -214,6 +231,8 @@ describe('CropperImage', () => {
       it('should zoom in the image', () => {
         const element = new CropperImage();
 
+        element.$zoom(0.1);
+        expect(element.$getTransform()).toEqual([1, 0, 0, 1, 0, 0]);
         element.scalable = true;
         element.$zoom(0.1);
 
@@ -226,6 +245,8 @@ describe('CropperImage', () => {
       it('should zoom out the image', () => {
         const element = new CropperImage();
 
+        element.$zoom(0);
+        expect(element.$getTransform()).toEqual([1, 0, 0, 1, 0, 0]);
         element.scalable = true;
         element.$zoom(-0.1);
 
@@ -240,6 +261,8 @@ describe('CropperImage', () => {
       it('should scale the image', () => {
         const element = new CropperImage();
 
+        element.$scale(1.1, 1.2);
+        expect(element.$getTransform()).toEqual([1, 0, 0, 1, 0, 0]);
         element.scalable = true;
         element.$scale(1.1, 1.2);
 
@@ -265,6 +288,8 @@ describe('CropperImage', () => {
       it('should skew the image', () => {
         const element = new CropperImage();
 
+        element.$skew(0.1, 0.2);
+        expect(element.$getTransform()).toEqual([1, 0, 0, 1, 0, 0]);
         element.skewable = true;
         element.$skew(0.1, 0.2);
 
@@ -303,6 +328,8 @@ describe('CropperImage', () => {
       it('should translate the image', () => {
         const element = new CropperImage();
 
+        element.$translate(10, 5);
+        expect(element.$getTransform()).toEqual([1, 0, 0, 1, 0, 0]);
         element.translatable = true;
         element.$translate(10, 5);
 
@@ -328,11 +355,15 @@ describe('CropperImage', () => {
       it('should transform the image', () => {
         const element = new CropperImage();
 
+        element.$transform(0.5, 0.5, 0.5, 0.5, 5, 5);
+        expect(element.$getTransform()).toEqual([1, 0, 0, 1, 0, 0]);
         element.rotatable = true;
         element.scalable = true;
         element.skewable = true;
         element.translatable = true;
         element.$transform(0.5, 0.5, 0.5, 0.5, 5, 5);
+        expect(element.$getTransform()).toEqual([0.5, 0.5, 0.5, 0.5, 5, 5]);
+        element.$transform(NaN, 0, 0, 1, 0, 0);
         expect(element.$getTransform()).toEqual([0.5, 0.5, 0.5, 0.5, 5, 5]);
       });
     });
@@ -341,6 +372,8 @@ describe('CropperImage', () => {
       it('should reset (override) the current transform to the specific identity matrix', () => {
         const element = new CropperImage();
 
+        element.$setTransform(0.5, 0.5, 0.5, 0.5, 5, 5);
+        expect(element.$getTransform()).toEqual([1, 0, 0, 1, 0, 0]);
         element.rotatable = true;
         element.scalable = true;
         element.skewable = true;
@@ -373,6 +406,8 @@ describe('CropperImage', () => {
       it('should reset the current transform to the initial identity matrix', () => {
         const element = new CropperImage();
 
+        element.$resetTransform();
+        expect(element.$getTransform()).toEqual([1, 0, 0, 1, 0, 0]);
         element.rotatable = true;
         element.scalable = true;
         element.skewable = true;
@@ -387,6 +422,64 @@ describe('CropperImage', () => {
   });
 
   describe('events', () => {
+    describe(EVENT_CHANGE, () => {
+      it('should report the image position and size when translating', () => {
+        const canvas = new CropperCanvas();
+        const element = new CropperImage();
+        const changes: CustomEvent[] = [];
+
+        Object.defineProperty(canvas, 'getBoundingClientRect', {
+          configurable: true,
+          value: () => ({
+            x: 10,
+            y: 20,
+            left: 10,
+            top: 20,
+            right: 210,
+            bottom: 120,
+            width: 200,
+            height: 100,
+          }),
+        });
+        canvas.appendChild(element);
+        document.body.appendChild(canvas);
+        const image = element.shadowRoot?.querySelector('img') as HTMLImageElement;
+
+        Object.defineProperty(image, 'getBoundingClientRect', {
+          configurable: true,
+          value: () => ({
+            x: 30,
+            y: 50,
+            left: 30,
+            top: 50,
+            right: 130,
+            bottom: 100,
+            width: 100,
+            height: 50,
+          }),
+        });
+        Object.defineProperty(image, 'complete', { configurable: true, value: true });
+        Object.defineProperty(image, 'naturalWidth', { configurable: true, value: 100 });
+        Object.defineProperty(image, 'naturalHeight', { configurable: true, value: 50 });
+        element.addEventListener(EVENT_CHANGE, (event) => {
+          changes.push(event as CustomEvent);
+        });
+
+        image.dispatchEvent(new Event('load'));
+        element.translatable = true;
+        element.$translate(10, 20);
+
+        expect(changes).toHaveLength(1);
+        expect(changes[0].detail).toEqual({
+          x: 20,
+          y: 30,
+          width: 100,
+          height: 50,
+        });
+        document.body.removeChild(canvas);
+      });
+    });
+
     describe(EVENT_TRANSFORM, () => {
       it('should trigger the `transform` event', (done) => {
         const element = new CropperImage();
@@ -420,6 +513,57 @@ describe('CropperImage', () => {
         expect(element.$getTransform()).toEqual([1, 0, 0, 1, 0, 0]);
         element.$setTransform(0.5, 0.5, 0.5, 0.5, 5, 5);
         expect(element.$getTransform()).toEqual([1, 0, 0, 1, 0, 0]);
+      });
+    });
+
+    describe('$ready', () => {
+      it('should resolve immediately for a loaded image', async () => {
+        const element = new CropperImage();
+        document.body.appendChild(element);
+        const image = element.shadowRoot?.querySelector('img') as HTMLImageElement;
+
+        Object.defineProperty(image, 'complete', { configurable: true, value: true });
+        Object.defineProperty(image, 'naturalWidth', { configurable: true, value: 10 });
+        Object.defineProperty(image, 'naturalHeight', { configurable: true, value: 10 });
+
+        await expect(element.$ready()).resolves.toBe(image);
+        document.body.removeChild(element);
+      });
+
+      it('should reject immediately for an invalid image', async () => {
+        const element = new CropperImage();
+        document.body.appendChild(element);
+        const image = element.shadowRoot?.querySelector('img') as HTMLImageElement;
+
+        Object.defineProperty(image, 'complete', { configurable: true, value: true });
+        Object.defineProperty(image, 'naturalWidth', { configurable: true, value: 0 });
+        Object.defineProperty(image, 'naturalHeight', { configurable: true, value: 0 });
+
+        await expect(element.$ready()).rejects.toThrow('Failed to load the image source');
+        document.body.removeChild(element);
+      });
+
+      it('should resolve after a pending image load and reject on error', async () => {
+        const element = new CropperImage();
+        document.body.appendChild(element);
+        const image = element.shadowRoot?.querySelector('img') as HTMLImageElement;
+        Object.defineProperty(image, 'complete', { configurable: true, value: false });
+        Object.defineProperty(image, 'naturalWidth', { configurable: true, value: 10 });
+        Object.defineProperty(image, 'naturalHeight', { configurable: true, value: 10 });
+        const promise = element.$ready();
+
+        image.dispatchEvent(new Event('load'));
+        await expect(promise).resolves.toBe(image);
+
+        const failedElement = new CropperImage();
+        document.body.appendChild(failedElement);
+        const failedImage = failedElement.shadowRoot?.querySelector('img') as HTMLImageElement;
+        const failedPromise = failedElement.$ready();
+
+        failedImage.dispatchEvent(new Event('error'));
+        await expect(failedPromise).rejects.toThrow('Failed to load the image source');
+        document.body.removeChild(element);
+        document.body.removeChild(failedElement);
       });
     });
   });

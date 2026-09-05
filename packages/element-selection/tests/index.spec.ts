@@ -7,9 +7,12 @@ import {
   ACTION_RESIZE_SOUTHEAST,
   ACTION_RESIZE_SOUTHWEST,
   ACTION_RESIZE_WEST,
+  EVENT_KEYDOWN,
 } from '@cropper/utils';
+import CropperCanvas from '@cropper/element-canvas';
 import CropperSelection from '../src';
 
+CropperCanvas.$define();
 CropperSelection.$define();
 
 describe('CropperSelection', () => {
@@ -179,6 +182,119 @@ describe('CropperSelection', () => {
       });
     });
 
+    describe('keyboard', () => {
+      it('should be `false` by default', () => {
+        const element = new CropperSelection();
+
+        expect(element.keyboard).toBe(false);
+      });
+
+      it('should be `true`', () => {
+        const element = new CropperSelection();
+
+        element.setAttribute('keyboard', '');
+        expect(element.keyboard).toBe(true);
+      });
+
+      const createKeyboardSelection = async () => {
+        const canvas = new CropperCanvas();
+        const selection = new CropperSelection();
+
+        selection.keyboard = true;
+        selection.movable = true;
+        selection.zoomable = true;
+        selection.x = 10;
+        selection.y = 20;
+        selection.width = 100;
+        selection.height = 50;
+        canvas.appendChild(selection);
+        document.body.appendChild(canvas);
+        await new Promise((resolve) => {
+          setTimeout(resolve, 0);
+        });
+
+        return { canvas, selection };
+      };
+
+      it('should remove the active selection with Delete', async () => {
+        const { canvas, selection } = await createKeyboardSelection();
+
+        document.dispatchEvent(new KeyboardEvent(EVENT_KEYDOWN, { key: 'Delete' }));
+
+        expect(selection.hidden).toBe(true);
+        document.body.removeChild(canvas);
+      });
+
+      it('should remove the active selection with Command + Backspace', async () => {
+        const { canvas, selection } = await createKeyboardSelection();
+
+        document.dispatchEvent(new KeyboardEvent(EVENT_KEYDOWN, {
+          key: 'Backspace',
+          metaKey: true,
+        }));
+
+        expect(selection.hidden).toBe(true);
+        document.body.removeChild(canvas);
+      });
+
+      it('should move the active selection left by one pixel', async () => {
+        const { canvas, selection } = await createKeyboardSelection();
+
+        document.dispatchEvent(new KeyboardEvent(EVENT_KEYDOWN, { key: 'ArrowLeft' }));
+
+        expect(selection.x).toBe(9);
+        expect(selection.y).toBe(20);
+        document.body.removeChild(canvas);
+      });
+
+      it('should move the active selection right by one pixel', async () => {
+        const { canvas, selection } = await createKeyboardSelection();
+
+        document.dispatchEvent(new KeyboardEvent(EVENT_KEYDOWN, { key: 'ArrowRight' }));
+
+        expect(selection.x).toBe(11);
+        expect(selection.y).toBe(20);
+        document.body.removeChild(canvas);
+      });
+
+      it('should move the active selection up by one pixel', async () => {
+        const { canvas, selection } = await createKeyboardSelection();
+
+        document.dispatchEvent(new KeyboardEvent(EVENT_KEYDOWN, { key: 'ArrowUp' }));
+
+        expect(selection.x).toBe(10);
+        expect(selection.y).toBe(19);
+        document.body.removeChild(canvas);
+      });
+
+      it('should move the active selection down by one pixel', async () => {
+        const { canvas, selection } = await createKeyboardSelection();
+
+        document.dispatchEvent(new KeyboardEvent(EVENT_KEYDOWN, { key: 'ArrowDown' }));
+
+        expect(selection.x).toBe(10);
+        expect(selection.y).toBe(21);
+        document.body.removeChild(canvas);
+      });
+
+      it('should zoom the active selection in and out by ten percent', async () => {
+        const { canvas, selection } = await createKeyboardSelection();
+
+        document.dispatchEvent(new KeyboardEvent(EVENT_KEYDOWN, { key: '+' }));
+        expect(selection.width).toBe(110);
+        expect(selection.height).toBe(55);
+
+        document.dispatchEvent(new KeyboardEvent(EVENT_KEYDOWN, { key: '-' }));
+        expect(selection.width).toBeCloseTo(100);
+        expect(selection.height).toBeCloseTo(50);
+        document.body.removeChild(canvas);
+      });
+
+      afterEach(() => {
+        document.activeElement?.dispatchEvent(new Event('blur'));
+      });
+    });
+
     describe('outlined', () => {
       it('should be `false` by default', () => {
         const element = new CropperSelection();
@@ -215,6 +331,9 @@ describe('CropperSelection', () => {
       it('should move the selection', () => {
         const element = new CropperSelection();
 
+        element.$move(1, 2);
+        expect(element.x).toBe(0);
+        expect(element.y).toBe(0);
         element.movable = true;
         element.$move(1, 2);
         expect(element.x).toBe(1);
@@ -235,6 +354,9 @@ describe('CropperSelection', () => {
       it('should the selection to a specific position', () => {
         const element = new CropperSelection();
 
+        element.$moveTo(1, 2);
+        expect(element.x).toBe(0);
+        expect(element.y).toBe(0);
         element.movable = true;
         element.$moveTo(1, 2);
         expect(element.x).toBe(1);
@@ -252,6 +374,16 @@ describe('CropperSelection', () => {
     });
 
     describe('$resize', () => {
+      it('should not resize when the selection is not resizable', () => {
+        const element = new CropperSelection();
+
+        element.$resize(ACTION_RESIZE_EAST, 1, 2);
+        expect(element.x).toBe(0);
+        expect(element.y).toBe(0);
+        expect(element.width).toBe(0);
+        expect(element.height).toBe(0);
+      });
+
       describe(ACTION_RESIZE_NORTH, () => {
         it('should resize the north side', () => {
           const element = new CropperSelection();
@@ -561,6 +693,9 @@ describe('CropperSelection', () => {
       it('should zoom in the selection', () => {
         const element = new CropperSelection();
 
+        element.$zoom(1);
+        expect(element.width).toBe(0);
+        expect(element.height).toBe(0);
         element.zoomable = true;
         element.width = 1;
         element.height = 1;
@@ -572,12 +707,39 @@ describe('CropperSelection', () => {
       it('should zoom out the selection', () => {
         const element = new CropperSelection();
 
+        element.$zoom(-1);
+        expect(element.width).toBe(0);
+        expect(element.height).toBe(0);
         element.zoomable = true;
         element.width = 2;
         element.height = 2;
         element.$zoom(-1);
         expect(element.width).toBe(1);
         expect(element.height).toBe(1);
+      });
+    });
+
+    describe('$center', () => {
+      it('should return itself when it has no parent element', () => {
+        const element = new CropperSelection();
+
+        expect(element.$center()).toBe(element);
+      });
+
+      it('should center the selection in its parent element', () => {
+        const parent = document.createElement('div');
+        const element = new CropperSelection();
+
+        Object.defineProperty(parent, 'offsetWidth', { configurable: true, value: 100 });
+        Object.defineProperty(parent, 'offsetHeight', { configurable: true, value: 80 });
+        element.width = 20;
+        element.height = 10;
+        element.movable = true;
+        parent.appendChild(element);
+        element.$center();
+
+        expect(element.x).toBe(40);
+        expect(element.y).toBe(35);
       });
     });
 
@@ -606,6 +768,29 @@ describe('CropperSelection', () => {
         element.$change(0, 0, 1, 2, 1);
         expect(element.width).toBe(2);
         expect(element.height).toBe(2);
+      });
+
+      it('should reject invalid and prevented changes', () => {
+        const element = new CropperSelection();
+        const listener = jest.fn((event: Event) => event.preventDefault());
+
+        element.addEventListener('change', listener);
+        element.$change(1, 2, -1, 4);
+        expect(element.x).toBe(0);
+        element.$change(1, 2, 3, 4);
+        expect(element.x).toBe(0);
+        expect(listener).toHaveBeenCalled();
+      });
+
+      it('should clear and restore the selection', () => {
+        const element = new CropperSelection();
+
+        element.$change(1, 2, 3, 4);
+        element.$clear();
+        expect(element.hidden).toBe(true);
+        element.$change(5, 6, 7, 8);
+        expect(element.hidden).toBe(false);
+        expect(element.width).toBe(7);
       });
     });
 
