@@ -25,8 +25,18 @@
   <div class="container">
     <h1>Hello World</h1>
     <img id="image" src="/cropperjs/picture.jpg" alt="Picture">
+    <pre><code>&lt;img id="image" src="/cropperjs/picture.jpg" alt="Picture"&gt;
+
+&lt;script src=&quot;https://unpkg.com/cropperjs@2/dist/cropper.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+  window.addEventListener('DOMContentLoaded', function () {
+    const cropper = new Cropper.default('#image');
+
+    console.log(cropper);
+  });
+&lt;/script&gt;</code></pre>
   </div>
-  <script src="https://unpkg.com/cropperjs@2"></script>
+  <script src="https://unpkg.com/cropperjs@2/dist/cropper.js"></script>
   <script>
     window.addEventListener('DOMContentLoaded', function () {
       const cropper = new Cropper.default('#image');

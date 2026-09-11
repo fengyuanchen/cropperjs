@@ -25,6 +25,17 @@
   <div class="container">
     <h1>Hello World (Module)</h1>
     <img id="image" src="/cropperjs/picture.jpg" alt="Picture">
+    <pre><code>&lt;img id="image" src="/cropperjs/picture.jpg" alt="Picture"&gt;
+
+&lt;script type=&quot;module&quot;&gt;
+  import Cropper from 'https://unpkg.com/cropperjs@2/dist/cropper.esm.js';
+
+  window.addEventListener('DOMContentLoaded', function () {
+    const cropper = new Cropper('#image');
+
+    console.log(cropper);
+  });
+&lt;/script&gt;</code></pre>
   </div>
   <script type="module">
     import Cropper from 'https://unpkg.com/cropperjs@2/dist/cropper.esm.js';
