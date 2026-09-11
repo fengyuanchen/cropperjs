@@ -110,6 +110,7 @@ export default defineConfig({
             text: 'Examples',
             items: [
               { text: 'Hello World', link: '/examples/hello-world.html', target: '_blank' },
+              { text: 'Hello World (Module)', link: '/examples/hello-world-module.html', target: '_blank' },
             ],
           },
           {
@@ -224,6 +225,7 @@ export default defineConfig({
             text: '示例',
             items: [
               { text: 'Hello World', link: '/examples/hello-world.html', target: '_blank' },
+              { text: 'Hello World (Module)', link: '/examples/hello-world-module.html', target: '_blank' },
             ],
           },
           {

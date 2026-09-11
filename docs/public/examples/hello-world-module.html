@@ -23,13 +23,14 @@
 </head>
 <body>
   <div class="container">
-    <h1>Hello World</h1>
+    <h1>Hello World (Module)</h1>
     <img id="image" src="/cropperjs/picture.jpg" alt="Picture">
   </div>
-  <script src="https://unpkg.com/cropperjs@2"></script>
-  <script>
+  <script type="module">
+    import Cropper from 'https://unpkg.com/cropperjs@2/dist/cropper.esm.js';
+
     window.addEventListener('DOMContentLoaded', function () {
-      const cropper = new Cropper.default('#image');
+      const cropper = new Cropper('#image');
 
       console.log(cropper);
     });
