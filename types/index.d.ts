@@ -3,6 +3,7 @@ declare namespace Cropper {
   export type DragMode = 'crop' | 'move' | 'none';
   export type ImageSmoothingQuality = 'low' | 'medium' | 'high';
   export type ViewMode = 0 | 1 | 2 | 3;
+  export type Preview = HTMLElement | HTMLElement[] | NodeListOf<HTMLElement> | string;
 
   export interface Data {
     x: number;
@@ -85,11 +86,11 @@ declare namespace Cropper {
     height?: number;
   }
 
-  interface CropperEvent<T extends EventTarget = EventTarget> extends CustomEvent {
-    currentTarget: T & { cropper: Cropper };
+  export interface CropperEvent<T extends EventTarget = EventTarget> extends CustomEvent<any> {
+    currentTarget: (T & { cropper: Cropper }) | null;
   }
 
-  export type ReadyEvent<T extends EventTarget> = CropperEvent<T>
+  export type ReadyEvent<T extends EventTarget = EventTarget> = CropperEvent<T>;
 
   export interface CropEvent<T extends EventTarget = EventTarget> extends CropperEvent<T> {
     detail: Data;
@@ -145,7 +146,7 @@ declare namespace Cropper {
     minCropBoxWidth?: number;
     modal?: boolean;
     movable?: boolean;
-    preview?: HTMLElement | HTMLElement[] | NodeListOf<HTMLElement> | string;
+    preview?: Preview;
     responsive?: boolean;
     restore?: boolean;
     rotatable?: boolean;
@@ -168,37 +169,37 @@ declare namespace Cropper {
 declare class Cropper {
   constructor(element: HTMLImageElement, options?: Cropper.Options<HTMLImageElement>);
   constructor(element: HTMLCanvasElement, options?: Cropper.Options<HTMLCanvasElement>);
-  clear(): Cropper;
-  crop(): Cropper;
-  destroy(): Cropper;
-  disable(): Cropper;
-  enable(): Cropper;
+  clear(): this;
+  crop(): this;
+  destroy(): this;
+  disable(): this;
+  enable(): this;
   getCanvasData(): Cropper.CanvasData;
   getContainerData(): Cropper.ContainerData;
   getCropBoxData(): Cropper.CropBoxData;
   getCroppedCanvas(options?: Cropper.GetCroppedCanvasOptions): HTMLCanvasElement;
   getData(rounded?: boolean): Cropper.Data;
   getImageData(): Cropper.ImageData;
-  move(offsetX: number, offsetY?: number): Cropper;
-  moveTo(x: number, y?: number): Cropper;
-  replace(url: string, hasSameSize?: boolean): Cropper;
-  reset(): Cropper;
-  rotate(degree: number): Cropper;
-  rotateTo(degree: number): Cropper;
-  scale(scaleX: number, scaleY?: number): Cropper;
-  scaleX(scaleX: number): Cropper;
-  scaleY(scaleY: number): Cropper;
-  setAspectRatio(aspectRatio: number): Cropper;
-  setCanvasData(data: Cropper.SetCanvasDataOptions): Cropper;
-  setCropBoxData(data: Cropper.SetCropBoxDataOptions): Cropper;
-  setData(data: Cropper.SetDataOptions): Cropper;
-  setDragMode(dragMode: Cropper.DragMode): Cropper;
-  zoom(ratio: number): Cropper;
-  zoomTo(ratio: number, pivot?: { x: number; y: number }): Cropper;
+  move(offsetX: number, offsetY?: number): this;
+  moveTo(x: number, y?: number): this;
+  replace(url: string, hasSameSize?: boolean): this;
+  reset(): this;
+  rotate(degree: number): this;
+  rotateTo(degree: number): this;
+  scale(scaleX: number, scaleY?: number): this;
+  scaleX(scaleX: number): this;
+  scaleY(scaleY: number): this;
+  setAspectRatio(aspectRatio: number): this;
+  setCanvasData(data: Cropper.SetCanvasDataOptions): this;
+  setCropBoxData(data: Cropper.SetCropBoxDataOptions): this;
+  setData(data: Cropper.SetDataOptions): this;
+  setDragMode(dragMode: Cropper.DragMode): this;
+  zoom(ratio: number): this;
+  zoomTo(ratio: number, pivot?: { x: number; y: number }): this;
   static create(element: HTMLImageElement, options?: Cropper.Options<HTMLImageElement>): Cropper;
   static create(element: HTMLCanvasElement, options?: Cropper.Options<HTMLCanvasElement>): Cropper;
-  static noConflict(): Cropper;
-  static setDefaults(options: Cropper.Options<EventTarget>): void;
+  static noConflict(): typeof Cropper;
+  static setDefaults(options: Partial<Cropper.Options<EventTarget>>): void;
 }
 
 declare module 'cropperjs' {

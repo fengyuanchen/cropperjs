@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Add the `Cropper.create` static method for creating a new `Cropper` instance without the `new` operator.
+- Improve TypeScript declarations.
 
 ## 1.6.3 (Aug 23, 2026)
 
