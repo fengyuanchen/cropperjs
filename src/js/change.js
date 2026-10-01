@@ -464,8 +464,19 @@ export default {
         offset = getOffset(this.cropper);
         left = pointer.startX - offset.left;
         top = pointer.startY - offset.top;
-        width = cropBoxData.minWidth;
-        height = cropBoxData.minHeight;
+
+        if (aspectRatio) {
+          width = Math.max(
+            Math.abs(range.x),
+            Math.abs(range.y) * aspectRatio,
+            cropBoxData.minWidth,
+            cropBoxData.minHeight * aspectRatio,
+          );
+          height = width / aspectRatio;
+        } else {
+          width = Math.max(Math.abs(range.x), cropBoxData.minWidth);
+          height = Math.max(Math.abs(range.y), cropBoxData.minHeight);
+        }
 
         if (range.x > 0) {
           action = range.y > 0 ? ACTION_SOUTH_EAST : ACTION_NORTH_EAST;
@@ -504,8 +515,10 @@ export default {
 
     // Override
     forEach(pointers, (p) => {
-      p.startX = p.endX;
-      p.startY = p.endY;
+      if (action !== ACTION_CROP) {
+        p.startX = p.endX;
+        p.startY = p.endY;
+      }
     });
   },
 };
