@@ -126,6 +126,11 @@ export default {
           action = ACTION_WEST;
           width = -width;
           left -= width;
+
+          if (width < cropBoxData.minWidth) {
+            width = cropBoxData.minWidth;
+            left = cropBoxData.left - width;
+          }
         }
 
         if (aspectRatio) {
@@ -150,6 +155,11 @@ export default {
           action = ACTION_SOUTH;
           height = -height;
           top -= height;
+
+          if (height < cropBoxData.minHeight) {
+            height = cropBoxData.minHeight;
+            top = bottom;
+          }
         }
 
         if (aspectRatio) {
@@ -174,6 +184,11 @@ export default {
           action = ACTION_EAST;
           width = -width;
           left -= width;
+
+          if (width < cropBoxData.minWidth) {
+            width = cropBoxData.minWidth;
+            left = right;
+          }
         }
 
         if (aspectRatio) {
@@ -197,6 +212,11 @@ export default {
           action = ACTION_NORTH;
           height = -height;
           top -= height;
+
+          if (height < cropBoxData.minHeight) {
+            height = cropBoxData.minHeight;
+            top = cropBoxData.top - height;
+          }
         }
 
         if (aspectRatio) {

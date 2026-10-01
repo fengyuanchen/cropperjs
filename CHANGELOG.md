@@ -4,6 +4,7 @@
 
 - Add the `Cropper.create` static method for creating a new `Cropper` instance without the `new` operator.
 - Improve TypeScript declarations.
+- Fix crop box jumps when resizing past the opposite edge with minimum dimensions set (#637).
 
 ## 1.6.3 (Aug 23, 2026)
 
