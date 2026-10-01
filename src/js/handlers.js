@@ -7,6 +7,7 @@ import {
   DRAG_MODE_CROP,
   DRAG_MODE_MOVE,
   DRAG_MODE_NONE,
+  EVENT_BLUR,
   EVENT_CROP_END,
   EVENT_CROP_MOVE,
   EVENT_CROP_START,
@@ -199,7 +200,11 @@ export default {
 
     const { action, pointers } = this;
 
-    if (event.changedTouches) {
+    if (event.type === EVENT_BLUR) {
+      Object.keys(pointers).forEach((pointerId) => {
+        delete pointers[pointerId];
+      });
+    } else if (event.changedTouches) {
       forEach(event.changedTouches, (touch) => {
         delete pointers[touch.identifier];
       });

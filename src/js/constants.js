@@ -42,6 +42,7 @@ export const EVENT_CROP_END = 'cropend';
 export const EVENT_CROP_MOVE = 'cropmove';
 export const EVENT_CROP_START = 'cropstart';
 export const EVENT_DBLCLICK = 'dblclick';
+export const EVENT_BLUR = 'blur';
 export const EVENT_TOUCH_START = IS_TOUCH_DEVICE ? 'touchstart' : 'mousedown';
 export const EVENT_TOUCH_MOVE = IS_TOUCH_DEVICE ? 'touchmove' : 'mousemove';
 export const EVENT_TOUCH_END = IS_TOUCH_DEVICE ? 'touchend touchcancel' : 'mouseup';

@@ -1,4 +1,5 @@
 import {
+  EVENT_BLUR,
   EVENT_CROP,
   EVENT_CROP_END,
   EVENT_CROP_MOVE,
@@ -64,6 +65,11 @@ export default {
       EVENT_POINTER_UP,
       (this.onCropEnd = this.cropEnd.bind(this)),
     );
+    addListener(
+      element.ownerDocument.defaultView,
+      EVENT_BLUR,
+      (this.onCropBlur = this.cropEnd.bind(this)),
+    );
 
     if (options.responsive) {
       addListener(window, EVENT_RESIZE, (this.onResize = this.resize.bind(this)));
@@ -108,6 +114,7 @@ export default {
 
     removeListener(element.ownerDocument, EVENT_POINTER_MOVE, this.onCropMove);
     removeListener(element.ownerDocument, EVENT_POINTER_UP, this.onCropEnd);
+    removeListener(element.ownerDocument.defaultView, EVENT_BLUR, this.onCropBlur);
 
     if (options.responsive) {
       removeListener(window, EVENT_RESIZE, this.onResize);

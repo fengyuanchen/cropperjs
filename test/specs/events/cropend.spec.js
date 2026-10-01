@@ -44,4 +44,25 @@ describe('cropend (event)', () => {
 
     cropper = new Cropper(image);
   });
+
+  it('should end cropping when the window loses focus', (done) => {
+    const image = window.createImage();
+    let cropper;
+
+    image.addEventListener('ready', () => {
+      const { dragBox } = cropper;
+
+      dragBox.dispatchEvent(window.createEvent(POINTER_DOWN));
+      window.dispatchEvent(window.createEvent('blur'));
+      dragBox.dispatchEvent(window.createEvent(POINTER_MOVE));
+      expect(cropper.action).to.equal('');
+    });
+
+    image.addEventListener('cropend', (event) => {
+      expect(event.detail.originalEvent.type).to.equal('blur');
+      done();
+    });
+
+    cropper = new Cropper(image);
+  });
 });
