@@ -92,6 +92,8 @@ declare namespace Cropper {
 
   export type ReadyEvent<T extends EventTarget = EventTarget> = CropperEvent<T>;
 
+  export type ErrorEvent<T extends EventTarget = EventTarget> = CropperEvent<T>;
+
   export interface CropEvent<T extends EventTarget = EventTarget> extends CropperEvent<T> {
     detail: Data;
   }
@@ -157,6 +159,7 @@ declare namespace Cropper {
     zoomOnTouch?: boolean;
     zoomOnWheel?: boolean;
     zoomable?: boolean;
+    error?(event: ErrorEvent<T>): void;
     ready?(event: ReadyEvent<T>): void;
     crop?(event: CropEvent<T>): void;
     cropend?(event: CropEndEvent<T>): void;

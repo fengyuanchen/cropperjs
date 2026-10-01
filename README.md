@@ -442,6 +442,13 @@ The minimum height of the crop box.
 
 A shortcut to the `ready` event.
 
+### error
+
+- Type: `Function`
+- Default: `null`
+
+A shortcut to the `error` event.
+
 ### cropstart
 
 - Type: `Function`
@@ -962,6 +969,21 @@ let cropper;
 
 image.addEventListener('ready', function () {
   console.log(this.cropper === cropper);
+  // > true
+});
+
+cropper = new Cropper(image);
+```
+
+### error
+
+This event fires when the target image load failed.
+
+```js
+let cropper;
+
+image.addEventListener('error', function (event) {
+  console.log(event.target === image);
   // > true
 });
 

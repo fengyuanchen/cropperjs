@@ -5,6 +5,7 @@
 - Add the `Cropper.create` static method for creating a new `Cropper` instance without the `new` operator.
 - Improve TypeScript declarations.
 - Fix crop box creation after a diagonal drag begins with movement along only one axis (#1208).
+- Add the `error` event when the target image fails to load (#674).
 - End an active crop when the window loses focus, such as when releasing the mouse outside an iframe (#644).
 - Fix crop box jumps when resizing past the opposite edge with minimum dimensions set (#637).
 - Fix tiny negative offsets returned by `getData` due to floating-point errors (#373).

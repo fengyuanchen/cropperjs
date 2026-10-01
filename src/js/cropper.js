@@ -13,6 +13,7 @@ import {
   CLASS_INVISIBLE,
   CLASS_MOVE,
   DATA_ACTION,
+  EVENT_ERROR,
   EVENT_READY,
   MIME_TYPE_JPEG,
   NAMESPACE,
@@ -203,7 +204,7 @@ class Cropper {
   }
 
   clone() {
-    const { element, url } = this;
+    const { element, options, url } = this;
     let { crossOrigin } = element;
     let crossOriginUrl = url;
 
@@ -229,7 +230,16 @@ class Cropper {
     image.alt = element.alt || 'The image to crop';
     this.image = image;
     image.onload = this.start.bind(this);
-    image.onerror = this.stop.bind(this);
+    if (isFunction(options.error)) {
+      addListener(element, EVENT_ERROR, options.error, {
+        once: true,
+      });
+    }
+
+    image.onerror = (error) => {
+      dispatchEvent(element, EVENT_ERROR, error);
+      this.stop();
+    };
     addClass(image, CLASS_HIDE);
     element.parentNode.insertBefore(image, element.nextSibling);
   }

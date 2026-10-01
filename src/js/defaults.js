@@ -96,6 +96,7 @@ export default {
 
   // Shortcuts of events
   ready: null,
+  error: null,
   cropstart: null,
   cropmove: null,
   cropend: null,
