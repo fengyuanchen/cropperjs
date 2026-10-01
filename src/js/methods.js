@@ -401,7 +401,7 @@ export default {
       const ratio = imageData.width / imageData.naturalWidth;
 
       forEach(data, (n, i) => {
-        data[i] = n / ratio;
+        data[i] = normalizeDecimalNumber(n / ratio);
       });
 
       if (rounded) {

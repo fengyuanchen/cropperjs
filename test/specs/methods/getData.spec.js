@@ -63,6 +63,18 @@ describe('getData (method)', () => {
     });
   });
 
+  it('should normalize decimal errors in property values', (done) => {
+    const image = window.createImage();
+    const cropper = new Cropper(image, {
+      ready() {
+        cropper.canvasData.top = cropper.cropBoxData.top + 0.00000000000024;
+
+        expect(cropper.getData().y).to.equal(0);
+        done();
+      },
+    });
+  });
+
   it('should not exceed the natural width/height after rounded', (done) => {
     const image = window.createImage();
     const cropper = new Cropper(image, {

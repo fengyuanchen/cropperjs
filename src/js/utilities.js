@@ -138,7 +138,9 @@ const REGEXP_DECIMALS = /\.\d*(?:0|9){12}\d*$/;
  * @returns {number} Returns the normalized number.
  */
 export function normalizeDecimalNumber(value, times = 100000000000) {
-  return REGEXP_DECIMALS.test(value) ? (Math.round(value * times) / times) : value;
+  return Math.abs(value) < 1 / times || REGEXP_DECIMALS.test(value)
+    ? (Math.round(value * times) / times)
+    : value;
 }
 
 const REGEXP_SUFFIX = /^width|height|left|top|marginLeft|marginTop$/;

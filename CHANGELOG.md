@@ -6,6 +6,7 @@
 - Improve TypeScript declarations.
 - Fix crop box creation after a diagonal drag begins with movement along only one axis (#1208).
 - Fix crop box jumps when resizing past the opposite edge with minimum dimensions set (#637).
+- Fix tiny negative offsets returned by `getData` due to floating-point errors (#373).
 
 ## 1.6.3 (Aug 23, 2026)
 
