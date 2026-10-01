@@ -266,12 +266,6 @@ class Cropper {
       this.build();
     };
 
-    // Most modern browsers (excepts iOS WebKit)
-    if (image.naturalWidth && !isIOSWebKit) {
-      done(image.naturalWidth, image.naturalHeight);
-      return;
-    }
-
     const sizingImage = document.createElement('img');
     const body = document.body || document.documentElement;
 
@@ -297,6 +291,7 @@ class Cropper {
         + 'min-height:0!important;'
         + 'min-width:0!important;'
         + 'opacity:0;'
+        + 'image-orientation:0deg;'
         + 'position:absolute;'
         + 'top:0;'
         + 'z-index:-1;'

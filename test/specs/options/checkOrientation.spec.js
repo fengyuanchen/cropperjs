@@ -31,6 +31,26 @@ describe('checkOrientation (option)', () => {
     expect(cropper.options.checkOrientation).to.be.false;
   });
 
+  it('should use the unrotated image dimensions when image-orientation is none', (done) => {
+    const style = document.createElement('style');
+    const image = window.createImage({
+      src: imageURL,
+    });
+
+    style.textContent = 'img { image-orientation: none; }';
+    document.head.appendChild(style);
+
+    const cropper = new Cropper(image, {
+      ready() {
+        const imageData = cropper.getImageData();
+
+        expect(imageData.naturalWidth / imageData.naturalHeight).to.be.closeTo(4128 / 2322, 0.001);
+        style.remove();
+        done();
+      },
+    });
+  });
+
   it('should not check orientation when it is not rotatable and not scalable', () => {
     const image = window.createImage({
       src: imageURL,
