@@ -31,6 +31,29 @@ describe('getCroppedCanvas (method)', () => {
     });
   });
 
+  it('should use rounded crop data when requested', (done) => {
+    const image = window.createImage();
+    const cropper = new Cropper(image, {
+      ready() {
+        cropper.setData({
+          x: 10.4,
+          y: 20.6,
+          width: 100.4,
+          height: 80.6,
+        });
+
+        const data = cropper.getData(true);
+        const canvas = cropper.getCroppedCanvas({
+          rounded: true,
+        });
+
+        expect(canvas.width).to.equal(data.width);
+        expect(canvas.height).to.equal(data.height);
+        done();
+      },
+    });
+  });
+
   it('should match the given width', (done) => {
     const image = window.createImage();
     const cropper = new Cropper(image, {
