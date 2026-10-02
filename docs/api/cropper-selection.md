@@ -193,6 +193,25 @@ Set `zoomAroundCenter` property to `true` to zoom from the center of the selecti
 
 :::
 
+### Fixed Selection
+
+Keep the selection fixed while moving or scaling the image underneath it. Drag the image to reposition it, or use the mouse wheel to scale it.
+
+:::live-demo
+
+```html
+<cropper-canvas style="height: 320px;" background>
+  <cropper-image src="/cropperjs/picture.jpg" alt="Picture" scalable translatable></cropper-image>
+  <cropper-shade hidden></cropper-shade>
+  <cropper-handle action="move" plain></cropper-handle>
+  <cropper-selection initial-aspect-ratio="2" initial-coverage="0.5" outlined>
+    <cropper-handle action="move" theme-color="rgba(255, 255, 255, 0.35)"></cropper-handle>
+  </cropper-selection>
+</cropper-canvas>
+```
+
+:::
+
 ### Limit Boundaries
 
 <ClientOnly>

@@ -193,6 +193,25 @@
 
 :::
 
+### 固定选区
+
+移动或缩放图片时，选区保持不动。拖动图片可调整其位置，滚动鼠标滚轮可缩放图片。
+
+:::live-demo
+
+```html
+<cropper-canvas style="height: 320px;" background>
+  <cropper-image src="/cropperjs/picture.jpg" alt="Picture" scalable translatable></cropper-image>
+  <cropper-shade hidden></cropper-shade>
+  <cropper-handle action="move" plain></cropper-handle>
+  <cropper-selection initial-aspect-ratio="2" initial-coverage="0.5" outlined>
+    <cropper-handle action="move" theme-color="rgba(255, 255, 255, 0.35)"></cropper-handle>
+  </cropper-selection>
+</cropper-canvas>
+```
+
+:::
+
 ### 限制边界
 
 <ClientOnly>
