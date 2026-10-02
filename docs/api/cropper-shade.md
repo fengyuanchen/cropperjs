@@ -77,6 +77,7 @@ Inherits properties from its parent, [`CropperElement`](cropper-element.html), a
 | y | `number` | `0` | - | Indicates the y-axis coordinate of the element. |
 | width | `number` | `0` | - | Indicates the width of the element. |
 | height | `number` | `0` | - | Indicates the height of the element. |
+| borderRadius <Badge type="tip" text="^2.3.0" /> | `string` | `''` | - | Defines the border radius of the cut-out area. Synced from the selection automatically. |
 | slottable | `boolean` | `false` | - | Indicates whether this element is slottable. |
 | themeColor | `string` | `"rgba(0, 0, 0, 0.65)"` | - | Indicates the color of the shade. |
 

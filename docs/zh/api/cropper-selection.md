@@ -212,6 +212,35 @@
 
 :::
 
+### 圆角
+
+设置 `border-radius` 属性可为选区添加圆角，支持 CSS `border-radius` 语法，同时也会应用到 `$toCanvas()` 生成的 canvas。
+
+:::live-demo
+
+```html
+<cropper-canvas style="height: 320px;" background>
+  <cropper-image src="/cropperjs/picture.jpg" alt="Picture" scalable translatable></cropper-image>
+  <cropper-shade hidden></cropper-shade>
+  <cropper-handle action="move" plain></cropper-handle>
+  <cropper-selection aspect-ratio="1" initial-coverage="0.5" border-radius="50%" movable resizable zoomable outlined>
+    <cropper-grid role="grid" covered></cropper-grid>
+    <cropper-crosshair centered></cropper-crosshair>
+    <cropper-handle action="move" theme-color="rgba(255, 255, 255, 0.35)"></cropper-handle>
+    <cropper-handle action="n-resize"></cropper-handle>
+    <cropper-handle action="e-resize"></cropper-handle>
+    <cropper-handle action="s-resize"></cropper-handle>
+    <cropper-handle action="w-resize"></cropper-handle>
+    <cropper-handle action="ne-resize"></cropper-handle>
+    <cropper-handle action="nw-resize"></cropper-handle>
+    <cropper-handle action="se-resize"></cropper-handle>
+    <cropper-handle action="sw-resize"></cropper-handle>
+  </cropper-selection>
+</cropper-canvas>
+```
+
+:::
+
 ### 限制边界
 
 <ClientOnly>
@@ -233,6 +262,7 @@
 | width | `number` | `0` | - | 指示选区的宽度。 |
 | height | `number` | `0` | - | 指示选区的高度。 |
 | aspectRatio | `number` | `NaN` | - | 指示选区的纵横比，必须是正数。 |
+| borderRadius <Badge type="tip" text="^2.3.0" /> | `string` | `''` | - | 定义选区及导出 canvas 的圆角，支持 CSS `border-radius` 语法（如 `10px`、`25%`、`10% 20% 30% 40%`、`10% 20% / 30% 40%`）。输出 canvas 尺寸变化时，像素值会等比缩放。 |
 | initialAspectRatio | `number` | `NaN` | - | 指示选区的初始长宽比，必须一个正数。 |
 | initialCoverage | `number` | `NaN` | - | 指示选区的初始覆盖范围，必须是在 `0` （0％）和 `1` （100%）之间的正数。 |
 | dynamic | `boolean` | `false` | - | 指示此选区是否是动态的，以及是否随着图像的变化而变化。 |

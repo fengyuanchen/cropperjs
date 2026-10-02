@@ -42,6 +42,8 @@ export default class CropperShade extends CropperElement {
 
   height = 0;
 
+  borderRadius = '';
+
   slottable = false;
 
   themeColor = 'rgba(0, 0, 0, 0.65)';
@@ -56,11 +58,26 @@ export default class CropperShade extends CropperElement {
 
   protected static get observedAttributes(): string[] {
     return super.observedAttributes.concat([
+      'border-radius',
       'height',
       'width',
       'x',
       'y',
     ]);
+  }
+
+  protected $propertyChangedCallback(name: string, oldValue: unknown, newValue: unknown): void {
+    if (Object.is(newValue, oldValue)) {
+      return;
+    }
+
+    super.$propertyChangedCallback(name, oldValue, newValue);
+
+    if (name === 'borderRadius') {
+      this.$nextTick(() => {
+        this.$render();
+      });
+    }
   }
 
   protected connectedCallback(): void {
@@ -77,6 +94,7 @@ export default class CropperShade extends CropperElement {
       );
 
       if ($selection) {
+        this.borderRadius = $selection.borderRadius;
         this.$onWindowResize = this.$render.bind(this);
         this.$onCanvasActionStart = (event) => {
           if ($selection.hidden && (event as CustomEvent).detail.action === ACTION_SELECT) {
@@ -100,6 +118,7 @@ export default class CropperShade extends CropperElement {
             height,
           } = event.defaultPrevented ? $selection : (event as CustomEvent).detail;
 
+          this.borderRadius = (event.target as CropperSelection).borderRadius;
           this.$change(x, y, width, height);
 
           if ($selection.hidden || (x === 0 && y === 0 && width === 0 && height === 0)) {
@@ -192,6 +211,7 @@ export default class CropperShade extends CropperElement {
       transform: `translate(${this.x}px, ${this.y}px)`,
       width: this.width,
       height: this.height,
+      borderRadius: this.borderRadius,
       outlineWidth: WINDOW.innerWidth * WINDOW.devicePixelRatio,
     });
   }

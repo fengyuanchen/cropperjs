@@ -239,6 +239,12 @@ export default class CropperViewer extends CropperElement {
     }
 
     this.$scale = scale;
+    styles.borderRadius = Number.isFinite(scale) && scale > 0
+      ? ($selection.borderRadius || '').replace(
+        /(-?\d*\.?\d+)px/g,
+        (_, value) => `${parseFloat(value) * scale}px`,
+      )
+      : $selection.borderRadius;
     this.$setStyles(styles);
 
     if (this.$sourceImage) {

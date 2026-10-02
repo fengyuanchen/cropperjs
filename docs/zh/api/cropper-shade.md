@@ -77,6 +77,7 @@
 | y | `number` | `0` | - | 指示元素的 y 轴坐标。 |
 | width | `number` | `0` | - | 指示元素的宽度。 |
 | height | `number` | `0` | - | 指示元素的高度。 |
+| borderRadius <Badge type="tip" text="^2.3.0" /> | `string` | `''` | - | 定义镂空区域的圆角，会自动与选区同步。 |
 | slottable | `boolean` | `false` | - | 指示此元素是否启用默认插槽。 |
 | themeColor | `string` | `"rgba(0, 0, 0, 0.65)"` | - | 指示此元素的颜色。 |
 

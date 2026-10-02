@@ -36,6 +36,70 @@ import style from './style';
 
 const canvasCache = new WeakMap();
 
+type Radius = [number, number];
+
+/**
+ * Converts a px or % length to pixels.
+ * @param {string} value The length.
+ * @param {number} base The base for percentages.
+ * @param {number} scale The scale for pixel values.
+ * @returns {number} The length in pixels.
+ */
+function toLength(value: string, base: number, scale: number): number {
+  const number = parseFloat(value);
+
+  if (Number.isNaN(number)) {
+    return 0;
+  }
+
+  return value.trim().endsWith('%') ? (number / 100) * base : number * scale;
+}
+
+/**
+ * Expands 1 to 4 values into top-left, top-right, bottom-right and bottom-left.
+ * @param {string[]} values The values.
+ * @returns {string[]} The four values.
+ */
+function expandCorners(values: string[]): string[] {
+  const [a, b = a, c = a, d = b] = values;
+
+  return [a, b, c, d];
+}
+
+/**
+ * Resolves a CSS `border-radius` value into pixel radii of the four corners.
+ * @param {string} value The border radius.
+ * @param {number} width The width of the box.
+ * @param {number} height The height of the box.
+ * @param {number} scale The scale for pixel values.
+ * @returns {Radius[]} The radii.
+ */
+function resolveBorderRadius(
+  value: string,
+  width: number,
+  height: number,
+  scale: number,
+): Radius[] {
+  const [horizontal, vertical = horizontal] = value.split('/').map((part) => {
+    const values = part.trim().split(/\s+/).filter(Boolean).slice(0, 4);
+
+    return values.length > 0 ? values : ['0'];
+  });
+  const xs = expandCorners(horizontal).map((item) => toLength(item, width, scale));
+  const ys = expandCorners(vertical).map((item) => toLength(item, height, scale));
+  const radii = xs.map((x, i) => [Math.max(x, 0), Math.max(ys[i], 0)] as Radius);
+  const [tl, tr, br, bl] = radii;
+  const ratio = Math.min(
+    1,
+    width / (tl[0] + tr[0] || 1),
+    width / (bl[0] + br[0] || 1),
+    height / (tl[1] + bl[1] || 1),
+    height / (tr[1] + br[1] || 1),
+  );
+
+  return ratio < 1 ? radii.map(([x, y]) => [x * ratio, y * ratio] as Radius) : radii;
+}
+
 export interface Selection {
   x: number;
   y: number;
@@ -83,6 +147,8 @@ export default class CropperSelection extends CropperElement {
 
   aspectRatio = NaN;
 
+  borderRadius = '';
+
   initialAspectRatio = NaN;
 
   initialCoverage = NaN;
@@ -124,6 +190,7 @@ export default class CropperSelection extends CropperElement {
     return super.observedAttributes.concat([
       'active',
       'aspect-ratio',
+      'border-radius',
       'dynamic',
       'height',
       'initial-aspect-ratio',
@@ -152,6 +219,20 @@ export default class CropperSelection extends CropperElement {
     super.$propertyChangedCallback(name, oldValue, newValue);
 
     switch (name) {
+      case 'borderRadius':
+        this.$nextTick(() => {
+          this.$render();
+
+          // Lets the shade follow the new border radius
+          this.$emit(EVENT_CHANGE, {
+            x: this.x,
+            y: this.y,
+            width: this.width,
+            height: this.height,
+          });
+        });
+        break;
+
       case 'x':
       case 'y':
       case 'width':
@@ -1048,6 +1129,7 @@ export default class CropperSelection extends CropperElement {
       transform: `translate(${this.x}px, ${this.y}px)`,
       width: this.width,
       height: this.height,
+      borderRadius: this.borderRadius,
     });
   }
 
@@ -1133,6 +1215,26 @@ export default class CropperSelection extends CropperElement {
           }
 
           context.save();
+
+          const radii = resolveBorderRadius(this.borderRadius, width, height, scale);
+
+          if (radii.some(([rx, ry]) => rx > 0 && ry > 0)) {
+            const [[tlx, tly], [trx, tryy], [brx, bry], [blx, bly]] = radii;
+            const half = Math.PI / 2;
+
+            context.beginPath();
+            context.moveTo(tlx, 0);
+            context.lineTo(width - trx, 0);
+            context.ellipse(width - trx, tryy, trx, tryy, 0, -half, 0);
+            context.lineTo(width, height - bry);
+            context.ellipse(width - brx, height - bry, brx, bry, 0, 0, half);
+            context.lineTo(blx, height);
+            context.ellipse(blx, height - bly, blx, bly, 0, half, Math.PI);
+            context.lineTo(0, tly);
+            context.ellipse(tlx, tly, tlx, tly, 0, Math.PI, Math.PI + half);
+            context.closePath();
+            context.clip();
+          }
 
           // Move the transform origin to the center of the image.
           // https://developer.mozilla.org/en-US/docs/Web/CSS/transform-origin
