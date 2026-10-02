@@ -112,6 +112,7 @@ export default defineConfig({
               { text: 'Hello World', link: '/examples/hello-world.html', target: '_blank' },
               { text: 'Hello World (Module)', link: '/examples/hello-world-module.html', target: '_blank' },
               { text: 'Apply an image filter', link: '/examples/apply-an-image-filter.html', target: '_blank' },
+              { text: 'Add a watermark', link: '/examples/add-a-watermark.html', target: '_blank' },
             ],
           },
           {
@@ -228,6 +229,7 @@ export default defineConfig({
               { text: 'Hello World', link: '/examples/hello-world.html', target: '_blank' },
               { text: 'Hello World (Module)', link: '/examples/hello-world-module.html', target: '_blank' },
               { text: '应用图像滤镜', link: '/examples/apply-an-image-filter.html', target: '_blank' },
+              { text: '添加水印', link: '/examples/add-a-watermark.html', target: '_blank' },
             ],
           },
           {
