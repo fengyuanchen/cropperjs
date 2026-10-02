@@ -83,6 +83,9 @@ export default {
   // Enable to resize the crop box
   cropBoxResizable: true,
 
+  // Keep the center of the crop box fixed when resizing
+  cropBoxResizeAroundCenter: false,
+
   // Toggle drag mode between "crop" and "move" when click twice on the cropper
   toggleDragModeOnDblclick: true,
 

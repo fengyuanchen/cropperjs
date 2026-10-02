@@ -5,6 +5,7 @@
 - Add the `Cropper.create` static method for creating a new `Cropper` instance without the `new` operator.
 - Improve TypeScript declarations.
 - Fix crop box creation after a diagonal drag begins with movement along only one axis (#1208).
+- Add the `cropBoxResizeAroundCenter` option to resize the crop box around its center (#748).
 - Fix squished images with EXIF rotation when `image-orientation: none` is set (#685).
 - Add the `error` event when the target image fails to load (#674).
 - Add the `beforeDraw` option to the `getCroppedCanvas` method for applying canvas filters or custom drawing before the cropped image is rendered (#652).

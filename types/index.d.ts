@@ -136,6 +136,7 @@ declare namespace Cropper {
     checkOrientation?: boolean;
     cropBoxMovable?: boolean;
     cropBoxResizable?: boolean;
+    cropBoxResizeAroundCenter?: boolean;
     data?: SetDataOptions;
     dragMode?: DragMode;
     guides?: boolean;

@@ -380,6 +380,13 @@ Enable to move the crop box by dragging.
 
 Enable to resize the crop box by dragging.
 
+### cropBoxResizeAroundCenter
+
+- Type: `Boolean`
+- Default: `false`
+
+Keep the center of the crop box fixed when resizing it by dragging.
+
 ### toggleDragModeOnDblclick
 
 - Type: `Boolean`
