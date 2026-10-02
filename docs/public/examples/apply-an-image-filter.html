@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Apply an image filter | Cropper.js</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github.min.css">
+  <style>
+    .container {
+      margin: 20px auto;
+      max-width: 640px;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    cropper-canvas {
+      height: 360px;
+    }
+
+    #result img {
+      display: block;
+    }
+
+    pre code {
+      border: 1px solid #e2e2e3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Apply an image filter</h1>
+    <h2>Image</h2>
+    <img id="image" src="/cropperjs/picture.jpg" alt="Picture">
+    <h2>Result</h2>
+    <p><button type="button" id="button">Crop with grayscale filter</button></p>
+    <div id="result"></div>
+    <h2>Source Code</h2>
+    <pre><code class="language-html">&lt;img id="image" src="/cropperjs/picture.jpg" alt="Picture"&gt;
+
+&lt;script src="https://unpkg.com/cropperjs@2/dist/cropper.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  window.addEventListener('DOMContentLoaded', function () {
+    const cropper = new Cropper.default('#image');
+    const button = document.getElementById('button');
+    const result = document.getElementById('result');
+
+    button.addEventListener('click', async function () {
+      const selection = cropper.getCropperSelection();
+
+      if (!selection) {
+        return;
+      }
+
+      const croppedCanvas = await selection.$toCanvas({
+        beforeDraw: function (context) {
+          context.filter = 'grayscale(100%)';
+        },
+      });
+      const croppedImage = document.createElement('img');
+
+      croppedImage.src = croppedCanvas.toDataURL();
+      result.replaceChildren(croppedImage);
+    });
+  });
+&lt;/script&gt;</code></pre>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+  <script src="https://unpkg.com/cropperjs@2/dist/cropper.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      hljs.highlightElement(document.querySelector('pre code'));
+
+      const cropper = new Cropper.default('#image');
+      const button = document.getElementById('button');
+      const result = document.getElementById('result');
+
+      button.addEventListener('click', async function () {
+        const selection = cropper.getCropperSelection();
+
+        if (!selection) {
+          return;
+        }
+
+        const croppedCanvas = await selection.$toCanvas({
+          beforeDraw: function (context) {
+            context.filter = 'grayscale(100%)';
+          },
+        });
+        const croppedImage = document.createElement('img');
+
+        croppedImage.src = croppedCanvas.toDataURL();
+        result.replaceChildren(croppedImage);
+      });
+    });
+  </script>
+</body>
+</html>
