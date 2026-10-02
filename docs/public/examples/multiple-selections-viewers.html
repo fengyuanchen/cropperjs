@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Cropper.js - Multiple Selections and Viewers</title>
+  <style>
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+    }
+
+    .layout {
+      display: flex;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    .cropper-pane {
+      flex: 0 0 80%;
+      min-width: 0;
+    }
+
+    .cropper-pane cropper-canvas {
+      height: 100%;
+      width: 100%;
+    }
+
+    .viewer-pane {
+      background: #f6f6f7;
+      border-left: 1px solid #e2e2e3;
+      box-sizing: border-box;
+      flex: 0 0 20%;
+      overflow-y: auto;
+      padding: 12px;
+    }
+
+    .viewer-pane h2 {
+      font: 600 14px/1.4 sans-serif;
+      margin: 0 0 12px;
+    }
+
+    .viewer-item {
+      margin-bottom: 12px;
+    }
+
+    .viewer-item {
+      border: 2px solid transparent;
+      border-radius: 4px;
+      cursor: pointer;
+      padding: 2px;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .viewer-item.active {
+      border-color: #3c8cff;
+      box-shadow: 0 0 0 3px rgba(60, 140, 255, 0.25);
+    }
+
+    .viewer-item cropper-viewer {
+      background: #fff;
+      border: 1px solid #e2e2e3;
+      box-sizing: border-box;
+      display: block;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <div class="cropper-pane">
+      <cropper-canvas background>
+        <cropper-image src="/cropperjs/picture.jpg" alt="Picture" rotatable scalable skewable translatable></cropper-image>
+        <cropper-shade hidden></cropper-shade>
+        <cropper-handle action="select" plain></cropper-handle>
+        <cropper-selection id="selection-0" multiple hidden movable resizable keyboard>
+          <cropper-grid role="grid" bordered covered></cropper-grid>
+          <cropper-crosshair centered></cropper-crosshair>
+          <cropper-handle action="move" theme-color="rgba(255, 255, 255, 0.35)"></cropper-handle>
+          <cropper-handle action="n-resize"></cropper-handle>
+          <cropper-handle action="e-resize"></cropper-handle>
+          <cropper-handle action="s-resize"></cropper-handle>
+          <cropper-handle action="w-resize"></cropper-handle>
+          <cropper-handle action="ne-resize"></cropper-handle>
+          <cropper-handle action="nw-resize"></cropper-handle>
+          <cropper-handle action="se-resize"></cropper-handle>
+          <cropper-handle action="sw-resize"></cropper-handle>
+        </cropper-selection>
+      </cropper-canvas>
+    </div>
+    <div class="viewer-pane" id="viewers">
+      <h2>Previews</h2>
+    </div>
+  </div>
+  <script src="https://unpkg.com/cropperjs@2/dist/cropper.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      const canvas = document.querySelector('cropper-canvas');
+      const pane = document.getElementById('viewers');
+      const items = new Map();
+      let uid = 0;
+
+      function sync() {
+        const selections = Array.from(canvas.querySelectorAll('cropper-selection'));
+
+        selections.forEach(function (selection) {
+          if (selection.hidden || items.has(selection)) {
+            return;
+          }
+
+          if (!selection.id) {
+            uid += 1;
+            selection.id = 'selection-' + uid;
+          }
+
+          const item = document.createElement('div');
+          const viewer = document.createElement('cropper-viewer');
+
+          item.className = 'viewer-item';
+          item.addEventListener('click', function () {
+            items.forEach(function (_, other) {
+              other.active = other === selection;
+            });
+            // Shade follows the `change` event bubbling up to the canvas
+            selection.$emit('change', {
+              x: selection.x,
+              y: selection.y,
+              width: selection.width,
+              height: selection.height,
+            });
+          });
+          viewer.setAttribute('selection', '#' + selection.id);
+          item.appendChild(viewer);
+          pane.appendChild(item);
+          items.set(selection, item);
+        });
+
+        items.forEach(function (item, selection) {
+          if (!selections.includes(selection)) {
+            item.remove();
+            items.delete(selection);
+            return;
+          }
+
+          const wasActive = item.classList.contains('active');
+
+          item.classList.toggle('active', selection.active);
+
+          if (selection.active && !wasActive) {
+            item.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+          }
+        });
+      }
+
+      new MutationObserver(sync).observe(canvas, {
+        attributes: true,
+        attributeFilter: ['hidden', 'active'],
+        childList: true,
+        subtree: true,
+      });
+      sync();
+    });
+  </script>
+</body>
+</html>
