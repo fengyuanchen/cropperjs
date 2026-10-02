@@ -71,6 +71,8 @@ export default class CropperSelection extends CropperElement {
     height: 0,
   };
 
+  private $resizingAroundCenter = false;
+
   x = 0;
 
   y = 0;
@@ -95,6 +97,8 @@ export default class CropperSelection extends CropperElement {
   movable = false;
 
   resizable = false;
+
+  resizeAroundCenter = false;
 
   zoomable = false;
 
@@ -129,6 +133,7 @@ export default class CropperSelection extends CropperElement {
       'outlined',
       'precise',
       'resizable',
+      'resize-around-center',
       'width',
       'x',
       'y',
@@ -853,7 +858,15 @@ export default class CropperSelection extends CropperElement {
       ($canvas as any).$setAction(action);
     }
 
-    return this.$change(x, y, width, height);
+    const previousResizingAroundCenter = this.$resizingAroundCenter;
+
+    this.$resizingAroundCenter = this.resizeAroundCenter || previousResizingAroundCenter;
+
+    try {
+      return this.$change(x, y, width, height);
+    } finally {
+      this.$resizingAroundCenter = previousResizingAroundCenter;
+    }
   }
 
   /**
@@ -926,11 +939,27 @@ export default class CropperSelection extends CropperElement {
       ({ width, height } = getAdjustedSizes({ aspectRatio, width, height }, 'cover'));
     }
 
-    if (!this.precise) {
-      x = Math.round(x);
-      y = Math.round(y);
+    if (this.$resizingAroundCenter) {
+      if (!this.precise) {
+        width = Math.round(width);
+        height = Math.round(height);
+
+        if ((width - this.width) % 2 !== 0) {
+          width += width < this.width ? -1 : 1;
+        }
+
+        if ((height - this.height) % 2 !== 0) {
+          height += height < this.height ? -1 : 1;
+        }
+      }
+
+      x = this.x + (this.width - width) / 2;
+      y = this.y + (this.height - height) / 2;
+    } else if (!this.precise) {
       width = Math.round(width);
       height = Math.round(height);
+      x = Math.round(x);
+      y = Math.round(y);
     }
 
     if (

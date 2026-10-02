@@ -167,6 +167,21 @@ describe('CropperSelection', () => {
       });
     });
 
+    describe('resizeAroundCenter', () => {
+      it('should be `false` by default', () => {
+        const element = new CropperSelection();
+
+        expect(element.resizeAroundCenter).toBe(false);
+      });
+
+      it('should be `true`', () => {
+        const element = new CropperSelection();
+
+        element.setAttribute('resize-around-center', '');
+        expect(element.resizeAroundCenter).toBe(true);
+      });
+    });
+
     describe('zoomable', () => {
       it('should be `false` by default', () => {
         const element = new CropperSelection();
@@ -382,6 +397,42 @@ describe('CropperSelection', () => {
         expect(element.y).toBe(0);
         expect(element.width).toBe(0);
         expect(element.height).toBe(0);
+      });
+
+      it('should keep the center when resizing around it', () => {
+        const element = new CropperSelection();
+
+        element.x = 10;
+        element.y = 20;
+        element.width = 100;
+        element.height = 50;
+        element.resizable = true;
+        element.resizeAroundCenter = true;
+        for (let count = 0; count < 3; count += 1) {
+          element.$resize(ACTION_RESIZE_SOUTHEAST, 1, 1);
+
+          expect(Number.isInteger(element.x)).toBe(true);
+          expect(Number.isInteger(element.y)).toBe(true);
+          expect(element.x + element.width / 2).toBe(60);
+          expect(element.y + element.height / 2).toBe(45);
+        }
+      });
+
+      it('should preserve precise dimensions when resizing around the center', () => {
+        const element = new CropperSelection();
+
+        element.x = 10;
+        element.y = 20;
+        element.width = 100;
+        element.height = 50;
+        element.resizable = true;
+        element.resizeAroundCenter = true;
+        element.precise = true;
+        element.$resize(ACTION_RESIZE_EAST, 0.5, 0);
+
+        expect(element.width).toBe(100.5);
+        expect(element.x + element.width / 2).toBe(60);
+        expect(element.y + element.height / 2).toBe(45);
       });
 
       describe(ACTION_RESIZE_NORTH, () => {

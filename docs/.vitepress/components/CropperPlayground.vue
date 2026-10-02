@@ -989,6 +989,15 @@
             >
           </li>
           <li>
+            <label for="selectionResizeAroundCenter">resize-around-center</label>
+            <input
+              id="selectionResizeAroundCenter"
+              v-model="selection.resizeAroundCenter"
+              type="checkbox"
+              name="resizeAroundCenter"
+            >
+          </li>
+          <li>
             <label for="selectionZoomable">zoomable</label>
             <input
               id="selectionZoomable"
@@ -1679,6 +1688,7 @@
           :initial-aspect-ratio="selection.initialAspectRatio"
           :movable="selection.movable"
           :resizable="selection.resizable"
+          :resize-around-center="selection.resizeAroundCenter"
           :zoomable="selection.zoomable"
           :multiple="selection.multiple"
           :keyboard="selection.keyboard"
@@ -1895,6 +1905,7 @@ export default {
         dynamic: false,
         movable: true,
         resizable: true,
+        resizeAroundCenter: false,
         zoomable: false,
         multiple: false,
         keyboard: false,

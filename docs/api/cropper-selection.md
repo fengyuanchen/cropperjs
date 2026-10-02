@@ -148,6 +148,33 @@ Set the `multiple` property to `true` to support multiple selections on the same
 
 :::
 
+### Resize Around Center
+
+Set `resizeAroundCenter` property to `true` to keep the selection centered while resizing.
+
+:::live-demo
+
+```html
+<cropper-canvas style="height: 320px;" background>
+  <cropper-image src="/cropperjs/picture.jpg" alt="Picture" scalable translatable></cropper-image>
+  <cropper-shade hidden></cropper-shade>
+  <cropper-selection initial-coverage="0.5" resizable resize-around-center outlined>
+    <cropper-grid role="grid" covered></cropper-grid>
+    <cropper-crosshair centered></cropper-crosshair>
+    <cropper-handle action="n-resize"></cropper-handle>
+    <cropper-handle action="e-resize"></cropper-handle>
+    <cropper-handle action="s-resize"></cropper-handle>
+    <cropper-handle action="w-resize"></cropper-handle>
+    <cropper-handle action="ne-resize"></cropper-handle>
+    <cropper-handle action="nw-resize"></cropper-handle>
+    <cropper-handle action="se-resize"></cropper-handle>
+    <cropper-handle action="sw-resize"></cropper-handle>
+  </cropper-selection>
+</cropper-canvas>
+```
+
+:::
+
 ### Set Zoom Origin
 
 <ClientOnly>
@@ -184,6 +211,7 @@ Inherits properties from its parent, [`CropperElement`](cropper-element.html), a
 | dynamic | `boolean` | `false` | - | Indicates whether this selection is dynamic and changes as the image changes. |
 | movable | `boolean` | `false` | - | Indicates whether this element is movable. |
 | resizable | `boolean` | `false` | - | Indicates whether this element is resizable. |
+| resizeAroundCenter <Badge type="tip" text="^2.3.0" /> | `boolean` | `false` | - | Indicates whether to keep the selection centered when resizing. |
 | zoomable | `boolean` | `false` | - | Indicates whether this element is zoomable. |
 | multiple | `boolean` | `false` | - | Indicates whether multiple selections is supported. |
 | keyboard | `boolean` | `false` | - | Indicates whether keyboard control is supported. |

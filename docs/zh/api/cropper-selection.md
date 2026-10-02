@@ -148,6 +148,33 @@
 
 :::
 
+### 围绕中心调整大小
+
+将 `resizeAroundCenter` 属性设置为 `true`，调整大小时选区中心保持不变。
+
+:::live-demo
+
+```html
+<cropper-canvas style="height: 320px;" background>
+  <cropper-image src="/cropperjs/picture.jpg" alt="Picture" scalable translatable></cropper-image>
+  <cropper-shade hidden></cropper-shade>
+  <cropper-selection initial-coverage="0.5" resizable resize-around-center outlined>
+    <cropper-grid role="grid" covered></cropper-grid>
+    <cropper-crosshair centered></cropper-crosshair>
+    <cropper-handle action="n-resize"></cropper-handle>
+    <cropper-handle action="e-resize"></cropper-handle>
+    <cropper-handle action="s-resize"></cropper-handle>
+    <cropper-handle action="w-resize"></cropper-handle>
+    <cropper-handle action="ne-resize"></cropper-handle>
+    <cropper-handle action="nw-resize"></cropper-handle>
+    <cropper-handle action="se-resize"></cropper-handle>
+    <cropper-handle action="sw-resize"></cropper-handle>
+  </cropper-selection>
+</cropper-canvas>
+```
+
+:::
+
 ### 设置缩放原点
 
 <ClientOnly>
@@ -184,6 +211,7 @@
 | dynamic | `boolean` | `false` | - | 指示此选区是否是动态的，以及是否随着图像的变化而变化。 |
 | movable | `boolean` | `false` | - | 指示此元素是否可移动。 |
 | resizable | `boolean` | `false` | - | 指示此元素是否可调整大小。 |
+| resizeAroundCenter <Badge type="tip" text="^2.3.0" /> | `boolean` | `false` | - | 指示调整选区大小时是否保持中心位置不变。 |
 | zoomable | `boolean` | `false` | - | 指示此元素是否可缩放。 |
 | multiple | `boolean` | `false` | - | 指示是否支持多选区。 |
 | keyboard | `boolean` | `false` | - | 指示是否支持键盘控制。 |
