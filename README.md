@@ -835,6 +835,7 @@ Change the crop box position and size with new data.
     - [`imageSmoothingEnabled`](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/imageSmoothingEnabled): set to change if images are smoothed (`true`, default) or not (`false`).
     - [`imageSmoothingQuality`](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/imageSmoothingQuality): set the quality of image smoothing, one of "low" (default), "medium", or "high".
     - `rounded`: set `true` to use rounded values (the cropped area position and size data), the default value is `false`. Use this when repeatedly cropping an exported image to avoid pixel shifts.
+    - `beforeDraw`: a function called right before the image is drawn into the output canvas, with the canvas's 2D rendering context and the canvas element as its arguments. Use it to apply canvas filters (e.g., `context.filter = 'grayscale(100%)'`) or other custom drawing before the cropped image is rendered.
 
 - (return  value):
   - Type: `HTMLCanvasElement`
@@ -874,6 +875,12 @@ cropper.getCroppedCanvas({
   fillColor: '#fff',
   imageSmoothingEnabled: false,
   imageSmoothingQuality: 'high',
+});
+
+cropper.getCroppedCanvas({
+  beforeDraw: (context) => {
+    context.filter = 'grayscale(100%)';
+  },
 });
 
 // Upload cropped image to server if the browser supports `HTMLCanvasElement.toBlob`.

@@ -20,6 +20,7 @@ import {
   getOffset,
   getPointersCenter,
   getSourceCanvas,
+  isFunction,
   isNumber,
   isPlainObject,
   isUndefined,
@@ -702,6 +703,10 @@ export default {
 
     if (imageSmoothingQuality) {
       context.imageSmoothingQuality = imageSmoothingQuality;
+    }
+
+    if (isFunction(options.beforeDraw)) {
+      options.beforeDraw.call(this, context, canvas);
     }
 
     // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.drawImage

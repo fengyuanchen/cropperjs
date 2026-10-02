@@ -7,6 +7,7 @@
 - Fix crop box creation after a diagonal drag begins with movement along only one axis (#1208).
 - Fix squished images with EXIF rotation when `image-orientation: none` is set (#685).
 - Add the `error` event when the target image fails to load (#674).
+- Add the `beforeDraw` option to the `getCroppedCanvas` method for applying canvas filters or custom drawing before the cropped image is rendered (#652).
 - End an active crop when the window loses focus, such as when releasing the mouse outside an iframe (#644).
 - Fix crop box jumps when resizing past the opposite edge with minimum dimensions set (#637).
 - Fix tiny negative offsets returned by `getData` due to floating-point errors (#373).

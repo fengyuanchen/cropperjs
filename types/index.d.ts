@@ -60,6 +60,7 @@ declare namespace Cropper {
     fillColor?: string;
     imageSmoothingEnabled?: boolean;
     imageSmoothingQuality?: ImageSmoothingQuality;
+    beforeDraw?: (context: CanvasRenderingContext2D, canvas: HTMLCanvasElement) => void;
   }
 
   export interface SetDataOptions {

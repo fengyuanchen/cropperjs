@@ -215,4 +215,25 @@ describe('getCroppedCanvas (method)', () => {
       },
     });
   });
+
+  it('should call the given `beforeDraw` function before drawing the image', (done) => {
+    const image = window.createImage();
+    const cropper = new Cropper(image, {
+      ready() {
+        let calledContext = null;
+        let calledCanvas = null;
+        const canvas = cropper.getCroppedCanvas({
+          beforeDraw(context, targetCanvas) {
+            calledContext = context;
+            calledCanvas = targetCanvas;
+            context.filter = 'grayscale(100%)';
+          },
+        });
+
+        expect(calledContext).to.equal(canvas.getContext('2d'));
+        expect(calledCanvas).to.equal(canvas);
+        done();
+      },
+    });
+  });
 });
