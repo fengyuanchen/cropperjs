@@ -1,5 +1,6 @@
 import {
   ACTION_CROP,
+  ACTION_MOVE,
   ACTION_ZOOM,
   CLASS_CROP,
   CLASS_MODAL,
@@ -156,6 +157,11 @@ export default {
 
     this.action = action;
     this.cropping = false;
+    this.cropBoxDragStartData = null;
+    this.cropBoxDragStartAction = options.cropBoxMoveMode === 'dragStart'
+      && action !== ACTION_CROP
+      && action !== ACTION_MOVE
+      && action !== ACTION_ZOOM ? action : '';
 
     if (action === ACTION_CROP) {
       this.cropping = true;
@@ -220,6 +226,8 @@ export default {
 
     if (!Object.keys(pointers).length) {
       this.action = '';
+      this.cropBoxDragStartData = null;
+      this.cropBoxDragStartAction = '';
     }
 
     if (this.cropping) {

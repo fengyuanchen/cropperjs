@@ -1,6 +1,7 @@
 declare namespace Cropper {
   export type Action = 'crop' | 'move' | 'zoom' | 'e' | 's' | 'w' | 'n' | 'ne' | 'nw' | 'se' | 'sw' | 'all';
   export type DragMode = 'crop' | 'move' | 'none';
+  export type CropBoxMoveMode = 'cursor' | 'dragStart';
   export type ImageSmoothingQuality = 'low' | 'medium' | 'high';
   export type ViewMode = 0 | 1 | 2 | 3;
   export type Preview = HTMLElement | HTMLElement[] | NodeListOf<HTMLElement> | string;
@@ -135,6 +136,7 @@ declare namespace Cropper {
     checkCrossOrigin?: boolean;
     checkOrientation?: boolean;
     cropBoxMovable?: boolean;
+    cropBoxMoveMode?: CropBoxMoveMode;
     cropBoxResizable?: boolean;
     cropBoxResizeAroundCenter?: boolean;
     data?: SetDataOptions;

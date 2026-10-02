@@ -25,9 +25,9 @@
 
 ## Features
 
-- Supports 41 [options](#options)
+- Supports 43 [options](#options)
 - Supports 27 [methods](#methods)
-- Supports 6 [events](#events)
+- Supports 7 [events](#events)
 - Supports touch (mobile)
 - Supports zooming
 - Supports rotating
@@ -379,6 +379,15 @@ Define zoom ratio when zooming the image by mouse wheeling.
 - Default: `true`
 
 Enable to move the crop box by dragging.
+
+### cropBoxMoveMode
+
+- Type: `String`
+- Default: `'cursor'`
+- Options: `'cursor'`, `'dragStart'`
+
+Define the crop box movement mode. Set to `'dragStart'` to move and resize the crop box
+relative to the pointer's position when dragging starts.
 
 ### cropBoxResizable
 

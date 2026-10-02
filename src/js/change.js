@@ -130,8 +130,8 @@ export default {
       width,
       height,
     } = cropBoxData;
-    const right = left + width;
-    const bottom = top + height;
+    let right = left + width;
+    let bottom = top + height;
     let minLeft = 0;
     let minTop = 0;
     let maxWidth = containerData.width;
@@ -159,6 +159,36 @@ export default {
     }
 
     const pointer = pointers[Object.keys(pointers)[0]];
+    const isCropBoxDrag = options.cropBoxMoveMode === 'dragStart'
+      && this.cropBoxDragStartAction && [
+      ACTION_ALL,
+      ACTION_EAST,
+      ACTION_NORTH,
+      ACTION_SOUTH,
+      ACTION_WEST,
+      ACTION_NORTH_EAST,
+      ACTION_NORTH_WEST,
+      ACTION_SOUTH_EAST,
+      ACTION_SOUTH_WEST,
+    ].includes(action);
+
+    if (isCropBoxDrag) {
+      if (!this.cropBoxDragStartData) {
+        this.cropBoxDragStartData = { ...cropBoxData };
+      }
+
+      Object.assign(cropBoxData, this.cropBoxDragStartData);
+      ({
+        left,
+        top,
+        width,
+        height,
+      } = cropBoxData);
+      right = left + width;
+      bottom = top + height;
+      action = this.cropBoxDragStartAction;
+    }
+
     const range = {
       x: pointer.endX - pointer.startX,
       y: pointer.endY - pointer.startY,
@@ -188,10 +218,12 @@ export default {
       this.action = cropBox.action;
       this.renderCropBox();
 
-      forEach(pointers, (p) => {
-        p.startX = p.endX;
-        p.startY = p.endY;
-      });
+      if (!isCropBoxDrag) {
+        forEach(pointers, (p) => {
+          p.startX = p.endX;
+          p.startY = p.endY;
+        });
+      }
 
       return;
     }
@@ -641,7 +673,7 @@ export default {
 
     // Override
     forEach(pointers, (p) => {
-      if (action !== ACTION_CROP) {
+      if (action !== ACTION_CROP && !isCropBoxDrag) {
         p.startX = p.endX;
         p.startY = p.endY;
       }

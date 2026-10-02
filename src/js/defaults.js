@@ -83,6 +83,9 @@ export default {
   // Enable to move the crop box
   cropBoxMovable: true,
 
+  // Define the crop box movement mode
+  cropBoxMoveMode: 'cursor',
+
   // Enable to resize the crop box
   cropBoxResizable: true,
 
