@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Add the `Cropper.create` static method for creating a new `Cropper` instance without the `new` operator.
+- Add the `zoomAroundCenter` option to zoom around the center of the cropper.
 - Improve TypeScript declarations.
 - Fix crop box creation after a diagonal drag begins with movement along only one axis (#1208).
 - Add the `cropBoxResizeAroundCenter` option to resize the crop box around its center (#748).

@@ -240,7 +240,7 @@ export default {
    * @returns {Cropper} this
    */
   zoomTo(ratio, pivot, _originalEvent) {
-    const { options, canvasData } = this;
+    const { options, canvasData, containerData } = this;
     const {
       width,
       height,
@@ -262,7 +262,24 @@ export default {
         return this;
       }
 
-      if (_originalEvent) {
+      if (isPlainObject(pivot) && isNumber(pivot.x) && isNumber(pivot.y)) {
+        canvasData.left -= (newWidth - width) * (
+          (pivot.x - canvasData.left) / width
+        );
+        canvasData.top -= (newHeight - height) * (
+          (pivot.y - canvasData.top) / height
+        );
+      } else if (options.zoomAroundCenter) {
+        const centerX = containerData.width / 2;
+        const centerY = containerData.height / 2;
+
+        canvasData.left -= (newWidth - width) * (
+          (centerX - canvasData.left) / width
+        );
+        canvasData.top -= (newHeight - height) * (
+          (centerY - canvasData.top) / height
+        );
+      } else if (_originalEvent) {
         const { pointers } = this;
         const offset = getOffset(this.cropper);
         const center = pointers && Object.keys(pointers).length ? getPointersCenter(pointers) : {
@@ -276,13 +293,6 @@ export default {
         );
         canvasData.top -= (newHeight - height) * (
           ((center.pageY - offset.top) - canvasData.top) / height
-        );
-      } else if (isPlainObject(pivot) && isNumber(pivot.x) && isNumber(pivot.y)) {
-        canvasData.left -= (newWidth - width) * (
-          (pivot.x - canvasData.left) / width
-        );
-        canvasData.top -= (newHeight - height) * (
-          (pivot.y - canvasData.top) / height
         );
       } else {
         // Zoom from the center of the canvas

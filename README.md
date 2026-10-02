@@ -25,7 +25,7 @@
 
 ## Features
 
-- Supports 39 [options](#options)
+- Supports 41 [options](#options)
 - Supports 27 [methods](#methods)
 - Supports 6 [events](#events)
 - Supports touch (mobile)
@@ -358,6 +358,13 @@ Enable to zoom the image by dragging touch.
 - Default: `true`
 
 Enable to zoom the image by mouse wheeling.
+
+### zoomAroundCenter
+
+- Type: `Boolean`
+- Default: `false`
+
+Zoom around the center of the cropper instead of the triggering point. An explicit pivot passed to `zoomTo` takes precedence.
 
 ### wheelZoomRatio
 

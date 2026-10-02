@@ -157,6 +157,7 @@ declare namespace Cropper {
     scalable?: boolean;
     toggleDragModeOnDblclick?: boolean;
     viewMode?: ViewMode;
+    zoomAroundCenter?: boolean;
     wheelZoomRatio?: number;
     zoomOnTouch?: boolean;
     zoomOnWheel?: boolean;

@@ -74,6 +74,9 @@ export default {
   // Enable to zoom the image by wheeling mouse
   zoomOnWheel: true,
 
+  // Zoom the image around the center of the cropper
+  zoomAroundCenter: false,
+
   // Define zoom ratio when zooming the image by mouse wheel
   wheelZoomRatio: 0.1,
 
