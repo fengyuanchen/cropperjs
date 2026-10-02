@@ -19,6 +19,7 @@ import {
   getOffset,
   removeClass,
 } from './utilities';
+import { zoomWithEvent } from './methods';
 
 function resizeCropBoxFromCenter(action, range, aspectRatio, cropBoxData, bounds) {
   const centerX = cropBoxData.left + (cropBoxData.width / 2);
@@ -608,7 +609,7 @@ export default {
 
       // Zoom canvas
       case ACTION_ZOOM:
-        this.zoom(getMaxZoomRatio(pointers), event);
+        zoomWithEvent.call(this, getMaxZoomRatio(pointers), event);
         renderable = false;
         break;
 

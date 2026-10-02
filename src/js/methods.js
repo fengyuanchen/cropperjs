@@ -138,6 +138,98 @@ function drawRoundedRect(context, width, height, borderRadius, scale) {
   context.fill();
 }
 
+function zoomTo(ratio, pivot, originalEvent) {
+  const { options, canvasData, containerData } = this;
+  const {
+    width,
+    height,
+    naturalWidth,
+    naturalHeight,
+  } = canvasData;
+
+  ratio = Number(ratio);
+
+  if (ratio >= 0 && this.ready && !this.disabled && options.zoomable) {
+    const newWidth = naturalWidth * ratio;
+    const newHeight = naturalHeight * ratio;
+
+    if (dispatchEvent(this.element, EVENT_ZOOM, {
+      ratio,
+      oldRatio: width / naturalWidth,
+      originalEvent,
+    }) === false) {
+      return this;
+    }
+
+    if (isPlainObject(pivot) && isNumber(pivot.x) && isNumber(pivot.y)) {
+      canvasData.left -= (newWidth - width) * (
+        (pivot.x - canvasData.left) / width
+      );
+      canvasData.top -= (newHeight - height) * (
+        (pivot.y - canvasData.top) / height
+      );
+    } else if (options.zoomAroundCenter) {
+      const centerX = containerData.width / 2;
+      const centerY = containerData.height / 2;
+
+      canvasData.left -= (newWidth - width) * (
+        (centerX - canvasData.left) / width
+      );
+      canvasData.top -= (newHeight - height) * (
+        (centerY - canvasData.top) / height
+      );
+    } else if (originalEvent) {
+      const { pointers } = this;
+      const offset = getOffset(this.cropper);
+      const center = pointers && Object.keys(pointers).length ? getPointersCenter(pointers) : {
+        pageX: originalEvent.pageX,
+        pageY: originalEvent.pageY,
+      };
+
+      // Zoom from the triggering point of the event
+      canvasData.left -= (newWidth - width) * (
+        ((center.pageX - offset.left) - canvasData.left) / width
+      );
+      canvasData.top -= (newHeight - height) * (
+        ((center.pageY - offset.top) - canvasData.top) / height
+      );
+    } else {
+      // Zoom from the center of the canvas
+      canvasData.left -= (newWidth - width) / 2;
+      canvasData.top -= (newHeight - height) / 2;
+    }
+
+    canvasData.width = newWidth;
+    canvasData.height = newHeight;
+    this.renderCanvas(true);
+  }
+
+  return this;
+}
+
+function zoom(ratio, originalEvent) {
+  const { canvasData } = this;
+
+  ratio = Number(ratio);
+
+  if (ratio < 0) {
+    ratio = 1 / (1 - ratio);
+  } else {
+    ratio = 1 + ratio;
+  }
+
+  return zoomTo.call(
+    this,
+    (canvasData.width * ratio) / canvasData.naturalWidth,
+    null,
+    originalEvent,
+  );
+}
+
+export function zoomWithEvent(ratio, originalEvent) {
+  return zoom.call(this, ratio, originalEvent);
+}
+
 export default {
   // Show the crop box manually
   crop() {
@@ -323,97 +415,20 @@ export default {
   /**
    * Zoom the canvas with a relative ratio
    * @param {number} ratio - The target ratio.
-   * @param {Event} _originalEvent - The original event if any.
    * @returns {Cropper} this
    */
-  zoom(ratio, _originalEvent) {
-    const { canvasData } = this;
-
-    ratio = Number(ratio);
-
-    if (ratio < 0) {
-      ratio = 1 / (1 - ratio);
-    } else {
-      ratio = 1 + ratio;
-    }
-
-    return this.zoomTo((canvasData.width * ratio) / canvasData.naturalWidth, null, _originalEvent);
+  zoom(ratio) {
+    return zoom.call(this, ratio);
   },
 
   /**
    * Zoom the canvas to an absolute ratio
    * @param {number} ratio - The target ratio.
    * @param {Object} pivot - The zoom pivot point coordinate.
-   * @param {Event} _originalEvent - The original event if any.
    * @returns {Cropper} this
    */
-  zoomTo(ratio, pivot, _originalEvent) {
-    const { options, canvasData, containerData } = this;
-    const {
-      width,
-      height,
-      naturalWidth,
-      naturalHeight,
-    } = canvasData;
-
-    ratio = Number(ratio);
-
-    if (ratio >= 0 && this.ready && !this.disabled && options.zoomable) {
-      const newWidth = naturalWidth * ratio;
-      const newHeight = naturalHeight * ratio;
-
-      if (dispatchEvent(this.element, EVENT_ZOOM, {
-        ratio,
-        oldRatio: width / naturalWidth,
-        originalEvent: _originalEvent,
-      }) === false) {
-        return this;
-      }
-
-      if (isPlainObject(pivot) && isNumber(pivot.x) && isNumber(pivot.y)) {
-        canvasData.left -= (newWidth - width) * (
-          (pivot.x - canvasData.left) / width
-        );
-        canvasData.top -= (newHeight - height) * (
-          (pivot.y - canvasData.top) / height
-        );
-      } else if (options.zoomAroundCenter) {
-        const centerX = containerData.width / 2;
-        const centerY = containerData.height / 2;
-
-        canvasData.left -= (newWidth - width) * (
-          (centerX - canvasData.left) / width
-        );
-        canvasData.top -= (newHeight - height) * (
-          (centerY - canvasData.top) / height
-        );
-      } else if (_originalEvent) {
-        const { pointers } = this;
-        const offset = getOffset(this.cropper);
-        const center = pointers && Object.keys(pointers).length ? getPointersCenter(pointers) : {
-          pageX: _originalEvent.pageX,
-          pageY: _originalEvent.pageY,
-        };
-
-        // Zoom from the triggering point of the event
-        canvasData.left -= (newWidth - width) * (
-          ((center.pageX - offset.left) - canvasData.left) / width
-        );
-        canvasData.top -= (newHeight - height) * (
-          ((center.pageY - offset.top) - canvasData.top) / height
-        );
-      } else {
-        // Zoom from the center of the canvas
-        canvasData.left -= (newWidth - width) / 2;
-        canvasData.top -= (newHeight - height) / 2;
-      }
-
-      canvasData.width = newWidth;
-      canvasData.height = newHeight;
-      this.renderCanvas(true);
-    }
-
-    return this;
+  zoomTo(ratio, pivot) {
+    return zoomTo.call(this, ratio, pivot);
   },
 
   /**

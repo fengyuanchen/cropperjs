@@ -36,6 +36,29 @@ describe('zoom (event)', () => {
     cropper = new Cropper(image);
   });
 
+  it('should ignore arguments after the public method parameters', (done) => {
+    const image = window.createImage();
+    const originalEvent = {};
+    let cropper;
+    let count = 0;
+
+    image.addEventListener('ready', () => {
+      cropper.zoom(0.1, originalEvent);
+      cropper.zoomTo(1.2, null, originalEvent);
+    });
+
+    image.addEventListener('zoom', (event) => {
+      expect(event.detail.originalEvent).to.be.undefined;
+      count += 1;
+
+      if (count === 2) {
+        done();
+      }
+    });
+
+    cropper = new Cropper(image);
+  });
+
   it('should not change the canvas sizes when default prevented', (done) => {
     const image = window.createImage();
     let cropper;

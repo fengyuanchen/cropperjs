@@ -25,6 +25,7 @@ import {
   isNumber,
   toggleClass,
 } from './utilities';
+import { zoomWithEvent } from './methods';
 
 export default {
   resize() {
@@ -97,7 +98,7 @@ export default {
       delta = event.detail > 0 ? 1 : -1;
     }
 
-    this.zoom(-delta * ratio, event);
+    zoomWithEvent.call(this, -delta * ratio, event);
   },
 
   cropStart(event) {
