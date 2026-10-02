@@ -119,6 +119,15 @@
             >
           </li>
           <li>
+            <label for="imageZoomAroundCenter">zoom-around-center</label>
+            <input
+              id="imageZoomAroundCenter"
+              v-model="image.zoomAroundCenter"
+              type="checkbox"
+              name="zoomAroundCenter"
+            >
+          </li>
+          <li>
             <label for="imageSkewable">skewable</label>
             <input
               id="imageSkewable"
@@ -1665,6 +1674,7 @@
           :hidden="image.hidden"
           :rotatable="image.rotatable"
           :scalable="image.scalable"
+          :zoom-around-center="image.zoomAroundCenter"
           :skewable="image.skewable"
           :translatable="image.translatable"
           :initial-fit="image.initialFit"
@@ -1889,6 +1899,7 @@ export default {
         minFit: '',
         rotatable: true,
         scalable: true,
+        zoomAroundCenter: false,
         skewable: true,
         translatable: true,
         src: `${BASE_URL}picture.jpg`,

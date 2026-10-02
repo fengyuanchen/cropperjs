@@ -28,14 +28,19 @@
 
 :::
 
-### 设置缩放原点
+### 围绕中心缩放
 
-<ClientOnly>
-  <CropperImageZoomOriginExample />
-</ClientOnly>
+将 `zoomAroundCenter` 属性设置为 `true`，即可从图像中心缩放；否则以指针位置作为缩放原点。
 
-::: details
-<<< @/.vitepress/components/CropperImageZoomOriginExample.vue
+:::live-demo
+
+```html
+<cropper-canvas style="height: 320px;" background>
+  <cropper-image src="/cropperjs/picture.jpg" alt="Picture" scalable zoom-around-center></cropper-image>
+  <cropper-handle action="scale" plain></cropper-handle>
+</cropper-canvas>
+```
+
 :::
 
 ### 设置初始尺寸
@@ -82,6 +87,7 @@
 | skewable | `boolean` | `false` | - | 指示此元素是否可倾斜。 |
 | slottable | `boolean` | `false` | - | 指示此元素是否启用默认插槽。 |
 | translatable | `boolean` | `false` | - | 指示此元素是否可移动。 |
+| zoomAroundCenter <Badge type="tip" text="^2.3.0" /> | `boolean` | `false` | - | 指示是否以图像中心作为缩放原点。 |
 | initialCenterSize <Badge type="warning" text="deprecated" title="`initialCenterSize` 属性自 2.2.0 版本起已弃用，请改用 `initialFit`。" /> | `string` | `"contain"` | `"contain"`, `"cover"` | 指示此元素与其父元素的中心对齐时的初始大小。 |
 
 默认情况下，内置的 `<img>` 元素将继承以下属性：

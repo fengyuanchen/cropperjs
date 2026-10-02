@@ -28,14 +28,19 @@ The default width and height of this element is `0`.
 
 :::
 
-### Set Zoom Origin
+### Zoom Around Center
 
-<ClientOnly>
-  <CropperImageZoomOriginExample />
-</ClientOnly>
+Set `zoomAroundCenter` to `true` to zoom from the center of the image instead of the pointer.
 
-::: details
-<<< @/.vitepress/components/CropperImageZoomOriginExample.vue
+:::live-demo
+
+```html
+<cropper-canvas style="height: 320px;" background>
+  <cropper-image src="/cropperjs/picture.jpg" alt="Picture" scalable zoom-around-center></cropper-image>
+  <cropper-handle action="scale" plain></cropper-handle>
+</cropper-canvas>
+```
+
 :::
 
 ### Set Initial Fit
@@ -82,6 +87,7 @@ Inherits properties from its parent, [`CropperElement`](cropper-element.html), a
 | skewable | `boolean` | `false` | - | Indicates whether this element is skewable. |
 | slottable | `boolean` | `false` | - | Indicates whether this element is slottable. |
 | translatable | `boolean` | `false` | - | Indicates whether this element is translatable. |
+| zoomAroundCenter <Badge type="tip" text="^2.3.0" /> | `boolean` | `false` | - | Indicates whether to use the image center as the zoom origin. |
 | initialCenterSize <Badge type="warning" text="deprecated" title="The `initialCenterSize` property is deprecated since version 2.2.0, use `initialFit` instead." /> | `string` | `"contain"` | `"contain"`, `"cover"` | Indicates the initial size of this element when aligned with the center of its parent element. |
 
 The built-in `<img>` element will inherit the following attributes by default:

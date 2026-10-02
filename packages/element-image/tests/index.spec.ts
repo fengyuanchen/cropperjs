@@ -1,4 +1,4 @@
-import { EVENT_CHANGE, EVENT_TRANSFORM } from '@cropper/utils';
+import { ACTION_SCALE, EVENT_CHANGE, EVENT_TRANSFORM } from '@cropper/utils';
 import CropperCanvas from '@cropper/element-canvas';
 import CropperImage from '../src';
 
@@ -94,6 +94,21 @@ describe('CropperImage', () => {
       });
     });
 
+    describe('zoomAroundCenter', () => {
+      it('should be `false` by default', () => {
+        const element = new CropperImage();
+
+        expect(element.zoomAroundCenter).toBe(false);
+      });
+
+      it('should be `true`', () => {
+        const element = new CropperImage();
+
+        element.setAttribute('zoom-around-center', '');
+        expect(element.zoomAroundCenter).toBe(true);
+      });
+    });
+
     describe('skewable', () => {
       it('should be `false` by default', () => {
         const element = new CropperImage();
@@ -141,6 +156,53 @@ describe('CropperImage', () => {
   });
 
   describe('methods', () => {
+    describe('$handleAction', () => {
+      it('should zoom around the image center when enabled', () => {
+        const element = new CropperImage();
+        const relatedEvent = {
+          target: { closest: () => null },
+          clientX: 20,
+          clientY: 30,
+        };
+        const zoom = jest.spyOn(element, '$zoom');
+
+        element.scalable = true;
+        element.zoomAroundCenter = true;
+        (element as any).$handleAction({
+          defaultPrevented: false,
+          detail: {
+            action: ACTION_SCALE,
+            relatedEvent,
+            scale: 0.1,
+          },
+        });
+
+        expect(zoom).toHaveBeenCalledWith(0.1);
+      });
+
+      it('should zoom around the pointer by default', () => {
+        const element = new CropperImage();
+        const relatedEvent = {
+          target: { closest: () => null },
+          clientX: 20,
+          clientY: 30,
+        };
+        const zoom = jest.spyOn(element, '$zoom');
+
+        element.scalable = true;
+        (element as any).$handleAction({
+          defaultPrevented: false,
+          detail: {
+            action: ACTION_SCALE,
+            relatedEvent,
+            scale: 0.1,
+          },
+        });
+
+        expect(zoom).toHaveBeenCalledWith(0.1, 20, 30);
+      });
+    });
+
     describe('$move', () => {
       it('should move the image', () => {
         const element = new CropperImage();

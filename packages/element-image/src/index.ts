@@ -80,6 +80,8 @@ export default class CropperImage extends CropperElement {
 
   minFit = '';
 
+  zoomAroundCenter = false;
+
   rotatable = false;
 
   scalable = false;
@@ -129,6 +131,7 @@ export default class CropperImage extends CropperElement {
       'scalable',
       'skewable',
       'translatable',
+      'zoom-around-center',
     ]);
   }
 
@@ -351,13 +354,17 @@ export default class CropperImage extends CropperElement {
                 || !$selection.zoomable
                 || ($selection.zoomable && $selection.dynamic)
               ) {
-                const { x, y } = this.getBoundingClientRect();
+                if (this.zoomAroundCenter) {
+                  this.$zoom(detail.scale);
+                } else {
+                  const { x, y } = this.getBoundingClientRect();
 
-                this.$zoom(
-                  detail.scale,
-                  relatedEvent.clientX - x,
-                  relatedEvent.clientY - y,
-                );
+                  this.$zoom(
+                    detail.scale,
+                    relatedEvent.clientX - x,
+                    relatedEvent.clientY - y,
+                  );
+                }
               }
             } else {
               this.$zoom(detail.scale);

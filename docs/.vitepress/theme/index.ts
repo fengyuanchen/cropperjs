@@ -21,7 +21,6 @@ export default {
       import('../components/CropperImageExample.vue'),
       import('../components/CropperImageInitialFitExample.vue'),
       import('../components/CropperImageMaxFitAndMinFitExample.vue'),
-      import('../components/CropperImageZoomOriginExample.vue'),
       import('../components/CropperPlayground.vue'),
       import('../components/CropperPlaygroundContainer.vue'),
       import('../components/CropperSelectionExample.vue'),
