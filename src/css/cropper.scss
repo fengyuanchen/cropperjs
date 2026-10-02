@@ -51,6 +51,7 @@ $cropper-image-path: '../images' !default;
   }
 
   &-view-box {
+    border-radius: inherit;
     display: block;
     height: 100%;
     outline: 1px solid #39f;
@@ -128,6 +129,7 @@ $cropper-image-path: '../images' !default;
 
   &-face {
     background-color: #fff;
+    border-radius: inherit;
     left: 0;
     top: 0;
   }

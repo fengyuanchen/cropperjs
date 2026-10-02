@@ -157,6 +157,7 @@ declare namespace Cropper {
     restore?: boolean;
     rotatable?: boolean;
     scalable?: boolean;
+    borderRadius?: number | string;
     toggleDragModeOnDblclick?: boolean;
     viewMode?: ViewMode;
     zoomAroundCenter?: boolean;

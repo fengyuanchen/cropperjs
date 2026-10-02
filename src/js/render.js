@@ -485,6 +485,7 @@ export default {
     setStyle(this.cropBox, assign({
       width: cropBoxData.width,
       height: cropBoxData.height,
+      borderRadius: options.borderRadius,
     }, getTransforms({
       translateX: cropBoxData.left,
       translateY: cropBoxData.top,

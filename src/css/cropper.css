@@ -48,6 +48,7 @@
 }
 
 .cropper-view-box {
+  border-radius: inherit;
   display: block;
   height: 100%;
   outline: 1px solid #39f;
@@ -125,6 +126,7 @@
 
 .cropper-face {
   background-color: #fff;
+  border-radius: inherit;
   left: 0;
   top: 0;
 }

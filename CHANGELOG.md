@@ -6,6 +6,7 @@
 - Add the `zoomAroundCenter` option to zoom around the center of the cropper.
 - Improve TypeScript declarations.
 - Fix crop box creation after a diagonal drag begins with movement along only one axis (#1208).
+- Add the `borderRadius` option for rounded crop boxes and canvases (#1207).
 - Add the `cropBoxMoveMode` option to move and resize the crop box relative to the drag start point (#880).
 - Add the `cropBoxResizeAroundCenter` option to resize the crop box around its center (#748).
 - Fix squished images with EXIF rotation when `image-orientation: none` is set (#685).

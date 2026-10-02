@@ -17,6 +17,9 @@ export default {
   // Define the aspect ratio of the crop box
   aspectRatio: NaN,
 
+  // Define the border radius of the crop box
+  borderRadius: 0,
+
   // An object with the previous cropping result data
   data: null,
 

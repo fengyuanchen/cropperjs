@@ -30,6 +30,114 @@ import {
   toggleClass,
 } from './utilities';
 
+const BORDER_RADIUS_CORNER_FACTOR = 0.5522848;
+
+function expandBorderRadiusValues(values) {
+  if (values.length === 1) {
+    return [values[0], values[0], values[0], values[0]];
+  }
+
+  if (values.length === 2) {
+    return [values[0], values[1], values[0], values[1]];
+  }
+
+  if (values.length === 3) {
+    return [values[0], values[1], values[2], values[1]];
+  }
+
+  return values.slice(0, 4);
+}
+
+function parseBorderRadiusValues(value, size, scale) {
+  return value.trim().split(/\s+/).map((part) => {
+    const number = Number.parseFloat(part);
+
+    if (part.endsWith('%')) {
+      return (number * size) / 100;
+    }
+
+    return (number || 0) * scale;
+  });
+}
+
+function getBorderRadii(borderRadius, width, height, scale) {
+  const value = String(borderRadius || 0).trim();
+  const parts = value.split('/');
+  const horizontal = expandBorderRadiusValues(parseBorderRadiusValues(parts[0], width, scale));
+  const vertical = expandBorderRadiusValues(
+    parseBorderRadiusValues(parts[1] || parts[0], height, scale),
+  );
+  const radii = [
+    { x: horizontal[0], y: vertical[0] },
+    { x: horizontal[1], y: vertical[1] },
+    { x: horizontal[2], y: vertical[2] },
+    { x: horizontal[3], y: vertical[3] },
+  ];
+  const radiusScale = Math.min(
+    1,
+    width / (radii[0].x + radii[1].x || 1),
+    width / (radii[3].x + radii[2].x || 1),
+    height / (radii[0].y + radii[3].y || 1),
+    height / (radii[1].y + radii[2].y || 1),
+  );
+
+  return radii.map(({ x, y }) => ({
+    x: x * radiusScale,
+    y: y * radiusScale,
+  }));
+}
+
+function drawRoundedRect(context, width, height, borderRadius, scale) {
+  const [topLeft, topRight, bottomRight, bottomLeft] = getBorderRadii(
+    borderRadius,
+    width,
+    height,
+    scale,
+  );
+  const factor = BORDER_RADIUS_CORNER_FACTOR;
+
+  context.beginPath();
+  context.moveTo(topLeft.x, 0);
+  context.lineTo(width - topRight.x, 0);
+  context.bezierCurveTo(
+    width - topRight.x + (topRight.x * factor),
+    0,
+    width,
+    topRight.y - (topRight.y * factor),
+    width,
+    topRight.y,
+  );
+  context.lineTo(width, height - bottomRight.y);
+  context.bezierCurveTo(
+    width,
+    height - bottomRight.y + (bottomRight.y * factor),
+    width - bottomRight.x + (bottomRight.x * factor),
+    height,
+    width - bottomRight.x,
+    height,
+  );
+  context.lineTo(bottomLeft.x, height);
+  context.bezierCurveTo(
+    bottomLeft.x - (bottomLeft.x * factor),
+    height,
+    0,
+    height - bottomLeft.y + (bottomLeft.y * factor),
+    0,
+    height - bottomLeft.y,
+  );
+  context.lineTo(0, topLeft.y);
+  context.bezierCurveTo(
+    0,
+    topLeft.y - (topLeft.y * factor),
+    topLeft.x - (topLeft.x * factor),
+    0,
+    topLeft.x,
+    0,
+  );
+  context.closePath();
+  context.fill();
+}
+
 export default {
   // Show the crop box manually
   crop() {
@@ -789,6 +897,18 @@ export default {
     // All the numerical parameters should be integer for `drawImage`
     // https://github.com/fengyuanchen/cropper/issues/476
     context.drawImage(source, ...params.map((param) => Math.floor(normalizeDecimalNumber(param))));
+
+    if (this.options.borderRadius) {
+      context.globalCompositeOperation = 'destination-in';
+      context.fillStyle = '#000';
+      drawRoundedRect(
+        context,
+        width,
+        height,
+        this.options.borderRadius,
+        width / this.cropBoxData.width,
+      );
+    }
 
     return canvas;
   },

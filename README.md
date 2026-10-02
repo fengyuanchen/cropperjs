@@ -25,7 +25,7 @@
 
 ## Features
 
-- Supports 43 [options](#options)
+- Supports 44 [options](#options)
 - Supports 27 [methods](#methods)
 - Supports 7 [events](#events)
 - Supports touch (mobile)
@@ -201,6 +201,13 @@ Define the initial aspect ratio of the crop box. By default, it is the same as t
 - Default: `NaN`
 
 Define the fixed aspect ratio of the crop box. By default, the crop box has a free ratio.
+
+### borderRadius
+
+- Type: `Number` or `String`
+- Default: `0`
+
+Define the border radius of the crop box and the exported canvas. This option supports the CSS `border-radius` value syntax, including pixel values (`10px`), percentage values (`25%`), 1 to 4 values (`10% 20% 30% 40%`), and the `/` syntax for separate horizontal and vertical radii (`10% 20% / 30% 40%`). Pixel values are scaled proportionally when the output canvas size changes.
 
 ### data
 

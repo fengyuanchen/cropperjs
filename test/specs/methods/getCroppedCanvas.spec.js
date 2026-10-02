@@ -54,6 +54,98 @@ describe('getCroppedCanvas (method)', () => {
     });
   });
 
+  it('should draw a rectangular cropped canvas', (done) => {
+    const image = window.createImage();
+    const cropper = new Cropper(image, {
+      aspectRatio: 16 / 9,
+
+      ready() {
+        const canvas = cropper.getCroppedCanvas();
+        const corner = canvas.getContext('2d').getImageData(0, 0, 1, 1).data;
+
+        expect(canvas.width / canvas.height).to.be.closeTo(16 / 9, 0.01);
+        expect(corner[3]).to.be.greaterThan(0);
+        done();
+      },
+    });
+  });
+
+  it('should draw a square cropped canvas', (done) => {
+    const image = window.createImage();
+    const cropper = new Cropper(image, {
+      aspectRatio: 1,
+
+      ready() {
+        const canvas = cropper.getCroppedCanvas();
+
+        expect(canvas.width).to.equal(canvas.height);
+        done();
+      },
+    });
+  });
+
+  [
+    '25%',
+    '50%',
+    '100%',
+    '25px',
+    '50px',
+    '100px',
+    '25% 10%',
+    '10% 30% 50%',
+    '10% 30% 50% 70%',
+    '10% / 50%',
+    '10% 30% / 50% 70%',
+    '10% 30% 50% / 20% 40% 60%',
+    '10% 30% 50% 70% / 20% 40% 60% 80%',
+  ].forEach((borderRadius) => {
+    it(`should support borderRadius: ${borderRadius}`, (done) => {
+      const image = window.createImage();
+      const cropper = new Cropper(image, {
+        aspectRatio: 16 / 9,
+        borderRadius,
+
+        ready() {
+          const canvas = cropper.getCroppedCanvas();
+          const context = canvas.getContext('2d');
+          const corner = context.getImageData(0, 0, 1, 1).data;
+          const center = context.getImageData(
+            Math.floor(canvas.width / 2),
+            Math.floor(canvas.height / 2),
+            1,
+            1,
+          ).data;
+
+          expect(canvas.width / canvas.height).to.be.closeTo(16 / 9, 0.01);
+          expect(corner[3]).to.equal(0);
+          expect(center[3]).to.be.greaterThan(0);
+          done();
+        },
+      });
+    });
+  });
+
+  it('should scale pixel borderRadius with the output size', (done) => {
+    const image = window.createImage();
+    const cropper = new Cropper(image, {
+      aspectRatio: 16 / 9,
+      borderRadius: '100px',
+
+      ready() {
+        const canvas = cropper.getCroppedCanvas();
+        const scaledCanvas = cropper.getCroppedCanvas({
+          width: 160,
+        });
+        const defaultPixel = canvas.getContext('2d').getImageData(50, 0, 1, 1).data;
+        const scaledPixel = scaledCanvas.getContext('2d').getImageData(50, 0, 1, 1).data;
+
+        expect(defaultPixel[3]).to.equal(0);
+        expect(scaledPixel[3]).to.be.greaterThan(0);
+        done();
+      },
+    });
+  });
+
   it('should match the given width', (done) => {
     const image = window.createImage();
     const cropper = new Cropper(image, {
