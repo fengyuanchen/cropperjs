@@ -71,7 +71,7 @@ export default class CropperSelection extends CropperElement {
     height: 0,
   };
 
-  private $resizingAroundCenter = false;
+  private $changingAroundCenter = false;
 
   x = 0;
 
@@ -101,6 +101,8 @@ export default class CropperSelection extends CropperElement {
   resizeAroundCenter = false;
 
   zoomable = false;
+
+  zoomAroundCenter = false;
 
   multiple = false;
 
@@ -137,6 +139,7 @@ export default class CropperSelection extends CropperElement {
       'width',
       'x',
       'y',
+      'zoom-around-center',
       'zoomable',
     ]);
   }
@@ -493,13 +496,17 @@ export default class CropperSelection extends CropperElement {
           this.dynamic
           || this.contains(relatedEvent.target as Node)
         )) {
-          const offset = getOffset(currentTarget as Element);
+          if (this.zoomAroundCenter) {
+            this.$zoom(detail.scale);
+          } else {
+            const offset = getOffset(currentTarget as Element);
 
-          this.$zoom(
-            detail.scale,
-            relatedEvent.pageX - offset.left,
-            relatedEvent.pageY - offset.top,
-          );
+            this.$zoom(
+              detail.scale,
+              relatedEvent.pageX - offset.left,
+              relatedEvent.pageY - offset.top,
+            );
+          }
         }
         break;
 
@@ -858,14 +865,14 @@ export default class CropperSelection extends CropperElement {
       ($canvas as any).$setAction(action);
     }
 
-    const previousResizingAroundCenter = this.$resizingAroundCenter;
+    const previousChangingAroundCenter = this.$changingAroundCenter;
 
-    this.$resizingAroundCenter = this.resizeAroundCenter || previousResizingAroundCenter;
+    this.$changingAroundCenter = this.resizeAroundCenter || previousChangingAroundCenter;
 
     try {
       return this.$change(x, y, width, height);
     } finally {
-      this.$resizingAroundCenter = previousResizingAroundCenter;
+      this.$changingAroundCenter = previousChangingAroundCenter;
     }
   }
 
@@ -902,7 +909,18 @@ export default class CropperSelection extends CropperElement {
       newY -= (newHeight - height) / 2;
     }
 
-    return this.$change(newX, newY, newWidth, newHeight);
+    const previousChangingAroundCenter = this.$changingAroundCenter;
+
+    this.$changingAroundCenter = (
+      this.zoomAroundCenter
+      && !(isNumber(x) && isNumber(y))
+    ) || previousChangingAroundCenter;
+
+    try {
+      return this.$change(newX, newY, newWidth, newHeight);
+    } finally {
+      this.$changingAroundCenter = previousChangingAroundCenter;
+    }
   }
 
   /**
@@ -939,7 +957,7 @@ export default class CropperSelection extends CropperElement {
       ({ width, height } = getAdjustedSizes({ aspectRatio, width, height }, 'cover'));
     }
 
-    if (this.$resizingAroundCenter) {
+    if (this.$changingAroundCenter) {
       if (!this.precise) {
         width = Math.round(width);
         height = Math.round(height);

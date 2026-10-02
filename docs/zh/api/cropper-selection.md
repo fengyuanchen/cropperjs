@@ -175,14 +175,22 @@
 
 :::
 
-### 设置缩放原点
+### 围绕中心缩放
 
-<ClientOnly>
-  <CropperSelectionZoomOriginExample />
-</ClientOnly>
+将 `zoomAroundCenter` 属性设置为 `true`，即可从选区中心缩放；否则以指针位置作为缩放原点。
 
-::: details
-<<< @/.vitepress/components/CropperSelectionZoomOriginExample.vue
+:::live-demo
+
+```html
+<cropper-canvas style="height: 320px;" background>
+  <cropper-image src="/cropperjs/picture.jpg" alt="Picture" scalable translatable></cropper-image>
+  <cropper-shade hidden></cropper-shade>
+  <cropper-selection initial-coverage="0.5" zoomable zoom-around-center outlined>
+    <cropper-crosshair centered></cropper-crosshair>
+  </cropper-selection>
+</cropper-canvas>
+```
+
 :::
 
 ### 限制边界
@@ -213,6 +221,7 @@
 | resizable | `boolean` | `false` | - | 指示此元素是否可调整大小。 |
 | resizeAroundCenter <Badge type="tip" text="^2.3.0" /> | `boolean` | `false` | - | 指示调整选区大小时是否保持中心位置不变。 |
 | zoomable | `boolean` | `false` | - | 指示此元素是否可缩放。 |
+| zoomAroundCenter <Badge type="tip" text="^2.3.0" /> | `boolean` | `false` | - | 指示是否以选区中心作为缩放原点。 |
 | multiple | `boolean` | `false` | - | 指示是否支持多选区。 |
 | keyboard | `boolean` | `false` | - | 指示是否支持键盘控制。 |
 | outlined | `boolean` | `false` | - | 指示是否显示轮廓线。 |

@@ -7,6 +7,7 @@ import {
   ACTION_RESIZE_SOUTHEAST,
   ACTION_RESIZE_SOUTHWEST,
   ACTION_RESIZE_WEST,
+  ACTION_SCALE,
   EVENT_KEYDOWN,
 } from '@cropper/utils';
 import CropperCanvas from '@cropper/element-canvas';
@@ -194,6 +195,21 @@ describe('CropperSelection', () => {
 
         element.setAttribute('zoomable', '');
         expect(element.zoomable).toBe(true);
+      });
+    });
+
+    describe('zoomAroundCenter', () => {
+      it('should be `false` by default', () => {
+        const element = new CropperSelection();
+
+        expect(element.zoomAroundCenter).toBe(false);
+      });
+
+      it('should be `true`', () => {
+        const element = new CropperSelection();
+
+        element.setAttribute('zoom-around-center', '');
+        expect(element.zoomAroundCenter).toBe(true);
       });
     });
 
@@ -767,6 +783,57 @@ describe('CropperSelection', () => {
         element.$zoom(-1);
         expect(element.width).toBe(1);
         expect(element.height).toBe(1);
+      });
+
+      it('should honor an explicit origin when zoomAroundCenter is enabled', () => {
+        const element = new CropperSelection();
+
+        element.x = 10;
+        element.y = 20;
+        element.width = 100;
+        element.height = 50;
+        element.zoomable = true;
+        element.zoomAroundCenter = true;
+        element.precise = true;
+        element.$zoom(0.1, 10, 20);
+
+        expect(element.x).toBe(10);
+        expect(element.y).toBe(20);
+      });
+    });
+
+    describe('$handleAction', () => {
+      it('should zoom around the selection center when enabled', () => {
+        const element = new CropperSelection();
+        const relatedEvent = new MouseEvent('mousemove', {
+          clientX: 10,
+          clientY: 20,
+        });
+
+        element.x = 10;
+        element.y = 20;
+        element.width = 100;
+        element.height = 50;
+        element.zoomable = true;
+        element.zoomAroundCenter = true;
+        element.dynamic = true;
+
+        for (let count = 0; count < 3; count += 1) {
+          (element as any).$handleAction({
+            defaultPrevented: false,
+            currentTarget: document.createElement('div'),
+            detail: {
+              action: ACTION_SCALE,
+              relatedEvent,
+              scale: 0.1,
+            },
+          });
+
+          expect(Number.isInteger(element.x)).toBe(true);
+          expect(Number.isInteger(element.y)).toBe(true);
+          expect(element.x + element.width / 2).toBe(60);
+          expect(element.y + element.height / 2).toBe(45);
+        }
       });
     });
 

@@ -1007,6 +1007,15 @@
             >
           </li>
           <li>
+            <label for="selectionZoomAroundCenter">zoom-around-center</label>
+            <input
+              id="selectionZoomAroundCenter"
+              v-model="selection.zoomAroundCenter"
+              type="checkbox"
+              name="zoomAroundCenter"
+            >
+          </li>
+          <li>
             <label for="selectionMultiple">multiple</label>
             <input
               id="selectionMultiple"
@@ -1690,6 +1699,7 @@
           :resizable="selection.resizable"
           :resize-around-center="selection.resizeAroundCenter"
           :zoomable="selection.zoomable"
+          :zoom-around-center="selection.zoomAroundCenter"
           :multiple="selection.multiple"
           :keyboard="selection.keyboard"
           :outlined="selection.outlined"
@@ -1907,6 +1917,7 @@ export default {
         resizable: true,
         resizeAroundCenter: false,
         zoomable: false,
+        zoomAroundCenter: false,
         multiple: false,
         keyboard: false,
         outlined: false,

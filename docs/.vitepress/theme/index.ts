@@ -26,7 +26,6 @@ export default {
       import('../components/CropperPlaygroundContainer.vue'),
       import('../components/CropperSelectionExample.vue'),
       import('../components/CropperSelectionToNativeCanvas.vue'),
-      import('../components/CropperSelectionZoomOriginExample.vue'),
       import('../components/LiveDemo.vue'),
     ]).then((components) => {
       components.forEach((component: any) => {

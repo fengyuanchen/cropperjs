@@ -175,14 +175,22 @@ Set `resizeAroundCenter` property to `true` to keep the selection centered while
 
 :::
 
-### Set Zoom Origin
+### Zoom Around Center
 
-<ClientOnly>
-  <CropperSelectionZoomOriginExample />
-</ClientOnly>
+Set `zoomAroundCenter` property to `true` to zoom from the center of the selection instead of the pointer.
 
-::: details
-<<< @/.vitepress/components/CropperSelectionZoomOriginExample.vue
+:::live-demo
+
+```html
+<cropper-canvas style="height: 320px;" background>
+  <cropper-image src="/cropperjs/picture.jpg" alt="Picture" scalable translatable></cropper-image>
+  <cropper-shade hidden></cropper-shade>
+  <cropper-selection initial-coverage="0.5" zoomable zoom-around-center outlined>
+    <cropper-crosshair centered></cropper-crosshair>
+  </cropper-selection>
+</cropper-canvas>
+```
+
 :::
 
 ### Limit Boundaries
@@ -213,6 +221,7 @@ Inherits properties from its parent, [`CropperElement`](cropper-element.html), a
 | resizable | `boolean` | `false` | - | Indicates whether this element is resizable. |
 | resizeAroundCenter <Badge type="tip" text="^2.3.0" /> | `boolean` | `false` | - | Indicates whether to keep the selection centered when resizing. |
 | zoomable | `boolean` | `false` | - | Indicates whether this element is zoomable. |
+| zoomAroundCenter <Badge type="tip" text="^2.3.0" /> | `boolean` | `false` | - | Indicates whether to use the selection center as the zoom origin. |
 | multiple | `boolean` | `false` | - | Indicates whether multiple selections is supported. |
 | keyboard | `boolean` | `false` | - | Indicates whether keyboard control is supported. |
 | outlined | `boolean` | `false` | - | Indicates whether show the outlined or not. |
