@@ -33,6 +33,8 @@
       ref="cropperCanvas"
       :key="within"
       background
+      @actionstart="onCropperCanvasActionStart"
+      @actionend="onCropperCanvasActionEnd"
     >
       <cropper-image
         ref="cropperImage"
@@ -79,8 +81,10 @@
 </template>
 
 <script lang="ts">
+import { ACTION_MOVE } from '@cropper/utils';
 import type CropperCanvas from '@cropper/element-canvas';
 import type CropperImage from '@cropper/element-image';
+import type CropperSelection from '@cropper/element-selection';
 import type { Selection } from '@cropper/element-selection';
 
 const { BASE_URL } = import.meta.env;
@@ -91,9 +95,16 @@ export default {
     return {
       src: `${BASE_URL}picture.jpg`,
       within: 'canvas',
+      action: '',
     };
   },
   methods: {
+    onCropperCanvasActionStart(event: CustomEvent) {
+      this.action = event.detail.action;
+    },
+    onCropperCanvasActionEnd() {
+      this.action = '';
+    },
     inSelection(selection: Selection, maxSelection: Selection) {
       return (
         selection.x >= maxSelection.x
@@ -104,16 +115,46 @@ export default {
     },
     onCropperImageChange(event: CustomEvent) {
       const cropperCanvas = this.$refs.cropperCanvas as CropperCanvas;
+      const cropperImage = this.$refs.cropperImage as CropperImage;
 
-      if (!cropperCanvas || this.within !== 'image') {
+      if (!cropperCanvas || !cropperImage || this.within !== 'image') {
         return;
       }
 
-      const selection = this.$refs.cropperSelection as Selection;
-      const maxSelection = event.detail as Selection;
+      const cropperSelection = this.$refs.cropperSelection as CropperSelection;
+      const image = event.detail as Selection;
 
-      if (!this.inSelection(selection, maxSelection)) {
-        event.preventDefault();
+      if (this.inSelection(cropperSelection, image)) {
+        return;
+      }
+
+      event.preventDefault();
+
+      if (this.action !== ACTION_MOVE) {
+        return;
+      }
+
+      const canvasRect = cropperCanvas.getBoundingClientRect();
+      const imageRect = cropperImage.getBoundingClientRect();
+      const current: Selection = {
+        x: imageRect.x - canvasRect.x,
+        y: imageRect.y - canvasRect.y,
+        width: imageRect.width,
+        height: imageRect.height,
+      };
+      const minX = cropperSelection.x + cropperSelection.width - image.width;
+      const minY = cropperSelection.y + cropperSelection.height - image.height;
+      const x = minX <= cropperSelection.x
+        ? Math.min(Math.max(image.x, minX), cropperSelection.x)
+        : current.x;
+      const y = minY <= cropperSelection.y
+        ? Math.min(Math.max(image.y, minY), cropperSelection.y)
+        : current.y;
+      const moveX = x - current.x;
+      const moveY = y - current.y;
+
+      if (moveX || moveY) {
+        cropperImage.$move(moveX, moveY);
       }
     },
     onCropperSelectionChange(event: CustomEvent) {
@@ -135,9 +176,12 @@ export default {
             height: cropperCanvasRect.height,
           };
 
-          if (!this.inSelection(selection, maxSelection)) {
-            event.preventDefault();
-          }
+          this.limitSelectionChange(
+            event,
+            selection,
+            maxSelection,
+            this.$refs.cropperSelection as CropperSelection,
+          );
           break;
         }
 
@@ -151,13 +195,47 @@ export default {
             height: cropperImageRect.height,
           };
 
-          if (!this.inSelection(selection, maxSelection)) {
-            event.preventDefault();
-          }
+          this.limitSelectionChange(
+            event,
+            selection,
+            maxSelection,
+            this.$refs.cropperSelection as CropperSelection,
+          );
           break;
         }
 
         default:
+      }
+    },
+    limitSelectionChange(
+      event: CustomEvent,
+      selection: Selection,
+      bounds: Selection,
+      cropperSelection: CropperSelection,
+    ) {
+      if (this.inSelection(selection, bounds)) {
+        return;
+      }
+
+      event.preventDefault();
+
+      if (this.action !== ACTION_MOVE) {
+        return;
+      }
+
+      const maxX = bounds.x + bounds.width - selection.width;
+      const maxY = bounds.y + bounds.height - selection.height;
+      const x = maxX >= bounds.x
+        ? Math.min(Math.max(selection.x, bounds.x), maxX)
+        : cropperSelection.x;
+      const y = maxY >= bounds.y
+        ? Math.min(Math.max(selection.y, bounds.y), maxY)
+        : cropperSelection.y;
+      const moveX = x - cropperSelection.x;
+      const moveY = y - cropperSelection.y;
+
+      if (moveX || moveY) {
+        cropperSelection.$move(moveX, moveY);
       }
     },
   },
