@@ -48,6 +48,14 @@ export default class CropperViewer extends CropperElement {
 
   slottable = false;
 
+  protected set $canvas(element: CropperCanvas) {
+    canvasCache.set(this, element);
+  }
+
+  protected get $canvas(): CropperCanvas {
+    return canvasCache.get(this);
+  }
+
   protected set $image(element: CropperImage) {
     imageCache.set(this, element);
   }
@@ -62,14 +70,6 @@ export default class CropperViewer extends CropperElement {
 
   protected get $sourceImage(): CropperImage {
     return sourceImageCache.get(this);
-  }
-
-  protected set $canvas(element: CropperCanvas) {
-    canvasCache.set(this, element);
-  }
-
-  protected get $canvas(): CropperCanvas {
-    return canvasCache.get(this);
   }
 
   set $selection(element: CropperSelection) {
