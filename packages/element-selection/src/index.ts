@@ -528,6 +528,26 @@ export default class CropperSelection extends CropperElement {
       : null;
 
     if (
+      action === ACTION_SELECT
+      && !this.resizable
+      && (!this.multiple || this.active)
+      && isPositiveNumber(this.width)
+      && isPositiveNumber(this.height)
+      && relatedEvent
+      && event.currentTarget
+    ) {
+      const offset = getOffset(event.currentTarget as Element);
+      const selection = this.multiple && !this.hidden ? this.$createSelection() : this;
+
+      selection.$change(
+        relatedEvent.pageX - offset.left,
+        relatedEvent.pageY - offset.top,
+        this.width,
+        this.height,
+      );
+    }
+
+    if (
       !this.hidden
       && this.multiple
       && !this.active
@@ -600,6 +620,10 @@ export default class CropperSelection extends CropperElement {
 
     switch (action) {
       case ACTION_SELECT:
+        if (!this.resizable && isPositiveNumber(this.width) && isPositiveNumber(this.height)) {
+          break;
+        }
+
         if (moveX !== 0 || moveY !== 0) {
           // Force to create a square selection for better user experience
           if (moveX === 0) {

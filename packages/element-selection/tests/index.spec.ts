@@ -8,6 +8,7 @@ import {
   ACTION_RESIZE_SOUTHWEST,
   ACTION_RESIZE_WEST,
   ACTION_SCALE,
+  ACTION_SELECT,
   EVENT_KEYDOWN,
 } from '@cropper/utils';
 import CropperCanvas from '@cropper/element-canvas';
@@ -803,6 +804,53 @@ describe('CropperSelection', () => {
     });
 
     describe('$handleAction', () => {
+      it('should place a fixed-size selection at the action start when not resizable', () => {
+        const element = new CropperSelection();
+        const canvas = document.createElement('div');
+        const relatedEvent = {
+          target: document.createElement('cropper-handle'),
+          pageX: 150,
+          pageY: 140,
+          shiftKey: false,
+        };
+
+        Object.defineProperty(canvas, 'getBoundingClientRect', {
+          configurable: true,
+          value: () => ({ left: 10, top: 20 }),
+        });
+        element.x = 1;
+        element.y = 2;
+        element.width = 100;
+        element.height = 80;
+        element.resizable = false;
+
+        (element as any).$handleActionStart({
+          defaultPrevented: false,
+          currentTarget: canvas,
+          detail: {
+            action: ACTION_SELECT,
+            relatedEvent,
+          },
+        });
+        (element as any).$handleAction({
+          defaultPrevented: false,
+          currentTarget: canvas,
+          detail: {
+            action: ACTION_SELECT,
+            startX: relatedEvent.pageX,
+            startY: relatedEvent.pageY,
+            endX: relatedEvent.pageX + 20,
+            endY: relatedEvent.pageY + 10,
+            relatedEvent,
+          },
+        });
+
+        expect(element.x).toBe(140);
+        expect(element.y).toBe(120);
+        expect(element.width).toBe(100);
+        expect(element.height).toBe(80);
+      });
+
       it('should restore the original dimensions after fractional resize deltas return to the start', () => {
         const element = new CropperSelection();
         const canvas = document.createElement('div');
