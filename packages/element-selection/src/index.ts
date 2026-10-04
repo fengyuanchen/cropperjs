@@ -125,6 +125,14 @@ export default class CropperSelection extends CropperElement {
 
   protected $actionStartTarget: EventTarget | null = null;
 
+  protected $resizeStart: (
+    Selection & {
+      action: string;
+      pageX: number;
+      pageY: number;
+    }
+  ) | null = null;
+
   protected $changing = false;
 
   protected $style = style;
@@ -500,10 +508,24 @@ export default class CropperSelection extends CropperElement {
       return;
     }
 
-    const relatedTarget = (event as CustomEvent).detail?.relatedEvent?.target;
+    const { action, relatedEvent } = (event as CustomEvent).detail || {};
+    const relatedTarget = relatedEvent?.target;
 
     this.$action = '';
     this.$actionStartTarget = relatedTarget;
+    this.$resizeStart = typeof action === 'string'
+      && action.endsWith('-resize')
+      && relatedEvent
+      ? {
+        action,
+        pageX: relatedEvent.pageX,
+        pageY: relatedEvent.pageY,
+        x: this.x,
+        y: this.y,
+        width: this.width,
+        height: this.height,
+      }
+      : null;
 
     if (
       !this.hidden
@@ -555,10 +577,25 @@ export default class CropperSelection extends CropperElement {
     let moveX = detail.endX - detail.startX;
     let moveY = detail.endY - detail.startY;
     let { aspectRatio } = this;
+    let resizeStart: Selection | null = null;
+
+    if (this.$resizeStart && action.endsWith('-resize')) {
+      const start = this.$resizeStart;
+
+      action = start.action;
+      moveX = detail.endX - start.pageX;
+      moveY = detail.endY - start.pageY;
+      resizeStart = start;
+    }
 
     // Locking aspect ratio by holding shift key
     if (!isPositiveNumber(aspectRatio) && relatedEvent.shiftKey) {
-      aspectRatio = isPositiveNumber(width) && isPositiveNumber(height) ? width / height : 1;
+      const ratioWidth = resizeStart?.width ?? width;
+      const ratioHeight = resizeStart?.height ?? height;
+
+      aspectRatio = isPositiveNumber(ratioWidth) && isPositiveNumber(ratioHeight)
+        ? ratioWidth / ratioHeight
+        : 1;
     }
 
     switch (action) {
@@ -643,6 +680,7 @@ export default class CropperSelection extends CropperElement {
   protected $handleActionEnd(): void {
     this.$action = '';
     this.$actionStartTarget = null;
+    this.$resizeStart = null;
   }
 
   protected $handleKeyDown(event: Event): void {
@@ -782,7 +820,7 @@ export default class CropperSelection extends CropperElement {
       y,
       width,
       height,
-    } = this;
+    } = this.$resizeStart || this;
 
     switch (action) {
       case ACTION_RESIZE_NORTH:
@@ -1096,8 +1134,10 @@ export default class CropperSelection extends CropperElement {
         }
       }
 
-      x = this.x + (this.width - width) / 2;
-      y = this.y + (this.height - height) / 2;
+      const resizeStart = this.$resizeStart || this;
+
+      x = resizeStart.x + (resizeStart.width - width) / 2;
+      y = resizeStart.y + (resizeStart.height - height) / 2;
     } else if (!this.precise) {
       width = Math.round(width);
       height = Math.round(height);

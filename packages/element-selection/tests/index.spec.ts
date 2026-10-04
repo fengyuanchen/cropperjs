@@ -803,6 +803,54 @@ describe('CropperSelection', () => {
     });
 
     describe('$handleAction', () => {
+      it('should restore the original dimensions after fractional resize deltas return to the start', () => {
+        const element = new CropperSelection();
+        const canvas = document.createElement('div');
+        const relatedEvent = {
+          target: document.createElement('cropper-handle'),
+          pageX: 200.25,
+          pageY: 150.5,
+          shiftKey: false,
+        };
+        const pointerPositions = [200.85, 201.45, 201.05, 200.25];
+        let previousX = relatedEvent.pageX;
+
+        element.x = 100;
+        element.y = 80;
+        element.width = 120;
+        element.height = 60;
+        element.resizable = true;
+
+        (element as any).$handleActionStart({
+          defaultPrevented: false,
+          detail: {
+            action: ACTION_RESIZE_SOUTHEAST,
+            relatedEvent,
+          },
+        });
+
+        pointerPositions.forEach((pageX) => {
+          (element as any).$handleAction({
+            defaultPrevented: false,
+            currentTarget: canvas,
+            detail: {
+              action: ACTION_RESIZE_SOUTHEAST,
+              startX: previousX,
+              startY: relatedEvent.pageY,
+              endX: pageX,
+              endY: relatedEvent.pageY,
+              relatedEvent,
+            },
+          });
+          previousX = pageX;
+        });
+
+        expect(element.x).toBe(100);
+        expect(element.y).toBe(80);
+        expect(element.width).toBe(120);
+        expect(element.height).toBe(60);
+      });
+
       it('should zoom around the selection center when enabled', () => {
         const element = new CropperSelection();
         const relatedEvent = new MouseEvent('mousemove', {
