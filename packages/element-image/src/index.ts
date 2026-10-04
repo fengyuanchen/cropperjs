@@ -271,6 +271,75 @@ export default class CropperImage extends CropperElement {
     super.disconnectedCallback();
   }
 
+  protected $exceedsFit(imageRect: DOMRect, canvasRect: DOMRect): boolean {
+    const { naturalWidth, naturalHeight } = this.$image;
+    let { maxFit, minFit } = this;
+
+    if (maxFit === OBJECT_FIT_SCALE_DOWN) {
+      if (naturalWidth >= canvasRect.width || naturalHeight >= canvasRect.height) {
+        maxFit = OBJECT_FIT_CONTAIN;
+      } else {
+        maxFit = OBJECT_FIT_NONE;
+      }
+    }
+
+    switch (maxFit) {
+      case OBJECT_FIT_COVER:
+        if (imageRect.width > canvasRect.width && imageRect.height > canvasRect.height) {
+          return true;
+        }
+        break;
+
+      case OBJECT_FIT_FILL:
+      case OBJECT_FIT_CONTAIN:
+        if (imageRect.width > canvasRect.width || imageRect.height > canvasRect.height) {
+          return true;
+        }
+        break;
+
+      case OBJECT_FIT_NONE:
+        if (imageRect.width > naturalWidth || imageRect.height > naturalHeight) {
+          return true;
+        }
+        break;
+
+      default:
+    }
+
+    if (minFit === OBJECT_FIT_SCALE_DOWN) {
+      if (naturalWidth >= canvasRect.width || naturalHeight >= canvasRect.height) {
+        minFit = OBJECT_FIT_CONTAIN;
+      } else {
+        minFit = OBJECT_FIT_NONE;
+      }
+    }
+
+    switch (minFit) {
+      case OBJECT_FIT_COVER:
+      case OBJECT_FIT_FILL:
+        if (imageRect.width < canvasRect.width || imageRect.height < canvasRect.height) {
+          return true;
+        }
+        break;
+
+      case OBJECT_FIT_CONTAIN:
+        if (imageRect.width < canvasRect.width && imageRect.height < canvasRect.height) {
+          return true;
+        }
+        break;
+
+      case OBJECT_FIT_NONE:
+        if (imageRect.width < naturalWidth || imageRect.height < naturalHeight) {
+          return true;
+        }
+        break;
+
+      default:
+    }
+
+    return false;
+  }
+
   protected $exceedsInset(imageRect: DOMRect, canvasRect: DOMRect): boolean {
     return exceedsInset(
       [
@@ -930,83 +999,8 @@ export default class CropperImage extends CropperElement {
 
           this.style.transform = `matrix(${oldMatrix.join(', ')})`;
 
-          let { maxFit, minFit } = this;
-
-          if (maxFit || minFit) {
-            // Check if the image is completely outside the canvas after transformation,
-            // if so, skip the transformation to avoid losing the image.
-            if (
-              imageRect.top > canvasRect.bottom
-              || imageRect.right < canvasRect.left
-              || imageRect.bottom < canvasRect.top
-              || imageRect.left > canvasRect.right
-            ) {
-              return this;
-            }
-
-            const { naturalWidth, naturalHeight } = this.$image;
-
-            if (maxFit === OBJECT_FIT_SCALE_DOWN) {
-              if (naturalWidth >= canvasRect.width || naturalHeight >= canvasRect.height) {
-                maxFit = OBJECT_FIT_CONTAIN;
-              } else {
-                maxFit = OBJECT_FIT_NONE;
-              }
-            }
-
-            switch (maxFit) {
-              case OBJECT_FIT_COVER:
-                if (imageRect.width > canvasRect.width && imageRect.height > canvasRect.height) {
-                  return this;
-                }
-                break;
-
-              case OBJECT_FIT_FILL:
-              case OBJECT_FIT_CONTAIN:
-                if (imageRect.width > canvasRect.width || imageRect.height > canvasRect.height) {
-                  return this;
-                }
-                break;
-
-              case OBJECT_FIT_NONE:
-                if (imageRect.width > naturalWidth || imageRect.height > naturalHeight) {
-                  return this;
-                }
-                break;
-
-              default:
-            }
-
-            if (minFit === OBJECT_FIT_SCALE_DOWN) {
-              if (naturalWidth >= canvasRect.width || naturalHeight >= canvasRect.height) {
-                minFit = OBJECT_FIT_CONTAIN;
-              } else {
-                minFit = OBJECT_FIT_NONE;
-              }
-            }
-
-            switch (minFit) {
-              case OBJECT_FIT_COVER:
-              case OBJECT_FIT_FILL:
-                if (imageRect.width < canvasRect.width || imageRect.height < canvasRect.height) {
-                  return this;
-                }
-                break;
-
-              case OBJECT_FIT_CONTAIN:
-                if (imageRect.width < canvasRect.width && imageRect.height < canvasRect.height) {
-                  return this;
-                }
-                break;
-
-              case OBJECT_FIT_NONE:
-                if (imageRect.width < naturalWidth || imageRect.height < naturalHeight) {
-                  return this;
-                }
-                break;
-
-              default:
-            }
+          if (this.$exceedsFit(imageRect, canvasRect)) {
+            return this;
           }
 
           if (this.$exceedsInset(imageRect, canvasRect)) {
