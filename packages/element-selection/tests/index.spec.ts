@@ -862,6 +862,37 @@ describe('CropperSelection', () => {
     });
 
     describe('$initSelection', () => {
+      it('should preserve explicit dimensions when initial coverage is first set', async () => {
+        const parent = document.createElement('div');
+        const element = new CropperSelection();
+
+        Object.defineProperty(parent, 'getBoundingClientRect', {
+          configurable: true,
+          value: () => ({
+            left: 0, top: 0, width: 400, height: 300,
+          }),
+        });
+        element.width = 160;
+        element.height = 90;
+        parent.appendChild(element);
+        document.body.appendChild(parent);
+
+        element.setAttribute('initial-coverage', '0.5');
+        await Promise.resolve();
+
+        expect(element.x).toBe(120);
+        expect(element.y).toBe(105);
+        expect(element.width).toBe(160);
+        expect(element.height).toBe(90);
+
+        element.setAttribute('initial-coverage', '0.75');
+        await Promise.resolve();
+
+        expect(element.width).toBe(300);
+        expect(element.height).toBe(225);
+        document.body.removeChild(parent);
+      });
+
       it('should wait for the image to be ready before calculating the initial coverage', async () => {
         const canvas = document.createElement('div');
         const image = document.createElement('div');

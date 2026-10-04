@@ -263,7 +263,7 @@ export default class CropperSelection extends CropperElement {
       case 'initialCoverage':
         this.$nextTick(() => {
           if (isPositiveNumber(newValue) && newValue <= 1) {
-            this.$initSelection(true, true);
+            this.$initSelection(true, isPositiveNumber(oldValue as number));
           }
         });
         break;
