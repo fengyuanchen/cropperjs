@@ -63,6 +63,18 @@ Set `zoomAroundCenter` to `true` to zoom from the center of the image instead of
 <<< @/.vitepress/components/CropperImageMaxFitAndMinFitExample.vue
 :::
 
+### Set Max Inset and/or Min Inset
+
+The insets are the distances from the image edges to the matching canvas edges (top, right, bottom, and left). Negative distances mean the image extends beyond the canvas. A transform that breaks the limits is rejected.
+
+<ClientOnly>
+  <CropperImageMaxInsetAndMinInsetExample />
+</ClientOnly>
+
+::: details
+<<< @/.vitepress/components/CropperImageMaxInsetAndMinInsetExample.vue
+:::
+
 ### Limit Boundaries
 
 <ClientOnly>
@@ -82,6 +94,8 @@ Inherits properties from its parent, [`CropperElement`](cropper-element.html), a
 | initialFit <Badge type="tip" text="^2.2.0" /> | `string` | `"contain"` | `"cover"` \| `"fill"` \| `"contain"` \| `"scale-down"` \| `"none"` | Indicates the initial size of the image when aligned with the center of its parent element. |
 | maxFit <Badge type="tip" text="^2.2.0" /> | `string` | `""` | `"cover"` \| `"fill"` \| `"contain"` \| `"scale-down"` \| `"none"` | Indicates the max size of this element relative to its parent element. |
 | minFit <Badge type="tip" text="^2.2.0" /> | `string` | `""` | `"cover"` \| `"fill"` \| `"contain"` \| `"scale-down"` \| `"none"` | Indicates the min size of this element relative to its parent element. |
+| maxInset <Badge type="tip" text="^2.3.0" /> | `string` | `"auto"` | `"auto"`, or 1 to 4 values of [`<length>`](https://developer.mozilla.org/en-US/docs/Web/CSS/length) / [`<percentage>`](https://developer.mozilla.org/en-US/docs/Web/CSS/percentage) / [`calc()`](https://developer.mozilla.org/en-US/docs/Web/CSS/calc), like the CSS [`inset`](https://developer.mozilla.org/en-US/docs/Web/CSS/inset) property | Indicates the max distances from the image edges to the matching edges of its parent element, in the order of top, right, bottom, and left. `auto` means unlimited. |
+| minInset <Badge type="tip" text="^2.3.0" /> | `string` | `"auto"` | Same as `maxInset` | Indicates the min distances from the image edges to the matching edges of its parent element, in the order of top, right, bottom, and left. `auto` means unlimited. |
 | rotatable | `boolean` | `false` | - | Indicates whether this element is rotatable. |
 | scalable | `boolean` | `false` | - | Indicates whether this element is scalable. |
 | skewable | `boolean` | `false` | - | Indicates whether this element is skewable. |

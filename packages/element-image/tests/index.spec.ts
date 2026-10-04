@@ -64,6 +64,36 @@ describe('CropperImage', () => {
       );
     });
 
+    describe('maxInset', () => {
+      it('should be `"auto"` by default', () => {
+        const element = new CropperImage();
+
+        expect(element.maxInset).toBe('auto');
+      });
+
+      it('should be set by the `max-inset` attribute', () => {
+        const element = new CropperImage();
+
+        element.setAttribute('max-inset', '10px 20px');
+        expect(element.maxInset).toBe('10px 20px');
+      });
+    });
+
+    describe('minInset', () => {
+      it('should be `"auto"` by default', () => {
+        const element = new CropperImage();
+
+        expect(element.minInset).toBe('auto');
+      });
+
+      it('should be set by the `min-inset` attribute', () => {
+        const element = new CropperImage();
+
+        element.setAttribute('min-inset', '5%');
+        expect(element.minInset).toBe('5%');
+      });
+    });
+
     describe('rotatable', () => {
       it('should be `false` by default', () => {
         const element = new CropperImage();
@@ -539,6 +569,120 @@ describe('CropperImage', () => {
           height: 50,
         });
         document.body.removeChild(canvas);
+      });
+
+      describe('with `maxInset` and `minInset`', () => {
+        /**
+         * The image sits 30, 80, 20, and 20 pixels away from the canvas (top, right, bottom, left).
+         * @param {object} attributes The attributes to set on the image element.
+         * @returns {object} Returns the canvas and image elements.
+         */
+        function setup(attributes: Record<string, string>) {
+          const canvas = new CropperCanvas();
+          const element = new CropperImage();
+
+          Object.defineProperty(canvas, 'getBoundingClientRect', {
+            configurable: true,
+            value: () => ({
+              x: 10,
+              y: 20,
+              left: 10,
+              top: 20,
+              right: 210,
+              bottom: 120,
+              width: 200,
+              height: 100,
+            }),
+          });
+          Object.keys(attributes).forEach((name) => {
+            element.setAttribute(name, attributes[name]);
+          });
+          canvas.appendChild(element);
+          document.body.appendChild(canvas);
+
+          const image = element.shadowRoot?.querySelector('img') as HTMLImageElement;
+
+          Object.defineProperty(image, 'getBoundingClientRect', {
+            configurable: true,
+            value: () => ({
+              x: 30,
+              y: 50,
+              left: 30,
+              top: 50,
+              right: 130,
+              bottom: 100,
+              width: 100,
+              height: 50,
+            }),
+          });
+          Object.defineProperty(image, 'complete', { configurable: true, value: true });
+          Object.defineProperty(image, 'naturalWidth', { configurable: true, value: 100 });
+          Object.defineProperty(image, 'naturalHeight', { configurable: true, value: 50 });
+          image.dispatchEvent(new Event('load'));
+          element.translatable = true;
+          return { canvas, element };
+        }
+
+        it.each([
+          [{ 'max-inset': '100px' }, true],
+          [{ 'max-inset': '10px' }, false],
+          [{ 'max-inset': '10%' }, false],
+          [{ 'max-inset': '30% 50% 30% 20%' }, true],
+          [{ 'max-inset': 'auto 10px' }, false],
+          [{ 'min-inset': '20px' }, true],
+          [{ 'min-inset': '25' }, false],
+          [{ 'min-inset': '30% 5%' }, false],
+          [{ 'min-inset': '10px', 'max-inset': '100px' }, true],
+        ])('should handle %j', (attributes, allowed) => {
+          const { canvas, element } = setup(attributes as Record<string, string>);
+          const before = element.$getTransform();
+
+          element.$translate(10, 20);
+
+          if (allowed) {
+            expect(element.$getTransform()).not.toEqual(before);
+          } else {
+            expect(element.$getTransform()).toEqual(before);
+          }
+
+          document.body.removeChild(canvas);
+        });
+
+        it('should slide along the limit when only one axis breaks it', () => {
+          const { canvas, element } = setup({ 'min-inset': '30px 0 0 0' });
+          const image = element.shadowRoot?.querySelector('img') as HTMLImageElement;
+          const [, , , , e0, f0] = element.$getTransform();
+
+          Object.defineProperty(image, 'getBoundingClientRect', {
+            configurable: true,
+            value: () => {
+              const [e, f] = (element.style.transform.match(/matrix\((.+)\)/) as RegExpMatchArray)[1]
+                .split(',')
+                .map(Number)
+                .slice(4);
+              const left = 30 + (e - e0);
+              const top = 50 + (f - f0);
+
+              return {
+                x: left,
+                y: top,
+                left,
+                top,
+                right: left + 100,
+                bottom: top + 50,
+                width: 100,
+                height: 50,
+              };
+            },
+          });
+          element.$move(-10, -10);
+
+          const [, , , , e, f] = element.$getTransform();
+
+          expect(e).toBeCloseTo(e0 - 10);
+          expect(f).toBeCloseTo(f0);
+          document.body.removeChild(canvas);
+        });
       });
     });
 

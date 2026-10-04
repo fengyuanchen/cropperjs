@@ -303,6 +303,140 @@ export function toAngleInRadian(angle: number | string): number {
   return value;
 }
 
+const REGEXP_INSET_LENGTH = /^[+-]?(?:\d+\.?\d*|\.\d+)(?:e[+-]?\d+)?(?:px)?$/i;
+const REGEXP_INSET_PERCENTAGE = /^[+-]?(?:\d+\.?\d*|\.\d+)(?:e[+-]?\d+)?%$/i;
+
+/**
+ * Split an inset value into its top-level tokens, keeping functions such as `calc()` intact.
+ * @param {string} value The inset value to split.
+ * @returns {Array} Returns the tokens.
+ */
+export function splitInsetValue(value: string): string[] {
+  const tokens: string[] = [];
+  let depth = 0;
+  let token = '';
+
+  String(value).split('').forEach((char) => {
+    if (char === '(') {
+      depth += 1;
+    } else if (char === ')') {
+      depth = Math.max(0, depth - 1);
+    }
+
+    if (depth === 0 && /\s/.test(char)) {
+      if (token) {
+        tokens.push(token);
+        token = '';
+      }
+    } else {
+      token += char;
+    }
+  });
+
+  if (token) {
+    tokens.push(token);
+  }
+
+  return tokens;
+}
+
+/**
+ * Convert a CSS `inset` value to pixel distances in the order of top, right, bottom, and left.
+ * {@link https://developer.mozilla.org/en-US/docs/Web/CSS/inset}
+ * @param {string} value The inset value, supports 1 to 4 values.
+ * @param {number} width The reference width for percentages on the left and right sides.
+ * @param {number} height The reference height for percentages on the top and bottom sides.
+ * @param {Function} [resolve] Resolves the values that are neither numbers, pixels, nor percentages.
+ * @returns {Array} Returns the distances, `null` stands for `auto` (unlimited).
+ */
+export function toInsetValues(
+  value: string,
+  width: number,
+  height: number,
+  resolve?: (token: string, horizontal: boolean) => number | null,
+): Array<number | null> {
+  const tokens = splitInsetValue(value);
+
+  if (tokens.length === 0 || tokens.length > 4) {
+    return [null, null, null, null];
+  }
+
+  const [top, right = top, bottom = top, left = right] = tokens;
+
+  return [top, right, bottom, left].map((token, index) => {
+    const horizontal = index % 2 === 1;
+
+    if (REGEXP_INSET_LENGTH.test(token)) {
+      return parseFloat(token);
+    }
+
+    if (REGEXP_INSET_PERCENTAGE.test(token)) {
+      return (parseFloat(token) / 100) * (horizontal ? width : height);
+    }
+
+    if (token.toLowerCase() === 'auto' || !isFunction(resolve)) {
+      return null;
+    }
+
+    const result = resolve(token, horizontal);
+
+    return isNumber(result) ? result : null;
+  });
+}
+
+/**
+ * Check if the distances to the edges of a container are out of the `maxInset` or `minInset` limits.
+ * @param {Array} distances The distances to the top, right, bottom, and left edges.
+ * @param {string} maxInset The max inset value.
+ * @param {string} minInset The min inset value.
+ * @param {Element} container The container element.
+ * @param {DOMRect} containerRect The bounding client rect of the container.
+ * @returns {boolean} Returns `true` if any distance is out of the limits, else `false`.
+ */
+export function exceedsInset(
+  distances: number[],
+  maxInset: string,
+  minInset: string,
+  container: Element,
+  containerRect: DOMRect,
+): boolean {
+  const resolve = (token: string, horizontal: boolean): number | null => {
+    const property = horizontal ? 'left' : 'top';
+    const probe = container.ownerDocument.createElement('div');
+
+    probe.style.cssText = 'position: absolute; visibility: hidden; pointer-events: none;';
+    probe.style.setProperty(property, token);
+
+    // An invalid value is dropped by the browser.
+    if (!probe.style.getPropertyValue(property)) {
+      return null;
+    }
+
+    container.appendChild(probe);
+
+    const rect = probe.getBoundingClientRect();
+    const result = horizontal
+      ? rect.left - containerRect.left - container.clientLeft
+      : rect.top - containerRect.top - container.clientTop;
+
+    container.removeChild(probe);
+    return result;
+  };
+  const { width, height } = containerRect;
+  const maxInsets = toInsetValues(maxInset, width, height, resolve);
+  const minInsets = toInsetValues(minInset, width, height, resolve);
+  // Tolerates floating-point errors from the transformed rects.
+  const tolerance = 0.001;
+
+  return distances.some((distance, index) => {
+    const max = maxInsets[index];
+    const min = minInsets[index];
+
+    return (max !== null && distance > max + tolerance)
+      || (min !== null && distance < min - tolerance);
+  });
+}
+
 interface SizeAdjustmentData {
   aspectRatio: number;
   height: number;

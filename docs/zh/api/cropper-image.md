@@ -63,6 +63,18 @@
 <<< @/.vitepress/components/CropperImageMaxFitAndMinFitExample.vue
 :::
 
+### 限制最大间距和（或）最小间距
+
+间距指图像四条边到其父元素对应边的距离（上、右、下、左），负值表示图像超出画布。违反限制的变换会被拒绝。
+
+<ClientOnly>
+  <CropperImageMaxInsetAndMinInsetExample />
+</ClientOnly>
+
+::: details
+<<< @/.vitepress/components/CropperImageMaxInsetAndMinInsetExample.vue
+:::
+
 ### 限制边界
 
 <ClientOnly>
@@ -82,6 +94,8 @@
 | initialFit <Badge type="tip" text="^2.2.0" /> | `string` | `"contain"` | `"cover"` \| `"fill"` \| `"contain"` \| `"scale-down"` \| `"none"` | 指示图像与其父元素的中心对齐时的初始大小。 |
 | maxFit <Badge type="tip" text="^2.2.0" /> | `string` | `""` | `"cover"` \| `"fill"` \| `"contain"` \| `"scale-down"` \| `"none"` | 指示此元素相对于其父元素的最大尺寸。 |
 | minFit <Badge type="tip" text="^2.2.0" /> | `string` | `""` | `"cover"` \| `"fill"` \| `"contain"` \| `"scale-down"` \| `"none"` | 指示此元素相对于其父元素的最小尺寸。 |
+| maxInset <Badge type="tip" text="^2.3.0" /> | `string` | `"auto"` | `"auto"`，或 1 到 4 个 [`<length>`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/length) / [`<percentage>`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/percentage) / [`calc()`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/calc) 值，与 CSS [`inset`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/inset) 属性一致 | 指示图像各边到其父元素对应边的最大距离，顺序为上、右、下、左。`auto` 表示不限制。 |
+| minInset <Badge type="tip" text="^2.3.0" /> | `string` | `"auto"` | 同 `maxInset` | 指示图像各边到其父元素对应边的最小距离，顺序为上、右、下、左。`auto` 表示不限制。 |
 | rotatable | `boolean` | `false` | - | 指示此元素是否可旋转。 |
 | scalable | `boolean` | `false` | - | 指示此元素是否可缩放。 |
 | skewable | `boolean` | `false` | - | 指示此元素是否可倾斜。 |

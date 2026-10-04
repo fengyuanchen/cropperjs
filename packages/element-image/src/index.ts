@@ -22,6 +22,7 @@ import {
   OBJECT_FIT_FILL,
   OBJECT_FIT_NONE,
   OBJECT_FIT_SCALE_DOWN,
+  exceedsInset,
   isFunction,
   isNumber,
   multiplyMatrices,
@@ -53,6 +54,8 @@ export default class CropperImage extends CropperElement {
 
   protected $isReady = false;
 
+  protected $insetRejected = false;
+
   protected $matrix = [1, 0, 0, 1, 0, 0];
 
   protected $onLoad: EventListener | null = null;
@@ -79,6 +82,10 @@ export default class CropperImage extends CropperElement {
   maxFit = '';
 
   minFit = '';
+
+  maxInset = 'auto';
+
+  minInset = 'auto';
 
   zoomAroundCenter = false;
 
@@ -126,7 +133,9 @@ export default class CropperImage extends CropperElement {
       'initial-center-size',
       'initial-fit',
       'max-fit',
+      'max-inset',
       'min-fit',
+      'min-inset',
       'rotatable',
       'scalable',
       'skewable',
@@ -175,6 +184,8 @@ export default class CropperImage extends CropperElement {
 
       case 'maxFit':
       case 'minFit':
+      case 'maxInset':
+      case 'minInset':
         this.$nextTick(() => {
           if (this.$isReady && this.$canvas) {
             this.$resetTransform();
@@ -258,6 +269,21 @@ export default class CropperImage extends CropperElement {
 
     this.$getShadowRoot().removeChild($image);
     super.disconnectedCallback();
+  }
+
+  protected $exceedsInset(imageRect: DOMRect, canvasRect: DOMRect): boolean {
+    return exceedsInset(
+      [
+        imageRect.top - canvasRect.top,
+        canvasRect.right - imageRect.right,
+        canvasRect.bottom - imageRect.bottom,
+        imageRect.left - canvasRect.left,
+      ],
+      this.maxInset,
+      this.minInset,
+      this.$canvas,
+      canvasRect,
+    );
   }
 
   protected $handleLoad(): void {
@@ -657,8 +683,15 @@ export default class CropperImage extends CropperElement {
       const [a, b, c, d] = this.$matrix;
       const e = ((x * d) - (c * y)) / ((a * d) - (c * b));
       const f = ((y * a) - (b * x)) / ((a * d) - (c * b));
+      const { $matrix } = this;
 
       this.$translate(e, f);
+
+      // Slides along the inset limit instead of sticking when only one axis breaks it.
+      if (this.$matrix === $matrix && this.$insetRejected && x !== 0 && y !== 0) {
+        this.$move(x, 0);
+        this.$move(0, y);
+      }
     }
 
     return this;
@@ -869,6 +902,8 @@ export default class CropperImage extends CropperElement {
     e?: number,
     f?: number,
   ): this {
+    this.$insetRejected = false;
+
     if (this.rotatable || this.scalable || this.skewable || this.translatable) {
       if (Array.isArray(a)) {
         [a, b, c, d, e, f] = a;
@@ -972,6 +1007,11 @@ export default class CropperImage extends CropperElement {
 
               default:
             }
+          }
+
+          if (this.$exceedsInset(imageRect, canvasRect)) {
+            this.$insetRejected = true;
+            return this;
           }
 
           if (this.$emit(EVENT_CHANGE, {

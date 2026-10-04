@@ -16,8 +16,10 @@ import {
   off,
   on,
   once,
+  splitInsetValue,
   toAngleInRadian,
   toCamelCase,
+  toInsetValues,
   toKebabCase,
 } from '../src';
 
@@ -441,6 +443,48 @@ describe('Utilities', () => {
       expect(toAngleInRadian('180deg')).toBe(Math.PI);
       expect(toAngleInRadian('200grad')).toBe(Math.PI);
       expect(toAngleInRadian('0.5turn')).toBe(Math.PI);
+    });
+  });
+
+  describe('splitInsetValue', () => {
+    it('should split by spaces and keep functions intact', () => {
+      expect(splitInsetValue(' 1px  calc(10px + 5%)\t auto ')).toEqual(['1px', 'calc(10px + 5%)', 'auto']);
+    });
+
+    it('should return an empty array for an empty value', () => {
+      expect(splitInsetValue('')).toEqual([]);
+    });
+  });
+
+  describe('toInsetValues', () => {
+    it('should expand 1 to 4 values like the CSS `inset` property', () => {
+      expect(toInsetValues('1', 200, 100)).toEqual([1, 1, 1, 1]);
+      expect(toInsetValues('1 2', 200, 100)).toEqual([1, 2, 1, 2]);
+      expect(toInsetValues('1 2 3', 200, 100)).toEqual([1, 2, 3, 2]);
+      expect(toInsetValues('1 2 3 4', 200, 100)).toEqual([1, 2, 3, 4]);
+    });
+
+    it('should support pixels, numbers, and negative values', () => {
+      expect(toInsetValues('10px -5 .5px 1e1px', 200, 100)).toEqual([10, -5, 0.5, 10]);
+    });
+
+    it('should resolve percentages against the matching dimension', () => {
+      expect(toInsetValues('10% 10% 10% 10%', 200, 100)).toEqual([10, 20, 10, 20]);
+    });
+
+    it('should treat `auto`, empty, and invalid values as unlimited', () => {
+      expect(toInsetValues('auto', 200, 100)).toEqual([null, null, null, null]);
+      expect(toInsetValues('', 200, 100)).toEqual([null, null, null, null]);
+      expect(toInsetValues('1 2 3 4 5', 200, 100)).toEqual([null, null, null, null]);
+      expect(toInsetValues('1rem', 200, 100)).toEqual([null, null, null, null]);
+    });
+
+    it('should delegate other values to the resolver', () => {
+      const resolve = jest.fn((token: string, horizontal: boolean) => (horizontal ? 2 : 1));
+
+      expect(toInsetValues('1rem calc(1px + 1%)', 200, 100, resolve)).toEqual([1, 2, 1, 2]);
+      expect(resolve).toHaveBeenCalledWith('1rem', false);
+      expect(resolve).toHaveBeenCalledWith('calc(1px + 1%)', true);
     });
   });
 

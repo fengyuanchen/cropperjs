@@ -227,6 +227,28 @@
             </select>
           </li>
           <li>
+            <label for="imageMaxInset">maxInset</label>
+            <input
+              id="imageMaxInset"
+              v-model="image.maxInset"
+              type="text"
+              class="form-control form-control-sm"
+              name="maxInset"
+              autocomplete="off"
+            >
+          </li>
+          <li>
+            <label for="imageMinInset">minInset</label>
+            <input
+              id="imageMinInset"
+              v-model="image.minInset"
+              type="text"
+              class="form-control form-control-sm"
+              name="minInset"
+              autocomplete="off"
+            >
+          </li>
+          <li>
             <label for="imageSrc">src</label>
             <input
               id="imageSrc"
@@ -1680,6 +1702,8 @@
           :initial-fit="image.initialFit"
           :max-fit="image.maxFit"
           :min-fit="image.minFit"
+          :max-inset="image.maxInset"
+          :min-inset="image.minInset"
           :src="image.src"
           :alt="image.alt"
           @transform="onImageTransform"
@@ -1897,6 +1921,8 @@ export default {
         initialFit: 'contain',
         maxFit: '',
         minFit: '',
+        maxInset: 'auto',
+        minInset: 'auto',
         rotatable: true,
         scalable: true,
         zoomAroundCenter: false,
