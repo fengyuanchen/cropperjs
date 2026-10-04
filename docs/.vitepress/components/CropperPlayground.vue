@@ -1083,6 +1083,28 @@
             >
           </li>
           <li>
+            <label for="selectionMaxInset">maxInset</label>
+            <input
+              id="selectionMaxInset"
+              v-model="selection.maxInset"
+              type="text"
+              class="form-control form-control-sm"
+              name="maxInset"
+              autocomplete="off"
+            >
+          </li>
+          <li>
+            <label for="selectionMinInset">minInset</label>
+            <input
+              id="selectionMinInset"
+              v-model="selection.minInset"
+              type="text"
+              class="form-control form-control-sm"
+              name="minInset"
+              autocomplete="off"
+            >
+          </li>
+          <li>
             <button
               type="button"
               class="btn btn-outline-primary btn-sm"
@@ -1738,6 +1760,8 @@
           :keyboard="selection.keyboard"
           :outlined="selection.outlined"
           :precise="selection.precise"
+          :max-inset="selection.maxInset"
+          :min-inset="selection.minInset"
           :dynamic="selection.dynamic"
           @change="onSelectionChange"
         >
@@ -1959,6 +1983,8 @@ export default {
         keyboard: false,
         outlined: false,
         precise: false,
+        maxInset: 'auto',
+        minInset: 'auto',
       },
       grid: {
         hidden: false,

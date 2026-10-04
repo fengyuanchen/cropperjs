@@ -267,6 +267,8 @@ Inherits properties from its parent, [`CropperElement`](cropper-element.html), a
 | initialCoverage | `number` | `NaN` | - | Indicates the initial coverage of the selection, must a positive number between `0` (0%) and `1` (100%). |
 | dynamic | `boolean` | `false` | - | Indicates whether this selection is dynamic and changes as the image changes. |
 | movable | `boolean` | `false` | - | Indicates whether this element is movable. |
+| maxInset <Badge type="tip" text="^2.3.0" /> | `string` | `"auto"` | `"auto"`, or 1 to 4 values of [`<length>`](https://developer.mozilla.org/en-US/docs/Web/CSS/length) / [`<percentage>`](https://developer.mozilla.org/en-US/docs/Web/CSS/percentage) / [`calc()`](https://developer.mozilla.org/en-US/docs/Web/CSS/calc), like the CSS [`inset`](https://developer.mozilla.org/en-US/docs/Web/CSS/inset) property | Indicates the max distances from the selection edges to the matching edges of its parent element, in the order of top, right, bottom, and left. `auto` means unlimited. A change that breaks the limits is rejected. |
+| minInset <Badge type="tip" text="^2.3.0" /> | `string` | `"auto"` | Same as `maxInset` | Indicates the min distances from the selection edges to the matching edges of its parent element, in the order of top, right, bottom, and left. `auto` means unlimited. A change that breaks the limits is rejected. |
 | resizable | `boolean` | `false` | - | Indicates whether this element is resizable. |
 | resizeAroundCenter <Badge type="tip" text="^2.3.0" /> | `boolean` | `false` | - | Indicates whether to keep the selection centered when resizing. |
 | zoomable | `boolean` | `false` | - | Indicates whether this element is zoomable. |

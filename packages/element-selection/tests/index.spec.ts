@@ -342,6 +342,36 @@ describe('CropperSelection', () => {
       });
     });
 
+    describe('maxInset', () => {
+      it('should be `"auto"` by default', () => {
+        const element = new CropperSelection();
+
+        expect(element.maxInset).toBe('auto');
+      });
+
+      it('should be set by the `max-inset` attribute', () => {
+        const element = new CropperSelection();
+
+        element.setAttribute('max-inset', '10px 20px');
+        expect(element.maxInset).toBe('10px 20px');
+      });
+    });
+
+    describe('minInset', () => {
+      it('should be `"auto"` by default', () => {
+        const element = new CropperSelection();
+
+        expect(element.minInset).toBe('auto');
+      });
+
+      it('should be set by the `min-inset` attribute', () => {
+        const element = new CropperSelection();
+
+        element.setAttribute('min-inset', '5%');
+        expect(element.minInset).toBe('5%');
+      });
+    });
+
     describe('precise', () => {
       it('should be `false` by default', () => {
         const element = new CropperSelection();
@@ -1125,6 +1155,75 @@ describe('CropperSelection', () => {
         element.$change(5, 6, 7, 8);
         expect(element.hidden).toBe(false);
         expect(element.width).toBe(7);
+      });
+
+      describe('with `maxInset` and `minInset`', () => {
+        /**
+         * Creates a selection in a 200x100 parent.
+         * @param {object} attributes The attributes to set on the selection.
+         * @returns {object} Returns the parent and selection elements.
+         */
+        function setup(attributes: Record<string, string>) {
+          const parent = document.createElement('div');
+          const element = new CropperSelection();
+
+          Object.defineProperty(parent, 'getBoundingClientRect', {
+            configurable: true,
+            value: () => ({
+              x: 0,
+              y: 0,
+              left: 0,
+              top: 0,
+              right: 200,
+              bottom: 100,
+              width: 200,
+              height: 100,
+            }),
+          });
+          Object.keys(attributes).forEach((name) => {
+            element.setAttribute(name, attributes[name]);
+          });
+          parent.appendChild(element);
+          document.body.appendChild(parent);
+          return { parent, element };
+        }
+
+        it.each([
+          [{ 'min-inset': '0' }, [10, 10, 50, 40], true],
+          [{ 'min-inset': '0' }, [-1, 10, 50, 40], false],
+          [{ 'min-inset': '0' }, [10, 10, 200, 40], false],
+          [{ 'min-inset': '0' }, [10, 70, 50, 40], false],
+          [{ 'min-inset': '10%' }, [10, 10, 100, 40], false],
+          [{ 'min-inset': '10% 10%' }, [20, 10, 100, 40], true],
+          [{ 'max-inset': '10px' }, [20, 10, 100, 40], false],
+          [{ 'max-inset': '10px' }, [10, 10, 180, 80], true],
+          [{ 'max-inset': 'auto 50%' }, [10, 10, 100, 40], true],
+        ])('should handle %j with %j', (attributes, [x, y, width, height], allowed) => {
+          const { parent, element } = setup(attributes as Record<string, string>);
+
+          element.$change(x as number, y as number, width as number, height as number);
+          expect(element.x).toBe(allowed ? x : 0);
+          expect(element.width).toBe(allowed ? width : 0);
+          document.body.removeChild(parent);
+        });
+
+        it('should not limit the empty selection', () => {
+          const { parent, element } = setup({ 'min-inset': '10px' });
+
+          element.$clear();
+          expect(element.hidden).toBe(true);
+          document.body.removeChild(parent);
+        });
+
+        it('should slide along the limit when only one axis breaks it', () => {
+          const { parent, element } = setup({ 'min-inset': '0', movable: '' });
+
+          element.$change(10, 0, 50, 40);
+          element.$move(-5, -5);
+          expect(element.x).toBe(5);
+          expect(element.y).toBe(0);
+          document.body.removeChild(parent);
+        });
       });
     });
 

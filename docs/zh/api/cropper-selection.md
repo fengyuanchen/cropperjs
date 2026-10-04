@@ -267,6 +267,8 @@
 | initialCoverage | `number` | `NaN` | - | 指示选区的初始覆盖范围，必须是在 `0` （0％）和 `1` （100%）之间的正数。 |
 | dynamic | `boolean` | `false` | - | 指示此选区是否是动态的，以及是否随着图像的变化而变化。 |
 | movable | `boolean` | `false` | - | 指示此元素是否可移动。 |
+| maxInset <Badge type="tip" text="^2.3.0" /> | `string` | `"auto"` | `"auto"`，或 1 到 4 个 [`<length>`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/length) / [`<percentage>`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/percentage) / [`calc()`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/calc) 值，与 CSS [`inset`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/inset) 属性一致 | 指示选区各边到其父元素对应边的最大距离，顺序为上、右、下、左。`auto` 表示不限制。违反限制的变更会被拒绝。 |
+| minInset <Badge type="tip" text="^2.3.0" /> | `string` | `"auto"` | 同 `maxInset` | 指示选区各边到其父元素对应边的最小距离，顺序为上、右、下、左。`auto` 表示不限制。违反限制的变更会被拒绝。 |
 | resizable | `boolean` | `false` | - | 指示此元素是否可调整大小。 |
 | resizeAroundCenter <Badge type="tip" text="^2.3.0" /> | `boolean` | `false` | - | 指示调整选区大小时是否保持中心位置不变。 |
 | zoomable | `boolean` | `false` | - | 指示此元素是否可缩放。 |

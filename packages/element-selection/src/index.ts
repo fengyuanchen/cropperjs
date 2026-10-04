@@ -22,6 +22,7 @@ import {
   EVENT_ACTION_START,
   EVENT_CHANGE,
   EVENT_KEYDOWN,
+  exceedsInset,
   getAdjustedSizes,
   getComposedPathTarget,
   getOffset,
@@ -135,6 +136,8 @@ export default class CropperSelection extends CropperElement {
 
   protected $changing = false;
 
+  protected $insetRejected = false;
+
   protected $style = style;
 
   private $initialSelection = {
@@ -170,6 +173,10 @@ export default class CropperSelection extends CropperElement {
   dynamic = false;
 
   movable = false;
+
+  maxInset = 'auto';
+
+  minInset = 'auto';
 
   resizable = false;
 
@@ -214,6 +221,8 @@ export default class CropperSelection extends CropperElement {
       'initial-coverage',
       'keyboard',
       'linked',
+      'max-inset',
+      'min-inset',
       'movable',
       'multiple',
       'outlined',
@@ -393,6 +402,34 @@ export default class CropperSelection extends CropperElement {
     }
 
     super.disconnectedCallback();
+  }
+
+  protected $exceedsInset(x: number, y: number, width: number, height: number): boolean {
+    const { parentElement, maxInset, minInset } = this;
+
+    // An empty selection (e.g. cleared) is never limited.
+    if (
+      !parentElement
+      || (width === 0 && height === 0)
+      || (maxInset === 'auto' && minInset === 'auto')
+    ) {
+      return false;
+    }
+
+    const parentRect = parentElement.getBoundingClientRect();
+
+    return exceedsInset(
+      [
+        y,
+        parentRect.width - (x + width),
+        parentRect.height - (y + height),
+        x,
+      ],
+      maxInset,
+      minInset,
+      parentElement,
+      parentRect,
+    );
   }
 
   protected $getSelections(): CropperSelection[] {
@@ -816,7 +853,15 @@ export default class CropperSelection extends CropperElement {
       return this;
     }
 
-    return this.$change(x, y);
+    this.$change(x, y);
+
+    // Slides along the inset limit instead of sticking when only one axis breaks it.
+    if (this.$insetRejected && x !== this.x && y !== this.y) {
+      this.$change(x, this.y);
+      this.$change(this.x, y);
+    }
+
+    return this;
   }
 
   /**
@@ -1128,6 +1173,8 @@ export default class CropperSelection extends CropperElement {
     aspectRatio: number = this.aspectRatio,
     _force = false,
   ): this {
+    this.$insetRejected = false;
+
     if (
       this.$changing
       || !isNumber(x)
@@ -1177,6 +1224,11 @@ export default class CropperSelection extends CropperElement {
       && Object.is(aspectRatio, this.aspectRatio)
       && !_force
     ) {
+      return this;
+    }
+
+    if (this.$exceedsInset(x, y, width, height)) {
+      this.$insetRejected = true;
       return this;
     }
 
