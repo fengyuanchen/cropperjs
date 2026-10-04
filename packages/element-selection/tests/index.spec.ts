@@ -861,6 +861,95 @@ describe('CropperSelection', () => {
       });
     });
 
+    describe('$initSelection', () => {
+      it('should wait for the image to be ready before calculating the initial coverage', async () => {
+        const canvas = document.createElement('div');
+        const image = document.createElement('div');
+        const element = new CropperSelection();
+        let resolveReady: () => void;
+
+        Object.defineProperty(canvas, 'offsetWidth', { configurable: true, value: 400 });
+        Object.defineProperty(canvas, 'offsetHeight', { configurable: true, value: 300 });
+        Object.defineProperty(canvas, 'getBoundingClientRect', {
+          configurable: true,
+          value: () => ({
+            left: 100, top: 200, width: 400, height: 300,
+          }),
+        });
+        Object.defineProperty(image, 'getBoundingClientRect', {
+          configurable: true,
+          value: () => ({
+            left: 150, top: 240, width: 200, height: 100,
+          }),
+        });
+        (image as any).$ready = () => new Promise<void>((resolve) => {
+          resolveReady = resolve;
+        });
+        canvas.appendChild(element);
+        (element as any).$canvas = canvas;
+        (element as any).$image = image;
+        element.initialCoverage = 1;
+
+        const initialized = (element as any).$initSelection(true);
+
+        expect(element.width).toBe(0);
+        resolveReady!();
+        await initialized;
+
+        expect(element.x).toBe(50);
+        expect(element.y).toBe(40);
+        expect(element.width).toBe(200);
+        expect(element.height).toBe(100);
+      });
+
+      it('should fall back to the canvas when no image is available', () => {
+        const canvas = document.createElement('div');
+        const element = new CropperSelection();
+
+        Object.defineProperty(canvas, 'offsetWidth', { configurable: true, value: 400 });
+        Object.defineProperty(canvas, 'offsetHeight', { configurable: true, value: 300 });
+        Object.defineProperty(canvas, 'getBoundingClientRect', {
+          configurable: true,
+          value: () => ({
+            left: 100, top: 200, width: 400, height: 300,
+          }),
+        });
+        canvas.appendChild(element);
+        (element as any).$canvas = canvas;
+        element.initialCoverage = 1;
+
+        (element as any).$initSelection(true);
+
+        expect(element.x).toBe(0);
+        expect(element.y).toBe(0);
+        expect(element.width).toBe(400);
+        expect(element.height).toBe(300);
+      });
+
+      it('should fall back to the parent element when no image or canvas is available', () => {
+        const parent = document.createElement('div');
+        const element = new CropperSelection();
+
+        Object.defineProperty(parent, 'offsetWidth', { configurable: true, value: 500 });
+        Object.defineProperty(parent, 'offsetHeight', { configurable: true, value: 250 });
+        Object.defineProperty(parent, 'getBoundingClientRect', {
+          configurable: true,
+          value: () => ({
+            left: 100, top: 200, width: 500, height: 250,
+          }),
+        });
+        parent.appendChild(element);
+        element.initialCoverage = 1;
+
+        (element as any).$initSelection(true);
+
+        expect(element.x).toBe(0);
+        expect(element.y).toBe(0);
+        expect(element.width).toBe(500);
+        expect(element.height).toBe(250);
+      });
+    });
+
     describe('$change', () => {
       it('should change the position', () => {
         const element = new CropperSelection();

@@ -35,6 +35,7 @@ import {
 import style from './style';
 
 const canvasCache = new WeakMap();
+const imageCache = new WeakMap();
 
 type Radius = [number, number];
 
@@ -186,6 +187,14 @@ export default class CropperSelection extends CropperElement {
     return canvasCache.get(this);
   }
 
+  protected set $image(element: CropperImage) {
+    imageCache.set(this, element);
+  }
+
+  protected get $image(): CropperImage {
+    return imageCache.get(this);
+  }
+
   protected static get observedAttributes(): string[] {
     return super.observedAttributes.concat([
       'active',
@@ -325,6 +334,15 @@ export default class CropperSelection extends CropperElement {
 
     if ($canvas) {
       this.$canvas = $canvas;
+
+      const $image: CropperImage | null = $canvas.querySelector(
+        this.$getTagNameOf(CROPPER_IMAGE),
+      );
+
+      if ($image) {
+        this.$image = $image;
+      }
+
       this.$setStyles({
         position: 'absolute',
         transform: `translate(${this.x}px, ${this.y}px)`,
@@ -381,22 +399,48 @@ export default class CropperSelection extends CropperElement {
     return selections;
   }
 
-  protected $initSelection(center = false, resize = false) {
+  protected async $initSelection(center = false, resize = false) {
     const { initialCoverage, parentElement } = this;
 
     if (isPositiveNumber(initialCoverage) && parentElement) {
+      const { $canvas } = this;
+      let $image: CropperImage | null = this.$image || null;
+
+      if ($image) {
+        try {
+          await $image.$ready();
+        } catch {
+          $image = null;
+        }
+
+        if (this.parentElement !== parentElement || this.initialCoverage !== initialCoverage) {
+          return;
+        }
+      }
+
+      const boundsElement = $image || $canvas || parentElement;
+      const bounds = boundsElement.getBoundingClientRect();
+      const offsetElement = $canvas || parentElement;
+      const offset = offsetElement.getBoundingClientRect();
+      const boundsX = $image ? bounds.left - offset.left : 0;
+      const boundsY = $image ? bounds.top - offset.top : 0;
       const aspectRatio = this.aspectRatio || this.initialAspectRatio;
-      let width = (resize ? 0 : this.width) || parentElement.offsetWidth * initialCoverage;
-      let height = (resize ? 0 : this.height) || parentElement.offsetHeight * initialCoverage;
+      let width = (resize ? 0 : this.width) || bounds.width * initialCoverage;
+      let height = (resize ? 0 : this.height) || bounds.height * initialCoverage;
 
       if (isPositiveNumber(aspectRatio)) {
         ({ width, height } = getAdjustedSizes({ aspectRatio, width, height }));
       }
 
-      this.$change(this.x, this.y, width, height);
-
       if (center) {
-        this.$center();
+        this.$change(
+          boundsX + (bounds.width - width) / 2,
+          boundsY + (bounds.height - height) / 2,
+          width,
+          height,
+        );
+      } else {
+        this.$change(this.x, this.y, width, height);
       }
 
       // Overrides the initial position and size
@@ -1174,20 +1218,18 @@ export default class CropperSelection extends CropperElement {
         return;
       }
 
-      const cropperImage: CropperImage | null = this.$canvas.querySelector(
-        this.$getTagNameOf(CROPPER_IMAGE),
-      );
+      const { $image } = this;
 
-      if (!cropperImage) {
+      if (!$image) {
         resolve(canvas);
         return;
       }
 
-      cropperImage.$ready().then((image: HTMLImageElement) => {
+      $image.$ready().then((image: HTMLImageElement) => {
         const context = canvas.getContext('2d');
 
         if (context) {
-          const [a, b, c, d, e, f] = cropperImage.$getTransform();
+          const [a, b, c, d, e, f] = $image.$getTransform();
           const offsetX = -this.x;
           const offsetY = -this.y;
           const translateX = ((offsetX * d) - (c * offsetY)) / ((a * d) - (c * b));
