@@ -6,6 +6,7 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Cropper.js</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github.min.css">
   <style>
     .container {
       margin: 20px auto;
@@ -19,16 +20,33 @@
     cropper-canvas {
       height: 360px;
     }
+
+    pre code {
+      border: 1px solid #e2e2e3;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Hello World</h1>
     <img id="image" src="/cropperjs/picture.jpg" alt="Picture">
+    <pre><code class="language-html">&lt;img id="image" src="/cropperjs/picture.jpg" alt="Picture"&gt;
+
+&lt;script src=&quot;https://unpkg.com/cropperjs@2/dist/cropper.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+  window.addEventListener('DOMContentLoaded', function () {
+    const cropper = new Cropper.default('#image');
+
+    console.log(cropper);
+  });
+&lt;/script&gt;</code></pre>
   </div>
-  <script src="https://unpkg.com/cropperjs"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+  <script src="https://unpkg.com/cropperjs@2/dist/cropper.js"></script>
   <script>
     window.addEventListener('DOMContentLoaded', function () {
+      hljs.highlightElement(document.querySelector('pre code'));
+
       const cropper = new Cropper.default('#image');
 
       console.log(cropper);

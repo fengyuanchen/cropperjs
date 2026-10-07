@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Upload a cropped image to a server | Cropper.js</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github.min.css">
+  <style>
+    .container {
+      margin: 20px auto;
+      max-width: 640px;
+    }
+
+    .avatar {
+      border-radius: 50%;
+      height: 96px;
+      object-fit: cover;
+      width: 96px;
+    }
+
+    cropper-canvas {
+      height: 360px;
+    }
+
+    progress {
+      display: block;
+      margin: 1rem 0;
+      width: 100%;
+    }
+
+    pre code {
+      border: 1px solid #e2e2e3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Upload a cropped image to a server</h1>
+    <p>The cropped image is sent to <a href="https://jsonplaceholder.typicode.com/">JSONPlaceholder</a>, a third-party fake API. It does not store uploaded files, and requests may fail.</p>
+    <h2>Avatar</h2>
+    <p><img class="avatar" id="avatar" src="/cropperjs/picture.jpg" alt="Avatar preview"></p>
+    <p><label for="input">Choose an image</label> <input type="file" id="input" accept="image/*"></p>
+    <img id="image" src="/cropperjs/picture.jpg" alt="Image to crop">
+    <p><button type="button" id="upload">Crop and upload</button></p>
+    <progress id="progress" max="100" value="0" hidden></progress>
+    <p id="status" role="status" aria-live="polite"></p>
+    <h2>Source Code</h2>
+    <pre><code class="language-html">&lt;img id="image" src="/cropperjs/picture.jpg" alt="Image to crop"&gt;
+&lt;input type="file" id="input" accept="image/*"&gt;
+&lt;button type="button" id="upload"&gt;Crop and upload&lt;/button&gt;
+&lt;progress id="progress" max="100" value="0" hidden&gt;&lt;/progress&gt;
+&lt;p id="status" role="status" aria-live="polite"&gt;&lt;/p&gt;
+
+&lt;script src="https://unpkg.com/cropperjs@2/dist/cropper.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  window.addEventListener('DOMContentLoaded', function () {
+    const image = document.getElementById('image');
+    const input = document.getElementById('input');
+    const avatar = document.getElementById('avatar');
+    const uploadButton = document.getElementById('upload');
+    const progress = document.getElementById('progress');
+    const status = document.getElementById('status');
+    const template = `&lt;cropper-canvas background&gt;
+      &lt;cropper-image rotatable scalable skewable translatable&gt;&lt;/cropper-image&gt;
+      &lt;cropper-shade hidden&gt;&lt;/cropper-shade&gt;
+      &lt;cropper-handle action="select" plain&gt;&lt;/cropper-handle&gt;
+      &lt;cropper-selection initial-coverage="0.5" aspect-ratio="1" movable resizable&gt;
+        &lt;cropper-grid role="grid" bordered covered&gt;&lt;/cropper-grid&gt;
+        &lt;cropper-crosshair centered&gt;&lt;/cropper-crosshair&gt;
+        &lt;cropper-handle action="move" theme-color="rgba(255, 255, 255, 0.35)"&gt;&lt;/cropper-handle&gt;
+        &lt;cropper-handle action="n-resize"&gt;&lt;/cropper-handle&gt;
+        &lt;cropper-handle action="e-resize"&gt;&lt;/cropper-handle&gt;
+        &lt;cropper-handle action="s-resize"&gt;&lt;/cropper-handle&gt;
+        &lt;cropper-handle action="w-resize"&gt;&lt;/cropper-handle&gt;
+        &lt;cropper-handle action="ne-resize"&gt;&lt;/cropper-handle&gt;
+        &lt;cropper-handle action="nw-resize"&gt;&lt;/cropper-handle&gt;
+        &lt;cropper-handle action="se-resize"&gt;&lt;/cropper-handle&gt;
+        &lt;cropper-handle action="sw-resize"&gt;&lt;/cropper-handle&gt;
+      &lt;/cropper-selection&gt;
+    &lt;/cropper-canvas&gt;`;
+    const cropper = new Cropper.default(image, { template: template });
+    let objectURL;
+
+    input.addEventListener('change', function () {
+      const file = input.files &amp;&amp; input.files[0];
+
+      if (!file) {
+        return;
+      }
+
+      if (objectURL) {
+        URL.revokeObjectURL(objectURL);
+      }
+
+      objectURL = URL.createObjectURL(file);
+      cropper.getCropperImage().src = objectURL;
+      status.textContent = '';
+      input.value = '';
+    });
+
+    uploadButton.addEventListener('click', async function () {
+      const selection = cropper.getCropperSelection();
+
+      if (!selection) {
+        return;
+      }
+
+      const previousAvatarURL = avatar.src;
+
+      try {
+        const canvas = await selection.$toCanvas({ width: 160, height: 160 });
+        const blob = await new Promise(function (resolve) {
+          canvas.toBlob(resolve, 'image/jpeg');
+        });
+
+        if (!blob) {
+          throw new Error('Unable to create an image blob.');
+        }
+
+        avatar.src = canvas.toDataURL('image/jpeg');
+        progress.value = 0;
+        progress.hidden = false;
+        uploadButton.disabled = true;
+        status.textContent = 'Uploading...';
+
+        await new Promise(function (resolve, reject) {
+          const formData = new FormData();
+          const request = new XMLHttpRequest();
+
+          formData.append('avatar', blob, 'avatar.jpg');
+          request.open('POST', 'https://jsonplaceholder.typicode.com/posts');
+          request.upload.addEventListener('progress', function (event) {
+            if (event.lengthComputable) {
+              progress.value = Math.round((event.loaded / event.total) * 100);
+            }
+          });
+          request.addEventListener('load', function () {
+            if (request.status >= 200 &amp;&amp; request.status &lt; 300) {
+              resolve();
+            } else {
+              reject(new Error('Upload failed.'));
+            }
+          });
+          request.addEventListener('error', function () {
+            reject(new Error('Upload failed.'));
+          });
+          request.send(formData);
+        });
+
+        status.textContent = 'Upload success';
+      } catch (error) {
+        avatar.src = previousAvatarURL;
+        status.textContent = error.message || 'Upload error';
+      } finally {
+        progress.hidden = true;
+        uploadButton.disabled = false;
+      }
+    });
+  });
+&lt;/script&gt;</code></pre>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+  <script src="https://unpkg.com/cropperjs@2/dist/cropper.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      hljs.highlightElement(document.querySelector('pre code'));
+
+      const image = document.getElementById('image');
+      const input = document.getElementById('input');
+      const avatar = document.getElementById('avatar');
+      const uploadButton = document.getElementById('upload');
+      const progress = document.getElementById('progress');
+      const status = document.getElementById('status');
+      const template = `<cropper-canvas background>
+        <cropper-image rotatable scalable skewable translatable></cropper-image>
+        <cropper-shade hidden></cropper-shade>
+        <cropper-handle action="select" plain></cropper-handle>
+        <cropper-selection initial-coverage="0.5" aspect-ratio="1" movable resizable>
+          <cropper-grid role="grid" bordered covered></cropper-grid>
+          <cropper-crosshair centered></cropper-crosshair>
+          <cropper-handle action="move" theme-color="rgba(255, 255, 255, 0.35)"></cropper-handle>
+          <cropper-handle action="n-resize"></cropper-handle>
+          <cropper-handle action="e-resize"></cropper-handle>
+          <cropper-handle action="s-resize"></cropper-handle>
+          <cropper-handle action="w-resize"></cropper-handle>
+          <cropper-handle action="ne-resize"></cropper-handle>
+          <cropper-handle action="nw-resize"></cropper-handle>
+          <cropper-handle action="se-resize"></cropper-handle>
+          <cropper-handle action="sw-resize"></cropper-handle>
+        </cropper-selection>
+      </cropper-canvas>`;
+      const cropper = new Cropper.default(image, { template: template });
+      let objectURL;
+
+      input.addEventListener('change', function () {
+        const file = input.files && input.files[0];
+
+        if (!file) {
+          return;
+        }
+
+        if (objectURL) {
+          URL.revokeObjectURL(objectURL);
+        }
+
+        objectURL = URL.createObjectURL(file);
+        cropper.getCropperImage().src = objectURL;
+        status.textContent = '';
+        input.value = '';
+      });
+
+      uploadButton.addEventListener('click', async function () {
+        const selection = cropper.getCropperSelection();
+
+        if (!selection) {
+          return;
+        }
+
+        const previousAvatarURL = avatar.src;
+
+        try {
+          const canvas = await selection.$toCanvas({ width: 160, height: 160 });
+          const blob = await new Promise(function (resolve) {
+            canvas.toBlob(resolve, 'image/jpeg');
+          });
+
+          if (!blob) {
+            throw new Error('Unable to create an image blob.');
+          }
+
+          avatar.src = canvas.toDataURL('image/jpeg');
+          progress.value = 0;
+          progress.hidden = false;
+          uploadButton.disabled = true;
+          status.textContent = 'Uploading...';
+
+          await new Promise(function (resolve, reject) {
+            const formData = new FormData();
+            const request = new XMLHttpRequest();
+
+            formData.append('avatar', blob, 'avatar.jpg');
+            request.open('POST', 'https://jsonplaceholder.typicode.com/posts');
+            request.upload.addEventListener('progress', function (event) {
+              if (event.lengthComputable) {
+                progress.value = Math.round((event.loaded / event.total) * 100);
+              }
+            });
+            request.addEventListener('load', function () {
+              if (request.status >= 200 && request.status < 300) {
+                resolve();
+              } else {
+                reject(new Error('Upload failed.'));
+              }
+            });
+            request.addEventListener('error', function () {
+              reject(new Error('Upload failed.'));
+            });
+            request.send(formData);
+          });
+
+          status.textContent = 'Upload success';
+        } catch (error) {
+          avatar.src = previousAvatarURL;
+          status.textContent = error.message || 'Upload error';
+        } finally {
+          progress.hidden = true;
+          uploadButton.disabled = false;
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Border radius | Cropper.js</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github.min.css">
+  <style>
+    .container {
+      margin: 20px auto;
+      max-width: 640px;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    cropper-canvas {
+      height: 360px;
+    }
+
+    .toolbar {
+      margin-bottom: 1em;
+    }
+
+    .toolbar label {
+      margin-right: 0.5em;
+    }
+
+    #result img {
+      display: block;
+    }
+
+    pre code {
+      border: 1px solid #e2e2e3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Border radius</h1>
+    <div class="toolbar">
+      <label for="border-radius">borderRadius:</label>
+      <select id="border-radius">
+        <option value="">none</option>
+        <option value="25px">25px</option>
+        <option value="50px">50px</option>
+        <option value="100px">100px</option>
+        <option value="25%">25%</option>
+        <option value="50%">50%</option>
+        <option value="100%">100%</option>
+        <option value="25% 10%">25% 10%</option>
+        <option value="10% 30% 50%">10% 30% 50%</option>
+        <option value="10% 30% 50% 70%">10% 30% 50% 70%</option>
+        <option value="10% / 50%">10% / 50%</option>
+        <option value="10% 30% / 50% 70%">10% 30% / 50% 70%</option>
+        <option value="10% 30% 50% / 20% 40% 60%">10% 30% 50% / 20% 40% 60%</option>
+        <option value="10% 30% 50% 70% / 20% 40% 60% 80%">10% 30% 50% 70% / 20% 40% 60% 80%</option>
+      </select>
+    </div>
+    <h2>Image</h2>
+    <img id="image" src="/cropperjs/picture.jpg" alt="Picture">
+    <h2>Result</h2>
+    <p><button type="button" id="button">Crop</button></p>
+    <div id="result"></div>
+    <h2>Source Code</h2>
+    <pre><code class="language-html">&lt;select id="border-radius"&gt;
+  &lt;option value=""&gt;none&lt;/option&gt;
+  &lt;option value="50%"&gt;50%&lt;/option&gt;
+  &lt;option value="10% 30% / 50% 70%"&gt;10% 30% / 50% 70%&lt;/option&gt;
+  ...
+&lt;/select&gt;
+&lt;img id="image" src="/cropperjs/picture.jpg" alt="Picture"&gt;
+
+&lt;script src="https://unpkg.com/cropperjs@2/dist/cropper.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  window.addEventListener('DOMContentLoaded', function () {
+    const cropper = new Cropper.default('#image');
+    const select = document.getElementById('border-radius');
+    const button = document.getElementById('button');
+    const result = document.getElementById('result');
+    const selection = cropper.getCropperSelection();
+
+    selection.borderRadius = select.value;
+    select.addEventListener('change', function () {
+      selection.borderRadius = select.value;
+    });
+
+    button.addEventListener('click', async function () {
+      const croppedCanvas = await selection.$toCanvas();
+      const croppedImage = document.createElement('img');
+
+      croppedImage.src = croppedCanvas.toDataURL();
+      result.replaceChildren(croppedImage);
+    });
+  });
+&lt;/script&gt;</code></pre>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+  <script src="https://unpkg.com/cropperjs@2/dist/cropper.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      hljs.highlightElement(document.querySelector('pre code'));
+
+      const cropper = new Cropper.default('#image');
+      const select = document.getElementById('border-radius');
+      const button = document.getElementById('button');
+      const result = document.getElementById('result');
+      const selection = cropper.getCropperSelection();
+
+      selection.borderRadius = select.value;
+      select.addEventListener('change', function () {
+        selection.borderRadius = select.value;
+      });
+
+      button.addEventListener('click', async function () {
+        const croppedCanvas = await selection.$toCanvas();
+        const croppedImage = document.createElement('img');
+
+        croppedImage.src = croppedCanvas.toDataURL();
+        result.replaceChildren(croppedImage);
+      });
+    });
+  </script>
+</body>
+</html>
