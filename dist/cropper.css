@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v1.6.3
+ * Cropper.js v1.7.0
  * https://fengyuanchen.github.io/cropperjs
  *
  * Copyright 2015-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2026-08-23T09:24:55.184Z
+ * Date: 2026-10-07T07:21:55.483Z
  */
 
 .cropper-container {
@@ -62,6 +62,7 @@
 }
 
 .cropper-view-box {
+  border-radius: inherit;
   display: block;
   height: 100%;
   outline: 1px solid #39f;
@@ -139,6 +140,7 @@
 
 .cropper-face {
   background-color: #fff;
+  border-radius: inherit;
   left: 0;
   top: 0;
 }

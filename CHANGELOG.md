@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.7.0 (Oct 7, 2026)
 
 - Add the `Cropper.create` static method for creating a new `Cropper` instance without the `new` operator.
 - Add the `zoomAroundCenter` option to zoom around the center of the cropper.
