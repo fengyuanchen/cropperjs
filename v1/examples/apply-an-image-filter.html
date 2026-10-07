@@ -16,24 +16,21 @@
       max-width: 100%;
     }
 
-    /* The css styles for `outline` do not follow `border-radius` on iOS/Safari (#979). */
-    .cropper-view-box {
-      outline: 0;
-      box-shadow: 0 0 0 1px #39f;
+    #result img {
+      display: block;
     }
+
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Crop a round image</h1>
+    <h1>Apply an image filter</h1>
     <h3>Image</h3>
     <div>
       <img id="image" src="../images/picture.jpg" alt="Picture">
     </div>
     <h3>Result</h3>
-    <p>
-      <button type="button" id="button">Crop</button>
-    </p>
+    <p><button type="button" id="button">Crop with grayscale filter</button></p>
     <div id="result"></div>
   </div>
   <script src="../js/cropper.js"></script>
@@ -42,32 +39,21 @@
       var image = document.getElementById('image');
       var button = document.getElementById('button');
       var result = document.getElementById('result');
-      var croppable = false;
       var cropper = new Cropper(image, {
-        aspectRatio: 1,
-        borderRadius: '50%',
         viewMode: 1,
-        ready: function () {
-          croppable = true;
-        },
       });
 
       button.onclick = function () {
-        var croppedCanvas;
-        var roundedImage;
+        var croppedCanvas = cropper.getCroppedCanvas({
+          beforeDraw: function (context) {
+            context.filter = 'grayscale(100%)';
+          },
+        });
+        var croppedImage = document.createElement('img');
 
-        if (!croppable) {
-          return;
-        }
-
-        // Crop
-        croppedCanvas = cropper.getCroppedCanvas();
-
-        // Show
-        roundedImage = document.createElement('img');
-        roundedImage.src = croppedCanvas.toDataURL();
+        croppedImage.src = croppedCanvas.toDataURL();
         result.innerHTML = '';
-        result.appendChild(roundedImage);
+        result.appendChild(croppedImage);
       };
     });
   </script>

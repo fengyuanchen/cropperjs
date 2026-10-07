@@ -40,6 +40,9 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
               <a class="dropdown-item" href="examples/a-range-of-aspect-ratio.html">Cropper with a range of aspect ratio</a>
+              <a class="dropdown-item" href="examples/apply-an-image-filter.html">Apply an image filter</a>
+              <a class="dropdown-item" href="examples/add-a-watermark.html">Add a watermark</a>
+              <a class="dropdown-item" href="examples/border-radius.html">Border radius</a>
               <a class="dropdown-item" href="examples/crop-a-round-image.html">Crop a round image</a>
               <a class="dropdown-item" href="examples/crop-cross-origin-image.html">Crop cross origin image</a>
               <a class="dropdown-item" href="examples/crop-on-canvas.html">Crop on canvas</a>
@@ -80,7 +83,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md">
-          <h1>Cropper.js <small class="h6">v1.6.3</small></h1>
+          <h1>Cropper.js <small class="h6">v1.7.0</small></h1>
           <p class="lead">JavaScript image cropper.</p>
         </div>
         <div class="col-md">
@@ -564,6 +567,12 @@
             </li>
             <li class="dropdown-item">
               <div class="form-check">
+                <input class="form-check-input" id="zoomAroundCenter" type="checkbox" name="zoomAroundCenter">
+                <label class="form-check-label" for="zoomAroundCenter">zoomAroundCenter</label>
+              </div>
+            </li>
+            <li class="dropdown-item">
+              <div class="form-check">
                 <input class="form-check-input" id="cropBoxMovable" type="checkbox" name="cropBoxMovable" checked>
                 <label class="form-check-label" for="cropBoxMovable">cropBoxMovable</label>
               </div>
@@ -572,6 +581,12 @@
               <div class="form-check">
                 <input class="form-check-input" id="cropBoxResizable" type="checkbox" name="cropBoxResizable" checked>
                 <label class="form-check-label" for="cropBoxResizable">cropBoxResizable</label>
+              </div>
+            </li>
+            <li class="dropdown-item">
+              <div class="form-check">
+                <input class="form-check-input" id="cropBoxResizeAroundCenter" type="checkbox" name="cropBoxResizeAroundCenter">
+                <label class="form-check-label" for="cropBoxResizeAroundCenter">cropBoxResizeAroundCenter</label>
               </div>
             </li>
             <li class="dropdown-item">
@@ -596,7 +611,7 @@
       <nav class="nav flex-wrap justify-content-center mb-3">
         <a class="nav-link" href="https://github.com/fengyuanchen/cropperjs/tree/v1">GitHub</a>
         <a class="nav-link" href="https://github.com/fengyuanchen/cropperjs/releases">Releases</a>
-        <a class="nav-link" href="https://github.com/fengyuanchen/cropperjs/blob/main/LICENSE">License</a>
+        <a class="nav-link" href="https://github.com/fengyuanchen/cropperjs/blob/v1/LICENSE">License</a>
         <a class="nav-link" href="https://chenfengyuan.com/">About</a>
         <a class="nav-link" href="https://fengyuanchen.github.io/cropperjs/">2.x</a>
       </nav>
