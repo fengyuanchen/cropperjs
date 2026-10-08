@@ -232,11 +232,11 @@ export default class CropperImage extends CropperElement {
       on($canvas, EVENT_ACTION, this.$onCanvasAction);
     }
 
-    if ($image.complete) {
+    this.$onLoad = this.$handleLoad.bind(this);
+    on($image, EVENT_LOAD, this.$onLoad);
+
+    if ($image.complete && $image.naturalWidth > 0 && $image.naturalHeight > 0) {
       this.$handleLoad();
-    } else {
-      this.$onLoad = this.$handleLoad.bind(this);
-      on($image, EVENT_LOAD, this.$onLoad);
     }
 
     this.$getShadowRoot().appendChild($image);
