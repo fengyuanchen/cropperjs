@@ -61,7 +61,7 @@
       canvas.height = height;
       canvas.getContext('2d').drawImage(image, 0, 0, width, height);
 
-      const cropper = new Cropper.default(canvas);
+      const cropper = Cropper.createCropper(canvas);
       const button = document.getElementById('button');
       const result = document.getElementById('result');
 
@@ -105,7 +105,7 @@
         canvas.height = height;
         canvas.getContext('2d').drawImage(image, 0, 0, width, height);
 
-        const cropper = new Cropper.default(canvas);
+        const cropper = Cropper.createCropper(canvas);
         const button = document.getElementById('button');
         const result = document.getElementById('result');
 

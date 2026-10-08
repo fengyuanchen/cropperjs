@@ -78,7 +78,7 @@
         &lt;cropper-handle action="sw-resize"&gt;&lt;/cropper-handle&gt;
       &lt;/cropper-selection&gt;
     &lt;/cropper-canvas&gt;`;
-    const cropper = new Cropper.default(image, { template: template });
+    const cropper = Cropper.createCropper(image, { template: template });
     let objectURL;
 
     input.addEventListener('change', function () {
@@ -189,7 +189,7 @@
           <cropper-handle action="sw-resize"></cropper-handle>
         </cropper-selection>
       </cropper-canvas>`;
-      const cropper = new Cropper.default(image, { template: template });
+      const cropper = Cropper.createCropper(image, { template: template });
       let objectURL;
 
       input.addEventListener('change', function () {

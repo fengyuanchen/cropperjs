@@ -43,7 +43,7 @@
 &lt;script src="https://unpkg.com/cropperjs@2/dist/cropper.js"&gt;&lt;/script&gt;
 &lt;script&gt;
   window.addEventListener('DOMContentLoaded', function () {
-    const cropper = new Cropper.default('#image');
+    const cropper = Cropper.createCropper('#image');
     const image = document.getElementById('image');
     const button = document.getElementById('button');
     const result = document.getElementById('result');
@@ -89,7 +89,7 @@
     window.addEventListener('DOMContentLoaded', function () {
       hljs.highlightElement(document.querySelector('pre code'));
 
-      const cropper = new Cropper.default('#image');
+      const cropper = Cropper.createCropper('#image');
       const image = document.getElementById('image');
       const button = document.getElementById('button');
       const result = document.getElementById('result');

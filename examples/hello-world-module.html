@@ -33,10 +33,10 @@
     <pre><code class="language-html">&lt;img id="image" src="/cropperjs/picture.jpg" alt="Picture"&gt;
 
 &lt;script type=&quot;module&quot;&gt;
-  import Cropper from 'https://unpkg.com/cropperjs@2/dist/cropper.esm.js';
+  import { createCropper } from 'https://unpkg.com/cropperjs@2/dist/cropper.esm.js';
 
   window.addEventListener('DOMContentLoaded', function () {
-    const cropper = new Cropper('#image');
+    const cropper = createCropper('#image');
 
     console.log(cropper);
   });
@@ -44,12 +44,12 @@
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
   <script type="module">
-    import Cropper from 'https://unpkg.com/cropperjs@2/dist/cropper.esm.js';
+    import { createCropper } from 'https://unpkg.com/cropperjs@2/dist/cropper.esm.js';
 
     window.addEventListener('DOMContentLoaded', function () {
       hljs.highlightElement(document.querySelector('pre code'));
 
-      const cropper = new Cropper('#image');
+      const cropper = createCropper('#image');
 
       console.log(cropper);
     });
