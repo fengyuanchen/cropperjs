@@ -1,5 +1,13 @@
+## <small>2.3.1 (2026-10-16)</small>
+
+* fix(cropper-image): fix `<cropper-image>` staying 0×0 when `src` is set after connect (#1306) ([6b53510](https://github.com/fengyuanchen/cropperjs/commit/6b53510)), closes [#1306](https://github.com/fengyuanchen/cropperjs/issues/1306)
+* docs(examples): update Cropper instantiation to use createCropper method ([9c8828d](https://github.com/fengyuanchen/cropperjs/commit/9c8828d))
+
+
+
 ## 2.3.0 (2026-10-07)
 
+* build: release v2.3.0 ([0344ca3](https://github.com/fengyuanchen/cropperjs/commit/0344ca3))
 * refactor(cropper-image): implement fit checking logic in `$exceedsFit` method ([6a72df9](https://github.com/fengyuanchen/cropperjs/commit/6a72df9))
 * refactor(element-viewer): change properties order ([30cf335](https://github.com/fengyuanchen/cropperjs/commit/30cf335))
 * feat(cropper-image): add `zoomAroundCenter` property ([fea6cac](https://github.com/fengyuanchen/cropperjs/commit/fea6cac))
